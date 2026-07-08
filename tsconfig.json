@@ -30,6 +30,12 @@
     "src/ui/lib/version.ts",
     "src/ui/pages/EventsPage.tsx",
     "src/ui/pages/SessionsPage.tsx",
+    "src/ui/Timeline/TimelinePage.tsx",
+    "src/ui/Timeline/SessionCard.tsx",
+    "src/ui/Timeline/TimelineToolbar.tsx",
+    "src/ui/Timeline/InlineEditor.tsx",
+    "src/ui/Timeline/ContextMenu.tsx",
+    "src/ui/Timeline/TimeRangeSelector.tsx",
     "types.d.ts"
   ],
   "exclude": ["src/electron", "src/service"],

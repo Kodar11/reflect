@@ -20,7 +20,9 @@
     "../tracker/**/*.ts",
     "../database/**/*.ts",
     "../models/**/*.ts",
-    "../session/**/*.ts"
+    "../session/**/*.ts",
+    "../timeline/**/*.ts",
+    "../database/EditRepository.ts"
   ],
   "exclude": ["**/*.test.ts"]
 }

@@ -21,6 +21,9 @@ import { TrackingService } from '../tracker/TrackingService.js';
 import { registerTrackerIpc } from '../tracker/trackerIpc.js';
 import { SessionService } from '../session/SessionService.js';
 import { registerSessionIpc } from '../session/sessionIpc.js';
+import { EditRepository } from '../database/EditRepository.js';
+import { TimelineService } from '../timeline/TimelineService.js';
+import { registerTimelineIpc } from '../timeline/timelineIpc.js';
 import type { ActivitySample } from '../models/Event.js';
 
 let mainWindow: BrowserWindow | null = null;
@@ -140,6 +143,16 @@ app.whenReady().then(async () => {
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
   logger.info('[APP] Session service ready.');
+
+  // --- Construct the timeline layer (Stage 3) ---
+  // User edits overlay the generated sessions; the timeline is rederived on
+  // demand. Edit log lives in timeline_edits (append-only + undone_at).
+  const editRepo = new EditRepository(database, (msg) => logger.warn(msg));
+  const timelineService = new TimelineService(sessionService, editRepo);
+  registerTimelineIpc(timelineService, ipcMainHandle, () =>
+    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
+  );
+  logger.info('[APP] Timeline service ready.');
 
   createMainWindow(logger);
   createTray(logger);

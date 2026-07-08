@@ -7,16 +7,18 @@ import { APP_VERSION } from './lib/version';
 import { ThemeToggle } from './components/ThemeToggle';
 import { EventsPage } from './pages/EventsPage';
 import { SessionsPage } from './pages/SessionsPage';
+import { TimelinePage } from './Timeline/TimelinePage';
 
 function App() {
   const theme = useThemeStore((s) => s.theme);
   const setTheme = useThemeStore((s) => s.setTheme);
   useResolvedTheme(theme);
 
-  const [route, setRoute] = useState<Route>('overview');
+  const [route, setRoute] = useState<Route>('timeline');
   const [sidebarOpen, setSidebarOpen] = useState(true);
   
   const PAGE_TITLES: Record<Route, string> = {
+    timeline: 'Productivity Coach — Timeline',
     overview: 'Productivity Coach',
     sessions: 'Productivity Coach — Sessions',
     events: 'Productivity Coach — Event Viewer',
@@ -42,7 +44,9 @@ function App() {
         />
         <main className="flex-1 min-w-0">
           <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16">
-            {route === 'overview' ? (
+            {route === 'timeline' ? (
+              <TimelinePage />
+            ) : route === 'overview' ? (
               <OverviewPage />
             ) : route === 'sessions' ? (
               <SessionsPage />

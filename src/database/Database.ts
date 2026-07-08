@@ -80,7 +80,19 @@ export class Database {
       CREATE INDEX IF NOT EXISTS idx_events_watcher    ON events (watcher);
       CREATE INDEX IF NOT EXISTS idx_events_app         ON events (app);
 
-      PRAGMA user_version = 1;
+      -- Stage 3: append-only timeline edit log. Generated sessions are never
+      -- modified; user edits live here and are replayed by the TimelineEngine.
+      -- undone_at is NULL for active edits; non-NULL marks a logical undo
+      -- (the row stays for audit + replay fidelity; the engine skips it).
+      CREATE TABLE IF NOT EXISTS timeline_edits (
+        id          INTEGER PRIMARY KEY AUTOINCREMENT,
+        operation   TEXT    NOT NULL,
+        payload     TEXT    NOT NULL,
+        created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
+        undone_at   DATETIME
+      );
+
+      PRAGMA user_version = 2;
     `);
   }
 }

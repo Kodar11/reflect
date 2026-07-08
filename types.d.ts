@@ -32,6 +32,31 @@ interface SessionDto {
   browserTabs: string[];
 }
 
+/** Verified-session DTO for the timeline. Carries custom-title flag and
+ * source so the UI can show generated vs user (offline) sessions identically
+ * per spec, with only metadata differing. */
+interface VerifiedSessionDto {
+  id: string;
+  startedAt: string;
+  endedAt: string;
+  duration: number;
+  activeDuration: number;
+  eventCount: number;
+  title: string;
+  isCustomTitle: boolean;
+  primaryApp: string | null;
+  primaryBrowser: string | null;
+  primaryTitle: string | null;
+  primaryUrl: string | null;
+  appsUsed: string[];
+  browserTabs: string[];
+  source: 'generated' | 'user';
+}
+
+interface TimelineStatus {
+  activeEdits: number;
+}
+
 interface Window {
   app: {
     sendFrameAction: (payload: FrameWindowAction) => void;
@@ -45,5 +70,14 @@ interface Window {
     getToday: () => Promise<SessionDto[]>;
     getRange: (from: string, to: string) => Promise<SessionDto[]>;
     getAll: (limit?: number) => Promise<SessionDto[]>;
+  };
+  timeline: {
+    getToday: () => Promise<VerifiedSessionDto[]>;
+    getRange: (from: string, to: string) => Promise<VerifiedSessionDto[]>;
+    getAll: (limit?: number) => Promise<VerifiedSessionDto[]>;
+    apply: (p: { operation: string; payload: unknown }) => Promise<{ ok: boolean }>;
+    undo: () => Promise<{ ok: boolean }>;
+    redo: () => Promise<{ ok: boolean }>;
+    status: () => Promise<TimelineStatus>;
   };
 }

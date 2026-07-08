@@ -1,7 +1,7 @@
-import { LayoutDashboard, Settings as SettingsIcon, Sparkles, Eye, Layers, type LucideIcon } from 'lucide-react';
+import { LayoutDashboard, Settings as SettingsIcon, Sparkles, Eye, Layers, Clock, type LucideIcon } from 'lucide-react';
 import { APP_VERSION } from '../lib/version';
 
-export type Route = 'overview' | 'settings' | 'events' | 'sessions';
+export type Route = 'timeline' | 'overview' | 'settings' | 'events' | 'sessions';
 
 interface SidebarProps {
   route: Route;
@@ -10,8 +10,9 @@ interface SidebarProps {
 }
 
 const ITEMS: { id: Route; label: string; Icon: LucideIcon }[] = [
+  { id: 'timeline', label: 'Timeline', Icon: Clock },
   { id: 'overview', label: 'Overview', Icon: LayoutDashboard },
-  { id: 'sessions', label: 'Sessions', Icon: Layers },
+  { id: 'sessions', label: 'Sessions (dev)', Icon: Layers },
   { id: 'events', label: 'Event Viewer', Icon: Eye },
   { id: 'settings', label: 'Settings', Icon: SettingsIcon },
 ];

@@ -24,3 +24,19 @@ electron.contextBridge.exposeInMainWorld('session', {
   getAll: (limit?: number): Promise<SessionDto[]> =>
     electron.ipcRenderer.invoke('session:getAll', { limit }),
 } satisfies Window['session']);
+
+// Timeline IPC surface (Stage 3). Read paths return verified DTOs; mutation
+// paths append an edit and return; renderer never imports the timeline engine.
+electron.contextBridge.exposeInMainWorld('timeline', {
+  getToday: (): Promise<any[]> => electron.ipcRenderer.invoke('timeline:getToday'),
+  getRange: (from: string, to: string): Promise<any[]> =>
+    electron.ipcRenderer.invoke('timeline:getRange', { from, to }),
+  getAll: (limit?: number): Promise<any[]> =>
+    electron.ipcRenderer.invoke('timeline:getAll', { limit }),
+  apply: (p: { operation: string; payload: unknown }) =>
+    electron.ipcRenderer.invoke('timeline:apply', p),
+  undo: (): Promise<{ ok: boolean }> => electron.ipcRenderer.invoke('timeline:undo'),
+  redo: (): Promise<{ ok: boolean }> => electron.ipcRenderer.invoke('timeline:redo'),
+  status: (): Promise<{ activeEdits: number }> =>
+    electron.ipcRenderer.invoke('timeline:status'),
+} satisfies Window['timeline']);
