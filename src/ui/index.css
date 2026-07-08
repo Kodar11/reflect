@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+/* ---------- Design tokens (Notion-style) ----------
+ * Warm near-black on near-white. No blue/slate tinting.
+ * Light = #ffffff page, #f7f7f5 sidebar, #37352f text.
+ * Dark  = #191919 page, #202020 sidebar, rgba(255,255,255,0.81) text.
+ */
+
+:root {
+  --font-sans: 'Inter', 'Aptos', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont,
+    sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+
+  /* light theme defaults */
+  --bg: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-secondary: #f7f7f5;
+  --bg-hover: rgba(55, 53, 47, 0.06);
+  --bg-active: rgba(55, 53, 47, 0.09);
+  --text: #37352f;
+  --text-muted: rgba(55, 53, 47, 0.65);
+  --text-faint: rgba(55, 53, 47, 0.4);
+  --border: rgba(55, 53, 47, 0.09);
+  --border-strong: rgba(55, 53, 47, 0.16);
+  --accent: #2382e2;
+  --accent-text: #ffffff;
+  --accent-soft: rgba(35, 130, 226, 0.12);
+  --danger: #e03e3e;
+  --danger-soft: rgba(224, 62, 62, 0.12);
+  --warning: #d9730d;
+  --warning-soft: rgba(217, 115, 13, 0.12);
+  --success: #0f7b6c;
+  --success-soft: rgba(15, 123, 108, 0.12);
+
+  /* Heatmap ramp (GitHub-style greens). 0 = no activity, 4 = full coverage. */
+  --heatmap-0: #ebedf0;
+  --heatmap-1: #9be9a8;
+  --heatmap-2: #40c463;
+  --heatmap-3: #30a14e;
+  --heatmap-4: #216e39;
+  --heatmap-border: rgba(27, 31, 35, 0.06);
+
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+
+  --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05);
+  --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.08);
+  --shadow-lg: 0 12px 32px rgba(15, 15, 15, 0.12);
+
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  font-size: 14px;
+  line-height: 1.5;
+  color-scheme: light dark;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme='dark'] {
+  --bg: #191919;
+  --bg-elevated: #2a2a2a;
+  --bg-secondary: #202020;
+  --bg-hover: rgba(255, 255, 255, 0.055);
+  --bg-active: rgba(255, 255, 255, 0.094);
+  --text: rgba(255, 255, 255, 0.81);
+  --text-muted: rgba(255, 255, 255, 0.46);
+  --text-faint: rgba(255, 255, 255, 0.28);
+  --border: rgba(255, 255, 255, 0.094);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --accent: #529cca;
+  --accent-text: #ffffff;
+  --accent-soft: rgba(82, 156, 202, 0.18);
+  --danger: #ff7369;
+  --danger-soft: rgba(255, 115, 105, 0.16);
+  --warning: #ffa344;
+  --warning-soft: rgba(255, 163, 68, 0.16);
+  --success: #4dab9a;
+  --success-soft: rgba(77, 171, 154, 0.16);
+
+  /* Heatmap ramp — dark mode (matches GitHub's contributions graph). */
+  --heatmap-0: #161b22;
+  --heatmap-1: #0e4429;
+  --heatmap-2: #006d32;
+  --heatmap-3: #26a641;
+  --heatmap-4: #39d353;
+  --heatmap-border: rgba(255, 255, 255, 0.04);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+
+html, body, #root { min-height: 100%; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(35, 130, 226, 0.08), transparent 28%),
+    radial-gradient(circle at top right, rgba(15, 123, 108, 0.08), transparent 22%),
+    var(--bg);
+  color: var(--text);
+}
+
+/* IMPORTANT: this MUST live in @layer base so Tailwind utility classes
+ * (.flex, .gap-2, .grid, etc) — which live in @layer utilities — can win.
+ * Earlier we used `button { all: unset }` unlayered, which beat every utility
+ * and silently broke flex/gap on every <button> in the app. */
+@layer base {
+  button {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+    text-align: inherit;
+    cursor: pointer;
+  }
+  button:disabled { cursor: not-allowed; }
+}
+
+input, textarea, select {
+  font-family: inherit;
+  color: inherit;
+}
+
+::placeholder { color: var(--text-faint); }
+
+/* ---------- Utility classes mapped to tokens ---------- */
+
+.surface { background-color: var(--bg); }
+.surface-secondary { background-color: var(--bg-secondary); }
+.surface-elevated { background-color: var(--bg-elevated); }
+.surface-hover:hover { background-color: var(--bg-hover); }
+
+.text-default { color: var(--text); }
+.text-muted { color: var(--text-muted); }
+.text-faint { color: var(--text-faint); }
+
+.border-default { border-color: var(--border); }
+.border-strong { border-color: var(--border-strong); }
+
+.app-frame {
+  -webkit-app-region: drag;
+}
+.app-frame-no-drag,
+.app-frame button,
+.app-frame input {
+  -webkit-app-region: no-drag;
+}
+
+/* Notion-style focusable input */
+.field {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 6px 10px;
+  font-size: 14px;
+  color: var(--text);
+  transition: border-color 80ms ease, background-color 80ms ease;
+}
+.field:hover { border-color: var(--border-strong); }
+.field:focus { outline: none; border-color: var(--accent); background: var(--bg); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  transition: background-color 80ms ease, color 80ms ease, opacity 80ms ease;
+  user-select: none;
+}
+.btn:hover { background: var(--bg-hover); }
+.btn:disabled { opacity: 0.5; }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+.btn-primary:hover { background: var(--accent); filter: brightness(1.05); }
+
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+.btn-danger:hover { filter: brightness(1.05); }
+
+.btn-ghost {
+  height: 28px;
+  padding: 0 8px;
+  color: var(--text-muted);
+}
+.btn-ghost:hover { color: var(--text); background: var(--bg-hover); }
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.card-section {
+  padding: 18px 20px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+}
+
+.kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11.5px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}

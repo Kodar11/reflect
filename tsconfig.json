@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "types": ["./types"],
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "ignoreDeprecations": "5.0",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "src/ui/main.tsx",
+    "src/ui/App.tsx",
+    "src/ui/index.css",
+    "src/ui/components/Header.tsx",
+    "src/ui/components/Sidebar.tsx",
+    "src/ui/components/ThemeToggle.tsx",
+    "src/ui/hooks/useResolvedTheme.ts",
+    "src/ui/store/themeStore.ts",
+    "src/ui/lib/version.ts",
+    "types.d.ts"
+  ],
+  "exclude": ["src/electron", "src/service"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

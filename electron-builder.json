@@ -1,0 +1,18 @@
+{
+  "appId": "com.tanmaychavan.productivitycoach",
+  "productName": "Productivity Coach",
+  "files": ["dist-electron", "dist-react"],
+  "asar": true,
+  "extraResources": ["dist-electron/electron/preload.cjs"],
+  "icon": "./desktopIcon.png",
+  "win": {
+    "target": ["nsis"]
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowElevation": true,
+    "allowToChangeInstallationDirectory": true,
+    "include": "build/installer.nsh"
+  }
+}
