@@ -1,7 +1,7 @@
-import { LayoutDashboard, Settings as SettingsIcon, Sparkles, type LucideIcon } from 'lucide-react';
+import { LayoutDashboard, Settings as SettingsIcon, Sparkles, Eye, type LucideIcon } from 'lucide-react';
 import { APP_VERSION } from '../lib/version';
 
-export type Route = 'overview' | 'settings';
+export type Route = 'overview' | 'settings' | 'events';
 
 interface SidebarProps {
   route: Route;
@@ -11,6 +11,7 @@ interface SidebarProps {
 
 const ITEMS: { id: Route; label: string; Icon: LucideIcon }[] = [
   { id: 'overview', label: 'Overview', Icon: LayoutDashboard },
+  { id: 'events', label: 'Event Viewer', Icon: Eye },
   { id: 'settings', label: 'Settings', Icon: SettingsIcon },
 ];
 

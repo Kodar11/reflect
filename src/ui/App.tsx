@@ -5,6 +5,7 @@ import { Sidebar, type Route } from './components/Sidebar';
 import { Header } from './components/Header';
 import { APP_VERSION } from './lib/version';
 import { ThemeToggle } from './components/ThemeToggle';
+import { EventsPage } from './pages/EventsPage';
 
 function App() {
   const theme = useThemeStore((s) => s.theme);
@@ -16,6 +17,7 @@ function App() {
   
   const PAGE_TITLES: Record<Route, string> = {
     overview: 'Productivity Coach',
+    events: 'Productivity Coach — Event Viewer',
     settings: 'Productivity Coach — Settings',
   };
 
@@ -38,7 +40,13 @@ function App() {
         />
         <main className="flex-1 min-w-0">
           <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16">
-            {route === 'overview' ? <OverviewPage /> : <SettingsPage theme={theme} setTheme={setTheme} />}
+            {route === 'overview' ? (
+              <OverviewPage />
+            ) : route === 'events' ? (
+              <EventsPage />
+            ) : (
+              <SettingsPage theme={theme} setTheme={setTheme} />
+            )}
           </div>
         </main>
       </div>

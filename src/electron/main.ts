@@ -8,14 +8,26 @@ if (process.argv.includes('--dev') && process.env.NODE_ENV !== 'development') {
   process.env.NODE_ENV = 'development';
 }
 
-import { app, BrowserWindow } from 'electron';
-import { isDev } from './util.js';
+import { app, BrowserWindow, Tray, Menu, nativeImage } from 'electron';
+import activeWin from 'active-win';
+import { isDev, ipcMainHandle } from './util.js';
 import { getPreloadPath, getUIPath } from './pathResolver.js';
 import { Logger } from '../service/logger.js';
+import { Database } from '../database/Database.js';
+import { EventRepository } from '../database/EventRepository.js';
+import { HeartbeatEngine } from '../tracker/HeartbeatEngine.js';
+import { WindowWatcher } from '../tracker/watcher/WindowWatcher.js';
+import { TrackingService } from '../tracker/TrackingService.js';
+import { registerTrackerIpc } from '../tracker/trackerIpc.js';
+import type { ActivitySample } from '../models/Event.js';
 
 let mainWindow: BrowserWindow | null = null;
+let tray: Tray | null = null;
+let database: Database | null = null;
+let trackingService: TrackingService | null = null;
+let quitting = false;
 
-function createMainWindow(logger: Logger) {
+function createMainWindow(logger: Logger): BrowserWindow {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -42,17 +54,108 @@ function createMainWindow(logger: Logger) {
   return mainWindow;
 }
 
-app.whenReady().then(() => {
+/**
+ * Bridges `active-win` (which returns platform-native fields) to our
+ * watcher-consumable `ActivitySample`. Kept here rather than in the watcher so
+ * the watcher stays fully unit-testable with no `activeWin` import surface.
+ */
+async function pollActiveWin(): Promise<ActivitySample | null> {
+  const w = await activeWin();
+  if (!w) return null;
+  return {
+    watcher: 'window',
+    app: w.owner?.name ?? undefined,
+    title: w.title || undefined,
+    payload: {
+      bundleId: w.owner?.processId,
+      platform: w.platform,
+      id: w.id,
+    },
+  };
+}
+
+function createTray(logger: Logger): Tray {
+  // 16x16 transparent-ish icon; real icon swapped in later. nativeImage.fromBuffer
+  // needs bytes — a 1x1 PNG is the cheapest viable placeholder.
+  const icon = nativeImage.createFromBuffer(Buffer.from(BASE64_TRAY_ICON, 'base64'));
+  tray = new Tray(icon.isEmpty() ? nativeImage.createEmpty() : icon);
+  tray.setToolTip('Productivity Coach');
+  tray.setContextMenu(Menu.buildFromTemplate([
+    { label: 'Show', click: () => mainWindow?.show() },
+    { type: 'separator' },
+    { label: 'Quit', click: () => quitApp(logger) },
+  ]));
+  tray.on('click', () => mainWindow?.show());
+  return tray;
+}
+
+async function quitApp(logger: Logger) {
+  logger.info('[APP] Quit requested — flushing tracker.');
+  try {
+    await trackingService?.stop();
+  } catch (e) {
+    logger.error(`[APP] tracking stop error: ${(e as Error)?.message ?? e}`);
+  }
+  try {
+    database?.close();
+  } catch (e) {
+    logger.error(`[APP] db close error: ${(e as Error)?.message ?? e}`);
+  }
+  tray?.destroy();
+  app.quit();
+}
+
+app.whenReady().then(async () => {
   const userData = app.getPath('userData');
   const logger = new Logger({ dir: userData, source: 'app' });
-  logger.info('[APP] Starting Productivity Coach starter.');
+  logger.info('[APP] Starting Productivity Coach — Stage 1 tracker.');
+
+  // --- Construct the tracking stack via DI ---
+  database = new Database(Database.filePathFor(userData));
+  const repo = new EventRepository(database);
+  const engine = new HeartbeatEngine(repo);
+
+  const windowWatcher = new WindowWatcher(pollActiveWin, engine, 1000, {
+    info: (m) => logger.info(m),
+    warn: (m) => logger.warn(m),
+    error: (m) => logger.error(m),
+  });
+
+  trackingService = new TrackingService([windowWatcher], engine, {
+    info: (m) => logger.info(m),
+    warn: (m) => logger.warn(m),
+    error: (m) => logger.error(m),
+  });
+
+  registerTrackerIpc(repo, ipcMainHandle, () =>
+    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
+  );
+
   createMainWindow(logger);
+  createTray(logger);
+
+  // Tracker starts automatically with the app, independent of the window.
+  // Closing the window hides to tray; tracking keeps running.
+  await trackingService.start();
+  logger.info('[APP] Tracking started.');
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  // Stage 1 keeps tracking alive when the window is closed: hide to tray
+  // instead of quitting. Real quit comes from the tray "Quit" menu only.
+  if (process.platform === 'darwin') return;
+  BrowserWindow.getAllWindows().forEach((w) => w.hide());
+});
+
+app.on('before-quit', async (e) => {
+  // If the renderer/Electron itself initiates quit (Alt+F4 on a visible
+  // window, OS shutdown), give the tracker a chance to flush before exit.
+  // Guard against re-entry: `quitApp` calls `app.quit()` which would fire
+  // this handler again.
+  if (quitting) return;
+  quitting = true;
+  e.preventDefault();
+  await quitApp(new Logger({ dir: app.getPath('userData'), source: 'app' }));
 });
 
 app.on('activate', () => {
@@ -61,3 +164,8 @@ app.on('activate', () => {
     createMainWindow(logger);
   }
 });
+
+// 16x16 1x1 transparent PNG (minimal placeholder tray icon).
+const BASE64_TRAY_ICON =
+  'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAA' +
+  'DklEQVR42mNk+M9QDwADhwH/xpYk2gAAAABJRU5ErkJggg==';

@@ -28,6 +28,7 @@
     "src/ui/hooks/useResolvedTheme.ts",
     "src/ui/store/themeStore.ts",
     "src/ui/lib/version.ts",
+    "src/ui/pages/EventsPage.tsx",
     "types.d.ts"
   ],
   "exclude": ["src/electron", "src/service"],

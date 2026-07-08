@@ -11,10 +11,16 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "transpile:electron": "tsc --project src/electron/tsconfig.json",
-    "dist:win": "npm run transpile:electron && npm run build && electron-builder --win --x64"
+    "rebuild": "electron-rebuild -f -w better-sqlite3,active-win",
+    "postinstall": "electron-rebuild -f -w better-sqlite3,active-win || echo \"rebuild skipped (may need build tools)\"",
+    "test": "vitest run",
+    "test:integration": "npm rebuild better-sqlite3 && vitest run tests/database && npm run rebuild",
+    "dist:win": "npm run rebuild && npm run transpile:electron && npm run build && electron-builder --win --x64"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
+    "active-win": "^8.2.1",
+    "better-sqlite3": "^12.11.1",
     "lucide-react": "^0.460.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -22,6 +28,8 @@
     "zustand": "^5.0.13"
   },
   "devDependencies": {
+    "@electron/rebuild": "^3.7.2",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.5.5",
     "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
@@ -31,6 +39,7 @@
     "electron-builder": "^25.0.5",
     "npm-run-all": "^4.1.5",
     "typescript": "^5.6.2",
-    "vite": "^5.4.7"
+    "vite": "^5.4.7",
+    "vitest": "^4.1.10"
   }
 }
