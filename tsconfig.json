@@ -29,6 +29,7 @@
     "src/ui/store/themeStore.ts",
     "src/ui/lib/version.ts",
     "src/ui/pages/EventsPage.tsx",
+    "src/ui/pages/SessionsPage.tsx",
     "types.d.ts"
   ],
   "exclude": ["src/electron", "src/service"],

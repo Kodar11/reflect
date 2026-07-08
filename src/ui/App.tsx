@@ -6,6 +6,7 @@ import { Header } from './components/Header';
 import { APP_VERSION } from './lib/version';
 import { ThemeToggle } from './components/ThemeToggle';
 import { EventsPage } from './pages/EventsPage';
+import { SessionsPage } from './pages/SessionsPage';
 
 function App() {
   const theme = useThemeStore((s) => s.theme);
@@ -17,6 +18,7 @@ function App() {
   
   const PAGE_TITLES: Record<Route, string> = {
     overview: 'Productivity Coach',
+    sessions: 'Productivity Coach — Sessions',
     events: 'Productivity Coach — Event Viewer',
     settings: 'Productivity Coach — Settings',
   };
@@ -42,6 +44,8 @@ function App() {
           <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16">
             {route === 'overview' ? (
               <OverviewPage />
+            ) : route === 'sessions' ? (
+              <SessionsPage />
             ) : route === 'events' ? (
               <EventsPage />
             ) : (

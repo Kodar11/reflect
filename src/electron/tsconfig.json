@@ -19,7 +19,8 @@
     "../electron/pathResolver.ts",
     "../tracker/**/*.ts",
     "../database/**/*.ts",
-    "../models/**/*.ts"
+    "../models/**/*.ts",
+    "../session/**/*.ts"
   ],
   "exclude": ["**/*.test.ts"]
 }

@@ -19,6 +19,8 @@ import { HeartbeatEngine } from '../tracker/HeartbeatEngine.js';
 import { WindowWatcher } from '../tracker/watcher/WindowWatcher.js';
 import { TrackingService } from '../tracker/TrackingService.js';
 import { registerTrackerIpc } from '../tracker/trackerIpc.js';
+import { SessionService } from '../session/SessionService.js';
+import { registerSessionIpc } from '../session/sessionIpc.js';
 import type { ActivitySample } from '../models/Event.js';
 
 let mainWindow: BrowserWindow | null = null;
@@ -130,6 +132,14 @@ app.whenReady().then(async () => {
   registerTrackerIpc(repo, ipcMainHandle, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
+
+  // --- Construct the session layer (read-side transform over raw events) ---
+  // Sessions are derived on demand from the same raw repo; never persisted.
+  const sessionService = new SessionService(repo);
+  registerSessionIpc(sessionService, ipcMainHandle, () =>
+    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
+  );
+  logger.info('[APP] Session service ready.');
 
   createMainWindow(logger);
   createTray(logger);
