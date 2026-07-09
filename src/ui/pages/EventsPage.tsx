@@ -14,14 +14,18 @@ import { useEffect, useState, useCallback } from 'react';
 export function EventsPage() {
   const [events, setEvents] = useState<TrackerEventDto[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     try {
+      setLoading(true);
       const rows = await window.tracker.getToday();
       setEvents(rows);
       setError(null);
     } catch (e) {
       setError((e as Error)?.message ?? String(e));
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -74,7 +78,7 @@ export function EventsPage() {
                 {events.length === 0 && (
                   <tr>
                     <td colSpan={6} className="px-2 py-6 text-center" style={{ color: 'var(--text-faint)' }}>
-                      No events captured yet.
+                      {loading ? 'Loading events…' : 'No events captured yet.'}
                     </td>
                   </tr>
                 )}

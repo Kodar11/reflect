@@ -51,6 +51,8 @@ interface VerifiedSessionDto {
   appsUsed: string[];
   browserTabs: string[];
   source: 'generated' | 'user';
+  note?: string;
+  eventIds: number[];
 }
 
 interface TimelineStatus {

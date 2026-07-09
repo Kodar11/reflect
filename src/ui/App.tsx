@@ -36,26 +36,28 @@ function App() {
         onToggleSidebar={() => setSidebarOpen((v) => !v)}
         showSidebarToggle={true}
       />
-      <div className="flex">
+      <div className="flex h-[calc(100vh-2.75rem)]">
         <Sidebar
           route={route}
           onNavigate={setRoute}
           open={sidebarOpen}
         />
-        <main className="flex-1 min-w-0">
-          <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16">
-            {route === 'timeline' ? (
-              <TimelinePage />
-            ) : route === 'overview' ? (
-              <OverviewPage />
-            ) : route === 'sessions' ? (
-              <SessionsPage />
-            ) : route === 'events' ? (
-              <EventsPage />
-            ) : (
-              <SettingsPage theme={theme} setTheme={setTheme} />
-            )}
-          </div>
+        <main className="flex-1 min-w-0 h-full overflow-hidden">
+          {route === 'timeline' ? (
+            <TimelinePage />
+          ) : (
+            <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
+              {route === 'overview' ? (
+                <OverviewPage />
+              ) : route === 'sessions' ? (
+                <SessionsPage />
+              ) : route === 'events' ? (
+                <EventsPage />
+              ) : (
+                <SettingsPage theme={theme} setTheme={setTheme} />
+              )}
+            </div>
+          )}
         </main>
       </div>
     </div>

@@ -10,7 +10,7 @@ if (process.argv.includes('--dev') && process.env.NODE_ENV !== 'development') {
 
 import { app, BrowserWindow, Tray, Menu, nativeImage } from 'electron';
 import activeWin from 'active-win';
-import { isDev, ipcMainHandle } from './util.js';
+import { isDev, ipcMainHandle, ipcMainOn } from './util.js';
 import { getPreloadPath, getUIPath } from './pathResolver.js';
 import { Logger } from '../service/logger.js';
 import { Database } from '../database/Database.js';
@@ -156,6 +156,24 @@ app.whenReady().then(async () => {
 
   createMainWindow(logger);
   createTray(logger);
+
+  // Window frame controls (minimize / maximize / close-to-tray).
+  ipcMainOn('sendFrameAction', (action) => {
+    const win = BrowserWindow.getFocusedWindow() ?? mainWindow;
+    if (!win) return;
+    switch (action) {
+      case 'MINIMIZE':
+        win.minimize();
+        break;
+      case 'MAXIMIZE':
+        if (win.isMaximized()) win.unmaximize();
+        else win.maximize();
+        break;
+      case 'CLOSE':
+        win.hide();
+        break;
+    }
+  });
 
   // Tracker starts automatically with the app, independent of the window.
   // Closing the window hides to tray; tracking keeps running.

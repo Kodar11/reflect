@@ -267,3 +267,106 @@ describe('TimelineEngine — operation order independence where applicable', () 
     expect(out2[0].customTitle).toBe('Coding');
   });
 });
+
+describe('TimelineEngine — override_envelope', () => {
+  beforeEach(resetIds);
+  it('moves a session to a new time range and hides the original', () => {
+    const a = evAt('09:00', { durMin: 30, app: 'VS Code' });
+    const edits = [makeEdit(1, 'override_envelope', {
+      eventIds: [a.id],
+      newStartedAt: at('11:00'),
+      newEndedAt: at('11:30'),
+    }, null)];
+    const out = apply([a], edits);
+    expect(out).toHaveLength(1);
+    expect(out[0].id).toBe('o-1');
+    expect(out[0].startedAt.toISOString()).toBe(at('11:00'));
+    expect(out[0].endedAt.toISOString()).toBe(at('11:30'));
+    expect(out[0].duration).toBe(30 * 60_000);
+  });
+
+  it('is a no-op when the event set matches no session', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const edits = [makeEdit(1, 'override_envelope', {
+      eventIds: [999],
+      newStartedAt: at('11:00'),
+      newEndedAt: at('11:30'),
+    }, null)];
+    expect(apply([a], edits)).toHaveLength(1);
+  });
+});
+
+describe('TimelineEngine — duplicate', () => {
+  beforeEach(resetIds);
+  it('creates a user-source copy offset by 30 minutes by default', () => {
+    const a = evAt('09:00', { durMin: 30, app: 'VS Code' });
+    const edits = [makeEdit(1, 'duplicate', { eventIds: [a.id] }, null)];
+    const out = apply([a], edits);
+    expect(out).toHaveLength(2);
+    expect(out[0].startedAt.toISOString()).toBe(at('09:00')); // original
+    expect(out[1].id).toBe('d-1');
+    expect(out[1].startedAt.toISOString()).toBe(at('09:30'));
+    expect(out[1].source).toBe('user');
+  });
+
+  it('honours a custom offset in minutes', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const edits = [makeEdit(1, 'duplicate', { eventIds: [a.id], offsetMinutes: 120 }, null)];
+    const out = apply([a], edits);
+    expect(out[1].startedAt.toISOString()).toBe(at('11:00'));
+  });
+});
+
+describe('TimelineEngine — note', () => {
+  beforeEach(resetIds);
+  it('attaches a note to the matching session', () => {
+    const a = evAt('09:00', { durMin: 30, app: 'VS Code' });
+    const b = evAt('10:00', { durMin: 30, app: 'Chrome' });
+    const edits = [makeEdit(1, 'note', { eventIds: [a.id], note: 'focus block' }, null)];
+    const out = apply([a, b], edits);
+    expect(out[0].note).toBe('focus block');
+    expect(out[1].note).toBeUndefined();
+  });
+});
+
+describe('TimelineEngine — mark_offline', () => {
+  beforeEach(resetIds);
+  it('toggles the source flag between generated and user', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const edits = [makeEdit(1, 'mark_offline', { eventIds: [a.id], offline: true }, null)];
+    const out = apply([a], edits);
+    expect(out[0].source).toBe('user');
+  });
+
+  it('can revert an offline session back to generated', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const edits = [
+      makeEdit(1, 'mark_offline', { eventIds: [a.id], offline: true }, null),
+      makeEdit(2, 'mark_offline', { eventIds: [a.id], offline: false }, null),
+    ];
+    const out = apply([a], edits);
+    expect(out[0].source).toBe('generated');
+  });
+});
+
+describe('TimelineEngine — merge (multi-boundary)', () => {
+  beforeEach(resetIds);
+  it('merges several adjacent session pairs in one edit', () => {
+    // 09:00-09:30, 10:00-10:30, 11:00-11:30, 12:00-12:30
+    // Gaps create four sessions.
+    const a = evAt('09:00', { id: 10, durMin: 30, app: 'VS Code' });
+    const b = evAt('10:00', { id: 11, durMin: 30, app: 'VS Code' });
+    const c = evAt('11:00', { id: 12, durMin: 30, app: 'VS Code' });
+    const d = evAt('12:00', { id: 13, durMin: 30, app: 'VS Code' });
+    const edits = [makeEdit(1, 'merge', {
+      boundaries: [
+        { boundaryFromEventId: a.id, boundaryToEventId: b.id },
+        { boundaryFromEventId: c.id, boundaryToEventId: d.id },
+      ],
+    }, null)];
+    const out = apply([a, b, c, d], edits);
+    expect(out).toHaveLength(2);
+    expect(out[0].events.map((e) => e.id)).toEqual([a.id, b.id]);
+    expect(out[1].events.map((e) => e.id)).toEqual([c.id, d.id]);
+  });
+});

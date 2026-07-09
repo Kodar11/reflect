@@ -55,15 +55,23 @@ export interface VerifiedSession {
   /** A deleted session stays in the log (so undo can restore it) but is hidden
    * from the verified timeline. */
   hidden: boolean;
+  /** User note attached to this session (from `note` edit). */
+  note?: string;
 }
 
-/** Edit operations the log records. Each has a typed `TimelinePayload`. */
+/** Edit operations the log records. Each has a typed `TimelinePayload`.
+ * Additions are schema-free: `timeline_edits` stores `operation TEXT` +
+ * `payload TEXT`, so new operation strings require no migration. */
 export type TimelineOperation =
   | 'rename'
   | 'split'
   | 'merge'
   | 'delete'
-  | 'create_offline';
+  | 'create_offline'
+  | 'override_envelope'
+  | 'duplicate'
+  | 'note'
+  | 'mark_offline';
 
 /** Base row from the DB; payload is JSON (decoded by helpers). */
 export interface TimelineEdit {
@@ -89,8 +97,10 @@ export interface SplitPayload {
 }
 export interface MergePayload {
   /** Last event id of the first session + first event id of the second. */
-  boundaryFromEventId: number;
-  boundaryToEventId: number;
+  boundaryFromEventId?: number;
+  boundaryToEventId?: number;
+  /** Stage 3.5 multi-merge: a sequence of boundaries merged in one edit row. */
+  boundaries?: { boundaryFromEventId: number; boundaryToEventId: number }[];
 }
 export interface DeletePayload {
   /** Every event id belonging to the deleted session (durable across regens). */
@@ -103,15 +113,42 @@ export interface CreateOfflinePayload {
   app?: string;
   browser?: string;
 }
+export interface OverrideEnvelopePayload {
+  /** Event ids of the session whose envelope is being overridden. */
+  eventIds: number[];
+  newStartedAt: string; // ISO
+  newEndedAt: string;   // ISO
+}
+export interface DuplicatePayload {
+  /** Event ids of the session to duplicate. */
+  eventIds: number[];
+  /** Minutes offset from the original session's start (default +30). */
+  offsetMinutes?: number;
+}
+export interface NotePayload {
+  /** Event ids of the session the note is attached to. */
+  eventIds: number[];
+  note: string;
+}
+export interface MarkOfflinePayload {
+  /** Event ids of the session to mark as user/offline source. */
+  eventIds: number[];
+  offline: boolean;
+}
 
 export type TimelinePayload =
   | RenamePayload
   | SplitPayload
   | MergePayload
   | DeletePayload
-  | CreateOfflinePayload;
+  | CreateOfflinePayload
+  | OverrideEnvelopePayload
+  | DuplicatePayload
+  | NotePayload
+  | MarkOfflinePayload;
 
-/** Promote a generated `Session` to a `VerifiedSession` (no overlays yet). */
+
+/** Promote a generated Session to a VerifiedSession (no overlays yet). */
 export function toVerified(s: Session, source: 'generated' | 'user' = 'generated'): VerifiedSession {
   return {
     id: s.id,
@@ -131,3 +168,4 @@ export function toVerified(s: Session, source: 'generated' | 'user' = 'generated
     hidden: false,
   };
 }
+

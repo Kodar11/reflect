@@ -29,6 +29,10 @@ export interface VerifiedSessionDto {
   appsUsed: string[];
   browserTabs: string[];
   source: 'generated' | 'user';
+  note?: string;
+  /** Stable event ids that make up this session. Used by the renderer to issue
+   * durable timeline edits without depending on regenerated session ids. */
+  eventIds: number[];
 }
 
 export function registerTimelineIpc(
@@ -85,5 +89,7 @@ function toDto(s: VerifiedSession): VerifiedSessionDto {
     appsUsed: s.appsUsed,
     browserTabs: s.browserTabs,
     source: s.source,
+    note: s.note,
+    eventIds: s.events.map((e) => e.id),
   };
 }

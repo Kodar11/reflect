@@ -7,6 +7,10 @@ import type {
   MergePayload,
   DeletePayload,
   CreateOfflinePayload,
+  OverrideEnvelopePayload,
+  DuplicatePayload,
+  NotePayload,
+  MarkOfflinePayload,
 } from './TimelineModels.js';
 import { toVerified } from './TimelineModels.js';
 import { computeStatistics } from '../session/SessionStatistics.js';
@@ -19,10 +23,11 @@ import { computeStatistics } from '../session/SessionStatistics.js';
  * engine can replay confidently and deterministically.
  *
  * Id-namespace strategy:
- *   - split halves: `s-{halfFirstEventId}-{halfLen}-e{editId}` (edit-namespace
- *     guarantees uniqueness even after multiple splits of the same session).
- *   - merged session: `m-{editId}` (one merge = one new session).
- *   - offline session: `u-{editId}`.
+ *   - split halves: `s-{halfFirstEventId}-{halfLen}-e{editId}`
+ *   - merged session: `m-{editId}`
+ *   - offline session: `u-{editId}`
+ *   - duplicated session: `d-{editId}`
+ *   - envelope override: `o-{editId}`
  * Generated, untouched sessions keep their Stage-2 `s-...` id.
  */
 
@@ -33,11 +38,6 @@ export interface OpCtx {
 
 export type OpResult = VerifiedSession[];
 
-/** RENAME — set customTitle on the generated session whose FIRST event's id
- * is the anchor. If the anchor matches no session's first event, the edit is
- * a no-op (the session may have been re-split such that the anchor now starts
- * a sub-session — in that case the rename still attaches if it matches a
- * current first-event id). */
 export function applyRename(
   { events }: OpCtx,
   payload: RenamePayload,
@@ -51,10 +51,6 @@ export function applyRename(
   });
 }
 
-/** SPLIT — partition the session containing `afterEventId` into two halves at
- * that event (the boundary lives in the FIRST half). If `afterEventId` is the
- * session's last event we produce an empty second half — we simply no-op
- * (don't insert a vacuous empty session). If the event isn't found, no-op. */
 export function applySplit(
   { editId, events }: OpCtx,
   payload: SplitPayload,
@@ -64,7 +60,7 @@ export function applySplit(
 
   const target = events[idx];
   const splitAt = target.events.findIndex((e) => e.id === payload.afterEventId);
-  if (splitAt < 0 || splitAt === target.events.length - 1) return events; // nothing after
+  if (splitAt < 0 || splitAt === target.events.length - 1) return events;
 
   const firstHalf = target.events.slice(0, splitAt + 1);
   const secondHalf = target.events.slice(splitAt + 1);
@@ -72,88 +68,173 @@ export function applySplit(
 
   const a = toVerified(stripStats(fromEvents(firstHalf, splitId(firstHalf, editId))), 'generated');
   const b = toVerified(stripStats(fromEvents(secondHalf, splitId(secondHalf, editId))), 'generated');
-
-  // Split halves keep an inherited custom title only on the first half (the
-  // half containing the original session's first event) so a rename applied
-  // either BEFORE or AFTER the split lands on the same half. The second half
-  // starts unlabeled.
   a.customTitle = target.customTitle;
+  a.note = target.note;
 
   return [...events.slice(0, idx), a, b, ...events.slice(idx + 1)];
 }
 
-/** MERGE — join two adjacent sessions identified by their boundary event ids:
- * one whose LAST event id === boundaryFromEventId followed by one whose
- * FIRST event id === boundaryToEventId. Adjacency is enforced here; the
- * service also gates the operation, so non-adjacent merges no-op without
- * throwing (the engine must be total). */
 export function applyMerge(
   { editId, events }: OpCtx,
   payload: MergePayload,
 ): OpResult {
-  const fromIdx = events.findIndex((s) => lastEventId(s) === payload.boundaryFromEventId);
-  if (fromIdx < 0) return events;
-  const toIdx = fromIdx + 1;
-  if (toIdx >= events.length) return events;
-  const next = events[toIdx];
-  if (firstEventId(next) !== payload.boundaryToEventId) return events; // not the intended next
+  let boundaries: { boundaryFromEventId: number; boundaryToEventId: number }[];
+  if (payload.boundaries && payload.boundaries.length > 0) {
+    boundaries = payload.boundaries;
+  } else if (
+    typeof payload.boundaryFromEventId === 'number' &&
+    typeof payload.boundaryToEventId === 'number'
+  ) {
+    boundaries = [{ boundaryFromEventId: payload.boundaryFromEventId, boundaryToEventId: payload.boundaryToEventId }];
+  } else {
+    return events;
+  }
 
-  const merged = toVerified(
-    stripStats(fromEvents([...events[fromIdx].events, ...next.events] as Event[], `m-${editId}`)),
-    'generated',
-  );
-  // Carry a custom title forward if either half had one (first non-empty wins).
-  merged.customTitle = events[fromIdx].customTitle ?? next.customTitle;
+  // Merge sequentially from the working list. After each merge the array is
+  // shorter, so re-derive indices for the next boundary.
+  let working = events;
+  for (const { boundaryFromEventId, boundaryToEventId } of boundaries) {
+    const fromIdx = working.findIndex((s) => lastEventId(s) === boundaryFromEventId);
+    if (fromIdx < 0) continue;
+    const toIdx = fromIdx + 1;
+    if (toIdx >= working.length) continue;
+    const next = working[toIdx];
+    if (firstEventId(next) !== boundaryToEventId) continue;
 
-  return [...events.slice(0, fromIdx), merged, ...events.slice(toIdx + 1)];
+    const merged = toVerified(
+      stripStats(fromEvents([...working[fromIdx].events, ...next.events] as Event[], `m-${editId}`)),
+      'generated',
+    );
+    merged.customTitle = working[fromIdx].customTitle ?? next.customTitle;
+    merged.note = working[fromIdx].note ?? next.note;
+
+    working = [...working.slice(0, fromIdx), merged, ...working.slice(toIdx + 1)];
+  }
+  return working;
 }
 
-/** DELETE — hide the session whose event-id multiset matches the payload's.
- * We compare via sorted id arrays for determinism (exact match). The hidden
- * session is retained internally but filtered from the engine's final output. */
 export function applyDelete(
   { events }: OpCtx,
   payload: DeletePayload,
 ): OpResult {
-  const want = [...payload.eventIds].sort((a, b) => a - b).join(',');
+  const want = sortedKey(payload.eventIds);
   return events.map((s) => {
-    const have = s.events.map((e) => e.id).sort((a, b) => a - b).join(',');
+    const have = sortedKey(s.events.map((e) => e.id));
     return have === want ? { ...s, hidden: true } : s;
   });
 }
 
-/** CREATE_OFFLINE — splice a synthetic `source:'user'` session into the
- * timeline at its `startedAt`. It has no backing raw events; its duration is
- * the envelope and `activeDuration` is 0 (offline activity isn't event-backed). */
 export function applyCreateOffline(
   { editId, events }: OpCtx,
   payload: CreateOfflinePayload,
 ): OpResult {
   const started = new Date(payload.startedAt);
   const ended = new Date(payload.endedAt);
-  const session: VerifiedSession = {
+  const session = makeOfflineLike({
     id: `u-${editId}`,
     startedAt: started,
     endedAt: ended,
-    duration: Math.max(0, ended.getTime() - started.getTime()),
-    activeDuration: 0,
-    events: [],
-    customTitle: payload.title,
-    primaryApp: payload.app,
-    primaryBrowser: payload.browser,
-    primaryTitle: payload.title,
-    primaryUrl: undefined,
-    appsUsed: payload.app ? [payload.app] : [],
-    browserTabs: [],
-    eventCount: 0,
-    source: 'user',
-    hidden: false,
-  };
+    title: payload.title,
+    app: payload.app,
+    browser: payload.browser,
+  });
 
-  // Insert by startedAt; ties broken by id (lexicographic) for determinism.
   const insertPos = events.findIndex((s) => s.startedAt.getTime() > started.getTime());
   const at = insertPos < 0 ? events.length : insertPos;
   return [...events.slice(0, at), session, ...events.slice(at)];
+}
+
+/** OVERRIDE_ENVELOPE — move/resize a session. The original is hidden (so undo
+ * restores it) and a new session with the same events but the new envelope is
+ * emitted. This is the one drag/resize edit operation (schema-free). */
+export function applyOverrideEnvelope(
+  { editId, events }: OpCtx,
+  payload: OverrideEnvelopePayload,
+): OpResult {
+  const want = sortedKey(payload.eventIds);
+  const idx = events.findIndex((s) => sortedKey(s.events.map((e) => e.id)) === want);
+  if (idx < 0) return events;
+
+  const target = events[idx];
+  const newStarted = new Date(payload.newStartedAt);
+  const newEnded = new Date(payload.newEndedAt);
+  const moved: VerifiedSession = {
+    ...target,
+    id: `o-${editId}`,
+    startedAt: newStarted,
+    endedAt: newEnded,
+    duration: Math.max(0, newEnded.getTime() - newStarted.getTime()),
+    activeDuration: 0,
+    source: target.source,
+  };
+
+  const hiddenOriginal = { ...target, hidden: true };
+  const insertPos = events.findIndex((s) => s.startedAt.getTime() > newStarted.getTime());
+  const at = insertPos < 0 ? events.length : insertPos;
+
+  // Remove original from its old position, hide it, and splice the moved copy
+  // at the new time. This keeps the working array sorted and deterministic.
+  const withoutOriginal = [...events.slice(0, idx), ...events.slice(idx + 1)];
+  const insertAt = withoutOriginal.findIndex((s) => s.startedAt.getTime() > newStarted.getTime());
+  const place = insertAt < 0 ? withoutOriginal.length : insertAt;
+  return [
+    ...withoutOriginal.slice(0, place),
+    moved,
+    ...withoutOriginal.slice(place),
+    hiddenOriginal, // hidden at end; engine will drop it later
+  ];
+}
+
+export function applyDuplicate(
+  { editId, events }: OpCtx,
+  payload: DuplicatePayload,
+): OpResult {
+  const want = sortedKey(payload.eventIds);
+  const idx = events.findIndex((s) => sortedKey(s.events.map((e) => e.id)) === want);
+  if (idx < 0) return events;
+
+  const target = events[idx];
+  const offset = (payload.offsetMinutes ?? 30) * 60_000;
+  const started = new Date(target.startedAt.getTime() + offset);
+  const ended = new Date(target.endedAt.getTime() + offset);
+  const duplicate: VerifiedSession = {
+    ...target,
+    id: `d-${editId}`,
+    startedAt: started,
+    endedAt: ended,
+    duration: target.duration,
+    activeDuration: 0,
+    source: 'user',
+    customTitle: target.customTitle ?? target.primaryTitle ?? 'Copy',
+  };
+
+  const insertPos = events.findIndex((s) => s.startedAt.getTime() > started.getTime());
+  const at = insertPos < 0 ? events.length : insertPos;
+  return [...events.slice(0, at), duplicate, ...events.slice(at)];
+}
+
+export function applyNote(
+  { events }: OpCtx,
+  payload: NotePayload,
+): OpResult {
+  const want = sortedKey(payload.eventIds);
+  return events.map((s) => {
+    const have = sortedKey(s.events.map((e) => e.id));
+    return have === want ? { ...s, note: payload.note } : s;
+  });
+}
+
+export function applyMarkOffline(
+  { events }: OpCtx,
+  payload: MarkOfflinePayload,
+): OpResult {
+  const want = sortedKey(payload.eventIds);
+  return events.map((s) => {
+    const have = sortedKey(s.events.map((e) => e.id));
+    return have === want
+      ? { ...s, source: payload.offline ? 'user' : 'generated' as const }
+      : s;
+  });
 }
 
 /** Drop sessions that ended up hidden by a delete edit. */
@@ -175,6 +256,10 @@ function splitId(half: Event[], editId: number): string {
   return `s-${first}-${half.length}-e${editId}`;
 }
 
+function sortedKey(ids: number[]): string {
+  return [...ids].sort((a, b) => a - b).join(',');
+}
+
 /** Rebuild a Stage-2 `Session` skeleton from events so `computeStatistics`
  * works uniformly on split/merge outputs. */
 function fromEvents(events: Event[], id: string): Session {
@@ -191,7 +276,34 @@ function fromEvents(events: Event[], id: string): Session {
   };
 }
 
-/** computeStatistics mutates & returns the session. We call it on our skeleton. */
 function stripStats(s: Session): Session {
   return computeStatistics(s);
+}
+
+function makeOfflineLike(opts: {
+  id: string;
+  startedAt: Date;
+  endedAt: Date;
+  title: string;
+  app?: string;
+  browser?: string;
+}): VerifiedSession {
+  return {
+    id: opts.id,
+    startedAt: opts.startedAt,
+    endedAt: opts.endedAt,
+    duration: Math.max(0, opts.endedAt.getTime() - opts.startedAt.getTime()),
+    activeDuration: 0,
+    events: [],
+    customTitle: opts.title,
+    primaryApp: opts.app,
+    primaryBrowser: opts.browser,
+    primaryTitle: opts.title,
+    primaryUrl: undefined,
+    appsUsed: opts.app ? [opts.app] : [],
+    browserTabs: [],
+    eventCount: 0,
+    source: 'user',
+    hidden: false,
+  };
 }

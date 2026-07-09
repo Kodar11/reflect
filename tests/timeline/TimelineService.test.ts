@@ -165,6 +165,34 @@ describe('TimelineService — hint resolution (Part B)', () => {
     expect(persisted.startedAt).toBe('2026-01-01T08:00:00.000Z');
   });
 
+  it('rename: resolves eventIdsHint even when sessionIdHint is stale', () => {
+    const a = evAt('09:00', { durMin: 30, app: 'VS Code' });
+    const session = makeSession([a], 'old', 'stale-id');
+    const repo = new FakeEditRepository();
+    const svc = new TimelineService(new FakeSessionService([session]), repo);
+
+    svc.apply('rename', { eventIdsHint: [a.id], newTitle: 'Coding' });
+
+    expect(repo.inserted).toHaveLength(1);
+    const persisted = repo.inserted[0].payload as any;
+    expect(persisted.anchorEventId).toBe(a.id);
+    expect(persisted.newTitle).toBe('Coding');
+    expect(persisted.sessionIdHint).toBeUndefined();
+  });
+
+  it('eventIdsHint is preferred over a stale sessionIdHint', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const session = makeSession([a], 'title', 'current-id');
+    const repo = new FakeEditRepository();
+    const svc = new TimelineService(new FakeSessionService([session]), repo);
+
+    // Send both: a stale session id and correct event ids. eventIdsHint wins.
+    svc.apply('delete', { sessionIdHint: 'old-id', eventIdsHint: [a.id] });
+
+    const persisted = repo.inserted[0].payload as any;
+    expect(persisted.eventIds).toEqual([a.id]);
+  });
+
   it('already-durable payload (no sessionIdHint) passes through without resolution', () => {
     const a = evAt('09:00', { durMin: 30 });
     const s1 = makeSession([a]);
@@ -177,5 +205,81 @@ describe('TimelineService — hint resolution (Part B)', () => {
     const persisted = repo.inserted[0].payload as any;
     expect(persisted.anchorEventId).toBe(a.id);
     expect(persisted.newTitle).toBe('Direct');
+  });
+
+  it('override_envelope: resolves sessionIdHint → { eventIds, newStartedAt, newEndedAt }', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const s1 = makeSession([a]);
+    const repo = new FakeEditRepository();
+    const svc = new TimelineService(new FakeSessionService([s1]), repo);
+
+    svc.apply('override_envelope', {
+      sessionIdHint: s1.id,
+      newStartedAt: '2026-01-01T11:00:00.000Z',
+      newEndedAt: '2026-01-01T11:30:00.000Z',
+    });
+
+    const persisted = repo.inserted[0].payload as any;
+    expect(persisted.eventIds).toEqual([a.id]);
+    expect(persisted.newStartedAt).toBe('2026-01-01T11:00:00.000Z');
+    expect(persisted.sessionIdHint).toBeUndefined();
+  });
+
+  it('duplicate: resolves sessionIdHint → { eventIds, offsetMinutes? }', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const s1 = makeSession([a]);
+    const repo = new FakeEditRepository();
+    const svc = new TimelineService(new FakeSessionService([s1]), repo);
+
+    svc.apply('duplicate', { sessionIdHint: s1.id, offsetMinutes: 60 });
+
+    const persisted = repo.inserted[0].payload as any;
+    expect(persisted.eventIds).toEqual([a.id]);
+    expect(persisted.offsetMinutes).toBe(60);
+    expect(persisted.sessionIdHint).toBeUndefined();
+  });
+
+  it('note: resolves sessionIdHint → { eventIds, note }', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const s1 = makeSession([a]);
+    const repo = new FakeEditRepository();
+    const svc = new TimelineService(new FakeSessionService([s1]), repo);
+
+    svc.apply('note', { sessionIdHint: s1.id, note: 'retrospective' });
+
+    const persisted = repo.inserted[0].payload as any;
+    expect(persisted.eventIds).toEqual([a.id]);
+    expect(persisted.note).toBe('retrospective');
+  });
+
+  it('mark_offline: resolves sessionIdHint → { eventIds, offline }', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const s1 = makeSession([a]);
+    const repo = new FakeEditRepository();
+    const svc = new TimelineService(new FakeSessionService([s1]), repo);
+
+    svc.apply('mark_offline', { sessionIdHint: s1.id, offline: true });
+
+    const persisted = repo.inserted[0].payload as any;
+    expect(persisted.eventIds).toEqual([a.id]);
+    expect(persisted.offline).toBe(true);
+  });
+
+  it('merge: multi-boundary payload from UI uses sessionIdHint and resolves to boundaries list', () => {
+    const a = evAt('09:00', { durMin: 30 });
+    const b = evAt('10:00', { durMin: 30 });
+    const c = evAt('11:00', { durMin: 30 });
+    const s1 = makeSession([a], 'first');
+    const s2 = makeSession([b], 'second');
+    const s3 = makeSession([c], 'third');
+    const repo = new FakeEditRepository();
+    const svc = new TimelineService(new FakeSessionService([s1, s2, s3]), repo);
+
+    svc.apply('merge', { sessionIdHint: s1.id });
+
+    const persisted = repo.inserted[0].payload as any;
+    // Service currently resolves a single pair from the hinted session and next.
+    expect(persisted.boundaryFromEventId).toBe(a.id);
+    expect(persisted.boundaryToEventId).toBe(b.id);
   });
 });

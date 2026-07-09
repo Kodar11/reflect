@@ -44,6 +44,47 @@
   --radius-lg: 10px;
   --radius-xl: 14px;
 
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --dur-fast: 120ms;
+  --dur-normal: 180ms;
+  --dur-slow: 260ms;
+
+  /* Stage 3.5 timeline block palette (dark mode). */
+  --block-hue-0: #4aa1ff;
+  --block-hue-1: #4dab9a;
+  --block-hue-2: #ffad48;
+  --block-hue-3: #ff8b82;
+  --block-hue-4: #9f7dff;
+  --block-hue-5: #5cc3e6;
+  --block-hue-6: #f078b4;
+  --block-hue-7: #8ab359;
+
+  /* Stage 3.6 Day View block palette. The primary block fill is neutral so
+   * the timeline reads calm; a thin left-edge bar keeps the deterministic
+   * app hue for at-a-glance distinction. Selected and offline get distinct
+   * neutral variants. (AI categories can introduce richer fills later.) */
+  --block-neutral: rgba(55, 53, 47, 0.05);
+  --block-neutral-hover: rgba(55, 53, 47, 0.09);
+  --block-neutral-border: rgba(55, 53, 47, 0.14);
+  --block-selected: var(--accent-soft);
+  --block-selected-border: var(--accent);
+  --block-offline: rgba(120, 120, 120, 0.10);
+  --block-offline-border: rgba(120, 120, 120, 0.40);
+  --block-accent-w: 3px;
+
+  /* Stage 3.5 timeline block palette (light mode). Generated deterministically
+   * from the session primaryApp hash, so the day reads visually at a glance. */
+  --block-hue-0: #2382e2;
+  --block-hue-1: #0f7b6c;
+  --block-hue-2: #d9730d;
+  --block-hue-3: #e03e3e;
+  --block-hue-4: #7b4fe3;
+  --block-hue-5: #0f7b9c;
+  --block-hue-6: #c0398b;
+  --block-hue-7: #5c7b3a;
+
+
   --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05);
   --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.08);
   --shadow-lg: 0 12px 32px rgba(15, 15, 15, 0.12);
@@ -86,6 +127,15 @@
   --heatmap-3: #26a641;
   --heatmap-4: #39d353;
   --heatmap-border: rgba(255, 255, 255, 0.04);
+
+  /* Stage 3.6 Day View block palette — dark overrides. */
+  --block-neutral: rgba(255, 255, 255, 0.045);
+  --block-neutral-hover: rgba(255, 255, 255, 0.08);
+  --block-neutral-border: rgba(255, 255, 255, 0.12);
+  --block-selected: var(--accent-soft);
+  --block-selected-border: var(--accent);
+  --block-offline: rgba(255, 255, 255, 0.07);
+  --block-offline-border: rgba(255, 255, 255, 0.28);
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);

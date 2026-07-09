@@ -14,14 +14,18 @@ import { useEffect, useState, useCallback } from 'react';
 export function SessionsPage() {
   const [sessions, setSessions] = useState<SessionDto[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     try {
+      setLoading(true);
       const rows = await window.session.getToday();
       setSessions(rows);
       setError(null);
     } catch (e) {
       setError((e as Error)?.message ?? String(e));
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -60,7 +64,7 @@ export function SessionsPage() {
           <div className="space-y-3">
             {sessions.length === 0 && (
               <div className="px-2 py-6 text-center text-[13px]" style={{ color: 'var(--text-faint)' }}>
-                No sessions yet. Switch windows to start capturing.
+                {loading ? 'Loading sessions…' : 'No sessions yet. Switch windows to start capturing.'}
               </div>
             )}
             {sessions.map((s) => (

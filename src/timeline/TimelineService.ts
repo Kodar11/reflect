@@ -6,6 +6,10 @@ import type {
   MergePayload,
   DeletePayload,
   CreateOfflinePayload,
+  OverrideEnvelopePayload,
+  DuplicatePayload,
+  NotePayload,
+  MarkOfflinePayload,
 } from './TimelineModels.js';
 import { TimelineEngine } from './TimelineEngine.js';
 import type { SessionService } from '../session/SessionService.js';
@@ -19,31 +23,12 @@ import type { SessionService } from '../session/SessionService.js';
  *   - the undo/redo cursor over the log.
  *
  * UI never calls the engine directly. Everything mutating (rename / split /
- * merge / delete / create_offline) goes through `apply(operation, payload)`,
- * which persists a new append row. Undo/redo flip the `undone_at` flag of the
- * appropriate row(s); because the engine skips undone rows, the verified
- * timeline updates deterministically on the next read.
- *
- * ── Hint resolution ──
- * The renderer sends *hints* — `sessionIdHint` + (for split) `afterEventIndex`
- * — because the `VerifiedSessionDto` deliberately omits per-event arrays to
- * keep IPC payloads lean. `apply()` resolves hints into **durable event-id
- * payloads** BEFORE persisting so the edit log survives future Stage-2
- * algorithm improvements (which may regenerate sessions with different ids but
- * the same event ids — the primary keys in SQLite).
- *
- *   rename  hint { sessionIdHint, newTitle }
- *           → { anchorEventId: session.events[0].id, newTitle }
- *   split   hint { sessionIdHint, afterEventIndex }
- *           → { afterEventId: session.events[index].id }
- *   delete  hint { sessionIdHint }
- *           → { eventIds: session.events.map(e => e.id) }
- *   merge   hint { sessionIdHint }
- *           → { boundaryFromEventId, boundaryToEventId } (next adjacent session)
- *   create_offline → passthrough (no event ids needed; fully durable).
- *
- * If the session can't be found (stale click — a 1s-poll race) the call throws
- * a `SessionNotFoundError` WITHOUT persisting, so the renderer can refresh.
+ * merge / delete / create_offline / override_envelope / duplicate / note /
+ * mark_offline) goes through `apply(operation, payload)`, which resolves
+ * renderer hints into durable event-id payloads before persisting a new
+ * append row. Undo/redo flip the `undone_at` flag of the appropriate row(s);
+ * because the engine skips undone rows, the verified timeline updates
+ * deterministically on the next read.
  */
 export class SessionNotFoundError extends Error {
   constructor(public readonly sessionId: string) {
@@ -74,11 +59,10 @@ export class TimelineService {
   }
 
   /**
-   * Append a new user edit. The payload may be a *hint* (renderer convenience)
-   * or a fully-durable payload (from tests). `resolveHint()` translates hints
-   * into durable event-id payloads before persisting. Returns the new row id.
-   * Throws `SessionNotFoundError` if the hint targets a session that no longer
-   * exists (caller should refresh).
+   * Append a new user edit. Payload may be a renderer *hint* or a fully-durable
+   * payload. `resolveHint()` translates hints into durable event-id payloads
+   * before persisting. Throws `SessionNotFoundError` if the hint targets a
+   * session that no longer exists (caller should refresh).
    */
   apply(operation: TimelineOperation, payload: unknown): number {
     const durable = this.resolveHint(operation, payload);
@@ -105,31 +89,20 @@ export class TimelineService {
 
   // ── hint resolution ─────────────────────────────────────────────────────────
 
-  /**
-   * Translate a renderer *hint* into a durable event-id payload. If the payload
-   * is already durable (has event-id fields, not `sessionIdHint`) it passes
-   * through unchanged — tests and future direct callers may supply durable
-   * payloads to avoid a `getToday` round-trip.
-   */
   private resolveHint(operation: TimelineOperation, payload: unknown): unknown {
-    if (operation === 'create_offline') return payload; // passthrough, fully durable
+    // create_offline is fully durable and needs no event ids.
+    if (operation === 'create_offline') return payload;
 
     const p = payload as Record<string, unknown> | null;
     if (!p || typeof p !== 'object') return payload;
 
-    // Already durable? (has the typed event-id field, no sessionIdHint) → passthrough.
-    if (!('sessionIdHint' in p)) return payload;
+    // Fully durable payload (no hint fields) → passthrough.
+    if (!('sessionIdHint' in p) && !('eventIdsHint' in p)) return payload;
 
-    const sessionId = p.sessionIdHint as string;
-    if (typeof sessionId !== 'string' || !sessionId) {
-      throw new SessionNotFoundError(String(p.sessionIdHint));
-    }
-
-    // Fetch the current verified timeline to resolve the hint.
     const sessions = this.getToday();
-    const session = sessions.find((s) => s.id === sessionId);
+    const session = this.findSessionFromHint(sessions, p);
     if (!session || session.events.length === 0) {
-      throw new SessionNotFoundError(sessionId);
+      throw new SessionNotFoundError(String(p.sessionIdHint ?? p.eventIdsHint ?? 'unknown'));
     }
 
     switch (operation) {
@@ -158,11 +131,40 @@ export class TimelineService {
         const nextIdx = sessions.indexOf(session) + 1;
         const next = sessions[nextIdx] ?? null;
         if (!next || next.events.length === 0) {
-          throw new SessionNotFoundError(`${sessionId} (no adjacent session to merge)`);
+          throw new SessionNotFoundError(`${session.id} (no adjacent session to merge)`);
         }
         const mp: MergePayload = {
           boundaryFromEventId: session.events[session.events.length - 1].id,
           boundaryToEventId: next.events[0].id,
+        };
+        return mp;
+      }
+      case 'override_envelope': {
+        const op: OverrideEnvelopePayload = {
+          eventIds: session.events.map((e) => e.id),
+          newStartedAt: p.newStartedAt as string,
+          newEndedAt: p.newEndedAt as string,
+        };
+        return op;
+      }
+      case 'duplicate': {
+        const dp: DuplicatePayload = {
+          eventIds: session.events.map((e) => e.id),
+          offsetMinutes: p.offsetMinutes as number | undefined,
+        };
+        return dp;
+      }
+      case 'note': {
+        const np: NotePayload = {
+          eventIds: session.events.map((e) => e.id),
+          note: p.note as string,
+        };
+        return np;
+      }
+      case 'mark_offline': {
+        const mp: MarkOfflinePayload = {
+          eventIds: session.events.map((e) => e.id),
+          offline: p.offline as boolean,
         };
         return mp;
       }
@@ -172,6 +174,22 @@ export class TimelineService {
   }
 
   // ── internals ──────────────────────────────────────────────────────────────
+
+  private findSessionFromHint(sessions: VerifiedSession[], p: Record<string, unknown>): VerifiedSession | undefined {
+    // Prefer durable event-id hints over regenerated session ids.
+    const eventIdsHint = p.eventIdsHint;
+    if (Array.isArray(eventIdsHint) && eventIdsHint.every((n) => typeof n === 'number')) {
+      const want = sortedKey(eventIdsHint as number[]);
+      return sessions.find((s) => sortedKey(s.events.map((e) => e.id)) === want);
+    }
+
+    const sessionId = p.sessionIdHint;
+    if (typeof sessionId === 'string' && sessionId) {
+      return sessions.find((s) => s.id === sessionId);
+    }
+
+    return undefined;
+  }
 
   private applyEngine(sessions: import('../session/Session.js').Session[]): VerifiedSession[] {
     return this.engine.applyEdits(sessions, this.edits.list());
@@ -192,4 +210,8 @@ export class TimelineService {
     }
     return null;
   }
+}
+
+function sortedKey(ids: number[]): string {
+  return [...ids].sort((a, b) => a - b).join(',');
 }

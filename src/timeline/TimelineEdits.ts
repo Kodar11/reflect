@@ -5,6 +5,10 @@ import type {
   MergePayload,
   DeletePayload,
   CreateOfflinePayload,
+  OverrideEnvelopePayload,
+  DuplicatePayload,
+  NotePayload,
+  MarkOfflinePayload,
 } from './TimelineModels.js';
 
 /**
@@ -22,11 +26,15 @@ export function encodePayload(payload: TimelinePayload): string {
 export function decodePayload(operation: TimelineOperation, raw: string): TimelinePayload {
   const obj = JSON.parse(raw);
   switch (operation) {
-    case 'rename':        return decodeRename(obj);
-    case 'split':         return decodeSplit(obj);
-    case 'merge':         return decodeMerge(obj);
-    case 'delete':        return decodeDelete(obj);
-    case 'create_offline': return decodeCreateOffline(obj);
+    case 'rename':           return decodeRename(obj);
+    case 'split':            return decodeSplit(obj);
+    case 'merge':            return decodeMerge(obj);
+    case 'delete':           return decodeDelete(obj);
+    case 'create_offline':   return decodeCreateOffline(obj);
+    case 'override_envelope': return decodeOverrideEnvelope(obj);
+    case 'duplicate':        return decodeDuplicate(obj);
+    case 'note':             return decodeNote(obj);
+    case 'mark_offline':     return decodeMarkOffline(obj);
   }
 }
 
@@ -41,10 +49,22 @@ function decodeSplit(o: any): SplitPayload {
   return { afterEventId: o.afterEventId };
 }
 function decodeMerge(o: any): MergePayload {
-  if (typeof o?.boundaryFromEventId !== 'number' || typeof o?.boundaryToEventId !== 'number') {
-    throw malformed('merge');
+  // Backward-compatible: single merge shape used in Stage 3.
+  if (typeof o?.boundaryFromEventId === 'number' && typeof o?.boundaryToEventId === 'number') {
+    return { boundaryFromEventId: o.boundaryFromEventId, boundaryToEventId: o.boundaryToEventId };
   }
-  return { boundaryFromEventId: o.boundaryFromEventId, boundaryToEventId: o.boundaryToEventId };
+  // Stage 3.5 multi-merge: a list of boundaries applied sequentially.
+  if (Array.isArray(o?.boundaries)) {
+    const first = o.boundaries[0];
+    if (
+      first &&
+      typeof first.boundaryFromEventId === 'number' &&
+      typeof first.boundaryToEventId === 'number'
+    ) {
+      return { boundaries: o.boundaries as { boundaryFromEventId: number; boundaryToEventId: number }[] };
+    }
+  }
+  throw malformed('merge');
 }
 function decodeDelete(o: any): DeletePayload {
   if (!Array.isArray(o?.eventIds) || !o.eventIds.every((n: unknown) => typeof n === 'number')) {
@@ -57,6 +77,43 @@ function decodeCreateOffline(o: any): CreateOfflinePayload {
     throw malformed('create_offline');
   }
   return { startedAt: o.startedAt, endedAt: o.endedAt, title: o.title, app: o?.app, browser: o?.browser };
+}
+function decodeOverrideEnvelope(o: any): OverrideEnvelopePayload {
+  if (
+    !Array.isArray(o?.eventIds) ||
+    !o.eventIds.every((n: unknown) => typeof n === 'number') ||
+    typeof o?.newStartedAt !== 'string' ||
+    typeof o?.newEndedAt !== 'string'
+  ) {
+    throw malformed('override_envelope');
+  }
+  return { eventIds: o.eventIds, newStartedAt: o.newStartedAt, newEndedAt: o.newEndedAt };
+}
+function decodeDuplicate(o: any): DuplicatePayload {
+  if (!Array.isArray(o?.eventIds) || !o.eventIds.every((n: unknown) => typeof n === 'number')) {
+    throw malformed('duplicate');
+  }
+  return { eventIds: o.eventIds, offsetMinutes: o?.offsetMinutes };
+}
+function decodeNote(o: any): NotePayload {
+  if (
+    !Array.isArray(o?.eventIds) ||
+    !o.eventIds.every((n: unknown) => typeof n === 'number') ||
+    typeof o?.note !== 'string'
+  ) {
+    throw malformed('note');
+  }
+  return { eventIds: o.eventIds, note: o.note };
+}
+function decodeMarkOffline(o: any): MarkOfflinePayload {
+  if (
+    !Array.isArray(o?.eventIds) ||
+    !o.eventIds.every((n: unknown) => typeof n === 'number') ||
+    typeof o?.offline !== 'boolean'
+  ) {
+    throw malformed('mark_offline');
+  }
+  return { eventIds: o.eventIds, offline: o.offline };
 }
 
 function malformed(op: string): Error {
