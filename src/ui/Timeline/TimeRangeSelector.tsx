@@ -52,8 +52,8 @@ export function TimeRangeSelector({ anchorX, anchorY, defaults, onSubmit, onCanc
   function submit() {
     if (!title.trim()) return; // require a label
     onSubmit({
-      startedAt: fromLocalInput(startStr).toISOString(),
-      endedAt: fromLocalInput(endStr).toISOString(),
+      startedAt: fromLocalInput(startStr, defaults.startedAt).toISOString(),
+      endedAt: fromLocalInput(endStr, defaults.endedAt).toISOString(),
       title: title.trim(),
       app: app.trim() || undefined,
       browser: browser.trim() || undefined,
@@ -150,9 +150,9 @@ function toLocalInput(d: Date): string {
   return `${hh}:${mm}`;
 }
 
-function fromLocalInput(hhmm: string): Date {
+function fromLocalInput(hhmm: string, baseDate: Date): Date {
   const [h, m] = hhmm.split(':').map(Number);
-  const d = new Date();
+  const d = new Date(baseDate);
   d.setHours(h || 0, m || 0, 0, 0);
   return d;
 }

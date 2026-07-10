@@ -71,6 +71,21 @@ export function applySplit(
   a.customTitle = target.customTitle;
   a.note = target.note;
 
+  // Preserve user-overridden envelope bounds if they were modified from the natural event times.
+  const firstEv = target.events[0];
+  const lastEv = target.events[target.events.length - 1];
+  const naturalTargetStart = firstEv ? new Date(firstEv.startedAt).getTime() : target.startedAt.getTime();
+  const naturalTargetEnd = lastEv ? new Date(lastEv.endedAt).getTime() : target.endedAt.getTime();
+
+  if (target.startedAt.getTime() !== naturalTargetStart) {
+    a.startedAt = target.startedAt;
+    a.duration = Math.max(0, a.endedAt.getTime() - a.startedAt.getTime());
+  }
+  if (target.endedAt.getTime() !== naturalTargetEnd) {
+    b.endedAt = target.endedAt;
+    b.duration = Math.max(0, b.endedAt.getTime() - b.startedAt.getTime());
+  }
+
   return [...events.slice(0, idx), a, b, ...events.slice(idx + 1)];
 }
 
@@ -107,6 +122,20 @@ export function applyMerge(
     );
     merged.customTitle = working[fromIdx].customTitle ?? next.customTitle;
     merged.note = working[fromIdx].note ?? next.note;
+
+    // Preserve start of the first session and end of the second session if they had overrides
+    const firstEvOfFirst = working[fromIdx].events[0];
+    const lastEvOfSecond = next.events[next.events.length - 1];
+    const naturalFirstStart = firstEvOfFirst ? new Date(firstEvOfFirst.startedAt).getTime() : working[fromIdx].startedAt.getTime();
+    const naturalLastEnd = lastEvOfSecond ? new Date(lastEvOfSecond.endedAt).getTime() : next.endedAt.getTime();
+
+    if (working[fromIdx].startedAt.getTime() !== naturalFirstStart) {
+      merged.startedAt = working[fromIdx].startedAt;
+    }
+    if (next.endedAt.getTime() !== naturalLastEnd) {
+      merged.endedAt = next.endedAt;
+    }
+    merged.duration = Math.max(0, merged.endedAt.getTime() - merged.startedAt.getTime());
 
     working = [...working.slice(0, fromIdx), merged, ...working.slice(toIdx + 1)];
   }

@@ -1,23 +1,17 @@
-/**
- * Pulsing current-time indicator. Only meaningful when viewing "today" — the
- * parent controls visibility. Positioned absolutely by its Y offset.
- */
 import { memo } from 'react';
-import { RULER_WIDTH } from './timelineUtils';
 
 interface CurrentTimeIndicatorProps {
   top: number;
-  width: number;
 }
 
-export const CurrentTimeIndicator = memo(function CurrentTimeIndicator({ top, width }: CurrentTimeIndicatorProps) {
+export const CurrentTimeIndicator = memo(function CurrentTimeIndicator({ top }: CurrentTimeIndicatorProps) {
   return (
     <div
       style={{
         position: 'absolute',
         top,
-        left: RULER_WIDTH,
-        width,
+        left: 0,
+        right: 0,
         height: 2,
         background: 'var(--danger)',
         boxShadow: '0 0 0 1px var(--bg), 0 0 12px var(--danger-soft)',
@@ -29,7 +23,7 @@ export const CurrentTimeIndicator = memo(function CurrentTimeIndicator({ top, wi
       <div
         style={{
           position: 'absolute',
-          left: -6,
+          left: -5,
           top: -4,
           width: 10,
           height: 10,

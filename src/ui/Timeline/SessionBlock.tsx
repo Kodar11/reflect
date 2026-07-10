@@ -45,9 +45,9 @@ interface SessionBlockProps {
   actions: SessionBlockActions;
 }
 
-const TINY_THRESHOLD = 52;
-const MEDIUM_THRESHOLD = 72;
-const LARGE_THRESHOLD = 108;
+const TINY_THRESHOLD = 68;
+const MEDIUM_THRESHOLD = 96;
+const LARGE_THRESHOLD = 130;
 
 export function SessionBlock({
   session,
@@ -114,18 +114,17 @@ export function SessionBlock({
       }}
       onContextMenu={(e) => actions.onContextMenu?.(e, session)}
       title={tooltip}
-      className="session-block"
+      className="session-block animate-fadeIn"
       style={{
         position: 'absolute',
         top,
         left,
-        width,
+        width: width - 4, // subtle horizontal spacing between lanes
         height: visualHeight,
-        borderRadius: 8,
-        padding: tiny ? '6px 10px 6px 13px' : medium ? '9px 12px 9px 14px' : '7px 11px 7px 13px',
+        borderRadius: 10,
+        padding: tiny ? '8px 12px 8px 18px' : medium ? '12px 14px 12px 20px' : '10px 12px 10px 18px',
         background: fill,
         border: `1px ${borderStyle} ${borderColor}`,
-        borderLeft: `${invalid || isSelected ? '1px' : 'var(--block-accent-w)'} solid ${invalid ? 'var(--danger)' : isSelected ? 'var(--block-selected-border)' : accent}`,
         color: 'var(--text)',
         overflow: 'hidden',
         cursor: readonly ? 'default' : 'pointer',
@@ -137,23 +136,24 @@ export function SessionBlock({
         boxShadow: isSelected ? 'var(--shadow-md)' : 'none',
         userSelect: 'none',
         contain: 'layout paint',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: tiny ? 'center' : 'flex-start',
       }}
     >
-      {/* Rotate the accent bar to be its own left-edge element when neutral. */}
-      {!isSelected && !invalid && (
-        <span
-          aria-hidden
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: 3,
-            background: accent,
-            opacity: 0.55,
-          }}
-        />
-      )}
+      {/* Category/Accent bar inside the card border */}
+      <span
+        aria-hidden
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          width: 5,
+          background: invalid ? 'var(--danger)' : accent,
+          opacity: 0.9,
+        }}
+      />
 
       {/* Resize handles — hidden in read-only mode and in preview. */}
       {!readonly && !isPreview && (
@@ -161,12 +161,12 @@ export function SessionBlock({
           <div
             className="resize-handle-top"
             onMouseDown={(e) => { e.stopPropagation(); actions.onStartResize(session.id, 'top', e); }}
-            style={{ position: 'absolute', top: -3, left: 10, right: 10, height: 6, cursor: 'ns-resize', zIndex: 3, borderTop: '2px solid var(--block-selected-border)', opacity: isSelected ? 0.65 : 0 }}
+            style={{ position: 'absolute', top: -3, left: 10, right: 10, height: 6, cursor: 'ns-resize', zIndex: 3, borderTop: '2px solid var(--block-selected-border)', opacity: isSelected ? 0.75 : 0, transition: 'opacity 100ms ease' }}
           />
           <div
             className="resize-handle-bottom"
             onMouseDown={(e) => { e.stopPropagation(); actions.onStartResize(session.id, 'bottom', e); }}
-            style={{ position: 'absolute', bottom: -3, left: 10, right: 10, height: 6, cursor: 'ns-resize', zIndex: 3, borderBottom: '2px solid var(--block-selected-border)', opacity: isSelected ? 0.65 : 0 }}
+            style={{ position: 'absolute', bottom: -3, left: 10, right: 10, height: 6, cursor: 'ns-resize', zIndex: 3, borderBottom: '2px solid var(--block-selected-border)', opacity: isSelected ? 0.75 : 0, transition: 'opacity 100ms ease' }}
           />
         </>
       )}
@@ -177,14 +177,14 @@ export function SessionBlock({
           initial={session.title}
           onCommit={(v) => { setEditing(false); actions.onRename(session.id, v); }}
           onCancel={() => setEditing(false)}
-          className={tiny ? 'text-[11px]' : undefined}
+          className={tiny ? 'text-[11.5px]' : undefined}
         />
       ) : (
         <div
           style={{
-            fontSize: tiny ? '12.5px' : medium ? '14px' : '13px',
-            fontWeight: 650,
-            lineHeight: tiny ? '30px' : 1.2,
+            fontSize: tiny ? '13px' : medium ? '15.5px' : '14px',
+            fontWeight: 700,
+            lineHeight: 1.2,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -194,16 +194,24 @@ export function SessionBlock({
         </div>
       )}
 
-      {medium && !editing && (
-        <div style={{ fontSize: large ? '11.5px' : '11px', color: 'var(--text-muted)', marginTop: 5, lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {large ? `${fmtHm(session.startedAt)}-${fmtHm(session.endedAt)}` : fmtDuration(session.duration)}
-        </div>
-      )}
-
-      {large && !editing && (
-        <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginTop: 4, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {fmtDuration(session.duration)}
-        </div>
+      {/* Subtitles: Adaptive layout depending on height */}
+      {!tiny && !editing && (
+        <>
+          {large ? (
+            <>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: 6, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {fmtHm(session.startedAt)} – {fmtHm(session.endedAt)}
+              </div>
+              <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginTop: 4, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {fmtDuration(session.duration)}
+              </div>
+            </>
+          ) : (
+            <div style={{ fontSize: '11.5px', color: 'var(--text-muted)', marginTop: 4, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              {fmtHm(session.startedAt)} – {fmtHm(session.endedAt)} · {fmtDuration(session.duration)}
+            </div>
+          )}
+        </>
       )}
     </div>
   );

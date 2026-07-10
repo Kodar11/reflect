@@ -70,9 +70,9 @@
   --block-offline: rgba(120, 120, 120, 0.10);
   --block-offline-border: rgba(120, 120, 120, 0.40);
   --block-accent-w: 3px;
-  --timeline-hour-band: rgba(55, 53, 47, 0.025);
-  --timeline-grid-major: rgba(55, 53, 47, 0.115);
-  --timeline-grid-minor: rgba(55, 53, 47, 0.055);
+  --timeline-hour-band: rgba(55, 53, 47, 0.035);
+  --timeline-grid-major: rgba(55, 53, 47, 0.08);
+  --timeline-grid-minor: rgba(55, 53, 47, 0.04);
 
   --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05);
   --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.08);
@@ -125,9 +125,9 @@
   --block-selected-border: var(--accent);
   --block-offline: rgba(255, 255, 255, 0.07);
   --block-offline-border: rgba(255, 255, 255, 0.28);
-  --timeline-hour-band: rgba(255, 255, 255, 0.025);
-  --timeline-grid-major: rgba(255, 255, 255, 0.105);
-  --timeline-grid-minor: rgba(255, 255, 255, 0.045);
+  --timeline-hour-band: rgba(255, 255, 255, 0.035);
+  --timeline-grid-major: rgba(255, 255, 255, 0.07);
+  --timeline-grid-minor: rgba(255, 255, 255, 0.03);
   --block-hue-0: #4aa1ff;
   --block-hue-1: #4dab9a;
   --block-hue-2: #9f7dff;
@@ -283,20 +283,35 @@ input, textarea, select {
 
 .session-block:hover {
   background: var(--block-neutral-hover) !important;
-  border-color: var(--border-strong) !important;
-  box-shadow: var(--shadow-md);
-  transform: translateY(-1px);
+  border-color: var(--accent) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06), 0 0 0 1px var(--accent-soft);
+  transform: translateY(-1.5px);
 }
 
 .session-block:hover .resize-handle-top,
 .session-block:hover .resize-handle-bottom {
-  opacity: 0.65 !important;
+  opacity: 0.75 !important;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 140ms var(--ease-out) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 @keyframes inspectorIn {
   from {
     opacity: 0;
-    transform: translateX(6px);
+    transform: translateX(8px);
   }
   to {
     opacity: 1;

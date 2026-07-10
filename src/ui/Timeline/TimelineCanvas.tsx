@@ -20,6 +20,7 @@ import {
   computeLaneLayout,
   RULER_WIDTH,
   TIMELINE_SIDE_PADDING,
+  pxToTime,
 } from './timelineUtils';
 
 export interface TimelineCanvasHandle {
@@ -40,7 +41,7 @@ export interface TimelineCanvasProps {
   onStartDrag: (id: string, e: React.MouseEvent) => void;
   onStartResize: (id: string, edge: 'top' | 'bottom', e: React.MouseEvent) => void;
   onContextMenu?: (e: React.MouseEvent, session: VerifiedSessionDto) => void;
-  onCreateOfflineAt?: (x: number, y: number) => void;
+  onCreateOfflineAt?: (time: Date, x: number, y: number) => void;
 }
 
 export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasProps>(
@@ -130,9 +131,6 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
         ref={containerRef}
         data-timeline-canvas
         onMouseDown={(e) => { if (e.target === e.currentTarget) onSelect(''); }}
-        onDoubleClick={(e) => {
-          if (e.target === e.currentTarget) onCreateOfflineAt?.(e.clientX, e.clientY);
-        }}
         style={{
           position: 'relative',
           flex: 1,
@@ -140,78 +138,116 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
           overflowX: 'hidden',
           background: 'var(--bg)',
           minWidth: 0,
+          height: '100%',
         }}
       >
-        <HourGrid height={totalHeight} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            height: totalHeight,
+            position: 'relative',
+          }}
+        >
+          {/* Left Time Column (fixed width, scrolls vertically naturally with flex row) */}
+          <Ruler height={totalHeight} />
 
-        <Ruler scrollTop={viewport.top} viewportHeight={viewport.height} height={totalHeight} />
-
-        {nowTop !== null && <CurrentTimeIndicator top={nowTop} width={contentWidth} />}
-
-        {hasSessions ? (
+          {/* Right Day Canvas */}
           <div
             onMouseDown={(e) => { if (e.target === e.currentTarget) onSelect(''); }}
             onDoubleClick={(e) => {
-              if (e.target === e.currentTarget) onCreateOfflineAt?.(e.clientX, e.clientY);
+              if (e.target === e.currentTarget) {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const clickY = e.clientY - rect.top;
+                const clickTime = pxToTime(baseDay, clickY);
+                onCreateOfflineAt?.(clickTime, e.clientX, e.clientY);
+              }
             }}
             style={{
-              position: 'absolute',
-              left: RULER_WIDTH,
-              top: 0,
-              width: contentWidth,
-              height: totalHeight,
-              transform: `translateX(${TIMELINE_SIDE_PADDING}px)`,
+              flex: 1,
+              position: 'relative',
+              height: '100%',
+              overflow: 'hidden',
             }}
           >
-            {visibleBlocks.map(({ session, top, height, left, width }) => (
-              <SessionBlock
-                key={session.id}
-                session={session}
-                top={top}
-                height={height}
-                width={width}
-                left={left}
-                isSelected={selectedId === session.id}
-                renameRequestNonce={renameRequest?.id === session.id ? renameRequest.nonce : undefined}
-                readonly={readonly}
-                actions={{
-                  onSelect,
-                  onRename,
-                  onStartDrag,
-                  onStartResize,
-                  onContextMenu,
-                }}
-              />
-            ))}
+            <HourGrid height={totalHeight} />
 
-            {previewSession && (() => {
-              const lane = laneLayout.get(previewSession.session.id) ?? { lane: 0, laneCount: 1 };
-              const laneWidth = contentWidth / lane.laneCount;
-              return (
-                <SessionBlock
-                  session={previewSession.session}
-                  top={previewSession.top}
-                  height={previewSession.height}
-                  width={laneWidth}
-                  left={lane.lane * laneWidth}
-                  isSelected
-                  isPreview
-                  invalid={previewSession.invalid}
-                  readonly
-                  actions={{
-                    onSelect: () => {},
-                    onRename: () => {},
-                    onStartDrag: () => {},
-                    onStartResize: () => {},
-                    onContextMenu: () => {},
-                  }}
-                />
-              );
-            })()}
+            {/* Session Blocks and Current Time Line Container */}
+            <div
+              onMouseDown={(e) => { if (e.target === e.currentTarget) onSelect(''); }}
+              onDoubleClick={(e) => {
+                if (e.target === e.currentTarget) {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const clickY = e.clientY - rect.top;
+                  const clickTime = pxToTime(baseDay, clickY);
+                  onCreateOfflineAt?.(clickTime, e.clientX, e.clientY);
+                }
+              }}
+              style={{
+                position: 'absolute',
+                left: TIMELINE_SIDE_PADDING,
+                right: TIMELINE_SIDE_PADDING,
+                top: 0,
+                bottom: 0,
+              }}
+            >
+              {nowTop !== null && <CurrentTimeIndicator top={nowTop} />}
+
+              {hasSessions ? (
+                <>
+                  {visibleBlocks.map(({ session, top, height, left, width }) => (
+                    <SessionBlock
+                      key={session.id}
+                      session={session}
+                      top={top}
+                      height={height}
+                      width={width}
+                      left={left}
+                      isSelected={selectedId === session.id}
+                      renameRequestNonce={renameRequest?.id === session.id ? renameRequest.nonce : undefined}
+                      readonly={readonly}
+                      actions={{
+                        onSelect,
+                        onRename,
+                        onStartDrag,
+                        onStartResize,
+                        onContextMenu,
+                      }}
+                    />
+                  ))}
+
+                  {previewSession && (() => {
+                    const lane = laneLayout.get(previewSession.session.id) ?? { lane: 0, laneCount: 1 };
+                    const laneWidth = contentWidth / lane.laneCount;
+                    return (
+                      <SessionBlock
+                        session={previewSession.session}
+                        top={previewSession.top}
+                        height={previewSession.height}
+                        width={laneWidth}
+                        left={lane.lane * laneWidth}
+                        isSelected
+                        isPreview
+                        invalid={previewSession.invalid}
+                        readonly
+                        actions={{
+                          onSelect: () => {},
+                          onRename: () => {},
+                          onStartDrag: () => {},
+                          onStartResize: () => {},
+                          onContextMenu: () => {},
+                        }}
+                      />
+                    );
+                  })()}
+                </>
+              ) : (
+                <EmptyState isToday={canvasIsToday} />
+              )}
+            </div>
           </div>
-        ) : (
-          <EmptyState isToday={canvasIsToday} />
-        )}
+        </div>
       </div>
     );
   },

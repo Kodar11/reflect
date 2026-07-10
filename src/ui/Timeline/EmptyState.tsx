@@ -5,7 +5,6 @@
  * can still see the day's hours).
  */
 import { memo } from 'react';
-import { RULER_WIDTH } from './timelineUtils';
 
 interface EmptyStateProps {
   isToday: boolean;
@@ -16,7 +15,7 @@ export const EmptyState = memo(function EmptyState({ isToday }: EmptyStateProps)
     <div
       style={{
         position: 'absolute',
-        left: RULER_WIDTH,
+        left: 0,
         right: 0,
         top: 0,
         bottom: 0,

@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { DAY_PX_PER_HOUR, RULER_WIDTH } from './timelineUtils';
+import { DAY_PX_PER_HOUR } from './timelineUtils';
 
 interface HourGridProps {
   height: number;
@@ -13,16 +13,17 @@ export const HourGrid = memo(function HourGrid({ height }: HourGridProps) {
     <div
       style={{
         position: 'absolute',
-        left: RULER_WIDTH,
+        left: 0,
         top: 0,
         right: 0,
         height,
         backgroundImage: `
-          repeating-linear-gradient(to bottom, var(--timeline-hour-band) 0 ${hourStep}px, transparent ${hourStep}px ${hourStep * 2}px),
-          repeating-linear-gradient(to bottom, var(--timeline-grid-major) 0 1px, transparent 1px ${hourStep}px),
-          repeating-linear-gradient(to bottom, var(--timeline-grid-minor) 0 1px, transparent 1px ${halfStep}px)
+          linear-gradient(to bottom, var(--timeline-hour-band) 0px, var(--timeline-hour-band) ${hourStep}px, transparent ${hourStep}px, transparent ${hourStep * 2}px),
+          linear-gradient(to bottom, var(--timeline-grid-major) 1px, transparent 1px),
+          linear-gradient(to bottom, var(--timeline-grid-minor) 1px, transparent 1px)
         `,
         backgroundSize: `100% ${hourStep * 2}px, 100% ${hourStep}px, 100% ${halfStep}px`,
+        backgroundRepeat: 'repeat-y',
         pointerEvents: 'none',
         zIndex: 0,
       }}

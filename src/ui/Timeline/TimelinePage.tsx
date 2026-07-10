@@ -32,6 +32,7 @@ import {
   endOfDay,
   sortByStart,
   sessionDetailsText,
+  snapTime,
 } from './timelineUtils';
 
 const POLL_MS = 2500;
@@ -44,7 +45,7 @@ export function TimelinePage() {
   const [renameRequest, setRenameRequest] = useState<{ id: string; nonce: number } | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; session: VerifiedSessionDto } | null>(null);
-  const [offlinePopover, setOfflinePopover] = useState<{ x: number; y: number } | null>(null);
+  const [offlinePopover, setOfflinePopover] = useState<{ x: number; y: number; startedAt?: Date; endedAt?: Date } | null>(null);
 
   const canvasRef = useRef<TimelineCanvasHandle>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
@@ -264,8 +265,17 @@ export function TimelinePage() {
             onStartDrag={onStartDrag}
             onStartResize={onStartResize}
             onContextMenu={(e, session) => { e.preventDefault(); setContextMenu({ x: e.clientX, y: e.clientY, session }); }}
-            onCreateOfflineAt={(x, y) => {
-              if (!readOnly) setOfflinePopover({ x: Math.min(x, window.innerWidth - 300), y: Math.min(y, window.innerHeight - 260) });
+            onCreateOfflineAt={(time, x, y) => {
+              if (!readOnly) {
+                const snappedStart = snapTime(time);
+                const snappedEnd = new Date(snappedStart.getTime() + 60 * 60_000); // 1h default
+                setOfflinePopover({
+                  x: Math.min(x, window.innerWidth - 300),
+                  y: Math.min(y, window.innerHeight - 260),
+                  startedAt: snappedStart,
+                  endedAt: snappedEnd,
+                });
+              }
             }}
           />
         </div>
@@ -308,7 +318,10 @@ export function TimelinePage() {
         <TimeRangeSelector
           anchorX={offlinePopover.x}
           anchorY={offlinePopover.y}
-          defaults={defaultOfflineRange(day)}
+          defaults={{
+            startedAt: offlinePopover.startedAt ?? defaultOfflineRange(day).startedAt,
+            endedAt: offlinePopover.endedAt ?? defaultOfflineRange(day).endedAt,
+          }}
           onSubmit={submitOffline}
           onCancel={() => setOfflinePopover(null)}
         />

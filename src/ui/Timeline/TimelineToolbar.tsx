@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight, Plus, RotateCcw, RotateCw } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, RotateCcw, RotateCw, Calendar } from 'lucide-react';
 
 interface TimelineToolbarProps {
   dayLabel: string;
@@ -37,48 +37,79 @@ export function TimelineToolbar({
         zIndex: 30,
         display: 'flex',
         alignItems: 'center',
-        gap: 10,
-        padding: '10px 14px',
+        justifyContent: 'space-between',
+        padding: '12px 24px',
         background: 'var(--bg)',
         borderBottom: '1px solid var(--border)',
         flexShrink: 0,
       }}
     >
-      <span style={{ fontWeight: 650, fontSize: '15px', minWidth: 74 }}>Timeline</span>
+      {/* Left section: Date Navigation & Picker */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 2, background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: 2 }}>
+          <TBtn onClick={onPrevDay} title="Previous day" icon><ChevronLeft size={16} /></TBtn>
+          
+          <div style={{ position: 'relative', display: 'flex', alignItems: 'center', padding: '0 8px', gap: 6 }}>
+            <Calendar size={13} style={{ color: 'var(--text-muted)' }} />
+            <input
+              type="date"
+              aria-label="Choose Date"
+              onChange={(e) => { if (e.target.value) onPickDay(e.target.value); }}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                opacity: 0,
+                cursor: 'pointer',
+              }}
+            />
+            <span style={{ fontSize: '13px', color: 'var(--text)', userSelect: 'none', fontWeight: 600 }}>
+              {dayLabel}
+            </span>
+          </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 4, border: '1px solid var(--border)', borderRadius: 8, padding: 3, background: 'var(--bg-secondary)' }}>
-        <TBtn onClick={onPrevDay} title="Previous day" icon><ChevronLeft size={15} /></TBtn>
-        <input
-          type="date"
-          onChange={(e) => { if (e.target.value) onPickDay(e.target.value); }}
-          style={{
-            border: 'none',
-            background: 'transparent',
-            color: 'var(--text-muted)',
-            fontSize: '12.5px',
-            padding: '2px 6px',
-            outline: 'none',
-            cursor: 'pointer',
-            width: 112,
-          }}
-        />
-        <span style={{ fontSize: '12.5px', color: 'var(--text)', minWidth: 104, textAlign: 'center', userSelect: 'none', fontWeight: 500 }}>
-          {dayLabel}
-        </span>
-        <TBtn onClick={onNextDay} title="Next day" icon><ChevronRight size={15} /></TBtn>
-        <TBtn onClick={onToday} disabled={isToday} title="Jump to today">Today</TBtn>
+          <TBtn onClick={onNextDay} title="Next day" icon><ChevronRight size={16} /></TBtn>
+        </div>
+
+        <TBtn onClick={onToday} disabled={isToday} title="Jump to today" style={{
+          background: isToday ? 'transparent' : 'var(--bg-secondary)',
+          border: '1px solid var(--border)',
+          borderRadius: 'var(--radius-md)',
+          padding: '0 12px',
+          fontWeight: 600,
+        }}>
+          Today
+        </TBtn>
       </div>
 
-      <div style={{ flex: 1 }} />
+      {/* Right section: Undo/Redo & Offline Activity */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: 2 }}>
+          <TBtn disabled={!canUndo} onClick={onUndo} title="Undo (Ctrl+Z)" icon><RotateCcw size={14} /></TBtn>
+          <TBtn disabled={!canRedo} onClick={onRedo} title="Redo (Ctrl+Shift+Z)" icon><RotateCw size={14} /></TBtn>
+        </div>
 
-      <TBtn disabled={!canUndo} onClick={onUndo} title="Undo (Ctrl+Z)" icon><RotateCcw size={14} /></TBtn>
-      <TBtn disabled={!canRedo} onClick={onRedo} title="Redo (Ctrl+Shift+Z)" icon><RotateCw size={14} /></TBtn>
-      <span style={{ width: 1, height: 16, background: 'var(--border)' }} />
-      <TBtn onClick={onInsertOffline} title="Add offline session (Ctrl+I)"><Plus size={14} /> Offline</TBtn>
+        <span style={{ width: 1, height: 16, background: 'var(--border)', margin: '0 2px' }} />
 
-      <span style={{ marginLeft: 4, fontSize: '11px', color: 'var(--text-faint)' }}>
-        {activeEdits > 0 ? `${activeEdits} edit${activeEdits === 1 ? '' : 's'}` : 'verified'}
-      </span>
+        <TBtn onClick={onInsertOffline} title="Add offline session (Ctrl+I)" style={{
+          background: 'var(--accent)',
+          color: 'var(--accent-text)',
+          borderRadius: 'var(--radius-md)',
+          padding: '0 14px',
+          fontWeight: 650,
+          boxShadow: 'var(--shadow-sm)',
+        }}>
+          <Plus size={14} /> Add Offline
+        </TBtn>
+
+        {activeEdits > 0 && (
+          <span style={{ marginLeft: 6, fontSize: '11px', color: 'var(--text-faint)', fontWeight: 500 }}>
+            {activeEdits} pending
+          </span>
+        )}
+      </div>
     </div>
   );
 }
@@ -89,12 +120,14 @@ function TBtn({
   disabled,
   title,
   icon,
+  style,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   disabled?: boolean;
   title?: string;
   icon?: boolean;
+  style?: React.CSSProperties;
 }) {
   return (
     <button
@@ -105,20 +138,24 @@ function TBtn({
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 5,
+        gap: 6,
         height: 28,
         minWidth: icon ? 28 : undefined,
-        padding: icon ? '0 6px' : '0 10px',
+        padding: icon ? '0' : '0 10px',
         borderRadius: 6,
         border: '1px solid transparent',
         background: 'transparent',
         color: disabled ? 'var(--text-faint)' : 'var(--text-muted)',
         fontSize: '12.5px',
         cursor: disabled ? 'default' : 'pointer',
-        transition: 'background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out)',
+        transition: 'background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out)',
+        ...style,
       }}
-      onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = 'var(--bg-hover)'; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
+      onMouseEnter={(e) => { if (!disabled) { (e.currentTarget as HTMLElement).style.background = 'var(--bg-hover)'; } }}
+      onMouseLeave={(e) => {
+        const bgVal = style?.background;
+        (e.currentTarget as HTMLElement).style.background = typeof bgVal === 'string' ? bgVal : 'transparent';
+      }}
     >
       {children}
     </button>
