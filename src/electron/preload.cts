@@ -40,3 +40,12 @@ electron.contextBridge.exposeInMainWorld('timeline', {
   status: (): Promise<{ activeEdits: number }> =>
     electron.ipcRenderer.invoke('timeline:status'),
 } satisfies Window['timeline']);
+
+electron.contextBridge.exposeInMainWorld('settings', {
+  exportTimeline: (format: 'csv' | 'json') =>
+    electron.ipcRenderer.invoke('export:timeline', { format }),
+  exportActivity: (format: 'csv' | 'json') =>
+    electron.ipcRenderer.invoke('export:activity', { format }),
+  exportSessions: (format: 'csv' | 'json') =>
+    electron.ipcRenderer.invoke('export:sessions', { format }),
+} satisfies Window['settings']);

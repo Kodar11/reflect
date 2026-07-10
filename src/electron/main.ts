@@ -24,6 +24,8 @@ import { registerSessionIpc } from '../session/sessionIpc.js';
 import { EditRepository } from '../database/EditRepository.js';
 import { TimelineService } from '../timeline/TimelineService.js';
 import { registerTimelineIpc } from '../timeline/timelineIpc.js';
+import { ExportService } from '../service/ExportService.js';
+import { registerExportIpc } from './exportIpc.js';
 import type { ActivitySample } from '../models/Event.js';
 
 let mainWindow: BrowserWindow | null = null;
@@ -153,6 +155,11 @@ app.whenReady().then(async () => {
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
   logger.info('[APP] Timeline service ready.');
+
+  // --- Construct the export layer (Stage 3.8) ---
+  const exportService = new ExportService(timelineService, repo, sessionService);
+  registerExportIpc(exportService, ipcMainHandle);
+  logger.info('[APP] Export service ready.');
 
   createMainWindow(logger);
   createTray(logger);

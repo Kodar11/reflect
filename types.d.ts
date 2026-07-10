@@ -82,4 +82,9 @@ interface Window {
     redo: () => Promise<{ ok: boolean }>;
     status: () => Promise<TimelineStatus>;
   };
+  settings: {
+    exportTimeline: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
+    exportActivity: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
+    exportSessions: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
+  };
 }
