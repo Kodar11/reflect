@@ -19,6 +19,7 @@ import {
   sortByStart,
   computeLaneLayout,
   RULER_WIDTH,
+  TIMELINE_SIDE_PADDING,
 } from './timelineUtils';
 
 export interface TimelineCanvasHandle {
@@ -39,6 +40,7 @@ export interface TimelineCanvasProps {
   onStartDrag: (id: string, e: React.MouseEvent) => void;
   onStartResize: (id: string, edge: 'top' | 'bottom', e: React.MouseEvent) => void;
   onContextMenu?: (e: React.MouseEvent, session: VerifiedSessionDto) => void;
+  onCreateOfflineAt?: (x: number, y: number) => void;
 }
 
 export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasProps>(
@@ -56,6 +58,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
       onStartDrag,
       onStartResize,
       onContextMenu,
+      onCreateOfflineAt,
     },
     ref,
   ) {
@@ -89,7 +92,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
     }, []);
 
     const totalHeight = fullDayHeight();
-    const contentWidth = Math.max(0, (containerRef.current?.clientWidth ?? 600) - RULER_WIDTH - 16);
+    const contentWidth = Math.max(0, (containerRef.current?.clientWidth ?? 600) - RULER_WIDTH - TIMELINE_SIDE_PADDING * 2);
 
     const laneLayout = useMemo(() => computeLaneLayout(sessions), [sessions]);
 
@@ -127,6 +130,9 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
         ref={containerRef}
         data-timeline-canvas
         onMouseDown={(e) => { if (e.target === e.currentTarget) onSelect(''); }}
+        onDoubleClick={(e) => {
+          if (e.target === e.currentTarget) onCreateOfflineAt?.(e.clientX, e.clientY);
+        }}
         style={{
           position: 'relative',
           flex: 1,
@@ -144,12 +150,17 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
 
         {hasSessions ? (
           <div
+            onMouseDown={(e) => { if (e.target === e.currentTarget) onSelect(''); }}
+            onDoubleClick={(e) => {
+              if (e.target === e.currentTarget) onCreateOfflineAt?.(e.clientX, e.clientY);
+            }}
             style={{
               position: 'absolute',
               left: RULER_WIDTH,
               top: 0,
               width: contentWidth,
               height: totalHeight,
+              transform: `translateX(${TIMELINE_SIDE_PADDING}px)`,
             }}
           >
             {visibleBlocks.map(({ session, top, height, left, width }) => (

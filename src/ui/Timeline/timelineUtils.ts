@@ -14,10 +14,11 @@ export const DAY_PX_PER_HOUR = 72;
 /** Snap grid for drag/resize, in minutes. */
 export const DAY_SNAP_MIN = 15;
 /** Left ruler column width. Wide enough for "12:00" + half-hour "30" ticks. */
-export const RULER_WIDTH = 56;
+export const RULER_WIDTH = 64;
+export const TIMELINE_SIDE_PADDING = 22;
 /** Minimum rendered block height so very short sessions stay clickable.
  * Rize-style: tiny 2–3 minute sessions still render tall enough to read. */
-export const MIN_BLOCK_HEIGHT = 34;
+export const MIN_BLOCK_HEIGHT = 44;
 
 /** Minutes in a day. */
 export const DAY_MIN = 24 * 60;

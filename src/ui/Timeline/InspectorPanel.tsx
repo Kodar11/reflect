@@ -6,6 +6,7 @@ import {
   fmtDuration,
   fmtHm,
   sessionCategory,
+  totalEventCount,
   totalTracked,
 } from './timelineUtils';
 
@@ -43,9 +44,9 @@ export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, action
         overflow: 'hidden',
       }}
     >
-      <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
+      <div style={{ padding: '14px 18px 12px', borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
-          <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 650, textTransform: 'uppercase' }}>
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
             Inspector
           </div>
           <div style={{ fontSize: '11.5px', color: 'var(--text-faint)' }}>
@@ -67,17 +68,34 @@ export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, action
 
 function EmptyInspector({ sessions }: { sessions: VerifiedSessionDto[] }) {
   const tracked = totalTracked(sessions);
+  const events = totalEventCount(sessions);
   return (
-    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <div>
-        <div style={{ fontSize: 22, fontWeight: 650, lineHeight: 1.1 }}>{fmtDuration(tracked)}</div>
-        <div style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginTop: 4 }}>
-          {sessions.length} session{sessions.length === 1 ? '' : 's'} tracked
+    <div style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 18, animation: 'inspectorIn 140ms var(--ease-out)' }}>
+      <section>
+        <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', marginBottom: 8 }}>
+          No Session Selected
         </div>
-      </div>
-      <div style={{ fontSize: '12.5px', color: 'var(--text-faint)', lineHeight: 1.5 }}>
-        Select a block to rename, annotate, inspect events, or edit the session.
-      </div>
+        <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+          Click any session to inspect or edit it. Double-click empty timeline space to create an offline activity.
+        </div>
+      </section>
+
+      <Section title="Instructions">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: '12.5px', color: 'var(--text-muted)' }}>
+          <div>Single click opens session details here.</div>
+          <div>Double click a session title to rename it.</div>
+          <div>Use the action buttons here for split, merge, or delete.</div>
+        </div>
+      </Section>
+
+      <Section title="Day Summary">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <Metric label="Sessions" value={String(sessions.length)} />
+          <Metric label="Tracked" value={fmtDuration(tracked)} />
+          <Metric label="Events" value={String(events)} />
+          <Metric label="Average" value={sessions.length ? fmtDuration(tracked / sessions.length) : '0s'} />
+        </div>
+      </Section>
     </div>
   );
 }
@@ -117,10 +135,10 @@ function SessionDetail({
   }, [sessions, session.id]);
 
   return (
-    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 16 }}>
+    <div style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 16, animation: 'inspectorIn 140ms var(--ease-out)' }}>
       <section>
-        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-          <div style={{ width: 10, height: 10, borderRadius: 3, marginTop: 6, background: `var(--block-hue-${hueIdx})`, flexShrink: 0 }} />
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 11 }}>
+          <div style={{ width: 12, height: 12, borderRadius: 4, marginTop: 6, background: `var(--block-hue-${hueIdx})`, flexShrink: 0 }} />
           <div style={{ minWidth: 0, flex: 1 }}>
             {editing ? (
               <InlineEditor
@@ -133,38 +151,48 @@ function SessionDetail({
               <button
                 onDoubleClick={() => { if (isToday) setEditing(true); }}
                 title={isToday ? 'Double-click to rename' : undefined}
-                style={{ display: 'block', width: '100%', textAlign: 'left', fontSize: 18, fontWeight: 650, lineHeight: 1.2, color: 'var(--text)', cursor: isToday ? 'text' : 'default' }}
+                style={{ display: 'block', width: '100%', textAlign: 'left', fontSize: 19, fontWeight: 700, lineHeight: 1.18, color: 'var(--text)', cursor: isToday ? 'text' : 'default' }}
               >
                 <span style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                   {session.title || (isOffline ? 'Offline activity' : 'Untitled session')}
                 </span>
               </button>
             )}
-            <div style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginTop: 6 }}>
-              {fmtHm(session.startedAt)}-{fmtHm(session.endedAt)} · {fmtDuration(session.duration)}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap', marginTop: 8 }}>
+              <span className="chip" style={{ borderColor: `var(--block-hue-${hueIdx})` }}>{labelForCategory(category)}</span>
+              <label style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: '12.5px', color: 'var(--text-muted)', cursor: isToday ? 'pointer' : 'default' }}>
+                <input
+                  type="checkbox"
+                  disabled={!isToday}
+                  checked={isOffline}
+                  onChange={(e) => actions.onToggleOffline(session.id, e.target.checked)}
+                />
+                Offline
+              </label>
             </div>
           </div>
         </div>
       </section>
 
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <Metric label="Start" value={fmtHm(session.startedAt)} />
+        <Metric label="End" value={fmtHm(session.endedAt)} />
+        <Metric label="Duration" value={fmtDuration(session.duration)} />
+        <Metric label="Events" value={String(session.eventCount)} />
+      </div>
+
       {!isToday && (
-        <div style={{ fontSize: '12px', color: 'var(--text-faint)', border: '1px solid var(--border)', borderRadius: 6, padding: '8px 10px', background: 'var(--bg)' }}>
+        <div style={{ fontSize: '12px', color: 'var(--text-faint)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 10px', background: 'var(--bg)' }}>
           This day is read-only. Editing is available for today's timeline.
         </div>
       )}
 
-      <Section title="Category">
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          <span className="chip" style={{ borderColor: `var(--block-hue-${hueIdx})` }}>{labelForCategory(category)}</span>
-          <label style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: '12.5px', color: 'var(--text-muted)', cursor: isToday ? 'pointer' : 'default' }}>
-            <input
-              type="checkbox"
-              disabled={!isToday}
-              checked={isOffline}
-              onChange={(e) => actions.onToggleOffline(session.id, e.target.checked)}
-            />
-            Offline
-          </label>
+      <Section title="Actions">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8 }}>
+          <InspBtn disabled={!isToday} onClick={() => setEditing(true)}>Rename</InspBtn>
+          <InspBtn disabled={!isToday} onClick={() => actions.onSplit(session.id)}>Split</InspBtn>
+          <InspBtn disabled={!isToday} onClick={() => actions.onMerge(session.id)}>Merge</InspBtn>
+          <InspBtn disabled={!isToday} onClick={() => actions.onDelete(session.id)} danger>Delete</InspBtn>
         </div>
       </Section>
 
@@ -179,38 +207,30 @@ function SessionDetail({
           style={{
             width: '100%',
             resize: 'vertical',
-            minHeight: 78,
-            padding: 9,
-            borderRadius: 6,
+            minHeight: 92,
+            padding: 10,
+            borderRadius: 8,
             border: '1px solid var(--border)',
             background: 'var(--bg)',
             color: 'var(--text)',
-            fontSize: '12.5px',
+            fontSize: '13px',
             lineHeight: 1.45,
             outline: 'none',
           }}
         />
       </Section>
 
-      <Section title="Apps Used">
-        <PillList values={session.appsUsed} empty="No app data" />
-      </Section>
-
-      <Section title="Websites">
-        <PillList values={session.browserTabs} empty={session.primaryUrl ? session.primaryUrl : 'No website data'} />
-      </Section>
-
-      <Section title="Raw Events">
+      <Section title="Event List">
         <DisclosureButton open={eventsOpen} onClick={() => setEventsOpen((v) => !v)}>
           {session.eventCount} event{session.eventCount === 1 ? '' : 's'}
         </DisclosureButton>
         {eventsOpen && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginTop: 9 }}>
             {session.eventIds.length === 0 ? (
               <div style={{ fontSize: '12px', color: 'var(--text-faint)' }}>No raw events attached.</div>
             ) : session.eventIds.map((id, index) => (
-              <div key={id} style={{ display: 'flex', alignItems: 'center', gap: 8, minHeight: 24, fontSize: '12px', color: 'var(--text-muted)' }}>
-                <span style={{ width: 18, color: 'var(--text-faint)', textAlign: 'right' }}>{index + 1}</span>
+              <div key={id} style={{ display: 'flex', alignItems: 'center', gap: 8, minHeight: 28, padding: '3px 0', fontSize: '12.5px', color: 'var(--text-muted)' }}>
+                <span style={{ width: 20, color: 'var(--text-faint)', textAlign: 'right' }}>{index + 1}</span>
                 <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {session.primaryApp || 'Activity'}{session.primaryTitle ? ` · ${session.primaryTitle}` : ''}
                 </span>
@@ -219,6 +239,14 @@ function SessionDetail({
             ))}
           </div>
         )}
+      </Section>
+
+      <Section title="Apps Used">
+        <PillList values={session.appsUsed} empty="No app data" />
+      </Section>
+
+      <Section title="Websites">
+        <PillList values={session.browserTabs} empty={session.primaryUrl ? session.primaryUrl : 'No website data'} />
       </Section>
 
       <Section title="History">
@@ -234,38 +262,27 @@ function SessionDetail({
           </div>
         )}
       </Section>
-
-      <Section title="Actions">
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8 }}>
-          <InspBtn disabled={!isToday} onClick={() => setEditing(true)}>Rename</InspBtn>
-          <InspBtn disabled={!isToday} onClick={() => actions.onSplit(session.id)}>Split</InspBtn>
-          <InspBtn disabled={!isToday} onClick={() => actions.onMerge(session.id)}>Merge</InspBtn>
-          <InspBtn disabled={!isToday} onClick={() => actions.onDuplicate(session.id)}>Duplicate</InspBtn>
-          <InspBtn disabled={!isToday} onClick={() => actions.onToggleOffline(session.id, !isOffline)}>Convert Offline</InspBtn>
-          <InspBtn onClick={() => actions.onCopyDetails(session)}>Copy Details</InspBtn>
-          <InspBtn disabled={!isToday} onClick={() => actions.onDelete(session.id)} danger>Delete</InspBtn>
-        </div>
-      </Section>
-
-      <Section title="Future AI">
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-          <Placeholder>Explain</Placeholder>
-          <Placeholder>Classify</Placeholder>
-          <Placeholder>Project</Placeholder>
-        </div>
-      </Section>
     </div>
   );
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section style={{ borderTop: '1px solid var(--border)', paddingTop: 12 }}>
-      <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 650, marginBottom: 8 }}>
+    <section style={{ borderTop: '1px solid var(--border)', paddingTop: 13 }}>
+      <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 9 }}>
         {title}
       </div>
       {children}
     </section>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 11px', minWidth: 0 }}>
+      <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700 }}>{label}</div>
+      <div style={{ fontSize: '15px', color: 'var(--text)', fontWeight: 700, marginTop: 3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
+    </div>
   );
 }
 
@@ -303,14 +320,6 @@ function HistoryLine({ label, value }: { label: string; value: string }) {
   );
 }
 
-function Placeholder({ children }: { children: React.ReactNode }) {
-  return (
-    <span style={{ display: 'inline-flex', alignItems: 'center', padding: '3px 8px', borderRadius: 6, border: '1px dashed var(--border-strong)', color: 'var(--text-faint)', fontSize: '11.5px' }}>
-      {children}
-    </span>
-  );
-}
-
 function InspBtn({ children, onClick, disabled, danger }: { children: React.ReactNode; onClick: () => void; disabled?: boolean; danger?: boolean }) {
   return (
     <button
@@ -320,15 +329,16 @@ function InspBtn({ children, onClick, disabled, danger }: { children: React.Reac
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: 30,
+        minHeight: 32,
         padding: '0 10px',
-        borderRadius: 6,
+        borderRadius: 8,
         border: `1px solid ${danger ? 'var(--danger)' : 'var(--border)'}`,
         background: danger ? 'var(--danger-soft)' : 'var(--bg)',
         color: disabled ? 'var(--text-faint)' : danger ? 'var(--danger)' : 'var(--text)',
-        fontSize: '12px',
-        fontWeight: 500,
+        fontSize: '12.5px',
+        fontWeight: 650,
         cursor: disabled ? 'not-allowed' : 'pointer',
+        transition: 'background 130ms var(--ease-out), border-color 130ms var(--ease-out), transform 130ms var(--ease-out)',
       }}
     >
       {children}

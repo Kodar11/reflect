@@ -264,6 +264,9 @@ export function TimelinePage() {
             onStartDrag={onStartDrag}
             onStartResize={onStartResize}
             onContextMenu={(e, session) => { e.preventDefault(); setContextMenu({ x: e.clientX, y: e.clientY, session }); }}
+            onCreateOfflineAt={(x, y) => {
+              if (!readOnly) setOfflinePopover({ x: Math.min(x, window.innerWidth - 300), y: Math.min(y, window.innerHeight - 260) });
+            }}
           />
         </div>
 

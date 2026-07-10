@@ -45,9 +45,9 @@ interface SessionBlockProps {
   actions: SessionBlockActions;
 }
 
-const TINY_THRESHOLD = 38;
-const MEDIUM_THRESHOLD = 62;
-const LARGE_THRESHOLD = 86;
+const TINY_THRESHOLD = 52;
+const MEDIUM_THRESHOLD = 72;
+const LARGE_THRESHOLD = 108;
 
 export function SessionBlock({
   session,
@@ -121,8 +121,8 @@ export function SessionBlock({
         left,
         width,
         height: visualHeight,
-        borderRadius: 6,
-        padding: tiny ? '2px 7px 2px 10px' : medium ? '7px 10px 7px 12px' : '4px 8px 4px 10px',
+        borderRadius: 8,
+        padding: tiny ? '6px 10px 6px 13px' : medium ? '9px 12px 9px 14px' : '7px 11px 7px 13px',
         background: fill,
         border: `1px ${borderStyle} ${borderColor}`,
         borderLeft: `${invalid || isSelected ? '1px' : 'var(--block-accent-w)'} solid ${invalid ? 'var(--danger)' : isSelected ? 'var(--block-selected-border)' : accent}`,
@@ -132,7 +132,7 @@ export function SessionBlock({
         opacity: isPreview ? 0.92 : 1,
         transition: isPreview
           ? 'none'
-          : `box-shadow var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out)`,
+          : `box-shadow 130ms var(--ease-out), border-color 130ms var(--ease-out), background-color 130ms var(--ease-out), transform 130ms var(--ease-out)`,
         zIndex: isSelected ? 10 : isPreview ? 20 : 2,
         boxShadow: isSelected ? 'var(--shadow-md)' : 'none',
         userSelect: 'none',
@@ -182,9 +182,9 @@ export function SessionBlock({
       ) : (
         <div
           style={{
-            fontSize: tiny ? '11px' : medium ? '13px' : '12px',
-            fontWeight: 600,
-            lineHeight: tiny ? '28px' : 1.25,
+            fontSize: tiny ? '12.5px' : medium ? '14px' : '13px',
+            fontWeight: 650,
+            lineHeight: tiny ? '30px' : 1.2,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -195,8 +195,14 @@ export function SessionBlock({
       )}
 
       {medium && !editing && (
-        <div style={{ fontSize: '10.5px', color: 'var(--text-muted)', marginTop: 3, lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {large ? `${fmtHm(session.startedAt)}-${fmtHm(session.endedAt)} · ` : ''}{fmtDuration(session.duration)}
+        <div style={{ fontSize: large ? '11.5px' : '11px', color: 'var(--text-muted)', marginTop: 5, lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {large ? `${fmtHm(session.startedAt)}-${fmtHm(session.endedAt)}` : fmtDuration(session.duration)}
+        </div>
+      )}
+
+      {large && !editing && (
+        <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginTop: 4, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {fmtDuration(session.duration)}
         </div>
       )}
     </div>

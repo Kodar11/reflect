@@ -42,7 +42,7 @@ export const Ruler = memo(function Ruler({ scrollTop, viewportHeight, height }: 
         width: RULER_WIDTH,
         height,
         borderRight: '1px solid var(--border)',
-        background: 'var(--bg-secondary)',
+        background: 'var(--bg)',
         zIndex: 5,
         pointerEvents: 'none',
         overflow: 'hidden',
@@ -65,19 +65,22 @@ export const Ruler = memo(function Ruler({ scrollTop, viewportHeight, height }: 
           >
             <div
               style={{
-                width: t.minor ? 5 : 9,
+                width: t.minor ? 6 : 12,
                 height: 1,
-                background: t.minor ? 'var(--border-strong)' : 'var(--text-muted)',
-                marginRight: 4,
+                background: t.minor ? 'var(--border-strong)' : 'var(--text)',
+                opacity: t.minor ? 0.35 : 0.42,
+                marginRight: 6,
                 flexShrink: 0,
               }}
             />
             {!t.minor && (
               <span
                 style={{
-                  fontSize: '10.5px',
-                  color: 'var(--text-muted)',
+                  fontSize: '11px',
+                  color: 'var(--text)',
                   fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+                  fontWeight: 650,
+                  opacity: 0.68,
                   transform: 'translateY(-50%)',
                   lineHeight: 1,
                 }}
