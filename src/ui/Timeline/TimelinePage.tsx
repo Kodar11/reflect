@@ -37,7 +37,12 @@ import {
 
 const POLL_MS = 2500;
 
-export function TimelinePage() {
+export interface TimelinePageProps {
+  onNavigateToRule?: (ruleId: string) => void;
+  onCreateRuleFromSession?: (session: VerifiedSessionDto) => void;
+}
+
+export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession }: TimelinePageProps) {
   const [day, setDay] = useState<Date>(() => startOfDay(new Date()));
   const [view, setView] = useState<TimelineView>('day');
   const [sessions, setSessions] = useState<VerifiedSessionDto[]>([]);
@@ -157,6 +162,15 @@ export function TimelinePage() {
   const onToggleOffline = useCallback((id: string, offline: boolean) => applyEdit('mark_offline', { eventIdsHint: eventIdsFor(id), offline }), [applyEdit, eventIdsFor]);
   const onNoteChange = useCallback((id: string, note: string) => applyEdit('note', { eventIdsHint: eventIdsFor(id), note }), [applyEdit, eventIdsFor]);
   const onOverrideEnvelope = useCallback((id: string, newStartedAt: string, newEndedAt: string) => applyEdit('override_envelope', { eventIdsHint: eventIdsFor(id), newStartedAt, newEndedAt }), [applyEdit, eventIdsFor]);
+  const onAssignActivity = useCallback((id: string, activityId: string | null) => applyEdit('assign_activity', { eventIdsHint: eventIdsFor(id), activityId }), [applyEdit, eventIdsFor]);
+  const onUpdateActivity = useCallback(async (id: string, name: string, color: string) => {
+    try {
+      await window.timeline.saveActivity({ id, name, color });
+      refresh();
+    } catch (e) {
+      showToast(`Update activity failed: ${(e as Error)?.message ?? String(e)}`);
+    }
+  }, [refresh, showToast]);
 
   // ── drag / resize (day view today only) ────────────────────────────────────
   const isDayEditable = view === 'day' && isToday;
@@ -288,6 +302,10 @@ export function TimelinePage() {
     onToggleOffline,
     onNoteChange,
     onCopyDetails,
+    onAssignActivity,
+    onUpdateActivity,
+    onNavigateToRule,
+    onCreateRuleFromSession,
   };
 
   const ctxSession = contextMenu?.session ?? null;

@@ -9,6 +9,7 @@ import type {
   DuplicatePayload,
   NotePayload,
   MarkOfflinePayload,
+  AssignActivityPayload,
 } from './TimelineModels.js';
 
 /**
@@ -35,6 +36,7 @@ export function decodePayload(operation: TimelineOperation, raw: string): Timeli
     case 'duplicate':        return decodeDuplicate(obj);
     case 'note':             return decodeNote(obj);
     case 'mark_offline':     return decodeMarkOffline(obj);
+    case 'assign_activity':  return decodeAssignActivity(obj);
   }
 }
 
@@ -114,6 +116,16 @@ function decodeMarkOffline(o: any): MarkOfflinePayload {
     throw malformed('mark_offline');
   }
   return { eventIds: o.eventIds, offline: o.offline };
+}
+
+function decodeAssignActivity(o: any): AssignActivityPayload {
+  if (
+    !Array.isArray(o?.eventIds) ||
+    !o.eventIds.every((n: unknown) => typeof n === 'number')
+  ) {
+    throw malformed('assign_activity');
+  }
+  return { eventIds: o.eventIds, activityId: o.activityId ?? null };
 }
 
 function malformed(op: string): Error {

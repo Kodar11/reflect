@@ -57,6 +57,7 @@ export interface VerifiedSession {
   hidden: boolean;
   /** User note attached to this session (from `note` edit). */
   note?: string;
+  activityId?: string | null;
 }
 
 /** Edit operations the log records. Each has a typed `TimelinePayload`.
@@ -71,7 +72,8 @@ export type TimelineOperation =
   | 'override_envelope'
   | 'duplicate'
   | 'note'
-  | 'mark_offline';
+  | 'mark_offline'
+  | 'assign_activity';
 
 /** Base row from the DB; payload is JSON (decoded by helpers). */
 export interface TimelineEdit {
@@ -135,6 +137,10 @@ export interface MarkOfflinePayload {
   eventIds: number[];
   offline: boolean;
 }
+export interface AssignActivityPayload {
+  eventIds: number[];
+  activityId: string | null;
+}
 
 export type TimelinePayload =
   | RenamePayload
@@ -145,7 +151,8 @@ export type TimelinePayload =
   | OverrideEnvelopePayload
   | DuplicatePayload
   | NotePayload
-  | MarkOfflinePayload;
+  | MarkOfflinePayload
+  | AssignActivityPayload;
 
 
 /** Promote a generated Session to a VerifiedSession (no overlays yet). */

@@ -11,6 +11,7 @@ import type {
   DuplicatePayload,
   NotePayload,
   MarkOfflinePayload,
+  AssignActivityPayload,
 } from './TimelineModels.js';
 import { toVerified } from './TimelineModels.js';
 import { computeStatistics } from '../session/SessionStatistics.js';
@@ -263,6 +264,17 @@ export function applyMarkOffline(
     return have === want
       ? { ...s, source: payload.offline ? 'user' : 'generated' as const }
       : s;
+  });
+}
+
+export function applyAssignActivity(
+  { events }: OpCtx,
+  payload: AssignActivityPayload,
+): OpResult {
+  const want = sortedKey(payload.eventIds);
+  return events.map((s) => {
+    const have = sortedKey(s.events.map((e) => e.id));
+    return have === want ? { ...s, activityId: payload.activityId } : s;
   });
 }
 

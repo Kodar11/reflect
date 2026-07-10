@@ -1,5 +1,5 @@
 import type { IEditRepository } from '../database/EditRepository.js';
-import type { TimelineEdit, TimelineOperation, VerifiedSession } from './TimelineModels.js';
+import type { TimelineEdit, TimelineOperation, VerifiedSession, AssignActivityPayload } from './TimelineModels.js';
 import type {
   RenamePayload,
   SplitPayload,
@@ -13,6 +13,7 @@ import type {
 } from './TimelineModels.js';
 import { TimelineEngine } from './TimelineEngine.js';
 import type { SessionService } from '../session/SessionService.js';
+import type { ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
 
 /**
  * `TimelineService` is the impure seam between persisted state and the pure
@@ -43,6 +44,7 @@ export class TimelineService {
   constructor(
     private readonly sessionService: SessionService,
     private readonly edits: IEditRepository,
+    private readonly activityRuleRepo?: ActivityRuleRepository,
   ) {}
 
   /** Verified timeline for today. */
@@ -168,6 +170,13 @@ export class TimelineService {
         };
         return mp;
       }
+      case 'assign_activity': {
+        const ap: AssignActivityPayload = {
+          eventIds: session.events.map((e) => e.id),
+          activityId: p.activityId as string | null,
+        };
+        return ap;
+      }
       default:
         return payload;
     }
@@ -192,7 +201,58 @@ export class TimelineService {
   }
 
   private applyEngine(sessions: import('../session/Session.js').Session[]): VerifiedSession[] {
-    return this.engine.applyEdits(sessions, this.edits.list());
+    const verified = this.engine.applyEdits(sessions, this.edits.list());
+    return this.applyActivityRules(verified);
+  }
+
+  private applyActivityRules(sessions: VerifiedSession[]): VerifiedSession[] {
+    if (!this.activityRuleRepo) return sessions;
+    try {
+      const activities = this.activityRuleRepo.listActivities();
+      const rules = this.activityRuleRepo.listRules().filter((r) => r.enabled === 1);
+
+      const parsedRules = rules
+        .map((r) => {
+          try {
+            return {
+              id: r.id,
+              activityId: r.activityId,
+              conditions: JSON.parse(r.conditions) as { type: string; value: string }[],
+            };
+          } catch {
+            return null;
+          }
+        })
+        .filter((r) => r !== null) as { id: string; activityId: string; conditions: { type: string; value: string }[] }[];
+
+      return sessions.map((s) => {
+        // If s has a manual override, apply it
+        if (s.activityId) {
+          const act = activities.find((a) => a.id === s.activityId);
+          if (act) {
+            (s as any).activity = act;
+          }
+          return s;
+        }
+
+        // Match against tracking rules
+        for (const rule of parsedRules) {
+          if (matchesRule(s, rule.conditions)) {
+            const act = activities.find((a) => a.id === rule.activityId);
+            if (act) {
+              (s as any).activity = act;
+              (s as any).activityRuleId = rule.id;
+              break;
+            }
+          }
+        }
+
+        return s;
+      });
+    } catch (e) {
+      console.error('[TimelineService] applyActivityRules error', e);
+      return sessions;
+    }
   }
 
   private findActiveTail(): TimelineEdit | null {
@@ -210,6 +270,57 @@ export class TimelineService {
     }
     return null;
   }
+}
+
+interface RuleCondition {
+  type: string;
+  value: string;
+}
+
+function matchesRule(s: VerifiedSession, conditions: RuleCondition[]): boolean {
+  if (conditions.length === 0) return false;
+  return conditions.every((c) => {
+    const val = c.value.toLowerCase().trim();
+    switch (c.type) {
+      case 'app_equals': {
+        const app = (s.primaryApp ?? '').toLowerCase().trim();
+        const apps = (s.appsUsed ?? []).map((x) => x.toLowerCase().trim());
+        return app === val || apps.includes(val);
+      }
+      case 'title_contains': {
+        const title = (s.primaryTitle ?? '').toLowerCase();
+        return title.includes(val);
+      }
+      case 'url_contains': {
+        const url = (s.primaryUrl ?? '').toLowerCase();
+        const tabs = (s.browserTabs ?? []).map((x) => x.toLowerCase());
+        return url.includes(val) || tabs.some((t) => t.includes(val));
+      }
+      case 'url_starts_with': {
+        const url = (s.primaryUrl ?? '').toLowerCase();
+        const tabs = (s.browserTabs ?? []).map((x) => x.toLowerCase());
+        return url.startsWith(val) || tabs.some((t) => t.startsWith(val));
+      }
+      case 'domain_equals': {
+        const getDomain = (rawUrl: string) => {
+          try {
+            let host = rawUrl;
+            if (!/^https?:\/\//i.test(host)) host = 'https://' + host;
+            const u = new URL(host);
+            return u.hostname.startsWith('www.') ? u.hostname.slice(4) : u.hostname;
+          } catch {
+            const match = rawUrl.match(/^(?:https?:\/\/)?(?:www\.)?([^\/:]+)/i);
+            return (match && match[1]) ? match[1] : rawUrl;
+          }
+        };
+        const domain = getDomain(s.primaryUrl ?? '').toLowerCase();
+        const tabDomains = (s.browserTabs ?? []).map((t) => getDomain(t).toLowerCase());
+        return domain === val || tabDomains.includes(val);
+      }
+      default:
+        return false;
+    }
+  });
 }
 
 function sortedKey(ids: number[]): string {

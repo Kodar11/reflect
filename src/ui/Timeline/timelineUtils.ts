@@ -126,6 +126,9 @@ export function categoryHueIndex(category: SessionCategory): number {
 }
 
 export function sessionColorVar(session: VerifiedSessionDto): string {
+  if (session.activity && session.activity.color) {
+    return `var(--color-${session.activity.color})`;
+  }
   return `var(--block-hue-${categoryHueIndex(sessionCategory(session))})`;
 }
 

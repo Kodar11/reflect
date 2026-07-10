@@ -26,6 +26,7 @@ import { TimelineService } from '../timeline/TimelineService.js';
 import { registerTimelineIpc } from '../timeline/timelineIpc.js';
 import { ExportService } from '../service/ExportService.js';
 import { registerExportIpc } from './exportIpc.js';
+import { ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
 import type { ActivitySample } from '../models/Event.js';
 
 let mainWindow: BrowserWindow | null = null;
@@ -150,8 +151,9 @@ app.whenReady().then(async () => {
   // User edits overlay the generated sessions; the timeline is rederived on
   // demand. Edit log lives in timeline_edits (append-only + undone_at).
   const editRepo = new EditRepository(database, (msg) => logger.warn(msg));
-  const timelineService = new TimelineService(sessionService, editRepo);
-  registerTimelineIpc(timelineService, ipcMainHandle, () =>
+  const activityRuleRepo = new ActivityRuleRepository(database);
+  const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo);
+  registerTimelineIpc(timelineService, activityRuleRepo, ipcMainHandle, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
   logger.info('[APP] Timeline service ready.');

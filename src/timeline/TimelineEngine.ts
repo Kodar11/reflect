@@ -11,6 +11,7 @@ import {
   applyDuplicate,
   applyNote,
   applyMarkOffline,
+  applyAssignActivity,
   dropHidden,
   type OpCtx,
 } from './TimelineOperations.js';
@@ -51,6 +52,7 @@ export class TimelineEngine {
         case 'duplicate':        working = applyDuplicate(ctx, edit.payload as any); break;
         case 'note':             working = applyNote(ctx, edit.payload as any); break;
         case 'mark_offline':     working = applyMarkOffline(ctx, edit.payload as any); break;
+        case 'assign_activity':  working = applyAssignActivity(ctx, edit.payload as any); break;
       }
     }
 

@@ -58,6 +58,17 @@
   --block-hue-3: #d9730d;
   --block-hue-4: #737373;
 
+  --color-blue: #2382e2;
+  --color-green: #0f7b6c;
+  --color-purple: #7b4fe3;
+  --color-orange: #d9730d;
+  --color-yellow: #dfa513;
+  --color-red: #d13438;
+  --color-cyan: #0078d4;
+  --color-gray: #737373;
+  --color-pink: #e3008c;
+  --color-brown: #8f640c;
+
   /* Stage 3.6 Day View block palette. The primary block fill is neutral so
    * the timeline reads calm; a thin left-edge bar keeps the deterministic
    * app hue for at-a-glance distinction. Selected and offline get distinct
@@ -133,6 +144,17 @@
   --block-hue-2: #9f7dff;
   --block-hue-3: #ffad48;
   --block-hue-4: #9b9b9b;
+
+  --color-blue: #4aa1ff;
+  --color-green: #4dab9a;
+  --color-purple: #9f7dff;
+  --color-orange: #ffad48;
+  --color-yellow: #ffd358;
+  --color-red: #ff7369;
+  --color-cyan: #46c0ee;
+  --color-gray: #9b9b9b;
+  --color-pink: #ff75c3;
+  --color-brown: #c8913b;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);

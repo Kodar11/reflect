@@ -92,7 +92,44 @@ export class Database {
         undone_at   DATETIME
       );
 
-      PRAGMA user_version = 2;
+      -- Stage 3.9: Activities and User-Defined Tracking Rules.
+      CREATE TABLE IF NOT EXISTS activities (
+        id         TEXT PRIMARY KEY,
+        name       TEXT NOT NULL,
+        color      TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE TABLE IF NOT EXISTS tracking_rules (
+        id          TEXT PRIMARY KEY,
+        activity_id TEXT NOT NULL,
+        conditions  TEXT NOT NULL,
+        enabled     INTEGER NOT NULL DEFAULT 1,
+        priority    INTEGER NOT NULL DEFAULT 0,
+        FOREIGN KEY (activity_id) REFERENCES activities (id) ON DELETE CASCADE
+      );
+
+      PRAGMA user_version = 3;
     `);
+
+    // Seed default activities and rules if empty
+    const actCount = this.db.prepare('SELECT COUNT(*) as count FROM activities').get() as { count: number };
+    if (actCount.count === 0) {
+      this.db.exec(`
+        INSERT INTO activities (id, name, color) VALUES 
+          ('coding', 'Coding', 'blue'),
+          ('learning', 'Learning', 'green'),
+          ('meetings', 'Meetings', 'yellow'),
+          ('chatgpt', 'ChatGPT', 'purple'),
+          ('browsing', 'Browsing', 'gray');
+          
+        INSERT INTO tracking_rules (id, activity_id, conditions, enabled, priority) VALUES
+          ('rule_coding', 'coding', '[{"type":"app_equals","value":"VS Code"}]', 1, 0),
+          ('rule_learning', 'learning', '[{"type":"domain_equals","value":"youtube.com"}]', 1, 0),
+          ('rule_meetings', 'meetings', '[{"type":"title_contains","value":"Meet"}]', 1, 0),
+          ('rule_chatgpt', 'chatgpt', '[{"type":"domain_equals","value":"chatgpt.com"}]', 1, 0);
+      `);
+    }
   }
 }

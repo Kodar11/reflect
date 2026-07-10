@@ -33,6 +33,10 @@ export interface InspectorActions {
   onToggleOffline: (id: string, offline: boolean) => void;
   onNoteChange: (id: string, note: string) => void;
   onCopyDetails: (session: VerifiedSessionDto) => void;
+  onAssignActivity?: (id: string, activityId: string | null) => void;
+  onUpdateActivity?: (id: string, name: string, color: string) => void;
+  onNavigateToRule?: (ruleId: string) => void;
+  onCreateRuleFromSession?: (session: VerifiedSessionDto) => void;
 }
 
 export type TimelineView = 'day' | 'week' | 'month' | 'year' | 'custom';
@@ -302,11 +306,25 @@ function SessionDetail({
   const hueIdx = categoryHueIndex(category);
   const isOffline = session.source === 'user';
 
+  const [activities, setActivities] = useState<any[]>([]);
+  const [actName, setActName] = useState(session.activity?.name ?? '');
+
+  const refreshActivities = async () => {
+    try {
+      const list = await window.timeline.listActivities();
+      setActivities(list);
+    } catch (e) {
+      console.error('Failed to load activities', e);
+    }
+  };
+
   useEffect(() => {
     setEditing(false);
     setNoteDraft(session.note ?? '');
     setEventsOpen(true);
-  }, [session.id, session.note]);
+    setActName(session.activity?.name ?? '');
+    refreshActivities();
+  }, [session.id, session.note, session.activity]);
 
   const adjacent = useMemo(() => {
     const sorted = [...sessions].sort((a, b) => new Date(a.startedAt).getTime() - new Date(b.startedAt).getTime());
@@ -363,6 +381,137 @@ function SessionDetail({
                   <Edit3 size={15} />
                 </button>
               )}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Activity Card */}
+      <section style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 12, padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 12, boxShadow: 'var(--shadow-sm)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ fontSize: '13px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>Activity</span>
+          
+          <select
+            value={session.activity?.id ?? ''}
+            onChange={(e) => {
+              if (actions.onAssignActivity) {
+                actions.onAssignActivity(session.id, e.target.value || null);
+              }
+            }}
+            disabled={!isToday}
+            style={{
+              background: 'var(--bg-secondary)',
+              color: 'var(--text)',
+              border: '1px solid var(--border)',
+              borderRadius: 6,
+              padding: '4px 8px',
+              fontSize: '12px',
+              outline: 'none',
+            }}
+          >
+            <option value="">(None)</option>
+            {activities.map((act) => (
+              <option key={act.id} value={act.id}>
+                {act.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {session.activity && (
+          <div className="space-y-2 pt-2 border-t border-default" style={{ borderTop: '1px solid var(--border)' }}>
+            {/* Rename Activity */}
+            <div className="flex items-center gap-2">
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)', width: 45 }}>Name:</span>
+              <input
+                type="text"
+                value={actName}
+                onChange={(e) => setActName(e.target.value)}
+                disabled={!isToday}
+                onBlur={() => {
+                  if (actName.trim() && actName !== session.activity?.name) {
+                    actions.onUpdateActivity?.(session.activity!.id, actName.trim(), session.activity!.color);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.currentTarget.blur();
+                  }
+                }}
+                style={{
+                  flex: 1,
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 4,
+                  padding: '3px 6px',
+                  fontSize: '12px',
+                }}
+              />
+            </div>
+
+            {/* Curated Color Picker */}
+            <div className="flex items-center gap-2">
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)', width: 45 }}>Color:</span>
+              <div className="flex gap-1.5 flex-wrap">
+                {CURATED_COLORS.map((col) => (
+                  <button
+                    key={col.name}
+                    title={col.name}
+                    disabled={!isToday}
+                    onClick={() => {
+                      if (session.activity && col.name !== session.activity.color) {
+                        actions.onUpdateActivity?.(session.activity!.id, session.activity!.name, col.name);
+                      }
+                    }}
+                    style={{
+                      width: 14,
+                      height: 14,
+                      borderRadius: '50%',
+                      background: col.hex,
+                      border: session.activity?.color === col.name ? '1.5px solid var(--text)' : '1px solid transparent',
+                      cursor: isToday ? 'pointer' : 'default',
+                      padding: 0,
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Rule Links */}
+        <div style={{ fontSize: '12px', color: 'var(--text-muted)', paddingTop: 6, borderTop: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {session.activity ? (
+            session.activityRuleId ? (
+              <>
+                <span>✓ Rule: {session.activity.name}</span>
+                <button
+                  onClick={() => actions.onNavigateToRule?.(session.activityRuleId!)}
+                  style={{ color: 'var(--accent)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: '11.5px', fontWeight: 600 }}
+                >
+                  Edit Rule
+                </button>
+              </>
+            ) : (
+              <>
+                <span>Manual Override</span>
+                <button
+                  onClick={() => actions.onCreateRuleFromSession?.(session)}
+                  style={{ color: 'var(--accent)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: '11.5px', fontWeight: 600 }}
+                >
+                  Create Rule
+                </button>
+              </>
+            )
+          ) : (
+            <div style={{ display: 'flex', width: '100%', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => actions.onCreateRuleFromSession?.(session)}
+                style={{ color: 'var(--accent)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: '11.5px', fontWeight: 600 }}
+              >
+                + Create Rule from Session
+              </button>
             </div>
           )}
         </div>
@@ -569,3 +718,16 @@ function labelForCategory(category: ReturnType<typeof sessionCategory>): string 
     case 'offline': return 'Offline';
   }
 }
+
+const CURATED_COLORS = [
+  { name: 'blue', hex: '#3b82f6' },
+  { name: 'green', hex: '#10b981' },
+  { name: 'purple', hex: '#8b5cf6' },
+  { name: 'orange', hex: '#f97316' },
+  { name: 'yellow', hex: '#eab308' },
+  { name: 'red', hex: '#ef4444' },
+  { name: 'cyan', hex: '#06b6d4' },
+  { name: 'gray', hex: '#6b7280' },
+  { name: 'pink', hex: '#ec4899' },
+  { name: 'brown', hex: '#a16207' },
+];

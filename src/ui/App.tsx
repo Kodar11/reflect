@@ -14,7 +14,10 @@ function App() {
   useResolvedTheme(theme);
 
   const [route, setRoute] = useState<Route>('timeline');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activityTab, setActivityTab] = useState<'events' | 'usage' | 'rules'>('events');
+  const [editingRuleId, setEditingRuleId] = useState<string | null>(null);
+  const [prefilledRule, setPrefilledRule] = useState<any | null>(null);
   
   const PAGE_TITLES: Record<Route, string> = {
     timeline: 'Productivity Coach — Timeline',
@@ -42,13 +45,33 @@ function App() {
         />
         <main className="flex-1 min-w-0 h-full overflow-hidden">
           {route === 'timeline' ? (
-            <TimelinePage />
+            <TimelinePage
+              onNavigateToRule={(ruleId) => {
+                setRoute('activity');
+                setActivityTab('rules');
+                setEditingRuleId(ruleId);
+                setPrefilledRule(null);
+              }}
+              onCreateRuleFromSession={(session) => {
+                setRoute('activity');
+                setActivityTab('rules');
+                setPrefilledRule(session);
+                setEditingRuleId(null);
+              }}
+            />
           ) : (
             <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
               {route === 'sessions' ? (
                 <SessionsPage />
               ) : route === 'activity' ? (
-                <ActivityPage />
+                <ActivityPage
+                  activeTab={activityTab}
+                  onTabChange={setActivityTab}
+                  editingRuleId={editingRuleId}
+                  setEditingRuleId={setEditingRuleId}
+                  prefilledRule={prefilledRule}
+                  setPrefilledRule={setPrefilledRule}
+                />
               ) : (
                 <SettingsPage theme={theme} setTheme={setTheme} />
               )}

@@ -2,6 +2,7 @@ import type { WebContents } from 'electron';
 import { ipcWebContentsSend } from '../electron/util.js';
 import type { TimelineService } from './TimelineService.js';
 import type { VerifiedSession } from './TimelineModels.js';
+import type { ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
 
 /**
  * Renderer bridge for the timeline. Mirrors `sessionIpc.ts` / `trackerIpc.ts`
@@ -33,10 +34,17 @@ export interface VerifiedSessionDto {
   /** Stable event ids that make up this session. Used by the renderer to issue
    * durable timeline edits without depending on regenerated session ids. */
   eventIds: number[];
+  activity?: {
+    id: string;
+    name: string;
+    color: string;
+  } | null;
+  activityRuleId?: string | null;
 }
 
 export function registerTimelineIpc(
   service: TimelineService,
+  activityRuleRepo: ActivityRuleRepository,
   ipcMainHandle: (key: string, handler: (payload?: any) => any) => void,
   webContentsForPush: () => WebContents[] = () => [],
 ) {
@@ -61,6 +69,28 @@ export function registerTimelineIpc(
   ipcMainHandle('timeline:status', () => ({
     activeEdits: service.activeEditCount(),
   }));
+
+  // Activities handlers
+  ipcMainHandle('activities:list', () => activityRuleRepo.listActivities());
+  ipcMainHandle('activities:save', (p: { id: string; name: string; color: string }) => {
+    activityRuleRepo.saveActivity(p);
+    return { ok: true };
+  });
+  ipcMainHandle('activities:delete', (p: { id: string }) => {
+    activityRuleRepo.deleteActivity(p.id);
+    return { ok: true };
+  });
+
+  // Rules handlers
+  ipcMainHandle('rules:list', () => activityRuleRepo.listRules());
+  ipcMainHandle('rules:save', (p: { id: string; activityId: string; conditions: string; enabled: number; priority: number }) => {
+    activityRuleRepo.saveRule(p);
+    return { ok: true };
+  });
+  ipcMainHandle('rules:delete', (p: { id: string }) => {
+    activityRuleRepo.deleteRule(p.id);
+    return { ok: true };
+  });
 
   // Dormant push seam (Stage 3 polls every ~2s now; later stages may push).
   return {
@@ -91,5 +121,11 @@ function toDto(s: VerifiedSession): VerifiedSessionDto {
     source: s.source,
     note: s.note,
     eventIds: s.events.map((e) => e.id),
+    activity: (s as any).activity ? {
+      id: (s as any).activity.id,
+      name: (s as any).activity.name,
+      color: (s as any).activity.color,
+    } : null,
+    activityRuleId: (s as any).activityRuleId ?? null,
   };
 }

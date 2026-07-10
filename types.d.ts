@@ -53,6 +53,12 @@ interface VerifiedSessionDto {
   source: 'generated' | 'user';
   note?: string;
   eventIds: number[];
+  activity?: {
+    id: string;
+    name: string;
+    color: string;
+  } | null;
+  activityRuleId?: string | null;
 }
 
 interface TimelineStatus {
@@ -81,6 +87,12 @@ interface Window {
     undo: () => Promise<{ ok: boolean }>;
     redo: () => Promise<{ ok: boolean }>;
     status: () => Promise<TimelineStatus>;
+    listActivities: () => Promise<any[]>;
+    saveActivity: (p: { id: string; name: string; color: string }) => Promise<{ ok: boolean }>;
+    deleteActivity: (p: { id: string }) => Promise<{ ok: boolean }>;
+    listRules: () => Promise<any[]>;
+    saveRule: (p: { id: string; activityId: string; conditions: string; enabled: number; priority: number }) => Promise<{ ok: boolean }>;
+    deleteRule: (p: { id: string }) => Promise<{ ok: boolean }>;
   };
   settings: {
     exportTimeline: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;

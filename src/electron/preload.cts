@@ -39,6 +39,12 @@ electron.contextBridge.exposeInMainWorld('timeline', {
   redo: (): Promise<{ ok: boolean }> => electron.ipcRenderer.invoke('timeline:redo'),
   status: (): Promise<{ activeEdits: number }> =>
     electron.ipcRenderer.invoke('timeline:status'),
+  listActivities: () => electron.ipcRenderer.invoke('activities:list'),
+  saveActivity: (p) => electron.ipcRenderer.invoke('activities:save', p),
+  deleteActivity: (p) => electron.ipcRenderer.invoke('activities:delete', p),
+  listRules: () => electron.ipcRenderer.invoke('rules:list'),
+  saveRule: (p) => electron.ipcRenderer.invoke('rules:save', p),
+  deleteRule: (p) => electron.ipcRenderer.invoke('rules:delete', p),
 } satisfies Window['timeline']);
 
 electron.contextBridge.exposeInMainWorld('settings', {

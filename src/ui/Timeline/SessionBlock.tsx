@@ -85,7 +85,7 @@ export function SessionBlock({
   const borderColor = invalid
     ? 'var(--danger)'
     : isSelected
-      ? 'var(--block-selected-border)'
+      ? accent
       : isOffline
         ? 'var(--block-offline-border)'
         : 'var(--block-neutral-border)';
