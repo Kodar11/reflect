@@ -59,19 +59,21 @@ function App() {
                 setEditingRuleId(null);
               }}
             />
+          ) : route === 'activity' ? (
+            <div className="px-6 py-4 h-full overflow-hidden flex flex-col">
+              <ActivityPage
+                activeTab={activityTab}
+                onTabChange={setActivityTab}
+                editingRuleId={editingRuleId}
+                setEditingRuleId={setEditingRuleId}
+                prefilledRule={prefilledRule}
+                setPrefilledRule={setPrefilledRule}
+              />
+            </div>
           ) : (
             <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
               {route === 'sessions' ? (
                 <SessionsPage />
-              ) : route === 'activity' ? (
-                <ActivityPage
-                  activeTab={activityTab}
-                  onTabChange={setActivityTab}
-                  editingRuleId={editingRuleId}
-                  setEditingRuleId={setEditingRuleId}
-                  prefilledRule={prefilledRule}
-                  setPrefilledRule={setPrefilledRule}
-                />
               ) : (
                 <SettingsPage theme={theme} setTheme={setTheme} />
               )}

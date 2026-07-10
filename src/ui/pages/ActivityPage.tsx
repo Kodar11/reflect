@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { Search, Activity, Clock, ArrowUpDown, Layers, Globe, Monitor, HelpCircle } from 'lucide-react';
+import { Search, Activity, Clock, ArrowUpDown, Layers, Globe, Monitor, HelpCircle, FileCode, Terminal, Chrome, MessageSquare, Play } from 'lucide-react';
 
 interface TrackerEventDto {
   id: number;
@@ -35,6 +35,54 @@ const CURATED_COLORS = [
   { name: 'brown', hex: '#a16207' },
 ];
 
+function getDomain(rawUrl: string): string {
+  try {
+    let host = rawUrl.trim();
+    if (!/^https?:\/\//i.test(host)) host = 'https://' + host;
+    const u = new URL(host);
+    return u.hostname.startsWith('www.') ? u.hostname.slice(4) : u.hostname;
+  } catch {
+    const match = rawUrl.match(/^(?:https?:\/\/)?(?:www\.)?([^\/:]+)/i);
+    return (match && match[1]) ? match[1] : rawUrl;
+  }
+}
+
+function WebsiteFavicon({ domain, size = 14 }: { domain: string; size?: number }) {
+  const [error, setError] = useState(false);
+  if (error || !domain) {
+    return <Globe size={size} className="text-accent shrink-0" style={{ color: 'var(--accent)' }} />;
+  }
+  return (
+    <img
+      src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`}
+      alt=""
+      onError={() => setError(true)}
+      style={{ width: size, height: size, borderRadius: '4px' }}
+      className="shrink-0"
+    />
+  );
+}
+
+function AppIcon({ appName, size = 14 }: { appName: string; size?: number }) {
+  const lower = appName.toLowerCase();
+  if (lower.includes('code') || lower.includes('visual studio') || lower.includes('cursor')) {
+    return <FileCode size={size} className="shrink-0" style={{ color: '#3b82f6' }} />;
+  }
+  if (lower.includes('terminal') || lower.includes('powershell') || lower.includes('cmd') || lower.includes('bash')) {
+    return <Terminal size={size} className="shrink-0" style={{ color: '#10b981' }} />;
+  }
+  if (lower.includes('chrome') || lower.includes('brave') || lower.includes('firefox') || lower.includes('edge') || lower.includes('safari') || lower.includes('browser')) {
+    return <Chrome size={size} className="shrink-0" style={{ color: '#f97316' }} />;
+  }
+  if (lower.includes('slack') || lower.includes('discord') || lower.includes('teams') || lower.includes('zoom')) {
+    return <MessageSquare size={size} className="shrink-0" style={{ color: '#8b5cf6' }} />;
+  }
+  if (lower.includes('spotify') || lower.includes('youtube') || lower.includes('netflix') || lower.includes('vlc')) {
+    return <Play size={size} className="shrink-0" style={{ color: '#ef4444' }} />;
+  }
+  return <Monitor size={size} className="text-muted shrink-0" />;
+}
+
 export function ActivityPage({
   activeTab = 'events',
   onTabChange,
@@ -54,7 +102,7 @@ export function ActivityPage({
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Search & Filter state
+  // Search state
   const [searchQuery, setSearchQuery] = useState('');
   const [usageSearchQuery, setUsageSearchQuery] = useState('');
   const [rulesSearchQuery, setRulesSearchQuery] = useState('');
@@ -62,7 +110,7 @@ export function ActivityPage({
   // Selected row state for Usage Details panel
   const [selectedUsageKey, setSelectedUsageKey] = useState<string | null>(null);
 
-  // Usage tab sorting
+  // Sorting
   const [sortField, setSortField] = useState<'name' | 'type' | 'totalTime' | 'sessionCount' | 'lastUsed'>('totalTime');
   const [sortAsc, setSortAsc] = useState(false);
 
@@ -137,18 +185,6 @@ export function ActivityPage({
   // Prefill new rule from selected session trigger
   useEffect(() => {
     if (prefilledRule) {
-      const getDomain = (rawUrl: string) => {
-        try {
-          let host = rawUrl;
-          if (!/^https?:\/\//i.test(host)) host = 'https://' + host;
-          const u = new URL(host);
-          return u.hostname.startsWith('www.') ? u.hostname.slice(4) : u.hostname;
-        } catch {
-          const match = rawUrl.match(/^(?:https?:\/\/)?(?:www\.)?([^\/:]+)/i);
-          return (match && match[1]) ? match[1] : rawUrl;
-        }
-      };
-
       const isWeb = !!prefilledRule.primaryUrl || (prefilledRule.browserTabs && prefilledRule.browserTabs.length > 0);
       const appVal = prefilledRule.primaryApp ?? 'App';
       const condVal = isWeb ? getDomain(prefilledRule.primaryUrl ?? prefilledRule.browserTabs[0] ?? '') : appVal;
@@ -244,6 +280,16 @@ export function ActivityPage({
     return Array.from(map.values());
   }, [events]);
 
+  const totalTrackedTime = useMemo(() => {
+    return usageData.reduce((sum, u) => sum + u.totalTime, 0);
+  }, [usageData]);
+
+  // Top 5 usage items
+  const topUsageList = useMemo(() => {
+    return [...usageData].sort((a, b) => b.totalTime - a.totalTime).slice(0, 5);
+  }, [usageData]);
+
+  // Groups applications vs websites
   const filteredUsage = useMemo(() => {
     let list = usageData;
     if (usageSearchQuery.trim()) {
@@ -268,6 +314,14 @@ export function ActivityPage({
       return 0;
     });
   }, [usageData, usageSearchQuery, sortField, sortAsc]);
+
+  const applications = useMemo(() => {
+    return filteredUsage.filter((u) => u.type === 'App');
+  }, [filteredUsage]);
+
+  const websites = useMemo(() => {
+    return filteredUsage.filter((u) => u.type === 'Website');
+  }, [filteredUsage]);
 
   const selectedUsage = useMemo(() => {
     if (!selectedUsageKey) return null;
@@ -297,16 +351,31 @@ export function ActivityPage({
     return list;
   }, [rules, activities, rulesSearchQuery, rulesSortAsc]);
 
-  // Actions
-  const handleSort = (field: typeof sortField) => {
-    if (sortField === field) {
-      setSortAsc((prev) => !prev);
-    } else {
-      setSortField(field);
-      setSortAsc(false);
-    }
-  };
+  // Today's summary stats
+  const todaySummary = useMemo(() => {
+    const apps = usageData.filter((u) => u.type === 'App');
+    const sites = usageData.filter((u) => u.type === 'Website');
 
+    const totalApps = apps.length;
+    const totalSites = sites.length;
+
+    const mostUsedApp = [...apps].sort((a, b) => b.totalTime - a.totalTime)[0] ?? null;
+    const mostUsedSite = [...sites].sort((a, b) => b.totalTime - a.totalTime)[0] ?? null;
+
+    const mostOpenedApp = [...apps].sort((a, b) => b.sessionCount - a.sessionCount)[0] ?? null;
+    const mostOpenedSite = [...sites].sort((a, b) => b.sessionCount - a.sessionCount)[0] ?? null;
+
+    return {
+      totalApps,
+      totalSites,
+      mostUsedApp,
+      mostUsedSite,
+      mostOpenedApp,
+      mostOpenedSite,
+    };
+  }, [usageData]);
+
+  // Actions
   const handleToggleRule = async (rule: any) => {
     try {
       await window.timeline.saveRule({
@@ -389,309 +458,143 @@ export function ActivityPage({
     setPrefilledRule?.(null);
   };
 
-  return (
-    <div className="flex flex-col h-full space-y-5">
-      {/* Top Header Card */}
-      <section className="card">
-        <div className="card-section flex justify-between items-center">
-          <div>
-            <div className="text-[13px] uppercase tracking-wide text-muted font-semibold">Activity Dashboard</div>
-            <h1 className="text-[22px] font-semibold tracking-tight mt-0.5">Timeline Activity</h1>
-            <p className="text-[13px] text-muted mt-1">
-              Analyze raw events captured today, examine app usage, and configure rule triggers.
-            </p>
+  const renderUsageRow = (u: UsageRow) => {
+    const isSelected = selectedUsageKey === u.key;
+    const pct = totalTrackedTime > 0 ? (u.totalTime / totalTrackedTime) * 100 : 0;
+
+    return (
+      <div
+        key={u.key}
+        onClick={() => setSelectedUsageKey(u.key)}
+        className="flex items-center justify-between p-2 rounded-lg border border-default cursor-pointer transition-colors"
+        style={{
+          background: isSelected ? 'var(--bg-active)' : 'var(--bg)',
+          borderColor: isSelected ? 'var(--accent)' : 'var(--border)',
+        }}
+        onMouseEnter={(e) => {
+          if (!isSelected) {
+            e.currentTarget.style.background = 'var(--bg-hover)';
+            e.currentTarget.style.borderColor = 'var(--border-strong)';
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!isSelected) {
+            e.currentTarget.style.background = 'var(--bg)';
+            e.currentTarget.style.borderColor = 'var(--border)';
+          }
+        }}
+      >
+        <div className="flex items-center gap-3 min-w-0 flex-1 pr-4">
+          <div className="shrink-0 flex items-center justify-center">
+            {u.type === 'Website' ? <WebsiteFavicon domain={u.name} size={16} /> : <AppIcon appName={u.name} size={16} />}
           </div>
-          {/* Tab Button Switcher */}
-          <div className="flex bg-secondary p-1 rounded-lg border border-default">
-            <button
-              onClick={() => onTabChange?.('events')}
-              className="px-4 py-1.5 rounded-md text-[13px] font-semibold transition-colors"
-              style={{
-                background: activeTab === 'events' ? 'var(--bg)' : 'transparent',
-                color: activeTab === 'events' ? 'var(--text)' : 'var(--text-muted)',
-                boxShadow: activeTab === 'events' ? 'var(--shadow-sm)' : 'none',
-              }}
-            >
-              Events
-            </button>
-            <button
-              onClick={() => onTabChange?.('usage')}
-              className="px-4 py-1.5 rounded-md text-[13px] font-semibold transition-colors"
-              style={{
-                background: activeTab === 'usage' ? 'var(--bg)' : 'transparent',
-                color: activeTab === 'usage' ? 'var(--text)' : 'var(--text-muted)',
-                boxShadow: activeTab === 'usage' ? 'var(--shadow-sm)' : 'none',
-              }}
-            >
-              Usage
-            </button>
-            <button
-              onClick={() => onTabChange?.('rules')}
-              className="px-4 py-1.5 rounded-md text-[13px] font-semibold transition-colors"
-              style={{
-                background: activeTab === 'rules' ? 'var(--bg)' : 'transparent',
-                color: activeTab === 'rules' ? 'var(--text)' : 'var(--text-muted)',
-                boxShadow: activeTab === 'rules' ? 'var(--shadow-sm)' : 'none',
-              }}
-            >
-              Rules
-            </button>
+          <div className="min-w-0 flex-1">
+            <div className="font-semibold text-default text-[13px] truncate" title={u.name}>
+              {u.name}
+            </div>
+            
+            <div className="flex items-center gap-2 mt-0.5">
+              <div style={{ flex: 1, height: '4px', background: 'var(--border)', borderRadius: '2px', overflow: 'hidden' }}>
+                <div style={{ width: `${Math.max(1, pct)}%`, height: '100%', background: 'var(--accent)', borderRadius: '2px' }} />
+              </div>
+              <span className="text-[10px] text-muted font-bold shrink-0">{pct.toFixed(0)}%</span>
+            </div>
           </div>
         </div>
-      </section>
 
-      {error && (
-        <section className="card border-danger">
-          <div className="card-section text-[13px] text-danger">
-            Failed to load events: {error}
+        <div className="flex items-center gap-4 text-right shrink-0">
+          <div>
+            <div className="font-bold text-default text-[13px] font-mono">
+              {humanDurationShort(u.totalTime)}
+            </div>
+            <div className="text-[10px] text-faint font-semibold mt-0.5">
+              {u.sessionCount} session{u.sessionCount === 1 ? '' : 's'}
+            </div>
           </div>
-        </section>
-      )}
+        </div>
+      </div>
+    );
+  };
 
-      {/* Tab Contents */}
-      {activeTab === 'events' ? (
-        <div className="card flex-1 min-h-[400px] overflow-hidden flex flex-col">
-          <div className="card-section border-b border-default bg-secondary flex justify-between items-center py-3">
-            <div className="text-[12.5px] text-muted">Showing {filteredEvents.length} event(s) today.</div>
-            <div className="relative w-72">
+  return (
+    <div className="flex flex-col h-full space-y-4">
+      {/* Reduced Top Header Section */}
+      <section className="card p-3 flex justify-between items-center border border-default bg-secondary rounded-xl">
+        <div className="flex items-center gap-4">
+          <h1 className="text-[20px] font-extrabold tracking-tight">Activity</h1>
+          
+          {/* Tab Button Switcher */}
+          <div className="flex bg-default p-0.5 rounded-lg border border-default shrink-0">
+            {['events', 'usage', 'rules'].map((tab) => {
+              const isActive = activeTab === tab;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => onTabChange?.(tab as any)}
+                  className="px-3 py-1 rounded-md text-[12px] font-bold transition-colors capitalize"
+                  style={{
+                    background: isActive ? 'var(--bg-secondary)' : 'transparent',
+                    color: isActive ? 'var(--text)' : 'var(--text-muted)',
+                    boxShadow: isActive ? 'var(--shadow-sm)' : 'none',
+                  }}
+                >
+                  {tab}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 shrink-0">
+          {activeTab === 'events' && (
+            <div className="relative w-64">
               <span className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-muted">
-                <Search size={14} />
+                <Search size={13} />
               </span>
               <input
                 type="text"
                 placeholder="Search raw events..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1 bg-default border border-default rounded-md text-[13px] text-default placeholder-muted focus:outline-none focus:border-accent"
+                className="w-full pr-3 py-1 bg-default border border-default rounded-md text-[12.5px] text-default placeholder-muted focus:outline-none focus:border-accent"
+                style={{ paddingLeft: '28px' }}
               />
             </div>
-          </div>
+          )}
 
-          <div className="flex-1 overflow-auto relative">
-            <table className="w-full text-[12.5px]" style={{ borderCollapse: 'collapse' }}>
-              <thead>
-                <tr className="bg-secondary border-b border-default sticky top-0 z-10">
-                  {['Time', 'Duration', 'Watcher', 'App', 'Title', 'URL'].map((h) => (
-                    <th key={h} className="text-left font-bold px-4 py-2.5 whitespace-nowrap" style={{ color: 'var(--text-muted)' }}>
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredEvents.length === 0 && (
-                  <tr>
-                    <td colSpan={6} className="px-4 py-16 text-center text-muted">
-                      {loading ? (
-                        <span>Loading events...</span>
-                      ) : (
-                        <div className="flex flex-col items-center justify-center gap-1">
-                          <Activity size={32} className="text-faint mb-1 animate-pulse" />
-                          <span className="font-semibold text-default">No matching events</span>
-                          <span className="text-[12px] text-faint">Try adjusting your search terms or verify tracker settings.</span>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                )}
-                {filteredEvents.map((e) => {
-                  const started = new Date(e.startedAt);
-                  const ended = new Date(e.endedAt);
-                  const dur = humanDuration(ended.getTime() - started.getTime());
-                  return (
-                    <tr key={e.id} className="border-b border-default hover:bg-hover transition-colors">
-                      <td className="px-4 py-2 whitespace-nowrap text-muted font-mono">{fmtTime(started)}</td>
-                      <td className="px-4 py-2 whitespace-nowrap text-faint font-mono">{dur}</td>
-                      <td className="px-4 py-2 whitespace-nowrap font-medium">{e.watcher}</td>
-                      <td className="px-4 py-2 font-semibold text-default">{e.app ?? '—'}</td>
-                      <td className="px-4 py-2 text-default truncate max-w-xs" title={e.title ?? ''}>{e.title ?? '—'}</td>
-                      <td className="px-4 py-2 truncate max-w-xs">
-                        {e.url ? (
-                          <span className="text-[12px] text-accent font-mono truncate" title={e.url}>{e.url}</span>
-                        ) : (
-                          '—'
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : activeTab === 'usage' ? (
-        <div className="flex gap-5 flex-1 min-h-[400px] h-[calc(100vh-14.5rem)] overflow-hidden">
-          <div className="card flex-1 overflow-hidden flex flex-col">
-            <div className="card-section border-b border-default bg-secondary flex justify-between items-center py-3">
-              <div className="text-[12.5px] text-muted">Showing {filteredUsage.length} application/website entries.</div>
-              <div className="relative w-72">
+          {activeTab === 'usage' && (
+            <div className="relative w-64">
+              <span className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-muted">
+                <Search size={13} />
+              </span>
+              <input
+                type="text"
+                placeholder="Search apps/sites..."
+                value={usageSearchQuery}
+                onChange={(e) => setUsageSearchQuery(e.target.value)}
+                className="w-full pr-3 py-1 bg-default border border-default rounded-md text-[12.5px] text-default placeholder-muted focus:outline-none focus:border-accent"
+                style={{ paddingLeft: '28px' }}
+              />
+            </div>
+          )}
+
+          {activeTab === 'rules' && (
+            <div className="flex gap-2">
+              <div className="relative w-60">
                 <span className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-muted">
-                  <Search size={14} />
+                  <Search size={13} />
                 </span>
                 <input
                   type="text"
-                  placeholder="Search apps/sites..."
-                  value={usageSearchQuery}
-                  onChange={(e) => setUsageSearchQuery(e.target.value)}
-                  className="w-full pl-8 pr-3 py-1 bg-default border border-default rounded-md text-[13px] text-default placeholder-muted focus:outline-none focus:border-accent"
-                />
-              </div>
-            </div>
-
-            <div className="flex-1 overflow-auto relative">
-              <table className="w-full text-[12.5px]" style={{ borderCollapse: 'collapse' }}>
-                <thead>
-                  <tr className="bg-secondary border-b border-default sticky top-0 z-10 select-none">
-                    <th className="text-left font-bold px-4 py-2.5 cursor-pointer hover:text-default" style={{ color: 'var(--text-muted)' }} onClick={() => handleSort('name')}>
-                      <div className="flex items-center gap-1">
-                        Name <ArrowUpDown size={12} className="opacity-60" />
-                      </div>
-                    </th>
-                    <th className="text-left font-bold px-4 py-2.5 cursor-pointer hover:text-default" style={{ color: 'var(--text-muted)' }} onClick={() => handleSort('type')}>
-                      <div className="flex items-center gap-1">
-                        Type <ArrowUpDown size={12} className="opacity-60" />
-                      </div>
-                    </th>
-                    <th className="text-left font-bold px-4 py-2.5 cursor-pointer hover:text-default" style={{ color: 'var(--text-muted)' }} onClick={() => handleSort('totalTime')}>
-                      <div className="flex items-center gap-1">
-                        Total Time <ArrowUpDown size={12} className="opacity-60" />
-                      </div>
-                    </th>
-                    <th className="text-left font-bold px-4 py-2.5 cursor-pointer hover:text-default" style={{ color: 'var(--text-muted)' }} onClick={() => handleSort('sessionCount')}>
-                      <div className="flex items-center gap-1">
-                        Sessions <ArrowUpDown size={12} className="opacity-60" />
-                      </div>
-                    </th>
-                    <th className="text-left font-bold px-4 py-2.5 cursor-pointer hover:text-default" style={{ color: 'var(--text-muted)' }} onClick={() => handleSort('lastUsed')}>
-                      <div className="flex items-center gap-1">
-                        Last Used <ArrowUpDown size={12} className="opacity-60" />
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredUsage.length === 0 && (
-                    <tr>
-                      <td colSpan={5} className="px-4 py-16 text-center text-muted">
-                        <div className="flex flex-col items-center justify-center gap-1">
-                          <Layers size={32} className="text-faint mb-1" />
-                          <span className="font-semibold text-default">No usage items found</span>
-                          <span className="text-[12px] text-faint">Try typing another search term.</span>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                  {filteredUsage.map((u) => {
-                    const isSelected = selectedUsageKey === u.key;
-                    return (
-                      <tr
-                        key={u.key}
-                        onClick={() => setSelectedUsageKey(u.key)}
-                        className="border-b border-default cursor-pointer transition-colors"
-                        style={{ background: isSelected ? 'var(--bg-active)' : 'transparent' }}
-                        onMouseEnter={(e) => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = 'var(--bg-hover)'; }}
-                        onMouseLeave={(e) => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-                      >
-                        <td className="px-4 py-2.5 font-semibold text-default flex items-center gap-2">
-                          {u.type === 'Website' ? <Globe size={13} className="text-accent shrink-0" /> : <Monitor size={13} className="text-muted shrink-0" />}
-                          <span className="truncate max-w-[200px]" title={u.name}>{u.name}</span>
-                        </td>
-                        <td className="px-4 py-2.5 text-muted">{u.type}</td>
-                        <td className="px-4 py-2.5 font-bold font-mono text-default">{humanDurationShort(u.totalTime)}</td>
-                        <td className="px-4 py-2.5 text-default font-mono">{u.sessionCount}</td>
-                        <td className="px-4 py-2.5 text-faint font-mono">{fmtTime(u.lastUsed)}</td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="w-[340px] card overflow-hidden flex flex-col shrink-0">
-            <div className="card-section border-b border-default bg-secondary py-3 flex items-center gap-2">
-              <Activity size={14} className="text-muted" />
-              <div className="text-[12px] uppercase tracking-wide text-muted font-bold">Usage Details</div>
-            </div>
-            <div className="flex-1 overflow-y-auto p-5">
-              {selectedUsage ? (
-                <div className="space-y-5 animate-fadeIn">
-                  <div>
-                    <span className="chip font-semibold text-[11px]" style={{ borderColor: selectedUsage.type === 'Website' ? 'var(--accent)' : 'var(--border-strong)', color: selectedUsage.type === 'Website' ? 'var(--accent)' : 'var(--text)' }}>
-                      {selectedUsage.type}
-                    </span>
-                    <h2 className="text-[18px] font-bold mt-2 text-default select-all break-all" title={selectedUsage.name}>
-                      {selectedUsage.name}
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-secondary border border-default rounded-xl p-3">
-                      <div className="text-[10px] text-muted uppercase font-bold tracking-wide">Total Time</div>
-                      <div className="text-[16px] font-extrabold mt-1 text-default font-mono">{humanDurationShort(selectedUsage.totalTime)}</div>
-                    </div>
-                    <div className="bg-secondary border border-default rounded-xl p-3">
-                      <div className="text-[10px] text-muted uppercase font-bold tracking-wide">Events Count</div>
-                      <div className="text-[16px] font-extrabold mt-1 text-default font-mono">{selectedUsage.sessionCount}</div>
-                    </div>
-                  </div>
-
-                  <div className="bg-secondary border border-default rounded-xl p-3 space-y-1">
-                    <div className="text-[10px] text-muted uppercase font-bold tracking-wide">Latest Activity</div>
-                    <div className="text-[12.5px] font-semibold text-default break-words leading-snug" title={selectedUsage.latestActivity}>{selectedUsage.latestActivity || '—'}</div>
-                    <div className="text-[10px] text-faint font-mono pt-1 font-semibold">Last active at {fmtTime(selectedUsage.lastUsed)}</div>
-                  </div>
-
-                  <div>
-                    <div className="text-[11px] text-muted uppercase font-bold tracking-wide mb-2 flex items-center gap-1.5">
-                      <Clock size={12} />
-                      <span>Intervals ({selectedUsage.intervals.length})</span>
-                    </div>
-                    <div className="space-y-2 max-h-[180px] overflow-y-auto pr-1">
-                      {selectedUsage.intervals.map((interval, idx) => {
-                        const intervalDur = interval.endedAt.getTime() - interval.startedAt.getTime();
-                        return (
-                          <div key={idx} className="flex justify-between items-center text-[12px] bg-secondary px-3 py-2 rounded-lg border border-default">
-                            <span className="font-mono text-muted">{fmtHm(interval.startedAt)} – {fmtHm(interval.endedAt)}</span>
-                            <span className="font-bold text-default font-mono">{humanDuration(intervalDur)}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="h-full flex flex-col items-center justify-center text-center text-muted px-4 py-8">
-                  <HelpCircle size={36} className="text-faint mb-2" />
-                  <div className="text-[13.5px] font-semibold text-default">Select Entry</div>
-                  <p className="text-[12.5px] text-muted mt-1 leading-relaxed">
-                    Click any application or website row in the table to inspect details and see specific tracking intervals.
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : (
-        /* Rules Tab */
-        <div className="card flex-1 min-h-[400px] overflow-hidden flex flex-col">
-          <div className="card-section border-b border-default bg-secondary flex justify-between items-center py-3">
-            <div className="text-[12.5px] text-muted">Showing {filteredRules.length} rule(s) configured.</div>
-            <div className="flex gap-3 items-center">
-              <div className="relative w-72">
-                <span className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-muted">
-                  <Search size={14} />
-                </span>
-                <input
-                  type="text"
-                  placeholder="Search Activities..."
+                  placeholder="Search rules..."
                   value={rulesSearchQuery}
                   onChange={(e) => setRulesSearchQuery(e.target.value)}
-                  className="w-full pl-8 pr-3 py-1 bg-default border border-default rounded-md text-[13px] text-default placeholder-muted focus:outline-none focus:border-accent"
+                  className="w-full pr-3 py-1 bg-default border border-default rounded-md text-[12.5px] text-default placeholder-muted focus:outline-none focus:border-accent"
+                  style={{ paddingLeft: '28px' }}
                 />
               </div>
               <button
-                className="btn btn-primary py-1 px-3 text-[12.5px] font-semibold"
+                className="btn btn-primary py-1 px-3 text-[12px] font-bold"
                 onClick={() => {
                   const newActId = `act_${Date.now()}`;
                   const newRuleId = `rule_${Date.now()}`;
@@ -709,21 +612,316 @@ export function ActivityPage({
                 + Create Rule
               </button>
             </div>
+          )}
+        </div>
+      </section>
+
+      {error && (
+        <section className="card border-danger">
+          <div className="card-section text-[13px] text-danger">
+            Failed to load events: {error}
+          </div>
+        </section>
+      )}
+
+      {/* Tab Contents */}
+      {activeTab === 'events' ? (
+        <div className="card flex-1 min-h-0 overflow-hidden flex flex-col rounded-xl border border-default">
+          <div className="card-section border-b border-default bg-secondary py-2 px-4">
+            <div className="text-[12px] text-muted">Showing {filteredEvents.length} event(s) today.</div>
           </div>
 
           <div className="flex-1 overflow-auto relative">
             <table className="w-full text-[12.5px]" style={{ borderCollapse: 'collapse' }}>
               <thead>
-                <tr className="bg-secondary border-b border-default sticky top-0 z-10 select-none">
-                  <th className="text-left font-bold px-4 py-2.5 cursor-pointer hover:text-default" style={{ color: 'var(--text-muted)' }} onClick={() => setRulesSortAsc(!rulesSortAsc)}>
+                <tr className="bg-secondary border-b border-default sticky top-0 z-10 text-muted font-bold">
+                  {['Time', 'Duration', 'Watcher', 'App', 'Title', 'URL'].map((h) => (
+                    <th key={h} className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredEvents.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="px-4 py-16 text-center text-muted">
+                      {loading ? (
+                        <span>Loading events...</span>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center gap-1">
+                          <Activity size={32} className="text-faint mb-1 animate-pulse" />
+                          <span className="font-semibold text-default">No matching events</span>
+                          <span className="text-[12px] text-faint">Try adjusting your search terms.</span>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                )}
+                {filteredEvents.map((e) => {
+                  const started = new Date(e.startedAt);
+                  const ended = new Date(e.endedAt);
+                  const dur = humanDuration(ended.getTime() - started.getTime());
+                  const eventDomain = e.url ? getDomain(e.url) : null;
+                  return (
+                    <tr key={e.id} className="border-b border-default hover:bg-hover transition-colors">
+                      <td className="px-4 py-2 whitespace-nowrap text-muted font-mono">{fmtTime(started)}</td>
+                      <td className="px-4 py-2 whitespace-nowrap text-default font-mono font-bold">{dur}</td>
+                      <td className="px-4 py-2 whitespace-nowrap font-medium text-muted">{e.watcher}</td>
+                      <td className="px-4 py-2 font-semibold text-default">
+                        <div className="flex items-center gap-2">
+                          {eventDomain ? <WebsiteFavicon domain={eventDomain} size={14} /> : <AppIcon appName={e.app ?? ''} size={14} />}
+                          <span>{e.app ?? '—'}</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-2 text-default truncate max-w-xs" title={e.title ?? ''}>{e.title ?? '—'}</td>
+                      <td className="px-4 py-2 truncate max-w-xs">
+                        {e.url ? (
+                          <span className="text-[12px] text-accent font-mono truncate" title={e.url}>{e.url}</span>
+                        ) : (
+                          '—'
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : activeTab === 'usage' ? (
+        <div className="flex gap-4 flex-1 min-h-0 overflow-hidden">
+          {/* Left Master usage list */}
+          <div className="flex-1 overflow-hidden flex flex-col space-y-3">
+            {/* Top Usage Today Row */}
+            <div className="card bg-secondary p-3 border border-default rounded-xl">
+              <div className="text-[10px] font-bold text-muted uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                <Clock size={11} />
+                <span>Top Usage Today</span>
+              </div>
+              <div className="flex gap-3 overflow-x-auto py-0.5">
+                {topUsageList.map((u) => (
+                  <div
+                    key={u.key}
+                    onClick={() => setSelectedUsageKey(u.key)}
+                    className="flex items-center gap-2 bg-default border border-default px-2.5 py-1 rounded-lg cursor-pointer hover:bg-hover hover:border-strong transition-colors shrink-0"
+                    style={{
+                      borderColor: selectedUsageKey === u.key ? 'var(--accent)' : 'var(--border)',
+                    }}
+                  >
+                    {u.type === 'Website' ? <WebsiteFavicon domain={u.name} size={13} /> : <AppIcon appName={u.name} size={13} />}
+                    <span className="font-semibold text-default text-[12px] truncate max-w-[100px]">{u.name}</span>
+                    <span className="font-mono text-muted text-[11px] font-bold">{humanDurationShort(u.totalTime)}</span>
+                  </div>
+                ))}
+                {topUsageList.length === 0 && (
+                  <span className="text-[11px] text-faint">No usage records for today.</span>
+                )}
+              </div>
+            </div>
+
+            {/* Grouped lists */}
+            <div className="card flex-1 overflow-y-auto p-4 space-y-5 rounded-xl border border-default">
+              {/* Applications Group */}
+              <div className="space-y-2">
+                <h3 className="text-[11px] font-bold text-muted uppercase tracking-wider border-b border-default pb-1 flex items-center gap-1.5">
+                  <Monitor size={12} className="text-muted" />
+                  <span>Applications ({applications.length})</span>
+                </h3>
+                {applications.length === 0 ? (
+                  <div className="text-[11.5px] text-faint py-4 text-center bg-secondary rounded-lg border border-dashed border-default">No applications tracked today.</div>
+                ) : (
+                  <div className="space-y-1.5">
+                    {applications.map((u) => renderUsageRow(u))}
+                  </div>
+                )}
+              </div>
+
+              {/* Websites Group */}
+              <div className="space-y-2">
+                <h3 className="text-[11px] font-bold text-muted uppercase tracking-wider border-b border-default pb-1 flex items-center gap-1.5">
+                  <Globe size={12} className="text-muted" />
+                  <span>Websites ({websites.length})</span>
+                </h3>
+                {websites.length === 0 ? (
+                  <div className="text-[11.5px] text-faint py-4 text-center bg-secondary rounded-lg border border-dashed border-default">No websites visited today.</div>
+                ) : (
+                  <div className="space-y-1.5">
+                    {websites.map((u) => renderUsageRow(u))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Detail Card */}
+          <div className="w-[320px] card overflow-hidden flex flex-col shrink-0 rounded-xl border border-default">
+            <div className="card-section border-b border-default bg-secondary py-2 px-4 flex items-center gap-2">
+              <Activity size={13} className="text-muted" />
+              <div className="text-[11px] uppercase tracking-wide text-muted font-bold">Details</div>
+            </div>
+            <div className="flex-1 overflow-y-auto p-4">
+              {selectedUsage ? (
+                <div className="space-y-4 animate-fadeIn">
+                  <div>
+                    <span className="chip font-semibold text-[10px]" style={{ borderColor: selectedUsage.type === 'Website' ? 'var(--accent)' : 'var(--border-strong)', color: selectedUsage.type === 'Website' ? 'var(--accent)' : 'var(--text)' }}>
+                      {selectedUsage.type}
+                    </span>
+                    <h2 className="text-[18px] font-extrabold mt-1.5 text-default select-all break-all leading-tight" title={selectedUsage.name}>
+                      {selectedUsage.name}
+                    </h2>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <div className="bg-secondary border border-default rounded-xl p-3">
+                      <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Tracked Duration</div>
+                      <div className="text-[15px] font-extrabold mt-1 text-default font-mono">{humanDurationShort(selectedUsage.totalTime)}</div>
+                    </div>
+                    <div className="bg-secondary border border-default rounded-xl p-3">
+                      <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Sessions count</div>
+                      <div className="text-[15px] font-extrabold mt-1 text-default font-mono">{selectedUsage.sessionCount}</div>
+                    </div>
+                  </div>
+
+                  <div className="bg-secondary border border-default rounded-xl p-3 space-y-1">
+                    <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Latest Window Title</div>
+                    <div className="text-[12px] font-semibold text-default break-words leading-tight" title={selectedUsage.latestActivity}>{selectedUsage.latestActivity || '—'}</div>
+                    <div className="text-[9.5px] text-faint font-mono pt-0.5 font-bold">Active at {fmtTime(selectedUsage.lastUsed)}</div>
+                  </div>
+
+                  <div>
+                    <div className="text-[10px] text-muted uppercase font-bold tracking-wide mb-2 flex items-center gap-1.5">
+                      <Clock size={11} />
+                      <span>Intervals ({selectedUsage.intervals.length})</span>
+                    </div>
+                    <div className="space-y-1.5 max-h-[160px] overflow-y-auto pr-1">
+                      {selectedUsage.intervals.map((interval, idx) => {
+                        const intervalDur = interval.endedAt.getTime() - interval.startedAt.getTime();
+                        return (
+                          <div key={idx} className="flex justify-between items-center text-[11.5px] bg-secondary px-2.5 py-1.5 rounded-lg border border-default">
+                            <span className="font-mono text-muted">{fmtHm(interval.startedAt)} – {fmtHm(interval.endedAt)}</span>
+                            <span className="font-bold text-default font-mono">{humanDuration(intervalDur)}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  
+                  <div className="pt-2 border-t border-default flex justify-end">
+                    <button
+                      onClick={() => setSelectedUsageKey(null)}
+                      className="text-[11.5px] text-accent font-semibold hover:underline"
+                    >
+                      Clear selection
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* Today's Summary Dashboard when nothing is selected */
+                <div className="space-y-4 animate-fadeIn">
+                  <div>
+                    <span className="text-[10px] text-muted uppercase font-bold tracking-wider">Dashboard</span>
+                    <h2 className="text-[18px] font-extrabold mt-1 text-default">
+                      Today's Summary
+                    </h2>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    <div className="bg-secondary border border-default rounded-xl p-3">
+                      <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Total Tracked Time</div>
+                      <div className="text-[18px] font-extrabold mt-0.5 text-accent font-mono">
+                        {humanDurationShort(totalTrackedTime)}
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2.5">
+                      <div className="bg-secondary border border-default rounded-xl p-3">
+                        <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Applications</div>
+                        <div className="text-[15px] font-extrabold mt-0.5 text-default font-mono">
+                          {todaySummary.totalApps}
+                        </div>
+                      </div>
+                      <div className="bg-secondary border border-default rounded-xl p-3">
+                        <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Websites</div>
+                        <div className="text-[15px] font-extrabold mt-0.5 text-default font-mono">
+                          {todaySummary.totalSites}
+                        </div>
+                      </div>
+                    </div>
+
+                    {todaySummary.mostUsedApp && (
+                      <div className="bg-secondary border border-default rounded-xl p-3 flex justify-between items-center gap-2">
+                        <div className="min-w-0">
+                          <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Most Used App</div>
+                          <div className="text-[12.5px] font-bold text-default truncate mt-0.5" style={{ maxWidth: '140px' }} title={todaySummary.mostUsedApp.name}>
+                            {todaySummary.mostUsedApp.name}
+                          </div>
+                        </div>
+                        <span className="font-bold text-default text-[12.5px] font-mono shrink-0">{humanDurationShort(todaySummary.mostUsedApp.totalTime)}</span>
+                      </div>
+                    )}
+
+                    {todaySummary.mostUsedSite && (
+                      <div className="bg-secondary border border-default rounded-xl p-3 flex justify-between items-center gap-2">
+                        <div className="min-w-0">
+                          <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Most Used Website</div>
+                          <div className="text-[12.5px] font-bold text-default truncate mt-0.5" style={{ maxWidth: '140px' }} title={todaySummary.mostUsedSite.name}>
+                            {todaySummary.mostUsedSite.name}
+                          </div>
+                        </div>
+                        <span className="font-bold text-default text-[12.5px] font-mono shrink-0">{humanDurationShort(todaySummary.mostUsedSite.totalTime)}</span>
+                      </div>
+                    )}
+
+                    {todaySummary.mostOpenedApp && (
+                      <div className="bg-secondary border border-default rounded-xl p-3 flex justify-between items-center gap-2">
+                        <div className="min-w-0">
+                          <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Most Opened App</div>
+                          <div className="text-[12.5px] font-bold text-default truncate mt-0.5" style={{ maxWidth: '140px' }} title={todaySummary.mostOpenedApp.name}>
+                            {todaySummary.mostOpenedApp.name}
+                          </div>
+                        </div>
+                        <span className="text-muted text-[11px] font-bold shrink-0">{todaySummary.mostOpenedApp.sessionCount} times</span>
+                      </div>
+                    )}
+
+                    {todaySummary.mostOpenedSite && (
+                      <div className="bg-secondary border border-default rounded-xl p-3 flex justify-between items-center gap-2">
+                        <div className="min-w-0">
+                          <div className="text-[9.5px] text-muted uppercase font-bold tracking-wide">Most Opened Website</div>
+                          <div className="text-[12.5px] font-bold text-default truncate mt-0.5" style={{ maxWidth: '140px' }} title={todaySummary.mostOpenedSite.name}>
+                            {todaySummary.mostOpenedSite.name}
+                          </div>
+                        </div>
+                        <span className="text-muted text-[11px] font-bold shrink-0">{todaySummary.mostOpenedSite.sessionCount} times</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Rules Tab */
+        <div className="card flex-1 min-h-0 overflow-hidden flex flex-col rounded-xl border border-default">
+          <div className="card-section border-b border-default bg-secondary py-2 px-4">
+            <div className="text-[12px] text-muted">Showing {filteredRules.length} rule(s) configured.</div>
+          </div>
+
+          <div className="flex-1 overflow-auto relative">
+            <table className="w-full text-[12.5px]" style={{ borderCollapse: 'collapse' }}>
+              <thead>
+                <tr className="bg-secondary border-b border-default sticky top-0 z-10 text-muted font-bold select-none">
+                  <th className="text-left px-4 py-2 cursor-pointer hover:text-default" style={{ color: 'var(--text-muted)' }} onClick={() => setRulesSortAsc(!rulesSortAsc)}>
                     <div className="flex items-center gap-1">
                       Activity Name <ArrowUpDown size={12} className="opacity-60" />
                     </div>
                   </th>
-                  <th className="text-left font-bold px-4 py-2.5" style={{ color: 'var(--text-muted)' }}>Match Rule</th>
-                  <th className="text-left font-bold px-4 py-2.5" style={{ color: 'var(--text-muted)' }}>Color</th>
-                  <th className="text-left font-bold px-4 py-2.5" style={{ color: 'var(--text-muted)' }}>Status</th>
-                  <th className="text-right font-bold px-4 py-2.5" style={{ color: 'var(--text-muted)' }}>Actions</th>
+                  <th className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>Match Rule</th>
+                  <th className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>Color</th>
+                  <th className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>Status</th>
+                  <th className="text-right px-4 py-2" style={{ color: 'var(--text-muted)' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -743,15 +941,15 @@ export function ActivityPage({
                   const colorObj = CURATED_COLORS.find((c) => c.name === act?.color) ?? CURATED_COLORS[0];
                   return (
                     <tr key={rule.id} className="border-b border-default hover:bg-hover transition-colors">
-                      <td className="px-4 py-2.5 font-bold text-default">{act?.name ?? rule.activityId}</td>
-                      <td className="px-4 py-2.5 text-muted font-semibold break-all">{conditionSummary(rule.conditions)}</td>
-                      <td className="px-4 py-2.5">
+                      <td className="px-4 py-2 font-bold text-default">{act?.name ?? rule.activityId}</td>
+                      <td className="px-4 py-2 text-muted font-semibold break-all">{conditionSummary(rule.conditions)}</td>
+                      <td className="px-4 py-2">
                         <div style={{ width: 12, height: 12, borderRadius: '50%', background: colorObj.hex }} title={act?.color} />
                       </td>
-                      <td className="px-4 py-2.5">
+                      <td className="px-4 py-2">
                         <input type="checkbox" checked={rule.enabled === 1} onChange={() => handleToggleRule(rule)} style={{ accentColor: 'var(--accent)', cursor: 'pointer' }} />
                       </td>
-                      <td className="px-4 py-2.5 text-right space-x-2">
+                      <td className="px-4 py-2 text-right space-x-2">
                         <button onClick={() => {
                           let conds = [];
                           try { conds = JSON.parse(rule.conditions); } catch {}
@@ -782,16 +980,16 @@ export function ActivityPage({
       {/* Inline Rule Editor modal */}
       {editorOpen && editRule && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.4)', zIndex: 1000, display: 'flex', alignItems: 'center', padding: 24, justifyContent: 'center' }}>
-          <div className="card space-y-5" style={{ width: '100%', maxWidth: '480px', padding: 24, animation: 'inspectorIn 140ms var(--ease-out)', boxShadow: 'var(--shadow-lg)' }}>
+          <div className="card space-y-4" style={{ width: '100%', maxWidth: '460px', padding: 20, animation: 'inspectorIn 140ms var(--ease-out)', boxShadow: 'var(--shadow-lg)', borderRadius: 12 }}>
             <div>
-              <h2 className="text-[18px] font-bold text-default">{editingRuleId ? 'Edit Tracking Rule' : 'Create Tracking Rule'}</h2>
-              <p className="text-[12.5px] text-muted mt-0.5">
+              <h2 className="text-[17px] font-bold text-default">{editingRuleId ? 'Edit Tracking Rule' : 'Create Tracking Rule'}</h2>
+              <p className="text-[12px] text-muted mt-0.5">
                 Automatically associate matching session focus points with an activity and color.
               </p>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-[12.5px] font-bold text-muted">Activity Name</label>
+            <div className="space-y-1">
+              <label className="text-[11.5px] font-bold text-muted">Activity Name</label>
               <input
                 type="text"
                 value={editRule.name}
@@ -801,31 +999,31 @@ export function ActivityPage({
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[12.5px] font-bold text-muted">Theme Color</label>
+            <div className="space-y-1.5">
+              <label className="text-[11.5px] font-bold text-muted">Theme Color</label>
               <div className="flex gap-2 flex-wrap">
                 {CURATED_COLORS.map((col) => (
                   <button
                     key={col.name}
                     title={col.name}
                     onClick={() => setEditRule({ ...editRule, color: col.name })}
-                    style={{ width: 22, height: 22, borderRadius: '50%', background: col.hex, border: editRule.color === col.name ? '2px solid var(--text)' : '1px solid transparent', cursor: 'pointer', padding: 0 }}
+                    style={{ width: 20, height: 20, borderRadius: '50%', background: col.hex, border: editRule.color === col.name ? '2px solid var(--text)' : '1px solid transparent', cursor: 'pointer', padding: 0 }}
                   />
                 ))}
               </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="text-[12.5px] font-bold text-muted flex justify-between items-center">
+            <div className="space-y-1.5">
+              <label className="text-[11.5px] font-bold text-muted flex justify-between items-center">
                 <span>Matching Conditions</span>
-                <button onClick={() => setEditRule({ ...editRule, conditions: [...editRule.conditions, { type: 'app_equals', value: '' }] })} style={{ color: 'var(--accent)', fontSize: '12px', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}>
+                <button onClick={() => setEditRule({ ...editRule, conditions: [...editRule.conditions, { type: 'app_equals', value: '' }] })} style={{ color: 'var(--accent)', fontSize: '11px', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}>
                   + Add Condition
                 </button>
               </label>
 
-              <div className="space-y-2 max-h-[140px] overflow-y-auto pr-1">
+              <div className="space-y-2 max-h-[120px] overflow-y-auto pr-1">
                 {editRule.conditions.length === 0 ? (
-                  <div className="text-[12px] text-faint py-2 text-center bg-secondary rounded-lg border border-default">
+                  <div className="text-[11.5px] text-faint py-2 text-center bg-secondary rounded-lg border border-default">
                     No conditions defined. Match will not trigger.
                   </div>
                 ) : (
@@ -838,7 +1036,7 @@ export function ActivityPage({
                           nextConds[idx] = { ...cond, type: e.target.value };
                           setEditRule({ ...editRule, conditions: nextConds });
                         }}
-                        style={{ background: 'var(--bg-secondary)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 6px', fontSize: '12px', outline: 'none' }}
+                        style={{ background: 'var(--bg-secondary)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 6, padding: '3px 6px', fontSize: '11.5px', outline: 'none' }}
                       >
                         <option value="app_equals">Application equals</option>
                         <option value="title_contains">Window Title contains</option>
@@ -856,10 +1054,10 @@ export function ActivityPage({
                           setEditRule({ ...editRule, conditions: nextConds });
                         }}
                         placeholder="match string"
-                        style={{ flex: 1, background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 6, padding: '4px 8px', fontSize: '12.5px' }}
+                        style={{ flex: 1, background: 'var(--bg)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 6, padding: '3px 6px', fontSize: '12px' }}
                       />
 
-                      <button onClick={() => setEditRule({ ...editRule, conditions: editRule.conditions.filter((_, i) => i !== idx) })} style={{ color: 'var(--danger)', fontSize: '11px', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}>
+                      <button onClick={() => setEditRule({ ...editRule, conditions: editRule.conditions.filter((_, i) => i !== idx) })} style={{ color: 'var(--danger)', fontSize: '10.5px', cursor: 'pointer', background: 'none', border: 'none', padding: 0 }}>
                         Remove
                       </button>
                     </div>
@@ -870,12 +1068,12 @@ export function ActivityPage({
 
             <div className="flex items-center gap-2 select-none">
               <input type="checkbox" id="rule_enabled" checked={editRule.enabled} onChange={(e) => setEditRule({ ...editRule, enabled: e.target.checked })} style={{ accentColor: 'var(--accent)' }} />
-              <label htmlFor="rule_enabled" style={{ fontSize: '13px', fontWeight: 500, cursor: 'pointer' }}>Enable Rule</label>
+              <label htmlFor="rule_enabled" style={{ fontSize: '12px', fontWeight: 500, cursor: 'pointer' }}>Enable Rule</label>
             </div>
 
             <div className="flex justify-end gap-2 pt-2 border-t border-default" style={{ borderTop: '1px solid var(--border)' }}>
-              <button className="btn btn-secondary py-1.5 px-4 text-[12.5px]" onClick={handleCancelEditor}>Cancel</button>
-              <button className="btn btn-primary py-1.5 px-4 text-[12.5px]" disabled={!editRule.name.trim()} onClick={handleSaveRule}>Save Rule</button>
+              <button className="btn btn-secondary py-1 px-3 text-[12px]" onClick={handleCancelEditor}>Cancel</button>
+              <button className="btn btn-primary py-1 px-3 text-[12px]" disabled={!editRule.name.trim()} onClick={handleSaveRule}>Save Rule</button>
             </div>
           </div>
         </div>
@@ -886,19 +1084,8 @@ export function ActivityPage({
 
 function getEventNameAndType(e: TrackerEventDto): { name: string; type: 'App' | 'Website' } {
   if (e.url) {
-    let urlStr = e.url.trim();
-    if (!/^https?:\/\//i.test(urlStr)) {
-      urlStr = 'https://' + urlStr;
-    }
-    try {
-      const urlObj = new URL(urlStr);
-      let host = urlObj.hostname;
-      if (host.startsWith('www.')) host = host.slice(4);
-      if (host) return { name: host, type: 'Website' };
-    } catch {
-      const match = e.url.match(/^(?:https?:\/\/)?(?:www\.)?([^\/:]+)/i);
-      if (match && match[1]) return { name: match[1], type: 'Website' };
-    }
+    const domain = getDomain(e.url);
+    if (domain) return { name: domain, type: 'Website' };
   }
   return { name: e.app || 'Unknown App', type: 'App' };
 }

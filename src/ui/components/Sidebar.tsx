@@ -68,32 +68,39 @@ export function Sidebar({ route, onNavigate, open }: SidebarProps) {
       aria-hidden={!open}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="shrink-0 sticky top-11 overflow-hidden flex flex-col transition-[width] duration-200 ease-out z-30"
+      className="shrink-0 sticky top-11 overflow-hidden flex flex-col transition-[width] duration-350 z-30"
       style={{
         width: isExpanded ? '240px' : '56px',
         height: 'calc(100vh - 2.75rem)',
         background: 'var(--bg-secondary)',
         borderRight: '1px solid var(--border)',
         boxShadow: isExpanded && !open ? 'var(--shadow-lg)' : 'none',
-        paddingTop: isExpanded ? '0px' : '12px',
+        transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
       }}
     >
       <div style={{ width: isExpanded ? '240px' : '56px' }} className="flex flex-col h-full">
         {/* Header Section */}
-        {isExpanded && (
-          <div className="px-4 pt-4 pb-3 flex items-center gap-2.5 select-none overflow-hidden animate-fadeIn">
-            <div
-              className="h-7 w-7 rounded-md inline-flex items-center justify-center shrink-0"
-              style={{ background: 'var(--text)', color: 'var(--bg)' }}
-            >
-              <Sparkles size={15} strokeWidth={2.25} />
-            </div>
-            <div className="leading-tight">
+        <div
+          className="pt-4 pb-3 flex items-center select-none overflow-hidden shrink-0"
+          style={{
+            height: '56px',
+            paddingLeft: '14px',
+            paddingRight: '14px',
+          }}
+        >
+          <div
+            className="h-7 w-7 rounded-md inline-flex items-center justify-center shrink-0"
+            style={{ background: 'var(--text)', color: 'var(--bg)' }}
+          >
+            <Sparkles size={15} strokeWidth={2.25} />
+          </div>
+          {isExpanded && (
+            <div className="leading-tight ml-2.5 animate-fadeIn" style={{ animationDuration: '300ms' }}>
               <div className="text-[13.5px] font-semibold text-default whitespace-nowrap">Productivity Coach</div>
               <div className="text-[11.5px] text-muted mt-0.5 whitespace-nowrap">Reflect Timeline</div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
 
         {/* Navigation Items */}
         <nav className="px-2 mt-1 flex flex-col gap-0.5">
@@ -108,7 +115,7 @@ export function Sidebar({ route, onNavigate, open }: SidebarProps) {
                   color: isActive ? 'var(--text)' : 'var(--text-muted)',
                   fontWeight: isActive ? 500 : 400,
                   background: isActive ? 'var(--bg-active)' : 'transparent',
-                  padding: isExpanded ? '6px 10px' : '8px 0',
+                  padding: '7px 10px',
                   justifyContent: isExpanded ? 'flex-start' : 'center',
                   width: '100%',
                 }}
@@ -121,7 +128,7 @@ export function Sidebar({ route, onNavigate, open }: SidebarProps) {
                 title={!isExpanded ? label : undefined}
               >
                 <Icon size={15} strokeWidth={1.75} className="shrink-0" />
-                {isExpanded && <span className="ml-2.5 whitespace-nowrap animate-fadeIn">{label}</span>}
+                {isExpanded && <span className="ml-2.5 whitespace-nowrap animate-fadeIn" style={{ animationDuration: '300ms' }}>{label}</span>}
               </button>
             );
           })}
