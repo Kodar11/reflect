@@ -17,7 +17,7 @@ export const DAY_SNAP_MIN = 15;
 export const RULER_WIDTH = 56;
 /** Minimum rendered block height so very short sessions stay clickable.
  * Rize-style: tiny 2–3 minute sessions still render tall enough to read. */
-export const MIN_BLOCK_HEIGHT = 30;
+export const MIN_BLOCK_HEIGHT = 34;
 
 /** Minutes in a day. */
 export const DAY_MIN = 24 * 60;
@@ -82,16 +82,50 @@ export function fmtDuration(ms: number): string {
 }
 
 /** Deterministic hue index (0–7) for an app name. Stable across reloads. */
-export function appHueIndex(app?: string | null): number {
-  if (!app) return 0;
-  let h = 0;
-  for (let i = 0; i < app.length; i++) h = (h * 31 + app.charCodeAt(i)) >>> 0;
-  return h % 8;
+export type SessionCategory = 'development' | 'learning' | 'meetings' | 'entertainment' | 'offline';
+
+export function sessionCategory(s: VerifiedSessionDto): SessionCategory {
+  if (s.source === 'user') return 'offline';
+
+  const haystack = [
+    s.primaryApp,
+    s.primaryBrowser,
+    s.primaryTitle,
+    s.primaryUrl,
+    ...s.appsUsed,
+    ...s.browserTabs,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  if (/\b(code|vscode|visual studio|terminal|powershell|github|gitlab|node|npm|vite|typescript|react|electron)\b/.test(haystack)) {
+    return 'development';
+  }
+  if (/\b(meet|zoom|teams|slack|calendar|outlook|gmail|mail|call|standup|meeting)\b/.test(haystack)) {
+    return 'meetings';
+  }
+  if (/\b(youtube|netflix|spotify|prime video|hotstar|twitch|reddit|instagram|x.com|twitter|game|steam)\b/.test(haystack)) {
+    return 'entertainment';
+  }
+  if (/\b(docs|documentation|course|learn|tutorial|stackoverflow|stack overflow|wikipedia|medium|coursera|udemy|article)\b/.test(haystack)) {
+    return 'learning';
+  }
+  return 'learning';
 }
 
-/** CSS var name for an app's hue slot. */
-export function appHueVar(app?: string | null): string {
-  return `var(--block-hue-${appHueIndex(app)})`;
+export function categoryHueIndex(category: SessionCategory): number {
+  switch (category) {
+    case 'development': return 0;
+    case 'learning': return 1;
+    case 'meetings': return 2;
+    case 'entertainment': return 3;
+    case 'offline': return 4;
+  }
+}
+
+export function sessionColorVar(session: VerifiedSessionDto): string {
+  return `var(--block-hue-${categoryHueIndex(sessionCategory(session))})`;
 }
 
 /** Whether two [start, end) intervals overlap. */

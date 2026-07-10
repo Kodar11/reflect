@@ -1,16 +1,17 @@
 /**
  * Horizontal draggable divider between the Timeline canvas and the Inspector
  * panel. Adjusts the timeline's flex-basis as a percentage of the workspace
- * width. Clamps to [60%, 88%] so the inspector never collapses or dominates.
+ * width. Clamps to [68%, 80%] so the inspector stays in the Rize-like
+ * 25-30% range without collapsing.
  * The split ratio is persisted to localStorage so it survives reloads.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { clamp } from './timelineUtils';
 
 const STORAGE_KEY = 'reflect.timelineSplit';
-const MIN_PCT = 60;
-const MAX_PCT = 88;
-const DEFAULT_PCT = 78;
+const MIN_PCT = 68;
+const MAX_PCT = 80;
+const DEFAULT_PCT = 72;
 
 function loadSplit(): number {
   const stored = Number(localStorage.getItem(STORAGE_KEY));

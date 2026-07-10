@@ -1,8 +1,5 @@
-/**
- * Sticky Day View toolbar: day navigation (prev / date picker / next / Today),
- * undo/redo, and Add Offline. Compact chrome so the timeline workspace
- * dominates. No zoom controls (Day View only).
- */
+import { ChevronLeft, ChevronRight, Plus, RotateCcw, RotateCw } from 'lucide-react';
+
 interface TimelineToolbarProps {
   dayLabel: string;
   onPrevDay: () => void;
@@ -40,18 +37,17 @@ export function TimelineToolbar({
         zIndex: 30,
         display: 'flex',
         alignItems: 'center',
-        gap: 8,
-        padding: '8px 12px',
-        background: 'var(--bg-secondary)',
+        gap: 10,
+        padding: '10px 14px',
+        background: 'var(--bg)',
         borderBottom: '1px solid var(--border)',
         flexShrink: 0,
       }}
     >
-      <span style={{ fontWeight: 600, fontSize: '14px' }}>Timeline</span>
+      <span style={{ fontWeight: 650, fontSize: '15px', minWidth: 74 }}>Timeline</span>
 
-      {/* Day navigation */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 4, border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: 2 }}>
-        <TBtn onClick={onPrevDay} title="Previous day">◀</TBtn>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4, border: '1px solid var(--border)', borderRadius: 8, padding: 3, background: 'var(--bg-secondary)' }}>
+        <TBtn onClick={onPrevDay} title="Previous day" icon><ChevronLeft size={15} /></TBtn>
         <input
           type="date"
           onChange={(e) => { if (e.target.value) onPickDay(e.target.value); }}
@@ -60,41 +56,60 @@ export function TimelineToolbar({
             background: 'transparent',
             color: 'var(--text-muted)',
             fontSize: '12.5px',
-            padding: '2px 4px',
+            padding: '2px 6px',
             outline: 'none',
             cursor: 'pointer',
+            width: 112,
           }}
         />
-        <span style={{ fontSize: '12px', color: 'var(--text-muted)', minWidth: 96, textAlign: 'center', userSelect: 'none' }}>
+        <span style={{ fontSize: '12.5px', color: 'var(--text)', minWidth: 104, textAlign: 'center', userSelect: 'none', fontWeight: 500 }}>
           {dayLabel}
         </span>
-        <TBtn onClick={onNextDay} title="Next day">▶</TBtn>
+        <TBtn onClick={onNextDay} title="Next day" icon><ChevronRight size={15} /></TBtn>
         <TBtn onClick={onToday} disabled={isToday} title="Jump to today">Today</TBtn>
       </div>
 
       <div style={{ flex: 1 }} />
 
-      <TBtn disabled={!canUndo} onClick={onUndo} title="Undo (Ctrl+Z)">↶ Undo</TBtn>
-      <TBtn disabled={!canRedo} onClick={onRedo} title="Redo (Ctrl+Shift+Z)">↷ Redo</TBtn>
+      <TBtn disabled={!canUndo} onClick={onUndo} title="Undo (Ctrl+Z)" icon><RotateCcw size={14} /></TBtn>
+      <TBtn disabled={!canRedo} onClick={onRedo} title="Redo (Ctrl+Shift+Z)" icon><RotateCw size={14} /></TBtn>
       <span style={{ width: 1, height: 16, background: 'var(--border)' }} />
-      <TBtn onClick={onInsertOffline} title="Add offline session (Ctrl+I)">+ Offline</TBtn>
+      <TBtn onClick={onInsertOffline} title="Add offline session (Ctrl+I)"><Plus size={14} /> Offline</TBtn>
 
-      <span style={{ marginLeft: 8, fontSize: '11px', color: 'var(--text-faint)' }}>
+      <span style={{ marginLeft: 4, fontSize: '11px', color: 'var(--text-faint)' }}>
         {activeEdits > 0 ? `${activeEdits} edit${activeEdits === 1 ? '' : 's'}` : 'verified'}
       </span>
     </div>
   );
 }
 
-function TBtn({ children, onClick, disabled, title }: { children: React.ReactNode; onClick: () => void; disabled?: boolean; title?: string }) {
+function TBtn({
+  children,
+  onClick,
+  disabled,
+  title,
+  icon,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  disabled?: boolean;
+  title?: string;
+  icon?: boolean;
+}) {
   return (
     <button
       onClick={onClick}
       disabled={disabled}
       title={title}
       style={{
-        padding: '3px 9px',
-        borderRadius: 'var(--radius-sm)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 5,
+        height: 28,
+        minWidth: icon ? 28 : undefined,
+        padding: icon ? '0 6px' : '0 10px',
+        borderRadius: 6,
         border: '1px solid transparent',
         background: 'transparent',
         color: disabled ? 'var(--text-faint)' : 'var(--text-muted)',
@@ -104,6 +119,8 @@ function TBtn({ children, onClick, disabled, title }: { children: React.ReactNod
       }}
       onMouseEnter={(e) => { if (!disabled) (e.currentTarget as HTMLElement).style.background = 'var(--bg-hover)'; }}
       onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
-    >{children}</button>
+    >
+      {children}
+    </button>
   );
 }

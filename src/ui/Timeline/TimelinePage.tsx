@@ -41,6 +41,7 @@ export function TimelinePage() {
   const [sessions, setSessions] = useState<VerifiedSessionDto[]>([]);
   const [activeEdits, setActiveEdits] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [renameRequest, setRenameRequest] = useState<{ id: string; nonce: number } | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; session: VerifiedSessionDto } | null>(null);
   const [offlinePopover, setOfflinePopover] = useState<{ x: number; y: number } | null>(null);
@@ -158,11 +159,8 @@ export function TimelinePage() {
   useTimelineKeyboard(selectedId, {
     editable: !readOnly,
     onRename: (id) => {
-      const el = document.querySelector(`[data-session-id="${id}"]`) as HTMLElement | null;
-      el?.focus();
-      // Rename is primarily double-click/inspector in this pass; focusing the
-      // block lets Enter-on-focused select it for the next interaction.
       setSelectedId(id);
+      setRenameRequest((prev) => ({ id, nonce: (prev?.nonce ?? 0) + 1 }));
     },
     onDelete,
     onUndo: undo,
@@ -259,6 +257,7 @@ export function TimelinePage() {
             selectedId={selectedId}
             isToday={isToday}
             previewSession={preview}
+            renameRequest={renameRequest}
             readonly={readOnly}
             onSelect={onSelect}
             onRename={onRename}
@@ -287,7 +286,10 @@ export function TimelinePage() {
           y={contextMenu.y}
           session={ctxSession}
           isToday={isToday}
-          onRename={() => setSelectedId(ctxSession.id)}
+          onRename={() => {
+            setSelectedId(ctxSession.id);
+            setRenameRequest((prev) => ({ id: ctxSession.id, nonce: (prev?.nonce ?? 0) + 1 }));
+          }}
           onSplit={() => onSplit(ctxSession.id)}
           onMerge={() => onMerge(ctxSession.id)}
           onDelete={() => onDelete(ctxSession.id)}

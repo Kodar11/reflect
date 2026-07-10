@@ -1,27 +1,12 @@
-/**
- * Persistent Inspector Panel for the Day View timeline.
- *
- * Always visible. Two modes:
- *   - No selection → DailySummary (total tracked, session count, longest,
- *     manual edits, timeline integrity).
- *   - One selected  → SessionDetail (title, start/end/duration, apps, tabs,
- *     notes, edit history, actions, + future AI placeholders).
- *
- * Never a modal: it's a right-side dock that updates when selection changes.
- * When the viewed day is not "today", actions are disabled with a read-only
- * note (the backend resolves edit hints against today only).
- */
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
 import { InlineEditor } from './InlineEditor';
 import {
+  categoryHueIndex,
   fmtDuration,
   fmtHm,
-  appHueIndex,
+  sessionCategory,
   totalTracked,
-  longestSession,
-  manualEditCount,
-  totalEventCount,
 } from './timelineUtils';
 
 export interface InspectorActions {
@@ -55,224 +40,272 @@ export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, action
         background: 'var(--bg-secondary)',
         display: 'flex',
         flexDirection: 'column',
-        overflowY: 'auto',
+        overflow: 'hidden',
       }}
     >
-      <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border)' }}>
-        <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-          Inspector
-        </div>
-        <div style={{ fontSize: '12.5px', color: 'var(--text-faint)', marginTop: 2 }}>
-          {selected ? '1 session selected' : dayLabel}
+      <div style={{ padding: '14px 16px 12px', borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 650, textTransform: 'uppercase' }}>
+            Inspector
+          </div>
+          <div style={{ fontSize: '11.5px', color: 'var(--text-faint)' }}>
+            {selected ? 'selected' : dayLabel}
+          </div>
         </div>
       </div>
 
-      {selected ? (
-        <SessionDetail
-          session={selected}
-          isToday={isToday}
-          actions={actions}
-        />
-      ) : (
-        <DailySummary sessions={sessions} />
-      )}
+      <div style={{ flex: 1, overflowY: 'auto' }}>
+        {selected ? (
+          <SessionDetail session={selected} sessions={sessions} isToday={isToday} actions={actions} />
+        ) : (
+          <EmptyInspector sessions={sessions} />
+        )}
+      </div>
     </aside>
   );
 }
 
-// ── No selection ──────────────────────────────────────────────────────────────
-
-function DailySummary({ sessions }: { sessions: VerifiedSessionDto[] }) {
+function EmptyInspector({ sessions }: { sessions: VerifiedSessionDto[] }) {
   const tracked = totalTracked(sessions);
-  const longest = longestSession(sessions);
-  const manual = manualEditCount(sessions);
-  const events = totalEventCount(sessions);
-
   return (
-    <div style={{ padding: 14, display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <SummaryStat label="Total tracked" value={fmtDuration(tracked)} />
-      <SummaryStat label="Sessions" value={String(sessions.length)} />
-      <SummaryStat
-        label="Longest session"
-        value={longest ? `${longest.title || '(unlabelled)'}` : '—'}
-        sub={longest ? fmtDuration(longest.duration) : undefined}
-      />
-      <SummaryStat label="Manual / offline" value={String(manual)} />
-      <SummaryStat label="Events captured" value={String(events)} />
-      <SummaryStat label="Timeline integrity" value={sessions.length === 0 ? '—' : 'verified'} sub={sessions.length === 0 ? undefined : `${events} events → ${sessions.length} sessions`} />
-
-      <div style={{ marginTop: 4, fontSize: '11.5px', color: 'var(--text-faint)' }}>
-        Select a session to edit details and notes.
+    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div>
+        <div style={{ fontSize: 22, fontWeight: 650, lineHeight: 1.1 }}>{fmtDuration(tracked)}</div>
+        <div style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginTop: 4 }}>
+          {sessions.length} session{sessions.length === 1 ? '' : 's'} tracked
+        </div>
+      </div>
+      <div style={{ fontSize: '12.5px', color: 'var(--text-faint)', lineHeight: 1.5 }}>
+        Select a block to rename, annotate, inspect events, or edit the session.
       </div>
     </div>
   );
 }
 
-function SummaryStat({ label, value, sub }: { label: string; value: string; sub?: string }) {
-  return (
-    <div>
-      <div style={{ fontSize: '11px', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{label}</div>
-      <div style={{ fontSize: '14px', color: 'var(--text)', marginTop: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</div>
-      {sub && <div style={{ fontSize: '11.5px', color: 'var(--text-faint)', marginTop: 1 }}>{sub}</div>}
-    </div>
-  );
-}
-
-// ── One selected ─────────────────────────────────────────────────────────────
-
 function SessionDetail({
   session,
+  sessions,
   isToday,
   actions,
 }: {
   session: VerifiedSessionDto;
+  sessions: VerifiedSessionDto[];
   isToday: boolean;
   actions: InspectorActions;
 }) {
   const [editing, setEditing] = useState(false);
   const [noteDraft, setNoteDraft] = useState(session.note ?? '');
-  const hueIdx = appHueIndex(session.primaryApp);
+  const [eventsOpen, setEventsOpen] = useState(true);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const category = sessionCategory(session);
+  const hueIdx = categoryHueIndex(category);
   const isOffline = session.source === 'user';
 
+  useEffect(() => {
+    setEditing(false);
+    setNoteDraft(session.note ?? '');
+    setEventsOpen(true);
+  }, [session.id, session.note]);
+
+  const adjacent = useMemo(() => {
+    const sorted = [...sessions].sort((a, b) => new Date(a.startedAt).getTime() - new Date(b.startedAt).getTime());
+    const idx = sorted.findIndex((s) => s.id === session.id);
+    return {
+      prev: idx > 0 ? sorted[idx - 1] : null,
+      next: idx >= 0 && idx < sorted.length - 1 ? sorted[idx + 1] : null,
+    };
+  }, [sessions, session.id]);
+
   return (
-    <div style={{ padding: 14, display: 'flex', flexDirection: 'column', gap: 12 }}>
-      {/* Color swatch + title */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
-        <div style={{ width: 10, height: 10, borderRadius: '50%', marginTop: 5, background: `var(--block-hue-${hueIdx})`, flexShrink: 0 }} />
-        {editing ? (
-          <InlineEditor
-            initial={session.title}
-            onCommit={(v) => { setEditing(false); actions.onRename(session.id, v); }}
-            onCancel={() => setEditing(false)}
-          />
-        ) : (
-          <div
-            onDoubleClick={() => setEditing(true)}
-            title="Double-click to rename"
-            style={{ fontSize: '15px', fontWeight: 600, flex: 1, cursor: isToday ? 'text' : 'default', lineHeight: 1.3 }}
-          >
-            {session.title || <em style={{ color: 'var(--text-faint)' }}>{isOffline ? '(offline)' : '(unlabelled)'}</em>}
-            {session.isCustomTitle && <span style={{ marginLeft: 6, color: 'var(--accent)', fontSize: '11px' }}>✎</span>}
+    <div style={{ padding: 16, display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <section>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+          <div style={{ width: 10, height: 10, borderRadius: 3, marginTop: 6, background: `var(--block-hue-${hueIdx})`, flexShrink: 0 }} />
+          <div style={{ minWidth: 0, flex: 1 }}>
+            {editing ? (
+              <InlineEditor
+                initial={session.title}
+                placeholder="Session title"
+                onCommit={(v) => { setEditing(false); actions.onRename(session.id, v); }}
+                onCancel={() => setEditing(false)}
+              />
+            ) : (
+              <button
+                onDoubleClick={() => { if (isToday) setEditing(true); }}
+                title={isToday ? 'Double-click to rename' : undefined}
+                style={{ display: 'block', width: '100%', textAlign: 'left', fontSize: 18, fontWeight: 650, lineHeight: 1.2, color: 'var(--text)', cursor: isToday ? 'text' : 'default' }}
+              >
+                <span style={{ display: 'block', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {session.title || (isOffline ? 'Offline activity' : 'Untitled session')}
+                </span>
+              </button>
+            )}
+            <div style={{ fontSize: '12.5px', color: 'var(--text-muted)', marginTop: 6 }}>
+              {fmtHm(session.startedAt)}-{fmtHm(session.endedAt)} · {fmtDuration(session.duration)}
+            </div>
           </div>
-        )}
-      </div>
+        </div>
+      </section>
 
-      {/* Time / duration */}
-      <div style={{ fontSize: '12.5px', color: 'var(--text-muted)' }}>
-        {fmtHm(session.startedAt)} – {fmtHm(session.endedAt)} · {fmtDuration(session.duration)}
-        {session.activeDuration > 0 && session.activeDuration < session.duration && (
-          <span style={{ color: 'var(--text-faint)' }}> · {fmtDuration(session.activeDuration)} active</span>
-        )}
-      </div>
-
-      {/* Source toggle */}
-      <label style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '12.5px', color: 'var(--text-muted)', cursor: isToday ? 'pointer' : 'default' }}>
-        <input
-          type="checkbox"
-          disabled={!isToday}
-          checked={isOffline}
-          onChange={(e) => actions.onToggleOffline(session.id, e.target.checked)}
-        />
-        Offline activity
-      </label>
-
-      {/* Read-only note */}
       {!isToday && (
-        <div style={{ fontSize: '11.5px', color: 'var(--text-faint)', background: 'var(--bg-hover)', borderRadius: 'var(--radius-sm)', padding: '6px 8px' }}>
-          Read-only — only today is editable.
+        <div style={{ fontSize: '12px', color: 'var(--text-faint)', border: '1px solid var(--border)', borderRadius: 6, padding: '8px 10px', background: 'var(--bg)' }}>
+          This day is read-only. Editing is available for today's timeline.
         </div>
       )}
 
-      {/* Note */}
-      {isToday && (
-        <div>
-          <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginBottom: 4 }}>Note</div>
-          <textarea
-            value={noteDraft}
-            onChange={(e) => setNoteDraft(e.target.value)}
-            onBlur={() => actions.onNoteChange(session.id, noteDraft)}
-            placeholder="Add a note…"
-            rows={3}
-            style={{
-              width: '100%',
-              resize: 'none',
-              padding: 6,
-              borderRadius: 'var(--radius-sm)',
-              border: '1px solid var(--border)',
-              background: 'var(--bg)',
-              color: 'var(--text)',
-              fontSize: '12.5px',
-            }}
-          />
+      <Section title="Category">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span className="chip" style={{ borderColor: `var(--block-hue-${hueIdx})` }}>{labelForCategory(category)}</span>
+          <label style={{ display: 'inline-flex', alignItems: 'center', gap: 7, fontSize: '12.5px', color: 'var(--text-muted)', cursor: isToday ? 'pointer' : 'default' }}>
+            <input
+              type="checkbox"
+              disabled={!isToday}
+              checked={isOffline}
+              onChange={(e) => actions.onToggleOffline(session.id, e.target.checked)}
+            />
+            Offline
+          </label>
         </div>
-      )}
+      </Section>
 
-      {/* Apps */}
-      <div>
-        <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginBottom: 4 }}>Apps</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-          {session.appsUsed.length === 0 && <span style={{ fontSize: '12px', color: 'var(--text-faint)' }}>—</span>}
-          {session.appsUsed.map((a) => (
-            <span key={a} className="chip">{a}</span>
-          ))}
-        </div>
-      </div>
+      <Section title="Notes">
+        <textarea
+          value={noteDraft}
+          disabled={!isToday}
+          onChange={(e) => setNoteDraft(e.target.value)}
+          onBlur={() => { if (isToday) actions.onNoteChange(session.id, noteDraft); }}
+          placeholder="Add a note"
+          rows={4}
+          style={{
+            width: '100%',
+            resize: 'vertical',
+            minHeight: 78,
+            padding: 9,
+            borderRadius: 6,
+            border: '1px solid var(--border)',
+            background: 'var(--bg)',
+            color: 'var(--text)',
+            fontSize: '12.5px',
+            lineHeight: 1.45,
+            outline: 'none',
+          }}
+        />
+      </Section>
 
-      {/* Tabs */}
-      {session.browserTabs.length > 0 && (
-        <div>
-          <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginBottom: 4 }}>Tabs</div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-            {session.browserTabs.map((t) => (
-              <span key={t} className="chip" style={{ fontSize: '11px', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis' }}>{t}</span>
+      <Section title="Apps Used">
+        <PillList values={session.appsUsed} empty="No app data" />
+      </Section>
+
+      <Section title="Websites">
+        <PillList values={session.browserTabs} empty={session.primaryUrl ? session.primaryUrl : 'No website data'} />
+      </Section>
+
+      <Section title="Raw Events">
+        <DisclosureButton open={eventsOpen} onClick={() => setEventsOpen((v) => !v)}>
+          {session.eventCount} event{session.eventCount === 1 ? '' : 's'}
+        </DisclosureButton>
+        {eventsOpen && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8 }}>
+            {session.eventIds.length === 0 ? (
+              <div style={{ fontSize: '12px', color: 'var(--text-faint)' }}>No raw events attached.</div>
+            ) : session.eventIds.map((id, index) => (
+              <div key={id} style={{ display: 'flex', alignItems: 'center', gap: 8, minHeight: 24, fontSize: '12px', color: 'var(--text-muted)' }}>
+                <span style={{ width: 18, color: 'var(--text-faint)', textAlign: 'right' }}>{index + 1}</span>
+                <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {session.primaryApp || 'Activity'}{session.primaryTitle ? ` · ${session.primaryTitle}` : ''}
+                </span>
+                <span style={{ color: 'var(--text-faint)', fontVariantNumeric: 'tabular-nums' }}>#{id}</span>
+              </div>
             ))}
           </div>
+        )}
+      </Section>
+
+      <Section title="History">
+        <DisclosureButton open={historyOpen} onClick={() => setHistoryOpen((v) => !v)}>
+          {session.isCustomTitle || session.note || isOffline ? 'Manual changes present' : 'Generated session'}
+        </DisclosureButton>
+        {historyOpen && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8, fontSize: '12px', color: 'var(--text-muted)' }}>
+            <HistoryLine label="Title" value={session.isCustomTitle ? 'Renamed' : 'Auto titled'} />
+            <HistoryLine label="Source" value={isOffline ? 'Offline' : 'Generated'} />
+            <HistoryLine label="Previous" value={adjacent.prev ? adjacent.prev.title || fmtHm(adjacent.prev.startedAt) : 'None'} />
+            <HistoryLine label="Next" value={adjacent.next ? adjacent.next.title || fmtHm(adjacent.next.startedAt) : 'None'} />
+          </div>
+        )}
+      </Section>
+
+      <Section title="Actions">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8 }}>
+          <InspBtn disabled={!isToday} onClick={() => setEditing(true)}>Rename</InspBtn>
+          <InspBtn disabled={!isToday} onClick={() => actions.onSplit(session.id)}>Split</InspBtn>
+          <InspBtn disabled={!isToday} onClick={() => actions.onMerge(session.id)}>Merge</InspBtn>
+          <InspBtn disabled={!isToday} onClick={() => actions.onDuplicate(session.id)}>Duplicate</InspBtn>
+          <InspBtn disabled={!isToday} onClick={() => actions.onToggleOffline(session.id, !isOffline)}>Convert Offline</InspBtn>
+          <InspBtn onClick={() => actions.onCopyDetails(session)}>Copy Details</InspBtn>
+          <InspBtn disabled={!isToday} onClick={() => actions.onDelete(session.id)} danger>Delete</InspBtn>
         </div>
-      )}
+      </Section>
 
-      {/* Edit history */}
-      <div style={{ fontSize: '11.5px', color: 'var(--text-muted)' }}>
-        {session.isCustomTitle ? 'Renamed' : 'Auto-titled'} · {session.source === 'user' ? 'Offline entry' : 'Generated'} · {session.eventCount} event{session.eventCount === 1 ? '' : 's'}
-      </div>
-
-      {/* Actions */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-        <InspBtn disabled={!isToday} onClick={() => setEditing(true)}>Rename</InspBtn>
-        <InspBtn disabled={!isToday} onClick={() => actions.onSplit(session.id)}>Split</InspBtn>
-        <InspBtn disabled={!isToday} onClick={() => actions.onMerge(session.id)}>Merge</InspBtn>
-        <InspBtn disabled={!isToday} onClick={() => actions.onDuplicate(session.id)}>Duplicate</InspBtn>
-        <InspBtn disabled={!isToday} onClick={() => actions.onDelete(session.id)} danger>Delete</InspBtn>
-        <InspBtn disabled={!isToday} onClick={() => actions.onToggleOffline(session.id, !isOffline)}>{isOffline ? 'Mark generated' : 'Mark offline'}</InspBtn>
-        <InspBtn onClick={() => actions.onCopyDetails(session)}>Copy details</InspBtn>
-      </div>
-
-      {/* Future placeholders */}
-      <div style={{ marginTop: 6, paddingTop: 10, borderTop: '1px solid var(--border)' }}>
-        <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginBottom: 6 }}>Coming soon</div>
+      <Section title="Future AI">
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-          <Placeholder>AI Classification</Placeholder>
-          <Placeholder>AI Explanation</Placeholder>
+          <Placeholder>Explain</Placeholder>
+          <Placeholder>Classify</Placeholder>
           <Placeholder>Project</Placeholder>
-          <Placeholder>Tags</Placeholder>
         </div>
+      </Section>
+    </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <section style={{ borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+      <div style={{ fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 650, marginBottom: 8 }}>
+        {title}
       </div>
+      {children}
+    </section>
+  );
+}
+
+function PillList({ values, empty }: { values: string[]; empty: string }) {
+  if (values.length === 0) return <div style={{ fontSize: '12.5px', color: 'var(--text-faint)' }}>{empty}</div>;
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+      {values.map((value) => (
+        <span key={value} className="chip" style={{ maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {value}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function DisclosureButton({ open, onClick, children }: { open: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{ display: 'flex', alignItems: 'center', gap: 6, width: '100%', fontSize: '12.5px', color: 'var(--text)', textAlign: 'left' }}
+    >
+      <span style={{ color: 'var(--text-faint)', width: 10 }}>{open ? 'v' : '>'}</span>
+      <span>{children}</span>
+    </button>
+  );
+}
+
+function HistoryLine({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{ display: 'flex', gap: 8 }}>
+      <span style={{ width: 70, color: 'var(--text-faint)' }}>{label}</span>
+      <span style={{ minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</span>
     </div>
   );
 }
 
 function Placeholder({ children }: { children: React.ReactNode }) {
   return (
-    <span
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        padding: '2px 8px',
-        borderRadius: 'var(--radius-sm)',
-        border: '1px dashed var(--border-strong)',
-        color: 'var(--text-faint)',
-        fontSize: '11px',
-      }}
-    >
+    <span style={{ display: 'inline-flex', alignItems: 'center', padding: '3px 8px', borderRadius: 6, border: '1px dashed var(--border-strong)', color: 'var(--text-faint)', fontSize: '11.5px' }}>
       {children}
     </span>
   );
@@ -284,16 +317,31 @@ function InspBtn({ children, onClick, disabled, danger }: { children: React.Reac
       onClick={onClick}
       disabled={disabled}
       style={{
-        padding: '3px 8px',
-        borderRadius: 'var(--radius-sm)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: 30,
+        padding: '0 10px',
+        borderRadius: 6,
         border: `1px solid ${danger ? 'var(--danger)' : 'var(--border)'}`,
         background: danger ? 'var(--danger-soft)' : 'var(--bg)',
-        color: disabled ? 'var(--text-faint)' : danger ? 'var(--danger)' : 'var(--text-muted)',
-        fontSize: '11.5px',
+        color: disabled ? 'var(--text-faint)' : danger ? 'var(--danger)' : 'var(--text)',
+        fontSize: '12px',
+        fontWeight: 500,
         cursor: disabled ? 'not-allowed' : 'pointer',
       }}
     >
       {children}
     </button>
   );
+}
+
+function labelForCategory(category: ReturnType<typeof sessionCategory>): string {
+  switch (category) {
+    case 'development': return 'Development';
+    case 'learning': return 'Learning';
+    case 'meetings': return 'Meetings';
+    case 'entertainment': return 'Entertainment';
+    case 'offline': return 'Offline';
+  }
 }

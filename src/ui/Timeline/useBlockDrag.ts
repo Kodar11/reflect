@@ -2,12 +2,15 @@ import { useState, useCallback, useRef } from 'react';
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
 import { timeToPx, pxToTime, snapTime, overlaps } from './timelineUtils';
 
+const DRAG_THRESHOLD_PX = 4;
+
 interface DragState {
   session: VerifiedSessionDto;
   startY: number;
   originalTop: number;
   currentTop: number;
   originalHeight: number;
+  didMove: boolean;
 }
 
 interface UseBlockDragResult {
@@ -48,6 +51,7 @@ export function useBlockDrag(
     const rect = container?.getBoundingClientRect();
     const offsetY = rect ? e.clientY - rect.top + (container?.scrollTop ?? 0) : 0;
     const top = timeToPx(baseDay, new Date(session.startedAt));
+    let didMove = false;
 
     setDrag({
       session,
@@ -55,21 +59,32 @@ export function useBlockDrag(
       originalTop: top,
       currentTop: top,
       originalHeight: timeToPx(baseDay, new Date(session.endedAt)) - top,
+      didMove: false,
     });
 
     const handleMove = (ev: MouseEvent) => {
       if (!containerRef.current) return;
       const r = containerRef.current.getBoundingClientRect();
       const y = ev.clientY - r.top + containerRef.current.scrollTop;
-      setDrag((prev) => (prev ? { ...prev, currentTop: prev.originalTop + (y - prev.startY) } : prev));
+      const delta = y - offsetY;
+      if (!didMove && Math.abs(delta) < DRAG_THRESHOLD_PX) return;
+      didMove = true;
+      setDrag((prev) => (prev ? { ...prev, didMove: true, currentTop: prev.originalTop + delta } : prev));
     };
 
     const handleUp = () => {
       setDrag((prev) => {
         if (!prev) return prev;
+        if (!prev.didMove) return null;
         const proposedStart = snapTime(pxToTime(baseDay, prev.currentTop));
         const duration = new Date(prev.session.endedAt).getTime() - new Date(prev.session.startedAt).getTime();
         const proposedEnd = new Date(proposedStart.getTime() + duration);
+        if (
+          proposedStart.getTime() === new Date(prev.session.startedAt).getTime() &&
+          proposedEnd.getTime() === new Date(prev.session.endedAt).getTime()
+        ) {
+          return null;
+        }
 
         const others = sessionsRef.current.filter((s) => s.id !== prev.session.id);
         const invalid = others.some((s) => overlaps(proposedStart, proposedEnd, new Date(s.startedAt), new Date(s.endedAt)));
@@ -87,10 +102,9 @@ export function useBlockDrag(
 
     window.addEventListener('mousemove', handleMove);
     window.addEventListener('mouseup', handleUp);
-    e.preventDefault();
   }, [baseDay, onCommit]);
 
-  const preview = drag
+  const preview = drag?.didMove
     ? {
         session: drag.session,
         top: drag.currentTop,

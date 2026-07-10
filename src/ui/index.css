@@ -50,15 +50,13 @@
   --dur-normal: 180ms;
   --dur-slow: 260ms;
 
-  /* Stage 3.5 timeline block palette (dark mode). */
-  --block-hue-0: #4aa1ff;
-  --block-hue-1: #4dab9a;
-  --block-hue-2: #ffad48;
-  --block-hue-3: #ff8b82;
-  --block-hue-4: #9f7dff;
-  --block-hue-5: #5cc3e6;
-  --block-hue-6: #f078b4;
-  --block-hue-7: #8ab359;
+  /* Timeline category palette: development, learning, meetings,
+   * entertainment, offline. */
+  --block-hue-0: #2382e2;
+  --block-hue-1: #0f7b6c;
+  --block-hue-2: #7b4fe3;
+  --block-hue-3: #d9730d;
+  --block-hue-4: #737373;
 
   /* Stage 3.6 Day View block palette. The primary block fill is neutral so
    * the timeline reads calm; a thin left-edge bar keeps the deterministic
@@ -72,18 +70,6 @@
   --block-offline: rgba(120, 120, 120, 0.10);
   --block-offline-border: rgba(120, 120, 120, 0.40);
   --block-accent-w: 3px;
-
-  /* Stage 3.5 timeline block palette (light mode). Generated deterministically
-   * from the session primaryApp hash, so the day reads visually at a glance. */
-  --block-hue-0: #2382e2;
-  --block-hue-1: #0f7b6c;
-  --block-hue-2: #d9730d;
-  --block-hue-3: #e03e3e;
-  --block-hue-4: #7b4fe3;
-  --block-hue-5: #0f7b9c;
-  --block-hue-6: #c0398b;
-  --block-hue-7: #5c7b3a;
-
 
   --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.05);
   --shadow-md: 0 4px 12px rgba(15, 15, 15, 0.08);
@@ -136,6 +122,11 @@
   --block-selected-border: var(--accent);
   --block-offline: rgba(255, 255, 255, 0.07);
   --block-offline-border: rgba(255, 255, 255, 0.28);
+  --block-hue-0: #4aa1ff;
+  --block-hue-1: #4dab9a;
+  --block-hue-2: #9f7dff;
+  --block-hue-3: #ffad48;
+  --block-hue-4: #9b9b9b;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45);
@@ -146,10 +137,7 @@ html, body, #root { min-height: 100%; }
 
 body {
   margin: 0;
-  background:
-    radial-gradient(circle at top left, rgba(35, 130, 226, 0.08), transparent 28%),
-    radial-gradient(circle at top right, rgba(15, 123, 108, 0.08), transparent 22%),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
 }
 
@@ -285,4 +273,14 @@ input, textarea, select {
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   color: var(--text-muted);
+}
+
+.session-block:hover {
+  background: var(--block-neutral-hover) !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.session-block:hover .resize-handle-top,
+.session-block:hover .resize-handle-bottom {
+  opacity: 0.65 !important;
 }

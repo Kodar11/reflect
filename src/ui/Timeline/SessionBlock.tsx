@@ -13,13 +13,13 @@
  * Drag & resize are driven by parent hooks via transform callbacks; this
  * component is presentational only (no mutations of its own).
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
 import { InlineEditor } from './InlineEditor';
 import {
   fmtDuration,
   fmtHm,
-  appHueVar,
+  sessionColorVar,
   MIN_BLOCK_HEIGHT,
 } from './timelineUtils';
 
@@ -41,10 +41,13 @@ interface SessionBlockProps {
   isPreview?: boolean;
   invalid?: boolean;
   readonly?: boolean;
+  renameRequestNonce?: number;
   actions: SessionBlockActions;
 }
 
-const COMPACT_THRESHOLD = 50;
+const TINY_THRESHOLD = 38;
+const MEDIUM_THRESHOLD = 62;
+const LARGE_THRESHOLD = 86;
 
 export function SessionBlock({
   session,
@@ -56,13 +59,20 @@ export function SessionBlock({
   isPreview,
   invalid,
   readonly,
+  renameRequestNonce,
   actions,
 }: SessionBlockProps) {
   const [editing, setEditing] = useState(false);
   const isOffline = session.source === 'user';
-  const accent = appHueVar(session.primaryApp);
+  const accent = sessionColorVar(session);
   const visualHeight = Math.max(MIN_BLOCK_HEIGHT, height);
-  const compact = visualHeight < COMPACT_THRESHOLD;
+  const tiny = visualHeight < TINY_THRESHOLD;
+  const medium = visualHeight >= MEDIUM_THRESHOLD;
+  const large = visualHeight >= LARGE_THRESHOLD;
+
+  useEffect(() => {
+    if (renameRequestNonce !== undefined && !readonly && !isPreview) setEditing(true);
+  }, [renameRequestNonce, readonly, isPreview]);
 
   const fill = invalid
     ? 'var(--danger-soft)'
@@ -111,8 +121,8 @@ export function SessionBlock({
         left,
         width,
         height: visualHeight,
-        borderRadius: 'var(--radius-sm)',
-        padding: compact ? '3px 6px 3px 9px' : '4px 8px 4px 10px',
+        borderRadius: 6,
+        padding: tiny ? '2px 7px 2px 10px' : medium ? '7px 10px 7px 12px' : '4px 8px 4px 10px',
         background: fill,
         border: `1px ${borderStyle} ${borderColor}`,
         borderLeft: `${invalid || isSelected ? '1px' : 'var(--block-accent-w)'} solid ${invalid ? 'var(--danger)' : isSelected ? 'var(--block-selected-border)' : accent}`,
@@ -126,6 +136,7 @@ export function SessionBlock({
         zIndex: isSelected ? 10 : isPreview ? 20 : 2,
         boxShadow: isSelected ? 'var(--shadow-md)' : 'none',
         userSelect: 'none',
+        contain: 'layout paint',
       }}
     >
       {/* Rotate the accent bar to be its own left-edge element when neutral. */}
@@ -150,12 +161,12 @@ export function SessionBlock({
           <div
             className="resize-handle-top"
             onMouseDown={(e) => { e.stopPropagation(); actions.onStartResize(session.id, 'top', e); }}
-            style={{ position: 'absolute', top: -3, left: 0, right: 0, height: 6, cursor: 'ns-resize', zIndex: 3 }}
+            style={{ position: 'absolute', top: -3, left: 10, right: 10, height: 6, cursor: 'ns-resize', zIndex: 3, borderTop: '2px solid var(--block-selected-border)', opacity: isSelected ? 0.65 : 0 }}
           />
           <div
             className="resize-handle-bottom"
             onMouseDown={(e) => { e.stopPropagation(); actions.onStartResize(session.id, 'bottom', e); }}
-            style={{ position: 'absolute', bottom: -3, left: 0, right: 0, height: 6, cursor: 'ns-resize', zIndex: 3 }}
+            style={{ position: 'absolute', bottom: -3, left: 10, right: 10, height: 6, cursor: 'ns-resize', zIndex: 3, borderBottom: '2px solid var(--block-selected-border)', opacity: isSelected ? 0.65 : 0 }}
           />
         </>
       )}
@@ -166,14 +177,14 @@ export function SessionBlock({
           initial={session.title}
           onCommit={(v) => { setEditing(false); actions.onRename(session.id, v); }}
           onCancel={() => setEditing(false)}
-          className={compact ? 'text-[11px]' : undefined}
+          className={tiny ? 'text-[11px]' : undefined}
         />
       ) : (
         <div
           style={{
-            fontSize: compact ? '11px' : '13px',
+            fontSize: tiny ? '11px' : medium ? '13px' : '12px',
             fontWeight: 600,
-            lineHeight: 1.25,
+            lineHeight: tiny ? '28px' : 1.25,
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
@@ -183,17 +194,9 @@ export function SessionBlock({
         </div>
       )}
 
-      {/* Time + Duration — small, muted. Hidden in compact mode. */}
-      {!compact && !editing && (
-        <div style={{ fontSize: '10.5px', color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {fmtHm(session.startedAt)} – {fmtHm(session.endedAt)} · {fmtDuration(session.duration)}
-        </div>
-      )}
-
-      {/* Compact-only duration chip. */}
-      {compact && !editing && (
-        <div style={{ fontSize: '10px', color: 'var(--text-muted)', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {fmtDuration(session.duration)}
+      {medium && !editing && (
+        <div style={{ fontSize: '10.5px', color: 'var(--text-muted)', marginTop: 3, lineHeight: 1.25, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {large ? `${fmtHm(session.startedAt)}-${fmtHm(session.endedAt)} · ` : ''}{fmtDuration(session.duration)}
         </div>
       )}
     </div>

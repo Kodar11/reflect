@@ -32,6 +32,7 @@ export interface TimelineCanvasProps {
   selectedId: string | null;
   isToday: boolean;
   previewSession?: { session: VerifiedSessionDto; top: number; height: number; invalid: boolean } | null;
+  renameRequest?: { id: string; nonce: number } | null;
   readonly: boolean;
   onSelect: (id: string) => void;
   onRename: (id: string, newTitle: string) => void;
@@ -48,6 +49,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
       selectedId,
       isToday,
       previewSession,
+      renameRequest,
       readonly,
       onSelect,
       onRename,
@@ -159,6 +161,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
                 width={width}
                 left={left}
                 isSelected={selectedId === session.id}
+                renameRequestNonce={renameRequest?.id === session.id ? renameRequest.nonce : undefined}
                 readonly={readonly}
                 actions={{
                   onSelect,

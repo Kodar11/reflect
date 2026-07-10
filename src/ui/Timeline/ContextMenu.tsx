@@ -81,7 +81,8 @@ export function ContextMenu({
     { id: 'merge', label: 'Merge with next', onSelect: () => { onMerge(); onClose(); }, disabled: !isToday },
     { id: 'duplicate', label: 'Duplicate', onSelect: () => { onDuplicate(); onClose(); }, disabled: !isToday },
     { id: 'note', label: noteOpen ? '✎ Add note…' : 'Add note', onSelect: () => setNoteOpen((v) => !v), disabled: !isToday },
-    { id: 'offline', label: isOffline ? 'Mark as generated' : 'Mark as offline', onSelect: () => { onToggleOffline(!isOffline); onClose(); }, disabled: !isToday },
+    { id: 'offline', label: isOffline ? 'Convert to generated' : 'Convert Offline', onSelect: () => { onToggleOffline(!isOffline); onClose(); }, disabled: !isToday },
+    { id: 'ai', label: 'Future AI Explain', onSelect: onClose, disabled: true },
     { id: 'copy', label: 'Copy details', onSelect: () => { onCopyDetails(); onClose(); } },
     { id: 'delete', label: 'Delete', onSelect: () => { onDelete(); onClose(); }, disabled: !isToday, danger: true },
   ];

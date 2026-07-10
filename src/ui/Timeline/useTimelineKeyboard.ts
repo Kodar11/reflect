@@ -64,6 +64,10 @@ export function useTimelineKeyboard(
     }
     if (e.key === 'Enter') {
       e.preventDefault();
+      return;
+    }
+    if (e.key === 'F2') {
+      e.preventDefault();
       if (actions.editable) actions.onRename(selectedId);
     }
   }, [selectedId, actions]);
