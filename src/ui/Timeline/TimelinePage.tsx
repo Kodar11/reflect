@@ -1,26 +1,26 @@
 /**
- * TimelinePage — the primary Day View workspace (Stage 3.6).
+ * TimelinePage — the primary Multi-View Timeline workspace (Stage 3.7).
  *
  * Layout:
  *   Sticky toolbar (day nav · undo/redo · + offline)
- *   ├─ Timeline canvas (ruler + grid + blocks + current time)
+ *   ├─ Timeline workspace (Day / Week / Month / Year / Custom views)
  *   ┊ Resize divider
  *   └─ Inspector panel (DailySummary or SessionDetail; always visible)
  *
  * State philosophy:
- *   - A single `day` (local Date at start-of-day) drives the view.
+ *   - A single `day` (local Date at start-of-day) drives the view context.
  *   - Single selection (`selectedId: string | null`).
- *   - Editing is only enabled when viewing *today* (the backend resolves
- *     edit hints against today's sessions only — we cannot touch the backend,
- *     so non-today days render read-only with disabled actions).
- *   - Polling runs only while viewing today; past days don't change.
- *   - All mutations go through `window.timeline.apply`; the renderer never
- *     performs merge/split/rename logic.
+ *   - Fetch range is dynamic depending on the active view.
+ *   - All mutations go through `window.timeline.apply`.
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
-import { TimelineToolbar } from './TimelineToolbar';
+import { TimelineToolbar, type TimelineView } from './TimelineToolbar';
 import { TimelineCanvas, type TimelineCanvasHandle } from './TimelineCanvas';
+import { WeekView } from './WeekView';
+import { MonthView } from './MonthView';
+import { YearView } from './YearView';
+import { CustomView } from './CustomView';
 import { InspectorPanel, type InspectorActions } from './InspectorPanel';
 import { ContextMenu } from './ContextMenu';
 import { TimeRangeSelector, type OfflineDraft } from './TimeRangeSelector';
@@ -39,6 +39,7 @@ const POLL_MS = 2500;
 
 export function TimelinePage() {
   const [day, setDay] = useState<Date>(() => startOfDay(new Date()));
+  const [view, setView] = useState<TimelineView>('day');
   const [sessions, setSessions] = useState<VerifiedSessionDto[]>([]);
   const [activeEdits, setActiveEdits] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -47,13 +48,23 @@ export function TimelinePage() {
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number; session: VerifiedSessionDto } | null>(null);
   const [offlinePopover, setOfflinePopover] = useState<{ x: number; y: number; startedAt?: Date; endedAt?: Date } | null>(null);
 
+  // Custom view range states
+  const [customStart, setCustomStart] = useState(() => {
+    const d = new Date();
+    d.setDate(d.getDate() - 7);
+    return d.toISOString().split('T')[0];
+  });
+  const [customEnd, setCustomEnd] = useState(() => {
+    return new Date().toISOString().split('T')[0];
+  });
+
   const canvasRef = useRef<TimelineCanvasHandle>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
   const { timelinePct, onDrag } = useResizeSplit();
 
   const isToday = day.toDateString() === new Date().toDateString();
-  const readOnly = !isToday;
-  const dayLabel = formatDayLabel(day, isToday);
+  const readOnly = view === 'day' ? !isToday : (view === 'week' ? false : true);
+  const dayLabel = getDayLabel(day, isToday, view, customStart, customEnd);
 
   const eventIdsFor = useCallback((id: string): number[] => {
     return sessions.find((s) => s.id === id)?.eventIds ?? [];
@@ -66,8 +77,34 @@ export function TimelinePage() {
 
   const refresh = useCallback(async () => {
     try {
+      let startRange: Date;
+      let endRange: Date;
+
+      if (view === 'day') {
+        startRange = startOfDay(day);
+        endRange = endOfDay(day);
+      } else if (view === 'week') {
+        startRange = getMonday(day);
+        endRange = endOfDay(new Date(startRange.getTime() + 6 * 24 * 3600 * 1000));
+      } else if (view === 'month') {
+        startRange = startOfDay(new Date(day.getFullYear(), day.getMonth(), 1));
+        endRange = endOfDay(new Date(day.getFullYear(), day.getMonth() + 1, 0));
+      } else if (view === 'year') {
+        startRange = startOfDay(new Date(day.getFullYear(), 0, 1));
+        endRange = endOfDay(new Date(day.getFullYear(), 11, 31));
+      } else {
+        // Custom View
+        startRange = startOfDay(new Date(customStart + 'T00:00:00'));
+        endRange = endOfDay(new Date(customEnd + 'T23:59:59'));
+      }
+
+      const now = new Date();
+      const isTodayRange = view === 'day' && day.toDateString() === now.toDateString();
+
       const [list, status] = await Promise.all([
-        isToday ? window.timeline.getToday() : window.timeline.getRange(day.toISOString(), endOfDay(day).toISOString()),
+        isTodayRange
+          ? window.timeline.getToday()
+          : window.timeline.getRange(startRange.toISOString(), endRange.toISOString()),
         window.timeline.status(),
       ]);
       setSessions(sortByStart(list));
@@ -76,14 +113,14 @@ export function TimelinePage() {
       console.error('[TimelinePage] refresh failed', e);
       showToast(`Failed to load: ${(e as Error)?.message ?? String(e)}`);
     }
-  }, [day, isToday, showToast]);
+  }, [day, view, customStart, customEnd, showToast]);
 
   useEffect(() => {
     refresh();
-    if (isToday) canvasRef.current?.scrollToNow();
-  }, [refresh, isToday]);
+    if (view === 'day' && isToday) canvasRef.current?.scrollToNow();
+  }, [refresh, view, isToday]);
 
-  // Clear selection when the day changes if the selected session isn't present.
+  // Clear selection when the day changes if the selected session isn't present
   useEffect(() => {
     if (selectedId && !sessions.some((s) => s.id === selectedId)) setSelectedId(null);
   }, [sessions, selectedId]);
@@ -110,9 +147,6 @@ export function TimelinePage() {
 
   const canUndo = activeEdits > 0;
   const [canRedo, setCanRedo] = useState(false);
-  // Track redo availability cheaply: redo is possible when there's at least one
-  // undone edit in the log. IPC doesn't expose this today, so we optimistically
-  // enable after an undo and disable after a redo/apply.
   useEffect(() => { setCanRedo(false); }, [activeEdits]);
 
   const onRename = useCallback((id: string, newTitle: string) => applyEdit('rename', { eventIdsHint: eventIdsFor(id), newTitle }), [applyEdit, eventIdsFor]);
@@ -124,19 +158,21 @@ export function TimelinePage() {
   const onNoteChange = useCallback((id: string, note: string) => applyEdit('note', { eventIdsHint: eventIdsFor(id), note }), [applyEdit, eventIdsFor]);
   const onOverrideEnvelope = useCallback((id: string, newStartedAt: string, newEndedAt: string) => applyEdit('override_envelope', { eventIdsHint: eventIdsFor(id), newStartedAt, newEndedAt }), [applyEdit, eventIdsFor]);
 
-  // ── drag / resize (today only) ────────────────────────────────────────────
-  const { preview: dragPreview, onStartDrag } = useBlockDrag(day, sessions, readOnly ? noopCommit : onOverrideEnvelope);
-  const { preview: resizePreview, onStartResize } = useBlockResize(day, sessions, readOnly ? noopCommit : onOverrideEnvelope);
-  const preview = readOnly ? null : (dragPreview ?? resizePreview);
+  // ── drag / resize (day view today only) ────────────────────────────────────
+  const isDayEditable = view === 'day' && isToday;
+  const { preview: dragPreview, onStartDrag } = useBlockDrag(day, sessions, !isDayEditable ? noopCommit : onOverrideEnvelope);
+  const { preview: resizePreview, onStartResize } = useBlockResize(day, sessions, !isDayEditable ? noopCommit : onOverrideEnvelope);
+  const preview = !isDayEditable ? null : (dragPreview ?? resizePreview);
 
+  // Poll in editable modes to keep timeline live
   useEffect(() => {
-    if (!isToday) return;
+    if (readOnly || (view === 'day' && !isToday)) return;
     const t = setInterval(() => {
       const busy = !!contextMenu || !!offlinePopover || !!dragPreview || !!resizePreview;
       if (!busy) refresh();
     }, POLL_MS);
     return () => clearInterval(t);
-  }, [refresh, isToday, contextMenu, offlinePopover, dragPreview, resizePreview]);
+  }, [refresh, readOnly, view, isToday, contextMenu, offlinePopover, dragPreview, resizePreview]);
 
   const submitOffline = useCallback(async (draft: OfflineDraft) => {
     setOfflinePopover(null);
@@ -176,18 +212,34 @@ export function TimelinePage() {
     onClearSelection: () => setSelectedId(null),
   });
 
-  // ── day navigation ────────────────────────────────────────────────────────
-  const prevDay = useCallback(() => {
+  // ── date navigation ────────────────────────────────────────────────────────
+  const prevDate = useCallback(() => {
     const d = new Date(day);
-    d.setDate(d.getDate() - 1);
+    if (view === 'day') {
+      d.setDate(d.getDate() - 1);
+    } else if (view === 'week') {
+      d.setDate(d.getDate() - 7);
+    } else if (view === 'month') {
+      d.setMonth(d.getMonth() - 1);
+    } else if (view === 'year') {
+      d.setFullYear(d.getFullYear() - 1);
+    }
     setDay(startOfDay(d));
-  }, [day]);
+  }, [day, view]);
 
-  const nextDay = useCallback(() => {
+  const nextDate = useCallback(() => {
     const d = new Date(day);
-    d.setDate(d.getDate() + 1);
+    if (view === 'day') {
+      d.setDate(d.getDate() + 1);
+    } else if (view === 'week') {
+      d.setDate(d.getDate() + 7);
+    } else if (view === 'month') {
+      d.setMonth(d.getMonth() + 1);
+    } else if (view === 'year') {
+      d.setFullYear(d.getFullYear() + 1);
+    }
     setDay(startOfDay(d));
-  }, [day]);
+  }, [day, view]);
 
   const goToday = useCallback(() => setDay(startOfDay(new Date())), []);
   const pickDay = useCallback((dateStr: string) => {
@@ -214,6 +266,19 @@ export function TimelinePage() {
     window.addEventListener('mouseup', up);
   }, [onDrag]);
 
+  const onCreateOfflineAt = useCallback((time: Date, x: number, y: number) => {
+    if (!readOnly) {
+      const snappedStart = snapTime(time);
+      const snappedEnd = new Date(snappedStart.getTime() + 60 * 60_000); // 1h default
+      setOfflinePopover({
+        x: Math.min(x, window.innerWidth - 300),
+        y: Math.min(y, window.innerHeight - 260),
+        startedAt: snappedStart,
+        endedAt: snappedEnd,
+      });
+    }
+  }, [readOnly]);
+
   const inspectorActions: InspectorActions = {
     onRename,
     onSplit,
@@ -232,18 +297,24 @@ export function TimelinePage() {
       style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}
     >
       <TimelineToolbar
+        view={view}
+        onViewChange={setView}
         dayLabel={dayLabel}
-        onPrevDay={prevDay}
-        onNextDay={nextDay}
+        onPrevDay={prevDate}
+        onNextDay={nextDate}
         onPickDay={pickDay}
         onToday={goToday}
-        isToday={isToday}
+        isToday={isToday && view === 'day'}
         canUndo={canUndo}
         canRedo={canRedo}
         activeEdits={activeEdits}
         onUndo={undo}
         onRedo={redo}
         onInsertOffline={() => setOfflinePopover({ x: window.innerWidth / 2 - 130, y: 80 })}
+        customStart={customStart}
+        customEnd={customEnd}
+        onCustomStartChange={setCustomStart}
+        onCustomEndChange={setCustomEnd}
       />
 
       <div
@@ -251,33 +322,68 @@ export function TimelinePage() {
         style={{ display: 'flex', flex: 1, overflow: 'hidden', minWidth: 0 }}
       >
         <div style={{ flex: `0 0 ${timelinePct}%`, minWidth: 0, display: 'flex' }}>
-          <TimelineCanvas
-            ref={canvasRef}
-            baseDay={day}
-            sessions={sessions}
-            selectedId={selectedId}
-            isToday={isToday}
-            previewSession={preview}
-            renameRequest={renameRequest}
-            readonly={readOnly}
-            onSelect={onSelect}
-            onRename={onRename}
-            onStartDrag={onStartDrag}
-            onStartResize={onStartResize}
-            onContextMenu={(e, session) => { e.preventDefault(); setContextMenu({ x: e.clientX, y: e.clientY, session }); }}
-            onCreateOfflineAt={(time, x, y) => {
-              if (!readOnly) {
-                const snappedStart = snapTime(time);
-                const snappedEnd = new Date(snappedStart.getTime() + 60 * 60_000); // 1h default
-                setOfflinePopover({
-                  x: Math.min(x, window.innerWidth - 300),
-                  y: Math.min(y, window.innerHeight - 260),
-                  startedAt: snappedStart,
-                  endedAt: snappedEnd,
-                });
-              }
-            }}
-          />
+          {view === 'day' && (
+            <TimelineCanvas
+              ref={canvasRef}
+              baseDay={day}
+              sessions={sessions}
+              selectedId={selectedId}
+              isToday={isToday}
+              previewSession={preview}
+              renameRequest={renameRequest}
+              readonly={readOnly}
+              onSelect={onSelect}
+              onRename={onRename}
+              onStartDrag={onStartDrag}
+              onStartResize={onStartResize}
+              onContextMenu={(e, session) => { e.preventDefault(); setContextMenu({ x: e.clientX, y: e.clientY, session }); }}
+              onCreateOfflineAt={onCreateOfflineAt}
+            />
+          )}
+
+          {view === 'week' && (
+            <WeekView
+              baseDay={day}
+              sessions={sessions}
+              selectedId={selectedId}
+              renameRequest={renameRequest}
+              onSelect={onSelect}
+              onRename={onRename}
+              onOverrideEnvelope={onOverrideEnvelope}
+              onContextMenu={(e, session) => { e.preventDefault(); setContextMenu({ x: e.clientX, y: e.clientY, session }); }}
+              onCreateOfflineAt={onCreateOfflineAt}
+            />
+          )}
+
+          {view === 'month' && (
+            <MonthView
+              baseDay={day}
+              sessions={sessions}
+              onDrillDown={(targetDay) => {
+                setDay(targetDay);
+                setView('day');
+              }}
+            />
+          )}
+
+          {view === 'year' && (
+            <YearView
+              baseDay={day}
+              sessions={sessions}
+              onDrillDown={(targetMonthDay) => {
+                setDay(targetMonthDay);
+                setView('month');
+              }}
+            />
+          )}
+
+          {view === 'custom' && (
+            <CustomView
+              sessions={sessions}
+              selectedId={selectedId}
+              onSelect={onSelect}
+            />
+          )}
         </div>
 
         <ResizeDivider onDragStart={onDividerDown} />
@@ -286,9 +392,10 @@ export function TimelinePage() {
           <InspectorPanel
             sessions={sessions}
             selectedId={selectedId}
-            isToday={isToday}
+            isToday={!readOnly}
             dayLabel={dayLabel}
             actions={inspectorActions}
+            view={view}
           />
         </div>
       </div>
@@ -298,7 +405,7 @@ export function TimelinePage() {
           x={contextMenu.x}
           y={contextMenu.y}
           session={ctxSession}
-          isToday={isToday}
+          isToday={!readOnly}
           onRename={() => {
             setSelectedId(ctxSession.id);
             setRenameRequest((prev) => ({ id: ctxSession.id, nonce: (prev?.nonce ?? 0) + 1 }));
@@ -340,14 +447,44 @@ function noopCommit(): void {
   // read-only drag/resize commit is a no-op
 }
 
-function formatDayLabel(day: Date, isToday: boolean): string {
-  const opts: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric' };
-  const label = new Intl.DateTimeFormat(undefined, opts).format(day);
-  return isToday ? `${label} · Today` : label;
+function getMonday(d: Date): Date {
+  const date = new Date(d);
+  const dayOfWeek = date.getDay();
+  const diff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+  return startOfDay(new Date(date.setDate(diff)));
+}
+
+function getDayLabel(day: Date, isToday: boolean, view: TimelineView, customStart: string, customEnd: string): string {
+  const now = new Date();
+  if (view === 'day') {
+    const opts: Intl.DateTimeFormatOptions = { weekday: 'short', month: 'short', day: 'numeric' };
+    const label = new Intl.DateTimeFormat(undefined, opts).format(day);
+    return day.toDateString() === now.toDateString() ? `${label} · Today` : label;
+  }
+  if (view === 'week') {
+    const start = getMonday(day);
+    const end = new Date(start.getTime() + 6 * 24 * 3600 * 1000);
+    const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+    const startLbl = new Intl.DateTimeFormat(undefined, opts).format(start);
+    const endLbl = new Intl.DateTimeFormat(undefined, opts).format(end);
+    return `${startLbl} – ${endLbl}, ${start.getFullYear()}`;
+  }
+  if (view === 'month') {
+    return day.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+  }
+  if (view === 'year') {
+    return String(day.getFullYear());
+  }
+  // Custom view range label
+  const start = new Date(customStart + 'T00:00:00');
+  const end = new Date(customEnd + 'T00:00:00');
+  const opts: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', year: 'numeric' };
+  const startLbl = new Intl.DateTimeFormat(undefined, opts).format(start);
+  const endLbl = new Intl.DateTimeFormat(undefined, opts).format(end);
+  return `${startLbl} – ${endLbl}`;
 }
 
 function defaultOfflineRange(base: Date): { startedAt: Date; endedAt: Date } {
-  // Default offline entry lands on the viewed day at a sensible slot.
   const pinnedIsToday = base.toDateString() === new Date().toDateString();
   const end = pinnedIsToday ? new Date() : (() => { const e = startOfDay(base); e.setHours(18, 0, 0, 0); return e; })();
   const start = new Date(end.getTime() - 30 * 60_000);

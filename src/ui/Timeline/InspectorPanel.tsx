@@ -35,15 +35,18 @@ export interface InspectorActions {
   onCopyDetails: (session: VerifiedSessionDto) => void;
 }
 
+export type TimelineView = 'day' | 'week' | 'month' | 'year' | 'custom';
+
 interface InspectorPanelProps {
   sessions: VerifiedSessionDto[];
   selectedId: string | null;
   isToday: boolean;
   dayLabel: string;
   actions: InspectorActions;
+  view: TimelineView;
 }
 
-export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, actions }: InspectorPanelProps) {
+export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, actions, view }: InspectorPanelProps) {
   const selected = selectedId ? sessions.find((s) => s.id === selectedId) ?? null : null;
 
   return (
@@ -72,8 +75,21 @@ export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, action
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {selected ? (
           <SessionDetail session={selected} sessions={sessions} isToday={isToday} actions={actions} />
-        ) : (
+        ) : view === 'day' ? (
           <EmptyInspector sessions={sessions} />
+        ) : (
+          <RangeSummary
+            sessions={sessions}
+            title={
+              view === 'week'
+                ? 'Week Summary'
+                : view === 'month'
+                  ? 'Month Summary'
+                  : view === 'year'
+                    ? 'Year Summary'
+                    : 'Custom Range Summary'
+            }
+          />
         )}
       </div>
     </aside>
@@ -130,6 +146,138 @@ function EmptyInspector({ sessions }: { sessions: VerifiedSessionDto[] }) {
           <MetricCard icon={<Activity size={14} />} label="Events" value={String(events)} />
           <MetricCard icon={<Calendar size={14} />} label="Average" value={sessions.length ? fmtDuration(tracked / sessions.length) : '0s'} />
         </div>
+      </section>
+    </div>
+  );
+}
+
+function RangeSummary({ sessions, title }: { sessions: VerifiedSessionDto[]; title: string }) {
+  const tracked = totalTracked(sessions);
+  const events = totalEventCount(sessions);
+
+  // Find longest session
+  let longestSession: VerifiedSessionDto | null = null;
+  for (const s of sessions) {
+    if (!longestSession || s.duration > longestSession.duration) {
+      longestSession = s;
+    }
+  }
+
+  // Count apps
+  const appCounts = new Map<string, number>();
+  for (const s of sessions) {
+    for (const app of s.appsUsed) {
+      appCounts.set(app, (appCounts.get(app) ?? 0) + 1);
+    }
+  }
+  const topApps = Array.from(appCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map((x) => x[0]);
+
+  // Count websites
+  const siteCounts = new Map<string, number>();
+  for (const s of sessions) {
+    for (const tab of s.browserTabs) {
+      let host = tab;
+      try {
+        if (!/^https?:\/\//i.test(host)) host = 'https://' + host;
+        const url = new URL(host);
+        host = url.hostname.startsWith('www.') ? url.hostname.slice(4) : url.hostname;
+      } catch {
+        const match = tab.match(/^(?:https?:\/\/)?(?:www\.)?([^\/:]+)/i);
+        if (match && match[1]) host = match[1];
+      }
+      if (host) siteCounts.set(host, (siteCounts.get(host) ?? 0) + 1);
+    }
+    if (s.primaryUrl) {
+      let host = s.primaryUrl;
+      try {
+        if (!/^https?:\/\//i.test(host)) host = 'https://' + host;
+        const url = new URL(host);
+        host = url.hostname.startsWith('www.') ? url.hostname.slice(4) : url.hostname;
+      } catch {
+        const match = s.primaryUrl.match(/^(?:https?:\/\/)?(?:www\.)?([^\/:]+)/i);
+        if (match && match[1]) host = match[1];
+      }
+      if (host) siteCounts.set(host, (siteCounts.get(host) ?? 0) + 1);
+    }
+  }
+  const topSites = Array.from(siteCounts.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map((x) => x[0]);
+
+  // Calculate daily average
+  const distinctDays = new Set<string>();
+  for (const s of sessions) {
+    distinctDays.add(new Date(s.startedAt).toDateString());
+  }
+  const activeDays = Math.max(1, distinctDays.size);
+  const dailyAverage = tracked / activeDays;
+
+  return (
+    <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 24, animation: 'inspectorIn 140ms var(--ease-out)' }}>
+      {/* Title Header Card */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '16px 0', borderBottom: '1px solid var(--border)' }}>
+        <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--accent-soft)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+          <TrendingUp size={20} />
+        </div>
+        <div style={{ fontSize: '15px', color: 'var(--text)', fontWeight: 700, marginBottom: 4 }}>{title}</div>
+        <div style={{ fontSize: '12.5px', color: 'var(--text-muted)' }}>
+          Aggregated focus summary for the active range.
+        </div>
+      </div>
+
+      {/* Metrics Grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <MetricCard icon={<Clock size={14} />} label="Tracked Time" value={fmtDuration(tracked)} />
+        <MetricCard icon={<Layers size={14} />} label="Total Sessions" value={String(sessions.length)} />
+        <MetricCard icon={<Calendar size={14} />} label="Daily Avg" value={fmtDuration(dailyAverage)} />
+        <MetricCard icon={<Activity size={14} />} label="Total Events" value={String(events)} />
+      </div>
+
+      {/* Longest Session Card */}
+      <section style={{ borderTop: '1px solid var(--border)', paddingTop: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>
+          <Sparkles size={13} />
+          <span>Longest Session</span>
+        </div>
+        {longestSession ? (
+          <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 12, padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ minWidth: 0, flex: 1 }}>
+              <div style={{ fontSize: '13.5px', fontWeight: 700, color: 'var(--text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {longestSession.title || 'Untitled Session'}
+              </div>
+              <div style={{ fontSize: '11.5px', color: 'var(--text-faint)', marginTop: 2 }}>
+                {fmtHm(longestSession.startedAt)} – {fmtHm(longestSession.endedAt)}
+              </div>
+            </div>
+            <div style={{ fontSize: '14px', fontWeight: 750, color: 'var(--accent)', marginLeft: 12 }}>
+              {fmtDuration(longestSession.duration)}
+            </div>
+          </div>
+        ) : (
+          <div style={{ fontSize: '12.5px', color: 'var(--text-faint)' }}>No active sessions in range.</div>
+        )}
+      </section>
+
+      {/* Top Applications */}
+      <section style={{ borderTop: '1px solid var(--border)', paddingTop: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>
+          <Layers size={13} />
+          <span>Top Applications</span>
+        </div>
+        <PillList values={topApps} empty="No application data" />
+      </section>
+
+      {/* Top Websites */}
+      <section style={{ borderTop: '1px solid var(--border)', paddingTop: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '11px', color: 'var(--text-faint)', textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>
+          <ExternalLink size={13} />
+          <span>Top Websites</span>
+        </div>
+        <PillList values={topSites} empty="No website data" />
       </section>
     </div>
   );
