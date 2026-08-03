@@ -12,8 +12,10 @@ import {
   Trash2,
   Edit3,
   ExternalLink,
+  Target,
 } from 'lucide-react';
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
+import type { FocusSessionDto } from '../Focus/useFocus';
 import { InlineEditor } from './InlineEditor';
 import {
   categoryHueIndex,
@@ -43,14 +45,16 @@ export type TimelineView = 'day' | 'week' | 'month' | 'year' | 'custom';
 
 interface InspectorPanelProps {
   sessions: VerifiedSessionDto[];
+  focusSessions: FocusSessionDto[];
   selectedId: string | null;
   isToday: boolean;
   dayLabel: string;
   actions: InspectorActions;
   view: TimelineView;
+  onOpenFocus: (id: string) => void;
 }
 
-export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, actions, view }: InspectorPanelProps) {
+export function InspectorPanel({ sessions, focusSessions, selectedId, isToday, dayLabel, actions, view, onOpenFocus }: InspectorPanelProps) {
   const selected = selectedId ? sessions.find((s) => s.id === selectedId) ?? null : null;
 
   return (
@@ -80,7 +84,7 @@ export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, action
         {selected ? (
           <SessionDetail session={selected} sessions={sessions} isToday={isToday} actions={actions} />
         ) : view === 'day' ? (
-          <EmptyInspector sessions={sessions} />
+          <EmptyInspector sessions={sessions} focusSessions={focusSessions} onOpenFocus={onOpenFocus} />
         ) : (
           <RangeSummary
             sessions={sessions}
@@ -100,9 +104,15 @@ export function InspectorPanel({ sessions, selectedId, isToday, dayLabel, action
   );
 }
 
-function EmptyInspector({ sessions }: { sessions: VerifiedSessionDto[] }) {
+function EmptyInspector({ sessions, focusSessions, onOpenFocus }: { sessions: VerifiedSessionDto[]; focusSessions: FocusSessionDto[]; onOpenFocus: (id: string) => void }) {
   const tracked = totalTracked(sessions);
   const events = totalEventCount(sessions);
+  const todayFocus = focusSessions.filter((fs) => {
+    const start = fs.startedAt ? new Date(fs.startedAt) : null;
+    if (!start) return false;
+    return start.toDateString() === new Date().toDateString();
+  });
+
   return (
     <div style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 24, animation: 'inspectorIn 140ms var(--ease-out)' }}>
       {/* Centered instruction state */}
@@ -115,6 +125,62 @@ function EmptyInspector({ sessions }: { sessions: VerifiedSessionDto[] }) {
           Click any session to inspect or edit it. Double-click empty space to create an offline activity.
         </div>
       </div>
+
+      {/* Focus sessions today */}
+      {todayFocus.length > 0 && (
+        <section style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 12, padding: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '12px', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
+              <Target size={14} style={{ color: 'var(--accent)' }} />
+              <span>Focus Today</span>
+            </div>
+            <button
+              onClick={() => onOpenFocus('')}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 4,
+                fontSize: '11px',
+                fontWeight: 600,
+                color: 'var(--accent)',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '2px 6px',
+                borderRadius: 4,
+              }}
+            >
+              Open Focus <ExternalLink size={11} />
+            </button>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {todayFocus.slice(0, 4).map((fs) => {
+              const start = fs.startedAt ? new Date(fs.startedAt) : null;
+              const end = fs.endedAt ? new Date(fs.endedAt) : null;
+              const minutes = start ? Math.max(1, Math.round(((end?.getTime() ?? Date.now()) - start.getTime()) / 60000)) : 0;
+              return (
+                <div
+                  key={fs.id}
+                  onClick={() => onOpenFocus(fs.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '8px 10px',
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 'var(--radius-md)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <div style={{ fontSize: '12.5px', fontWeight: 600, color: 'var(--text)' }}>{fs.task}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{minutes}m</div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Instructions card */}
       <section style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 12, padding: 16 }}>

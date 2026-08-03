@@ -55,3 +55,40 @@ electron.contextBridge.exposeInMainWorld('settings', {
   exportSessions: (format: 'csv' | 'json') =>
     electron.ipcRenderer.invoke('export:sessions', { format }),
 } satisfies Window['settings']);
+
+const focusListeners = new Map<string, Set<(event: any) => void>>();
+
+function registerFocusListener(channel: string, callback: (event: any) => void): () => void {
+  if (!focusListeners.has(channel)) {
+    focusListeners.set(channel, new Set());
+    electron.ipcRenderer.on(channel, (_event, payload) => {
+      focusListeners.get(channel)?.forEach((cb) => cb(payload));
+    });
+  }
+  focusListeners.get(channel)?.add(callback);
+  return () => {
+    focusListeners.get(channel)?.delete(callback);
+  };
+}
+
+electron.contextBridge.exposeInMainWorld('focusMode', {
+  listProfiles: () => electron.ipcRenderer.invoke('focus:listProfiles'),
+  saveProfile: (profile: FocusProfileDto, ruleIds: string[]) => electron.ipcRenderer.invoke('focus:saveProfile', { profile, ruleIds }),
+  deleteProfile: (id: string) => electron.ipcRenderer.invoke('focus:deleteProfile', { id }),
+  listRules: () => electron.ipcRenderer.invoke('focus:listRules'),
+  saveRule: (rule: FocusRuleDto) => electron.ipcRenderer.invoke('focus:saveRule', rule),
+  deleteRule: (id: string) => electron.ipcRenderer.invoke('focus:deleteRule', { id }),
+  getActiveSession: () => electron.ipcRenderer.invoke('focus:getActiveSession'),
+  getSessionsByRange: (from: string, to: string) => electron.ipcRenderer.invoke('focus:getSessionsByRange', { from, to }),
+  getSessionsForDay: (isoDate: string) => electron.ipcRenderer.invoke('focus:getSessionsForDay', { isoDate }),
+  getHistory: (limit?: number) => electron.ipcRenderer.invoke('focus:getHistory', { limit }),
+  getSessionSummary: (sessionId: string) => electron.ipcRenderer.invoke('focus:getSessionSummary', { sessionId }),
+  start: (request: StartFocusRequestDto) => electron.ipcRenderer.invoke('focus:start', request),
+  pause: (reason?: string | null) => electron.ipcRenderer.invoke('focus:pause', { reason }),
+  resume: () => electron.ipcRenderer.invoke('focus:resume'),
+  stop: (state: 'completed' | 'cancelled') => electron.ipcRenderer.invoke('focus:stop', { state }),
+  onActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => { registerFocusListener('focus:activeSessionChanged', callback); },
+  offActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => { focusListeners.get('focus:activeSessionChanged')?.delete(callback); },
+  onSummary: (callback: (dto: FocusSummaryDto) => void) => { registerFocusListener('focus:summary', callback); },
+  offSummary: (callback: (dto: FocusSummaryDto) => void) => { focusListeners.get('focus:summary')?.delete(callback); },
+} satisfies Window['focusMode']);

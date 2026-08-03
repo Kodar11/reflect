@@ -15,6 +15,7 @@
  */
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
+import type { UseFocusResult, FocusSessionDto } from '../Focus/useFocus';
 import { TimelineToolbar, type TimelineView } from './TimelineToolbar';
 import { TimelineCanvas, type TimelineCanvasHandle } from './TimelineCanvas';
 import { WeekView } from './WeekView';
@@ -40,12 +41,15 @@ const POLL_MS = 2500;
 export interface TimelinePageProps {
   onNavigateToRule?: (ruleId: string) => void;
   onCreateRuleFromSession?: (session: VerifiedSessionDto) => void;
+  onNavigateToFocus?: (sessionId: string) => void;
+  focus: UseFocusResult;
 }
 
-export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession }: TimelinePageProps) {
+export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession, onNavigateToFocus, focus }: TimelinePageProps) {
   const [day, setDay] = useState<Date>(() => startOfDay(new Date()));
   const [view, setView] = useState<TimelineView>('day');
   const [sessions, setSessions] = useState<VerifiedSessionDto[]>([]);
+  const [focusSessions, setFocusSessions] = useState<FocusSessionDto[]>([]);
   const [activeEdits, setActiveEdits] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [renameRequest, setRenameRequest] = useState<{ id: string; nonce: number } | null>(null);
@@ -106,13 +110,15 @@ export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession }: Time
       const now = new Date();
       const isTodayRange = view === 'day' && day.toDateString() === now.toDateString();
 
-      const [list, status] = await Promise.all([
+      const [list, status, focusList] = await Promise.all([
         isTodayRange
           ? window.timeline.getToday()
           : window.timeline.getRange(startRange.toISOString(), endRange.toISOString()),
         window.timeline.status(),
+        window.focusMode.getSessionsByRange(startRange.toISOString(), endRange.toISOString()),
       ]);
       setSessions(sortByStart(list));
+      setFocusSessions(focusList);
       setActiveEdits(status.activeEdits);
     } catch (e) {
       console.error('[TimelinePage] refresh failed', e);
@@ -124,6 +130,12 @@ export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession }: Time
     refresh();
     if (view === 'day' && isToday) canvasRef.current?.scrollToNow();
   }, [refresh, view, isToday]);
+
+  // Refresh the timeline when the active focus session starts or stops so the
+  // background band appears/disappears without waiting for the poll interval.
+  useEffect(() => {
+    refresh();
+  }, [focus.activeSession?.session.id]);
 
   // Clear selection when the day changes if the selected session isn't present
   useEffect(() => {
@@ -205,6 +217,9 @@ export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession }: Time
 
   // ── selection ─────────────────────────────────────────────────────────────
   const onSelect = useCallback((id: string) => setSelectedId(id || null), []);
+  const onOpenFocus = useCallback((id: string) => {
+    onNavigateToFocus?.(id);
+  }, [onNavigateToFocus]);
 
   // ── keyboard ──────────────────────────────────────────────────────────────
   useTimelineKeyboard(selectedId, {
@@ -345,12 +360,14 @@ export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession }: Time
               ref={canvasRef}
               baseDay={day}
               sessions={sessions}
+              focusSessions={focusSessions}
               selectedId={selectedId}
               isToday={isToday}
               previewSession={preview}
               renameRequest={renameRequest}
               readonly={readOnly}
               onSelect={onSelect}
+              onOpenFocus={onOpenFocus}
               onRename={onRename}
               onStartDrag={onStartDrag}
               onStartResize={onStartResize}
@@ -409,11 +426,13 @@ export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession }: Time
         <div style={{ flex: 1, minWidth: 0 }}>
           <InspectorPanel
             sessions={sessions}
+            focusSessions={focusSessions}
             selectedId={selectedId}
             isToday={!readOnly}
             dayLabel={dayLabel}
             actions={inspectorActions}
             view={view}
+            onOpenFocus={onOpenFocus}
           />
         </div>
       </div>

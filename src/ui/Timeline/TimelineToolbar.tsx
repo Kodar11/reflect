@@ -1,4 +1,5 @@
 import { ChevronLeft, ChevronRight, Plus, RotateCcw, RotateCw, Calendar } from 'lucide-react';
+import type { ReactNode } from 'react';
 
 export type TimelineView = 'day' | 'week' | 'month' | 'year' | 'custom';
 

@@ -65,6 +65,83 @@ interface TimelineStatus {
   activeEdits: number;
 }
 
+interface FocusRuleDto {
+  id: string;
+  type: 'app' | 'website' | 'category';
+  target: string;
+  action: 'block' | 'allow';
+  enabled: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface FocusProfileRuleDto {
+  id: string;
+  profileId: string;
+  type: 'app' | 'website' | 'category';
+  target: string;
+  action: 'block' | 'allow';
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface FocusProfileDto {
+  id: string;
+  name: string;
+  description: string | null;
+  isDefault: boolean;
+  mode: 'stopwatch' | 'countdown';
+  defaultDurationMinutes: number | null;
+  blocksDistractions: boolean;
+  soundCue: string | null;
+  createdAt: string;
+  updatedAt: string;
+  rules: FocusProfileRuleDto[];
+}
+
+interface FocusSessionDto {
+  id: string;
+  profileId: string;
+  task: string;
+  notes: string | null;
+  mode: 'stopwatch' | 'countdown';
+  plannedDurationMinutes: number | null;
+  state: 'planned' | 'active' | 'paused' | 'completed' | 'cancelled';
+  startedAt: string | null;
+  endedAt: string | null;
+  pausedAt: string | null;
+  totalPauseMs: number;
+  elapsedMs: number;
+  blockingLeaseId: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ActiveFocusSessionDto {
+  session: FocusSessionDto;
+  profile: FocusProfileDto;
+  liveElapsedMs: number;
+  isRunning: boolean;
+  remainingMs: number | null;
+}
+
+interface StartFocusRequestDto {
+  profileId: string;
+  task: string;
+  notes?: string | null;
+  mode?: 'stopwatch' | 'countdown';
+  plannedDurationMinutes?: number | null;
+}
+
+interface FocusSummaryDto {
+  session: FocusSessionDto;
+  profile: FocusProfileDto;
+  trackedSessionIds: string[];
+  interruptionCount: number;
+  blockedAttemptCount: number;
+  productiveMs: number;
+}
+
 interface Window {
   app: {
     sendFrameAction: (payload: FrameWindowAction) => void;
@@ -98,5 +175,26 @@ interface Window {
     exportTimeline: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
     exportActivity: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
     exportSessions: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
+  };
+  focusMode: {
+    listProfiles: () => Promise<FocusProfileDto[]>;
+    saveProfile: (profile: FocusProfileDto, ruleIds: string[]) => Promise<{ ok: boolean }>;
+    deleteProfile: (id: string) => Promise<{ ok: boolean }>;
+    listRules: () => Promise<FocusRuleDto[]>;
+    saveRule: (rule: FocusRuleDto) => Promise<{ ok: boolean }>;
+    deleteRule: (id: string) => Promise<{ ok: boolean }>;
+    getActiveSession: () => Promise<ActiveFocusSessionDto | null>;
+    getSessionsByRange: (from: string, to: string) => Promise<FocusSessionDto[]>;
+    getSessionsForDay: (isoDate: string) => Promise<FocusSessionDto[]>;
+    getHistory: (limit?: number) => Promise<FocusSessionDto[]>;
+    getSessionSummary: (sessionId: string) => Promise<FocusSummaryDto | null>;
+    start: (request: StartFocusRequestDto) => Promise<ActiveFocusSessionDto>;
+    pause: (reason?: string | null) => Promise<ActiveFocusSessionDto | null>;
+    resume: () => Promise<ActiveFocusSessionDto | null>;
+    stop: (state: 'completed' | 'cancelled') => Promise<FocusSessionDto | null>;
+    onActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => void;
+    offActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => void;
+    onSummary: (callback: (dto: FocusSummaryDto) => void) => void;
+    offSummary: (callback: (dto: FocusSummaryDto) => void) => void;
   };
 }

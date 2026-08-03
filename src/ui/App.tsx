@@ -7,28 +7,80 @@ import { ThemeToggle } from './components/ThemeToggle';
 import { ActivityPage } from './pages/ActivityPage';
 import { SessionsPage } from './pages/SessionsPage';
 import { TimelinePage } from './Timeline/TimelinePage';
+import { useFocus, formatClock } from './Focus/useFocus';
+import { FocusPage } from './Focus/FocusPage';
+import { FocusWidget } from './Focus/FocusWidget';
+import { FocusSummaryModal } from './Focus/FocusSummaryModal';
 
 function App() {
   const theme = useThemeStore((s) => s.theme);
   const setTheme = useThemeStore((s) => s.setTheme);
   useResolvedTheme(theme);
+  const focus = useFocus();
 
   const [route, setRoute] = useState<Route>('timeline');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activityTab, setActivityTab] = useState<'events' | 'usage' | 'rules'>('events');
   const [editingRuleId, setEditingRuleId] = useState<string | null>(null);
   const [prefilledRule, setPrefilledRule] = useState<any | null>(null);
-  
+  const [widgetMinimized, setWidgetMinimized] = useState(false);
+  const [focusInitialTab, setFocusInitialTab] = useState<Parameters<typeof FocusPage>[0]['initialTab']>('focus');
+  const [focusHistorySessionId, setFocusHistorySessionId] = useState<string | null>(null);
+
   const PAGE_TITLES: Record<Route, string> = {
     timeline: 'Productivity Coach — Timeline',
     sessions: 'Productivity Coach — Sessions',
     activity: 'Productivity Coach — Activity',
+    focus: 'Productivity Coach — Focus',
     settings: 'Productivity Coach — Settings',
   };
 
   useEffect(() => {
-    document.title = PAGE_TITLES[route] ?? 'Productivity Coach';
-  }, [route]);
+    const title = focus.activeSession
+      ? `▶ ${formatClock(focus.activeSession.remainingMs ?? focus.activeSession.liveElapsedMs)} · Productivity Coach`
+      : PAGE_TITLES[route] ?? 'Productivity Coach';
+    document.title = title;
+  }, [route, focus.activeSession]);
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        setRoute('focus');
+        setFocusInitialTab('focus');
+        return;
+      }
+      if (!focus.activeSession) return;
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (focus.activeSession.isRunning) focus.pause('user');
+        else focus.resume();
+      }
+      if (e.code === 'Escape') {
+        e.preventDefault();
+        if (window.confirm('Stop the current focus session?')) {
+          focus.stop('completed');
+        }
+      }
+    }
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [focus]);
+
+  const navigateToFocusHistory = (sessionId: string) => {
+    setRoute('focus');
+    setFocusInitialTab('focus');
+    setFocusHistorySessionId(sessionId);
+  };
+
+  const handleNavigate = (r: Route) => {
+    setRoute(r);
+    if (r !== 'focus') {
+      setFocusInitialTab('focus');
+      setFocusHistorySessionId(null);
+    }
+  };
 
   return (
     <div className="min-h-screen surface text-default">
@@ -40,12 +92,14 @@ function App() {
       <div className="flex h-[calc(100vh-2.75rem)]">
         <Sidebar
           route={route}
-          onNavigate={setRoute}
+          onNavigate={handleNavigate}
           open={sidebarOpen}
         />
         <main className="flex-1 min-w-0 h-full overflow-hidden">
           {route === 'timeline' ? (
             <TimelinePage
+              focus={focus}
+              onNavigateToFocus={navigateToFocusHistory}
               onNavigateToRule={(ruleId) => {
                 setRoute('activity');
                 setActivityTab('rules');
@@ -70,17 +124,42 @@ function App() {
                 setPrefilledRule={setPrefilledRule}
               />
             </div>
+          ) : route === 'focus' ? (
+            <FocusPage
+              focus={focus}
+              initialTab={focusInitialTab}
+              initialHistorySessionId={focusHistorySessionId}
+              onViewInTimeline={() => setRoute('timeline')}
+            />
+          ) : route === 'settings' ? (
+            <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
+              <SettingsPage theme={theme} setTheme={setTheme} />
+            </div>
           ) : (
             <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
-              {route === 'sessions' ? (
-                <SessionsPage />
-              ) : (
-                <SettingsPage theme={theme} setTheme={setTheme} />
-              )}
+              <SessionsPage />
             </div>
           )}
         </main>
       </div>
+
+      {focus.activeSession && (
+        <FocusWidget
+          session={focus.activeSession}
+          minimized={widgetMinimized}
+          onToggleMinimize={() => setWidgetMinimized((v) => !v)}
+          onPause={focus.pause}
+          onResume={focus.resume}
+          onStop={focus.stop}
+        />
+      )}
+
+      {focus.summary && (
+        <FocusSummaryModal
+          summary={focus.summary}
+          onClose={focus.dismissSummary}
+        />
+      )}
     </div>
   );
 }
@@ -132,8 +211,7 @@ function SettingsPage(props: { theme: string; setTheme: (theme: any) => void }) 
       {/* Data Section */}
       <section className="space-y-4">
         <h2 className="text-[18px] font-bold border-b border-default pb-2">Data</h2>
-        
-        {/* Status Alert Banner */}
+
         {status.type !== 'idle' && (
           <div
             style={{

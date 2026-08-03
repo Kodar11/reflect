@@ -27,12 +27,17 @@ import { registerTimelineIpc } from '../timeline/timelineIpc.js';
 import { ExportService } from '../service/ExportService.js';
 import { registerExportIpc } from './exportIpc.js';
 import { ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
+import { FocusRepository } from '../database/FocusRepository.js';
+import { FocusService } from '../focus/FocusService.js';
+import { StubBlockingManager } from '../focus/BlockingManager.js';
+import { registerFocusIpc } from '../focus/focusIpc.js';
 import type { ActivitySample } from '../models/Event.js';
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
 let database: Database | null = null;
 let trackingService: TrackingService | null = null;
+let focusService: FocusService | null = null;
 let quitting = false;
 
 function createMainWindow(logger: Logger): BrowserWindow {
@@ -105,6 +110,11 @@ async function quitApp(logger: Logger) {
     logger.error(`[APP] tracking stop error: ${(e as Error)?.message ?? e}`);
   }
   try {
+    focusService?.destroy();
+  } catch (e) {
+    logger.error(`[APP] focus service destroy error: ${(e as Error)?.message ?? e}`);
+  }
+  try {
     database?.close();
   } catch (e) {
     logger.error(`[APP] db close error: ${(e as Error)?.message ?? e}`);
@@ -118,10 +128,23 @@ app.whenReady().then(async () => {
   const logger = new Logger({ dir: userData, source: 'app' });
   logger.info('[APP] Starting Productivity Coach — Stage 1 tracker.');
 
-  // --- Construct the tracking stack via DI ---
+  // --- Construct the focus layer first (Stage 3.10) ---
+  // FocusService is created early so the tracking engine can notify it of
+  // activity for idle detection. The IPC registration happens later after the
+  // timeline service is available.
   database = new Database(Database.filePathFor(userData));
+  const focusRepo = new FocusRepository(database);
+  const blockingManager = new StubBlockingManager();
+  focusService = new FocusService(focusRepo, blockingManager);
+  await focusService.reconcileActiveSession();
+  focusService.on('activeSessionChanged', (dto) => {
+    tray?.setToolTip(dto ? `▶ ${dto.session.task} — ${formatFocusMs(dto.remainingMs ?? dto.liveElapsedMs)}` : 'Productivity Coach');
+  });
+  logger.info('[APP] Focus service ready.');
+
+  // --- Construct the tracking stack via DI ---
   const repo = new EventRepository(database);
-  const engine = new HeartbeatEngine(repo);
+  const engine = new HeartbeatEngine(repo, () => new Date(), 5000, () => focusService?.recordActivity());
 
   const windowWatcher = new WindowWatcher(pollActiveWin, engine, 1000, {
     info: (m) => logger.info(m),
@@ -162,6 +185,42 @@ app.whenReady().then(async () => {
   const exportService = new ExportService(timelineService, repo, sessionService);
   registerExportIpc(exportService, ipcMainHandle);
   logger.info('[APP] Export service ready.');
+
+  // --- Wire focus IPC (Stage 3.10) ---
+  registerFocusIpc(focusService, focusRepo, ipcMainHandle, () =>
+    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
+    (session) => {
+      const trackedSessionIds: string[] = [];
+      let productiveMs = 0;
+      if (session.startedAt && session.endedAt) {
+        const sessions = timelineService.getByRange(session.startedAt, session.endedAt);
+        const focusStart = new Date(session.startedAt).getTime();
+        const focusEnd = new Date(session.endedAt).getTime();
+        for (const s of sessions) {
+          const overlap = Math.max(0, Math.min(focusEnd, new Date(s.endedAt).getTime()) - Math.max(focusStart, new Date(s.startedAt).getTime()));
+          if (overlap > 0) {
+            trackedSessionIds.push(s.id);
+            productiveMs += overlap;
+          }
+        }
+      }
+      const profile = focusRepo.getProfileById(session.profileId);
+      if (!profile) {
+        throw new Error(`Focus profile not found for session: ${session.profileId}`);
+      }
+      const interruptions = focusRepo.getInterruptions(session.id);
+      const blockedAttempts = focusRepo.getBlockedAttempts(session.id);
+      return {
+        session,
+        profile,
+        trackedSessionIds,
+        interruptionCount: interruptions.length,
+        blockedAttemptCount: blockedAttempts.length,
+        productiveMs,
+      };
+    },
+  );
+  logger.info('[APP] Focus service ready.');
 
   createMainWindow(logger);
   createTray(logger);
@@ -214,6 +273,17 @@ app.on('activate', () => {
     createMainWindow(logger);
   }
 });
+
+function formatFocusMs(ms: number): string {
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+}
 
 // 16x16 1x1 transparent PNG (minimal placeholder tray icon).
 const BASE64_TRAY_ICON =

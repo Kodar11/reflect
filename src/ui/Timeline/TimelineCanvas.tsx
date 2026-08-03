@@ -13,6 +13,8 @@ import { HourGrid } from './HourGrid';
 import { CurrentTimeIndicator } from './CurrentTimeIndicator';
 import { SessionBlock } from './SessionBlock';
 import { EmptyState } from './EmptyState';
+import { FocusBand } from '../Focus/FocusBand';
+import type { FocusSessionDto } from '../Focus/useFocus';
 import {
   timeToPx,
   fullDayHeight,
@@ -31,12 +33,14 @@ export interface TimelineCanvasHandle {
 export interface TimelineCanvasProps {
   baseDay: Date;
   sessions: VerifiedSessionDto[];
+  focusSessions?: FocusSessionDto[];
   selectedId: string | null;
   isToday: boolean;
   previewSession?: { session: VerifiedSessionDto; top: number; height: number; invalid: boolean } | null;
   renameRequest?: { id: string; nonce: number } | null;
   readonly: boolean;
   onSelect: (id: string) => void;
+  onOpenFocus: (id: string) => void;
   onRename: (id: string, newTitle: string) => void;
   onStartDrag: (id: string, e: React.MouseEvent) => void;
   onStartResize: (id: string, edge: 'top' | 'bottom', e: React.MouseEvent) => void;
@@ -49,12 +53,14 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
     {
       baseDay,
       sessions,
+      focusSessions = [],
       selectedId,
       isToday,
       previewSession,
       renameRequest,
       readonly,
       onSelect,
+      onOpenFocus,
       onRename,
       onStartDrag,
       onStartResize,
@@ -121,6 +127,34 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
       );
     }, [blocks, viewport]);
 
+    const focusBands = useMemo(() => {
+      const dayStart = baseDay.getTime();
+      const dayEnd = dayStart + 24 * 60 * 60 * 1000;
+      const now = Date.now();
+      return focusSessions
+        .filter((fs) => {
+          const start = fs.startedAt ? new Date(fs.startedAt).getTime() : now;
+          const end = fs.endedAt ? new Date(fs.endedAt).getTime() : now;
+          return start < dayEnd && end > dayStart;
+        })
+        .map((fs) => {
+          const startTime = fs.startedAt ? new Date(fs.startedAt) : new Date();
+          const endTime = fs.endedAt ? new Date(fs.endedAt) : new Date();
+          const startMs = Math.max(dayStart, startTime.getTime());
+          const endMs = Math.min(dayEnd, endTime.getTime());
+          const top = timeToPx(baseDay, new Date(startMs));
+          const bottom = timeToPx(baseDay, new Date(endMs));
+          return {
+            session: fs,
+            top,
+            height: Math.max(2, bottom - top),
+            width: contentWidth,
+            left: 0,
+            isActive: fs.state === 'active' || fs.state === 'paused',
+          };
+        });
+    }, [focusSessions, baseDay, contentWidth]);
+
     const now = new Date();
     const canvasIsToday = baseDay.toDateString() === now.toDateString();
     const nowTop = canvasIsToday ? timeToPx(baseDay, now) : null;
@@ -130,7 +164,11 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
       <div
         ref={containerRef}
         data-timeline-canvas
-        onMouseDown={(e) => { if (e.target === e.currentTarget) onSelect(''); }}
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) {
+                onSelect('');
+              }
+            }}
         style={{
           position: 'relative',
           flex: 1,
@@ -155,7 +193,11 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
 
           {/* Right Day Canvas */}
           <div
-            onMouseDown={(e) => { if (e.target === e.currentTarget) onSelect(''); }}
+        onMouseDown={(e) => {
+          if (e.target === e.currentTarget) {
+            onSelect('');
+          }
+        }}
             onDoubleClick={(e) => {
               if (e.target === e.currentTarget) {
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -175,7 +217,11 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
 
             {/* Session Blocks and Current Time Line Container */}
             <div
-              onMouseDown={(e) => { if (e.target === e.currentTarget) onSelect(''); }}
+              onMouseDown={(e) => {
+                if (e.target === e.currentTarget) {
+                  onSelect('');
+                }
+              }}
               onDoubleClick={(e) => {
                 if (e.target === e.currentTarget) {
                   const rect = e.currentTarget.getBoundingClientRect();
@@ -192,6 +238,19 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
                 bottom: 0,
               }}
             >
+              {focusBands.map((band) => (
+                <FocusBand
+                  key={band.session.id}
+                  session={band.session}
+                  top={band.top}
+                  height={band.height}
+                  width={band.width}
+                  left={band.left}
+                  isActive={band.isActive}
+                  onOpenFocus={onOpenFocus}
+                />
+              ))}
+
               {nowTop !== null && <CurrentTimeIndicator top={nowTop} />}
 
               {hasSessions ? (

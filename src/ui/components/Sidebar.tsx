@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Settings as SettingsIcon, Sparkles, Activity, Layers, Clock, type LucideIcon } from 'lucide-react';
+import { Settings as SettingsIcon, Sparkles, Activity, Layers, Clock, Target, type LucideIcon } from 'lucide-react';
 import { APP_VERSION } from '../lib/version';
 
-export type Route = 'timeline' | 'settings' | 'activity' | 'sessions';
+export type Route = 'timeline' | 'activity' | 'focus' | 'settings' | 'sessions';
 
 interface SidebarProps {
   route: Route;
@@ -13,8 +13,9 @@ interface SidebarProps {
 const ITEMS: { id: Route; label: string; Icon: LucideIcon }[] = [
   { id: 'timeline', label: 'Timeline', Icon: Clock },
   { id: 'activity', label: 'Activity', Icon: Activity },
-  { id: 'sessions', label: 'Sessions (Dev)', Icon: Layers },
+  { id: 'focus', label: 'Focus', Icon: Target },
   { id: 'settings', label: 'Settings', Icon: SettingsIcon },
+  { id: 'sessions', label: 'Sessions (Dev)', Icon: Layers },
 ];
 
 export function Sidebar({ route, onNavigate, open }: SidebarProps) {

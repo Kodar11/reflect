@@ -38,6 +38,7 @@ export class HeartbeatEngine implements IEventSink {
     private readonly repo: IEventRepository,
     private readonly now: () => Date = () => new Date(),
     private readonly flushIntervalMs = 5000,
+    private readonly onActivity?: () => void,
   ) {}
 
   start(): void {
@@ -61,6 +62,7 @@ export class HeartbeatEngine implements IEventSink {
 
   emit(sample: ActivitySample): void {
     if (!this.running) return;
+    this.onActivity?.();
     const key = eventKey(sample);
     const current = this.open.get(sample.watcher);
     const nowIso = this.now().toISOString();
