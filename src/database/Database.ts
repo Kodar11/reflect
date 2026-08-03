@@ -150,9 +150,6 @@ export class Database {
         FOREIGN KEY (rule_id)    REFERENCES focus_rules    (id) ON DELETE CASCADE
       );
 
-      CREATE INDEX IF NOT EXISTS idx_focus_profile_rules_profile_id ON focus_profile_rules (profile_id);
-      CREATE INDEX IF NOT EXISTS idx_focus_profile_rules_rule_id    ON focus_profile_rules (rule_id);
-
       CREATE TABLE IF NOT EXISTS focus_sessions (
         id                       TEXT PRIMARY KEY,
         profile_id               TEXT NOT NULL,
@@ -201,14 +198,30 @@ export class Database {
       CREATE INDEX IF NOT EXISTS idx_blocked_attempts_session_id ON blocked_attempts (session_id);
     `);
 
-    // Migrate legacy per-profile rules to the global pool + join table.
-    const legacyTable = this.db.prepare(
+    const tableHasColumn = (tableName: string, columnName: string): boolean => {
+      const cols = this.db.prepare(`PRAGMA table_info(${tableName})`).all() as { name: string }[];
+      return cols.some((c) => c.name === columnName);
+    };
+
+    const hasLegacyBackup = this.db.prepare(
+      "SELECT name FROM sqlite_master WHERE type='table' AND name='focus_profile_rules_legacy'"
+    ).get() as { name: string } | undefined;
+    const hasRulesTable = this.db.prepare(
       "SELECT name FROM sqlite_master WHERE type='table' AND name='focus_profile_rules'"
     ).get() as { name: string } | undefined;
-    if (legacyTable) {
-      // Rename the legacy table to avoid clashing with the new join table.
-      this.db.exec(`ALTER TABLE focus_profile_rules RENAME TO focus_profile_rules_legacy`);
+    const isLegacyRulesTable = hasRulesTable && tableHasColumn('focus_profile_rules', 'id');
+
+    const migrateFrom = (legacyTableName: string) => {
       this.db.exec(`
+        CREATE TABLE IF NOT EXISTS focus_rules (
+          id         TEXT PRIMARY KEY,
+          type       TEXT NOT NULL,
+          target     TEXT NOT NULL,
+          action     TEXT NOT NULL DEFAULT 'block',
+          enabled    INTEGER NOT NULL DEFAULT 1,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
         CREATE TABLE IF NOT EXISTS focus_profile_rules (
           profile_id TEXT NOT NULL,
           rule_id    TEXT NOT NULL,
@@ -218,10 +231,8 @@ export class Database {
           FOREIGN KEY (profile_id) REFERENCES focus_profiles (id) ON DELETE CASCADE,
           FOREIGN KEY (rule_id)    REFERENCES focus_rules    (id) ON DELETE CASCADE
         );
-        CREATE INDEX IF NOT EXISTS idx_focus_profile_rules_profile_id ON focus_profile_rules (profile_id);
-        CREATE INDEX IF NOT EXISTS idx_focus_profile_rules_rule_id    ON focus_profile_rules (rule_id);
       `);
-      const legacyRows = this.db.prepare('SELECT * FROM focus_profile_rules_legacy').all() as any[];
+      const legacyRows = this.db.prepare(`SELECT * FROM ${legacyTableName}`).all() as any[];
       const insertRule = this.db.prepare(`
         INSERT INTO focus_rules (id, type, target, action, enabled, created_at, updated_at)
         VALUES (@id, @type, @target, @action, 1, @created_at, @updated_at)
@@ -253,8 +264,24 @@ export class Database {
           updated_at: r.updated_at,
         });
       }
-      this.db.exec(`DROP TABLE focus_profile_rules_legacy`);
+      this.db.exec(`DROP TABLE ${legacyTableName}`);
+    };
+
+    if (hasLegacyBackup) {
+      // A previous migration attempt left a backup; recover from it.
+      migrateFrom('focus_profile_rules_legacy');
+    } else if (isLegacyRulesTable) {
+      // Existing DB has the old per-profile rules table schema.
+      this.db.exec(`ALTER TABLE focus_profile_rules RENAME TO focus_profile_rules_legacy`);
+      migrateFrom('focus_profile_rules_legacy');
     }
+
+    // Ensure indexes exist on the new join table (fresh DBs already have the table,
+    // migrated DBs just created it, and indexes were intentionally not created earlier).
+    this.db.exec(`
+      CREATE INDEX IF NOT EXISTS idx_focus_profile_rules_profile_id ON focus_profile_rules (profile_id);
+      CREATE INDEX IF NOT EXISTS idx_focus_profile_rules_rule_id    ON focus_profile_rules (rule_id);
+    `);
 
     this.db.pragma('user_version = 5');
 
