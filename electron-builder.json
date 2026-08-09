@@ -3,6 +3,7 @@
   "productName": "Productivity Coach",
   "files": ["dist-electron", "dist-react"],
   "asar": true,
+  "asarUnpack": ["**/*.node"],
   "extraResources": ["dist-electron/electron/preload.cjs"],
   "icon": "./desktopIcon.png",
   "win": {

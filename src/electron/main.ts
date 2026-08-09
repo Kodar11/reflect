@@ -32,6 +32,12 @@ import { FocusService } from '../focus/FocusService.js';
 import { StubBlockingManager } from '../focus/BlockingManager.js';
 import { registerFocusIpc } from '../focus/focusIpc.js';
 import type { ActivitySample } from '../models/Event.js';
+import {
+  getActiveBrowserDomain,
+  getDomain,
+  isInternalPage,
+  normalizeBrowserName,
+} from '../tracker/browserUrl.js';
 
 let mainWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
@@ -75,10 +81,34 @@ function createMainWindow(logger: Logger): BrowserWindow {
 async function pollActiveWin(): Promise<ActivitySample | null> {
   const w = await activeWin();
   if (!w) return null;
+
+  const app = w.owner?.name ?? undefined;
+  let url: string | undefined;
+  let browser: string | undefined;
+
+  if (w.platform === 'windows' && typeof w.id === 'number' && app) {
+    const domain = getActiveBrowserDomain(w.id, app);
+    if (domain) {
+      url = domain;
+      browser = normalizeBrowserName(app);
+    }
+  } else if (w.platform === 'macos' && typeof w.url === 'string' && app) {
+    // active-win provides the URL on macOS; keep only the domain in the DB.
+    if (!isInternalPage(w.url)) {
+      const domain = getDomain(w.url);
+      if (domain) {
+        url = domain;
+        browser = normalizeBrowserName(app);
+      }
+    }
+  }
+
   return {
     watcher: 'window',
-    app: w.owner?.name ?? undefined,
+    app,
+    browser,
     title: w.title || undefined,
+    url,
     payload: {
       bundleId: w.owner?.processId,
       platform: w.platform,

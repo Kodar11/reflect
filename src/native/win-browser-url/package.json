@@ -1,0 +1,23 @@
+{
+  "name": "win-browser-url",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Windows-only native helper that reads the active browser tab URL via UI Automation.",
+  "gypfile": true,
+  "main": "build/Release/win_browser_url.node",
+  "types": "index.d.ts",
+  "files": [
+    "build/Release/win_browser_url.node",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "build": "node-gyp rebuild",
+    "build:electron": "electron-rebuild -f -w win-browser-url"
+  },
+  "os": [
+    "win32"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
