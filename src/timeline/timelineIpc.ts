@@ -2,7 +2,7 @@ import type { WebContents } from 'electron';
 import { ipcWebContentsSend } from '../electron/util.js';
 import type { TimelineService } from './TimelineService.js';
 import type { VerifiedSession } from './TimelineModels.js';
-import type { ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
+import type { Activity, ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
 
 /**
  * Renderer bridge for the timeline. Mirrors `sessionIpc.ts` / `trackerIpc.ts`
@@ -13,6 +13,18 @@ import type { ActivityRuleRepository } from '../database/ActivityRuleRepository.
  * All handlers ride the existing frame-validated `ipcMainHandle`. Return payloads
  * are plain JSON; the renderer never imports the engine.
  */
+
+export interface ClassificationDto {
+  context: { id: string | null; name: string; color: string | null } | null;
+  area: { id: string | null; name: string } | null;
+  intent: { id: string | null; name: string } | null;
+  quality: { id: string | null; name: string } | null;
+  source: string;
+  reason: string;
+  matchedRuleId: string | null;
+  matchedConditions: string | null;
+  isOverride: boolean;
+}
 
 export interface VerifiedSessionDto {
   id: string;
@@ -40,6 +52,7 @@ export interface VerifiedSessionDto {
     color: string;
   } | null;
   activityRuleId?: string | null;
+  classification?: ClassificationDto | null;
 }
 
 export function registerTimelineIpc(
@@ -48,14 +61,21 @@ export function registerTimelineIpc(
   ipcMainHandle: (key: string, handler: (payload?: any) => any) => void,
   webContentsForPush: () => WebContents[] = () => [],
 ) {
-  ipcMainHandle('timeline:getToday', () => service.getToday().map(toDto));
-  ipcMainHandle('timeline:getRange', (p?: { from: string; to: string }) => {
-    if (!p || !p.from || !p.to) return service.getAll().map(toDto);
-    return service.getByRange(p.from, p.to).map(toDto);
+  const listActivities = () => activityRuleRepo.listActivities();
+
+  ipcMainHandle('timeline:getToday', () => {
+    const activities = listActivities();
+    return service.getToday().map((s) => toDto(s, activities));
   });
-  ipcMainHandle('timeline:getAll', (p?: { limit?: number }) =>
-    service.getAll(p?.limit).map(toDto),
-  );
+  ipcMainHandle('timeline:getRange', (p?: { from: string; to: string }) => {
+    const activities = listActivities();
+    if (!p || !p.from || !p.to) return service.getAll().map((s) => toDto(s, activities));
+    return service.getByRange(p.from, p.to).map((s) => toDto(s, activities));
+  });
+  ipcMainHandle('timeline:getAll', (p?: { limit?: number }) => {
+    const activities = listActivities();
+    return service.getAll(p?.limit).map((s) => toDto(s, activities));
+  });
 
   // Mutation: append an edit; return the refreshed timeline for one-shot refresh.
   ipcMainHandle('timeline:apply', (p?: { operation: string; payload: unknown }) => {
@@ -83,8 +103,17 @@ export function registerTimelineIpc(
 
   // Rules handlers
   ipcMainHandle('rules:list', () => activityRuleRepo.listRules());
-  ipcMainHandle('rules:save', (p: { id: string; activityId: string; conditions: string; enabled: number; priority: number }) => {
-    activityRuleRepo.saveRule(p);
+  ipcMainHandle('rules:save', (p: { id: string; activityId: string; conditions: string; enabled: number; priority: number; areaId?: string | null; intentId?: string | null; qualityId?: string | null }) => {
+    activityRuleRepo.saveRule({
+      id: p.id,
+      activityId: p.activityId,
+      conditions: p.conditions,
+      enabled: p.enabled,
+      priority: p.priority,
+      areaId: p.areaId ?? null,
+      intentId: p.intentId ?? null,
+      qualityId: p.qualityId ?? null,
+    });
     return { ok: true };
   });
   ipcMainHandle('rules:delete', (p: { id: string }) => {
@@ -102,7 +131,8 @@ export function registerTimelineIpc(
   };
 }
 
-function toDto(s: VerifiedSession): VerifiedSessionDto {
+function toDto(s: VerifiedSession, activities: Activity[]): VerifiedSessionDto {
+  const activity = s.activityId ? activities.find((a) => a.id === s.activityId) ?? null : null;
   return {
     id: s.id,
     startedAt: s.startedAt.toISOString(),
@@ -121,11 +151,31 @@ function toDto(s: VerifiedSession): VerifiedSessionDto {
     source: s.source,
     note: s.note,
     eventIds: s.events.map((e) => e.id),
-    activity: (s as any).activity ? {
-      id: (s as any).activity.id,
-      name: (s as any).activity.name,
-      color: (s as any).activity.color,
+    activity: activity ? { id: activity.id, name: activity.name, color: activity.color } : null,
+    activityRuleId: s.classification?.matchedRuleId ?? null,
+    classification: s.classification ? {
+      context: s.classification.context ? {
+        id: s.classification.context.id,
+        name: s.classification.context.name,
+        color: s.classification.context.color ?? null,
+      } : null,
+      area: s.classification.area ? {
+        id: s.classification.area.id,
+        name: s.classification.area.name,
+      } : null,
+      intent: s.classification.intent ? {
+        id: s.classification.intent.id,
+        name: s.classification.intent.name,
+      } : null,
+      quality: s.classification.quality ? {
+        id: s.classification.quality.id,
+        name: s.classification.quality.name,
+      } : null,
+      source: s.classification.source,
+      reason: s.classification.reason,
+      matchedRuleId: s.classification.matchedRuleId,
+      matchedConditions: s.classification.matchedConditions,
+      isOverride: s.classification.isOverride,
     } : null,
-    activityRuleId: (s as any).activityRuleId ?? null,
   };
 }

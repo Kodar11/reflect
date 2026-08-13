@@ -1,5 +1,6 @@
 import type { Event } from '../models/Event.js';
 import type { Session } from '../session/Session.js';
+import type { Classification } from '../categorization/Classification.js';
 
 /**
  * Stage 3 — Timeline layer.
@@ -58,6 +59,9 @@ export interface VerifiedSession {
   /** User note attached to this session (from `note` edit). */
   note?: string;
   activityId?: string | null;
+  /** Classification result from the CategorizationEngine. Set by
+   * CategorizationService.classifySessions after timeline edit replay. */
+  classification?: Classification;
 }
 
 /** Edit operations the log records. Each has a typed `TimelinePayload`.

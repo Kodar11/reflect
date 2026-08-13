@@ -1,5 +1,24 @@
 type FrameWindowAction = 'CLOSE' | 'MAXIMIZE' | 'MINIMIZE';
 
+interface ClassificationDto {
+  context: { id: string | null; name: string; color: string | null } | null;
+  area: { id: string | null; name: string } | null;
+  intent: { id: string | null; name: string } | null;
+  quality: { id: string | null; name: string } | null;
+  source: string;
+  reason: string;
+  matchedRuleId: string | null;
+  matchedConditions: string | null;
+  isOverride: boolean;
+}
+
+interface DimensionEntryDto {
+  id: string;
+  dimension: 'area' | 'intent' | 'quality';
+  name: string;
+  sortOrder: number;
+}
+
 /** Minimal DTO the renderer sees for each stored raw event. Mirrors `Event`
  * but kept separate so the DB layer's types never leak into renderer typings. */
 interface TrackerEventDto {
@@ -59,6 +78,7 @@ interface VerifiedSessionDto {
     color: string;
   } | null;
   activityRuleId?: string | null;
+  classification?: ClassificationDto | null;
 }
 
 interface TimelineStatus {
@@ -168,7 +188,7 @@ interface Window {
     saveActivity: (p: { id: string; name: string; color: string }) => Promise<{ ok: boolean }>;
     deleteActivity: (p: { id: string }) => Promise<{ ok: boolean }>;
     listRules: () => Promise<any[]>;
-    saveRule: (p: { id: string; activityId: string; conditions: string; enabled: number; priority: number }) => Promise<{ ok: boolean }>;
+    saveRule: (p: { id: string; activityId: string; conditions: string; enabled: number; priority: number; areaId?: string | null; intentId?: string | null; qualityId?: string | null }) => Promise<{ ok: boolean }>;
     deleteRule: (p: { id: string }) => Promise<{ ok: boolean }>;
   };
   settings: {
@@ -196,5 +216,24 @@ interface Window {
     offActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => void;
     onSummary: (callback: (dto: FocusSummaryDto) => void) => void;
     offSummary: (callback: (dto: FocusSummaryDto) => void) => void;
+  };
+  categorization: {
+    getDimensions: () => Promise<{ areas: DimensionEntryDto[]; intents: DimensionEntryDto[]; qualities: DimensionEntryDto[] }>;
+    getContexts: () => Promise<{ id: string; name: string; color: string }[]>;
+    listOverrides: () => Promise<any[]>;
+    deleteOverride: (p: { id: string }) => Promise<{ ok: boolean }>;
+    saveOverride: (p: {
+      eventIds: number[];
+      contextId: string | null;
+      areaId: string | null;
+      intentId: string | null;
+      qualityId: string | null;
+      remember: boolean;
+      sessionHint?: {
+        primaryApp?: string;
+        primaryUrl?: string;
+        primaryTitle?: string;
+      };
+    }) => Promise<{ ok: boolean; overrideId: string; ruleId: string | null }>;
   };
 }

@@ -128,7 +128,26 @@ export function ActivityPage({
     color: string;
     conditions: { type: string; value: string }[];
     enabled: boolean;
+    areaId: string | null;
+    intentId: string | null;
+    qualityId: string | null;
+    priority: number;
   } | null>(null);
+
+  const [clsDimensions, setClsDimensions] = useState<{areas: any[]; intents: any[]; qualities: any[]}>({ areas: [], intents: [], qualities: [] });
+
+  const refreshDimensions = async () => {
+    try {
+      const dims = await window.categorization.getDimensions();
+      setClsDimensions(dims);
+    } catch (e) {
+      console.error('Failed to load dimensions', e);
+    }
+  };
+
+  useEffect(() => {
+    refreshDimensions();
+  }, []);
 
   const refreshActivitiesAndRules = async () => {
     try {
@@ -176,6 +195,10 @@ export function ActivityPage({
           color: act?.color ?? 'blue',
           conditions: conds,
           enabled: rule.enabled === 1,
+          areaId: (rule as any).areaId ?? null,
+          intentId: (rule as any).intentId ?? null,
+          qualityId: (rule as any).qualityId ?? null,
+          priority: rule.priority ?? 0,
         });
         setEditorOpen(true);
       }
@@ -204,6 +227,10 @@ export function ActivityPage({
         color: prefilledRule.activity?.color ?? 'blue',
         conditions: [prefilledCond],
         enabled: true,
+        areaId: null,
+        intentId: null,
+        qualityId: null,
+        priority: 0,
       });
       setEditorOpen(true);
     }
@@ -406,6 +433,9 @@ export function ActivityPage({
         conditions: rule.conditions,
         enabled: rule.enabled,
         priority: rule.priority,
+        areaId: (rule as any).areaId ?? null,
+        intentId: (rule as any).intentId ?? null,
+        qualityId: (rule as any).qualityId ?? null,
       });
 
       await refreshActivitiesAndRules();
@@ -438,7 +468,10 @@ export function ActivityPage({
         activityId: editRule.activityId,
         conditions: JSON.stringify(editRule.conditions),
         enabled: editRule.enabled ? 1 : 0,
-        priority: 0,
+        priority: editRule.priority,
+        areaId: editRule.areaId,
+        intentId: editRule.intentId,
+        qualityId: editRule.qualityId,
       });
 
       setEditorOpen(false);
@@ -605,6 +638,10 @@ export function ActivityPage({
                     color: 'blue',
                     conditions: [{ type: 'app_equals', value: '' }],
                     enabled: true,
+                    areaId: null,
+                    intentId: null,
+                    qualityId: null,
+                    priority: 0,
                   });
                   setEditorOpen(true);
                 }}
@@ -915,10 +952,11 @@ export function ActivityPage({
                 <tr className="bg-secondary border-b border-default sticky top-0 z-10 text-muted font-bold select-none">
                   <th className="text-left px-4 py-2 cursor-pointer hover:text-default" style={{ color: 'var(--text-muted)' }} onClick={() => setRulesSortAsc(!rulesSortAsc)}>
                     <div className="flex items-center gap-1">
-                      Activity Name <ArrowUpDown size={12} className="opacity-60" />
+                      Context <ArrowUpDown size={12} className="opacity-60" />
                     </div>
                   </th>
-                  <th className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>Match Rule</th>
+                  <th className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>When</th>
+                  <th className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>Classify As</th>
                   <th className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>Color</th>
                   <th className="text-left px-4 py-2" style={{ color: 'var(--text-muted)' }}>Status</th>
                   <th className="text-right px-4 py-2" style={{ color: 'var(--text-muted)' }}>Actions</th>
@@ -927,7 +965,7 @@ export function ActivityPage({
               <tbody>
                 {filteredRules.length === 0 && (
                   <tr>
-                    <td colSpan={5} className="px-4 py-16 text-center text-muted">
+                    <td colSpan={6} className="px-4 py-16 text-center text-muted">
                       <div className="flex flex-col items-center justify-center gap-1">
                         <Layers size={32} className="text-faint mb-1" />
                         <span className="font-semibold text-default">No tracking rules found</span>
@@ -939,10 +977,15 @@ export function ActivityPage({
                 {filteredRules.map((rule) => {
                   const act = activities.find((a) => a.id === rule.activityId);
                   const colorObj = CURATED_COLORS.find((c) => c.name === act?.color) ?? CURATED_COLORS[0];
+                  const area = clsDimensions.areas.find((d: any) => d.id === (rule as any).areaId);
+                  const intent = clsDimensions.intents.find((d: any) => d.id === (rule as any).intentId);
+                  const quality = clsDimensions.qualities.find((d: any) => d.id === (rule as any).qualityId);
+                  const classifyParts = [area?.name, intent?.name, quality?.name].filter(Boolean);
                   return (
                     <tr key={rule.id} className="border-b border-default hover:bg-hover transition-colors">
                       <td className="px-4 py-2 font-bold text-default">{act?.name ?? rule.activityId}</td>
                       <td className="px-4 py-2 text-muted font-semibold break-all">{conditionSummary(rule.conditions)}</td>
+                      <td className="px-4 py-2 text-muted text-[11.5px]">{classifyParts.length > 0 ? classifyParts.join(' · ') : '—'}</td>
                       <td className="px-4 py-2">
                         <div style={{ width: 12, height: 12, borderRadius: '50%', background: colorObj.hex }} title={act?.color} />
                       </td>
@@ -960,6 +1003,10 @@ export function ActivityPage({
                             color: act?.color ?? 'blue',
                             conditions: conds,
                             enabled: rule.enabled === 1,
+                            areaId: (rule as any).areaId ?? null,
+                            intentId: (rule as any).intentId ?? null,
+                            qualityId: (rule as any).qualityId ?? null,
+                            priority: rule.priority ?? 0,
                           });
                           setEditorOpen(true);
                         }} style={{ color: 'var(--accent)', cursor: 'pointer', fontWeight: 600 }}>
@@ -984,12 +1031,12 @@ export function ActivityPage({
             <div>
               <h2 className="text-[17px] font-bold text-default">{editingRuleId ? 'Edit Tracking Rule' : 'Create Tracking Rule'}</h2>
               <p className="text-[12px] text-muted mt-0.5">
-                Automatically associate matching session focus points with an activity and color.
+                When a session matches these conditions, classify it as Context + Area + Intent + quality.
               </p>
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11.5px] font-bold text-muted">Activity Name</label>
+              <label className="text-[11.5px] font-bold text-muted">Context (Activity) Name</label>
               <input
                 type="text"
                 value={editRule.name}
@@ -1010,6 +1057,51 @@ export function ActivityPage({
                     style={{ width: 20, height: 20, borderRadius: '50%', background: col.hex, border: editRule.color === col.name ? '2px solid var(--text)' : '1px solid transparent', cursor: 'pointer', padding: 0 }}
                   />
                 ))}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="text-[11.5px] font-bold text-muted">Area</label>
+                <select
+                  value={editRule.areaId ?? ''}
+                  onChange={(e) => setEditRule({ ...editRule, areaId: e.target.value || null })}
+                  className="w-full px-2 py-1.5 bg-default border border-default rounded-md text-[12px] text-default focus:outline-none focus:border-accent"
+                >
+                  <option value="">(None)</option>
+                  {clsDimensions.areas.map((a: any) => <option key={a.id} value={a.id}>{a.name}</option>)}
+                </select>
+              </div>
+              <div className="space-y-1">
+                <label className="text-[11.5px] font-bold text-muted">Intent</label>
+                <select
+                  value={editRule.intentId ?? ''}
+                  onChange={(e) => setEditRule({ ...editRule, intentId: e.target.value || null })}
+                  className="w-full px-2 py-1.5 bg-default border border-default rounded-md text-[12px] text-default focus:outline-none focus:border-accent"
+                >
+                  <option value="">(None)</option>
+                  {clsDimensions.intents.map((i: any) => <option key={i.id} value={i.id}>{i.name}</option>)}
+                </select>
+              </div>
+              <div className="space-y-1">
+                <label className="text-[11.5px] font-bold text-muted">quality</label>
+                <select
+                  value={editRule.qualityId ?? ''}
+                  onChange={(e) => setEditRule({ ...editRule, qualityId: e.target.value || null })}
+                  className="w-full px-2 py-1.5 bg-default border border-default rounded-md text-[12px] text-default focus:outline-none focus:border-accent"
+                >
+                  <option value="">(None)</option>
+                  {clsDimensions.qualities.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
+                </select>
+              </div>
+              <div className="space-y-1">
+                <label className="text-[11.5px] font-bold text-muted">Priority</label>
+                <input
+                  type="number"
+                  value={editRule.priority}
+                  onChange={(e) => setEditRule({ ...editRule, priority: Number(e.target.value) || 0 })}
+                  className="w-full px-2 py-1.5 bg-default border border-default rounded-md text-[12px] text-default focus:outline-none focus:border-accent"
+                />
               </div>
             </div>
 

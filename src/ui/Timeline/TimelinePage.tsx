@@ -35,6 +35,7 @@ import {
   sessionDetailsText,
   snapTime,
 } from './timelineUtils';
+import { resolveSelection } from './timelineSelection';
 
 const POLL_MS = 2500;
 
@@ -69,6 +70,7 @@ export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession, onNavi
 
   const canvasRef = useRef<TimelineCanvasHandle>(null);
   const workspaceRef = useRef<HTMLDivElement>(null);
+  const selectedAnchorRef = useRef<number | null>(null);
   const { timelinePct, onDrag } = useResizeSplit();
 
   const isToday = day.toDateString() === new Date().toDateString();
@@ -137,9 +139,16 @@ export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession, onNavi
     refresh();
   }, [focus.activeSession?.session.id]);
 
-  // Clear selection when the day changes if the selected session isn't present
+  // Keep selection stable across session re-derivation. Session ids are
+  // derived from event ids and can change for active sessions as new events
+  // arrive. If the selected id disappears, migrate to the session that starts
+  // with the same anchor event id; only clear if no such session exists.
   useEffect(() => {
-    if (selectedId && !sessions.some((s) => s.id === selectedId)) setSelectedId(null);
+    const { nextId, nextAnchor } = resolveSelection(sessions, selectedId, selectedAnchorRef.current);
+    selectedAnchorRef.current = nextAnchor;
+    if (nextId !== selectedId) {
+      setSelectedId(nextId);
+    }
   }, [sessions, selectedId]);
 
   // ── mutations ─────────────────────────────────────────────────────────────
@@ -321,6 +330,18 @@ export function TimelinePage({ onNavigateToRule, onCreateRuleFromSession, onNavi
     onUpdateActivity,
     onNavigateToRule,
     onCreateRuleFromSession,
+    onClassifySession: async (eventIds, classification, sessionHint) => {
+      try {
+        await window.categorization.saveOverride({
+          eventIds,
+          ...classification,
+          sessionHint,
+        });
+        refresh();
+      } catch (e) {
+        console.error('Failed to save classification override', e);
+      }
+    },
   };
 
   const ctxSession = contextMenu?.session ?? null;

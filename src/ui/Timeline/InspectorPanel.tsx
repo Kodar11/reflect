@@ -39,6 +39,17 @@ export interface InspectorActions {
   onUpdateActivity?: (id: string, name: string, color: string) => void;
   onNavigateToRule?: (ruleId: string) => void;
   onCreateRuleFromSession?: (session: VerifiedSessionDto) => void;
+  onClassifySession?: (eventIds: number[], classification: {
+    contextId: string | null;
+    areaId: string | null;
+    intentId: string | null;
+    qualityId: string | null;
+    remember: boolean;
+  }, sessionHint: {
+    primaryApp?: string;
+    primaryUrl?: string;
+    primaryTitle?: string;
+  }) => void;
 }
 
 export type TimelineView = 'day' | 'week' | 'month' | 'year' | 'custom';
@@ -375,6 +386,29 @@ function SessionDetail({
   const [activities, setActivities] = useState<any[]>([]);
   const [actName, setActName] = useState(session.activity?.name ?? '');
 
+  // Classification state
+  const [dimensions, setDimensions] = useState<{areas: any[]; intents: any[]; qualities: any[]}>({ areas: [], intents: [], qualities: [] });
+  const [contexts, setContexts] = useState<any[]>([]);
+  const [clsEditing, setClsEditing] = useState(false);
+  const [clsContext, setClsContext] = useState<string | null>(null);
+  const [clsArea, setClsArea] = useState<string | null>(null);
+  const [clsIntent, setClsIntent] = useState<string | null>(null);
+  const [clsquality, setClsquality] = useState<string | null>(null);
+  const [clsRemember, setClsRemember] = useState(false);
+
+  const refreshClassification = async () => {
+    try {
+      const [dims, ctxs] = await Promise.all([
+        window.categorization.getDimensions(),
+        window.categorization.getContexts(),
+      ]);
+      setDimensions(dims);
+      setContexts(ctxs);
+    } catch (e) {
+      console.error('Failed to load classification data', e);
+    }
+  };
+
   const refreshActivities = async () => {
     try {
       const list = await window.timeline.listActivities();
@@ -389,8 +423,17 @@ function SessionDetail({
     setNoteDraft(session.note ?? '');
     setEventsOpen(true);
     setActName(session.activity?.name ?? '');
+    setClsEditing(false);
+    setClsContext(session.classification?.context?.id ?? null);
+    setClsArea(session.classification?.area?.id ?? null);
+    setClsIntent(session.classification?.intent?.id ?? null);
+    setClsquality(session.classification?.quality?.id ?? null);
+    setClsRemember(false);
     refreshActivities();
-  }, [session.id, session.note, session.activity]);
+    refreshClassification();
+    // Intentionally depend only on session.id so classification updates from
+    // background refreshes do not reset the editor while the user is editing.
+  }, [session.id]);
 
   const adjacent = useMemo(() => {
     const sorted = [...sessions].sort((a, b) => new Date(a.startedAt).getTime() - new Date(b.startedAt).getTime());
@@ -581,6 +624,118 @@ function SessionDetail({
             </div>
           )}
         </div>
+      </section>
+
+      {/* Classification Section */}
+      <section style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 12, padding: '18px 20px', display: 'flex', flexDirection: 'column', gap: 10, boxShadow: 'var(--shadow-sm)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ fontSize: '13px', fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)' }}>Classification</span>
+          {!clsEditing && session.classification && (
+            <button
+              onClick={() => setClsEditing(true)}
+              disabled={!isToday}
+              style={{ color: 'var(--accent)', background: 'none', border: 'none', padding: 0, cursor: isToday ? 'pointer' : 'default', fontSize: '11.5px', fontWeight: 600 }}
+            >
+              Change
+            </button>
+          )}
+        </div>
+
+        {!clsEditing ? (
+          <>
+                {session.classification && session.classification.source !== 'unclassified' ? (
+                  <>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {[
+                        session.classification.context?.name,
+                        session.classification.area?.name,
+                        session.classification.intent?.name,
+                        session.classification.quality?.name,
+                      ].filter(Boolean).map((name, i) => (
+                        <span key={i} className="chip" style={{ fontSize: '11px', fontWeight: 600, padding: '2px 8px' }}>
+                          {name}
+                        </span>
+                      ))}
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-faint)', fontStyle: 'italic' }}>
+                      {session.classification.reason}
+                    </div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>
+                      Source: <span className="font-semibold">{session.classification.source.replace(/_/g, ' ')}</span>
+                      {session.classification.matchedRuleId && (
+                        <span> · Rule: {session.classification.matchedRuleId}</span>
+                      )}
+                      {session.classification.matchedConditions && (
+                        <span> · {session.classification.matchedConditions}</span>
+                      )}
+                    </div>
+                    {session.classification.isOverride && (
+                      <div style={{ fontSize: '11px', color: 'var(--accent)', fontWeight: 600 }}>Manual Override</div>
+                    )}
+                  </>
+                ) : (
+              <div style={{ fontSize: '12px', color: 'var(--text-faint)' }}>
+                Unclassified{' '}
+                {isToday && (
+                  <button onClick={() => setClsEditing(true)} style={{ color: 'var(--accent)', background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: '11.5px', fontWeight: 600 }}>Classify</button>
+                )}
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+              <label style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-muted)' }}>
+                Context
+                <select value={clsContext ?? ''} onChange={(e) => setClsContext(e.target.value || null)} style={{ width: '100%', background: 'var(--bg-secondary)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 4, padding: '3px 6px', fontSize: '12px', marginTop: 2 }}>
+                  <option value="">(None)</option>
+                  {contexts.map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              </label>
+              <label style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-muted)' }}>
+                Area
+                <select value={clsArea ?? ''} onChange={(e) => setClsArea(e.target.value || null)} style={{ width: '100%', background: 'var(--bg-secondary)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 4, padding: '3px 6px', fontSize: '12px', marginTop: 2 }}>
+                  <option value="">(None)</option>
+                  {dimensions.areas.map((a: any) => <option key={a.id} value={a.id}>{a.name}</option>)}
+                </select>
+              </label>
+              <label style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-muted)' }}>
+                Intent
+                <select value={clsIntent ?? ''} onChange={(e) => setClsIntent(e.target.value || null)} style={{ width: '100%', background: 'var(--bg-secondary)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 4, padding: '3px 6px', fontSize: '12px', marginTop: 2 }}>
+                  <option value="">(None)</option>
+                  {dimensions.intents.map((i: any) => <option key={i.id} value={i.id}>{i.name}</option>)}
+                </select>
+              </label>
+              <label style={{ fontSize: '11px', fontWeight: 600, color: 'var(--text-muted)' }}>
+                Quality
+                <select value={clsquality ?? ''} onChange={(e) => setClsquality(e.target.value || null)} style={{ width: '100%', background: 'var(--bg-secondary)', color: 'var(--text)', border: '1px solid var(--border)', borderRadius: 4, padding: '3px 6px', fontSize: '12px', marginTop: 2 }}>
+                  <option value="">(None)</option>
+                  {dimensions.qualities.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
+                </select>
+              </label>
+            </div>
+            <label style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: '11.5px', color: 'var(--text-muted)' }}>
+              <input type="checkbox" checked={clsRemember} onChange={(e) => setClsRemember(e.target.checked)} style={{ accentColor: 'var(--accent)' }} />
+              Remember for future {session.primaryApp ?? 'this activity'}
+            </label>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button className="btn btn-secondary py-1 px-3 text-[11px]" onClick={() => setClsEditing(false)}>Cancel</button>
+              <button
+                className="btn btn-primary py-1 px-3 text-[11px]"
+                onClick={() => {
+                  actions.onClassifySession?.(
+                    session.eventIds,
+                    { contextId: clsContext, areaId: clsArea, intentId: clsIntent, qualityId: clsquality, remember: clsRemember },
+                    { primaryApp: session.primaryApp ?? undefined, primaryUrl: session.primaryUrl ?? undefined, primaryTitle: session.primaryTitle ?? undefined },
+                  );
+                  setClsEditing(false);
+                }}
+              >
+                Apply
+              </button>
+            </div>
+          </>
+        )}
       </section>
 
       {/* Time Metrics Grid */}

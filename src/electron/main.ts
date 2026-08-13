@@ -31,6 +31,9 @@ import { FocusRepository } from '../database/FocusRepository.js';
 import { FocusService } from '../focus/FocusService.js';
 import { StubBlockingManager } from '../focus/BlockingManager.js';
 import { registerFocusIpc } from '../focus/focusIpc.js';
+import { CategorizationRepository } from '../database/CategorizationRepository.js';
+import { CategorizationService } from '../categorization/CategorizationService.js';
+import { registerCategorizationIpc } from '../categorization/categorizationIpc.js';
 import type { ActivitySample } from '../models/Event.js';
 import {
   getActiveBrowserDomain,
@@ -162,7 +165,14 @@ app.whenReady().then(async () => {
   // FocusService is created early so the tracking engine can notify it of
   // activity for idle detection. The IPC registration happens later after the
   // timeline service is available.
-  database = new Database(Database.filePathFor(userData));
+  try {
+    database = new Database(Database.filePathFor(userData));
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    logger.error(`[APP] Database initialization failed: ${message}`);
+    app.exit(1);
+    return;
+  }
   const focusRepo = new FocusRepository(database);
   const blockingManager = new StubBlockingManager();
   focusService = new FocusService(focusRepo, blockingManager);
@@ -205,11 +215,16 @@ app.whenReady().then(async () => {
   // demand. Edit log lives in timeline_edits (append-only + undone_at).
   const editRepo = new EditRepository(database, (msg) => logger.warn(msg));
   const activityRuleRepo = new ActivityRuleRepository(database);
-  const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo);
+  const categorizationRepo = new CategorizationRepository(database);
+  const categorizationService = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo);
+  const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo, categorizationService);
   registerTimelineIpc(timelineService, activityRuleRepo, ipcMainHandle, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
-  logger.info('[APP] Timeline service ready.');
+  registerCategorizationIpc(categorizationService, ipcMainHandle, () =>
+    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
+  );
+  logger.info('[APP] Timeline + categorization services ready.');
 
   // --- Construct the export layer (Stage 3.8) ---
   const exportService = new ExportService(timelineService, repo, sessionService);

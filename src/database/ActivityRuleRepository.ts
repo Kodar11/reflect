@@ -14,6 +14,9 @@ export interface TrackingRule {
   conditions: string; // JSON string of condition list
   enabled: number; // 0 or 1
   priority: number;
+  areaId: string | null;
+  intentId: string | null;
+  qualityId: string | null;
 }
 
 export class ActivityRuleRepository {
@@ -41,16 +44,19 @@ export class ActivityRuleRepository {
 
     this.listRulesStmt = db.prepare('SELECT * FROM tracking_rules ORDER BY priority DESC, id ASC');
     this.insertRuleStmt = db.prepare(
-      `INSERT INTO tracking_rules (id, activity_id, conditions, enabled, priority)
-       VALUES (@id, @activity_id, @conditions, @enabled, @priority)
+      `INSERT INTO tracking_rules (id, activity_id, conditions, enabled, priority, area_id, intent_id, quality_id)
+       VALUES (@id, @activity_id, @conditions, @enabled, @priority, @area_id, @intent_id, @quality_id)
        ON CONFLICT(id) DO UPDATE SET 
          activity_id = @activity_id, 
          conditions = @conditions, 
          enabled = @enabled, 
-         priority = @priority`
+         priority = @priority,
+         area_id = @area_id,
+         intent_id = @intent_id,
+         quality_id = @quality_id`
     );
     this.updateRuleStmt = db.prepare(
-      `UPDATE tracking_rules SET activity_id = @activity_id, conditions = @conditions, enabled = @enabled, priority = @priority WHERE id = @id`
+      `UPDATE tracking_rules SET activity_id = @activity_id, conditions = @conditions, enabled = @enabled, priority = @priority, area_id = @area_id, intent_id = @intent_id, quality_id = @quality_id WHERE id = @id`
     );
     this.deleteRuleStmt = db.prepare('DELETE FROM tracking_rules WHERE id = ?');
   }
@@ -74,7 +80,7 @@ export class ActivityRuleRepository {
 
   // --- Rule CRUD ---
   listRules(): TrackingRule[] {
-    return this.listRulesStmt.all() as TrackingRule[];
+    return (this.listRulesStmt.all() as any[]).map(rowToRule);
   }
 
   saveRule(rule: TrackingRule): void {
@@ -84,6 +90,9 @@ export class ActivityRuleRepository {
       conditions: rule.conditions,
       enabled: rule.enabled,
       priority: rule.priority,
+      area_id: rule.areaId ?? null,
+      intent_id: rule.intentId ?? null,
+      quality_id: rule.qualityId ?? null,
     });
   }
 
@@ -94,10 +103,26 @@ export class ActivityRuleRepository {
       conditions: rule.conditions,
       enabled: rule.enabled,
       priority: rule.priority,
+      area_id: rule.areaId ?? null,
+      intent_id: rule.intentId ?? null,
+      quality_id: rule.qualityId ?? null,
     });
   }
 
   deleteRule(id: string): void {
     this.deleteRuleStmt.run(id);
   }
+}
+
+function rowToRule(r: any): TrackingRule {
+  return {
+    id: r.id,
+    activityId: r.activity_id,
+    conditions: r.conditions,
+    enabled: r.enabled,
+    priority: r.priority,
+    areaId: r.area_id ?? null,
+    intentId: r.intent_id ?? null,
+    qualityId: r.quality_id ?? null,
+  };
 }

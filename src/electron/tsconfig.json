@@ -22,6 +22,8 @@
     "../models/**/*.ts",
     "../session/**/*.ts",
     "../timeline/**/*.ts",
+    "../categorization/**/*.ts",
+    "../focus/**/*.ts",
     "../database/EditRepository.ts"
   ],
   "exclude": ["**/*.test.ts"]

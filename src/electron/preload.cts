@@ -47,6 +47,15 @@ electron.contextBridge.exposeInMainWorld('timeline', {
   deleteRule: (p) => electron.ipcRenderer.invoke('rules:delete', p),
 } satisfies Window['timeline']);
 
+// Categorization IPC surface.
+electron.contextBridge.exposeInMainWorld('categorization', {
+  getDimensions: () => electron.ipcRenderer.invoke('categorization:getDimensions'),
+  getContexts: () => electron.ipcRenderer.invoke('categorization:getContexts'),
+  listOverrides: () => electron.ipcRenderer.invoke('categorization:listOverrides'),
+  deleteOverride: (p) => electron.ipcRenderer.invoke('categorization:deleteOverride', p),
+  saveOverride: (p) => electron.ipcRenderer.invoke('categorization:saveOverride', p),
+} satisfies Window['categorization']);
+
 electron.contextBridge.exposeInMainWorld('settings', {
   exportTimeline: (format: 'csv' | 'json') =>
     electron.ipcRenderer.invoke('export:timeline', { format }),
