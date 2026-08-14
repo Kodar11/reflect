@@ -75,6 +75,26 @@ export interface CategorizationOverride {
   ruleId: string | null;
 }
 
+/** The source of an event-level classification. */
+export type EventClassificationSource =
+  | 'user_override'
+  | 'user_rule'
+  | 'default'
+  | 'unclassified';
+
+/** A classification attached to a single raw event (not a session/timeline). */
+export interface EventClassification {
+  eventId: number;
+  contextId: string | null;
+  areaId: string | null;
+  intentId: string | null;
+  qualityId: string | null;
+  source: EventClassificationSource;
+  ruleId: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 /** Focus session as a context signal (does NOT force Area/Intent/quality). */
 export interface FocusContextSignal {
   task: string;

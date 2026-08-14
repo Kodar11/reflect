@@ -4,7 +4,7 @@ import { useResolvedTheme } from './hooks/useResolvedTheme';
 import { Sidebar, type Route } from './components/Sidebar';
 import { Header } from './components/Header';
 import { ThemeToggle } from './components/ThemeToggle';
-import { ActivityPage } from './pages/ActivityPage';
+import { ActivityPage } from './pages/Activity/ActivityPage';
 import { SessionsPage } from './pages/SessionsPage';
 import { TimelinePage } from './Timeline/TimelinePage';
 import { useFocus, formatClock } from './Focus/useFocus';

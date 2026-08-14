@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 8) return;
+    if (version >= 9) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -670,6 +670,60 @@ export class Database {
       // The application must no longer read/write quality_id.
 
       this.db.pragma('user_version = 8');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v8 → v9
+    //
+    // Add event-level classification storage.
+    //
+    // Each raw event can have at most one classification record specifying:
+    //   Context, Area, Intent, Quality, source, and optional rule.
+    //
+    // This is intentionally separate from categorization_overrides, which
+    // remains the session/timeline-level correction mechanism.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 9) {
+      this.db.exec(`
+        CREATE TABLE IF NOT EXISTS event_classifications (
+          event_id     INTEGER PRIMARY KEY,
+          context_id   TEXT,
+          area_id      TEXT,
+          intent_id    TEXT,
+          quality_id   TEXT,
+          source       TEXT NOT NULL DEFAULT 'user_override',
+          rule_id      TEXT,
+          created_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at   DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+          FOREIGN KEY (event_id)
+            REFERENCES events(id)
+            ON DELETE CASCADE,
+
+          FOREIGN KEY (context_id)
+            REFERENCES activities(id)
+            ON DELETE SET NULL,
+
+          FOREIGN KEY (area_id)
+            REFERENCES classification_dimensions(id)
+            ON DELETE SET NULL,
+
+          FOREIGN KEY (intent_id)
+            REFERENCES classification_dimensions(id)
+            ON DELETE SET NULL,
+
+          FOREIGN KEY (quality_id)
+            REFERENCES classification_dimensions(id)
+            ON DELETE SET NULL,
+
+          FOREIGN KEY (rule_id)
+            REFERENCES tracking_rules(id)
+            ON DELETE SET NULL
+        );
+      `);
+
+      this.db.pragma('user_version = 9');
     }
   }
 }

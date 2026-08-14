@@ -168,4 +168,60 @@ describe('CategorizationService', () => {
     expect(session.classification?.source).toBe('user_override');
     expect(session.classification?.area?.name).toBe('Personal');
   });
+
+  it('rememberEventAsRule creates a domain_equals rule from a URL', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, rules } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo);
+
+    const result = service.rememberEventAsRule(
+      123,
+      { contextId: 'coding', areaId: 'area_work', intentId: 'intent_create', qualityId: 'quality_focused' },
+      { app: 'Brave Browser', title: 'Reflect - ChatGPT', url: 'chatgpt.com' },
+    );
+
+    expect(result.ruleId).toBeDefined();
+    expect(result.activityId).toBe('coding');
+    expect(rules).toHaveLength(1);
+
+    const rule = rules[0];
+    expect(rule.activityId).toBe('coding');
+    expect(rule.areaId).toBe('area_work');
+    expect(rule.intentId).toBe('intent_create');
+    expect(rule.qualityId).toBe('quality_focused');
+    expect(rule.priority).toBe(10);
+
+    const conditions = JSON.parse(rule.conditions);
+    expect(conditions).toHaveLength(1);
+    expect(conditions[0].type).toBe('domain_equals');
+    expect(conditions[0].value).toBe('chatgpt.com');
+  });
+
+  it('rememberEventAsRule falls back to app_equals when no URL', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, rules } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo);
+
+    service.rememberEventAsRule(
+      124,
+      { contextId: 'coding', areaId: 'area_work', intentId: 'intent_create', qualityId: 'quality_focused' },
+      { app: 'Visual Studio Code', title: 'main.ts' },
+    );
+
+    const conditions = JSON.parse(rules[0].conditions);
+    expect(conditions).toHaveLength(1);
+    expect(conditions[0].type).toBe('app_equals');
+    expect(conditions[0].value).toBe('Visual Studio Code');
+  });
+
+  it('rememberEventAsRule throws without a context', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo);
+
+    expect(() =>
+      service.rememberEventAsRule(
+        125,
+        { contextId: null, areaId: 'area_work', intentId: 'intent_create', qualityId: 'quality_focused' },
+        { app: 'VS Code' },
+      ),
+    ).toThrow(/Cannot remember a rule without a Context/);
+  });
 });

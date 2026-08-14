@@ -1,5 +1,5 @@
 import type { Database } from './Database.js';
-import type { CategorizationOverride, DimensionEntry } from '../categorization/Classification.js';
+import type { CategorizationOverride, DimensionEntry, EventClassification } from '../categorization/Classification.js';
 
 /**
  * Repository for the `classification_dimensions` and `categorization_overrides`
@@ -31,6 +31,18 @@ interface OverrideRow {
   updated_at: string;
 }
 
+interface EventClassificationRow {
+  event_id: number;
+  context_id: string | null;
+  area_id: string | null;
+  intent_id: string | null;
+  quality_id: string | null;
+  source: string;
+  rule_id: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export class CategorizationRepository {
   private readonly listDimsStmt;
   private readonly listDimsByTypeStmt;
@@ -39,6 +51,9 @@ export class CategorizationRepository {
   private readonly listOverridesStmt;
   private readonly saveOverrideStmt;
   private readonly deleteOverrideStmt;
+  private readonly getEventClassificationStmt;
+  private readonly saveEventClassificationStmt;
+  private readonly deleteEventClassificationStmt;
 
   constructor(private readonly db: Database) {
     this.listDimsStmt = db.prepare('SELECT * FROM classification_dimensions ORDER BY dimension ASC, sort_order ASC, name ASC');
@@ -66,6 +81,23 @@ export class CategorizationRepository {
          updated_at = CURRENT_TIMESTAMP`,
     );
     this.deleteOverrideStmt = db.prepare('DELETE FROM categorization_overrides WHERE id = ?');
+
+    this.getEventClassificationStmt = db.prepare('SELECT * FROM event_classifications WHERE event_id = ?');
+    this.saveEventClassificationStmt = db.prepare(
+      `INSERT INTO event_classifications
+         (event_id, context_id, area_id, intent_id, quality_id, source, rule_id, updated_at)
+       VALUES
+         (@event_id, @context_id, @area_id, @intent_id, @quality_id, @source, @rule_id, CURRENT_TIMESTAMP)
+       ON CONFLICT(event_id) DO UPDATE SET
+         context_id = @context_id,
+         area_id = @area_id,
+         intent_id = @intent_id,
+         quality_id = @quality_id,
+         source = @source,
+         rule_id = @rule_id,
+         updated_at = CURRENT_TIMESTAMP`,
+    );
+    this.deleteEventClassificationStmt = db.prepare('DELETE FROM event_classifications WHERE event_id = ?');
   }
 
   // --- Dimensions ---
@@ -114,6 +146,38 @@ export class CategorizationRepository {
   deleteOverride(id: string): void {
     this.deleteOverrideStmt.run(id);
   }
+
+  // --- Event Classifications ---
+
+  getEventClassification(eventId: number): EventClassification | null {
+    const row = this.getEventClassificationStmt.get(eventId) as EventClassificationRow | undefined;
+    return row ? rowToEventClassification(row) : null;
+  }
+
+  getEventClassifications(eventIds: number[]): EventClassification[] {
+    if (eventIds.length === 0) return [];
+    const placeholders = eventIds.map(() => '?').join(',');
+    const stmt = this.db.prepare(
+      `SELECT * FROM event_classifications WHERE event_id IN (${placeholders})`,
+    );
+    return (stmt.all(...eventIds) as EventClassificationRow[]).map(rowToEventClassification);
+  }
+
+  saveEventClassification(classification: EventClassification): void {
+    this.saveEventClassificationStmt.run({
+      event_id: classification.eventId,
+      context_id: classification.contextId,
+      area_id: classification.areaId,
+      intent_id: classification.intentId,
+      quality_id: classification.qualityId,
+      source: classification.source,
+      rule_id: classification.ruleId,
+    });
+  }
+
+  deleteEventClassification(eventId: number): void {
+    this.deleteEventClassificationStmt.run(eventId);
+  }
 }
 
 function rowToDimension(r: DimensionRow): DimensionEntry {
@@ -142,5 +206,19 @@ function rowToOverride(r: OverrideRow): CategorizationOverride {
     qualityId: r.quality_id,
     source: r.source,
     ruleId: r.rule_id,
+  };
+}
+
+function rowToEventClassification(r: EventClassificationRow): EventClassification {
+  return {
+    eventId: r.event_id,
+    contextId: r.context_id,
+    areaId: r.area_id,
+    intentId: r.intent_id,
+    qualityId: r.quality_id,
+    source: r.source as EventClassification['source'],
+    ruleId: r.rule_id,
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
   };
 }

@@ -19,6 +19,18 @@ interface DimensionEntryDto {
   sortOrder: number;
 }
 
+interface EventClassificationDto {
+  eventId: number;
+  contextId: string | null;
+  areaId: string | null;
+  intentId: string | null;
+  qualityId: string | null;
+  source: string;
+  ruleId: string | null;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 /** Minimal DTO the renderer sees for each stored raw event. Mirrors `Event`
  * but kept separate so the DB layer's types never leak into renderer typings. */
 interface TrackerEventDto {
@@ -235,5 +247,27 @@ interface Window {
         primaryTitle?: string;
       };
     }) => Promise<{ ok: boolean; overrideId: string; ruleId: string | null }>;
+    getEventClassification: (p: { eventId: number }) => Promise<EventClassificationDto | null>;
+    getEventClassifications: (p: { eventIds: number[] }) => Promise<EventClassificationDto[]>;
+    saveEventClassification: (p: {
+      eventId: number;
+      contextId: string | null;
+      areaId: string | null;
+      intentId: string | null;
+      qualityId: string | null;
+      source?: string;
+      ruleId?: string | null;
+    }) => Promise<{ ok: boolean }>;
+    deleteEventClassification: (p: { eventId: number }) => Promise<{ ok: boolean }>;
+    rememberEventAsRule: (p: {
+      eventId: number;
+      contextId: string | null;
+      areaId: string | null;
+      intentId: string | null;
+      qualityId: string | null;
+      app?: string | null;
+      title?: string | null;
+      url?: string | null;
+    }) => Promise<{ ok: boolean; ruleId: string; activityId: string }>;
   };
 }

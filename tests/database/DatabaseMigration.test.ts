@@ -192,6 +192,25 @@ function createV6DatabaseWithoutAnchor(dbPath: string): void {
   raw2.close();
 }
 
+function createV8Database(dbPath: string): void {
+  // v0-v7 schema
+  createV6DatabaseWithoutAnchor(dbPath);
+
+  const raw3 = new BetterSqliteDB(dbPath);
+  raw3.exec(`
+    ALTER TABLE categorization_overrides ADD COLUMN anchor_event_id INTEGER;
+
+    UPDATE categorization_overrides
+    SET anchor_event_id = CAST(json_extract(event_ids, '$[0]') AS INTEGER)
+    WHERE anchor_event_id IS NULL
+      AND event_ids IS NOT NULL;
+
+    CREATE INDEX IF NOT EXISTS idx_cat_overrides_anchor ON categorization_overrides (anchor_event_id);
+  `);
+  raw3.pragma('user_version = 8');
+  raw3.close();
+}
+
 migrationSuite('Database migration', () => {
   let dbPath: string;
 
@@ -199,37 +218,49 @@ migrationSuite('Database migration', () => {
     cleanup(dbPath);
   });
 
-  it('fresh database has categorization_overrides.anchor_event_id and CategorizationRepository prepares OK', () => {
+  it('fresh database has event_classifications and CategorizationRepository prepares OK', () => {
     dbPath = tmpDbPath();
     const db = new Database(dbPath);
     expect(db).toBeDefined();
 
     const raw = new BetterSqliteDB(dbPath);
     expect(tableHasColumn(raw, 'categorization_overrides', 'anchor_event_id')).toBe(true);
-    expect(raw.pragma('user_version', { simple: true })).toBe(7);
+    expect(tableHasColumn(raw, 'event_classifications', 'event_id')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'context_id')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'area_id')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'intent_id')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'quality_id')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'source')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'rule_id')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'created_at')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'updated_at')).toBe(true);
+    expect(raw.pragma('user_version', { simple: true })).toBe(9);
     raw.close();
 
     const repo = new CategorizationRepository(db);
     expect(repo.listDimensions()).toBeDefined();
     expect(repo.listOverrides()).toBeDefined();
+    expect(repo.getEventClassification(1)).toBeNull();
 
     db.close();
   });
 
-  it('existing v5 database migrates to v7 with anchor_event_id', () => {
+  it('existing v5 database migrates to v9 with anchor_event_id and event_classifications', () => {
     dbPath = tmpDbPath();
     createV5Database(dbPath);
 
     const before = new BetterSqliteDB(dbPath);
     expect(before.pragma('user_version', { simple: true })).toBe(5);
     expect(tableHasColumn(before, 'categorization_overrides', 'anchor_event_id')).toBe(false);
+    expect(tableHasColumn(before, 'event_classifications', 'event_id')).toBe(false);
     before.close();
 
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(7);
+    expect(after.pragma('user_version', { simple: true })).toBe(9);
     expect(tableHasColumn(after, 'categorization_overrides', 'anchor_event_id')).toBe(true);
+    expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
     after.close();
 
     const repo = new CategorizationRepository(db);
@@ -283,9 +314,48 @@ migrationSuite('Database migration', () => {
     db2.close();
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(7);
+    expect(raw.pragma('user_version', { simple: true })).toBe(9);
     expect(tableHasColumn(raw, 'categorization_overrides', 'anchor_event_id')).toBe(true);
+    expect(tableHasColumn(raw, 'event_classifications', 'event_id')).toBe(true);
     raw.close();
+  });
+
+  it('existing v8 database migrates to v9 and creates event_classifications without touching overrides', () => {
+    dbPath = tmpDbPath();
+    createV8Database(dbPath);
+
+    const before = new BetterSqliteDB(dbPath);
+    before.exec(`
+      INSERT INTO categorization_overrides (id, event_ids, anchor_event_id, context_id, area_id, source)
+      VALUES ('ov_v8', '[100,200]', 100, 'ctx_v8', 'area_v8', 'user_override');
+    `);
+    expect(before.pragma('user_version', { simple: true })).toBe(8);
+    expect(tableHasColumn(before, 'event_classifications', 'event_id')).toBe(false);
+    before.close();
+
+    const db = new Database(dbPath);
+
+    const after = new BetterSqliteDB(dbPath);
+    expect(after.pragma('user_version', { simple: true })).toBe(9);
+    expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
+
+    const overrideRow = after.prepare('SELECT * FROM categorization_overrides WHERE id = ?').get('ov_v8') as {
+      id: string;
+      event_ids: string;
+      anchor_event_id: number | null;
+      context_id: string | null;
+    };
+    expect(overrideRow.id).toBe('ov_v8');
+    expect(overrideRow.event_ids).toBe('[100,200]');
+    expect(overrideRow.anchor_event_id).toBe(100);
+    expect(overrideRow.context_id).toBe('ctx_v8');
+    after.close();
+
+    const repo = new CategorizationRepository(db);
+    const overrides = repo.listOverrides();
+    expect(overrides).toHaveLength(1);
+    expect(overrides[0].anchorEventId).toBe(100);
+    db.close();
   });
 
   it('leaves anchor_event_id NULL when override event_ids is empty or invalid', () => {

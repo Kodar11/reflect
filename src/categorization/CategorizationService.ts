@@ -9,6 +9,8 @@ import type {
   Classification,
   ContextEntry,
   DimensionEntry,
+  EventClassification,
+  EventClassificationSource,
   FocusContextSignal,
   RuleCondition,
 } from './Classification.js';
@@ -159,6 +161,39 @@ export class CategorizationService {
     this.categorizationRepo.deleteOverride(id);
   }
 
+  // --- Event-level classifications ---
+
+  getEventClassification(eventId: number): EventClassification | null {
+    return this.categorizationRepo.getEventClassification(eventId);
+  }
+
+  getEventClassifications(eventIds: number[]): EventClassification[] {
+    return this.categorizationRepo.getEventClassifications(eventIds);
+  }
+
+  saveEventClassification(classification: EventClassification): void {
+    const source = classification.source ?? 'user_override';
+    this.validateEventClassificationSource(source);
+
+    const ruleId = source === 'user_override' ? null : classification.ruleId;
+
+    this.validateEventClassification({
+      ...classification,
+      source,
+      ruleId,
+    });
+
+    this.categorizationRepo.saveEventClassification({
+      ...classification,
+      source,
+      ruleId,
+    });
+  }
+
+  deleteEventClassification(eventId: number): void {
+    this.categorizationRepo.deleteEventClassification(eventId);
+  }
+
   // ── internals ──────────────────────────────────────────────────────────────
 
   private buildRules(): CategorizationRule[] {
@@ -220,6 +255,49 @@ export class CategorizationService {
     return signals;
   }
 
+  /**
+   * Create a reusable tracking rule from an event's raw metadata and its
+   * classification. The activity/context must already exist.
+   */
+  rememberEventAsRule(
+    eventId: number,
+    classification: {
+      contextId: string | null;
+      areaId: string | null;
+      intentId: string | null;
+      qualityId: string | null;
+    },
+    eventHint: {
+      app?: string | null;
+      title?: string | null;
+      url?: string | null;
+    },
+  ): { ruleId: string; activityId: string } {
+    if (!classification.contextId) {
+      throw new Error('Cannot remember a rule without a Context');
+    }
+
+    const ruleId = `rule_${randomUUID()}`;
+    const conditions = this.deriveConditionsFromHint({
+      primaryUrl: eventHint.url,
+      primaryApp: eventHint.app,
+    });
+
+    const rule: TrackingRule = {
+      id: ruleId,
+      activityId: classification.contextId,
+      conditions: JSON.stringify(conditions),
+      enabled: 1,
+      priority: 10,
+      areaId: classification.areaId,
+      intentId: classification.intentId,
+      qualityId: classification.qualityId,
+    };
+    this.activityRuleRepo.saveRule(rule);
+
+    return { ruleId, activityId: classification.contextId };
+  }
+
   private createRememberedRule(
     _eventIds: number[],
     classification: {
@@ -234,12 +312,21 @@ export class CategorizationService {
       primaryTitle?: string;
     },
   ): string {
-    const ruleId = `rule_${randomUUID()}`;
+    const { ruleId } = this.rememberEventAsRule(-1, classification, {
+      app: session.primaryApp,
+      title: session.primaryTitle,
+      url: session.primaryUrl,
+    });
+    return ruleId;
+  }
+
+  private deriveConditionsFromHint(session: {
+    primaryApp?: string | null;
+    primaryUrl?: string | null;
+  }): RuleCondition[] {
     const conditions: RuleCondition[] = [];
 
-    // Derive conditions from the session's primary attributes.
     if (session.primaryUrl) {
-      // Extract domain for website-based rules.
       try {
         let host = session.primaryUrl;
         if (!/^https?:\/\//i.test(host)) host = 'https://' + host;
@@ -247,7 +334,10 @@ export class CategorizationService {
         const domain = u.hostname.startsWith('www.') ? u.hostname.slice(4) : u.hostname;
         conditions.push({ type: 'domain_equals', value: domain });
       } catch {
-        conditions.push({ type: 'url_contains', value: session.primaryUrl });
+        // If URL parsing fails, fall back to app_equals if possible.
+        if (session.primaryApp) {
+          conditions.push({ type: 'app_equals', value: session.primaryApp });
+        }
       }
     } else if (session.primaryApp) {
       conditions.push({ type: 'app_equals', value: session.primaryApp });
@@ -259,17 +349,47 @@ export class CategorizationService {
       conditions.push({ type: 'app_equals', value: session.primaryApp ?? '' });
     }
 
-    const rule: TrackingRule = {
-      id: ruleId,
-      activityId: classification.contextId ?? '',
-      conditions: JSON.stringify(conditions),
-      enabled: 1,
-      priority: 10, // Remembered rules get higher priority than default rules.
-      areaId: classification.areaId,
-      intentId: classification.intentId,
-      qualityId: classification.qualityId,
-    };
-    this.activityRuleRepo.saveRule(rule);
-    return ruleId;
+    return conditions;
+  }
+
+  private validateEventClassificationSource(source: string): asserts source is EventClassificationSource {
+    const valid: EventClassificationSource[] = ['user_override', 'user_rule', 'default', 'unclassified'];
+    if (!valid.includes(source as EventClassificationSource)) {
+      throw new Error(`Invalid event classification source: ${source}`);
+    }
+  }
+
+  private validateEventClassification(classification: EventClassification): void {
+    const activities = this.activityRuleRepo.listActivities();
+    const activityIds = new Set(activities.map((a) => a.id));
+    if (classification.contextId !== null && !activityIds.has(classification.contextId)) {
+      throw new Error(`Invalid contextId: ${classification.contextId}`);
+    }
+
+    const dimensions = this.categorizationRepo.listDimensions();
+    const dimById = new Map(dimensions.map((d) => [d.id, d]));
+    this.validateDimension(classification.areaId, 'area', dimById);
+    this.validateDimension(classification.intentId, 'intent', dimById);
+    this.validateDimension(classification.qualityId, 'quality', dimById);
+
+    if (classification.ruleId !== null) {
+      const rules = this.activityRuleRepo.listRules();
+      const ruleIds = new Set(rules.map((r) => r.id));
+      if (!ruleIds.has(classification.ruleId)) {
+        throw new Error(`Invalid ruleId: ${classification.ruleId}`);
+      }
+    }
+  }
+
+  private validateDimension(
+    id: string | null,
+    expectedDimension: 'area' | 'intent' | 'quality',
+    dimById: Map<string, DimensionEntry>,
+  ): void {
+    if (id === null) return;
+    const dim = dimById.get(id);
+    if (!dim || dim.dimension !== expectedDimension) {
+      throw new Error(`Invalid ${expectedDimension}Id: ${id}`);
+    }
   }
 }
