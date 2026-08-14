@@ -12,6 +12,7 @@ import type {
 } from './Classification.js';
 import { UNCLASSIFIED } from './Classification.js';
 import { matchConditions, normalizeRuleConditions, sortRules, summarizeConditions } from './ClassificationRules.js';
+import { classifyEventByDefault } from './DefaultClassificationRules.js';
 
 /**
  * `ClassificationEngine` is the pure, deterministic classification layer.
@@ -102,6 +103,32 @@ export class ClassificationEngine {
       }
     }
     return UNCLASSIFIED;
+  }
+
+  /**
+   * Classify a single raw event using deterministic default heuristics.
+   * This is the fallback layer after explicit overrides and user rules.
+   * It never persists anything and never overrides user decisions.
+   */
+  classifyEventDefault(
+    event: EventLike,
+    contexts: ContextEntry[],
+    dimensions: DimensionEntry[],
+  ): Classification {
+    const defaultResult = classifyEventByDefault(event, contexts, dimensions);
+    if (!defaultResult) return UNCLASSIFIED;
+
+    return {
+      context: resolveDimension(defaultResult.contextId, contexts, 'context'),
+      area: resolveDimension(defaultResult.areaId, dimensions, 'area'),
+      intent: resolveDimension(defaultResult.intentId, dimensions, 'intent'),
+      quality: resolveDimension(defaultResult.qualityId, dimensions, 'quality'),
+      source: 'default',
+      reason: defaultResult.reason,
+      matchedRuleId: null,
+      matchedConditions: null,
+      isOverride: false,
+    };
   }
 
   // ── Override lookup ──────────────────────────────────────────────────────

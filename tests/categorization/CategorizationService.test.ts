@@ -358,7 +358,7 @@ describe('CategorizationService.getResolvedEventClassifications', () => {
     expect(result[0].ruleId).toBe('rule_code');
   });
 
-  it('disabled rule does not match', () => {
+  it('disabled rule does not match → falls back to default', () => {
     const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
     const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
 
@@ -376,10 +376,13 @@ describe('CategorizationService.getResolvedEventClassifications', () => {
     events.push(makeEvent({ id: 4, url: 'https://youtube.com/watch' }));
 
     const result = service.getResolvedEventClassifications([4]);
-    expect(result).toHaveLength(0);
+    expect(result).toHaveLength(1);
+    expect(result[0].source).toBe('default');
+    expect(result[0].areaId).toBe('area_leisure');
+    expect(result[0].ruleId).toBeNull();
   });
 
-  it('non-matching rule does not classify', () => {
+  it('non-matching rule does not classify → falls back to default', () => {
     const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
     const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
 
@@ -397,7 +400,11 @@ describe('CategorizationService.getResolvedEventClassifications', () => {
     events.push(makeEvent({ id: 5, url: 'https://youtube.com/watch' }));
 
     const result = service.getResolvedEventClassifications([5]);
-    expect(result).toHaveLength(0);
+    expect(result).toHaveLength(1);
+    expect(result[0].source).toBe('default');
+    expect(result[0].areaId).toBe('area_leisure');
+    expect(result[0].intentId).toBe('intent_consume');
+    expect(result[0].ruleId).toBeNull();
   });
 
   it('multiple rules use priority and specificity ordering', () => {
@@ -526,5 +533,145 @@ describe('CategorizationService.getResolvedEventClassifications', () => {
     const result = service.getResolvedEventClassifications([11]);
     expect(result).toHaveLength(1);
     expect(eventClassifications).toHaveLength(0);
+  });
+
+  it('explicit classification wins over a matching rule and a default', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    activityRuleRepo.saveRule({
+      id: 'rule_yt',
+      activityId: 'music',
+      conditions: JSON.stringify([{ type: 'domain_equals', value: 'youtube.com' }]),
+      enabled: 1,
+      priority: 10,
+      areaId: 'area_leisure',
+      intentId: 'intent_consume',
+      qualityId: 'quality_distracting',
+    });
+
+    events.push(makeEvent({ id: 12, app: 'Brave Browser', url: 'https://youtube.com/watch' }));
+    service.saveEventClassification({
+      eventId: 12,
+      contextId: 'coding',
+      areaId: 'area_work',
+      intentId: 'intent_create',
+      qualityId: 'quality_deep',
+      source: 'user_override',
+      ruleId: null,
+    });
+
+    const result = service.getResolvedEventClassifications([12]);
+    expect(result).toHaveLength(1);
+    expect(result[0].contextId).toBe('coding');
+    expect(result[0].areaId).toBe('area_work');
+    expect(result[0].source).toBe('user_override');
+    expect(result[0].ruleId).toBeNull();
+  });
+
+  it('matching rule wins over default classification', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    activityRuleRepo.saveRule({
+      id: 'rule_yt',
+      activityId: 'music',
+      conditions: JSON.stringify([{ type: 'domain_equals', value: 'youtube.com' }]),
+      enabled: 1,
+      priority: 10,
+      areaId: 'area_leisure',
+      intentId: 'intent_consume',
+      qualityId: 'quality_distracting',
+    });
+
+    events.push(makeEvent({ id: 13, app: 'Brave Browser', url: 'https://youtube.com/watch' }));
+
+    const result = service.getResolvedEventClassifications([13]);
+    expect(result).toHaveLength(1);
+    expect(result[0].contextId).toBe('music');
+    expect(result[0].areaId).toBe('area_leisure');
+    expect(result[0].source).toBe('user_rule');
+    expect(result[0].ruleId).toBe('rule_yt');
+  });
+
+  it('default classification wins when no explicit and no rule match', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 14, app: 'Brave Browser', url: 'https://chatgpt.com/c/abc' }));
+
+    const result = service.getResolvedEventClassifications([14]);
+    expect(result).toHaveLength(1);
+    expect(result[0].eventId).toBe(14);
+    expect(result[0].contextId).toBeNull();
+    expect(result[0].areaId).toBe('area_work');
+    expect(result[0].intentId).toBe('intent_learn');
+    expect(result[0].qualityId).toBe('quality_focused');
+    expect(result[0].source).toBe('default');
+    expect(result[0].ruleId).toBeNull();
+  });
+
+  it('unknown event with no default remains unclassified', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 15, app: 'MysteryApp', url: 'https://unknown.example.com/' }));
+
+    const result = service.getResolvedEventClassifications([15]);
+    expect(result).toHaveLength(0);
+  });
+
+  it('does not persist default classifications into event_classifications', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events, eventClassifications } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 16, app: 'Brave Browser', url: 'https://youtube.com/watch' }));
+
+    const result = service.getResolvedEventClassifications([16]);
+    expect(result).toHaveLength(1);
+    expect(result[0].source).toBe('default');
+    expect(eventClassifications).toHaveLength(0);
+  });
+
+  it('repeated resolution produces the same default', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 17, app: 'Visual Studio Code', title: 'main.ts' }));
+
+    for (let i = 0; i < 3; i++) {
+      const result = service.getResolvedEventClassifications([17]);
+      expect(result).toHaveLength(1);
+      expect(result[0].source).toBe('default');
+      expect(result[0].areaId).toBe('area_work');
+      expect(result[0].intentId).toBe('intent_create');
+      expect(result[0].qualityId).toBe('quality_focused');
+    }
+  });
+
+  it('rememberEventAsRule creates a rule that beats the default', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events, rules } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    // Before the rule exists, ChatGPT resolves via the default layer.
+    events.push(makeEvent({ id: 18, app: 'Brave Browser', url: 'https://chatgpt.com/c/abc' }));
+    const before = service.getResolvedEventClassifications([18]);
+    expect(before).toHaveLength(1);
+    expect(before[0].source).toBe('default');
+
+    // User explicitly remembers a rule for ChatGPT.
+    const { ruleId } = service.rememberEventAsRule(
+      18,
+      { contextId: 'coding', areaId: 'area_work', intentId: 'intent_create', qualityId: 'quality_deep' },
+      { app: 'Brave Browser', url: 'https://chatgpt.com/c/abc' },
+    );
+
+    // A new matching event should now be classified by the rule, not the default.
+    events.push(makeEvent({ id: 19, app: 'Brave Browser', url: 'https://chatgpt.com/another' }));
+    const after = service.getResolvedEventClassifications([19]);
+    expect(after).toHaveLength(1);
+    expect(after[0].source).toBe('user_rule');
+    expect(after[0].ruleId).toBe(ruleId);
+    expect(after[0].contextId).toBe('coding');
   });
 });

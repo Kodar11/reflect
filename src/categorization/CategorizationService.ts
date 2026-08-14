@@ -179,9 +179,11 @@ export class CategorizationService {
    * Precedence:
    *   1. Explicit event-level classification from `event_classifications`.
    *   2. First matching enabled tracking rule (priority → specificity → id).
-   *   3. No entry (UI renders `—`).
+   *   3. Deterministic default classification (inferred, never persisted).
+   *   4. No entry (UI renders `—`).
    *
-   * Rule-derived results are computed dynamically and are never persisted.
+   * Rule-derived and default results are computed dynamically and are never
+   * persisted.
    */
   getResolvedEventClassifications(eventIds: number[]): EventClassification[] {
     if (eventIds.length === 0) return [];
@@ -203,21 +205,34 @@ export class CategorizationService {
 
       const derived: EventClassification[] = [];
       for (const event of events) {
-        const classification = this.engine.classifyEvent(
+        let classification = this.engine.classifyEvent(
           event,
           rules,
           contexts,
           dimensions,
         );
-        if (classification.source === 'user_rule') {
+        if (classification.source !== 'user_rule') {
+          classification = this.engine.classifyEventDefault(
+            event,
+            contexts,
+            dimensions,
+          );
+        }
+        if (
+          classification.source === 'user_rule' ||
+          classification.source === 'default'
+        ) {
           derived.push({
             eventId: event.id,
             contextId: classification.context?.id ?? null,
             areaId: classification.area?.id ?? null,
             intentId: classification.intent?.id ?? null,
             qualityId: classification.quality?.id ?? null,
-            source: 'user_rule',
-            ruleId: classification.matchedRuleId,
+            source: classification.source,
+            ruleId:
+              classification.source === 'user_rule'
+                ? classification.matchedRuleId
+                : null,
           });
         }
       }

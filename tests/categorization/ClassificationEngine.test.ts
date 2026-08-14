@@ -743,3 +743,197 @@ describe('Test S: Realistic day integration', () => {
     expect(resolve.context?.name).toBe('Video Editing');
   });
 });
+
+function classifyEventDefault(event: EventLike, dims: DimensionEntry[] = DIMENSIONS) {
+  return engine.classifyEventDefault(event, CONTEXTS, dims);
+}
+
+// ── Default event-level classification ──
+describe('Default event-level classification', () => {
+  it('ChatGPT domain → Work / Learn / Focused with null context', () => {
+    const event: EventLike = {
+      id: 100,
+      app: 'Brave Browser',
+      url: 'https://chatgpt.com/c/abc',
+      title: 'ChatGPT',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: ChatGPT');
+    expect(result.context).toBeNull();
+    expect(result.area?.name).toBe('Work');
+    expect(result.intent?.name).toBe('Learn');
+    expect(result.quality?.name).toBe('Focused');
+    expect(result.matchedRuleId).toBeNull();
+    expect(result.isOverride).toBe(false);
+  });
+
+  it('ChatGPT app → Work / Learn / Focused', () => {
+    const event: EventLike = {
+      id: 101,
+      app: 'ChatGPT',
+      title: 'ChatGPT',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.area?.name).toBe('Work');
+    expect(result.intent?.name).toBe('Learn');
+  });
+
+  it('uses Research intent when it exists', () => {
+    const withResearch: DimensionEntry[] = [
+      ...DIMENSIONS,
+      { id: 'intent_research', dimension: 'intent', name: 'Research', sortOrder: 4 },
+    ];
+    const event: EventLike = {
+      id: 102,
+      url: 'https://chatgpt.com/c/abc',
+    };
+    const result = classifyEventDefault(event, withResearch);
+    expect(result.intent?.id).toBe('intent_research');
+    expect(result.intent?.name).toBe('Research');
+  });
+
+  it('VS Code: app → Work / Create / Focused with null context', () => {
+    const event: EventLike = {
+      id: 103,
+      app: 'Visual Studio Code',
+      title: 'main.ts',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: VS Code:');
+    expect(result.context).toBeNull();
+    expect(result.area?.name).toBe('Work');
+    expect(result.intent?.name).toBe('Create');
+    expect(result.quality?.name).toBe('Focused');
+  });
+
+  it('YouTube domain → Leisure / Consume / Routine with null context', () => {
+    const event: EventLike = {
+      id: 104,
+      app: 'Brave Browser',
+      url: 'https://youtube.com/watch?v=abc',
+      title: 'Cat videos',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: YouTube');
+    expect(result.context).toBeNull();
+    expect(result.area?.name).toBe('Leisure');
+    expect(result.intent?.name).toBe('Consume');
+    expect(result.quality?.name).toBe('Routine');
+  });
+
+  it.each([
+    'https://react.dev/learn/thinking-in-react',
+    'https://developer.mozilla.org/en-US/docs/Web/API',
+    'https://docs.python.org/3/tutorial',
+  ])('documentation domain %s → Learning / Learn / Focused', (url) => {
+    const event: EventLike = { id: 105, app: 'Brave Browser', url };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: Documentation');
+    expect(result.area?.name).toBe('Learning');
+    expect(result.intent?.name).toBe('Learn');
+    expect(result.quality?.name).toBe('Focused');
+  });
+
+  it('unknown app returns unclassified', () => {
+    const event: EventLike = {
+      id: 106,
+      app: 'SomeRandomApp',
+      title: 'Untitled',
+    };
+    const result = classifyEventDefault(event);
+    expect(result).toBe(UNCLASSIFIED);
+  });
+
+  it('context remains null when there is no reliable context signal', () => {
+    const event: EventLike = {
+      id: 107,
+      url: 'https://chatgpt.com/c/abc',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.context).toBeNull();
+  });
+
+  it('case differences do not break matching', () => {
+    const event: EventLike = {
+      id: 108,
+      app: 'brave browser',
+      url: 'https://WWW.YOUTUBE.COM/watch',
+      title: 'Video',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.area?.name).toBe('Leisure');
+  });
+
+  it('www normalization works', () => {
+    const event: EventLike = {
+      id: 109,
+      url: 'https://www.chatgpt.com/',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.area?.name).toBe('Work');
+  });
+
+  it('missing URL does not crash', () => {
+    const event: EventLike = {
+      id: 110,
+      app: 'VS Code:',
+      title: 'main.ts',
+      url: null,
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.area?.name).toBe('Work');
+  });
+
+  it('missing app does not crash', () => {
+    const event: EventLike = {
+      id: 111,
+      app: null,
+      url: 'https://youtube.com/watch',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.area?.name).toBe('Leisure');
+  });
+
+  it('missing title does not crash', () => {
+    const event: EventLike = {
+      id: 112,
+      app: null,
+      title: null,
+      url: 'https://chatgpt.com/',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+  });
+
+  it('missing dimensions do not produce invalid IDs', () => {
+    const emptyDimensions: DimensionEntry[] = [];
+    const event: EventLike = {
+      id: 113,
+      url: 'https://chatgpt.com/',
+    };
+    const result = classifyEventDefault(event, emptyDimensions);
+    expect(result.source).toBe('default');
+    expect(result.area).toBeNull();
+    expect(result.intent).toBeNull();
+    expect(result.quality).toBeNull();
+  });
+
+  it('is deterministic across repeated calls', () => {
+    const event: EventLike = {
+      id: 114,
+      url: 'https://chatgpt.com/',
+    };
+    const r1 = classifyEventDefault(event);
+    const r2 = classifyEventDefault(event);
+    expect(r1).toEqual(r2);
+  });
+});

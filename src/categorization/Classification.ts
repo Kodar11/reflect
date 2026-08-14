@@ -108,6 +108,7 @@ export type ClassificationSource =
   | 'user_override'
   | 'user_rule'
   | 'focus_context'
+  | 'default'
   | 'unclassified';
 
 /** The full classification result attached to a session. */
