@@ -139,6 +139,17 @@ export interface SessionLike {
   events: { id: number }[];
 }
 
+/** The minimal event shape the engine needs for event-level rule matching. */
+export interface EventLike {
+  id: number;
+  app?: string | null;
+  browser?: string | null;
+  title?: string | null;
+  url?: string | null;
+  startedAt?: Date | string;
+  endedAt?: Date | string;
+}
+
 /** Input for classifying a single session. */
 export interface ClassificationInput {
   session: SessionLike;

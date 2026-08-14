@@ -216,7 +216,7 @@ app.whenReady().then(async () => {
   const editRepo = new EditRepository(database, (msg) => logger.warn(msg));
   const activityRuleRepo = new ActivityRuleRepository(database);
   const categorizationRepo = new CategorizationRepository(database);
-  const categorizationService = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo);
+  const categorizationService = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, repo);
   const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo, categorizationService);
   registerTimelineIpc(timelineService, activityRuleRepo, ipcMainHandle, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),

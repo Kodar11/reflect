@@ -63,7 +63,7 @@ suite('EventClassification persistence', () => {
     eventRepo = new EventRepository(db);
     catRepo = new CategorizationRepository(db);
     activityRepo = new ActivityRuleRepository(db);
-    service = new CategorizationService(activityRepo, catRepo, makeFocusRepo());
+    service = new CategorizationService(activityRepo, catRepo, makeFocusRepo(), eventRepo);
   });
 
   afterEach(() => {
@@ -377,5 +377,95 @@ suite('EventClassification persistence', () => {
     expect(eventClass?.contextId).toBe('coding');
     expect(overrides).toHaveLength(1);
     expect(overrides[0].contextId).toBe('learning');
+  });
+
+  it('resolves a rule-derived classification for a new event', () => {
+    const activityId = 'music';
+    activityRepo.saveActivity({ id: activityId, name: 'Music Listening', color: 'green' });
+    catRepo.saveDimension({ id: 'area_leisure', dimension: 'area', name: 'Leisure', sortOrder: 0 });
+    catRepo.saveDimension({ id: 'intent_consume', dimension: 'intent', name: 'Consume', sortOrder: 0 });
+    catRepo.saveDimension({ id: 'quality_distracting', dimension: 'quality', name: 'Distracting', sortOrder: 0 });
+
+    activityRepo.saveRule({
+      id: 'rule_yt',
+      activityId,
+      conditions: JSON.stringify([{ type: 'domain_equals', value: 'youtube.com' }]),
+      enabled: 1,
+      priority: 10,
+      areaId: 'area_leisure',
+      intentId: 'intent_consume',
+      qualityId: 'quality_distracting',
+    });
+
+    const eventId = eventRepo.insert({
+      watcher: 'window',
+      startedAt: '2026-01-01T09:00:00.000Z',
+      endedAt: '2026-01-01T09:05:00.000Z',
+      app: 'Brave Browser',
+      title: 'Some YouTube video',
+      url: 'https://youtube.com/watch?v=123',
+    });
+
+    const result = service.getResolvedEventClassifications([eventId]);
+    expect(result).toHaveLength(1);
+    expect(result[0].eventId).toBe(eventId);
+    expect(result[0].contextId).toBe(activityId);
+    expect(result[0].areaId).toBe('area_leisure');
+    expect(result[0].intentId).toBe('intent_consume');
+    expect(result[0].qualityId).toBe('quality_distracting');
+    expect(result[0].source).toBe('user_rule');
+    expect(result[0].ruleId).toBe('rule_yt');
+
+    const persisted = catRepo.getEventClassification(eventId);
+    expect(persisted).toBeNull();
+  });
+
+  it('gives explicit event classification priority over a matching rule', () => {
+    const activityId = 'music';
+    activityRepo.saveActivity({ id: activityId, name: 'Music Listening', color: 'green' });
+    activityRepo.saveActivity({ id: 'work', name: 'Work', color: 'blue' });
+    catRepo.saveDimension({ id: 'area_leisure', dimension: 'area', name: 'Leisure', sortOrder: 0 });
+    catRepo.saveDimension({ id: 'area_work', dimension: 'area', name: 'Work', sortOrder: 1 });
+    catRepo.saveDimension({ id: 'intent_consume', dimension: 'intent', name: 'Consume', sortOrder: 0 });
+    catRepo.saveDimension({ id: 'intent_deep', dimension: 'intent', name: 'Deep Work', sortOrder: 1 });
+    catRepo.saveDimension({ id: 'quality_distracting', dimension: 'quality', name: 'Distracting', sortOrder: 0 });
+    catRepo.saveDimension({ id: 'quality_focused', dimension: 'quality', name: 'Focused', sortOrder: 1 });
+
+    activityRepo.saveRule({
+      id: 'rule_yt',
+      activityId,
+      conditions: JSON.stringify([{ type: 'domain_equals', value: 'youtube.com' }]),
+      enabled: 1,
+      priority: 10,
+      areaId: 'area_leisure',
+      intentId: 'intent_consume',
+      qualityId: 'quality_distracting',
+    });
+
+    const eventId = eventRepo.insert({
+      watcher: 'window',
+      startedAt: '2026-01-01T09:00:00.000Z',
+      endedAt: '2026-01-01T09:05:00.000Z',
+      app: 'Brave Browser',
+      title: 'Some YouTube video',
+      url: 'https://youtube.com/watch?v=123',
+    });
+
+    service.saveEventClassification({
+      eventId,
+      contextId: 'work',
+      areaId: 'area_work',
+      intentId: 'intent_deep',
+      qualityId: 'quality_focused',
+      source: 'user_override',
+      ruleId: null,
+    });
+
+    const result = service.getResolvedEventClassifications([eventId]);
+    expect(result).toHaveLength(1);
+    expect(result[0].contextId).toBe('work');
+    expect(result[0].areaId).toBe('area_work');
+    expect(result[0].source).toBe('user_override');
+    expect(result[0].ruleId).toBeNull();
   });
 });

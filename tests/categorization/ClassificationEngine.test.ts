@@ -5,6 +5,7 @@ import type {
   CategorizationOverride,
   ContextEntry,
   DimensionEntry,
+  EventLike,
   FocusContextSignal,
   RuleCondition,
   SessionLike,
@@ -336,6 +337,125 @@ describe('Test O: Rule disable fallback', () => {
   });
 });
 
+function classifyEvent(
+  event: EventLike,
+  rules: CategorizationRule[] = [],
+) {
+  return engine.classifyEvent(event, rules, CONTEXTS, DIMENSIONS);
+}
+
+// ── Event-level classification ──
+describe('Event-level classification', () => {
+  it('classifies an unclassified event by domain rule', () => {
+    const rule: CategorizationRule = {
+      id: 'rule_yt',
+      conditions: [{ type: 'domain_equals', value: 'youtube.com' }],
+      contextId: 'hobby',
+      areaId: 'area_learning',
+      intentId: 'intent_learn',
+      qualityId: 'quality_focused',
+      priority: 0,
+      enabled: true,
+    };
+    const event: EventLike = {
+      id: 1,
+      app: 'Brave Browser',
+      url: 'https://youtube.com/watch',
+      title: 'Some video',
+    };
+    const result = classifyEvent(event, [rule]);
+    expect(result.source).toBe('user_rule');
+    expect(result.context?.name).toBe('Hobby');
+    expect(result.area?.name).toBe('Learning');
+    expect(result.matchedRuleId).toBe('rule_yt');
+  });
+
+  it('classifies an unclassified event by app rule', () => {
+    const rule: CategorizationRule = {
+      id: 'rule_vscode',
+      conditions: [{ type: 'app_equals', value: 'VS Code' }],
+      contextId: 'planmay',
+      areaId: 'area_work',
+      intentId: 'intent_create',
+      qualityId: 'quality_deep',
+      priority: 0,
+      enabled: true,
+    };
+    const event: EventLike = {
+      id: 2,
+      app: 'Visual Studio Code',
+      title: 'main.ts',
+    };
+    const result = classifyEvent(event, [rule]);
+    expect(result.source).toBe('user_rule');
+    expect(result.context?.name).toBe('Planmay');
+    expect(result.matchedRuleId).toBe('rule_vscode');
+  });
+
+  it('returns unclassified when no rule matches', () => {
+    const event: EventLike = {
+      id: 3,
+      app: 'Brave Browser',
+      url: 'https://example.com',
+    };
+    const result = classifyEvent(event, []);
+    expect(result.source).toBe('unclassified');
+    expect(result.context).toBeNull();
+  });
+
+  it('skips disabled rules', () => {
+    const rule: CategorizationRule = {
+      id: 'rule_yt',
+      conditions: [{ type: 'domain_equals', value: 'youtube.com' }],
+      contextId: 'hobby',
+      areaId: 'area_learning',
+      intentId: 'intent_learn',
+      qualityId: 'quality_focused',
+      priority: 0,
+      enabled: false,
+    };
+    const event: EventLike = {
+      id: 4,
+      url: 'https://youtube.com/watch',
+    };
+    const result = classifyEvent(event, [rule]);
+    expect(result.source).toBe('unclassified');
+  });
+
+  it('uses specificity as a tie-breaker for event rules', () => {
+    const broad: CategorizationRule = {
+      id: 'rule_broad',
+      conditions: [{ type: 'domain_equals', value: 'youtube.com' }],
+      contextId: 'hobby',
+      areaId: 'area_learning',
+      intentId: 'intent_learn',
+      qualityId: 'quality_focused',
+      priority: 10,
+      enabled: true,
+    };
+    const specific: CategorizationRule = {
+      id: 'rule_specific',
+      conditions: [
+        { type: 'domain_equals', value: 'youtube.com' },
+        { type: 'title_contains', value: 'tutorial' },
+      ],
+      contextId: 'planmay',
+      areaId: 'area_work',
+      intentId: 'intent_create',
+      qualityId: 'quality_deep',
+      priority: 10,
+      enabled: true,
+    };
+    const event: EventLike = {
+      id: 5,
+      url: 'https://youtube.com/watch',
+      title: 'React tutorial',
+    };
+    const result = classifyEvent(event, [broad, specific]);
+    expect(result.matchedRuleId).toBe('rule_specific');
+  });
+});
+
 // ── Test Q: Browser website classification ──
 describe('Test Q: Browser website classification', () => {
   it('YouTube → Learning/Learn/Focused', () => {
@@ -379,7 +499,7 @@ describe('Test Q: Browser website classification', () => {
     expect(result.intent?.name).toBe('Create');
   });
 
-  it('GitHub → different classification than YouTube', () => {
+  it('YouTube and GitHub → different classifications', () => {
     const ytRule = makeRule({
       id: 'rule_yt',
       conditions: [{ type: 'domain_equals', value: 'youtube.com' }],

@@ -6,6 +6,7 @@ import type {
   ContextEntry,
   DimensionEntry,
   DimensionValue,
+  EventLike,
   FocusContextSignal,
   SessionLike,
 } from './Classification.js';
@@ -78,6 +79,29 @@ export class ClassificationEngine {
       result.set(session.id, this.classify(input));
     }
     return result;
+  }
+
+  /**
+   * Classify a single raw event against enabled user rules.
+   * Explicit event-level overrides and focus context are intentionally
+   * excluded — this path is only for rule-derived event classification.
+   */
+  classifyEvent(
+    event: EventLike,
+    rules: CategorizationRule[],
+    contexts: ContextEntry[],
+    dimensions: DimensionEntry[],
+  ): Classification {
+    const sortedRules = sortRules(
+      rules.filter((r) => r.enabled).map(normalizeRuleConditions),
+    );
+    const session = eventToSessionLike(event);
+    for (const rule of sortedRules) {
+      if (matchConditions(session, rule.conditions)) {
+        return this.buildFromRule(rule, contexts, dimensions);
+      }
+    }
+    return UNCLASSIFIED;
   }
 
   // ── Override lookup ──────────────────────────────────────────────────────
@@ -204,4 +228,19 @@ function resolveDimension(
 
 function sortedKey(ids: number[]): string {
   return [...ids].sort((a, b) => a - b).join(',');
+}
+
+function eventToSessionLike(event: EventLike): SessionLike {
+  return {
+    id: String(event.id),
+    startedAt: event.startedAt ?? new Date(0).toISOString(),
+    endedAt: event.endedAt ?? new Date(0).toISOString(),
+    primaryApp: event.app ?? undefined,
+    primaryBrowser: event.browser ?? undefined,
+    primaryTitle: event.title ?? undefined,
+    primaryUrl: event.url ?? undefined,
+    appsUsed: event.app ? [event.app] : [],
+    browserTabs: event.url ? [event.url] : [],
+    events: [{ id: event.id }],
+  };
 }

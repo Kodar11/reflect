@@ -56,4 +56,7 @@ export class FakeEventRepository implements IEventRepository {
   getAll(_limit?: number): Event[] {
     return [...this.store.values()];
   }
+  getByIds(ids: number[]): Event[] {
+    return ids.map((id) => this.store.get(id)).filter((ev): ev is Event => ev !== undefined);
+  }
 }

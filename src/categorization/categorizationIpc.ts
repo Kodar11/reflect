@@ -52,6 +52,9 @@ export function registerCategorizationIpc(
   ipcMainHandle('categorization:getEventClassifications', (p: { eventIds: number[] }) =>
     service.getEventClassifications(p.eventIds),
   );
+  ipcMainHandle('categorization:getResolvedEventClassifications', (p: { eventIds: number[] }) =>
+    service.getResolvedEventClassifications(p.eventIds),
+  );
   ipcMainHandle('categorization:saveEventClassification', (p: {
     eventId: number;
     contextId: string | null;

@@ -18,6 +18,8 @@ export interface IEventRepository {
   getToday(): Event[];
   /** Events whose started_at falls inside [from, to) ISO strings (newest first). */
   getByRange(from: string, to: string): Event[];
+  /** Events whose ids are in the provided list (newest first). */
+  getByIds(ids: number[]): Event[];
   /** Every event, newest first. Used by the dev viewer when no filter is set. */
   getAll(limit?: number): Event[];
 }
@@ -91,6 +93,15 @@ export class EventRepository implements IEventRepository {
 
   getByRange(from: string, to: string): Event[] {
     return (this.rangeStmt.all({ from, to }) as unknown[] as EventRow[]).map(rowToEvent);
+  }
+
+  getByIds(ids: number[]): Event[] {
+    if (ids.length === 0) return [];
+    const placeholders = ids.map(() => '?').join(',');
+    const stmt = this.db.prepare(
+      `SELECT * FROM events WHERE id IN (${placeholders}) ORDER BY started_at DESC`,
+    );
+    return (stmt.all(...ids) as unknown[] as EventRow[]).map(rowToEvent);
   }
 
   getAll(limit = 1000): Event[] {

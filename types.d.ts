@@ -249,6 +249,7 @@ interface Window {
     }) => Promise<{ ok: boolean; overrideId: string; ruleId: string | null }>;
     getEventClassification: (p: { eventId: number }) => Promise<EventClassificationDto | null>;
     getEventClassifications: (p: { eventIds: number[] }) => Promise<EventClassificationDto[]>;
+    getResolvedEventClassifications: (p: { eventIds: number[] }) => Promise<EventClassificationDto[]>;
     saveEventClassification: (p: {
       eventId: number;
       contextId: string | null;

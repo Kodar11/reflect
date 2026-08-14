@@ -1,5 +1,6 @@
 import type { ActivityRuleRepository, Activity, TrackingRule } from '../database/ActivityRuleRepository.js';
 import type { CategorizationRepository } from '../database/CategorizationRepository.js';
+import type { IEventRepository } from '../database/EventRepository.js';
 import type { IFocusRepository } from '../database/FocusRepository.js';
 import type { FocusSession, FocusProfile } from '../focus/FocusModels.js';
 import type { VerifiedSession } from '../timeline/TimelineModels.js';
@@ -33,6 +34,7 @@ export class CategorizationService {
     private readonly activityRuleRepo: ActivityRuleRepository,
     private readonly categorizationRepo: CategorizationRepository,
     private readonly focusRepo: IFocusRepository,
+    private readonly eventRepo: IEventRepository,
   ) {}
 
   /**
@@ -169,6 +171,67 @@ export class CategorizationService {
 
   getEventClassifications(eventIds: number[]): EventClassification[] {
     return this.categorizationRepo.getEventClassifications(eventIds);
+  }
+
+  /**
+   * Resolve the authoritative classification for each requested event.
+   *
+   * Precedence:
+   *   1. Explicit event-level classification from `event_classifications`.
+   *   2. First matching enabled tracking rule (priority → specificity → id).
+   *   3. No entry (UI renders `—`).
+   *
+   * Rule-derived results are computed dynamically and are never persisted.
+   */
+  getResolvedEventClassifications(eventIds: number[]): EventClassification[] {
+    if (eventIds.length === 0) return [];
+
+    const explicit = this.categorizationRepo.getEventClassifications(eventIds);
+
+    try {
+      const explicitById = new Map(explicit.map((c) => [c.eventId, c]));
+      const unresolvedIds = eventIds.filter((id) => !explicitById.has(id));
+
+      if (unresolvedIds.length === 0) return explicit;
+
+      const events = this.eventRepo.getByIds(unresolvedIds);
+      if (events.length === 0) return explicit;
+
+      const rules = this.buildRules();
+      const contexts = this.buildContexts();
+      const dimensions = this.categorizationRepo.listDimensions();
+
+      const derived: EventClassification[] = [];
+      for (const event of events) {
+        const classification = this.engine.classifyEvent(
+          event,
+          rules,
+          contexts,
+          dimensions,
+        );
+        if (classification.source === 'user_rule') {
+          derived.push({
+            eventId: event.id,
+            contextId: classification.context?.id ?? null,
+            areaId: classification.area?.id ?? null,
+            intentId: classification.intent?.id ?? null,
+            qualityId: classification.quality?.id ?? null,
+            source: 'user_rule',
+            ruleId: classification.matchedRuleId,
+          });
+        }
+      }
+
+      return [...explicit, ...derived];
+    } catch (e) {
+      // Classification is a non-critical overlay. If rule resolution fails,
+      // still return explicit classifications so the UI doesn't lose them.
+      console.error(
+        '[CategorizationService] getResolvedEventClassifications error',
+        e,
+      );
+      return explicit;
+    }
   }
 
   saveEventClassification(classification: EventClassification): void {

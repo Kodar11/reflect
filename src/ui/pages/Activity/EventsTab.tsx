@@ -166,7 +166,7 @@ export function EventsTab({
 
       try {
         const result =
-          await window.categorization.getEventClassifications({
+          await window.categorization.getResolvedEventClassifications({
             eventIds: eventList.map((e) => e.id),
           });
 

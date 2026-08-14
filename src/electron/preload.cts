@@ -56,6 +56,7 @@ electron.contextBridge.exposeInMainWorld('categorization', {
   saveOverride: (p) => electron.ipcRenderer.invoke('categorization:saveOverride', p),
   getEventClassification: (p) => electron.ipcRenderer.invoke('categorization:getEventClassification', p),
   getEventClassifications: (p) => electron.ipcRenderer.invoke('categorization:getEventClassifications', p),
+  getResolvedEventClassifications: (p) => electron.ipcRenderer.invoke('categorization:getResolvedEventClassifications', p),
   saveEventClassification: (p) => electron.ipcRenderer.invoke('categorization:saveEventClassification', p),
   deleteEventClassification: (p) => electron.ipcRenderer.invoke('categorization:deleteEventClassification', p),
   rememberEventAsRule: (p) => electron.ipcRenderer.invoke('categorization:rememberEventAsRule', p),
