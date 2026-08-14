@@ -802,7 +802,7 @@ describe('Default event-level classification', () => {
     };
     const result = classifyEventDefault(event);
     expect(result.source).toBe('default');
-    expect(result.reason).toBe('Default: VS Code:');
+    expect(result.reason).toBe('Default: Visual Studio Code');
     expect(result.context).toBeNull();
     expect(result.area?.name).toBe('Work');
     expect(result.intent?.name).toBe('Create');
@@ -826,15 +826,15 @@ describe('Default event-level classification', () => {
   });
 
   it.each([
-    'https://react.dev/learn/thinking-in-react',
-    'https://developer.mozilla.org/en-US/docs/Web/API',
-    'https://docs.python.org/3/tutorial',
-  ])('documentation domain %s → Learning / Learn / Focused', (url) => {
+    ['https://react.dev/learn/thinking-in-react', 'React Documentation'],
+    ['https://developer.mozilla.org/en-US/docs/Web/API', 'MDN Web Docs'],
+    ['https://docs.python.org/3/tutorial', 'Python Documentation'],
+  ])('documentation domain %s → Work / Learn / Focused', (url, expectedName) => {
     const event: EventLike = { id: 105, app: 'Brave Browser', url };
     const result = classifyEventDefault(event);
     expect(result.source).toBe('default');
-    expect(result.reason).toBe('Default: Documentation');
-    expect(result.area?.name).toBe('Learning');
+    expect(result.reason).toBe(`Default: ${expectedName}`);
+    expect(result.area?.name).toBe('Work');
     expect(result.intent?.name).toBe('Learn');
     expect(result.quality?.name).toBe('Focused');
   });
@@ -935,5 +935,167 @@ describe('Default event-level classification', () => {
     const r1 = classifyEventDefault(event);
     const r2 = classifyEventDefault(event);
     expect(r1).toEqual(r2);
+  });
+
+  it('Netflix domain → Leisure / Consume / Routine', () => {
+    const event: EventLike = {
+      id: 115,
+      app: 'Brave Browser',
+      url: 'https://netflix.com/watch/123',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: Netflix');
+    expect(result.area?.name).toBe('Leisure');
+    expect(result.intent?.name).toBe('Consume');
+    expect(result.quality?.name).toBe('Routine');
+  });
+
+  it('Spotify app → Leisure / Consume / Routine', () => {
+    const event: EventLike = {
+      id: 116,
+      app: 'Spotify',
+      title: 'My Playlist',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: Spotify');
+    expect(result.area?.name).toBe('Leisure');
+    expect(result.intent?.name).toBe('Consume');
+  });
+
+  it('Udemy domain → Work / Learn / Focused', () => {
+    const event: EventLike = {
+      id: 117,
+      app: 'Brave Browser',
+      url: 'https://udemy.com/course/react',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: Udemy');
+    expect(result.area?.name).toBe('Work');
+    expect(result.intent?.name).toBe('Learn');
+    expect(result.quality?.name).toBe('Focused');
+  });
+
+  it('Coursera domain → Work / Learn / Focused', () => {
+    const event: EventLike = {
+      id: 118,
+      url: 'https://coursera.org/learn/algorithms',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.area?.name).toBe('Work');
+    expect(result.intent?.name).toBe('Learn');
+  });
+
+  it('GitHub domain → Work / Create / Focused', () => {
+    const event: EventLike = {
+      id: 119,
+      app: 'Brave Browser',
+      url: 'https://github.com/org/repo',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: GitHub');
+    expect(result.area?.name).toBe('Work');
+    expect(result.intent?.name).toBe('Create');
+    expect(result.quality?.name).toBe('Focused');
+  });
+
+  it('WhatsApp domain → Personal / Communicate / Routine', () => {
+    const event: EventLike = {
+      id: 120,
+      app: 'Brave Browser',
+      url: 'https://web.whatsapp.com/',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: WhatsApp');
+    expect(result.area?.name).toBe('Personal');
+    expect(result.intent?.name).toBe('Communicate');
+    expect(result.quality?.name).toBe('Routine');
+  });
+
+  it('Slack domain → Work / Communicate / Routine', () => {
+    const event: EventLike = {
+      id: 121,
+      url: 'https://app.slack.com/client/xyz',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: Slack');
+    expect(result.area?.name).toBe('Work');
+    expect(result.intent?.name).toBe('Communicate');
+  });
+
+  it('LinkedIn domain → Work / Communicate / Routine', () => {
+    const event: EventLike = {
+      id: 122,
+      url: 'https://linkedin.com/feed/',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: LinkedIn');
+    expect(result.area?.name).toBe('Work');
+    expect(result.intent?.name).toBe('Communicate');
+  });
+
+  it('Reddit exact domain matches at medium confidence', () => {
+    const event: EventLike = {
+      id: 123,
+      url: 'https://reddit.com/r/programming',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: Reddit');
+    expect(result.area?.name).toBe('Leisure');
+  });
+
+  it('Reddit subdomain does not match because it is medium confidence', () => {
+    const event: EventLike = {
+      id: 124,
+      url: 'https://old.reddit.com/r/programming',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('unclassified');
+  });
+
+  it('VS Code: alias variants match', () => {
+    for (const app of ['VS Code:', 'Code', 'vscode']) {
+      const event: EventLike = { id: 125, app };
+      const result = classifyEventDefault(event);
+      expect(result.source).toBe('default');
+      expect(result.area?.name).toBe('Work');
+      expect(result.intent?.name).toBe('Create');
+    }
+  });
+
+  it('case differences do not break Netflix matching', () => {
+    const event: EventLike = {
+      id: 126,
+      url: 'https://WWW.NETFLIX.COM/watch',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('default');
+    expect(result.reason).toBe('Default: Netflix');
+  });
+
+  it('does not match notnetflix.com as Netflix', () => {
+    const event: EventLike = {
+      id: 127,
+      url: 'https://notnetflix.com/movie',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('unclassified');
+  });
+
+  it('does not match fake-netflix.com as Netflix', () => {
+    const event: EventLike = {
+      id: 128,
+      url: 'https://fake-netflix.com/movie',
+    };
+    const result = classifyEventDefault(event);
+    expect(result.source).toBe('unclassified');
   });
 });

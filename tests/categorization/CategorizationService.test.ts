@@ -39,7 +39,8 @@ function makeRepo(): {
     { id: 'intent_consume', dimension: 'intent', name: 'Consume', sortOrder: 2 },
     { id: 'quality_deep', dimension: 'quality', name: 'Deep', sortOrder: 0 },
     { id: 'quality_focused', dimension: 'quality', name: 'Focused', sortOrder: 1 },
-    { id: 'quality_distracting', dimension: 'quality', name: 'Distracting', sortOrder: 2 },
+    { id: 'quality_routine', dimension: 'quality', name: 'Routine', sortOrder: 2 },
+    { id: 'quality_distracting', dimension: 'quality', name: 'Distracting', sortOrder: 3 },
   ];
 
   const activityRuleRepo = {
@@ -673,5 +674,142 @@ describe('CategorizationService.getResolvedEventClassifications', () => {
     expect(after[0].source).toBe('user_rule');
     expect(after[0].ruleId).toBe(ruleId);
     expect(after[0].contextId).toBe('coding');
+  });
+
+  it('Netflix resolves to default when no explicit or rule exists', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 20, app: 'Brave Browser', url: 'https://netflix.com/watch/123' }));
+
+    const result = service.getResolvedEventClassifications([20]);
+    expect(result).toHaveLength(1);
+    expect(result[0].eventId).toBe(20);
+    expect(result[0].contextId).toBeNull();
+    expect(result[0].areaId).toBe('area_leisure');
+    expect(result[0].intentId).toBe('intent_consume');
+    expect(result[0].qualityId).toBe('quality_routine');
+    expect(result[0].source).toBe('default');
+    expect(result[0].ruleId).toBeNull();
+  });
+
+  it('Netflix user rule beats the default', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    activityRuleRepo.saveRule({
+      id: 'rule_netflix',
+      activityId: 'music',
+      conditions: JSON.stringify([{ type: 'domain_equals', value: 'netflix.com' }]),
+      enabled: 1,
+      priority: 10,
+      areaId: 'area_work',
+      intentId: 'intent_learn',
+      qualityId: 'quality_focused',
+    });
+
+    events.push(makeEvent({ id: 21, app: 'Brave Browser', url: 'https://netflix.com/watch/123' }));
+
+    const result = service.getResolvedEventClassifications([21]);
+    expect(result).toHaveLength(1);
+    expect(result[0].source).toBe('user_rule');
+    expect(result[0].ruleId).toBe('rule_netflix');
+    expect(result[0].contextId).toBe('music');
+    expect(result[0].areaId).toBe('area_work');
+  });
+
+  it('Netflix explicit classification beats the default and any rule', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    activityRuleRepo.saveRule({
+      id: 'rule_netflix',
+      activityId: 'music',
+      conditions: JSON.stringify([{ type: 'domain_equals', value: 'netflix.com' }]),
+      enabled: 1,
+      priority: 10,
+      areaId: 'area_work',
+      intentId: 'intent_learn',
+      qualityId: 'quality_focused',
+    });
+
+    events.push(makeEvent({ id: 22, app: 'Brave Browser', url: 'https://netflix.com/watch/123' }));
+    service.saveEventClassification({
+      eventId: 22,
+      contextId: 'coding',
+      areaId: 'area_personal',
+      intentId: 'intent_consume',
+      qualityId: 'quality_routine',
+      source: 'user_override',
+      ruleId: null,
+    });
+
+    const result = service.getResolvedEventClassifications([22]);
+    expect(result).toHaveLength(1);
+    expect(result[0].source).toBe('user_override');
+    expect(result[0].contextId).toBe('coding');
+    expect(result[0].areaId).toBe('area_personal');
+    expect(result[0].ruleId).toBeNull();
+  });
+
+  it('unknown website remains unclassified', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 23, app: 'Brave Browser', url: 'https://unknown-example.com/page' }));
+
+    const result = service.getResolvedEventClassifications([23]);
+    expect(result).toHaveLength(0);
+  });
+
+  it('Netflix default classification is not persisted', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events, eventClassifications } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 24, app: 'Brave Browser', url: 'https://netflix.com/watch/123' }));
+
+    const result = service.getResolvedEventClassifications([24]);
+    expect(result).toHaveLength(1);
+    expect(result[0].source).toBe('default');
+    expect(eventClassifications).toHaveLength(0);
+  });
+
+  it('Netflix repeated resolution produces the same default', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 25, app: 'Brave Browser', url: 'https://netflix.com/watch/123' }));
+
+    for (let i = 0; i < 3; i++) {
+      const result = service.getResolvedEventClassifications([25]);
+      expect(result).toHaveLength(1);
+      expect(result[0].source).toBe('default');
+      expect(result[0].areaId).toBe('area_leisure');
+      expect(result[0].intentId).toBe('intent_consume');
+      expect(result[0].qualityId).toBe('quality_routine');
+    }
+  });
+
+  it('rememberEventAsRule for Netflix creates a rule that beats the default', () => {
+    const { activityRuleRepo, categorizationRepo, focusRepo, eventRepo, events } = makeRepo();
+    const service = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, eventRepo);
+
+    events.push(makeEvent({ id: 26, app: 'Brave Browser', url: 'https://netflix.com/watch/123' }));
+    const before = service.getResolvedEventClassifications([26]);
+    expect(before).toHaveLength(1);
+    expect(before[0].source).toBe('default');
+
+    const { ruleId } = service.rememberEventAsRule(
+      26,
+      { contextId: 'music', areaId: 'area_leisure', intentId: 'intent_consume', qualityId: 'quality_routine' },
+      { app: 'Brave Browser', url: 'https://netflix.com/watch/123' },
+    );
+
+    events.push(makeEvent({ id: 27, app: 'Brave Browser', url: 'https://netflix.com/browse' }));
+    const after = service.getResolvedEventClassifications([27]);
+    expect(after).toHaveLength(1);
+    expect(after[0].source).toBe('user_rule');
+    expect(after[0].ruleId).toBe(ruleId);
+    expect(after[0].contextId).toBe('music');
   });
 });

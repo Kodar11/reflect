@@ -1,4 +1,8 @@
 import type { ContextEntry, DimensionEntry, EventLike } from './Classification.js';
+import {
+  DEFAULT_CLASSIFICATION_DATA,
+  type DefaultClassificationEntry,
+} from './defaultClassificationData.js';
 
 /**
  * Pure, deterministic default event classification.
@@ -14,6 +18,9 @@ import type { ContextEntry, DimensionEntry, EventLike } from './Classification.j
  *
  * Default classifications are intentionally NOT persisted. They are calculated
  * on demand in CategorizationService.getResolvedEventClassifications().
+ *
+ * The dataset lives in defaultClassificationData.ts. This file contains only
+ * the matching algorithm and dimension resolution.
  */
 
 export interface DefaultClassificationResult {
@@ -25,28 +32,30 @@ export interface DefaultClassificationResult {
   reason: string;
 }
 
-interface DefaultMatch {
-  name: string;
-  contextId: string | null;
-  areaName: string;
-  intentName: string;
-  qualityName: string;
+interface ClassificationIndexes {
+  domainIndex: Map<string, DefaultClassificationEntry[]>;
+  appIndex: Map<string, DefaultClassificationEntry[]>;
 }
 
-const LEARNING_DOMAINS = new Set([
-  'docs.python.org',
-  'developer.mozilla.org',
-  'react.dev',
-  'nextjs.org',
-  'nodejs.org',
-  'docs.npmjs.com',
-  'learn.microsoft.com',
-  'docs.github.com',
-]);
+const CONFIDENCE_ORDER: Record<DefaultClassificationEntry['confidence'], number> = {
+  high: 2,
+  medium: 1,
+  low: 0,
+};
+
+const APP_ALIASES: Record<string, string> = {
+  'vs code': 'Visual Studio Code',
+  'vscode': 'Visual Studio Code',
+  'visual studio code': 'Visual Studio Code',
+  'code': 'Visual Studio Code',
+  'chatgpt': 'ChatGPT',
+};
+
+const INDEXES = buildIndexes(DEFAULT_CLASSIFICATION_DATA);
 
 /**
- * Classify a raw event using deterministic application/domain heuristics.
- * Returns null when no high-confidence default is known.
+ * Classify a raw event against the declarative default dataset.
+ * Returns null when no high/medium-confidence default is known.
  */
 export function classifyEventByDefault(
   event: EventLike,
@@ -56,65 +65,119 @@ export function classifyEventByDefault(
   const app = normalizeAppName(event.app);
   const domain = event.url ? getDomain(event.url) : '';
 
-  const match = findDefaultMatch(app, domain);
+  const match = findBestMatch(app, domain, INDEXES);
   if (!match) return null;
 
   return {
-    contextId: match.contextId,
-    areaId: findDimensionId(dimensions, 'area', match.areaName),
-    intentId: resolveIntent(dimensions, match.intentName),
-    qualityId: findDimensionId(dimensions, 'quality', match.qualityName),
+    contextId: null,
+    areaId: findDimensionId(dimensions, 'area', match.area),
+    intentId: resolveIntent(dimensions, match.intent),
+    qualityId: findDimensionId(dimensions, 'quality', match.quality),
     source: 'default',
     reason: `Default: ${match.name}`,
   };
 }
 
-function findDefaultMatch(app: string, domain: string): DefaultMatch | null {
-  // ChatGPT — domain or standalone app.
-  if (domain === 'chatgpt.com' || app === 'chatgpt') {
-    return {
-      name: 'ChatGPT',
-      contextId: null,
-      areaName: 'Work',
-      intentName: 'Research',
-      qualityName: 'Focused',
-    };
+/**
+ * Find the single best dataset entry matching the event.
+ *
+ * Matching rules:
+ *   - High confidence: exact domain match OR subdomain match OR exact app match.
+ *   - Medium confidence: exact domain match OR exact app match (no subdomain expansion).
+ *   - Low confidence: never matches automatically.
+ *
+ * Tie-breaking: priority desc, confidence desc, id asc.
+ */
+function findBestMatch(
+  app: string,
+  domain: string,
+  indexes: ClassificationIndexes,
+): DefaultClassificationEntry | null {
+  const candidates = collectCandidates(app, domain, indexes);
+  if (candidates.length === 0) return null;
+
+  candidates.sort((a, b) => {
+    const priorityDiff = (b.priority ?? 0) - (a.priority ?? 0);
+    if (priorityDiff !== 0) return priorityDiff;
+
+    const confidenceDiff = CONFIDENCE_ORDER[b.confidence] - CONFIDENCE_ORDER[a.confidence];
+    if (confidenceDiff !== 0) return confidenceDiff;
+
+    return a.id.localeCompare(b.id);
+  });
+
+  return candidates[0];
+}
+
+function collectCandidates(
+  app: string,
+  domain: string,
+  indexes: ClassificationIndexes,
+): DefaultClassificationEntry[] {
+  const seen = new Set<string>();
+  const candidates: DefaultClassificationEntry[] = [];
+
+  const add = (entry: DefaultClassificationEntry): boolean => {
+    if (entry.confidence === 'low') return false;
+    if (seen.has(entry.id)) return false;
+    seen.add(entry.id);
+    return true;
+  };
+
+  // App match — strong signal, allowed for high and medium confidence.
+  if (app) {
+    for (const entry of indexes.appIndex.get(app) ?? []) {
+      if (add(entry)) candidates.push(entry);
+    }
   }
 
-  // VS Code: — clear code editor signal.
-  if (app === 'visual studio code' || app === 'vscode') {
-    return {
-      name: 'VS Code:',
-      contextId: null,
-      areaName: 'Work',
-      intentName: 'Create',
-      qualityName: 'Focused',
-    };
+  // Exact domain match — allowed for high and medium confidence.
+  if (domain) {
+    for (const entry of indexes.domainIndex.get(domain) ?? []) {
+      if (add(entry)) candidates.push(entry);
+    }
+
+    // Subdomain match — allowed only for high-confidence entries.
+    const parts = domain.split('.');
+    for (let i = 1; i < parts.length; i++) {
+      const parent = parts.slice(i).join('.');
+      for (const entry of indexes.domainIndex.get(parent) ?? []) {
+        if (entry.confidence !== 'high') continue;
+        if (add(entry)) candidates.push(entry);
+      }
+    }
   }
 
-  // YouTube — domain or app.
-  if (domain === 'youtube.com' || app === 'youtube') {
-    return {
-      name: 'YouTube',
-      contextId: null,
-      areaName: 'Leisure',
-      intentName: 'Consume',
-      qualityName: 'Routine',
-    };
+  return candidates;
+}
+
+/**
+ * Build lookup indexes from the declarative dataset.
+ * Built once at module load for O(1) lookups.
+ */
+function buildIndexes(data: DefaultClassificationEntry[]): ClassificationIndexes {
+  const domainIndex = new Map<string, DefaultClassificationEntry[]>();
+  const appIndex = new Map<string, DefaultClassificationEntry[]>();
+
+  for (const entry of data) {
+    for (const domain of entry.domains ?? []) {
+      const normalized = normalizeDomainForIndex(domain);
+      if (!normalized) continue;
+      const list = domainIndex.get(normalized) ?? [];
+      list.push(entry);
+      domainIndex.set(normalized, list);
+    }
+
+    for (const app of entry.apps ?? []) {
+      const normalized = normalizeAppName(app);
+      if (!normalized) continue;
+      const list = appIndex.get(normalized) ?? [];
+      list.push(entry);
+      appIndex.set(normalized, list);
+    }
   }
 
-  // Recognized learning / documentation domains.
-  if (LEARNING_DOMAINS.has(domain)) {
-    return {
-      name: 'Documentation',
-      contextId: null,
-      areaName: 'Learning',
-      intentName: 'Learn',
-      qualityName: 'Focused',
-    };
-  }
-
-  return null;
+  return { domainIndex, appIndex };
 }
 
 /**
@@ -172,13 +235,20 @@ function normalizeAppName(app: string | null | undefined): string {
   return (alias ?? normalized).toLowerCase();
 }
 
-const APP_ALIASES: Record<string, string> = {
-  'vs code': 'Visual Studio Code',
-  'vscode': 'Visual Studio Code',
-  'visual studio code': 'Visual Studio Code',
-  'code': 'Visual Studio Code',
-  'chatgpt': 'ChatGPT',
-};
+/**
+ * Normalize a domain before adding it to the index.
+ * - lowercase
+ * - strip leading `www.`
+ * - strip leading `*.`
+ * - trim whitespace
+ */
+function normalizeDomainForIndex(domain: string): string {
+  return domain
+    .trim()
+    .toLowerCase()
+    .replace(/^\*\./, '')
+    .replace(/^www\./, '');
+}
 
 /**
  * Extract the registered domain from a URL.
