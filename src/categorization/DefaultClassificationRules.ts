@@ -57,15 +57,24 @@ const INDEXES = buildIndexes(DEFAULT_CLASSIFICATION_DATA);
  * Classify a raw event against the declarative default dataset.
  * Returns null when no high/medium-confidence default is known.
  */
+function findDefaultClassificationEntry(
+  event: EventLike,
+): DefaultClassificationEntry | null {
+  const app = normalizeAppName(event.app);
+  const domain = event.url ? getDomain(event.url) : '';
+  return findBestMatch(app, domain, INDEXES);
+}
+
+export function getDefaultArea(event: EventLike): string | null {
+  return findDefaultClassificationEntry(event)?.area ?? null;
+}
+
 export function classifyEventByDefault(
   event: EventLike,
   _contexts: ContextEntry[],
   dimensions: DimensionEntry[],
 ): DefaultClassificationResult | null {
-  const app = normalizeAppName(event.app);
-  const domain = event.url ? getDomain(event.url) : '';
-
-  const match = findBestMatch(app, domain, INDEXES);
+  const match = findDefaultClassificationEntry(event);
   if (!match) return null;
 
   return {
@@ -222,7 +231,7 @@ function findDimensionId(
  * - maps known aliases to canonical forms
  * - lowercases for case-insensitive comparison
  */
-function normalizeAppName(app: string | null | undefined): string {
+export function normalizeAppName(app: string | null | undefined): string {
   if (!app) return '';
   let normalized = app.trim();
   if (normalized.toLowerCase().endsWith('.exe')) {
@@ -257,7 +266,7 @@ function normalizeDomainForIndex(domain: string): string {
  * - Lowercases the result.
  * - Returns empty string on failure.
  */
-function getDomain(rawUrl: string): string {
+export function getDomain(rawUrl: string): string {
   try {
     let url = rawUrl.trim();
     if (!url) return '';

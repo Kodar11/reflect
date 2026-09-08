@@ -119,20 +119,25 @@ describe('SessionEngine — design doc scenarios 1–20', () => {
     partitionInvariant(s, [a, b]);
   });
 
-  it('10. Discord 30m then VS Code (no gap) → structurally ONE (classification deferred)', () => {
+  it('10. Discord 30m then VS Code (no gap) → TWO sessions (strong area transition)', () => {
     const a = evAt('09:00', { durMin: 30, app: 'Discord' });
     const b = evAt('09:30', { durMin: 30, app: 'VS Code' });
     const s = build([a, b]);
-    expect(s).toHaveLength(1); // documented: Stage 2 cannot tell Netflix from GitHub
+    expect(s).toHaveLength(2);
+    expect(s[0].primaryApp).toBe('Discord');
+    expect(s[1].primaryApp).toBe('VS Code');
     partitionInvariant(s, [a, b]);
   });
 
-  it('11. VS Code → YouTube tutorial → VS Code → one session structurally', () => {
+  it('11. VS Code → YouTube tutorial → VS Code → three sessions (sustained leisure)', () => {
     const a = evAt('09:00', { durMin: 20, app: 'VS Code' });
-    const b = evAt('09:20', { durMin: 18, app: 'Chrome', title: 'YouTube' });
+    const b = evAt('09:20', { durMin: 18, app: 'Chrome', url: 'youtube.com' });
     const c = evAt('09:38', { durMin: 22, app: 'VS Code' });
     const s = build([a, b, c]);
-    expect(s).toHaveLength(1);
+    expect(s).toHaveLength(3);
+    expect(s[0].primaryApp).toBe('VS Code');
+    expect(s[1].primaryApp).toBe('Chrome');
+    expect(s[2].primaryApp).toBe('VS Code');
     partitionInvariant(s, [a, b, c]);
   });
 
@@ -168,11 +173,13 @@ describe('SessionEngine — design doc scenarios 1–20', () => {
     partitionInvariant(s, [a, b, c, d]);
   });
 
-  it('15. VS Code → Netflix contiguous → one session (classification deferred)', () => {
+  it('15. VS Code → Netflix contiguous → two sessions (strong leisure transition)', () => {
     const a = evAt('09:00', { durMin: 60, app: 'VS Code' });
-    const b = evAt('10:00', { durMin: 60, app: 'Chrome', title: 'Netflix' });
+    const b = evAt('10:00', { durMin: 60, app: 'Chrome', url: 'netflix.com' });
     const s = build([a, b]);
-    expect(s).toHaveLength(1); // documented structural limitation; spec #15 split deferred
+    expect(s).toHaveLength(2);
+    expect(s[0].primaryApp).toBe('VS Code');
+    expect(s[1].primaryApp).toBe('Chrome');
     partitionInvariant(s, [a, b]);
   });
 

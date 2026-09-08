@@ -59,5 +59,7 @@ export function evAt(
 export const DEFAULTS = {
   gapThresholdMs: 15 * 60_000,
   afkThresholdMs: 5 * 60_000,
+  shortInterruptionMs: 5 * 60_000,
+  candidateObservationMs: 20 * 60_000,
   manualSplits: [] as { afterEventId: number }[],
 };

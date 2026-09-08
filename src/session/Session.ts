@@ -71,6 +71,14 @@ export interface SessionConfig {
   /** Rule 3 — manual split points (Stage 3 timeline editing seam).
    * A split point AFTER event id X starts a new session at the next event. */
   manualSplits: SplitPoint[];
+
+  // --- Sessionization V2 thresholds ---
+  /** Short interruptions below this duration are merged back into the current
+   *  session, even when the activity looks different. */
+  shortInterruptionMs: number;
+  /** Weak / ambiguous activity changes (same area, app/domain switch) must
+   *  persist at least this long before we commit a session boundary. */
+  candidateObservationMs: number;
 }
 
 export interface SplitPoint {
@@ -82,4 +90,6 @@ export const DEFAULT_SESSION_CONFIG: SessionConfig = {
   gapThresholdMs: 15 * 60 * 1000,
   afkThresholdMs: 5 * 60 * 1000,
   manualSplits: [],
+  shortInterruptionMs: 5 * 60 * 1000,
+  candidateObservationMs: 20 * 60 * 1000,
 };

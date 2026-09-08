@@ -1,11 +1,7 @@
 import type { Event } from '../models/Event.js';
 import type { Session, SessionConfig } from './Session.js';
-import {
-  DEFAULT_RULES,
-  SessionRule,
-  shouldStartNewSession,
-  dateMs,
-} from './SessionRules.js';
+import { sessionize } from './Sessionizer.js';
+import { DEFAULT_RULES, SessionRule, dateMs } from './SessionRules.js';
 import { computeStatistics } from './SessionStatistics.js';
 
 /**
@@ -38,29 +34,8 @@ export class SessionBuilder {
     if (events.length === 0) return [];
 
     const sorted = [...events].sort(compareEvents);
-    const sessions: Event[][] = [];
-    let current: Event[] = [sorted[0]];
-
-    for (let i = 1; i < sorted.length; i++) {
-      const prev = sorted[i - 1];
-      const cur = sorted[i];
-      const sessionView = toSession(current);
-
-      const split = shouldStartNewSession(
-        { session: sessionView, prev, cur, config },
-        this.rules,
-      );
-
-      if (split) {
-        sessions.push(current);
-        current = [cur];
-      } else {
-        current.push(cur);
-      }
-    }
-    sessions.push(current);
-
-    return sessions.map((evs) => finalize(evs));
+    const groups = sessionize(sorted, config, this.rules);
+    return groups.map((evs) => finalize(evs));
   }
 }
 
@@ -71,9 +46,9 @@ function compareEvents(a: Event, b: Event): number {
   return a.watcher < b.watcher ? -1 : a.watcher > b.watcher ? 1 : 0;
 }
 
-/** Build a minimal Session (no computed stats yet) for rule inspection. */
-function toSession(events: Event[]): Session {
-  return {
+/** Assign deterministic id + compute all statistics. */
+function finalize(events: Event[]): Session {
+  const session: Session = {
     id: '',
     startedAt: new Date(0),
     endedAt: new Date(0),
@@ -84,11 +59,6 @@ function toSession(events: Event[]): Session {
     browserTabs: [],
     eventCount: events.length,
   };
-}
-
-/** Assign deterministic id + compute all statistics. */
-function finalize(events: Event[]): Session {
-  const session = toSession(events);
   session.id = `s-${events[0].id}-${events.length}`;
   return computeStatistics(session);
 }

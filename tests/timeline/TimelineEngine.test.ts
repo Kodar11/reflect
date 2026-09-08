@@ -43,7 +43,7 @@ describe('TimelineEngine — split', () => {
   beforeEach(resetIds);
   it('splits a session into two halves at the boundary event', () => {
     const a = evAt('09:00', { durMin: 20, app: 'VS Code', title: 'A' });
-    const b = evAt('09:20', { durMin: 20, app: 'Chrome', title: 'GitHub' });
+    const b = evAt('09:20', { durMin: 20, app: 'Chrome', url: 'github.com', title: 'GitHub' });
     const c = evAt('09:40', { durMin: 20, app: 'VS Code', title: 'B' });
     const edits = [makeEdit(1, 'split', { afterEventId: b.id }, null)];
     const out = apply([a, b, c], edits);
@@ -216,7 +216,7 @@ describe('TimelineEngine — regression: event-id references survive algorithm c
   it('rename anchor (first event id) survives a re-split', () => {
     // Split first (creates two halves), then rename half-1 via its first event id (which == original first).
     const a = evAt('09:00', { id: 70, durMin: 20, app: 'VS Code' });
-    const b = evAt('09:20', { id: 71, durMin: 20, app: 'Chrome' });
+    const b = evAt('09:20', { id: 71, durMin: 20, app: 'Chrome', url: 'github.com' });
     const c = evAt('09:40', { id: 72, durMin: 20, app: 'VS Code' });
     const edits = [
       makeEdit(1, 'split', { afterEventId: 71 }, null),
@@ -246,7 +246,7 @@ describe('TimelineEngine — operation order independence where applicable', () 
   beforeEach(resetIds);
   it('rename then split vs split then rename: rename only hits half-1 in both orderings', () => {
     const a = evAt('09:00', { id: 100, durMin: 20, app: 'VS Code' });
-    const b = evAt('09:20', { id: 101, durMin: 20, app: 'Chrome' });
+    const b = evAt('09:20', { id: 101, durMin: 20, app: 'Chrome', url: 'github.com' });
     const c = evAt('09:40', { id: 102, durMin: 20, app: 'VS Code' });
 
     const order1 = [
