@@ -107,9 +107,19 @@ export interface FocusContextSignal {
 export type ClassificationSource =
   | 'user_override'
   | 'user_rule'
+  | 'ai'
   | 'focus_context'
   | 'default'
   | 'unclassified';
+
+/** Classification ids proposed by the intelligence layer for a session. */
+export interface AiClassificationInput {
+  contextId: string | null;
+  areaId: string | null;
+  intentId: string | null;
+  qualityId: string | null;
+  confidence: number;
+}
 
 /** The full classification result attached to a session. */
 export interface Classification {

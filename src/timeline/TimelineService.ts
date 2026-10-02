@@ -15,6 +15,21 @@ import { TimelineEngine } from './TimelineEngine.js';
 import type { SessionService } from '../session/SessionService.js';
 import type { ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
 import type { CategorizationService } from '../categorization/CategorizationService.js';
+import type { Event } from '../models/Event.js';
+import type { Session } from '../session/Session.js';
+import { referencedEventIds } from './TimelineEdits.js';
+
+/**
+ * Seam to the intelligence layer. The timeline stays in charge of the
+ * pipeline; the source only (a) swaps AI-covered events for AI activities and
+ * (b) is told which events the user edited so later AI runs respect them.
+ */
+export interface AiTimelineSource {
+  /** AI activities where they exist, deterministic sessions everywhere else. */
+  compose(deterministic: Session[], resessionize: (events: Event[]) => Session[]): Session[];
+  /** Mark AI activities owning any of these events as user-edited. */
+  lockActivitiesForEvents(eventIds: number[]): void;
+}
 
 /**
  * `TimelineService` is the impure seam between persisted state and the pure
@@ -47,19 +62,54 @@ export class TimelineService {
     private readonly edits: IEditRepository,
     private readonly activityRuleRepo?: ActivityRuleRepository,
     private readonly categorizationService?: CategorizationService,
+    private readonly aiSource?: AiTimelineSource,
   ) {}
 
   /** Verified timeline for today. */
   getToday(): VerifiedSession[] {
-    return this.applyEngine(this.sessionService.getToday());
+    return this.applyEngine(this.generated(this.sessionService.getToday()));
   }
 
   getByRange(from: string, to: string): VerifiedSession[] {
-    return this.applyEngine(this.sessionService.getByRange(from, to));
+    return this.applyEngine(this.generated(this.sessionService.getByRange(from, to)));
   }
 
   getAll(limit?: number): VerifiedSession[] {
-    return this.applyEngine(this.sessionService.getAll(limit));
+    return this.applyEngine(this.generated(this.sessionService.getAll(limit)));
+  }
+
+  /**
+   * Event ids of every generated block (AI or deterministic) around
+   * [from, to] that an active timeline edit or a manual classification
+   * override refers to. The intelligence layer treats these as user-owned:
+   * a later AI run never re-assigns them.
+   */
+  getUserEditedEventIds(from: string, to: string): number[] {
+    const referenced = new Set<number>();
+    for (const edit of this.edits.list()) {
+      if (edit.undoneAt !== null) continue;
+      for (const id of referencedEventIds(edit.payload)) referenced.add(id);
+    }
+    for (const override of this.categorizationService?.listOverrides() ?? []) {
+      for (const id of override.eventIds) referenced.add(id);
+      if (override.anchorEventId !== null) referenced.add(override.anchorEventId);
+    }
+    if (referenced.size === 0) return [];
+
+    // Whole local days, so blocks are derived the same way the timeline shows them.
+    const dayStart = new Date(from);
+    dayStart.setHours(0, 0, 0, 0);
+    const dayEnd = new Date(to);
+    dayEnd.setHours(24, 0, 0, 0);
+
+    const blocks = this.generated(this.sessionService.getByRange(dayStart.toISOString(), dayEnd.toISOString()));
+    const edited: number[] = [];
+    for (const block of blocks) {
+      if (block.events.some((e) => referenced.has(e.id))) {
+        for (const e of block.events) edited.push(e.id);
+      }
+    }
+    return edited;
   }
 
   /**
@@ -70,7 +120,15 @@ export class TimelineService {
    */
   apply(operation: TimelineOperation, payload: unknown): number {
     const durable = this.resolveHint(operation, payload);
-    return this.edits.insert(operation, durable);
+    const editId = this.edits.insert(operation, durable);
+    // USER EDIT > AI: an AI activity the user edited is never rewritten by a
+    // later analysis. Non-critical — the edit itself is already persisted.
+    try {
+      this.aiSource?.lockActivitiesForEvents(referencedEventIds(durable));
+    } catch (e) {
+      console.error('[TimelineService] could not lock AI activities for edit', e);
+    }
+    return editId;
   }
 
   undo(): boolean {
@@ -202,7 +260,20 @@ export class TimelineService {
     return undefined;
   }
 
-  private applyEngine(sessions: import('../session/Session.js').Session[]): VerifiedSession[] {
+  /** Generated sessions = AI activities + deterministic fallback. If the
+   * intelligence layer is absent or fails, the deterministic sessions are
+   * used as-is. */
+  private generated(deterministic: Session[]): Session[] {
+    if (!this.aiSource) return deterministic;
+    try {
+      return this.aiSource.compose(deterministic, (events) => this.sessionService.deriveFrom(events));
+    } catch (e) {
+      console.error('[TimelineService] AI timeline composition failed; using deterministic sessions', e);
+      return deterministic;
+    }
+  }
+
+  private applyEngine(sessions: Session[]): VerifiedSession[] {
     const verified = this.engine.applyEdits(sessions, this.edits.list());
     this.categorizationService?.classifySessions(verified);
     return verified;

@@ -1,5 +1,5 @@
 import type { Event } from '../models/Event.js';
-import type { Session } from '../session/Session.js';
+import type { Session, SessionAiMeta } from '../session/Session.js';
 import type { Classification } from '../categorization/Classification.js';
 
 /**
@@ -62,6 +62,9 @@ export interface VerifiedSession {
   /** Classification result from the CategorizationEngine. Set by
    * CategorizationService.classifySessions after timeline edit replay. */
   classification?: Classification;
+  /** Set when the block is an AI-derived activity (intelligence layer). The AI
+   * title is the default title; a user rename (`customTitle`) always wins. */
+  ai?: SessionAiMeta;
 }
 
 /** Edit operations the log records. Each has a typed `TimelinePayload`.
@@ -177,6 +180,7 @@ export function toVerified(s: Session, source: 'generated' | 'user' = 'generated
     eventCount: s.eventCount,
     source,
     hidden: false,
+    ...(s.ai ? { ai: s.ai } : {}),
   };
 }
 

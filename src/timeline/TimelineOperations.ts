@@ -71,6 +71,12 @@ export function applySplit(
   const b = toVerified(stripStats(fromEvents(secondHalf, splitId(secondHalf, editId))), 'generated');
   a.customTitle = target.customTitle;
   a.note = target.note;
+  // Both halves of an AI activity keep its interpretation until the user
+  // renames/reclassifies them.
+  if (target.ai) {
+    a.ai = target.ai;
+    b.ai = target.ai;
+  }
 
   // Preserve user-overridden envelope bounds if they were modified from the natural event times.
   const firstEv = target.events[0];
@@ -123,6 +129,8 @@ export function applyMerge(
     );
     merged.customTitle = working[fromIdx].customTitle ?? next.customTitle;
     merged.note = working[fromIdx].note ?? next.note;
+    const mergedAi = working[fromIdx].ai ?? next.ai;
+    if (mergedAi) merged.ai = mergedAi;
 
     // Preserve start of the first session and end of the second session if they had overrides
     const firstEvOfFirst = working[fromIdx].events[0];

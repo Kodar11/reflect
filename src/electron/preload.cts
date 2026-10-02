@@ -62,6 +62,16 @@ electron.contextBridge.exposeInMainWorld('categorization', {
   rememberEventAsRule: (p) => electron.ipcRenderer.invoke('categorization:rememberEventAsRule', p),
 } satisfies Window['categorization']);
 
+// Intelligence IPC surface — manual prototype/testing trigger only, e.g. from
+// DevTools: `await window.intelligence.analyzeRecent()`. No API key or prompt
+// content ever crosses this bridge.
+electron.contextBridge.exposeInMainWorld('intelligence', {
+  analyzeRecent: (p) => electron.ipcRenderer.invoke('intelligence:analyzeRecent', p),
+  analyzeWindow: (p) => electron.ipcRenderer.invoke('intelligence:analyzeWindow', p),
+  processBacklog: () => electron.ipcRenderer.invoke('intelligence:processBacklog'),
+  status: () => electron.ipcRenderer.invoke('intelligence:status'),
+} satisfies Window['intelligence']);
+
 electron.contextBridge.exposeInMainWorld('settings', {
   exportTimeline: (format: 'csv' | 'json') =>
     electron.ipcRenderer.invoke('export:timeline', { format }),

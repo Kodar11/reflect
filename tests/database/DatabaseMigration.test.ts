@@ -234,7 +234,7 @@ migrationSuite('Database migration', () => {
     expect(tableHasColumn(raw, 'event_classifications', 'rule_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'created_at')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'updated_at')).toBe(true);
-    expect(raw.pragma('user_version', { simple: true })).toBe(9);
+    expect(raw.pragma('user_version', { simple: true })).toBe(10);
     raw.close();
 
     const repo = new CategorizationRepository(db);
@@ -245,7 +245,7 @@ migrationSuite('Database migration', () => {
     db.close();
   });
 
-  it('existing v5 database migrates to v9 with anchor_event_id and event_classifications', () => {
+  it('existing v5 database migrates to v10 with anchor_event_id and event_classifications', () => {
     dbPath = tmpDbPath();
     createV5Database(dbPath);
 
@@ -258,7 +258,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(9);
+    expect(after.pragma('user_version', { simple: true })).toBe(10);
     expect(tableHasColumn(after, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
     after.close();
@@ -314,13 +314,13 @@ migrationSuite('Database migration', () => {
     db2.close();
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(9);
+    expect(raw.pragma('user_version', { simple: true })).toBe(10);
     expect(tableHasColumn(raw, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'event_id')).toBe(true);
     raw.close();
   });
 
-  it('existing v8 database migrates to v9 and creates event_classifications without touching overrides', () => {
+  it('existing v8 database migrates to v10 and creates event_classifications without touching overrides', () => {
     dbPath = tmpDbPath();
     createV8Database(dbPath);
 
@@ -336,7 +336,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(9);
+    expect(after.pragma('user_version', { simple: true })).toBe(10);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
 
     const overrideRow = after.prepare('SELECT * FROM categorization_overrides WHERE id = ?').get('ov_v8') as {
@@ -356,6 +356,40 @@ migrationSuite('Database migration', () => {
     expect(overrides).toHaveLength(1);
     expect(overrides[0].anchorEventId).toBe(100);
     db.close();
+  });
+
+  it('existing database migrates to v10: rules gain a source, intelligence tables appear, data is kept', () => {
+    dbPath = tmpDbPath();
+    createV8Database(dbPath);
+
+    const before = new BetterSqliteDB(dbPath);
+    before.exec(`
+      INSERT INTO activities (id, name, color) VALUES ('coding', 'Coding', 'blue');
+      INSERT INTO tracking_rules (id, activity_id, conditions, enabled, priority) VALUES
+        ('rule_coding', 'coding', '[{"type":"app_equals","value":"VS Code"}]', 1, 0),
+        ('rule_1700000000000', 'coding', '[{"type":"title_contains","value":"GameTheory"}]', 1, 10);
+      INSERT INTO events (watcher, started_at, ended_at, app) VALUES
+        ('window', '2026-03-02T09:00:00.000Z', '2026-03-02T09:30:00.000Z', 'VS Code');
+    `);
+    expect(tableHasColumn(before, 'tracking_rules', 'source')).toBe(false);
+    before.close();
+
+    new Database(dbPath).close();
+    new Database(dbPath).close(); // idempotent
+
+    const after = new BetterSqliteDB(dbPath);
+    expect(after.pragma('user_version', { simple: true })).toBe(10);
+    const rules = after.prepare('SELECT id, source FROM tracking_rules ORDER BY id').all();
+    expect(rules).toEqual([
+      { id: 'rule_1700000000000', source: 'user' },
+      { id: 'rule_coding', source: 'system' },
+    ]);
+    expect(tableHasColumn(after, 'intelligence_runs', 'window_start')).toBe(true);
+    expect(tableHasColumn(after, 'intelligence_activities', 'user_locked')).toBe(true);
+    expect(tableHasColumn(after, 'intelligence_activity_events', 'event_id')).toBe(true);
+    expect(after.prepare('SELECT COUNT(*) AS n FROM events').get()).toEqual({ n: 1 });
+    expect(after.pragma('foreign_key_check')).toEqual([]);
+    after.close();
   });
 
   it('leaves anchor_event_id NULL when override event_ids is empty or invalid', () => {

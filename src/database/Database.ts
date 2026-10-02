@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 9) return;
+    if (version >= 10) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -724,6 +724,126 @@ export class Database {
       `);
 
       this.db.pragma('user_version = 9');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v9 → v10
+    //
+    // Intelligence layer.
+    //
+    // 1. tracking_rules.source distinguishes rules the USER created from the
+    //    seeded defaults, so only genuine user knowledge is presented to the
+    //    model as an explicit personal rule.
+    //
+    // 2. intelligence_runs / intelligence_activities /
+    //    intelligence_activity_events persist AI-derived activities. They
+    //    reference raw events by id; the events table itself is untouched.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 10) {
+      if (!tableHasColumn('tracking_rules', 'source')) {
+        this.db.exec(
+          `ALTER TABLE tracking_rules ADD COLUMN source TEXT NOT NULL DEFAULT 'user'`,
+        );
+      }
+
+      // The rules seeded by the v5 migration are system defaults.
+      this.db.exec(`
+        UPDATE tracking_rules
+        SET source = 'system'
+        WHERE id IN ('rule_coding', 'rule_learning', 'rule_meetings', 'rule_chatgpt');
+      `);
+
+      this.db.exec(`
+        CREATE TABLE IF NOT EXISTS intelligence_runs (
+          id             TEXT PRIMARY KEY,
+          window_start   DATETIME NOT NULL,
+          window_end     DATETIME NOT NULL,
+          status         TEXT NOT NULL,
+          model          TEXT NOT NULL,
+          prompt_version TEXT NOT NULL,
+          schema_version INTEGER NOT NULL,
+          attempt_count  INTEGER NOT NULL DEFAULT 0,
+          error          TEXT,
+          error_category TEXT,
+          output_json    TEXT,
+          created_at     DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at     DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
+
+        -- Idempotency: at most one successful analysis per window.
+        CREATE UNIQUE INDEX IF NOT EXISTS idx_intelligence_runs_succeeded_window
+          ON intelligence_runs (window_start, window_end)
+          WHERE status = 'succeeded';
+
+        CREATE INDEX IF NOT EXISTS idx_intelligence_runs_status
+          ON intelligence_runs (status);
+
+        CREATE INDEX IF NOT EXISTS idx_intelligence_runs_window
+          ON intelligence_runs (window_start, window_end);
+
+        CREATE TABLE IF NOT EXISTS intelligence_activities (
+          id            TEXT PRIMARY KEY,
+          started_at    DATETIME NOT NULL,
+          ended_at      DATETIME NOT NULL,
+          title         TEXT NOT NULL,
+          summary       TEXT,
+          context_id    TEXT,
+          area_id       TEXT,
+          intent_id     TEXT,
+          quality_id    TEXT,
+          confidence    REAL NOT NULL,
+          uncertainty   TEXT,
+          source_run_id TEXT NOT NULL,
+          user_locked   INTEGER NOT NULL DEFAULT 0,
+          superseded_at DATETIME,
+          created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+          FOREIGN KEY (source_run_id)
+            REFERENCES intelligence_runs(id),
+
+          FOREIGN KEY (context_id)
+            REFERENCES activities(id)
+            ON DELETE SET NULL,
+
+          FOREIGN KEY (area_id)
+            REFERENCES classification_dimensions(id)
+            ON DELETE SET NULL,
+
+          FOREIGN KEY (intent_id)
+            REFERENCES classification_dimensions(id)
+            ON DELETE SET NULL,
+
+          FOREIGN KEY (quality_id)
+            REFERENCES classification_dimensions(id)
+            ON DELETE SET NULL
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_intelligence_activities_started_at
+          ON intelligence_activities (started_at);
+
+        CREATE TABLE IF NOT EXISTS intelligence_activity_events (
+          activity_id TEXT    NOT NULL,
+          event_id    INTEGER NOT NULL,
+          position    INTEGER NOT NULL,
+
+          PRIMARY KEY (activity_id, event_id),
+
+          FOREIGN KEY (activity_id)
+            REFERENCES intelligence_activities(id)
+            ON DELETE CASCADE,
+
+          FOREIGN KEY (event_id)
+            REFERENCES events(id)
+            ON DELETE CASCADE
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_intelligence_activity_events_event_id
+          ON intelligence_activity_events (event_id);
+      `);
+
+      this.db.pragma('user_version = 10');
     }
   }
 }

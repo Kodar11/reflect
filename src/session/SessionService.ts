@@ -52,6 +52,13 @@ export class SessionService {
     return this.derive(this.repo.getAll(limit));
   }
 
+  /** Deterministic sessions for an arbitrary event set, using the active
+   * config. Lets the timeline re-derive fallback sessions for events that are
+   * not covered by an AI activity. */
+  deriveFrom(events: Event[]): Session[] {
+    return this.derive(events);
+  }
+
   private derive(events: Event[]): Session[] {
     return this.engine.buildSessions(events, this.config);
   }
