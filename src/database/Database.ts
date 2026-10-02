@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 9) return;
+    if (version >= 10) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -724,6 +724,34 @@ export class Database {
       `);
 
       this.db.pragma('user_version = 9');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v9 → v10
+    //
+    // Add the user profile (personal context collected by onboarding).
+    //
+    // Single-row table (id is always 1). Kept separate from events and
+    // classification data; list fields are stored as JSON arrays.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 10) {
+      this.db.exec(`
+        CREATE TABLE IF NOT EXISTS user_profile (
+          id                 INTEGER PRIMARY KEY CHECK (id = 1),
+          roles              TEXT NOT NULL DEFAULT '[]',
+          description        TEXT,
+          current_work       TEXT NOT NULL DEFAULT '[]',
+          priorities         TEXT NOT NULL DEFAULT '[]',
+          interests          TEXT NOT NULL DEFAULT '[]',
+          additional_context TEXT,
+          onboarding_status  TEXT NOT NULL DEFAULT 'not_started',
+          created_at         DATETIME NOT NULL,
+          updated_at         DATETIME NOT NULL
+        );
+      `);
+
+      this.db.pragma('user_version = 10');
     }
   }
 }

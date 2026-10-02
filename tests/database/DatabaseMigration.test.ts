@@ -234,7 +234,7 @@ migrationSuite('Database migration', () => {
     expect(tableHasColumn(raw, 'event_classifications', 'rule_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'created_at')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'updated_at')).toBe(true);
-    expect(raw.pragma('user_version', { simple: true })).toBe(9);
+    expect(raw.pragma('user_version', { simple: true })).toBe(10);
     raw.close();
 
     const repo = new CategorizationRepository(db);
@@ -258,7 +258,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(9);
+    expect(after.pragma('user_version', { simple: true })).toBe(10);
     expect(tableHasColumn(after, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
     after.close();
@@ -314,7 +314,7 @@ migrationSuite('Database migration', () => {
     db2.close();
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(9);
+    expect(raw.pragma('user_version', { simple: true })).toBe(10);
     expect(tableHasColumn(raw, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'event_id')).toBe(true);
     raw.close();
@@ -336,7 +336,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(9);
+    expect(after.pragma('user_version', { simple: true })).toBe(10);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
 
     const overrideRow = after.prepare('SELECT * FROM categorization_overrides WHERE id = ?').get('ov_v8') as {

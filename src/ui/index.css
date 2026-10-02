@@ -340,3 +340,49 @@ input, textarea, select {
     transform: translateX(0);
   }
 }
+
+/* ---------- Onboarding / personal context ---------- */
+
+.onb-root :is(button, input, textarea):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.onb-root .field:focus-within {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.onb-root .field input:focus-visible { outline: none; }
+
+.onb-choice {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  transition: background-color 80ms ease, border-color 80ms ease, color 80ms ease;
+}
+.onb-choice:hover { background: var(--bg-hover); }
+.onb-choice[aria-pressed='true'] {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.onb-tag-remove:hover { background: var(--bg-active); color: var(--text); }
+.onb-suggestion:hover { background: var(--bg-hover) !important; color: var(--text) !important; }
+
+.onb-step {
+  animation: onbStepIn var(--dur-normal) var(--ease-out);
+}
+@keyframes onbStepIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .onb-step { animation: none; }
+}

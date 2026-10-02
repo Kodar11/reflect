@@ -11,6 +11,14 @@ import { useFocus, formatClock } from './Focus/useFocus';
 import { FocusPage } from './Focus/FocusPage';
 import { FocusWidget } from './Focus/FocusWidget';
 import { FocusSummaryModal } from './Focus/FocusSummaryModal';
+import { OnboardingFlow } from './Onboarding/OnboardingFlow';
+import { PersonalContextCard } from './Onboarding/PersonalContextCard';
+import { shouldShowOnboarding, type UserProfile } from '../profile/UserProfile';
+
+type OnboardingGate =
+  | { phase: 'loading' }
+  | { phase: 'show'; profile: UserProfile }
+  | { phase: 'hidden' };
 
 function App() {
   const theme = useThemeStore((s) => s.theme);
@@ -26,6 +34,21 @@ function App() {
   const [widgetMinimized, setWidgetMinimized] = useState(false);
   const [focusInitialTab, setFocusInitialTab] = useState<Parameters<typeof FocusPage>[0]['initialTab']>('focus');
   const [focusHistorySessionId, setFocusHistorySessionId] = useState<string | null>(null);
+  const [onboarding, setOnboarding] = useState<OnboardingGate>({ phase: 'loading' });
+
+  // First-run onboarding: shown only while it hasn't been finished or skipped.
+  // Any failure falls through to the normal app — onboarding never blocks it.
+  useEffect(() => {
+    window.userProfile
+      .get()
+      .then((profile) =>
+        setOnboarding(shouldShowOnboarding(profile.onboardingStatus) ? { phase: 'show', profile } : { phase: 'hidden' }),
+      )
+      .catch((e) => {
+        console.error('[App] failed to load user profile', e);
+        setOnboarding({ phase: 'hidden' });
+      });
+  }, []);
 
   const PAGE_TITLES: Record<Route, string> = {
     timeline: 'Productivity Coach — Timeline',
@@ -87,61 +110,75 @@ function App() {
       <Header
         sidebarOpen={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen((v) => !v)}
-        showSidebarToggle={true}
+        showSidebarToggle={onboarding.phase === 'hidden'}
       />
-      <div className="flex h-[calc(100vh-2.75rem)]">
-        <Sidebar
-          route={route}
-          onNavigate={handleNavigate}
-          open={sidebarOpen}
-        />
-        <main className="flex-1 min-w-0 h-full overflow-hidden">
-          {route === 'timeline' ? (
-            <TimelinePage
-              focus={focus}
-              onNavigateToFocus={navigateToFocusHistory}
-              onNavigateToRule={(ruleId) => {
-                setRoute('activity');
-                setActivityTab('rules');
-                setEditingRuleId(ruleId);
-                setPrefilledRule(null);
-              }}
-              onCreateRuleFromSession={(session) => {
-                setRoute('activity');
-                setActivityTab('rules');
-                setPrefilledRule(session);
-                setEditingRuleId(null);
-              }}
+      {onboarding.phase === 'loading' ? (
+        <div className="h-[calc(100vh-2.75rem)]" />
+      ) : onboarding.phase === 'show' ? (
+        <main className="h-[calc(100vh-2.75rem)] overflow-y-auto">
+          <div className="min-h-full flex flex-col justify-center px-6 py-10">
+            <OnboardingFlow
+              mode="onboarding"
+              initialProfile={onboarding.profile}
+              onExit={() => setOnboarding({ phase: 'hidden' })}
             />
-          ) : route === 'activity' ? (
-            <div className="px-6 py-4 h-full overflow-hidden flex flex-col">
-              <ActivityPage
-                activeTab={activityTab}
-                onTabChange={setActivityTab}
-                editingRuleId={editingRuleId}
-                setEditingRuleId={setEditingRuleId}
-                prefilledRule={prefilledRule}
-                setPrefilledRule={setPrefilledRule}
-              />
-            </div>
-          ) : route === 'focus' ? (
-            <FocusPage
-              focus={focus}
-              initialTab={focusInitialTab}
-              initialHistorySessionId={focusHistorySessionId}
-              onViewInTimeline={() => setRoute('timeline')}
-            />
-          ) : route === 'settings' ? (
-            <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
-              <SettingsPage theme={theme} setTheme={setTheme} />
-            </div>
-          ) : (
-            <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
-              <SessionsPage />
-            </div>
-          )}
+          </div>
         </main>
-      </div>
+      ) : (
+        <div className="flex h-[calc(100vh-2.75rem)]">
+          <Sidebar
+            route={route}
+            onNavigate={handleNavigate}
+            open={sidebarOpen}
+          />
+          <main className="flex-1 min-w-0 h-full overflow-hidden">
+            {route === 'timeline' ? (
+              <TimelinePage
+                focus={focus}
+                onNavigateToFocus={navigateToFocusHistory}
+                onNavigateToRule={(ruleId) => {
+                  setRoute('activity');
+                  setActivityTab('rules');
+                  setEditingRuleId(ruleId);
+                  setPrefilledRule(null);
+                }}
+                onCreateRuleFromSession={(session) => {
+                  setRoute('activity');
+                  setActivityTab('rules');
+                  setPrefilledRule(session);
+                  setEditingRuleId(null);
+                }}
+              />
+            ) : route === 'activity' ? (
+              <div className="px-6 py-4 h-full overflow-hidden flex flex-col">
+                <ActivityPage
+                  activeTab={activityTab}
+                  onTabChange={setActivityTab}
+                  editingRuleId={editingRuleId}
+                  setEditingRuleId={setEditingRuleId}
+                  prefilledRule={prefilledRule}
+                  setPrefilledRule={setPrefilledRule}
+                />
+              </div>
+            ) : route === 'focus' ? (
+              <FocusPage
+                focus={focus}
+                initialTab={focusInitialTab}
+                initialHistorySessionId={focusHistorySessionId}
+                onViewInTimeline={() => setRoute('timeline')}
+              />
+            ) : route === 'settings' ? (
+              <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
+                <SettingsPage theme={theme} setTheme={setTheme} />
+              </div>
+            ) : (
+              <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
+                <SessionsPage />
+              </div>
+            )}
+          </main>
+        </div>
+      )}
 
       {focus.activeSession && (
         <FocusWidget
@@ -186,6 +223,17 @@ function SettingsPage(props: { theme: string; setTheme: (theme: any) => void }) 
   };
 
   const isBtnDisabled = status.type === 'loading';
+  const [editingContext, setEditingContext] = useState<UserProfile | null>(null);
+
+  if (editingContext) {
+    return (
+      <OnboardingFlow
+        mode="edit"
+        initialProfile={editingContext}
+        onExit={() => setEditingContext(null)}
+      />
+    );
+  }
 
   return (
     <div className="space-y-8" style={{ animation: 'fadeIn 180ms var(--ease-out)' }}>
@@ -206,6 +254,12 @@ function SettingsPage(props: { theme: string; setTheme: (theme: any) => void }) 
             <ThemeToggle />
           </div>
         </div>
+      </section>
+
+      {/* Personal Context Section */}
+      <section className="space-y-4">
+        <h2 className="text-[18px] font-bold border-b border-default pb-2">Personalization</h2>
+        <PersonalContextCard onEdit={setEditingContext} />
       </section>
 
       {/* Data Section */}

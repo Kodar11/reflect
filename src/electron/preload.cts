@@ -71,6 +71,16 @@ electron.contextBridge.exposeInMainWorld('settings', {
     electron.ipcRenderer.invoke('export:sessions', { format }),
 } satisfies Window['settings']);
 
+// User profile IPC surface (personal context collected by onboarding).
+electron.contextBridge.exposeInMainWorld('userProfile', {
+  get: () => electron.ipcRenderer.invoke('userProfile:get'),
+  getOnboardingStatus: () => electron.ipcRenderer.invoke('userProfile:getOnboardingStatus'),
+  save: (profile: UserProfileInputDto, status?: OnboardingStatusDto) =>
+    electron.ipcRenderer.invoke('userProfile:save', { profile, status }),
+  update: (patch: Partial<UserProfileInputDto> & { onboardingStatus?: OnboardingStatusDto }) =>
+    electron.ipcRenderer.invoke('userProfile:update', { patch }),
+} satisfies Window['userProfile']);
+
 const focusListeners = new Map<string, Set<(event: any) => void>>();
 
 function registerFocusListener(channel: string, callback: (event: any) => void): () => void {

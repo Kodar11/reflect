@@ -24,6 +24,7 @@
     "../timeline/**/*.ts",
     "../categorization/**/*.ts",
     "../focus/**/*.ts",
+    "../profile/**/*.ts",
     "../database/EditRepository.ts"
   ],
   "exclude": ["**/*.test.ts"]

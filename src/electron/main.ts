@@ -34,6 +34,8 @@ import { registerFocusIpc } from '../focus/focusIpc.js';
 import { CategorizationRepository } from '../database/CategorizationRepository.js';
 import { CategorizationService } from '../categorization/CategorizationService.js';
 import { registerCategorizationIpc } from '../categorization/categorizationIpc.js';
+import { UserProfileRepository } from '../database/UserProfileRepository.js';
+import { registerUserProfileIpc } from '../profile/userProfileIpc.js';
 import type { ActivitySample } from '../models/Event.js';
 import {
   getActiveBrowserDomain,
@@ -230,6 +232,12 @@ app.whenReady().then(async () => {
   const exportService = new ExportService(timelineService, repo, sessionService);
   registerExportIpc(exportService, ipcMainHandle);
   logger.info('[APP] Export service ready.');
+
+  // --- Construct the user profile layer (onboarding context) ---
+  // Kept separate from events; the intelligence layer reads it via the repo.
+  const userProfileRepo = new UserProfileRepository(database);
+  registerUserProfileIpc(userProfileRepo, ipcMainHandle);
+  logger.info('[APP] User profile ready.');
 
   // --- Wire focus IPC (Stage 3.10) ---
   registerFocusIpc(focusService, focusRepo, ipcMainHandle, () =>

@@ -174,6 +174,25 @@ interface FocusSummaryDto {
   productiveMs: number;
 }
 
+type OnboardingStatusDto = 'not_started' | 'in_progress' | 'completed' | 'skipped';
+
+/** Personal context collected by onboarding. Mirrors `UserProfile` in
+ * src/profile/UserProfile.ts. */
+interface UserProfileInputDto {
+  roles: string[];
+  description: string | null;
+  currentWork: string[];
+  priorities: string[];
+  interests: string[];
+  additionalContext: string | null;
+}
+
+interface UserProfileDto extends UserProfileInputDto {
+  onboardingStatus: OnboardingStatusDto;
+  createdAt: string | null;
+  updatedAt: string | null;
+}
+
 interface Window {
   app: {
     sendFrameAction: (payload: FrameWindowAction) => void;
@@ -207,6 +226,12 @@ interface Window {
     exportTimeline: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
     exportActivity: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
     exportSessions: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
+  };
+  userProfile: {
+    get: () => Promise<UserProfileDto>;
+    getOnboardingStatus: () => Promise<OnboardingStatusDto>;
+    save: (profile: UserProfileInputDto, status?: OnboardingStatusDto) => Promise<UserProfileDto>;
+    update: (patch: Partial<UserProfileInputDto> & { onboardingStatus?: OnboardingStatusDto }) => Promise<UserProfileDto>;
   };
   focusMode: {
     listProfiles: () => Promise<FocusProfileDto[]>;
