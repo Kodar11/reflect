@@ -18,6 +18,9 @@ export interface IEventRepository {
   getToday(): Event[];
   /** Events whose started_at falls inside [from, to) ISO strings (newest first). */
   getByRange(from: string, to: string): Event[];
+  /** Events that overlap [from, to) at all — including ones that started
+   * before `from` or end after `to` (oldest first). */
+  getOverlapping(from: string, to: string): Event[];
   /** Events whose ids are in the provided list (newest first). */
   getByIds(ids: number[]): Event[];
   /** Every event, newest first. Used by the dev viewer when no filter is set. */
@@ -47,6 +50,7 @@ export class EventRepository implements IEventRepository {
   private readonly updateEndedAtStmt;
   private readonly todayStmt;
   private readonly rangeStmt;
+  private readonly overlappingStmt;
   private readonly allStmt;
 
   constructor(private readonly db: Database) {
@@ -62,6 +66,9 @@ export class EventRepository implements IEventRepository {
     );
     this.rangeStmt = db.prepare(
       `SELECT * FROM events WHERE started_at >= @from AND started_at < @to ORDER BY started_at DESC`,
+    );
+    this.overlappingStmt = db.prepare(
+      `SELECT * FROM events WHERE started_at < @to AND ended_at > @from ORDER BY started_at ASC, id ASC`,
     );
     this.allStmt = db.prepare(
       `SELECT * FROM events ORDER BY started_at DESC LIMIT @limit`,
@@ -93,6 +100,10 @@ export class EventRepository implements IEventRepository {
 
   getByRange(from: string, to: string): Event[] {
     return (this.rangeStmt.all({ from, to }) as unknown[] as EventRow[]).map(rowToEvent);
+  }
+
+  getOverlapping(from: string, to: string): Event[] {
+    return (this.overlappingStmt.all({ from, to }) as unknown[] as EventRow[]).map(rowToEvent);
   }
 
   getByIds(ids: number[]): Event[] {

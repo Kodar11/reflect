@@ -128,6 +128,32 @@ function decodeAssignActivity(o: any): AssignActivityPayload {
   return { eventIds: o.eventIds, activityId: o.activityId ?? null };
 }
 
+/**
+ * Every raw event id a durable edit payload refers to. Used to find which
+ * timeline blocks the user has touched (so AI analysis leaves them alone).
+ * `create_offline` references no events.
+ */
+export function referencedEventIds(payload: unknown): number[] {
+  const p = payload as Record<string, unknown> | null;
+  if (!p || typeof p !== 'object') return [];
+  const ids: number[] = [];
+  const add = (v: unknown) => {
+    if (typeof v === 'number' && Number.isFinite(v)) ids.push(v);
+  };
+  add(p.anchorEventId);
+  add(p.afterEventId);
+  add(p.boundaryFromEventId);
+  add(p.boundaryToEventId);
+  if (Array.isArray(p.eventIds)) p.eventIds.forEach(add);
+  if (Array.isArray(p.boundaries)) {
+    for (const b of p.boundaries as Record<string, unknown>[]) {
+      add(b?.boundaryFromEventId);
+      add(b?.boundaryToEventId);
+    }
+  }
+  return ids;
+}
+
 function malformed(op: string): Error {
   return new Error(`Malformed timeline edit payload for '${op}'`);
 }

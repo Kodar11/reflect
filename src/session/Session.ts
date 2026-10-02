@@ -54,6 +54,31 @@ export interface Session {
   browserTabs: string[];
   /** Number of raw events in this session. */
   eventCount: number;
+  /** Present only when this session is backed by a persisted AI activity
+   * (intelligence layer). Deterministic sessions never set it. */
+  ai?: SessionAiMeta;
+}
+
+/**
+ * Interpretation attached to a session that was reconstructed by the
+ * intelligence layer. It is a derived overlay: the session's `events` are still
+ * the raw facts, and every classification id refers to the existing taxonomy
+ * (`activities` + `classification_dimensions`).
+ */
+export interface SessionAiMeta {
+  /** Canonical, backend-generated id of the persisted AI activity. */
+  activityId: string;
+  title: string;
+  summary: string | null;
+  contextId: string | null;
+  areaId: string | null;
+  intentId: string | null;
+  qualityId: string | null;
+  /** 0..1 confidence in the interpretation. */
+  confidence: number;
+  uncertainty: string[];
+  /** True once the user edited this activity; later AI runs leave it alone. */
+  userLocked: boolean;
 }
 
 /**

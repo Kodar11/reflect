@@ -5,6 +5,8 @@ import path from 'node:path';
 import BetterSqliteDB from 'better-sqlite3';
 import { Database } from '../../src/database/Database';
 import { CategorizationRepository } from '../../src/database/CategorizationRepository';
+import { IntelligenceRepository } from '../../src/database/IntelligenceRepository';
+import { UserProfileRepository } from '../../src/database/UserProfileRepository';
 
 /**
  * Integration tests for the SQLite migration system. Uses real better-sqlite3.
@@ -234,7 +236,7 @@ migrationSuite('Database migration', () => {
     expect(tableHasColumn(raw, 'event_classifications', 'rule_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'created_at')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'updated_at')).toBe(true);
-    expect(raw.pragma('user_version', { simple: true })).toBe(10);
+    expect(raw.pragma('user_version', { simple: true })).toBe(11);
     raw.close();
 
     const repo = new CategorizationRepository(db);
@@ -245,7 +247,7 @@ migrationSuite('Database migration', () => {
     db.close();
   });
 
-  it('existing v5 database migrates to v9 with anchor_event_id and event_classifications', () => {
+  it('existing v5 database migrates to v11 with anchor_event_id and event_classifications', () => {
     dbPath = tmpDbPath();
     createV5Database(dbPath);
 
@@ -258,7 +260,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(10);
+    expect(after.pragma('user_version', { simple: true })).toBe(11);
     expect(tableHasColumn(after, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
     after.close();
@@ -314,13 +316,13 @@ migrationSuite('Database migration', () => {
     db2.close();
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(10);
+    expect(raw.pragma('user_version', { simple: true })).toBe(11);
     expect(tableHasColumn(raw, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'event_id')).toBe(true);
     raw.close();
   });
 
-  it('existing v8 database migrates to v9 and creates event_classifications without touching overrides', () => {
+  it('existing v8 database migrates to v11 and creates event_classifications without touching overrides', () => {
     dbPath = tmpDbPath();
     createV8Database(dbPath);
 
@@ -336,7 +338,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(10);
+    expect(after.pragma('user_version', { simple: true })).toBe(11);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
 
     const overrideRow = after.prepare('SELECT * FROM categorization_overrides WHERE id = ?').get('ov_v8') as {
@@ -356,6 +358,40 @@ migrationSuite('Database migration', () => {
     expect(overrides).toHaveLength(1);
     expect(overrides[0].anchorEventId).toBe(100);
     db.close();
+  });
+
+  it('existing database migrates to v11: rules gain a source, intelligence tables appear, data is kept', () => {
+    dbPath = tmpDbPath();
+    createV8Database(dbPath);
+
+    const before = new BetterSqliteDB(dbPath);
+    before.exec(`
+      INSERT INTO activities (id, name, color) VALUES ('coding', 'Coding', 'blue');
+      INSERT INTO tracking_rules (id, activity_id, conditions, enabled, priority) VALUES
+        ('rule_coding', 'coding', '[{"type":"app_equals","value":"VS Code"}]', 1, 0),
+        ('rule_1700000000000', 'coding', '[{"type":"title_contains","value":"GameTheory"}]', 1, 10);
+      INSERT INTO events (watcher, started_at, ended_at, app) VALUES
+        ('window', '2026-03-02T09:00:00.000Z', '2026-03-02T09:30:00.000Z', 'VS Code');
+    `);
+    expect(tableHasColumn(before, 'tracking_rules', 'source')).toBe(false);
+    before.close();
+
+    new Database(dbPath).close();
+    new Database(dbPath).close(); // idempotent
+
+    const after = new BetterSqliteDB(dbPath);
+    expect(after.pragma('user_version', { simple: true })).toBe(11);
+    const rules = after.prepare('SELECT id, source FROM tracking_rules ORDER BY id').all();
+    expect(rules).toEqual([
+      { id: 'rule_1700000000000', source: 'user' },
+      { id: 'rule_coding', source: 'system' },
+    ]);
+    expect(tableHasColumn(after, 'intelligence_runs', 'window_start')).toBe(true);
+    expect(tableHasColumn(after, 'intelligence_activities', 'user_locked')).toBe(true);
+    expect(tableHasColumn(after, 'intelligence_activity_events', 'event_id')).toBe(true);
+    expect(after.prepare('SELECT COUNT(*) AS n FROM events').get()).toEqual({ n: 1 });
+    expect(after.pragma('foreign_key_check')).toEqual([]);
+    after.close();
   });
 
   it('leaves anchor_event_id NULL when override event_ids is empty or invalid', () => {
@@ -378,6 +414,99 @@ migrationSuite('Database migration', () => {
     expect(row.anchor_event_id).toBeNull();
     after.close();
 
+    db.close();
+  });
+
+  // ── v10 (intelligence) → v11 (user profile) ──────────────────────────────
+
+  const INTELLIGENCE_TABLES = ['intelligence_runs', 'intelligence_activities', 'intelligence_activity_events'];
+  const INTELLIGENCE_INDEXES = [
+    'idx_intelligence_runs_succeeded_window',
+    'idx_intelligence_runs_status',
+    'idx_intelligence_runs_window',
+    'idx_intelligence_activities_started_at',
+    'idx_intelligence_activity_events_event_id',
+  ];
+
+  function schemaNames(db: BetterSqliteDB.Database, type: 'table' | 'index'): string[] {
+    return (db.prepare('SELECT name FROM sqlite_master WHERE type = ?').all(type) as { name: string }[]).map((r) => r.name);
+  }
+
+  /**
+   * A database exactly as the v10 (Gemini intelligence) release left it: the
+   * full current schema minus what v11 adds, with real rows in the
+   * intelligence tables.
+   */
+  function createV10Database(dbPath: string): void {
+    new Database(dbPath).close();
+    const raw = new BetterSqliteDB(dbPath);
+    raw.exec(`
+      DROP TABLE user_profile;
+      INSERT INTO events (id, watcher, started_at, ended_at, app) VALUES
+        (1, 'window', '2026-03-02T09:00:00.000Z', '2026-03-02T09:30:00.000Z', 'VS Code');
+      INSERT INTO intelligence_runs (id, window_start, window_end, status, model, prompt_version, schema_version)
+        VALUES ('run_1', '2026-03-02T09:00:00.000Z', '2026-03-02T10:00:00.000Z', 'succeeded', 'gemini', 'p1', 1);
+      INSERT INTO intelligence_activities (id, started_at, ended_at, title, confidence, source_run_id)
+        VALUES ('act_1', '2026-03-02T09:00:00.000Z', '2026-03-02T09:30:00.000Z', 'Building Reflect', 0.9, 'run_1');
+      INSERT INTO intelligence_activity_events (activity_id, event_id, position) VALUES ('act_1', 1, 0);
+    `);
+    raw.pragma('user_version = 10');
+    raw.close();
+  }
+
+  it('existing v10 database with intelligence data migrates to v11 and gains user_profile', () => {
+    dbPath = tmpDbPath();
+    createV10Database(dbPath);
+
+    const before = new BetterSqliteDB(dbPath);
+    expect(before.pragma('user_version', { simple: true })).toBe(10);
+    expect(schemaNames(before, 'table')).not.toContain('user_profile');
+    before.close();
+
+    const db = new Database(dbPath);
+
+    const after = new BetterSqliteDB(dbPath);
+    expect(after.pragma('user_version', { simple: true })).toBe(11);
+    const tables = schemaNames(after, 'table');
+    for (const t of INTELLIGENCE_TABLES) expect(tables).toContain(t);
+    expect(schemaNames(after, 'index')).toEqual(expect.arrayContaining(INTELLIGENCE_INDEXES));
+    expect(tableHasColumn(after, 'tracking_rules', 'source')).toBe(true);
+    expect(tables).toContain('user_profile');
+    // Existing intelligence + raw data survives the upgrade.
+    expect(after.prepare('SELECT COUNT(*) AS n FROM events').get()).toEqual({ n: 1 });
+    expect(after.prepare('SELECT title FROM intelligence_activities').all()).toEqual([{ title: 'Building Reflect' }]);
+    expect(after.prepare('SELECT COUNT(*) AS n FROM intelligence_activity_events').get()).toEqual({ n: 1 });
+    expect(after.pragma('foreign_key_check')).toEqual([]);
+    after.close();
+
+    // The reported failure was "no such table: user_profile".
+    const profiles = new UserProfileRepository(db);
+    expect(profiles.getOnboardingStatus()).toBe('not_started');
+    profiles.updateProfile({ interests: ['Music'], onboardingStatus: 'completed' });
+    expect(profiles.getProfile().interests).toEqual(['Music']);
+    expect(() => new IntelligenceRepository(db)).not.toThrow();
+    db.close();
+
+    // Re-opening is a no-op and keeps the profile.
+    const reopened = new Database(dbPath);
+    expect(new UserProfileRepository(reopened).getOnboardingStatus()).toBe('completed');
+    reopened.close();
+  });
+
+  it('fresh database creates both intelligence and onboarding tables at v11', () => {
+    dbPath = tmpDbPath();
+    const db = new Database(dbPath);
+
+    const raw = new BetterSqliteDB(dbPath);
+    expect(raw.pragma('user_version', { simple: true })).toBe(11);
+    const tables = schemaNames(raw, 'table');
+    for (const t of [...INTELLIGENCE_TABLES, 'user_profile']) expect(tables).toContain(t);
+    expect(schemaNames(raw, 'index')).toEqual(expect.arrayContaining(INTELLIGENCE_INDEXES));
+    expect(tableHasColumn(raw, 'tracking_rules', 'source')).toBe(true);
+    raw.close();
+
+    expect(() => new IntelligenceRepository(db)).not.toThrow();
+    expect(new UserProfileRepository(db).getOnboardingStatus()).toBe('not_started');
     db.close();
   });
 });

@@ -91,6 +91,66 @@ interface VerifiedSessionDto {
   } | null;
   activityRuleId?: string | null;
   classification?: ClassificationDto | null;
+  /** Present when the block is an AI-derived activity. */
+  ai?: {
+    activityId: string;
+    title: string;
+    summary: string | null;
+    confidence: number;
+    uncertainty: string[];
+    userLocked: boolean;
+  } | null;
+}
+
+/** Outcome of one intelligence analysis window (manual trigger / scheduler). */
+type IntelligenceAnalysisResultDto =
+  | {
+      status: 'succeeded';
+      runId: string;
+      windowStart: string;
+      windowEnd: string;
+      attempts: number;
+      eventCount: number;
+      activitiesCreated: number;
+      activitiesExtended: number;
+    }
+  | { status: 'skipped'; reason: 'already_analyzed' | 'no_events'; windowStart: string; windowEnd: string }
+  | {
+      status: 'failed';
+      category: string;
+      error: string;
+      runId: string | null;
+      windowStart: string;
+      windowEnd: string;
+      attempts: number;
+    };
+
+interface IntelligenceBacklogResultDto {
+  status: 'completed' | 'stopped' | 'unavailable' | 'busy';
+  reason?: string;
+  windowsConsidered: number;
+  results: IntelligenceAnalysisResultDto[];
+}
+
+interface IntelligenceStatusDto {
+  configured: boolean;
+  model: string;
+  promptVersion: string;
+  schemaVersion: number;
+  recentRuns: {
+    id: string;
+    windowStart: string;
+    windowEnd: string;
+    status: string;
+    model: string;
+    promptVersion: string;
+    schemaVersion: number;
+    attemptCount: number;
+    error: string | null;
+    errorCategory: string | null;
+    createdAt?: string;
+    updatedAt?: string;
+  }[];
 }
 
 interface TimelineStatus {
@@ -221,6 +281,14 @@ interface Window {
     listRules: () => Promise<any[]>;
     saveRule: (p: { id: string; activityId: string; conditions: string; enabled: number; priority: number; areaId?: string | null; intentId?: string | null; qualityId?: string | null }) => Promise<{ ok: boolean }>;
     deleteRule: (p: { id: string }) => Promise<{ ok: boolean }>;
+  };
+  /** Manual prototype/testing path for the Gemini intelligence layer. */
+  intelligence: {
+    /** Analyze the last `minutes` (default 60). */
+    analyzeRecent: (p?: { minutes?: number; force?: boolean }) => Promise<IntelligenceAnalysisResultDto>;
+    analyzeWindow: (p: { from: string; to: string; force?: boolean }) => Promise<IntelligenceAnalysisResultDto>;
+    processBacklog: () => Promise<IntelligenceBacklogResultDto>;
+    status: () => Promise<IntelligenceStatusDto>;
   };
   settings: {
     exportTimeline: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;

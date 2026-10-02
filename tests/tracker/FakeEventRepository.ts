@@ -53,6 +53,11 @@ export class FakeEventRepository implements IEventRepository {
   getByRange(_from: string, _to: string): Event[] {
     return [...this.store.values()];
   }
+  getOverlapping(from: string, to: string): Event[] {
+    return [...this.store.values()]
+      .filter((e) => e.startedAt < to && e.endedAt > from)
+      .sort((a, b) => (a.startedAt < b.startedAt ? -1 : a.startedAt > b.startedAt ? 1 : a.id - b.id));
+  }
   getAll(_limit?: number): Event[] {
     return [...this.store.values()];
   }

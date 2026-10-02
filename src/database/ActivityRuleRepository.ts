@@ -17,7 +17,12 @@ export interface TrackingRule {
   areaId: string | null;
   intentId: string | null;
   qualityId: string | null;
+  /** 'system' = seeded default, 'user' = created/remembered by the user.
+   * New rules default to 'user'; saving an existing rule keeps its source. */
+  source?: RuleSource;
 }
+
+export type RuleSource = 'system' | 'user';
 
 export class ActivityRuleRepository {
   private readonly listActivitiesStmt;
@@ -44,8 +49,8 @@ export class ActivityRuleRepository {
 
     this.listRulesStmt = db.prepare('SELECT * FROM tracking_rules ORDER BY priority DESC, id ASC');
     this.insertRuleStmt = db.prepare(
-      `INSERT INTO tracking_rules (id, activity_id, conditions, enabled, priority, area_id, intent_id, quality_id)
-       VALUES (@id, @activity_id, @conditions, @enabled, @priority, @area_id, @intent_id, @quality_id)
+      `INSERT INTO tracking_rules (id, activity_id, conditions, enabled, priority, area_id, intent_id, quality_id, source)
+       VALUES (@id, @activity_id, @conditions, @enabled, @priority, @area_id, @intent_id, @quality_id, @source)
        ON CONFLICT(id) DO UPDATE SET 
          activity_id = @activity_id, 
          conditions = @conditions, 
@@ -93,6 +98,7 @@ export class ActivityRuleRepository {
       area_id: rule.areaId ?? null,
       intent_id: rule.intentId ?? null,
       quality_id: rule.qualityId ?? null,
+      source: rule.source ?? 'user',
     });
   }
 
@@ -124,5 +130,6 @@ function rowToRule(r: any): TrackingRule {
     areaId: r.area_id ?? null,
     intentId: r.intent_id ?? null,
     qualityId: r.quality_id ?? null,
+    source: r.source === 'system' ? 'system' : 'user',
   };
 }

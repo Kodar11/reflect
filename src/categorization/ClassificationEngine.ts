@@ -1,4 +1,5 @@
 import type {
+  AiClassificationInput,
   CategorizationOverride,
   CategorizationRule,
   Classification,
@@ -125,6 +126,35 @@ export class ClassificationEngine {
       quality: resolveDimension(defaultResult.qualityId, dimensions, 'quality'),
       source: 'default',
       reason: defaultResult.reason,
+      matchedRuleId: null,
+      matchedConditions: null,
+      isOverride: false,
+    };
+  }
+
+  /**
+   * Build a classification from an AI interpretation. Ids are resolved against
+   * the current taxonomy, so a value that no longer exists resolves to null.
+   * Returns null when the AI offered no usable dimension — the caller then
+   * keeps the deterministic result.
+   */
+  classifyFromAi(
+    ai: AiClassificationInput,
+    contexts: ContextEntry[],
+    dimensions: DimensionEntry[],
+  ): Classification | null {
+    const context = resolveDimension(ai.contextId, contexts, 'context');
+    const area = resolveDimension(ai.areaId, dimensions, 'area');
+    const intent = resolveDimension(ai.intentId, dimensions, 'intent');
+    const quality = resolveDimension(ai.qualityId, dimensions, 'quality');
+    if (!context && !area && !intent && !quality) return null;
+    return {
+      context,
+      area,
+      intent,
+      quality,
+      source: 'ai',
+      reason: `AI interpretation (${Math.round(ai.confidence * 100)}% confidence)`,
       matchedRuleId: null,
       matchedConditions: null,
       isOverride: false,

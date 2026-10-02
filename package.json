@@ -15,10 +15,12 @@
     "rebuild:win-browser-url": "cd node_modules/win-browser-url && npx node-gyp rebuild --target=32.1.2 --arch=x64 --dist-url=https://electronjs.org/headers",
     "postinstall": "electron-rebuild -f -w better-sqlite3,active-win,win-browser-url || echo \"rebuild skipped (may need build tools)\"",
     "test": "vitest run",
+    "test:db": "cross-env ELECTRON_RUN_AS_NODE=1 electron node_modules/vitest/vitest.mjs run tests/database --pool=forks",
     "test:integration": "npm rebuild better-sqlite3 && vitest run tests/database && npm run rebuild",
     "dist:win": "npm run rebuild && npm run transpile:electron && npm run build && electron-builder --win --x64"
   },
   "dependencies": {
+    "@google/genai": "^2.25.0",
     "@tailwindcss/vite": "^4.2.4",
     "active-win": "^8.2.1",
     "better-sqlite3": "^12.11.1",
@@ -27,6 +29,7 @@
     "react-dom": "^18.3.1",
     "tailwindcss": "^4.2.4",
     "win-browser-url": "file:src/native/win-browser-url",
+    "zod": "^4.6.5",
     "zustand": "^5.0.13"
   },
   "devDependencies": {

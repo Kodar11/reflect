@@ -36,6 +36,13 @@ import { CategorizationService } from '../categorization/CategorizationService.j
 import { registerCategorizationIpc } from '../categorization/categorizationIpc.js';
 import { UserProfileRepository } from '../database/UserProfileRepository.js';
 import { registerUserProfileIpc } from '../profile/userProfileIpc.js';
+import { IntelligenceRepository } from '../database/IntelligenceRepository.js';
+import { GeminiClient } from '../intelligence/GeminiClient.js';
+import { PrototypeUserContextProvider } from '../intelligence/IntelligenceContext.js';
+import { IntelligenceService } from '../intelligence/IntelligenceService.js';
+import { IntelligenceScheduler } from '../intelligence/IntelligenceScheduler.js';
+import { IntelligenceTimelineSource } from '../intelligence/IntelligenceTimelineSource.js';
+import { registerIntelligenceIpc } from '../intelligence/intelligenceIpc.js';
 import type { ActivitySample } from '../models/Event.js';
 import {
   getActiveBrowserDomain,
@@ -49,7 +56,19 @@ let tray: Tray | null = null;
 let database: Database | null = null;
 let trackingService: TrackingService | null = null;
 let focusService: FocusService | null = null;
+let intelligenceScheduler: IntelligenceScheduler | null = null;
 let quitting = false;
+
+// Prototype secret loading: in development, read GEMINI_API_KEY (and friends)
+// from a git-ignored `.env` in the project root. The key stays in the main
+// process — it is never sent over IPC or exposed through preload.
+if (isDev()) {
+  try {
+    process.loadEnvFile();
+  } catch {
+    // No .env file — rely on the real environment.
+  }
+}
 
 function createMainWindow(logger: Logger): BrowserWindow {
   mainWindow = new BrowserWindow({
@@ -144,6 +163,7 @@ async function quitApp(logger: Logger) {
   } catch (e) {
     logger.error(`[APP] tracking stop error: ${(e as Error)?.message ?? e}`);
   }
+  intelligenceScheduler?.stop();
   try {
     focusService?.destroy();
   } catch (e) {
@@ -218,15 +238,49 @@ app.whenReady().then(async () => {
   const editRepo = new EditRepository(database, (msg) => logger.warn(msg));
   const activityRuleRepo = new ActivityRuleRepository(database);
   const categorizationRepo = new CategorizationRepository(database);
-  const categorizationService = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, repo);
-  const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo, categorizationService);
-  registerTimelineIpc(timelineService, activityRuleRepo, ipcMainHandle, () =>
+  // The intelligence repository + timeline adapter are constructed here so the
+  // timeline can show persisted AI activities (with deterministic sessions as
+  // the fallback) and user edits can protect them from later AI runs.
+  const intelligenceRepo = new IntelligenceRepository(database);
+  const aiTimelineSource = new IntelligenceTimelineSource(intelligenceRepo);
+  const categorizationService = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, repo, aiTimelineSource);
+  const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo, categorizationService, aiTimelineSource);
+  const timelineIpc = registerTimelineIpc(timelineService, activityRuleRepo, ipcMainHandle, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
   registerCategorizationIpc(categorizationService, ipcMainHandle, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
   logger.info('[APP] Timeline + categorization services ready.');
+
+  // --- Construct the intelligence layer (Gemini) ---
+  // An enhancement only: if Gemini is unavailable the app, tracking and the
+  // deterministic timeline keep working. The manual IPC trigger and the hourly
+  // scheduler both run IntelligenceService.analyzeWindow.
+  const intelligenceLogger = {
+    info: (m: string) => logger.info(m),
+    warn: (m: string) => logger.warn(m),
+    error: (m: string) => logger.error(m),
+  };
+  const intelligenceService = new IntelligenceService({
+    events: repo,
+    repo: intelligenceRepo,
+    gemini: new GeminiClient(),
+    activityRules: activityRuleRepo,
+    categorization: categorizationRepo,
+    focus: focusRepo,
+    userContext: new PrototypeUserContextProvider(),
+    getUserEditedEventIds: (from, to) => timelineService.getUserEditedEventIds(from, to),
+    logger: intelligenceLogger,
+  });
+  registerIntelligenceIpc(intelligenceService, ipcMainHandle, () => timelineIpc.notifyTimelineChanged());
+  intelligenceScheduler = new IntelligenceScheduler(intelligenceService, {
+    logger: intelligenceLogger,
+    onAnalyzed: () => timelineIpc.notifyTimelineChanged(),
+  });
+  logger.info(
+    `[APP] Intelligence service ready (Gemini ${intelligenceService.isConfigured() ? 'configured' : 'not configured — GEMINI_API_KEY missing'}).`,
+  );
 
   // --- Construct the export layer (Stage 3.8) ---
   const exportService = new ExportService(timelineService, repo, sessionService);
@@ -300,6 +354,10 @@ app.whenReady().then(async () => {
   // Closing the window hides to tray; tracking keeps running.
   await trackingService.start();
   logger.info('[APP] Tracking started.');
+
+  // Startup reconciliation + hourly analysis. Runs in the background and never
+  // blocks the UI; work done before the last shutdown is analysed now.
+  intelligenceScheduler.start();
 });
 
 app.on('window-all-closed', () => {

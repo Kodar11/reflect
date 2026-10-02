@@ -35,6 +35,9 @@ export class CategorizationService {
     private readonly categorizationRepo: CategorizationRepository,
     private readonly focusRepo: IFocusRepository,
     private readonly eventRepo: IEventRepository,
+    /** Told which events the user manually classified, so the intelligence
+     * layer never overwrites that correction. */
+    private readonly userEditGuard?: { lockActivitiesForEvents(eventIds: number[]): void },
   ) {}
 
   /**
@@ -77,6 +80,12 @@ export class CategorizationService {
         const cls = results.get(s.id);
         if (cls) {
           s.classification = cls;
+        }
+        // USER OVERRIDE > AI > deterministic. An AI-derived activity carries
+        // its own interpretation; only a manual override outranks it.
+        if (s.ai && cls?.source !== 'user_override') {
+          const aiCls = this.engine.classifyFromAi(s.ai, contexts, dimensions);
+          if (aiCls) s.classification = aiCls;
         }
       }
     } catch (e) {
@@ -125,6 +134,13 @@ export class CategorizationService {
       ruleId,
     };
     this.categorizationRepo.saveOverride(override);
+
+    try {
+      this.userEditGuard?.lockActivitiesForEvents(eventIds);
+    } catch (e) {
+      // Non-critical: the override itself is saved and always wins on read.
+      console.error('[CategorizationService] could not lock AI activities', e);
+    }
 
     return { overrideId, ruleId };
   }
@@ -370,6 +386,8 @@ export class CategorizationService {
       areaId: classification.areaId,
       intentId: classification.intentId,
       qualityId: classification.qualityId,
+      // "Remember for future" is the explicit way a user creates a rule.
+      source: 'user',
     };
     this.activityRuleRepo.saveRule(rule);
 

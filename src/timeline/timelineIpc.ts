@@ -53,6 +53,15 @@ export interface VerifiedSessionDto {
   } | null;
   activityRuleId?: string | null;
   classification?: ClassificationDto | null;
+  /** Present when the block is an AI-derived activity. */
+  ai?: {
+    activityId: string;
+    title: string;
+    summary: string | null;
+    confidence: number;
+    uncertainty: string[];
+    userLocked: boolean;
+  } | null;
 }
 
 export function registerTimelineIpc(
@@ -140,7 +149,7 @@ function toDto(s: VerifiedSession, activities: Activity[]): VerifiedSessionDto {
     duration: s.duration,
     activeDuration: s.activeDuration,
     eventCount: s.eventCount,
-    title: s.customTitle ?? s.primaryTitle ?? '',
+    title: s.customTitle ?? s.ai?.title ?? s.primaryTitle ?? '',
     isCustomTitle: !!s.customTitle,
     primaryApp: s.primaryApp ?? null,
     primaryBrowser: s.primaryBrowser ?? null,
@@ -176,6 +185,14 @@ function toDto(s: VerifiedSession, activities: Activity[]): VerifiedSessionDto {
       matchedRuleId: s.classification.matchedRuleId,
       matchedConditions: s.classification.matchedConditions,
       isOverride: s.classification.isOverride,
+    } : null,
+    ai: s.ai ? {
+      activityId: s.ai.activityId,
+      title: s.ai.title,
+      summary: s.ai.summary,
+      confidence: s.ai.confidence,
+      uncertainty: s.ai.uncertainty,
+      userLocked: s.ai.userLocked,
     } : null,
   };
 }
