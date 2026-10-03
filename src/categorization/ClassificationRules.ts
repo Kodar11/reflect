@@ -1,4 +1,4 @@
-import type { CategorizationRule, RuleCondition, SessionLike } from './Classification.js';
+import type { CategorizationRule, RuleCondition, RuleSource, SessionLike } from './Classification.js';
 
 /**
  * Pure rule matching and specificity scoring.
@@ -31,7 +31,7 @@ const APP_ALIASES: Record<string, string> = {
  * - Maps known aliases to a canonical form
  * - Lowercases for case-insensitive comparison
  */
-function normalizeAppName(app: string): string {
+export function normalizeAppName(app: string): string {
   let normalized = app.trim();
   if (normalized.toLowerCase().endsWith('.exe')) {
     normalized = normalized.slice(0, -4);
@@ -119,7 +119,7 @@ function matchSingleCondition(s: SessionLike, c: RuleCondition): boolean {
   }
 }
 
-function getDomain(rawUrl: string): string {
+export function getDomain(rawUrl: string): string {
   try {
     let host = rawUrl.trim();
     if (!/^https?:\/\//i.test(host)) host = 'https://' + host;
@@ -140,12 +140,26 @@ export function specificity(rule: CategorizationRule): number {
 }
 
 /**
+ * Explicit user intent is stronger than AI-derived learning, which is stronger
+ * than a seeded default. Lower = wins.
+ */
+const SOURCE_RANK: Record<RuleSource, number> = { user: 0, learned: 1, system: 2 };
+
+export function sourceRank(rule: CategorizationRule): number {
+  return SOURCE_RANK[rule.source ?? 'user'] ?? SOURCE_RANK.user;
+}
+
+/**
  * Deterministic comparison for rule ordering.
+ * 0. source (user → learned → system)
  * 1. priority DESC (explicit user-set priority)
  * 2. specificity DESC (more conditions = more specific = wins)
  * 3. id ASC (stable creation-order tiebreak, never random)
  */
 export function compareRules(a: CategorizationRule, b: CategorizationRule): number {
+  const rankA = sourceRank(a);
+  const rankB = sourceRank(b);
+  if (rankA !== rankB) return rankA - rankB;
   if (a.priority !== b.priority) return b.priority - a.priority;
   const specA = specificity(a);
   const specB = specificity(b);

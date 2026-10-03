@@ -26,6 +26,7 @@
     "../focus/**/*.ts",
     "../profile/**/*.ts",
     "../intelligence/**/*.ts",
+    "../learning/**/*.ts",
     "../database/EditRepository.ts"
   ],
   "exclude": ["**/*.test.ts"]

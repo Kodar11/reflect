@@ -157,6 +157,90 @@ interface IntelligenceStatusDto {
   }[];
 }
 
+type RuleSourceDto = 'system' | 'user' | 'learned';
+
+/** A tracking rule as the renderer sees it. One rules table; `source` is provenance. */
+interface TrackingRuleDto {
+  id: string;
+  /** Context id; '' when the rule sets no Context. */
+  activityId: string;
+  conditions: string;
+  enabled: number;
+  priority: number;
+  areaId: string | null;
+  intentId: string | null;
+  qualityId: string | null;
+  source: RuleSourceDto;
+  /** Present on learned rules only. */
+  learned?: {
+    candidateId: string | null;
+    confirmedAt: string | null;
+    userModifiedAt: string | null;
+    correctionCount: number;
+    matchCount: number;
+    distinctDayCount: number;
+    firstSeenAt: string | null;
+    lastSeenAt: string | null;
+  } | null;
+}
+
+interface RuleConditionDto {
+  type: string;
+  value: string;
+}
+
+interface ClassificationIdsDto {
+  contextId: string | null;
+  areaId: string | null;
+  intentId: string | null;
+  qualityId: string | null;
+}
+
+/** A learned-pattern suggestion, fully described by the main process. */
+interface LearnedRuleSuggestionDto {
+  candidateId: string;
+  trigger: 'contextual' | 'daily' | 'list';
+  conditions: RuleConditionDto[];
+  patternLabel: string;
+  classification: ClassificationIdsDto;
+  classificationLabel: string;
+  evidenceLabel: string;
+  occurrenceCount: number;
+  distinctDayCount: number;
+  correctionCount: number;
+  firstSeenAt: string | null;
+  lastSeenAt: string | null;
+}
+
+/** A pattern Reflect is considering. Not a rule until the user confirms it. */
+interface LearnedRuleCandidateDto {
+  id: string;
+  patternHash: string;
+  classificationHash: string;
+  conditions: RuleConditionDto[];
+  classification: ClassificationIdsDto;
+  occurrenceCount: number;
+  distinctDayCount: number;
+  correctionCount: number;
+  conflictCount: number;
+  firstSeenAt: string | null;
+  lastSeenAt: string | null;
+  lastCorrectionAt: string | null;
+  lastSuggestedAt: string | null;
+  suggestionCount: number;
+  status: 'pending' | 'snoozed' | 'confirmed' | 'dismissed';
+  snoozedUntil: string | null;
+  confirmedRuleId: string | null;
+  createdAt: string;
+  updatedAt: string;
+  patternLabel: string;
+  classificationLabel: string;
+  consistent: boolean;
+  coveredByRule: boolean;
+  eligible: boolean;
+  blockedBy: string[];
+}
+
 interface TimelineStatus {
   activeEdits: number;
 }
@@ -282,7 +366,7 @@ interface Window {
     listActivities: () => Promise<any[]>;
     saveActivity: (p: { id: string; name: string; color: string }) => Promise<{ ok: boolean }>;
     deleteActivity: (p: { id: string }) => Promise<{ ok: boolean }>;
-    listRules: () => Promise<any[]>;
+    listRules: () => Promise<TrackingRuleDto[]>;
     saveRule: (p: { id: string; activityId: string; conditions: string; enabled: number; priority: number; areaId?: string | null; intentId?: string | null; qualityId?: string | null }) => Promise<{ ok: boolean }>;
     deleteRule: (p: { id: string }) => Promise<{ ok: boolean }>;
   };
@@ -293,6 +377,22 @@ interface Window {
     analyzeWindow: (p: { from: string; to: string; force?: boolean }) => Promise<IntelligenceAnalysisResultDto>;
     processBacklog: () => Promise<IntelligenceBacklogResultDto>;
     status: () => Promise<IntelligenceStatusDto>;
+  };
+  /** Learned patterns: candidates, suggestions and the user's decisions. */
+  learnedRules: {
+    listCandidates: () => Promise<LearnedRuleCandidateDto[]>;
+    getCandidate: (candidateId: string) => Promise<LearnedRuleCandidateDto | null>;
+    /** Every currently eligible candidate (does not mark anything as shown). */
+    listSuggestions: () => Promise<LearnedRuleSuggestionDto[]>;
+    /** The one suggestion to surface now, or null. Marks it as shown. */
+    nextSuggestion: () => Promise<LearnedRuleSuggestionDto | null>;
+    /** "Remember" → creates a tracking rule with source 'learned'. */
+    confirmCandidate: (candidateId: string) => Promise<{ ok: boolean; ruleId: string; created: boolean }>;
+    /** "Not now". */
+    snoozeCandidate: (candidateId: string) => Promise<{ ok: boolean }>;
+    /** "Never suggest this". */
+    dismissCandidate: (candidateId: string) => Promise<{ ok: boolean }>;
+    reactivateCandidate: (candidateId: string) => Promise<{ ok: boolean }>;
   };
   settings: {
     exportTimeline: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;

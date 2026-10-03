@@ -18,6 +18,19 @@ import type {
 import { ClassificationEngine } from './ClassificationEngine.js';
 import { randomUUID } from 'node:crypto';
 
+export interface ClassificationCorrection {
+  eventIds: number[];
+  contextId: string | null;
+  areaId: string | null;
+  intentId: string | null;
+  qualityId: string | null;
+}
+
+export interface CorrectionObserver {
+  /** Must not throw and must not block: learning is best-effort. */
+  onCorrection(correction: ClassificationCorrection): void;
+}
+
 /**
  * `CategorizationService` is the impure seam between persisted state and the
  * pure classification engine. It fetches rules, overrides, dimensions, and
@@ -38,6 +51,9 @@ export class CategorizationService {
     /** Told which events the user manually classified, so the intelligence
      * layer never overwrites that correction. */
     private readonly userEditGuard?: { lockActivitiesForEvents(eventIds: number[]): void },
+    /** Told about manual corrections that did NOT become an explicit rule, so
+     * the learning layer can look for a reusable pattern behind them. */
+    private readonly correctionObserver?: CorrectionObserver,
   ) {}
 
   /**
@@ -49,6 +65,7 @@ export class CategorizationService {
 
     try {
       const rules = this.buildRules();
+      const explicitRuleIds = new Set(rules.filter((r) => r.source !== 'system').map((r) => r.id));
       const overrides = this.categorizationRepo.listOverrides();
       const contexts = this.buildContexts();
       const dimensions = this.categorizationRepo.listDimensions();
@@ -81,9 +98,13 @@ export class CategorizationService {
         if (cls) {
           s.classification = cls;
         }
-        // USER OVERRIDE > AI > deterministic. An AI-derived activity carries
-        // its own interpretation; only a manual override outranks it.
-        if (s.ai && cls?.source !== 'user_override') {
+        // USER OVERRIDE > USER RULE > LEARNED RULE > AI > system default.
+        // An AI-derived activity carries its own interpretation; it yields
+        // only to knowledge the user stated or confirmed themselves.
+        const userKnowledge =
+          cls?.source === 'user_override' ||
+          (cls?.source === 'user_rule' && cls.matchedRuleId !== null && explicitRuleIds.has(cls.matchedRuleId));
+        if (s.ai && !userKnowledge) {
           const aiCls = this.engine.classifyFromAi(s.ai, contexts, dimensions);
           if (aiCls) s.classification = aiCls;
         }
@@ -141,6 +162,9 @@ export class CategorizationService {
       // Non-critical: the override itself is saved and always wins on read.
       console.error('[CategorizationService] could not lock AI activities', e);
     }
+
+    // No explicit rule was created → the correction becomes learning evidence.
+    if (ruleId === null) this.notifyCorrection({ eventIds, ...classification });
 
     return { overrideId, ruleId };
   }
@@ -282,6 +306,16 @@ export class CategorizationService {
       source,
       ruleId,
     });
+
+    if (source === 'user_override') {
+      this.notifyCorrection({
+        eventIds: [classification.eventId],
+        contextId: classification.contextId,
+        areaId: classification.areaId,
+        intentId: classification.intentId,
+        qualityId: classification.qualityId,
+      });
+    }
   }
 
   deleteEventClassification(eventId: number): void {
@@ -289,6 +323,15 @@ export class CategorizationService {
   }
 
   // ── internals ──────────────────────────────────────────────────────────────
+
+  private notifyCorrection(correction: ClassificationCorrection): void {
+    try {
+      this.correctionObserver?.onCorrection(correction);
+    } catch (e) {
+      // Non-critical: the correction itself is already saved.
+      console.error('[CategorizationService] correction observer failed', e);
+    }
+  }
 
   private buildRules(): CategorizationRule[] {
     const rules = this.activityRuleRepo.listRules().filter((r) => r.enabled === 1);
@@ -301,6 +344,7 @@ export class CategorizationService {
       }
       return {
         id: r.id,
+        source: r.source ?? 'user',
         conditions,
         contextId: r.activityId || null,
         areaId: r.areaId,

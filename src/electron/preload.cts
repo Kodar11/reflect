@@ -72,6 +72,19 @@ electron.contextBridge.exposeInMainWorld('intelligence', {
   status: () => electron.ipcRenderer.invoke('intelligence:status'),
 } satisfies Window['intelligence']);
 
+// Learned patterns IPC surface. The main process decides what is eligible;
+// the renderer only shows a suggestion and reports the user's answer.
+electron.contextBridge.exposeInMainWorld('learnedRules', {
+  listCandidates: () => electron.ipcRenderer.invoke('learnedRules:listCandidates'),
+  getCandidate: (candidateId: string) => electron.ipcRenderer.invoke('learnedRules:getCandidate', { candidateId }),
+  listSuggestions: () => electron.ipcRenderer.invoke('learnedRules:listSuggestions'),
+  nextSuggestion: () => electron.ipcRenderer.invoke('learnedRules:nextSuggestion'),
+  confirmCandidate: (candidateId: string) => electron.ipcRenderer.invoke('learnedRules:confirmCandidate', { candidateId }),
+  snoozeCandidate: (candidateId: string) => electron.ipcRenderer.invoke('learnedRules:snoozeCandidate', { candidateId }),
+  dismissCandidate: (candidateId: string) => electron.ipcRenderer.invoke('learnedRules:dismissCandidate', { candidateId }),
+  reactivateCandidate: (candidateId: string) => electron.ipcRenderer.invoke('learnedRules:reactivateCandidate', { candidateId }),
+} satisfies Window['learnedRules']);
+
 electron.contextBridge.exposeInMainWorld('settings', {
   exportTimeline: (format: 'csv' | 'json') =>
     electron.ipcRenderer.invoke('export:timeline', { format }),

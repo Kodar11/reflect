@@ -43,6 +43,10 @@ import { IntelligenceService } from '../intelligence/IntelligenceService.js';
 import { IntelligenceScheduler } from '../intelligence/IntelligenceScheduler.js';
 import { IntelligenceTimelineSource } from '../intelligence/IntelligenceTimelineSource.js';
 import { registerIntelligenceIpc } from '../intelligence/intelligenceIpc.js';
+import { LearnedRuleCandidateRepository } from '../database/LearnedRuleCandidateRepository.js';
+import { LearnedRuleService } from '../learning/LearnedRuleService.js';
+import { registerLearnedRulesIpc } from '../learning/learnedRulesIpc.js';
+import { toLearningActivities } from '../learning/LearningTimeline.js';
 import type { ActivitySample } from '../models/Event.js';
 import {
   getActiveBrowserDomain,
@@ -243,7 +247,12 @@ app.whenReady().then(async () => {
   // the fallback) and user edits can protect them from later AI runs.
   const intelligenceRepo = new IntelligenceRepository(database);
   const aiTimelineSource = new IntelligenceTimelineSource(intelligenceRepo);
-  const categorizationService = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, repo, aiTimelineSource);
+  // Corrections that do not become an explicit rule are handed to the
+  // learning layer, which is constructed further down (it needs the timeline).
+  let learnedRuleService: LearnedRuleService | null = null;
+  const categorizationService = new CategorizationService(activityRuleRepo, categorizationRepo, focusRepo, repo, aiTimelineSource, {
+    onCorrection: (correction) => learnedRuleService?.onCorrection(correction),
+  });
   const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo, categorizationService, aiTimelineSource);
   const timelineIpc = registerTimelineIpc(timelineService, activityRuleRepo, ipcMainHandle, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
@@ -269,21 +278,48 @@ app.whenReady().then(async () => {
   registerUserProfileIpc(userProfileRepo, ipcMainHandle);
   logger.info('[APP] User profile ready.');
 
+  const geminiClient = new GeminiClient();
+  const userContextProvider = new UserProfileContextProvider(userProfileRepo);
+
+  // --- Construct the learning layer (learned patterns) ---
+  // Gemini generalises a correction into rule conditions once; everything
+  // after that — counting, eligibility, suggestions — is local. A candidate
+  // only becomes a tracking rule when the user confirms it.
+  learnedRuleService = new LearnedRuleService({
+    repo: new LearnedRuleCandidateRepository(database),
+    gemini: geminiClient,
+    events: repo,
+    activityRules: activityRuleRepo,
+    categorization: categorizationRepo,
+    intelligence: intelligenceRepo,
+    userContext: userContextProvider,
+    getActivities: (from, to) => toLearningActivities(timelineService.getByRange(from, to)),
+    onRulesChanged: () => timelineIpc.notifyTimelineChanged(),
+    logger: intelligenceLogger,
+  });
+  registerLearnedRulesIpc(learnedRuleService, ipcMainHandle);
+  logger.info('[APP] Learned-pattern service ready.');
+
   const intelligenceService = new IntelligenceService({
     events: repo,
     repo: intelligenceRepo,
-    gemini: new GeminiClient(),
+    gemini: geminiClient,
     activityRules: activityRuleRepo,
     categorization: categorizationRepo,
     focus: focusRepo,
-    userContext: new UserProfileContextProvider(userProfileRepo),
+    userContext: userContextProvider,
     getUserEditedEventIds: (from, to) => timelineService.getUserEditedEventIds(from, to),
     logger: intelligenceLogger,
   });
-  registerIntelligenceIpc(intelligenceService, ipcMainHandle, () => timelineIpc.notifyTimelineChanged());
+  // New AI activities are matched against candidates locally — no Gemini call.
+  const onAnalyzed = () => {
+    learnedRuleService?.trackOccurrences();
+    timelineIpc.notifyTimelineChanged();
+  };
+  registerIntelligenceIpc(intelligenceService, ipcMainHandle, onAnalyzed);
   intelligenceScheduler = new IntelligenceScheduler(intelligenceService, {
     logger: intelligenceLogger,
-    onAnalyzed: () => timelineIpc.notifyTimelineChanged(),
+    onAnalyzed,
   });
   logger.info(
     `[APP] Intelligence service ready (Gemini ${intelligenceService.isConfigured() ? 'configured' : 'not configured — GEMINI_API_KEY missing'}).`,

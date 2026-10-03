@@ -48,6 +48,19 @@ export interface RuleDto {
   areaId: string | null;
   intentId: string | null;
   qualityId: string | null;
+  /** Provenance of the rule. One rules list; this is only a label. */
+  source?: 'system' | 'user' | 'learned';
+  /** Present on learned rules only. */
+  learned?: {
+    candidateId: string | null;
+    confirmedAt: string | null;
+    userModifiedAt: string | null;
+    correctionCount: number;
+    matchCount: number;
+    distinctDayCount: number;
+    firstSeenAt: string | null;
+    lastSeenAt: string | null;
+  } | null;
 }
 
 export interface RuleConditionDto {

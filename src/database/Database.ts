@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 11) return;
+    if (version >= 12) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -872,6 +872,145 @@ export class Database {
       `);
 
       this.db.pragma('user_version = 11');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v11 → v12
+    //
+    // Learned patterns.
+    //
+    // 1. tracking_rules is rebuilt once into its final shape. There is still
+    //    ONE rules table; `source` ('system' | 'user' | 'learned') records
+    //    provenance. A learned rule keeps a pointer to the candidate it came
+    //    from; evidence counters stay on the candidate.
+    //    activity_id becomes nullable so a rule may classify without a Context.
+    //
+    // 2. learned_rule_candidates holds patterns Reflect is CONSIDERING. A
+    //    candidate only becomes a tracking_rules row after the user confirms.
+    //
+    // 3. learned_rule_occurrences is the idempotency ledger behind a
+    //    candidate's counters: one row per matching activity.
+    //
+    // Existing rule rows are carried over. Foreign keys are switched off for
+    // the rebuild so dropping the old table does not cascade into
+    // event_classifications.rule_id.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 12) {
+      this.db.pragma('foreign_keys = OFF');
+      try {
+        this.db.transaction(() => {
+          this.db.exec(`
+            DROP TABLE IF EXISTS tracking_rules_v12;
+
+            CREATE TABLE tracking_rules_v12 (
+              id          TEXT PRIMARY KEY,
+              activity_id TEXT,
+              conditions  TEXT NOT NULL,
+              enabled     INTEGER NOT NULL DEFAULT 1,
+              priority    INTEGER NOT NULL DEFAULT 0,
+              area_id     TEXT,
+              intent_id   TEXT,
+              quality_id  TEXT,
+              source      TEXT NOT NULL DEFAULT 'user'
+                CHECK (source IN ('system', 'user', 'learned')),
+              learned_from_candidate_id TEXT,
+              learned_confirmed_at      DATETIME,
+              user_modified_at          DATETIME,
+              created_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
+              updated_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+              FOREIGN KEY (activity_id)
+                REFERENCES activities (id)
+                ON DELETE CASCADE
+            );
+
+            INSERT INTO tracking_rules_v12
+              (id, activity_id, conditions, enabled, priority, area_id, intent_id, quality_id, source)
+            SELECT
+              id,
+              CASE WHEN activity_id IN (SELECT id FROM activities) THEN activity_id ELSE NULL END,
+              conditions,
+              enabled,
+              priority,
+              area_id,
+              intent_id,
+              quality_id,
+              CASE WHEN source IN ('system', 'user', 'learned') THEN source ELSE 'user' END
+            FROM tracking_rules;
+
+            DROP TABLE tracking_rules;
+            ALTER TABLE tracking_rules_v12 RENAME TO tracking_rules;
+
+            CREATE INDEX IF NOT EXISTS idx_tracking_rules_source
+              ON tracking_rules (source);
+
+            CREATE TABLE IF NOT EXISTS learned_rule_candidates (
+              id                  TEXT PRIMARY KEY,
+              pattern_hash        TEXT NOT NULL,
+              classification_hash TEXT NOT NULL,
+              conditions_json     TEXT NOT NULL,
+              classification_json TEXT NOT NULL,
+
+              occurrence_count    INTEGER NOT NULL DEFAULT 0,
+              distinct_day_count  INTEGER NOT NULL DEFAULT 0,
+              correction_count    INTEGER NOT NULL DEFAULT 0,
+              conflict_count      INTEGER NOT NULL DEFAULT 0,
+
+              first_seen_at       DATETIME,
+              last_seen_at        DATETIME,
+              last_correction_at  DATETIME,
+
+              last_suggested_at   DATETIME,
+              suggestion_count    INTEGER NOT NULL DEFAULT 0,
+
+              status              TEXT NOT NULL DEFAULT 'pending'
+                CHECK (status IN ('pending', 'snoozed', 'confirmed', 'dismissed')),
+              snoozed_until       DATETIME,
+
+              confirmed_rule_id   TEXT,
+
+              created_at          DATETIME NOT NULL,
+              updated_at          DATETIME NOT NULL,
+
+              FOREIGN KEY (confirmed_rule_id)
+                REFERENCES tracking_rules (id)
+                ON DELETE SET NULL
+            );
+
+            -- Identity = pattern + intended classification, so conflicting
+            -- classifications of one pattern never merge into one candidate.
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_learned_candidates_identity
+              ON learned_rule_candidates (pattern_hash, classification_hash);
+
+            CREATE INDEX IF NOT EXISTS idx_learned_candidates_status
+              ON learned_rule_candidates (status);
+
+            CREATE TABLE IF NOT EXISTS learned_rule_occurrences (
+              candidate_id    TEXT NOT NULL,
+              occurrence_key  TEXT NOT NULL,
+              anchor_event_id INTEGER,
+              local_day       TEXT NOT NULL,
+              occurred_at     DATETIME NOT NULL,
+              is_correction   INTEGER NOT NULL DEFAULT 0,
+              is_conflict     INTEGER NOT NULL DEFAULT 0,
+
+              PRIMARY KEY (candidate_id, occurrence_key),
+
+              FOREIGN KEY (candidate_id)
+                REFERENCES learned_rule_candidates (id)
+                ON DELETE CASCADE
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_learned_occurrences_anchor
+              ON learned_rule_occurrences (candidate_id, anchor_event_id);
+          `);
+
+          this.db.pragma('user_version = 12');
+        })();
+      } finally {
+        this.db.pragma('foreign_keys = ON');
+      }
     }
   }
 }

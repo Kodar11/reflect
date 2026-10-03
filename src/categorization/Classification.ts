@@ -48,9 +48,15 @@ export interface RuleCondition {
   value: string;
 }
 
+/** Rule provenance. Mirrors `tracking_rules.source`. */
+export type RuleSource = 'system' | 'user' | 'learned';
+
 /** A categorization rule: conditions → classification dimensions. */
 export interface CategorizationRule {
   id: string;
+  /** Provenance; absent is treated as 'user'. Explicit user rules outrank
+   * learned rules, which outrank system defaults. */
+  source?: RuleSource;
   conditions: RuleCondition[];
   contextId: string | null;
   areaId: string | null;

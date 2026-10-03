@@ -508,11 +508,12 @@ export class IntelligenceService {
     };
   }
 
-  /** Only rules the user explicitly created — never seeded/system defaults. */
+  /** Only rules the user explicitly created or confirmed (learned) — never
+   * seeded/system defaults. */
   private buildUserRules(): UserRuleInput[] {
     const rules: UserRuleInput[] = [];
     for (const rule of this.deps.activityRules.listRules()) {
-      if (rule.enabled !== 1 || rule.source !== 'user') continue;
+      if (rule.enabled !== 1 || (rule.source !== 'user' && rule.source !== 'learned')) continue;
       let conditions: RuleCondition[];
       try {
         conditions = JSON.parse(rule.conditions) as RuleCondition[];

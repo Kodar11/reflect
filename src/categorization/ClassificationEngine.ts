@@ -24,7 +24,8 @@ import { classifyEventByDefault } from './DefaultClassificationRules.js';
  *
  * Precedence (highest to lowest):
  *   1. USER OVERRIDE  — durable per-session correction keyed by event ids
- *   2. USER RULE      — declarative rules, ordered by priority → specificity → id
+ *   2. RULE           — declarative rules, ordered by source (user → learned →
+ *                       system) → priority → specificity → id
  *   3. FOCUS CONTEXT  — overlapping focus session provides context only
  *   4. UNCLASSIFIED   — all dimensions null
  */
@@ -218,7 +219,7 @@ export class ClassificationEngine {
       intent: resolveDimension(rule.intentId, dimensions, 'intent'),
       quality: resolveDimension(rule.qualityId, dimensions, 'quality'),
       source: 'user_rule',
-      reason: `Rule: ${condSummary} → ${parts}`,
+      reason: `${rule.source === 'learned' ? 'Learned rule' : 'Rule'}: ${condSummary} → ${parts}`,
       matchedRuleId: rule.id,
       matchedConditions: condSummary,
       isOverride: false,

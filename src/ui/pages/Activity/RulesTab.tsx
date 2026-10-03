@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import {
   Search,
   Layers,
@@ -20,6 +20,36 @@ import {
   getDomain,
 } from './activityUtils';
 import { RuleEditor } from './RuleEditor';
+import { LearnedPatternsPanel } from './LearnedPatternsPanel';
+
+const SOURCE_LABELS: Record<NonNullable<RuleDto['source']>, string> = {
+  user: 'User',
+  learned: 'Learned',
+  system: 'System',
+};
+
+function fmtDay(iso: string | null): string | null {
+  if (!iso) return null;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return null;
+  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
+
+/** `Seen 18 times · Based on 3 corrections · Learned Sep 28`. */
+function learnedDetails(rule: RuleDto): string {
+  const l = rule.learned;
+  if (!l) return 'Learned from a pattern you confirmed.';
+  const parts = [
+    `Seen ${l.matchCount === 1 ? 'once' : `${l.matchCount} times`}`,
+    `Based on ${l.correctionCount === 1 ? '1 correction' : `${l.correctionCount} corrections`}`,
+  ];
+  const learnedOn = fmtDay(l.confirmedAt);
+  if (learnedOn) parts.push(`Learned ${learnedOn}`);
+  const lastSeen = fmtDay(l.lastSeenAt);
+  if (lastSeen) parts.push(`Last seen ${lastSeen}`);
+  if (l.userModifiedAt) parts.push('Edited by you');
+  return parts.join(' · ');
+}
 
 interface RulesTabProps {
   activities: ActivityDto[];
@@ -51,6 +81,7 @@ export function RulesTab({
     undefined,
   );
   const [editRule, setEditRule] = useState<RuleEditorState | null>(null);
+  const [expandedRuleId, setExpandedRuleId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!editingRuleId || activities.length === 0) return;
@@ -218,9 +249,17 @@ export function RulesTab({
       id: rule.id,
     });
 
-    await window.timeline.deleteActivity({
-      id: rule.activityId,
-    });
+    // A Context can be shared (learned and remembered rules point at existing
+    // ones); only remove it when this was the last rule using it.
+    const contextShared = rules.some(
+      (r) => r.id !== rule.id && r.activityId === rule.activityId,
+    );
+
+    if (rule.activityId && rule.source !== 'learned' && !contextShared) {
+      await window.timeline.deleteActivity({
+        id: rule.activityId,
+      });
+    }
 
     await onRefresh();
   };
@@ -270,7 +309,8 @@ export function RulesTab({
     openEditor(
       {
         id: rule.id,
-        activityId: rule.activityId,
+        // A rule without a Context gets a fresh one when it is edited.
+        activityId: rule.activityId || `act_${Date.now()}`,
         name: act?.name ?? '',
         color: act?.color ?? 'blue',
         conditions: conds,
@@ -311,6 +351,8 @@ export function RulesTab({
           + Create Rule
         </button>
       </div>
+
+      <LearnedPatternsPanel onRulesChanged={onRefresh} />
 
       <div className="card flex-1 min-h-0 overflow-hidden flex flex-col rounded-xl border border-default">
         <div className="card-section border-b border-default bg-secondary py-2 px-4">
@@ -366,6 +408,15 @@ export function RulesTab({
                     color: 'var(--text-muted)',
                   }}
                 >
+                  Source
+                </th>
+
+                <th
+                  className="text-left px-4 py-2"
+                  style={{
+                    color: 'var(--text-muted)',
+                  }}
+                >
                   Color
                 </th>
 
@@ -393,7 +444,7 @@ export function RulesTab({
               {filteredRules.length === 0 && (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="px-4 py-16 text-center text-muted"
                   >
                     <div className="flex flex-col items-center justify-center gap-1">
@@ -424,13 +475,17 @@ export function RulesTab({
                     (c) => c.name === act?.color,
                   ) ?? CURATED_COLORS[0];
 
+                const source = rule.source ?? 'user';
+                const isLearned = source === 'learned';
+                const expanded = expandedRuleId === rule.id;
+
                 return (
+                  <Fragment key={rule.id}>
                   <tr
-                    key={rule.id}
                     className="border-b border-default hover:bg-hover transition-colors"
                   >
                     <td className="px-4 py-2 font-bold text-default">
-                      {act?.name ?? rule.activityId}
+                      {act?.name ?? (rule.activityId || '—')}
                     </td>
 
                     <td className="px-4 py-2 text-muted font-semibold break-all">
@@ -439,6 +494,34 @@ export function RulesTab({
 
                     <td className="px-4 py-2 text-muted text-[11.5px]">
                       {classifySummary(rule, dimensions)}
+                    </td>
+
+                    <td className="px-4 py-2">
+                      <button
+                        type="button"
+                        disabled={!isLearned}
+                        onClick={() =>
+                          setExpandedRuleId(expanded ? null : rule.id)
+                        }
+                        title={
+                          isLearned
+                            ? 'Show how this rule was learned'
+                            : undefined
+                        }
+                        className="text-[10.5px] font-bold rounded-full px-2 py-0.5"
+                        style={{
+                          border: '1px solid var(--border)',
+                          background: isLearned
+                            ? 'var(--accent-soft)'
+                            : 'transparent',
+                          color: isLearned
+                            ? 'var(--accent)'
+                            : 'var(--text-muted)',
+                          cursor: isLearned ? 'pointer' : 'default',
+                        }}
+                      >
+                        {SOURCE_LABELS[source]}
+                      </button>
                     </td>
 
                     <td className="px-4 py-2">
@@ -523,6 +606,18 @@ export function RulesTab({
                       </div>
                     </td>
                   </tr>
+
+                  {isLearned && expanded && (
+                    <tr className="border-b border-default bg-secondary">
+                      <td
+                        colSpan={7}
+                        className="px-4 py-2 text-[11.5px] text-muted"
+                      >
+                        {learnedDetails(rule)}
+                      </td>
+                    </tr>
+                  )}
+                  </Fragment>
                 );
               })}
             </tbody>

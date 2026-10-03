@@ -13,6 +13,7 @@ import { FocusWidget } from './Focus/FocusWidget';
 import { FocusSummaryModal } from './Focus/FocusSummaryModal';
 import { OnboardingFlow } from './Onboarding/OnboardingFlow';
 import { PersonalContextCard } from './Onboarding/PersonalContextCard';
+import { LearnedPatternToast } from './components/LearnedPatternToast';
 import { shouldShowOnboarding, type UserProfile } from '../profile/UserProfile';
 
 type OnboardingGate =
@@ -190,6 +191,8 @@ function App() {
           onStop={focus.stop}
         />
       )}
+
+      {onboarding.phase === 'hidden' && <LearnedPatternToast />}
 
       {focus.summary && (
         <FocusSummaryModal

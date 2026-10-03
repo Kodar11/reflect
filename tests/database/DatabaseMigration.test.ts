@@ -236,7 +236,7 @@ migrationSuite('Database migration', () => {
     expect(tableHasColumn(raw, 'event_classifications', 'rule_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'created_at')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'updated_at')).toBe(true);
-    expect(raw.pragma('user_version', { simple: true })).toBe(11);
+    expect(raw.pragma('user_version', { simple: true })).toBe(12);
     raw.close();
 
     const repo = new CategorizationRepository(db);
@@ -247,7 +247,7 @@ migrationSuite('Database migration', () => {
     db.close();
   });
 
-  it('existing v5 database migrates to v11 with anchor_event_id and event_classifications', () => {
+  it('existing v5 database migrates to v12 with anchor_event_id and event_classifications', () => {
     dbPath = tmpDbPath();
     createV5Database(dbPath);
 
@@ -260,7 +260,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(11);
+    expect(after.pragma('user_version', { simple: true })).toBe(12);
     expect(tableHasColumn(after, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
     after.close();
@@ -316,13 +316,13 @@ migrationSuite('Database migration', () => {
     db2.close();
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(11);
+    expect(raw.pragma('user_version', { simple: true })).toBe(12);
     expect(tableHasColumn(raw, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'event_id')).toBe(true);
     raw.close();
   });
 
-  it('existing v8 database migrates to v11 and creates event_classifications without touching overrides', () => {
+  it('existing v8 database migrates to v12 and creates event_classifications without touching overrides', () => {
     dbPath = tmpDbPath();
     createV8Database(dbPath);
 
@@ -338,7 +338,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(11);
+    expect(after.pragma('user_version', { simple: true })).toBe(12);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
 
     const overrideRow = after.prepare('SELECT * FROM categorization_overrides WHERE id = ?').get('ov_v8') as {
@@ -360,7 +360,7 @@ migrationSuite('Database migration', () => {
     db.close();
   });
 
-  it('existing database migrates to v11: rules gain a source, intelligence tables appear, data is kept', () => {
+  it('existing database migrates to v12: rules gain a source, intelligence tables appear, data is kept', () => {
     dbPath = tmpDbPath();
     createV8Database(dbPath);
 
@@ -380,7 +380,7 @@ migrationSuite('Database migration', () => {
     new Database(dbPath).close(); // idempotent
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(11);
+    expect(after.pragma('user_version', { simple: true })).toBe(12);
     const rules = after.prepare('SELECT id, source FROM tracking_rules ORDER BY id').all();
     expect(rules).toEqual([
       { id: 'rule_1700000000000', source: 'user' },
@@ -454,7 +454,7 @@ migrationSuite('Database migration', () => {
     raw.close();
   }
 
-  it('existing v10 database with intelligence data migrates to v11 and gains user_profile', () => {
+  it('existing v10 database with intelligence data migrates to v12 and gains user_profile', () => {
     dbPath = tmpDbPath();
     createV10Database(dbPath);
 
@@ -466,7 +466,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(11);
+    expect(after.pragma('user_version', { simple: true })).toBe(12);
     const tables = schemaNames(after, 'table');
     for (const t of INTELLIGENCE_TABLES) expect(tables).toContain(t);
     expect(schemaNames(after, 'index')).toEqual(expect.arrayContaining(INTELLIGENCE_INDEXES));
@@ -493,12 +493,12 @@ migrationSuite('Database migration', () => {
     reopened.close();
   });
 
-  it('fresh database creates both intelligence and onboarding tables at v11', () => {
+  it('fresh database creates both intelligence and onboarding tables at v12', () => {
     dbPath = tmpDbPath();
     const db = new Database(dbPath);
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(11);
+    expect(raw.pragma('user_version', { simple: true })).toBe(12);
     const tables = schemaNames(raw, 'table');
     for (const t of [...INTELLIGENCE_TABLES, 'user_profile']) expect(tables).toContain(t);
     expect(schemaNames(raw, 'index')).toEqual(expect.arrayContaining(INTELLIGENCE_INDEXES));
