@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 12) return;
+    if (version >= 13) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -1011,6 +1011,153 @@ export class Database {
       } finally {
         this.db.pragma('foreign_keys = ON');
       }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v12 → v13
+    //
+    // Reflection & insights.
+    //
+    // 1. reflection_reports / reflection_insights / reflection_feedback hold
+    //    generated reflections as STRUCTURED data (observation, interpretation,
+    //    evidence, sources) plus the metric snapshot each one was written
+    //    from — never raw event payloads. A regenerated report supersedes the
+    //    earlier row instead of overwriting it; at most one report per period
+    //    is current ('fresh' or 'stale').
+    //
+    // 2. reflection_priorities normalizes the free-form onboarding priorities
+    //    into intervals, so behaviour is only compared against what the user
+    //    said mattered AT THE TIME. user_profile is untouched.
+    //
+    // 3. reflection_activity_annotations caches, per activity signature, the
+    //    work thread it belongs to and the stated priority it serves.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 13) {
+      this.db.transaction(() => {
+        this.db.exec(`
+          CREATE TABLE IF NOT EXISTS reflection_reports (
+            id                    TEXT PRIMARY KEY,
+            period_type           TEXT NOT NULL
+              CHECK (period_type IN ('day', 'week', 'month', 'year')),
+            period_key            TEXT NOT NULL,
+            period_start          DATETIME NOT NULL,
+            period_end            DATETIME NOT NULL,
+            covered_until         DATETIME,
+
+            status                TEXT NOT NULL
+              CHECK (status IN ('generating', 'fresh', 'stale', 'failed', 'superseded', 'insufficient_data')),
+            trigger_source        TEXT NOT NULL DEFAULT 'scheduled',
+
+            headline              TEXT,
+            carry_forward_json    TEXT,
+
+            input_schema_version  INTEGER NOT NULL,
+            output_schema_version INTEGER NOT NULL,
+            prompt_version        TEXT NOT NULL,
+            model                 TEXT NOT NULL,
+            attempt_count         INTEGER NOT NULL DEFAULT 0,
+
+            data_snapshot_json    TEXT,
+            metrics_snapshot_json TEXT,
+
+            error                 TEXT,
+            error_category        TEXT,
+            stale_reason          TEXT,
+            stale_at              DATETIME,
+            -- Set when underlying data changed; the report is re-checked
+            -- against the timeline the next time it is opened.
+            needs_verification    INTEGER NOT NULL DEFAULT 0,
+
+            generated_at          DATETIME,
+            created_at            DATETIME NOT NULL,
+            updated_at            DATETIME NOT NULL
+          );
+
+          -- At most one current report per period.
+          CREATE UNIQUE INDEX IF NOT EXISTS idx_reflection_reports_current
+            ON reflection_reports (period_type, period_key)
+            WHERE status IN ('fresh', 'stale');
+
+          CREATE INDEX IF NOT EXISTS idx_reflection_reports_period
+            ON reflection_reports (period_type, period_key, created_at);
+
+          CREATE INDEX IF NOT EXISTS idx_reflection_reports_status
+            ON reflection_reports (status);
+
+          CREATE TABLE IF NOT EXISTS reflection_insights (
+            id                       TEXT PRIMARY KEY,
+            report_id                TEXT NOT NULL,
+            position                 INTEGER NOT NULL,
+            type                     TEXT NOT NULL,
+
+            title                    TEXT NOT NULL,
+            observation              TEXT NOT NULL,
+            interpretation           TEXT NOT NULL,
+            relevance                TEXT,
+            suggested_action         TEXT,
+
+            evidence_json            TEXT NOT NULL DEFAULT '[]',
+            source_activity_ids_json TEXT NOT NULL DEFAULT '[]',
+            source_metric_keys_json  TEXT NOT NULL DEFAULT '[]',
+            claim_signature          TEXT NOT NULL,
+
+            confidence               REAL NOT NULL,
+
+            created_at               DATETIME NOT NULL,
+            updated_at               DATETIME NOT NULL,
+
+            FOREIGN KEY (report_id)
+              REFERENCES reflection_reports (id)
+              ON DELETE CASCADE
+          );
+
+          CREATE INDEX IF NOT EXISTS idx_reflection_insights_report
+            ON reflection_insights (report_id, position);
+
+          CREATE INDEX IF NOT EXISTS idx_reflection_insights_type
+            ON reflection_insights (type);
+
+          CREATE TABLE IF NOT EXISTS reflection_feedback (
+            id            TEXT PRIMARY KEY,
+            insight_id    TEXT NOT NULL UNIQUE,
+            feedback_type TEXT NOT NULL
+              CHECK (feedback_type IN ('useful', 'not_useful', 'inaccurate')),
+            created_at    DATETIME NOT NULL,
+
+            FOREIGN KEY (insight_id)
+              REFERENCES reflection_insights (id)
+              ON DELETE CASCADE
+          );
+
+          CREATE TABLE IF NOT EXISTS reflection_priorities (
+            id                TEXT PRIMARY KEY,
+            text              TEXT NOT NULL,
+            normalized_key    TEXT NOT NULL,
+            status            TEXT NOT NULL DEFAULT 'active'
+              CHECK (status IN ('active', 'completed', 'paused', 'archived')),
+            active_from       DATETIME NOT NULL,
+            active_until      DATETIME,
+            last_confirmed_at DATETIME NOT NULL,
+            created_at        DATETIME NOT NULL,
+            updated_at        DATETIME NOT NULL
+          );
+
+          CREATE INDEX IF NOT EXISTS idx_reflection_priorities_key
+            ON reflection_priorities (normalized_key);
+
+          CREATE TABLE IF NOT EXISTS reflection_activity_annotations (
+            signature                 TEXT PRIMARY KEY,
+            thread_label              TEXT,
+            priority_id               TEXT,
+            checked_priority_ids_json TEXT NOT NULL DEFAULT '[]',
+            created_at                DATETIME NOT NULL,
+            updated_at                DATETIME NOT NULL
+          );
+        `);
+
+        this.db.pragma('user_version = 13');
+      })();
     }
   }
 }

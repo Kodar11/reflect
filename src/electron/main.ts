@@ -47,6 +47,17 @@ import { LearnedRuleCandidateRepository } from '../database/LearnedRuleCandidate
 import { LearnedRuleService } from '../learning/LearnedRuleService.js';
 import { registerLearnedRulesIpc } from '../learning/learnedRulesIpc.js';
 import { toLearningActivities } from '../learning/LearningTimeline.js';
+import { describeClassification, describePattern } from '../learning/LearnedPattern.js';
+import { ReflectionRepository } from '../database/ReflectionRepository.js';
+import { toReflectionActivities } from '../reflection/ReflectionActivities.js';
+import { ReflectionAnnotator } from '../reflection/ReflectionAnnotator.js';
+import { PROFILE_CHANGE_CHANNELS, TIMELINE_CHANGE_CHANNELS, affectedRange } from '../reflection/ReflectionChanges.js';
+import { ReflectionMetricsService } from '../reflection/ReflectionMetricsService.js';
+import { DEFAULT_REFLECTION_CONFIG, type TaxonomyNames } from '../reflection/ReflectionModels.js';
+import { ReflectionScheduler } from '../reflection/ReflectionScheduler.js';
+import { ReflectionService } from '../reflection/ReflectionService.js';
+import { registerReflectionIpc } from '../reflection/reflectionIpc.js';
+import type { RuleCondition } from '../categorization/Classification.js';
 import type { ActivitySample } from '../models/Event.js';
 import {
   getActiveBrowserDomain,
@@ -61,6 +72,7 @@ let database: Database | null = null;
 let trackingService: TrackingService | null = null;
 let focusService: FocusService | null = null;
 let intelligenceScheduler: IntelligenceScheduler | null = null;
+let reflectionScheduler: ReflectionScheduler | null = null;
 let quitting = false;
 
 // Prototype secret loading: in development, read GEMINI_API_KEY (and friends)
@@ -168,6 +180,7 @@ async function quitApp(logger: Logger) {
     logger.error(`[APP] tracking stop error: ${(e as Error)?.message ?? e}`);
   }
   intelligenceScheduler?.stop();
+  reflectionScheduler?.stop();
   try {
     focusService?.destroy();
   } catch (e) {
@@ -228,6 +241,28 @@ app.whenReady().then(async () => {
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
 
+  // Reflections are written from the verified timeline and the user profile.
+  // Handlers registered through this wrapper tell the reflection layer (built
+  // further down) when a mutation may have changed what a past reflection was
+  // based on, so it can be re-checked — never silently rewritten.
+  let reflectionService: ReflectionService | null = null;
+  const timelineChangeChannels = new Set(TIMELINE_CHANGE_CHANNELS);
+  const profileChangeChannels = new Set(PROFILE_CHANGE_CHANNELS);
+  const ipcHandleTracked: typeof ipcMainHandle = (key, handler) =>
+    ipcMainHandle(key, async (payload) => {
+      const result = await handler(payload);
+      try {
+        if (timelineChangeChannels.has(key)) {
+          reflectionService?.notifyDataChanged({ kind: 'timeline', range: affectedRange(key, payload, repo) });
+        } else if (profileChangeChannels.has(key)) {
+          reflectionService?.notifyDataChanged({ kind: 'profile' });
+        }
+      } catch (e) {
+        logger.error(`[REFLECTION] change notification failed: ${(e as Error)?.message ?? e}`);
+      }
+      return result;
+    });
+
   // --- Construct the session layer (read-side transform over raw events) ---
   // Sessions are derived on demand from the same raw repo; never persisted.
   const sessionService = new SessionService(repo);
@@ -254,10 +289,10 @@ app.whenReady().then(async () => {
     onCorrection: (correction) => learnedRuleService?.onCorrection(correction),
   });
   const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo, categorizationService, aiTimelineSource);
-  const timelineIpc = registerTimelineIpc(timelineService, activityRuleRepo, ipcMainHandle, () =>
+  const timelineIpc = registerTimelineIpc(timelineService, activityRuleRepo, ipcHandleTracked, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
-  registerCategorizationIpc(categorizationService, ipcMainHandle, () =>
+  registerCategorizationIpc(categorizationService, ipcHandleTracked, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
   );
   logger.info('[APP] Timeline + categorization services ready.');
@@ -275,7 +310,7 @@ app.whenReady().then(async () => {
   // Kept separate from events. The same repository backs the renderer IPC and
   // the intelligence context, so a profile edit reaches the next analysis.
   const userProfileRepo = new UserProfileRepository(database);
-  registerUserProfileIpc(userProfileRepo, ipcMainHandle);
+  registerUserProfileIpc(userProfileRepo, ipcHandleTracked);
   logger.info('[APP] User profile ready.');
 
   const geminiClient = new GeminiClient();
@@ -297,7 +332,7 @@ app.whenReady().then(async () => {
     onRulesChanged: () => timelineIpc.notifyTimelineChanged(),
     logger: intelligenceLogger,
   });
-  registerLearnedRulesIpc(learnedRuleService, ipcMainHandle);
+  registerLearnedRulesIpc(learnedRuleService, ipcHandleTracked);
   logger.info('[APP] Learned-pattern service ready.');
 
   const intelligenceService = new IntelligenceService({
@@ -311,15 +346,97 @@ app.whenReady().then(async () => {
     getUserEditedEventIds: (from, to) => timelineService.getUserEditedEventIds(from, to),
     logger: intelligenceLogger,
   });
+  // --- Construct the reflection layer ---
+  // The meaning layer on top of the verified timeline: deterministic metrics
+  // + the user's own priorities + personal baselines → Gemini → validated,
+  // persisted reflections. An enhancement only: if Gemini is unavailable the
+  // Reflection tab still shows deterministic numbers and earlier reports.
+  const reflectionRepo = new ReflectionRepository(database);
+  const reflectionTaxonomy = (): TaxonomyNames => {
+    const names = (dimension: 'area' | 'intent' | 'quality') =>
+      Object.fromEntries(categorizationRepo.listDimensionsByType(dimension).map((d) => [d.id, d.name]));
+    return {
+      contexts: Object.fromEntries(activityRuleRepo.listActivities().map((a) => [a.id, a.name])),
+      areas: names('area'),
+      intents: names('intent'),
+      qualities: names('quality'),
+    };
+  };
+  const reflectionMetrics = new ReflectionMetricsService(
+    {
+      // Reflection sees exactly what the Timeline shows: AI activities where
+      // they exist, deterministic sessions elsewhere, user edits applied.
+      getActivities: (from, to) => toReflectionActivities(timelineService.getByRange(from, to), { start: from, end: to }),
+      focus: focusRepo,
+      taxonomy: reflectionTaxonomy,
+      firstEventAt: () => repo.getFirstEventStart(),
+    },
+    reflectionRepo,
+    { config: DEFAULT_REFLECTION_CONFIG },
+  );
+  // Confirmed learned rules are classification knowledge the model may use as
+  // context. Reflection never creates them.
+  const learnedPatternLabels = (): string[] => {
+    const taxonomy = reflectionTaxonomy();
+    const labels: string[] = [];
+    for (const rule of activityRuleRepo.listRules()) {
+      if (rule.source !== 'learned' || rule.enabled !== 1) continue;
+      try {
+        const pattern = describePattern(JSON.parse(rule.conditions) as RuleCondition[]);
+        const classification = describeClassification({
+          context: rule.activityId ? taxonomy.contexts[rule.activityId] ?? null : null,
+          area: rule.areaId ? taxonomy.areas[rule.areaId] ?? null : null,
+          intent: rule.intentId ? taxonomy.intents[rule.intentId] ?? null : null,
+          quality: rule.qualityId ? taxonomy.qualities[rule.qualityId] ?? null : null,
+        });
+        if (pattern && classification) labels.push(`${pattern} is usually ${classification}`);
+      } catch {
+        // Malformed rule conditions — not worth mentioning to the model.
+      }
+      if (labels.length >= 10) break;
+    }
+    return labels;
+  };
+  reflectionService = new ReflectionService({
+    repo: reflectionRepo,
+    gemini: geminiClient,
+    metrics: reflectionMetrics,
+    annotator: new ReflectionAnnotator({ gemini: geminiClient, repo: reflectionRepo, logger: intelligenceLogger }),
+    userContext: userContextProvider,
+    profiles: userProfileRepo,
+    taxonomy: reflectionTaxonomy,
+    learnedPatterns: learnedPatternLabels,
+    logger: intelligenceLogger,
+  });
+  const reflectionIpc = registerReflectionIpc(reflectionService, ipcMainHandle, () =>
+    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
+  );
+  // No timer of its own: a cycle runs right behind every intelligence cycle,
+  // so the AI activities of the hour that just ended always exist first.
+  reflectionScheduler = new ReflectionScheduler(reflectionService, {
+    logger: intelligenceLogger,
+    onGenerated: () => reflectionIpc.notifyReflectionChanged(),
+  });
+  logger.info('[APP] Reflection service ready.');
+
   // New AI activities are matched against candidates locally — no Gemini call.
   const onAnalyzed = () => {
     learnedRuleService?.trackOccurrences();
     timelineIpc.notifyTimelineChanged();
+    // The analysed windows lie within the backlog lookback (48h).
+    const now = Date.now();
+    reflectionService?.notifyDataChanged({
+      kind: 'timeline',
+      range: { start: new Date(now - 48 * 60 * 60 * 1000).toISOString(), end: new Date(now).toISOString() },
+    });
   };
   registerIntelligenceIpc(intelligenceService, ipcMainHandle, onAnalyzed);
   intelligenceScheduler = new IntelligenceScheduler(intelligenceService, {
     logger: intelligenceLogger,
     onAnalyzed,
+    onCycleComplete: () => {
+      void reflectionScheduler?.runCycle();
+    },
   });
   logger.info(
     `[APP] Intelligence service ready (Gemini ${intelligenceService.isConfigured() ? 'configured' : 'not configured — GEMINI_API_KEY missing'}).`,
@@ -393,7 +510,10 @@ app.whenReady().then(async () => {
   logger.info('[APP] Tracking started.');
 
   // Startup reconciliation + hourly analysis. Runs in the background and never
-  // blocks the UI; work done before the last shutdown is analysed now.
+  // blocks the UI; work done before the last shutdown is analysed now. Each
+  // cycle is followed by a reflection cycle (missing closed periods, then the
+  // evening reflection).
+  reflectionScheduler.start();
   intelligenceScheduler.start();
 });
 

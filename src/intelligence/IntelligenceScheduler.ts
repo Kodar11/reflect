@@ -26,6 +26,9 @@ export interface IntelligenceSchedulerOptions {
   timers?: SchedulerTimers;
   /** Called after a cycle that persisted at least one new analysis. */
   onAnalyzed?: () => void;
+  /** Called after every cycle, whatever its outcome — lets work that depends
+   * on fresh AI activities (the reflection layer) run right behind it. */
+  onCycleComplete?: (result: BacklogResult) => void;
 }
 
 export class IntelligenceScheduler {
@@ -33,6 +36,7 @@ export class IntelligenceScheduler {
   private readonly now: () => Date;
   private readonly timers: SchedulerTimers;
   private readonly onAnalyzed?: () => void;
+  private readonly onCycleComplete?: (result: BacklogResult) => void;
   private handle: unknown = null;
   private started = false;
   private cycle: Promise<BacklogResult> | null = null;
@@ -52,6 +56,7 @@ export class IntelligenceScheduler {
       clearTimeout: (h) => clearTimeout(h as ReturnType<typeof setTimeout>),
     };
     this.onAnalyzed = options.onAnalyzed;
+    this.onCycleComplete = options.onCycleComplete;
   }
 
   /** Non-blocking: startup reconciliation runs in the background. */
@@ -87,6 +92,14 @@ export class IntelligenceScheduler {
       .catch((err): BacklogResult => {
         this.log?.error(`[INTELLIGENCE] Scheduler cycle error: ${err instanceof Error ? err.message : String(err)}`);
         return { status: 'stopped', reason: 'internal', windowsConsidered: 0, results: [] };
+      })
+      .then((result) => {
+        try {
+          this.onCycleComplete?.(result);
+        } catch {
+          // A follow-up hook must never affect scheduling.
+        }
+        return result;
       })
       .finally(() => {
         this.cycle = null;

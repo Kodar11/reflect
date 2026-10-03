@@ -118,6 +118,12 @@ export class EventRepository implements IEventRepository {
   getAll(limit = 1000): Event[] {
     return (this.allStmt.all({ limit }) as unknown[] as EventRow[]).map(rowToEvent);
   }
+
+  /** When tracking began: the earliest event start, or null with no events. */
+  getFirstEventStart(): string | null {
+    const row = this.db.prepare(`SELECT MIN(started_at) AS first FROM events`).get() as { first: string | null };
+    return row.first ?? null;
+  }
 }
 
 function rowToEvent(r: EventRow): Event {

@@ -85,6 +85,32 @@ electron.contextBridge.exposeInMainWorld('learnedRules', {
   reactivateCandidate: (candidateId: string) => electron.ipcRenderer.invoke('learnedRules:reactivateCandidate', { candidateId }),
 } satisfies Window['learnedRules']);
 
+// Reflection IPC surface. The main process owns reflection state; the
+// renderer reads a period's view, may request a refresh and reports feedback.
+const reflectionListeners = new Set<() => void>();
+let reflectionSubscribed = false;
+
+electron.contextBridge.exposeInMainWorld('reflection', {
+  getReport: (period: ReflectionPeriodRequestDto) => electron.ipcRenderer.invoke('reflection:getReport', period),
+  getAvailablePeriods: () => electron.ipcRenderer.invoke('reflection:getAvailablePeriods'),
+  generate: (period: ReflectionPeriodRequestDto) => electron.ipcRenderer.invoke('reflection:generate', period),
+  submitFeedback: (insightId: string, feedback: ReflectionFeedbackDto | null) =>
+    electron.ipcRenderer.invoke('reflection:submitFeedback', { insightId, feedback }),
+  getPriorities: () => electron.ipcRenderer.invoke('reflection:getPriorities'),
+  setPriorityStatus: (id: string, status: ReflectionPriorityDto['status']) =>
+    electron.ipcRenderer.invoke('reflection:setPriorityStatus', { id, status }),
+  onChanged: (callback: () => void) => {
+    if (!reflectionSubscribed) {
+      reflectionSubscribed = true;
+      electron.ipcRenderer.on('reflection:changed', () => reflectionListeners.forEach((cb) => cb()));
+    }
+    reflectionListeners.add(callback);
+  },
+  offChanged: (callback: () => void) => {
+    reflectionListeners.delete(callback);
+  },
+} satisfies Window['reflection']);
+
 electron.contextBridge.exposeInMainWorld('settings', {
   exportTimeline: (format: 'csv' | 'json') =>
     electron.ipcRenderer.invoke('export:timeline', { format }),

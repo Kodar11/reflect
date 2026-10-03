@@ -52,6 +52,16 @@ export interface TimelinePageProps {
   onCreateRuleFromSession?: (session: VerifiedSessionDto) => void;
   onNavigateToFocus?: (sessionId: string) => void;
   focus: UseFocusResult;
+  /**
+   * Open the timeline at a specific day / view and optionally select one
+   * block — used by Reflection's evidence links. Applied once per `nonce`.
+   */
+  navigationTarget?: {
+    day: string;
+    view: 'day' | 'week' | 'month' | 'year';
+    activityId: string | null;
+    nonce: number;
+  } | null;
 }
 
 export function TimelinePage({
@@ -59,6 +69,7 @@ export function TimelinePage({
   onCreateRuleFromSession,
   onNavigateToFocus,
   focus,
+  navigationTarget,
 }: TimelinePageProps) {
   const [day, setDay] = useState<Date>(() => startOfDay(new Date()));
   const [view, setView] = useState<TimelineView>('day');
@@ -121,6 +132,26 @@ export function TimelinePage({
   const selectedSessionRef = useRef<VerifiedSessionDto | null>(null);
 
   const { timelinePct, onDrag } = useResizeSplit();
+
+  /**
+   * Deep link from Reflection: jump to the evidence's day and select the
+   * activity. The selection is resolved by the normal refresh once that day's
+   * sessions have loaded.
+   */
+  const navigationNonce = navigationTarget?.nonce ?? null;
+  useEffect(() => {
+    if (!navigationTarget) return;
+    const target = new Date(navigationTarget.day);
+    if (Number.isNaN(target.getTime())) return;
+    setDay(startOfDay(target));
+    setView(navigationTarget.view);
+    if (navigationTarget.activityId) {
+      selectedAnchorRef.current = null;
+      selectedSessionRef.current = null;
+      setSelectedId(navigationTarget.activityId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigationNonce]);
 
   const isToday = day.toDateString() === new Date().toDateString();
   const readOnly =

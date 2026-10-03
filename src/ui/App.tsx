@@ -14,6 +14,8 @@ import { FocusSummaryModal } from './Focus/FocusSummaryModal';
 import { OnboardingFlow } from './Onboarding/OnboardingFlow';
 import { PersonalContextCard } from './Onboarding/PersonalContextCard';
 import { LearnedPatternToast } from './components/LearnedPatternToast';
+import { ReflectionPage } from './Reflection/ReflectionPage';
+import type { TimelineTarget } from './Reflection/reflectionView';
 import { shouldShowOnboarding, type UserProfile } from '../profile/UserProfile';
 
 type OnboardingGate =
@@ -36,6 +38,9 @@ function App() {
   const [focusInitialTab, setFocusInitialTab] = useState<Parameters<typeof FocusPage>[0]['initialTab']>('focus');
   const [focusHistorySessionId, setFocusHistorySessionId] = useState<string | null>(null);
   const [onboarding, setOnboarding] = useState<OnboardingGate>({ phase: 'loading' });
+  // Set when an evidence link in Reflection opens the Timeline at a specific
+  // day / activity; cleared on ordinary navigation.
+  const [timelineTarget, setTimelineTarget] = useState<(TimelineTarget & { nonce: number }) | null>(null);
 
   // First-run onboarding: shown only while it hasn't been finished or skipped.
   // Any failure falls through to the normal app — onboarding never blocks it.
@@ -56,6 +61,7 @@ function App() {
     sessions: 'Productivity Coach — Sessions',
     activity: 'Productivity Coach — Activity',
     focus: 'Productivity Coach — Focus',
+    reflection: 'Productivity Coach — Reflection',
     settings: 'Productivity Coach — Settings',
   };
 
@@ -100,6 +106,7 @@ function App() {
 
   const handleNavigate = (r: Route) => {
     setRoute(r);
+    setTimelineTarget(null);
     if (r !== 'focus') {
       setFocusInitialTab('focus');
       setFocusHistorySessionId(null);
@@ -136,6 +143,7 @@ function App() {
             {route === 'timeline' ? (
               <TimelinePage
                 focus={focus}
+                navigationTarget={timelineTarget}
                 onNavigateToFocus={navigateToFocusHistory}
                 onNavigateToRule={(ruleId) => {
                   setRoute('activity');
@@ -167,6 +175,13 @@ function App() {
                 initialTab={focusInitialTab}
                 initialHistorySessionId={focusHistorySessionId}
                 onViewInTimeline={() => setRoute('timeline')}
+              />
+            ) : route === 'reflection' ? (
+              <ReflectionPage
+                onViewTimeline={(target) => {
+                  setTimelineTarget({ ...target, nonce: Date.now() });
+                  setRoute('timeline');
+                }}
               />
             ) : route === 'settings' ? (
               <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">

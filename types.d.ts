@@ -341,7 +341,147 @@ interface UserProfileDto extends UserProfileInputDto {
   updatedAt: string | null;
 }
 
+// ── Reflection ───────────────────────────────────────────────────────────────
+
+type ReflectionPeriodTypeDto = 'day' | 'week' | 'month' | 'year';
+type ReflectionFeedbackDto = 'useful' | 'not_useful' | 'inaccurate';
+
+type ReflectionInsightTypeDto =
+  | 'progress'
+  | 'priority_alignment'
+  | 'time_attention_pattern'
+  | 'fragmentation'
+  | 'consistency_momentum'
+  | 'recurring_behavior'
+  | 'change_over_time'
+  | 'open_loop'
+  | 'unexpected';
+
+interface ReflectionPeriodRequestDto {
+  type: ReflectionPeriodTypeDto;
+  /** Any ISO instant inside the period; omitted = the current period. */
+  anchor?: string | null;
+}
+
+interface ReflectionPeriodDto {
+  type: ReflectionPeriodTypeDto;
+  /** `2026-10-03`, `2026-W40`, `2026-10`, `2026`. */
+  key: string;
+  start: string;
+  end: string;
+}
+
+/** One piece of evidence behind an insight, traceable to the Timeline. */
+interface ReflectionEvidenceDto {
+  kind: 'metric' | 'activity' | 'comparison' | 'priority';
+  metricKey?: string;
+  activityId?: string;
+  priorityId?: string;
+  label: string;
+  value?: number | string;
+  period?: { start: string; end: string };
+}
+
+interface ReflectionMetricDto {
+  key: string;
+  label: string;
+  display: string;
+}
+
+interface ReflectionInsightDto {
+  id: string;
+  type: ReflectionInsightTypeDto;
+  title: string;
+  observation: string;
+  interpretation: string;
+  relevance: string | null;
+  evidence: ReflectionEvidenceDto[];
+  feedback: ReflectionFeedbackDto | null;
+}
+
+interface ReflectionReportDto {
+  id: string;
+  status: 'fresh' | 'stale';
+  headline: string;
+  insights: ReflectionInsightDto[];
+  carryForward: { text: string; evidence: ReflectionEvidenceDto[] } | null;
+  generatedAt: string | null;
+  coveredUntil: string | null;
+  isPartial: boolean;
+  staleReason: string | null;
+  supportingMetrics: ReflectionMetricDto[];
+  notes: string[];
+}
+
+interface ReflectionPriorityDto {
+  id: string;
+  text: string;
+  status: 'active' | 'completed' | 'paused' | 'archived';
+  activeFrom: string;
+  lastConfirmedAt: string;
+  possiblyStale: boolean;
+}
+
+type ReflectionRefreshBlockedDto =
+  | 'not_configured'
+  | 'generating'
+  | 'future_period'
+  | 'up_to_date'
+  | 'cooldown'
+  | 'insufficient_data';
+
+/** Everything the Reflection page shows for one period. */
+interface ReflectionViewDto {
+  period: ReflectionPeriodDto & {
+    title: string;
+    range: string;
+    isCurrent: boolean;
+    isClosed: boolean;
+    hasPrevious: boolean;
+    hasNext: boolean;
+  };
+  /** Whether Gemini is available to write reflections. */
+  configured: boolean;
+  report: ReflectionReportDto | null;
+  generation: {
+    state: 'idle' | 'generating' | 'failed' | 'insufficient_data';
+    errorCategory: string | null;
+    message: string | null;
+    at: string | null;
+  };
+  /** Deterministic numbers for a running period, or one without a report. */
+  live: { asOf: string; metrics: ReflectionMetricDto[] } | null;
+  sufficiency: { enough: boolean; message: string | null };
+  canRefresh: boolean;
+  refreshBlockedReason: ReflectionRefreshBlockedDto | null;
+  refreshAvailableAt: string | null;
+  priorities: ReflectionPriorityDto[];
+}
+
+type ReflectionGenerateResultDto =
+  | { status: 'succeeded'; reportId: string; period: ReflectionPeriodDto; attempts: number; insightCount: number }
+  | {
+      status: 'skipped';
+      reason: 'insufficient_data' | 'throttled' | 'up_to_date' | 'future_period' | 'no_data';
+      period: ReflectionPeriodDto;
+    }
+  | { status: 'failed'; category: string; error: string; reportId: string | null; period: ReflectionPeriodDto; attempts: number };
+
 interface Window {
+  /** Reflections: persisted, evidence-backed readings of a day / week / month / year. */
+  reflection: {
+    /** The period's view. Never triggers a Gemini call. */
+    getReport: (period: ReflectionPeriodRequestDto) => Promise<ReflectionViewDto>;
+    getAvailablePeriods: () => Promise<{ periods: ReflectionPeriodDto[]; hasHistory: boolean }>;
+    /** Manual "Refresh reflection" (throttled in the main process). */
+    generate: (period: ReflectionPeriodRequestDto) => Promise<ReflectionGenerateResultDto>;
+    /** `null` clears the feedback. */
+    submitFeedback: (insightId: string, feedback: ReflectionFeedbackDto | null) => Promise<{ ok: boolean }>;
+    getPriorities: () => Promise<ReflectionPriorityDto[]>;
+    setPriorityStatus: (id: string, status: ReflectionPriorityDto['status']) => Promise<ReflectionPriorityDto[]>;
+    onChanged: (callback: () => void) => void;
+    offChanged: (callback: () => void) => void;
+  };
   app: {
     sendFrameAction: (payload: FrameWindowAction) => void;
   };
