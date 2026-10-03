@@ -137,6 +137,10 @@ interface IntelligenceStatusDto {
   model: string;
   promptVersion: string;
   schemaVersion: number;
+  /** Sanitized: whether user context is sent, never its contents. */
+  hasUserContext: boolean;
+  onboardingStatus: 'not_started' | 'in_progress' | 'completed' | 'skipped' | null;
+  userRuleCount: number;
   recentRuns: {
     id: string;
     windowStart: string;

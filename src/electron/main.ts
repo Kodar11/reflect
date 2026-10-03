@@ -38,7 +38,7 @@ import { UserProfileRepository } from '../database/UserProfileRepository.js';
 import { registerUserProfileIpc } from '../profile/userProfileIpc.js';
 import { IntelligenceRepository } from '../database/IntelligenceRepository.js';
 import { GeminiClient } from '../intelligence/GeminiClient.js';
-import { PrototypeUserContextProvider } from '../intelligence/IntelligenceContext.js';
+import { UserProfileContextProvider } from '../intelligence/IntelligenceContext.js';
 import { IntelligenceService } from '../intelligence/IntelligenceService.js';
 import { IntelligenceScheduler } from '../intelligence/IntelligenceScheduler.js';
 import { IntelligenceTimelineSource } from '../intelligence/IntelligenceTimelineSource.js';
@@ -262,6 +262,13 @@ app.whenReady().then(async () => {
     warn: (m: string) => logger.warn(m),
     error: (m: string) => logger.error(m),
   };
+  // --- Construct the user profile layer (onboarding context) ---
+  // Kept separate from events. The same repository backs the renderer IPC and
+  // the intelligence context, so a profile edit reaches the next analysis.
+  const userProfileRepo = new UserProfileRepository(database);
+  registerUserProfileIpc(userProfileRepo, ipcMainHandle);
+  logger.info('[APP] User profile ready.');
+
   const intelligenceService = new IntelligenceService({
     events: repo,
     repo: intelligenceRepo,
@@ -269,7 +276,7 @@ app.whenReady().then(async () => {
     activityRules: activityRuleRepo,
     categorization: categorizationRepo,
     focus: focusRepo,
-    userContext: new PrototypeUserContextProvider(),
+    userContext: new UserProfileContextProvider(userProfileRepo),
     getUserEditedEventIds: (from, to) => timelineService.getUserEditedEventIds(from, to),
     logger: intelligenceLogger,
   });
@@ -286,12 +293,6 @@ app.whenReady().then(async () => {
   const exportService = new ExportService(timelineService, repo, sessionService);
   registerExportIpc(exportService, ipcMainHandle);
   logger.info('[APP] Export service ready.');
-
-  // --- Construct the user profile layer (onboarding context) ---
-  // Kept separate from events; the intelligence layer reads it via the repo.
-  const userProfileRepo = new UserProfileRepository(database);
-  registerUserProfileIpc(userProfileRepo, ipcMainHandle);
-  logger.info('[APP] User profile ready.');
 
   // --- Wire focus IPC (Stage 3.10) ---
   registerFocusIpc(focusService, focusRepo, ipcMainHandle, () =>

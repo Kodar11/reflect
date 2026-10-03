@@ -5,6 +5,15 @@ import type { TrackingRule } from '../../src/database/ActivityRuleRepository';
 import type { FocusSession } from '../../src/focus/FocusModels';
 import type { GeminiJsonRequest, IGeminiClient } from '../../src/intelligence/GeminiClient';
 import { IntelligenceService, type IntelligenceServiceDeps } from '../../src/intelligence/IntelligenceService';
+import { UserProfileContextProvider } from '../../src/intelligence/IntelligenceContext';
+import type { IUserProfileRepository } from '../../src/database/UserProfileRepository';
+import {
+  emptyProfile,
+  normalizeProfileInput,
+  type OnboardingStatus,
+  type UserProfile,
+  type UserProfileInput,
+} from '../../src/profile/UserProfile';
 import { FakeIntelligenceRepository } from './FakeIntelligenceRepository';
 
 /** UTC timestamp on a fixed day: `t('09:20')` → 2026-03-02T09:20:00.000Z. */
@@ -121,8 +130,45 @@ export class ScriptedGemini implements IGeminiClient {
   }
 }
 
+/** In-memory profile store with the real repository's normalization and status semantics. */
+export class FakeUserProfileRepository implements IUserProfileRepository {
+  private stored: UserProfile | null = null;
+  reads = 0;
+
+  getProfile(): UserProfile {
+    this.reads++;
+    return this.stored ? structuredClone(this.stored) : emptyProfile();
+  }
+
+  saveProfile(input: UserProfileInput, status?: OnboardingStatus): UserProfile {
+    this.stored = {
+      ...normalizeProfileInput(input),
+      onboardingStatus: status ?? this.stored?.onboardingStatus ?? 'not_started',
+      createdAt: this.stored?.createdAt ?? t('08:00'),
+      updatedAt: t('08:00'),
+    };
+    return this.getProfile();
+  }
+
+  updateProfile(patch: Partial<UserProfileInput> & { onboardingStatus?: OnboardingStatus }): UserProfile {
+    const { onboardingStatus, ...answers } = patch;
+    const current = this.stored ?? emptyProfile();
+    return this.saveProfile({ ...current, ...answers }, onboardingStatus ?? current.onboardingStatus);
+  }
+
+  getOnboardingStatus(): OnboardingStatus {
+    return this.getProfile().onboardingStatus;
+  }
+
+  clearProfile(): void {
+    this.stored = null;
+  }
+}
+
 export interface Harness {
   service: IntelligenceService;
+  /** Backs the real `UserProfileContextProvider`; empty (not started) by default. */
+  profiles: FakeUserProfileRepository;
   events: InMemoryEvents;
   repo: FakeIntelligenceRepository;
   gemini: ScriptedGemini;
@@ -143,6 +189,7 @@ export function makeHarness(
   const rules: TrackingRule[] = [];
   const focusSessions: FocusSession[] = [];
   const sleeps: number[] = [];
+  const profiles = new FakeUserProfileRepository();
   let now = t('12:00');
 
   const service = new IntelligenceService({
@@ -160,7 +207,7 @@ export function makeHarness(
       getSessionsByRange: vi.fn(() => focusSessions),
       getProfiles: vi.fn(() => [{ id: 'default-deep-work', name: 'Deep Work' }] as any),
     },
-    userContext: { getUserContext: () => ({ role: 'Computer Science student', importantProjects: ['Reflect'] }) },
+    userContext: new UserProfileContextProvider(profiles),
     now: () => new Date(now),
     sleep: async (ms) => {
       sleeps.push(ms);
@@ -168,5 +215,5 @@ export function makeHarness(
     ...extra,
   });
 
-  return { service, events: store, repo, gemini, rules, focusSessions, sleeps, setNow: (iso) => { now = iso; } };
+  return { service, profiles, events: store, repo, gemini, rules, focusSessions, sleeps, setNow: (iso) => { now = iso; } };
 }

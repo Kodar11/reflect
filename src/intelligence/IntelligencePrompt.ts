@@ -1,5 +1,11 @@
-import type { AllowedTaxonomy, AnalysisPromptInput, TaxonomyEntry } from './IntelligenceModels.js';
+import type {
+  AllowedTaxonomy,
+  AnalysisPromptInput,
+  TaxonomyEntry,
+  UserIntelligenceContext,
+} from './IntelligenceModels.js';
 import { INTELLIGENCE_SCHEMA_VERSION } from './IntelligenceModels.js';
+import { formatIntelligenceContext } from '../profile/UserProfile.js';
 
 /**
  * The single home of every prompt string and of the structured-output schema.
@@ -7,7 +13,7 @@ import { INTELLIGENCE_SCHEMA_VERSION } from './IntelligenceModels.js';
  * changes so persisted runs stay attributable to the prompt that produced
  * them.
  */
-export const PROMPT_VERSION = 'reflect-activities-v1';
+export const PROMPT_VERSION = 'reflect-activities-v2';
 
 export function buildSystemInstruction(): string {
   return SYSTEM_INSTRUCTION;
@@ -61,6 +67,12 @@ Quality describes the nature of the observed work pattern, not a moral judgment.
 USER RULE PRIORITY
 USER RULES were explicitly defined by the user and override generic assumptions. Evidence matching a user rule must be interpreted consistently with that rule.
 
+USER CONTEXT
+USER CONTEXT is what the user told Reflect about themselves: who they are, what they are working on, what matters most, what they do outside work or study, and any interpretation notes. Treat it as fact about the user, not as observed activity.
+Use it to interpret ambiguous evidence. What the user calls a hobby or an interest is not work merely because it happens in a work-like tool, and what the user calls coursework or work is not leisure merely because it happens on an entertainment site. Interpretation notes are the user's own exceptions and take precedence over generic assumptions.
+User context never replaces evidence: do not invent activities from it, and explicit USER RULES still take priority.
+When USER CONTEXT is "Not provided", assume nothing about the user and rely on the evidence alone.
+
 TIMELINE QUALITY
 The result is shown as a timeline. Looking at the sequence of activities, the user should understand where the hour actually went.
 Prefer meaningful titles such as "Implement Reflect Gemini integration", "Research React Native architecture", "Study Game Theory" or "Design Reflect timeline UI" over "VS Code", "Chrome" or "Browser activity" — provided the evidence supports the richer description.
@@ -86,7 +98,7 @@ export function buildAnalysisPrompt(input: AnalysisPromptInput): string {
     `ANALYSIS WINDOW\n${JSON.stringify({ windowStart: input.windowStart, windowEnd: input.windowEnd })}\n` +
       'Events are shown clipped to this window; an event may have started before it or continue after it.',
 
-    `USER CONTEXT\n${JSON.stringify(input.userContext)}`,
+    userContextSection(input.userContext),
 
     input.userRules.length > 0
       ? `USER RULES (explicitly created by the user)\n${lines(input.userRules)}`
@@ -109,6 +121,14 @@ export function buildAnalysisPrompt(input: AnalysisPromptInput): string {
     `EVENTS (${input.events.length}, chronological)\n${lines(input.events)}`,
   ];
   return sections.join('\n\n');
+}
+
+/** The user's own onboarding answers, or an explicit statement of absence. */
+function userContextSection(context: UserIntelligenceContext | null): string {
+  const text = context ? formatIntelligenceContext(context) : '';
+  return text
+    ? `USER CONTEXT (provided by the user about themselves)\n${text}`
+    : 'USER CONTEXT\nNot provided.';
 }
 
 /** Appended to the prompt when a previous attempt was rejected locally. */

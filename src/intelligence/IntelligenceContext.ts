@@ -1,27 +1,26 @@
+import type { IUserProfileRepository } from '../database/UserProfileRepository.js';
+import { toIntelligenceContext, type OnboardingStatus } from '../profile/UserProfile.js';
 import type { UserContextProvider, UserIntelligenceContext } from './IntelligenceModels.js';
 
 /**
- * TEMPORARY prototype source of the user's context.
+ * The user's context for the intelligence layer, read from the saved
+ * onboarding profile — the only source of truth. Nothing is cached: the
+ * profile is read on every call, so an edit in Settings is used by the very
+ * next analysis without a restart.
  *
- * Onboarding/Settings do not exist yet, so the context is a static object.
- * Replace this class with a Settings-backed `UserContextProvider` later; the
- * intelligence pipeline only depends on the interface.
- *
- * Edit the values below to describe the actual user. Do not add information
- * the user has not provided — the model treats this block as fact.
+ * Returns `null` (never defaults) unless onboarding was completed and the
+ * user actually provided something.
  */
-const PROTOTYPE_USER_CONTEXT: UserIntelligenceContext = {
-  role: 'Computer Science student',
-  description: 'Builds software projects and studies computer science.',
-  currentWork: ['software development', 'learning'],
-  importantProjects: ['Reflect'],
-  interests: ['game theory', 'volleyball'],
-};
+export class UserProfileContextProvider implements UserContextProvider {
+  constructor(private readonly profiles: Pick<IUserProfileRepository, 'getProfile'>) {}
 
-export class PrototypeUserContextProvider implements UserContextProvider {
-  constructor(private readonly context: UserIntelligenceContext = PROTOTYPE_USER_CONTEXT) {}
+  getUserContext(): UserIntelligenceContext | null {
+    const profile = this.profiles.getProfile();
+    if (profile.onboardingStatus !== 'completed') return null;
+    return toIntelligenceContext(profile);
+  }
 
-  getUserContext(): UserIntelligenceContext {
-    return this.context;
+  getOnboardingStatus(): OnboardingStatus {
+    return this.profiles.getProfile().onboardingStatus;
   }
 }

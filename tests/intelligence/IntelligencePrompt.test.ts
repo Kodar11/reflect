@@ -13,9 +13,12 @@ const input: AnalysisPromptInput = {
   windowStart: t('10:00'),
   windowEnd: t('11:00'),
   userContext: {
-    role: 'Computer Science student',
-    importantProjects: ['Reflect'],
-    interests: ['game theory'],
+    roles: ['Student', 'Developer'],
+    description: 'I build software projects.',
+    currentWork: ['Reflect', 'College'],
+    priorities: ['Graduate', 'Ship Reflect'],
+    interests: ['Gaming'],
+    interpretationNotes: 'My game project is a hobby.',
   },
   userRules: [
     {
@@ -61,9 +64,35 @@ describe('IntelligencePrompt', () => {
   const prompt = buildAnalysisPrompt(input);
 
   it('includes the user context', () => {
-    expect(prompt).toContain('USER CONTEXT');
-    expect(prompt).toContain('Computer Science student');
-    expect(prompt).toContain('"importantProjects":["Reflect"]');
+    expect(prompt).toContain(
+      'USER CONTEXT (provided by the user about themselves)\n' +
+        'Who the user is: Student, Developer\n' +
+        'In their words: I build software projects.\n' +
+        'Currently working on: Reflect, College\n' +
+        'What matters most right now: Graduate, Ship Reflect\n' +
+        'Outside work or study: Gaming\n' +
+        'Interpretation notes: My game project is a hobby.',
+    );
+  });
+
+  it('states that no user context was provided instead of assuming a persona', () => {
+    const none = buildAnalysisPrompt({ ...input, userContext: null });
+    expect(none).toContain('USER CONTEXT\nNot provided.');
+    expect(none).not.toContain('Who the user is');
+    // Rules, focus and evidence are unaffected by the missing context.
+    expect(none).toContain('"id":"rule_gametheory"');
+    expect(none).toContain('Ship Gemini layer');
+    expect(none).toContain('EVENTS (1, chronological)');
+  });
+
+  it('keeps user context and user rules in separate sections', () => {
+    const contextAt = prompt.indexOf('USER CONTEXT');
+    const rulesAt = prompt.indexOf('USER RULES');
+    expect(contextAt).toBeGreaterThan(-1);
+    expect(rulesAt).toBeGreaterThan(contextAt);
+    const contextSection = prompt.slice(contextAt, rulesAt);
+    expect(contextSection).not.toContain('rule_gametheory');
+    expect(prompt.slice(rulesAt)).not.toContain('My game project is a hobby.');
   });
 
   it('includes user rules compactly', () => {
@@ -114,6 +143,7 @@ describe('IntelligencePrompt', () => {
       'AMBIGUITY RULE',
       'CLASSIFICATION RULE',
       'USER RULE PRIORITY',
+      'USER CONTEXT',
       'TIMELINE QUALITY',
       'NO JUDGMENT',
     ]) {

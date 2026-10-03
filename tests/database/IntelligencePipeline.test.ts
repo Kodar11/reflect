@@ -10,7 +10,8 @@ import { CategorizationRepository } from '../../src/database/CategorizationRepos
 import { FocusRepository } from '../../src/database/FocusRepository';
 import { IntelligenceRepository } from '../../src/database/IntelligenceRepository';
 import { CategorizationService } from '../../src/categorization/CategorizationService';
-import { PrototypeUserContextProvider } from '../../src/intelligence/IntelligenceContext';
+import { UserProfileRepository } from '../../src/database/UserProfileRepository';
+import { UserProfileContextProvider } from '../../src/intelligence/IntelligenceContext';
 import { IntelligenceService } from '../../src/intelligence/IntelligenceService';
 import { IntelligenceTimelineSource } from '../../src/intelligence/IntelligenceTimelineSource';
 import { SessionService } from '../../src/session/SessionService';
@@ -47,6 +48,7 @@ function wire(dbPath: string, gemini: ScriptedGemini) {
   const categorizationRepo = new CategorizationRepository(db);
   const focus = new FocusRepository(db);
   const intelligenceRepo = new IntelligenceRepository(db);
+  const profiles = new UserProfileRepository(db);
   const aiSource = new IntelligenceTimelineSource(intelligenceRepo);
   const categorization = new CategorizationService(activityRules, categorizationRepo, focus, events, aiSource);
   const timeline = new TimelineService(new SessionService(events), new EditRepository(db), activityRules, categorization, aiSource);
@@ -57,12 +59,12 @@ function wire(dbPath: string, gemini: ScriptedGemini) {
     activityRules,
     categorization: categorizationRepo,
     focus,
-    userContext: new PrototypeUserContextProvider(),
+    userContext: new UserProfileContextProvider(profiles),
     getUserEditedEventIds: (from, to) => timeline.getUserEditedEventIds(from, to),
     now: () => new Date(iso('12:00')),
     sleep: async () => {},
   });
-  return { db, events, timeline, service, intelligenceRepo, categorization };
+  return { db, events, timeline, service, intelligenceRepo, categorization, profiles, activityRules };
 }
 
 suite('Intelligence pipeline (SQLite, end to end)', () => {
@@ -138,6 +140,78 @@ suite('Intelligence pipeline (SQLite, end to end)', () => {
 
     // Raw facts are byte-for-byte what the tracker stored.
     expect(app.events.getAll()).toEqual(rawBefore);
+    app.db.close();
+  });
+
+  it('sends the saved onboarding profile to Gemini, follows edits, and survives a restart', async () => {
+    dir = fs.mkdtempSync(path.join(os.tmpdir(), 'pc-pipeline-'));
+    const dbPath = path.join(dir, 'test.db');
+    const gemini = new ScriptedGemini();
+    let app = wire(dbPath, gemini);
+
+    const e1 = app.events.insert({ watcher: 'window', startedAt: iso('09:00'), endedAt: iso('09:40'), app: 'Code.exe', title: 'player.ts - GameProject - Visual Studio Code' });
+    const output = () => modelOutput([modelActivity({ eventIds: [e1], startedAt: iso('09:00'), endedAt: iso('09:40') })], [], [iso('09:00'), iso('10:00')]);
+    const analyze = async () => {
+      gemini.push(output());
+      expect((await app.service.analyzeWindow(iso('09:00'), iso('10:00'), { force: true })).status).toBe('succeeded');
+      return gemini.requests[gemini.requests.length - 1].prompt;
+    };
+
+    // No profile row at all: analysis works, no persona is invented.
+    let prompt = await analyze();
+    expect(prompt).toContain('USER CONTEXT\nNot provided.');
+    for (const fictional of ['Computer Science student', 'game theory', 'volleyball']) {
+      expect(prompt).not.toContain(fictional);
+    }
+    expect(app.service.getStatus()).toMatchObject({ hasUserContext: false, onboardingStatus: 'not_started' });
+
+    // Answers saved but onboarding skipped: still no personal context.
+    const answers = {
+      roles: ['Student', 'Developer'],
+      description: 'I build software projects.',
+      currentWork: ['Reflect', 'College'],
+      priorities: ['Graduate', 'Ship Reflect'],
+      interests: ['Gaming'],
+      additionalContext: 'My game project is a hobby.',
+    };
+    app.profiles.saveProfile(answers, 'skipped');
+    prompt = await analyze();
+    expect(prompt).toContain('USER CONTEXT\nNot provided.');
+    expect(prompt).not.toContain('My game project is a hobby.');
+
+    // Completed onboarding + a user rule: both arrive, in their own sections.
+    app.profiles.updateProfile({ onboardingStatus: 'completed' });
+    app.activityRules.saveRule({
+      id: 'rule_game', activityId: 'learning', conditions: '[{"type":"title_contains","value":"GameProject"}]',
+      enabled: 1, priority: 10, areaId: 'area_personal', intentId: null, qualityId: null, source: 'user',
+    });
+    prompt = await analyze();
+    const rulesAt = prompt.indexOf('USER RULES (explicitly created by the user)');
+    const contextSection = prompt.slice(prompt.indexOf('USER CONTEXT'), rulesAt);
+    expect(contextSection).toContain('Who the user is: Student, Developer');
+    expect(contextSection).toContain('In their words: I build software projects.');
+    expect(contextSection).toContain('Currently working on: Reflect, College');
+    expect(contextSection).toContain('What matters most right now: Graduate, Ship Reflect');
+    expect(contextSection).toContain('Outside work or study: Gaming');
+    expect(contextSection).toContain('Interpretation notes: My game project is a hobby.');
+    expect(contextSection).not.toContain('rule_game');
+    expect(prompt.slice(rulesAt)).toContain('"id":"rule_game"');
+    expect(app.service.getStatus()).toMatchObject({ hasUserContext: true, onboardingStatus: 'completed', userRuleCount: 1 });
+
+    // Edit (Settings → Personalization path): next analysis uses the new values.
+    app.profiles.updateProfile({ roles: ['Founder'], additionalContext: 'Some YouTube usage is coursework.' });
+    prompt = await analyze();
+    expect(prompt).toContain('Who the user is: Founder');
+    expect(prompt).toContain('Interpretation notes: Some YouTube usage is coursework.');
+    expect(prompt).not.toContain('Student, Developer');
+    expect(prompt).not.toContain('My game project is a hobby.');
+
+    // Restart: the profile comes from SQLite, not from process memory.
+    app.db.close();
+    app = wire(dbPath, gemini);
+    prompt = await analyze();
+    expect(prompt).toContain('Who the user is: Founder');
+    expect(prompt).toContain('Currently working on: Reflect, College');
     app.db.close();
   });
 });

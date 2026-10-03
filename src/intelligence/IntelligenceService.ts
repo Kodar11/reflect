@@ -6,6 +6,7 @@ import type { CategorizationRepository } from '../database/CategorizationReposit
 import type { IFocusRepository } from '../database/FocusRepository.js';
 import type { RuleCondition } from '../categorization/Classification.js';
 import type { Event } from '../models/Event.js';
+import type { OnboardingStatus } from '../profile/UserProfile.js';
 import { GeminiError, type IGeminiClient } from './GeminiClient.js';
 import {
   INTELLIGENCE_SCHEMA_VERSION,
@@ -103,6 +104,11 @@ export interface IntelligenceStatus {
   model: string;
   promptVersion: string;
   schemaVersion: number;
+  /** Whether the next analysis would send user context. Never the contents. */
+  hasUserContext: boolean;
+  onboardingStatus: OnboardingStatus | null;
+  /** Number of user-created rules the next analysis would send. */
+  userRuleCount: number;
   recentRuns: Omit<IntelligenceRun, 'outputJson'>[];
 }
 
@@ -194,11 +200,24 @@ export class IntelligenceService {
     } catch (err) {
       this.log.error(`[INTELLIGENCE] Could not list runs: ${messageOf(err)}`);
     }
+    let hasUserContext = false;
+    let onboardingStatus: OnboardingStatus | null = null;
+    let userRuleCount = 0;
+    try {
+      hasUserContext = this.deps.userContext.getUserContext() !== null;
+      onboardingStatus = this.deps.userContext.getOnboardingStatus();
+      userRuleCount = this.buildUserRules().length;
+    } catch (err) {
+      this.log.error(`[INTELLIGENCE] Could not read context status: ${messageOf(err)}`);
+    }
     return {
       configured: this.isConfigured(),
       model: this.deps.gemini.model,
       promptVersion: PROMPT_VERSION,
       schemaVersion: INTELLIGENCE_SCHEMA_VERSION,
+      hasUserContext,
+      onboardingStatus,
+      userRuleCount,
       recentRuns,
     };
   }
@@ -262,11 +281,17 @@ export class IntelligenceService {
         new Date(startMs - MAX_CONTINUATION_GAP_MS).toISOString(),
         CONTINUITY_LIMIT,
       );
+      // Read per analysis (never cached) so profile edits apply immediately.
+      const userContext = this.deps.userContext.getUserContext();
+      const userRules = this.buildUserRules();
+      this.log.info(
+        `[INTELLIGENCE] Context: user context ${userContext ? 'present' : 'not provided'}, ${userRules.length} user rule(s).`,
+      );
       const promptInput: AnalysisPromptInput = {
         windowStart,
         windowEnd,
-        userContext: this.deps.userContext.getUserContext(),
-        userRules: this.buildUserRules(),
+        userContext,
+        userRules,
         previousActivities: previous.map(toPreviousInput),
         focus: this.buildFocusContext(startMs, endMs),
         taxonomy,

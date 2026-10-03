@@ -242,7 +242,7 @@ describe('IntelligenceService — analysis + persistence', () => {
     expect(prompt).not.toContain('rule_off');
     expect(prompt).toContain('{"task":"Study mixed strategies","profileName":"Deep Work"');
     expect(prompt).toContain('{"id":"coding","name":"Coding"}');
-    expect(prompt).toContain('Computer Science student');
+    expect(prompt).toContain('USER CONTEXT\nNot provided.'); // no profile → no invented persona
     expect(prompt).not.toContain('31337');
     expect(systemInstruction).toContain('You are Reflect');
   });

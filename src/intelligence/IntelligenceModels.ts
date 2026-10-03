@@ -1,5 +1,6 @@
 import type { WatcherName } from '../models/Event.js';
 import type { RuleCondition } from '../categorization/Classification.js';
+import type { OnboardingStatus, UserIntelligenceContext } from '../profile/UserProfile.js';
 
 /**
  * Intelligence layer — domain types.
@@ -28,18 +29,17 @@ export const INTELLIGENCE_SCHEMA_VERSION = 1;
 
 // ── User context ────────────────────────────────────────────────────────────
 
-export interface UserIntelligenceContext {
-  role: string;
-  description?: string;
-  currentWork?: string[];
-  importantProjects?: string[];
-  interests?: string[];
-  priorities?: string[];
-}
+/** The single representation of user context, derived from the saved profile. */
+export type { UserIntelligenceContext };
 
-/** Seam for the future Settings/Onboarding provider. */
+/**
+ * Seam between the saved onboarding profile and the pipeline. Called once per
+ * analysis, so implementations must reflect the current profile.
+ */
 export interface UserContextProvider {
-  getUserContext(): UserIntelligenceContext;
+  /** `null` when the user has provided no context (skipped / not started / empty). */
+  getUserContext(): UserIntelligenceContext | null;
+  getOnboardingStatus(): OnboardingStatus;
 }
 
 // ── Prompt input blocks ─────────────────────────────────────────────────────
@@ -119,7 +119,8 @@ export interface PreprocessResult {
 export interface AnalysisPromptInput {
   windowStart: string;
   windowEnd: string;
-  userContext: UserIntelligenceContext;
+  /** `null` → the prompt states that no user context was provided. */
+  userContext: UserIntelligenceContext | null;
   userRules: UserRuleInput[];
   previousActivities: PreviousActivityInput[];
   focus: FocusContextInput[];
