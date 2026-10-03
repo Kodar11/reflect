@@ -1,18 +1,40 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode, type RefObject } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type ReactNode, type RefObject } from 'react';
+import {
+  Activity,
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  Briefcase,
+  Check,
+  Clapperboard,
+  Clock,
+  Code,
+  FlaskConical,
+  GraduationCap,
+  Palette,
+  Plus,
+  Rocket,
+  Sparkles,
+  Target,
+  type LucideIcon,
+} from 'lucide-react';
 import {
   PRESET_ROLES,
   PROFILE_LIMITS,
+  hasProfileContent,
   statusAfterEdit,
   statusAfterSkip,
   type OnboardingStatus,
+  type PresetRole,
   type UserProfile,
+  type UserProfileInput,
 } from '../../profile/UserProfile';
 import {
   QUESTION_STEPS,
   TAG_LIMITS,
   draftFromProfile,
   draftToInput,
+  isQuestionStep,
   nextStep,
   previousStep,
   stepNumber,
@@ -20,11 +42,22 @@ import {
   toggleRole,
   type OnboardingDraft,
   type OnboardingStep,
+  type QuestionStep,
   type TagField,
 } from './onboardingDraft';
 import { TagInput } from './TagInput';
 
 const AUTOSAVE_DELAY_MS = 400;
+
+const ROLE_ICONS: Record<PresetRole, LucideIcon> = {
+  Student: GraduationCap,
+  'Software Developer': Code,
+  Designer: Palette,
+  Freelancer: Briefcase,
+  Founder: Rocket,
+  Researcher: FlaskConical,
+  Creator: Clapperboard,
+};
 
 const CONTEXT_EXAMPLES = [
   'My YouTube research is usually for my coursework.',
@@ -33,9 +66,32 @@ const CONTEXT_EXAMPLES = [
   'ChatGPT is mostly for coding when I’m working.',
 ];
 
+const TOUR_POINTS: { Icon: LucideIcon; title: string; body: string }[] = [
+  {
+    Icon: Activity,
+    title: 'It runs quietly in the background',
+    body: 'Reflect notes the app, window title and website you have in front of you. There is nothing to start or stop.',
+  },
+  {
+    Icon: Clock,
+    title: 'Your day becomes a timeline',
+    body: 'Open Timeline to see what you were actually doing. Correct anything that looks wrong — your edits always win.',
+  },
+  {
+    Icon: Target,
+    title: 'Focus when it counts',
+    body: 'Start a Focus session for a task and see afterwards how that time really went.',
+  },
+  {
+    Icon: Sparkles,
+    title: 'Your answers make it personal',
+    body: 'Five short questions tell Reflect who you are, so a hobby is not mistaken for work.',
+  },
+];
+
 interface OnboardingFlowProps {
   /**
-   * `onboarding`: first-run flow with welcome + completion screens.
+   * `onboarding`: first-run flow with welcome, tour and completion screens.
    * `edit`: the same questions, opened from Settings → Personal context.
    */
   mode: 'onboarding' | 'edit';
@@ -45,13 +101,15 @@ interface OnboardingFlowProps {
 }
 
 /**
- * The onboarding / personal-context editor. Answers autosave as the user
- * types (debounced), so navigating back or quitting never loses input. No
- * field is required; "Set up later" is always available.
+ * The onboarding / personal-context editor: one question per screen, each
+ * beside a short explanation of why Reflect asks. Answers autosave as the
+ * user types (debounced), so navigating back or quitting never loses input.
+ * No field is required; "Set up later" is always available.
  */
 export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowProps) {
   const [draft, setDraft] = useState<OnboardingDraft>(() => draftFromProfile(initialProfile));
   const [step, setStep] = useState<OnboardingStep>(mode === 'edit' ? 'about' : 'welcome');
+  const [direction, setDirection] = useState<'forward' | 'back'>('forward');
   const [busy, setBusy] = useState(false);
   const [saveError, setSaveError] = useState(false);
 
@@ -61,6 +119,7 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
   const dirty = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const queue = useRef<Promise<unknown>>(Promise.resolve());
+  const rootRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   draftRef.current = draft;
@@ -102,10 +161,11 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
   // Flush pending edits if the component unmounts unexpectedly.
   useEffect(() => () => void flush(), [flush]);
 
-  // Move focus to the new screen's heading so keyboard / screen-reader users
-  // land on the question.
+  // Land on the answer field when the screen has one (so the user can just
+  // type), otherwise on the heading for keyboard / screen-reader users.
   useEffect(() => {
-    headingRef.current?.focus();
+    const field = rootRef.current?.querySelector<HTMLElement>('[data-onb-autofocus]:not(:disabled)');
+    (field ?? headingRef.current)?.focus();
   }, [step]);
 
   const setStatus = async (status: OnboardingStatus) => {
@@ -126,6 +186,8 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
 
   const goTo = (target: OnboardingStep) => {
     void flush();
+    const order: readonly OnboardingStep[] = ['welcome', 'tour', ...QUESTION_STEPS, 'done'];
+    setDirection(order.indexOf(target) < order.indexOf(step) ? 'back' : 'forward');
     setStep(target);
   };
 
@@ -134,7 +196,7 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
       if (statusRef.current === 'not_started' || statusRef.current === 'skipped') {
         await setStatus('in_progress');
       }
-      setStep('about');
+      goTo('tour');
     });
 
   const skip = () =>
@@ -147,209 +209,359 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
     run(async () => {
       await setStatus('completed');
       if (mode === 'edit') onExit(latestProfile.current);
-      else setStep('done');
+      else goTo('done');
     });
 
   const leave = () => onExit(latestProfile.current);
 
+  /** What Enter does on the current screen. */
+  const advance = () => {
+    if (busy) return;
+    if (step === 'welcome') void begin();
+    else if (step === 'context') void finish();
+    else if (step === 'done') leave();
+    else goTo(nextStep(step));
+  };
+
+  const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.defaultPrevented) return;
+    // Escape closes the editor from Settings. First-run onboarding never
+    // dismisses on a stray keypress.
+    if (e.key === 'Escape' && mode === 'edit') {
+      e.preventDefault();
+      e.stopPropagation();
+      void skip();
+      return;
+    }
+    if (e.key !== 'Enter') return;
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'BUTTON') return; // the button handles its own click
+    if (target.tagName === 'TEXTAREA' && !(e.ctrlKey || e.metaKey)) return; // newline
+    e.preventDefault();
+    advance();
+  };
+
   const setTags = (field: TagField) => (tags: string[]) => update((d) => ({ ...d, [field]: tags }));
 
   const secondaryLabel = mode === 'edit' ? 'Close' : 'Set up later';
+  const secondary = { label: secondaryLabel, onClick: skip, disabled: busy };
+  const next = { label: 'Continue', onClick: () => goTo(nextStep(step)), disabled: busy };
+  const back = () => goTo(previousStep(step));
   const number = stepNumber(step);
+  const answers = draftToInput(draft);
 
   return (
-    <div
-      className="onb-root w-full"
-      onKeyDown={(e) => {
-        // Escape closes the editor from Settings. First-run onboarding never
-        // dismisses on a stray keypress.
-        if (e.key === 'Escape' && mode === 'edit' && !e.defaultPrevented) {
-          e.preventDefault();
-          e.stopPropagation();
-          void skip();
-        }
-      }}
-    >
-      <div className="w-full max-w-[580px] mx-auto">
-        {number !== null && (
-          <ProgressIndicator current={number} total={QUESTION_STEPS.length} />
-        )}
-
+    <div ref={rootRef} className="onb-root w-full" onKeyDown={onKeyDown}>
+      <div className="w-full max-w-[1000px] mx-auto">
         {step === 'welcome' && (
-          <Screen
-            key="welcome"
-            headingRef={headingRef}
-            title="Let’s help Reflect understand your time."
-            subtitle="Tell us a little about what you do and what matters to you. Reflect uses this context to turn raw computer activity into a timeline that actually makes sense."
-          >
-            <p className="text-[13px] text-muted">
-              Takes about a minute. Every question is optional.
-            </p>
-            <Actions
-              primary={{ label: 'Get started', onClick: begin, disabled: busy }}
-              secondary={{ label: 'Set up later', onClick: skip, disabled: busy }}
-            />
-            <PrivacyNote />
-          </Screen>
-        )}
-
-        {step === 'about' && (
-          <Screen
-            key="about"
-            headingRef={headingRef}
-            title="What do you currently do?"
-            subtitle="Choose what best describes your life right now."
-          >
-            <div role="group" aria-label="Roles" className="flex flex-wrap gap-2">
-              {PRESET_ROLES.map((role) => (
-                <button
-                  key={role}
-                  type="button"
-                  className="onb-choice"
-                  aria-pressed={draft.roles.includes(role)}
-                  onClick={() => update((d) => toggleRole(d, role))}
-                >
-                  {role}
-                </button>
-              ))}
-              <button
-                type="button"
-                className="onb-choice"
-                aria-pressed={draft.otherSelected}
-                onClick={() => update(toggleOther)}
-              >
-                Other
-              </button>
+          <Intro key="welcome" direction={direction}>
+            <div className="onb-mark" aria-hidden="true">
+              <Clock size={22} strokeWidth={2.25} />
+            </div>
+            <div className="space-y-3">
+              <p className="onb-eyebrow">Welcome to Reflect</p>
+              <h1 id="onb-heading" ref={headingRef} tabIndex={-1} className="onb-title onb-title-lg">
+                See where your time actually goes.
+              </h1>
+              <p className="onb-lede">
+                Your computer knows which apps you opened. Reflect works out what you were really doing — and shows it
+                as a timeline you can read at a glance.
+              </p>
             </div>
 
-            {draft.otherSelected && (
+            <div className="onb-compare" aria-hidden="true">
               <div className="space-y-1.5">
-                <label htmlFor="onb-other-role" className="block text-[13px] font-medium text-muted">
-                  Your role
-                </label>
-                <input
-                  id="onb-other-role"
-                  type="text"
-                  className="field w-full"
-                  style={{ height: 38 }}
-                  maxLength={PROFILE_LIMITS.roleLength * 2}
-                  placeholder="e.g. Product manager, teacher, musician..."
-                  value={draft.otherRole}
-                  autoFocus
-                  onChange={(e) => {
-                    const otherRole = e.target.value;
-                    update((d) => ({ ...d, otherRole }));
-                  }}
-                />
+                <div className="onb-caption">What your computer sees</div>
+                <RawRow app="VS Code" detail="api.ts" time="42m" />
+                <RawRow app="Chrome" detail="stackoverflow.com" time="18m" />
+                <RawRow app="ChatGPT" detail="New chat" time="9m" />
+                <RawRow app="VS Code" detail="api.test.ts" time="31m" />
               </div>
-            )}
-
-            <TextArea
-              id="onb-description"
-              label="Tell us a little more"
-              optional
-              rows={3}
-              maxLength={PROFILE_LIMITS.description}
-              placeholder="e.g. I’m a final-year CS student building software projects and learning system design."
-              value={draft.description}
-              onChange={(description) => update((d) => ({ ...d, description }))}
-            />
-
-            <Actions
-              primary={{ label: 'Continue', onClick: () => goTo(nextStep(step)), disabled: busy }}
-              back={mode === 'onboarding' ? () => goTo(previousStep(step)) : undefined}
-              secondary={{ label: secondaryLabel, onClick: skip, disabled: busy }}
-            />
-          </Screen>
-        )}
-
-        {step === 'life' && (
-          <Screen
-            key="life"
-            headingRef={headingRef}
-            title="What is your life focused on right now?"
-            subtitle="These help Reflect understand what your activities are actually about."
-          >
-            <TagInput
-              label="What are you currently working on?"
-              placeholder="Add a project, course, job, or anything you're actively working on..."
-              tags={draft.currentWork}
-              max={TAG_LIMITS.currentWork}
-              suggestions={['College studies', 'Freelance work', 'Startup', 'Exam preparation']}
-              onChange={setTags('currentWork')}
-            />
-            <TagInput
-              label="What matters most to you right now?"
-              hint="Add the things you want your time to move forward."
-              placeholder="e.g. Finish my degree, build my startup..."
-              tags={draft.priorities}
-              max={TAG_LIMITS.priorities}
-              suggestions={['Finish my degree', 'Build my startup', 'Earn more', 'Improve fitness', 'Learn system design']}
-              onChange={setTags('priorities')}
-            />
-            <TagInput
-              label="What do you do outside work or study?"
-              hint="Hobbies and personal interests help Reflect distinguish work from personal time."
-              placeholder="e.g. gaming, reading, football, music..."
-              tags={draft.interests}
-              max={TAG_LIMITS.interests}
-              suggestions={['Gaming', 'Reading', 'Football', 'Music', 'Travel', 'Personal projects']}
-              onChange={setTags('interests')}
-            />
-
-            <Actions
-              primary={{ label: 'Continue', onClick: () => goTo(nextStep(step)), disabled: busy }}
-              back={() => goTo(previousStep(step))}
-              secondary={{ label: secondaryLabel, onClick: skip, disabled: busy }}
-            />
-          </Screen>
-        )}
-
-        {step === 'context' && (
-          <Screen
-            key="context"
-            headingRef={headingRef}
-            title="Anything Reflect should know?"
-            subtitle="Tell Reflect about anything that could make your activity look different from what it really is."
-          >
-            <TextArea
-              id="onb-context"
-              label="Things to keep in mind"
-              optional
-              rows={4}
-              maxLength={PROFILE_LIMITS.additionalContext}
-              placeholder="e.g. My Game Theory project is a hobby, not college work."
-              value={draft.additionalContext}
-              onChange={(additionalContext) => update((d) => ({ ...d, additionalContext }))}
-            />
-            <div className="text-[12.5px] text-faint space-y-1">
-              <div>Other examples:</div>
-              <ul className="space-y-0.5 pl-3">
-                {CONTEXT_EXAMPLES.map((ex) => (
-                  <li key={ex}>“{ex}”</li>
-                ))}
-              </ul>
+              <ArrowRight size={18} className="onb-compare-arrow" />
+              <div className="space-y-1.5">
+                <div className="onb-caption">What Reflect shows you</div>
+                <ResultBlock title="Building the payments API" meta="1h 40m · one activity" tag="Work" tall />
+              </div>
             </div>
 
-            <Actions
-              primary={{ label: mode === 'edit' ? 'Save' : 'Finish', onClick: finish, disabled: busy }}
-              back={() => goTo(previousStep(step))}
-              secondary={{ label: secondaryLabel, onClick: skip, disabled: busy }}
+            <div className="space-y-3">
+              <Actions
+                primary={{ label: 'Get started', onClick: begin, disabled: busy }}
+                secondary={{ label: 'Set up later', onClick: skip, disabled: busy }}
+                enterHint
+              />
+              <p className="text-[12.5px] text-faint">Takes about a minute. Every question is optional.</p>
+            </div>
+          </Intro>
+        )}
+
+        {step === 'tour' && (
+          <Intro key="tour" direction={direction}>
+            <div className="space-y-3">
+              <p className="onb-eyebrow">How Reflect works</p>
+              <h1 id="onb-heading" ref={headingRef} tabIndex={-1} className="onb-title">
+                You work. Reflect keeps the record.
+              </h1>
+            </div>
+
+            <ol className="onb-tour">
+              {TOUR_POINTS.map(({ Icon, title, body }, i) => (
+                <li key={title} className="onb-tour-card" style={{ animationDelay: `${i * 60}ms` }}>
+                  <span className="onb-tour-icon" aria-hidden="true">
+                    <Icon size={16} />
+                  </span>
+                  <div>
+                    <div className="text-[14.5px] font-semibold">{title}</div>
+                    <p className="text-[13px] text-muted leading-relaxed mt-1">{body}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            <div className="space-y-3">
+              <Actions
+                primary={{ label: 'Personalize Reflect', onClick: () => goTo('about'), disabled: busy }}
+                back={back}
+                secondary={{ label: 'Set up later', onClick: skip, disabled: busy }}
+                enterHint
+              />
+              <PrivacyNote />
+            </div>
+          </Intro>
+        )}
+
+        {isQuestionStep(step) && number !== null && (
+          <>
+            <ProgressIndicator
+              current={number}
+              label={mode === 'edit' ? 'Personal context' : 'About you'}
+              onJump={(target) => goTo(target)}
             />
-            <p className="text-[12.5px] text-muted">You can change this anytime in Settings.</p>
-          </Screen>
+            <div className="onb-layout">
+              <div className="min-w-0">
+                {step === 'about' && (
+                  <Question
+                    key="about"
+                    direction={direction}
+                    headingRef={headingRef}
+                    title="What do you currently do?"
+                    subtitle="Pick everything that describes your life right now."
+                  >
+                    <div role="group" aria-label="Roles" className="onb-roles">
+                      {PRESET_ROLES.map((role) => {
+                        const Icon = ROLE_ICONS[role];
+                        return (
+                          <RoleCard
+                            key={role}
+                            Icon={Icon}
+                            label={role}
+                            pressed={draft.roles.includes(role)}
+                            onClick={() => update((d) => toggleRole(d, role))}
+                          />
+                        );
+                      })}
+                      <RoleCard Icon={Plus} label="Other" pressed={draft.otherSelected} onClick={() => update(toggleOther)} />
+                    </div>
+
+                    {draft.otherSelected && (
+                      <div className="space-y-1.5">
+                        <label htmlFor="onb-other-role" className="block text-[13px] font-medium text-muted">
+                          Your role
+                        </label>
+                        <input
+                          id="onb-other-role"
+                          type="text"
+                          className="field w-full"
+                          style={{ height: 40 }}
+                          maxLength={PROFILE_LIMITS.roleLength * 2}
+                          placeholder="e.g. Product manager, teacher, musician..."
+                          value={draft.otherRole}
+                          autoFocus
+                          onChange={(e) => {
+                            const otherRole = e.target.value;
+                            update((d) => ({ ...d, otherRole }));
+                          }}
+                        />
+                      </div>
+                    )}
+
+                    <TextArea
+                      id="onb-description"
+                      label="Tell us a little more"
+                      optional
+                      rows={3}
+                      maxLength={PROFILE_LIMITS.description}
+                      placeholder="e.g. I’m a final-year CS student building software projects and learning system design."
+                      value={draft.description}
+                      onChange={(description) => update((d) => ({ ...d, description }))}
+                    />
+
+                    <Actions
+                      primary={next}
+                      back={mode === 'onboarding' ? back : undefined}
+                      secondary={secondary}
+                      enterHint
+                    />
+                  </Question>
+                )}
+
+                {step === 'work' && (
+                  <Question
+                    key="work"
+                    direction={direction}
+                    headingRef={headingRef}
+                    title="What are you currently working on?"
+                    subtitle="Projects, courses, a job — anything you are actively working on."
+                  >
+                    <TagInput
+                      label="What are you currently working on?"
+                      hideLabel
+                      placeholder="Type one and press Enter…"
+                      tags={draft.currentWork}
+                      max={TAG_LIMITS.currentWork}
+                      suggestions={['College studies', 'Freelance work', 'Startup', 'Exam preparation']}
+                      onChange={setTags('currentWork')}
+                    />
+                    <Actions primary={next} back={back} secondary={secondary} enterHint />
+                  </Question>
+                )}
+
+                {step === 'priorities' && (
+                  <Question
+                    key="priorities"
+                    direction={direction}
+                    headingRef={headingRef}
+                    title="What matters most to you right now?"
+                    subtitle="The things you want your time to move forward."
+                  >
+                    <TagInput
+                      label="What matters most to you right now?"
+                      hideLabel
+                      placeholder="e.g. Finish my degree, build my startup…"
+                      tags={draft.priorities}
+                      max={TAG_LIMITS.priorities}
+                      suggestions={['Finish my degree', 'Build my startup', 'Earn more', 'Improve fitness', 'Learn system design']}
+                      onChange={setTags('priorities')}
+                    />
+                    <Actions primary={next} back={back} secondary={secondary} enterHint />
+                  </Question>
+                )}
+
+                {step === 'interests' && (
+                  <Question
+                    key="interests"
+                    direction={direction}
+                    headingRef={headingRef}
+                    title="What do you do outside work or study?"
+                    subtitle="Hobbies and personal interests — the time that is yours."
+                  >
+                    <TagInput
+                      label="What do you do outside work or study?"
+                      hideLabel
+                      placeholder="e.g. gaming, reading, football, music…"
+                      tags={draft.interests}
+                      max={TAG_LIMITS.interests}
+                      suggestions={['Gaming', 'Reading', 'Football', 'Music', 'Travel', 'Personal projects']}
+                      onChange={setTags('interests')}
+                    />
+                    <Actions primary={next} back={back} secondary={secondary} enterHint />
+                  </Question>
+                )}
+
+                {step === 'context' && (
+                  <Question
+                    key="context"
+                    direction={direction}
+                    headingRef={headingRef}
+                    title="Anything Reflect should know?"
+                    subtitle="Anything that could make your activity look different from what it really is."
+                  >
+                    <TextArea
+                      id="onb-context"
+                      label="Things to keep in mind"
+                      optional
+                      autoFocus
+                      rows={4}
+                      maxLength={PROFILE_LIMITS.additionalContext}
+                      placeholder="e.g. My Game Theory project is a hobby, not college work."
+                      value={draft.additionalContext}
+                      onChange={(additionalContext) => update((d) => ({ ...d, additionalContext }))}
+                    />
+                    <div className="space-y-2">
+                      <div className="text-[12px] text-faint">Tap an example to start from it</div>
+                      <div className="flex flex-col items-start gap-1.5">
+                        {CONTEXT_EXAMPLES.map((ex) => (
+                          <button
+                            key={ex}
+                            type="button"
+                            className="onb-example"
+                            onClick={() =>
+                              update((d) => ({
+                                ...d,
+                                additionalContext: [d.additionalContext.trim(), ex]
+                                  .filter(Boolean)
+                                  .join('\n')
+                                  .slice(0, PROFILE_LIMITS.additionalContext),
+                              }))
+                            }
+                          >
+                            <Plus size={12} />
+                            {ex}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <Actions
+                      primary={{ label: mode === 'edit' ? 'Save' : 'Finish', onClick: finish, disabled: busy }}
+                      back={back}
+                      secondary={secondary}
+                      enterHint="Ctrl + Enter"
+                    />
+                  </Question>
+                )}
+              </div>
+
+              <WhyPanel step={step} answers={answers} />
+            </div>
+          </>
         )}
 
         {step === 'done' && (
-          <Screen
-            key="done"
-            headingRef={headingRef}
-            title="You’re ready."
-            subtitle="Reflect now has a little context about how you spend your time."
-          >
-            <Actions primary={{ label: 'Start using Reflect', onClick: leave }} />
-            <p className="text-[12.5px] text-muted">You can change this anytime in Settings.</p>
-          </Screen>
+          <Intro key="done" direction={direction}>
+            <div className="onb-check" aria-hidden="true">
+              <Check size={22} strokeWidth={3} />
+            </div>
+            <div className="space-y-3">
+              <h1 id="onb-heading" ref={headingRef} tabIndex={-1} className="onb-title">
+                You’re all set.
+              </h1>
+              <p className="onb-lede">
+                {hasProfileContent(answers)
+                  ? 'Here is what Reflect will keep in mind when it reads your day.'
+                  : 'You did not add any context, and that is fine — Reflect will work from your activity alone.'}
+              </p>
+            </div>
+
+            {hasProfileContent(answers) && <Recap answers={answers} />}
+
+            <ul className="onb-next">
+              <li>
+                <Activity size={15} aria-hidden="true" />
+                <span>Reflect is already running. Just use your computer as usual.</span>
+              </li>
+              <li>
+                <Clock size={15} aria-hidden="true" />
+                <span>Come back to <strong>Timeline</strong> later today to see how your time was spent.</span>
+              </li>
+              <li>
+                <Sparkles size={15} aria-hidden="true" />
+                <span>Change your answers anytime in <strong>Settings → Personal context</strong>.</span>
+              </li>
+            </ul>
+
+            <Actions primary={{ label: 'Start using Reflect', onClick: leave }} back={back} enterHint />
+          </Intro>
         )}
 
         {saveError && (
@@ -362,52 +574,203 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
   );
 }
 
-// ─── Layout pieces ─────────────────────────────────────────────────────────
+// ─── Why Reflect asks ──────────────────────────────────────────────────────
 
-function ProgressIndicator({ current, total }: { current: number; total: number }) {
+interface Insight {
+  body: string;
+  raw: { app: string; detail: string; time: string };
+  result: { title: string; meta: string; tag: string };
+}
+
+/** The explanation shown beside each question, using the user's own answers
+ * in the example where they have given one. */
+function insightFor(step: QuestionStep, answers: UserProfileInput): Insight {
+  switch (step) {
+    case 'about':
+      return {
+        body: 'The same activity means different things to different people. Knowing who you are lets Reflect read your day the way you would.',
+        raw: { app: 'YouTube', detail: 'System design lecture', time: '50m' },
+        result: answers.roles.includes('Student')
+          ? { title: 'Studying system design', meta: '50m', tag: 'Learning' }
+          : { title: 'Learning system design', meta: '50m', tag: answers.roles[0] ?? 'Learning' },
+      };
+    case 'work':
+      return {
+        body: 'App names say little. When Reflect knows your projects, it can name the work instead of the tool.',
+        raw: { app: 'VS Code', detail: 'index.ts', time: '1h 12m' },
+        result: { title: `Working on ${answers.currentWork[0] ?? 'your project'}`, meta: '1h 12m', tag: 'Work' },
+      };
+    case 'priorities':
+      return {
+        body: 'Priorities tell Reflect what is central to your day and what is incidental, so the things you care about stand out.',
+        raw: { app: 'Chrome', detail: 'docs, 14 tabs', time: '38m' },
+        result: { title: answers.priorities[0] ?? 'Progress on what matters', meta: '38m', tag: 'Priority' },
+      };
+    case 'interests':
+      return {
+        body: 'Work tools are used for personal things too. Your interests help Reflect keep personal time out of your work hours.',
+        raw: { app: 'VS Code', detail: 'side-project', time: '45m' },
+        result: { title: answers.interests[0] ?? 'A personal project', meta: '45m', tag: 'Personal' },
+      };
+    case 'context':
+      return {
+        body: 'You know the exceptions. One sentence here corrects a mistake Reflect would otherwise repeat every day.',
+        raw: { app: 'YouTube', detail: 'Lecture playlist', time: '45m' },
+        result: { title: 'Coursework research', meta: '45m', tag: 'Not leisure' },
+      };
+  }
+}
+
+function WhyPanel({ step, answers }: { step: QuestionStep; answers: UserProfileInput }) {
+  const insight = insightFor(step, answers);
   return (
-    <div className="flex items-center gap-3 mb-6" aria-label={`Step ${current} of ${total}`} role="group">
-      <div className="flex gap-1.5" aria-hidden="true">
-        {Array.from({ length: total }, (_, i) => (
-          <span
-            key={i}
-            className="block h-1 rounded-full"
-            style={{
-              width: 28,
-              background: i < current ? 'var(--accent)' : 'var(--border-strong)',
-              transition: 'background-color var(--dur-normal) var(--ease-out)',
-            }}
-          />
-        ))}
+    <aside className="onb-panel" aria-label="Why Reflect asks this">
+      <div className="flex items-center gap-2 text-[12.5px] font-semibold">
+        <Sparkles size={14} style={{ color: 'var(--accent)' }} aria-hidden="true" />
+        Why Reflect asks
       </div>
-      <span className="text-[12px] text-muted" aria-hidden="true">
-        {current} of {total}
-      </span>
+      <p key={step} className="onb-panel-body text-[13.5px] text-muted leading-relaxed">
+        {insight.body}
+      </p>
+      <div className="space-y-1.5" aria-hidden="true">
+        <div className="onb-caption">Example</div>
+        <RawRow {...insight.raw} />
+        <div className="flex justify-center text-faint">
+          <ArrowDown size={14} />
+        </div>
+        <ResultBlock key={insight.result.title} {...insight.result} />
+      </div>
+    </aside>
+  );
+}
+
+function RawRow({ app, detail, time }: { app: string; detail: string; time: string }) {
+  return (
+    <div className="onb-raw">
+      <span className="font-medium">{app}</span>
+      <span className="truncate text-faint">{detail}</span>
+      <span className="ml-auto tabular-nums text-faint">{time}</span>
     </div>
   );
 }
 
-function Screen(props: {
+function ResultBlock(props: { title: string; meta: string; tag: string; tall?: boolean }) {
+  return (
+    <div className="onb-result" data-tall={props.tall ? '' : undefined}>
+      <div className="text-[14px] font-semibold leading-snug">{props.title}</div>
+      <div className="flex items-center gap-2 mt-1.5">
+        <span className="onb-result-tag">{props.tag}</span>
+        <span className="text-[12px] text-muted tabular-nums">{props.meta}</span>
+      </div>
+    </div>
+  );
+}
+
+function Recap({ answers }: { answers: UserProfileInput }) {
+  const rows: { label: string; values: string[] }[] = [
+    { label: 'You are', values: answers.roles },
+    { label: 'Working on', values: answers.currentWork },
+    { label: 'Matters most', values: answers.priorities },
+    { label: 'Outside work', values: answers.interests },
+  ].filter((row) => row.values.length > 0);
+
+  return (
+    <dl className="onb-recap">
+      {rows.map((row) => (
+        <div key={row.label} className="onb-recap-row">
+          <dt>{row.label}</dt>
+          <dd className="flex flex-wrap gap-1.5">
+            {row.values.map((value) => (
+              <span key={value} className="chip onb-tag">{value}</span>
+            ))}
+          </dd>
+        </div>
+      ))}
+      {answers.description && (
+        <div className="onb-recap-row">
+          <dt>In your words</dt>
+          <dd className="text-[13.5px] leading-relaxed">{answers.description}</dd>
+        </div>
+      )}
+      {answers.additionalContext && (
+        <div className="onb-recap-row">
+          <dt>Keep in mind</dt>
+          <dd className="text-[13.5px] leading-relaxed whitespace-pre-line">{answers.additionalContext}</dd>
+        </div>
+      )}
+    </dl>
+  );
+}
+
+// ─── Layout pieces ─────────────────────────────────────────────────────────
+
+/** Segmented progress; every segment jumps to its question (answers autosave). */
+function ProgressIndicator(props: { current: number; label: string; onJump: (step: QuestionStep) => void }) {
+  const total = QUESTION_STEPS.length;
+  return (
+    <nav className="mb-8" aria-label={`Question ${props.current} of ${total}`}>
+      <div className="flex items-baseline justify-between mb-2">
+        <span className="onb-eyebrow">{props.label}</span>
+        <span className="text-[12px] text-muted tabular-nums" aria-hidden="true">
+          {props.current} of {total}
+        </span>
+      </div>
+      <div className="flex gap-1.5">
+        {QUESTION_STEPS.map((target, i) => (
+          <button
+            key={target}
+            type="button"
+            className="onb-progress"
+            data-state={i + 1 < props.current ? 'done' : i + 1 === props.current ? 'current' : 'todo'}
+            aria-label={`Go to question ${i + 1}`}
+            aria-current={i + 1 === props.current ? 'step' : undefined}
+            onClick={() => props.onJump(target)}
+          >
+            <span />
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+/** Centered single-column screen (welcome, tour, done). */
+function Intro(props: { direction: 'forward' | 'back'; children: ReactNode }) {
+  return (
+    <section className="onb-step onb-intro" data-dir={props.direction} aria-labelledby="onb-heading">
+      {props.children}
+    </section>
+  );
+}
+
+function Question(props: {
   title: string;
   subtitle: string;
+  direction: 'forward' | 'back';
   headingRef: RefObject<HTMLHeadingElement>;
   children: ReactNode;
 }) {
   return (
-    <section className="onb-step space-y-6" aria-labelledby="onb-heading">
+    <section className="onb-step space-y-6" data-dir={props.direction} aria-labelledby="onb-heading">
       <div className="space-y-2">
-        <h1
-          id="onb-heading"
-          ref={props.headingRef}
-          tabIndex={-1}
-          className="text-[26px] font-extrabold tracking-tight leading-tight outline-none"
-        >
+        <h1 id="onb-heading" ref={props.headingRef} tabIndex={-1} className="onb-title">
           {props.title}
         </h1>
-        <p className="text-[14.5px] text-muted leading-relaxed">{props.subtitle}</p>
+        <p className="text-[15px] text-muted leading-relaxed">{props.subtitle}</p>
       </div>
       {props.children}
     </section>
+  );
+}
+
+function RoleCard(props: { Icon: LucideIcon; label: string; pressed: boolean; onClick: () => void }) {
+  return (
+    <button type="button" className="onb-role" aria-pressed={props.pressed} onClick={props.onClick}>
+      <span className="onb-role-icon" aria-hidden="true">
+        {props.pressed ? <Check size={15} strokeWidth={3} /> : <props.Icon size={15} />}
+      </span>
+      {props.label}
+    </button>
   );
 }
 
@@ -415,24 +778,30 @@ function Actions(props: {
   primary: { label: string; onClick: () => void; disabled?: boolean };
   secondary?: { label: string; onClick: () => void; disabled?: boolean };
   back?: () => void;
+  /** Show the keyboard shortcut for the primary action. */
+  enterHint?: boolean | string;
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2 pt-2">
       {props.back && (
-        <button type="button" className="btn" onClick={props.back}>
+        <button type="button" className="btn" style={{ height: 40 }} onClick={props.back} aria-label="Back">
           <ArrowLeft size={15} />
-          Back
         </button>
       )}
       <button
         type="button"
-        className="btn btn-primary"
-        style={{ height: 38, padding: '0 18px' }}
+        className="btn btn-primary onb-primary"
         onClick={props.primary.onClick}
         disabled={props.primary.disabled}
       >
         {props.primary.label}
+        <ArrowRight size={15} />
       </button>
+      {props.enterHint && (
+        <span className="text-[12px] text-faint ml-1 select-none" aria-hidden="true">
+          or press <span className="kbd">{typeof props.enterHint === 'string' ? props.enterHint : 'Enter ↵'}</span>
+        </span>
+      )}
       {props.secondary && (
         <button
           type="button"
@@ -451,6 +820,7 @@ function TextArea(props: {
   id: string;
   label: string;
   optional?: boolean;
+  autoFocus?: boolean;
   rows: number;
   maxLength: number;
   placeholder: string;
@@ -460,22 +830,27 @@ function TextArea(props: {
   const remaining = props.maxLength - props.value.length;
   return (
     <div className="space-y-1.5">
-      <label htmlFor={props.id} className="flex items-baseline gap-2 text-[14.5px] font-semibold">
+      <label htmlFor={props.id} className="flex items-baseline gap-2 text-[14px] font-semibold">
         {props.label}
         {props.optional && <span className="text-[12px] font-normal text-faint">Optional</span>}
       </label>
       <textarea
         id={props.id}
         className="field w-full resize-none leading-relaxed"
-        style={{ padding: '8px 10px' }}
+        style={{ padding: '10px 12px', fontSize: 15 }}
         rows={props.rows}
         maxLength={props.maxLength}
         placeholder={props.placeholder}
         value={props.value}
         aria-describedby={`${props.id}-count`}
+        data-onb-autofocus={props.autoFocus ? '' : undefined}
         onChange={(e) => props.onChange(e.target.value)}
       />
-      <div id={`${props.id}-count`} className="text-right text-[11.5px] text-faint">
+      <div
+        id={`${props.id}-count`}
+        className="text-right text-[11.5px] text-faint"
+        style={{ visibility: remaining <= 80 ? 'visible' : 'hidden' }}
+      >
         {remaining} characters left
       </div>
     </div>
@@ -484,8 +859,9 @@ function TextArea(props: {
 
 function PrivacyNote() {
   return (
-    <p className="text-[12.5px] text-faint">
-      Saved on this device and used to personalize how Reflect understands your activity.
+    <p className="text-[12.5px] text-faint leading-relaxed">
+      Your answers are saved on this device. When AI analysis is on, they are sent to Google Gemini together with
+      your activity so it can be interpreted.
     </p>
   );
 }

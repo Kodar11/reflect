@@ -108,10 +108,22 @@ export function removeTag(tags: readonly string[], tag: string): string[] {
 
 // ─── Steps ─────────────────────────────────────────────────────────────────
 
-export type OnboardingStep = 'welcome' | 'about' | 'life' | 'context' | 'done';
+/** The question screens, in order — one question per screen. */
+export const QUESTION_STEPS = ['about', 'work', 'priorities', 'interests', 'context'] as const;
 
-/** The three question screens, in order. */
-export const QUESTION_STEPS = ['about', 'life', 'context'] as const;
+export type QuestionStep = (typeof QUESTION_STEPS)[number];
+
+/**
+ * `welcome` and `tour` introduce Reflect (first run only), the question steps
+ * collect the profile, `done` recaps it.
+ */
+export type OnboardingStep = 'welcome' | 'tour' | QuestionStep | 'done';
+
+const STEP_ORDER: readonly OnboardingStep[] = ['welcome', 'tour', ...QUESTION_STEPS, 'done'];
+
+export function isQuestionStep(step: OnboardingStep): step is QuestionStep {
+  return (QUESTION_STEPS as readonly string[]).includes(step);
+}
 
 export function stepNumber(step: OnboardingStep): number | null {
   const i = (QUESTION_STEPS as readonly string[]).indexOf(step);
@@ -119,21 +131,9 @@ export function stepNumber(step: OnboardingStep): number | null {
 }
 
 export function nextStep(step: OnboardingStep): OnboardingStep {
-  switch (step) {
-    case 'welcome': return 'about';
-    case 'about': return 'life';
-    case 'life': return 'context';
-    case 'context': return 'done';
-    case 'done': return 'done';
-  }
+  return STEP_ORDER[Math.min(STEP_ORDER.indexOf(step) + 1, STEP_ORDER.length - 1)];
 }
 
 export function previousStep(step: OnboardingStep): OnboardingStep {
-  switch (step) {
-    case 'welcome': return 'welcome';
-    case 'about': return 'welcome';
-    case 'life': return 'about';
-    case 'context': return 'life';
-    case 'done': return 'context';
-  }
+  return STEP_ORDER[Math.max(STEP_ORDER.indexOf(step) - 1, 0)];
 }
