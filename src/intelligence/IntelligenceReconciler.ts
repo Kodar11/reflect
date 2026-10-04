@@ -12,7 +12,10 @@ import type {
  *   - nothing a user touched is modified: events owned by a `user_locked`
  *     activity, and events of user-edited timeline blocks, stay where they are;
  *   - a continued activity is extended in place (same canonical id) instead of
- *     being duplicated;
+ *     being duplicated — including when the user returns to it after doing
+ *     something else, and when hindsight folds later activities into it;
+ *   - only an absence ends an activity for good: a continuation is refused
+ *     when nothing at all was tracked for longer than the allowed silence;
  *   - an existing unlocked activity only loses the events the new analysis
  *     actually re-assigned. Nothing is deleted wholesale.
  */
@@ -36,7 +39,11 @@ export interface ReconcileInput {
   previous: Map<string, { userLocked: boolean; endedAt: string }>;
   /** Events belonging to timeline blocks the user edited. */
   protectedEventIds: Set<number>;
-  /** A continuation across a longer silence becomes a new activity. */
+  /**
+   * A continuation across a longer SILENCE becomes a new activity. Silence is
+   * time with no tracked event at all; time spent on another activity is an
+   * interruption, not a silence, and does not count.
+   */
   maxContinuationGapMs: number;
   newId: () => string;
 }
@@ -65,10 +72,13 @@ export function planReconciliation(input: ReconcileInput): ReconcilePlan {
     const interpretation = interpretationOf(activity);
     const segments = splitAroundUntouchable(free, order, input.windowEvents, untouchable);
 
-    segments.forEach((segment, segmentIndex) => {
-      const first = byId.get(segment[0])!;
-      const continuationId =
-        segmentIndex === 0 ? resolveContinuation(activity, first, input) : null;
+    segments.forEach((events, segmentIndex) => {
+      const continuation = segmentIndex === 0 ? resolveContinuation(activity, events, input, byId) : null;
+      const continuationId = continuation?.accepted ? continuation.activityId : null;
+      // A refused continuation leaves the previous activity as it was: only
+      // the events it did not already own start the new activity.
+      const segment = continuation && !continuation.accepted ? continuation.gained : events;
+      if (segment.length === 0) return;
       const targetId = continuationId ?? input.newId();
 
       if (continuationId) {
@@ -157,17 +167,56 @@ function splitAroundUntouchable(
   return segments;
 }
 
+interface ContinuationDecision {
+  activityId: string;
+  accepted: boolean;
+  /** Events the previous activity does not own yet, chronological. */
+  gained: number[];
+}
+
+/**
+ * Whether `events` may join the previous activity the model named.
+ *
+ * Events the activity already owns are not in question. What it gains must
+ * follow it without a long silence: the time between its end and the first
+ * event it gains is measured as UNTRACKED time, so an hour spent on something
+ * else does not stop the user from resuming, while an hour away does.
+ */
 function resolveContinuation(
   activity: ValidatedActivity,
-  firstEvent: WindowEvent,
+  events: number[],
   input: ReconcileInput,
-): string | null {
+  byId: Map<number, WindowEvent>,
+): ContinuationDecision | null {
   const id = activity.continuationOfActivityId;
   if (!id) return null;
   const previous = input.previous.get(id);
   if (!previous || previous.userLocked) return null;
-  const gap = Date.parse(firstEvent.startedAt) - Date.parse(previous.endedAt);
-  return gap <= input.maxContinuationGapMs ? id : null;
+
+  const gained = events.filter((eventId) => input.memberships.get(eventId)?.activityId !== id);
+  if (gained.length === 0) return { activityId: id, accepted: true, gained };
+
+  const previousEnd = Date.parse(previous.endedAt);
+  const firstGained = Math.min(...gained.map((eventId) => Date.parse(byId.get(eventId)!.startedAt)));
+  const silence = untrackedMs(previousEnd, firstGained, input.windowEvents);
+  return { activityId: id, accepted: silence <= input.maxContinuationGapMs, gained };
+}
+
+/** Time in [from, to) during which no window event was being tracked. */
+function untrackedMs(from: number, to: number, events: WindowEvent[]): number {
+  if (to <= from) return 0;
+  const spans = events
+    .map((e) => [Math.max(from, Date.parse(e.startedAt)), Math.min(to, Date.parse(e.endedAt))] as const)
+    .filter(([start, end]) => end > start)
+    .sort((a, b) => a[0] - b[0]);
+  let tracked = 0;
+  let cursor = from;
+  for (const [start, end] of spans) {
+    if (end <= cursor) continue;
+    tracked += end - Math.max(start, cursor);
+    cursor = end;
+  }
+  return to - from - tracked;
 }
 
 function interpretationOf(activity: ValidatedActivity): ActivityInterpretation {

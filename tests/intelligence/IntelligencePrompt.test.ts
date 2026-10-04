@@ -10,6 +10,7 @@ import type { AnalysisPromptInput } from '../../src/intelligence/IntelligenceMod
 import { t } from './helpers';
 
 const input: AnalysisPromptInput = {
+  evidenceStart: t('08:00'),
   windowStart: t('10:00'),
   windowEnd: t('11:00'),
   userContext: {
@@ -33,6 +34,7 @@ const input: AnalysisPromptInput = {
       startedAt: t('09:10'),
       endedAt: t('09:58'),
       title: 'Implement Reflect classification system',
+      summary: 'Built the classifier.',
       contextId: 'coding',
       areaId: 'area_work',
       intentId: 'intent_create',

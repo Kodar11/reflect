@@ -6,9 +6,13 @@ import { INTELLIGENCE_SCHEMA_VERSION } from './IntelligenceModels.js';
  * Runtime validation of the model's structured output. Pure.
  *
  * Nothing the model returns is trusted: shape, event ids, ownership,
- * timestamps, classification ids, continuation ids and ordering are all
- * checked against what Reflect actually sent. A result either passes whole
- * or is rejected whole — there is no partial acceptance.
+ * timestamps, classification ids and continuation ids are all checked against
+ * what Reflect actually sent. A result either passes whole or is rejected
+ * whole — there is no partial acceptance.
+ *
+ * What is deliberately NOT checked is contiguity or listing order: an activity
+ * is a task, and a task the user left and returned to owns events on both
+ * sides of whatever interrupted it.
  */
 
 /** Model timestamps may drift slightly from the clipped evidence bounds. */
@@ -51,6 +55,8 @@ const outputSchema = z.object({
 export interface ValidationContext {
   windowStart: string;
   windowEnd: string;
+  /** Start of the evidence sent, when lookback context precedes the window. */
+  evidenceStart?: string;
   /** The evidence that was sent, in the order it was sent (chronological). */
   evidence: EvidenceItem[];
   taxonomy: AllowedTaxonomy;
@@ -82,7 +88,12 @@ export function validateAnalysisOutput(raw: unknown, ctx: ValidationContext): Va
   const errors: string[] = [];
 
   const evidenceIndex = new Map<number, number>();
-  ctx.evidence.forEach((item, index) => evidenceIndex.set(item.id, index));
+  /** Position of the evidence block each raw event belongs to. */
+  const rawIndex = new Map<number, number>();
+  ctx.evidence.forEach((item, index) => {
+    evidenceIndex.set(item.id, index);
+    for (const id of item.sourceEventIds) rawIndex.set(id, index);
+  });
 
   const contextIds = idSet(ctx.taxonomy.contexts);
   const areaIds = idSet(ctx.taxonomy.areas);
@@ -90,13 +101,12 @@ export function validateAnalysisOutput(raw: unknown, ctx: ValidationContext): Va
   const qualityIds = idSet(ctx.taxonomy.qualities);
   const previousIds = new Set(ctx.previousActivityIds);
 
-  const ws = Date.parse(ctx.windowStart);
+  const ws = Date.parse(ctx.evidenceStart ?? ctx.windowStart);
   const we = Date.parse(ctx.windowEnd);
 
   const owner = new Map<number, string>();
   const usedContinuations = new Set<string>();
   const usedTemporaryIds = new Set<string>();
-  const spans: { label: string; min: number; max: number }[] = [];
 
   for (const activity of output.activities) {
     const label = `activity ${activity.temporaryId}`;
@@ -106,8 +116,6 @@ export function validateAnalysisOutput(raw: unknown, ctx: ValidationContext): Va
 
     // Event ids: known, unique within the activity, owned by one activity.
     const seen = new Set<number>();
-    let min = Infinity;
-    let max = -Infinity;
     for (const id of activity.eventIds) {
       const index = evidenceIndex.get(id);
       if (index === undefined) {
@@ -125,10 +133,7 @@ export function validateAnalysisOutput(raw: unknown, ctx: ValidationContext): Va
         continue;
       }
       owner.set(id, label);
-      min = Math.min(min, index);
-      max = Math.max(max, index);
     }
-    if (min !== Infinity) spans.push({ label, min, max });
 
     // Timestamps.
     const start = Date.parse(activity.startedAt);
@@ -138,9 +143,9 @@ export function validateAnalysisOutput(raw: unknown, ctx: ValidationContext): Va
     } else {
       if (start >= end) errors.push(`${label}: startedAt must be before endedAt`);
       if (end > we + WINDOW_TOLERANCE_MS) errors.push(`${label}: endedAt is after the analysis window`);
-      // A continued activity legitimately started before this window.
+      // A continued activity legitimately started before the evidence shown.
       if (activity.continuationOfActivityId === null && start < ws - WINDOW_TOLERANCE_MS) {
-        errors.push(`${label}: startedAt is before the analysis window`);
+        errors.push(`${label}: startedAt is before the first event shown`);
       }
     }
 
@@ -159,15 +164,6 @@ export function validateAnalysisOutput(raw: unknown, ctx: ValidationContext): Va
         errors.push(`${label}: previous activity "${continuation}" is continued more than once`);
       }
       usedContinuations.add(continuation);
-    }
-  }
-
-  // Ordering: chronological as listed, and no interleaving between activities.
-  for (let i = 1; i < spans.length; i++) {
-    if (spans[i].min <= spans[i - 1].max) {
-      errors.push(
-        `${spans[i].label} overlaps or precedes ${spans[i - 1].label}: activities must be chronological and must not interleave`,
-      );
     }
   }
 
@@ -202,6 +198,10 @@ export function validateAnalysisOutput(raw: unknown, ctx: ValidationContext): Va
         .slice(0, MAX_UNCERTAINTY_NOTES),
     };
   });
+
+  // Listing order carries no meaning; activities are returned in the order they began.
+  const firstIndex = (a: ValidatedActivity) => rawIndex.get(a.eventIds[0]) ?? 0;
+  activities.sort((a, b) => firstIndex(a) - firstIndex(b));
 
   // Evidence the model neither assigned nor listed is treated as unassigned.
   const unassignedEventIds = ctx.evidence

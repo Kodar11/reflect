@@ -75,6 +75,7 @@ export interface PreviousActivityInput {
   startedAt: string;
   endedAt: string;
   title: string;
+  summary: string | null;
   contextId: string | null;
   areaId: string | null;
   intentId: string | null;
@@ -99,6 +100,12 @@ export interface EvidenceEvent {
   browser: string | null;
   title: string | null;
   url: string | null;
+  /**
+   * The recorded activity this evidence currently belongs to. Present only on
+   * evidence an earlier analysis already assigned (the lookback context, or a
+   * forced re-analysis); the model may keep or revise it.
+   */
+  activityId?: string;
 }
 
 /**
@@ -117,6 +124,8 @@ export interface PreprocessResult {
 }
 
 export interface AnalysisPromptInput {
+  /** Start of the evidence shown: the window plus the lookback context before it. */
+  evidenceStart: string;
   windowStart: string;
   windowEnd: string;
   /** `null` → the prompt states that no user context was provided. */

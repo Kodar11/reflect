@@ -120,7 +120,7 @@ describe('IntelligenceValidator', () => {
       'endedAt is after the analysis window',
     );
     expect(errorsOf(modelOutput([modelActivity({ eventIds: [1], startedAt: t('07:00') })])).join()).toContain(
-      'startedAt is before the analysis window',
+      'startedAt is before the first event shown',
     );
   });
 
@@ -146,24 +146,34 @@ describe('IntelligenceValidator', () => {
     expect(ok.ok).toBe(true);
   });
 
-  it('rejects out-of-order and interleaved activities', () => {
-    expect(
-      errorsOf(
-        modelOutput([
-          modelActivity({ temporaryId: 'late', eventIds: [4], startedAt: t('09:30'), endedAt: t('09:45') }),
-          modelActivity({ temporaryId: 'early', eventIds: [1], startedAt: t('09:00'), endedAt: t('09:20') }),
-        ]),
-      ).join(),
-    ).toContain('must be chronological');
+  it('accepts an activity whose events surround another activity (an interruption does not end it)', () => {
+    const result = validateAnalysisOutput(
+      modelOutput([
+        modelActivity({ temporaryId: 'a1', eventIds: [1, 4], endedAt: t('09:45') }),
+        modelActivity({ temporaryId: 'a2', eventIds: [3], startedAt: t('09:20'), endedAt: t('09:30') }),
+      ]),
+      ctx,
+    );
+    if (!result.ok) throw new Error(result.errors.join('; '));
+    expect(result.activities.map((a) => a.eventIds)).toEqual([[1, 2, 4], [3]]);
+  });
 
-    expect(
-      errorsOf(
-        modelOutput([
-          modelActivity({ temporaryId: 'a1', eventIds: [1, 4], endedAt: t('09:45') }),
-          modelActivity({ temporaryId: 'a2', eventIds: [3], startedAt: t('09:20'), endedAt: t('09:30') }),
-        ]),
-      ).join(),
-    ).toContain('must not interleave');
+  it('returns activities in the order they began, however the model listed them', () => {
+    const result = validateAnalysisOutput(
+      modelOutput([
+        modelActivity({ temporaryId: 'late', eventIds: [4], startedAt: t('09:30'), endedAt: t('09:45') }),
+        modelActivity({ temporaryId: 'early', eventIds: [1], startedAt: t('09:00'), endedAt: t('09:20') }),
+      ]),
+      ctx,
+    );
+    if (!result.ok) throw new Error(result.errors.join('; '));
+    expect(result.activities.map((a) => a.temporaryId)).toEqual(['early', 'late']);
+  });
+
+  it('measures "before the window" from the start of the evidence when lookback context was sent', () => {
+    const early = modelOutput([modelActivity({ eventIds: [1], startedAt: t('08:10') })]);
+    expect(errorsOf(early).join()).toContain('startedAt is before the first event shown');
+    expect(validateAnalysisOutput(early, { ...ctx, evidenceStart: t('08:00') }).ok).toBe(true);
   });
 
   it('treats "" as null and bounds free-text fields', () => {

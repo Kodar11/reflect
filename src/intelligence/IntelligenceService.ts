@@ -18,6 +18,7 @@ import {
   type IntelligenceActivity,
   type IntelligenceErrorCategory,
   type IntelligenceRun,
+  type PreprocessResult,
   type PreviousActivityInput,
   type ReconcilePlan,
   type UserContextProvider,
@@ -40,6 +41,13 @@ import { planReconciliation } from './IntelligenceReconciler.js';
  *
  *   fetch events → preprocess → build context → Gemini → validate
  *     → reconcile → persist transactionally
+ *
+ * A window is the unit of SCHEDULING, not of understanding. Each analysis
+ * covers the window plus the lookback context before it, and the model decides
+ * the grouping of everything it is shown: activities recorded by the previous
+ * analysis are provisional until the next one has seen what followed them.
+ * That is what lets one task survive an hour boundary, an interruption, or a
+ * first impression formed from two events.
  *
  * The manual trigger, the hourly scheduler and backlog recovery all go
  * through `analyzeWindow` — there is exactly one pipeline.
@@ -64,9 +72,18 @@ const REJECTION_CATEGORIES: IntelligenceErrorCategory[] = ['malformed_output', '
 /** Failures that will hit every other window too — stop the cycle. */
 const CYCLE_STOPPING_CATEGORIES: IntelligenceErrorCategory[] = ['missing_api_key', 'quota', 'network', 'api'];
 
-/** Activities offered to the model for continuity. */
-const CONTINUITY_LIMIT = 2;
-/** An activity silent for longer than this is not continued. */
+/**
+ * How far before the window the evidence reaches. Events in this stretch were
+ * analysed already; they are shown again, with their current activity, so the
+ * new events are judged against what the user was actually doing and earlier
+ * groupings can be revised with hindsight.
+ */
+const CONTEXT_LOOKBACK_MS = 2 * HOUR_MS;
+/** Lookback evidence is context, not the subject: it is cut to the most recent items. */
+const MAX_CONTEXT_EVIDENCE_ITEMS = 120;
+/** Recorded activities described to the model, most recent first. */
+const CONTINUITY_LIMIT = 12;
+/** An activity is not continued across a longer stretch with nothing tracked at all. */
 const MAX_CONTINUATION_GAP_MS = 30 * 60 * 1000;
 const MAX_USER_RULES = 50;
 
@@ -258,11 +275,10 @@ export class IntelligenceService {
         return { status: 'skipped', reason: 'already_analyzed', windowStart, windowEnd };
       }
 
-      const events = sortChronologically(this.deps.events.getOverlapping(windowStart, windowEnd));
-      const evidence = preprocessEvents(events, windowStart, windowEnd);
-      if (evidence.items.length === 0) {
+      if (preprocessEvents(this.deps.events.getOverlapping(windowStart, windowEnd), windowStart, windowEnd).items.length === 0) {
         return { status: 'skipped', reason: 'no_events', windowStart, windowEnd };
       }
+      const { evidenceStart, events, evidence } = this.gatherEvidence(startMs, windowEnd);
 
       // Missing key: clear, non-fatal, and nothing is written.
       if (!this.deps.gemini.isConfigured()) {
@@ -272,15 +288,15 @@ export class IntelligenceService {
 
       this.log.info(
         `[INTELLIGENCE] Analysis started: window ${windowStart} → ${windowEnd}, ` +
-          `${events.length} raw events, ${evidence.items.length} evidence items.`,
+          `${events.length} raw events, ${evidence.items.length} evidence items (context from ${evidenceStart}).`,
       );
 
       const taxonomy = this.buildTaxonomy();
-      const previous = this.deps.repo.listContinuityActivities(
-        windowEnd,
-        new Date(startMs - MAX_CONTINUATION_GAP_MS).toISOString(),
-        CONTINUITY_LIMIT,
+      const ownerOf = new Map(
+        this.deps.repo.getActiveMemberships(events.map((e) => e.id)).map((m) => [m.eventId, m.activityId]),
       );
+      const previous = this.continuityActivities(evidenceStart, windowEnd, [...new Set(ownerOf.values())]);
+      const offered = new Set(previous.map((a) => a.id));
       // Read per analysis (never cached) so profile edits apply immediately.
       const userContext = this.deps.userContext.getUserContext();
       const userRules = this.buildUserRules();
@@ -288,6 +304,7 @@ export class IntelligenceService {
         `[INTELLIGENCE] Context: user context ${userContext ? 'present' : 'not provided'}, ${userRules.length} user rule(s).`,
       );
       const promptInput: AnalysisPromptInput = {
+        evidenceStart,
         windowStart,
         windowEnd,
         userContext,
@@ -295,7 +312,10 @@ export class IntelligenceService {
         previousActivities: previous.map(toPreviousInput),
         focus: this.buildFocusContext(startMs, endMs),
         taxonomy,
-        events: evidence.items.map(({ sourceEventIds: _source, ...event }) => event),
+        events: evidence.items.map(({ sourceEventIds, ...event }) => {
+          const activityId = sourceEventIds.map((id) => ownerOf.get(id)).find((id) => id !== undefined && offered.has(id));
+          return activityId ? { ...event, activityId } : event;
+        }),
       };
       const previousIds = previous.map((a) => a.id);
       const systemInstruction = buildSystemInstruction();
@@ -353,6 +373,7 @@ export class IntelligenceService {
           const validation = validateAnalysisOutput(raw, {
             windowStart,
             windowEnd,
+            evidenceStart,
             evidence: evidence.items,
             taxonomy,
             previousActivityIds: previousIds,
@@ -384,7 +405,7 @@ export class IntelligenceService {
       // ── reconcile + persist (all or nothing) ──
       let plan: ReconcilePlan;
       try {
-        plan = this.reconcile(events, accepted.activities, evidence.droppedEventIds, previous, windowStart, windowEnd);
+        plan = this.reconcile(events, accepted.activities, evidence.droppedEventIds, previous, evidenceStart, windowEnd);
         this.deps.repo.commitRun({
           runId,
           windowStart,
@@ -422,6 +443,44 @@ export class IntelligenceService {
       this.log.error(`[INTELLIGENCE] Analysis failed (internal): ${message}`);
       return fail('internal', message, runId, attempts);
     }
+  }
+
+  /**
+   * The evidence for a window: its own events plus the lookback context. The
+   * lookback is shortened when it alone would crowd the prompt; the window's
+   * own events are never cut.
+   */
+  private gatherEvidence(
+    windowStartMs: number,
+    windowEnd: string,
+  ): { evidenceStart: string; events: Event[]; evidence: PreprocessResult } {
+    const load = (evidenceStart: string) => {
+      const events = sortChronologically(this.deps.events.getOverlapping(evidenceStart, windowEnd));
+      return { evidenceStart, events, evidence: preprocessEvents(events, evidenceStart, windowEnd) };
+    };
+    const full = load(new Date(windowStartMs - CONTEXT_LOOKBACK_MS).toISOString());
+    const context = full.evidence.items.filter((item) => Date.parse(item.endedAt) <= windowStartMs);
+    if (context.length <= MAX_CONTEXT_EVIDENCE_ITEMS) return full;
+    return load(context[context.length - MAX_CONTEXT_EVIDENCE_ITEMS].startedAt);
+  }
+
+  /**
+   * Recorded activities the model may continue: every activity that owns
+   * evidence it is shown, and the most recent ones reaching into that stretch.
+   * Oldest first.
+   */
+  private continuityActivities(evidenceStart: string, windowEnd: string, ownerIds: string[]): IntelligenceActivity[] {
+    const { repo } = this.deps;
+    const byId = new Map<string, IntelligenceActivity>();
+    for (const activity of repo.listContinuityActivities(windowEnd, evidenceStart, CONTINUITY_LIMIT)) {
+      byId.set(activity.id, activity);
+    }
+    for (const activity of repo.getActivitiesByIds(ownerIds.filter((id) => !byId.has(id)))) {
+      if (activity.supersededAt === null) byId.set(activity.id, activity);
+    }
+    return [...byId.values()].sort(
+      (a, b) => Date.parse(a.endedAt) - Date.parse(b.endedAt) || Date.parse(a.startedAt) - Date.parse(b.startedAt),
+    );
   }
 
   private reconcile(
@@ -566,6 +625,7 @@ function toPreviousInput(activity: IntelligenceActivity): PreviousActivityInput 
     startedAt: activity.startedAt,
     endedAt: activity.endedAt,
     title: activity.title,
+    summary: activity.summary,
     contextId: activity.contextId,
     areaId: activity.areaId,
     intentId: activity.intentId,

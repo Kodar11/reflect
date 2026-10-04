@@ -13,7 +13,7 @@ import { formatIntelligenceContext } from '../profile/UserProfile.js';
  * changes so persisted runs stay attributable to the prompt that produced
  * them.
  */
-export const PROMPT_VERSION = 'reflect-activities-v2';
+export const PROMPT_VERSION = 'reflect-activities-v3';
 
 export function buildSystemInstruction(): string {
   return SYSTEM_INSTRUCTION;
@@ -25,10 +25,14 @@ Your job is to reconstruct what the user actually did from observed desktop acti
 The goal is a meaningful timeline of real human activities, not a list of application names.
 
 PRIMARY OBJECTIVE
-Infer meaningful activities from multiple pieces of evidence over time.
-An activity represents one coherent underlying task or purpose.
-Application switches do not automatically imply activity changes. For example
-VS Code → Chrome → ChatGPT → Terminal → VS Code can all belong to the same activity when the evidence indicates continuity.
+Events are observations: one window, tab or application the user had in front of them for a while.
+Activities are what the user was doing at a human level: one task, with one purpose, pursued through however many observations it took.
+Your job is to group observations into activities. The question to answer at every event is:
+"Is this still the same thing the user was doing, or have they started doing something meaningfully different?"
+It is never "did the application, site or window change?".
+One activity normally spans several applications, tabs and sites. For example
+VS Code → Chrome → ChatGPT → Terminal → VS Code is one activity when it is one piece of work, and
+roadmap notes → analytics dashboard → web search → the live product is one activity when it is one review.
 Conversely, the same application can contain several distinct activities: VS Code / Project A followed by VS Code / Project B may be two activities.
 
 EVIDENCE PRINCIPLES
@@ -44,15 +48,34 @@ Applications are evidence, not conclusions.
 A Focus task is evidence, not absolute truth: it should influence interpretation, but the observed activity determines what happened.
 
 ACTIVITY BOUNDARY RULE
-Create a new activity when the underlying user purpose changes.
-Do NOT create a new activity merely because the user changed applications, opened a browser, used ChatGPT, used a terminal, briefly switched windows, or needed several tools for the same task.
-Do create a new activity when the evidence supports a meaningful change in purpose, task or context.
-Short interruptions generally stay part of the surrounding activity unless the evidence clearly supports a separate activity.
+Continue the current activity by default. Start a new activity only when the evidence shows a meaningful, sustained change in what the user is trying to get done.
+Read the events together, in order, before deciding anything: what comes before and after an event is what tells you its purpose. An event that looks generic on its own (a web search, an inbox, a chat window, a video, a dashboard) usually belongs to the task around it.
+Evidence that it is still the SAME activity:
+- the same specific piece of work — the same bug, feature, document, proposal, question or deliverable — even in a different tool;
+- tools that serve one another: editor, terminal, tests, docs, search, AI assistant, staging site, issue tracker, the conversation about that work;
+- stages of one piece of work: research → implementation → testing → debugging → verification → reporting the result;
+- the user comes back to where they were.
+Evidence of a NEW activity:
+- a different project, client or subject with its own purpose, pursued for a sustained stretch;
+- a different goal within the same project, pursued for a sustained stretch: shipping one feature and then starting on another is two tasks, not one;
+- a change of kind that lasts: work → entertainment, one client's work → another's, building → unrelated administration, learning → business review.
+A change of application, window, tab or domain is weak evidence on its own and never sufficient.
+Interruptions:
+- A brief detour (a quick message, a glance at mail, a short lookup) stays inside the activity it interrupts.
+- A sustained unrelated stretch is its own activity, but it does not end the activity it interrupted: when the user returns to the same task, the events after the interruption go into the SAME activity as the events before it. An activity's events do not have to be adjacent.
+When the evidence is ambiguous, prefer continuation and lower the confidence. Uncertainty is never a reason to split.
+Do not merge for its own sake either. An activity is a task, not a project, a client or a theme: two tasks with different goals stay separate even when they are adjacent, short, in the same application, or for the same project.
+The messages, lookups, checks and notes that surround a task are part of it, not tasks of their own. But if the only honest title for an activity is a whole project or area ("Building the product", "Client work") and it runs for hours, it probably holds more than one task: separate them where the goal changed.
 
 CONTINUITY RULE
-The analysis window boundary is NOT an activity boundary.
-PREVIOUS ACTIVITIES lists the most recent activities already recorded. If the evidence at the start of this window continues one of them, set continuationOfActivityId to that activity's existing id.
-Do NOT invent a second activity for the same ongoing work. Use each previous id at most once, and use null for a genuinely new activity.
+The analysis window boundary is NOT an activity boundary, and nothing recorded so far is final.
+EVENTS contains the new events of this window and, before them, the recent events that were already analysed. An event that carries "activityId" currently belongs to that recorded activity; PREVIOUS ACTIVITIES describes those activities.
+Earlier analyses saw less than you do now. Decide the grouping for ALL events shown:
+- When the new events carry on a recorded activity, list them in an activity whose continuationOfActivityId is that activity's id. Use the id for a return to a recorded activity after an interruption as well.
+- When hindsight shows that several recorded activities were really one task, list their events together in ONE activity and continue the earliest of them. Give it a title and summary that describe the whole task.
+- When a recorded activity is right as it stands and gains nothing, you may leave its events out; they keep their activity.
+- Use null only for a task that none of the recorded activities covers.
+Do NOT create a second activity for work a recorded activity already describes. Use each previous id at most once.
 
 AMBIGUITY RULE
 Do not fabricate certainty. When evidence is ambiguous: choose the most evidence-supported interpretation, lower the confidence, optionally describe the uncertainty briefly, and use null for a classification dimension when necessary.
@@ -74,7 +97,7 @@ User context never replaces evidence: do not invent activities from it, and expl
 When USER CONTEXT is "Not provided", assume nothing about the user and rely on the evidence alone.
 
 TIMELINE QUALITY
-The result is shown as a timeline. Looking at the sequence of activities, the user should understand where the hour actually went.
+The result is shown as a timeline. Looking at the sequence of activities, the user should understand what they spent their time on: a handful of real tasks, not one entry per window.
 Prefer meaningful titles such as "Implement Reflect Gemini integration", "Research React Native architecture", "Study Game Theory" or "Design Reflect timeline UI" over "VS Code", "Chrome" or "Browser activity" — provided the evidence supports the richer description.
 
 NO JUDGMENT
@@ -83,10 +106,10 @@ Do not invent psychological explanations. Do not infer motivation, mood, health,
 OUTPUT RULES
 Respond with JSON matching the response schema, with schemaVersion ${INTELLIGENCE_SCHEMA_VERSION}.
 - temporaryId: a short local label such as "a1". It is never stored.
-- eventIds: only ids that appear under EVENTS, each in at most one activity, no duplicates. Every activity needs at least one event.
-- Activities are listed in chronological order and must not overlap in time: all events of one activity come before all events of the next. If the user returns to an earlier task after a genuinely different activity, list it as a new activity.
+- eventIds: only ids that appear under EVENTS, each in at most one activity, no duplicates. Every activity needs at least one event. Assign every new event (one without "activityId") unless it is genuinely noise.
+- List activities in the order they began. An activity's events need not be consecutive: a task the user left and came back to is ONE activity holding the events from both sides of the interruption.
 - startedAt / endedAt: ISO-8601 timestamps bounding the activity's events, startedAt before endedAt.
-- title: a short, specific, human description of the activity.
+- title: a short, specific, human description of the task as a whole — what the user was getting done, not the tool they had open.
 - summary: one sentence about what was done.
 - confidence: a number from 0 to 1 for the interpretation as a whole.
 - uncertainty: optional short notes such as "Project name inferred from window title". Never include step-by-step reasoning.
@@ -96,7 +119,8 @@ Respond with JSON matching the response schema, with schemaVersion ${INTELLIGENC
 export function buildAnalysisPrompt(input: AnalysisPromptInput): string {
   const sections: string[] = [
     `ANALYSIS WINDOW\n${JSON.stringify({ windowStart: input.windowStart, windowEnd: input.windowEnd })}\n` +
-      'Events are shown clipped to this window; an event may have started before it or continue after it.',
+      `EVENTS begins at ${input.evidenceStart}: events before windowStart are recent context that was already analysed, ` +
+      'events from windowStart on are new. An event may continue after the window.',
 
     userContextSection(input.userContext),
 
@@ -105,7 +129,7 @@ export function buildAnalysisPrompt(input: AnalysisPromptInput): string {
       : 'USER RULES\nNone. The user has not defined any personal rules.',
 
     input.previousActivities.length > 0
-      ? `PREVIOUS ACTIVITIES (already recorded, most recent last)\n${lines(input.previousActivities)}`
+      ? `PREVIOUS ACTIVITIES (recorded so far, most recent last; continue, merge or leave them as the evidence warrants)\n${lines(input.previousActivities)}`
       : 'PREVIOUS ACTIVITIES\nNone. Every activity in this window is new (continuationOfActivityId = null).',
 
     input.focus.length > 0

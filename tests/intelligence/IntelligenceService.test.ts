@@ -162,7 +162,7 @@ describe('IntelligenceService — analysis + persistence', () => {
     await h.service.analyzeWindow(WS, WE);
     const first = h.repo.active()[0];
 
-    // The crossing event is shown again in the next window, clipped to it.
+    // The crossing event is shown again in the next window, whole, as part of the recorded activity.
     h.gemini.push(
       modelOutput(
         [modelActivity({ eventIds: [2, 3], continuationOfActivityId: first.id, startedAt: t('10:00'), endedAt: t('10:50') })],
@@ -172,7 +172,10 @@ describe('IntelligenceService — analysis + persistence', () => {
     );
     await h.service.analyzeWindow(t('10:00'), t('11:00'));
 
-    expect(h.gemini.requests[1].prompt).toContain(`"id":2,"watcher":"window","startedAt":"${t('10:00')}"`);
+    expect(h.gemini.requests[1].prompt).toContain(
+      `"id":2,"watcher":"window","startedAt":"${t('09:50')}","endedAt":"${t('10:20')}"`,
+    );
+    expect(h.gemini.requests[1].prompt).toContain(`"url":null,"activityId":"${first.id}"}`);
     expect(h.repo.active()).toHaveLength(1);
     expect(h.repo.getActivityEventIds(first.id)).toEqual([1, 2, 3]);
     expect(h.events.byId(2)).toMatchObject({ startedAt: t('09:50'), endedAt: t('10:20') });
