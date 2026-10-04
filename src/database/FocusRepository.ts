@@ -1,12 +1,17 @@
 import type { Database } from './Database.js';
-import type {
-  BlockedAttempt,
-  FocusInterruption,
-  FocusProfile,
-  FocusProfileRule,
-  FocusRule,
-  FocusSession,
+import {
+  DEFAULT_FOCUS_PREFERENCES,
+  normalizeFocusPreferences,
+  type BlockedAttempt,
+  type FocusEndReason,
+  type FocusInterruption,
+  type FocusPreferences,
+  type FocusProfile,
+  type FocusProfileRule,
+  type FocusRule,
+  type FocusSession,
 } from '../focus/FocusModels.js';
+import { parseBlockingConfig } from '../focus/BlockingConfig.js';
 
 export interface IFocusRepository {
   // Profiles
@@ -28,11 +33,15 @@ export interface IFocusRepository {
   // Sessions
   getSessionById(id: string): FocusSession | null;
   getActiveSession(): FocusSession | null;
+  /** Every session that has not ended (planned, active or paused), newest first. */
+  getOpenSessions(): FocusSession[];
   getSessionsByRange(from: string, to: string): FocusSession[];
   getSessionsForDay(isoDate: string): FocusSession[];
   getAllSessions(limit?: number): FocusSession[];
   insertSession(session: FocusSession): void;
   updateSession(session: FocusSession): void;
+  /** Remove a session that never started (a failed or interrupted start). */
+  deleteSession(id: string): void;
 
   // Interruptions
   getInterruptions(sessionId: string): FocusInterruption[];
@@ -41,6 +50,10 @@ export interface IFocusRepository {
   // Blocked attempts
   getBlockedAttempts(sessionId: string): BlockedAttempt[];
   insertBlockedAttempt(attempt: BlockedAttempt): void;
+
+  // Preferences
+  getPreferences(): FocusPreferences;
+  savePreferences(preferences: FocusPreferences): void;
 }
 
 interface ProfileRow {
@@ -87,6 +100,9 @@ interface SessionRow {
   total_pause_ms: number;
   elapsed_ms: number;
   blocking_lease_id: string | null;
+  end_reason: FocusEndReason | null;
+  end_note: string | null;
+  blocking_config: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -129,6 +145,10 @@ export class FocusRepository implements IFocusRepository {
 
   private readonly getSessionByIdStmt;
   private readonly getActiveSessionStmt;
+  private readonly getOpenSessionsStmt;
+  private readonly deleteSessionStmt;
+  private readonly getPreferencesStmt;
+  private readonly savePreferencesStmt;
   private readonly getSessionsByRangeStmt;
   private readonly getSessionsForDayStmt;
   private readonly getAllSessionsStmt;
@@ -200,6 +220,17 @@ export class FocusRepository implements IFocusRepository {
       WHERE state IN ('planned', 'active', 'paused')
       ORDER BY created_at DESC LIMIT 1
     `);
+    this.getOpenSessionsStmt = db.prepare(`
+      SELECT * FROM focus_sessions
+      WHERE state IN ('planned', 'active', 'paused')
+      ORDER BY created_at DESC
+    `);
+    this.deleteSessionStmt = db.prepare('DELETE FROM focus_sessions WHERE id = @id');
+    this.getPreferencesStmt = db.prepare('SELECT data FROM focus_preferences WHERE id = 1');
+    this.savePreferencesStmt = db.prepare(`
+      INSERT INTO focus_preferences (id, data, updated_at) VALUES (1, @data, @updated_at)
+      ON CONFLICT (id) DO UPDATE SET data = excluded.data, updated_at = excluded.updated_at
+    `);
     this.getSessionsByRangeStmt = db.prepare(`
       SELECT * FROM focus_sessions
       WHERE (started_at >= @from AND started_at < @to)
@@ -221,11 +252,11 @@ export class FocusRepository implements IFocusRepository {
       INSERT INTO focus_sessions
         (id, profile_id, task, notes, mode, planned_duration_minutes, state,
          started_at, ended_at, paused_at, total_pause_ms, elapsed_ms,
-         blocking_lease_id, created_at, updated_at)
+         blocking_lease_id, end_reason, end_note, blocking_config, created_at, updated_at)
       VALUES
         (@id, @profile_id, @task, @notes, @mode, @planned_duration_minutes, @state,
          @started_at, @ended_at, @paused_at, @total_pause_ms, @elapsed_ms,
-         @blocking_lease_id, @created_at, @updated_at)
+         @blocking_lease_id, @end_reason, @end_note, @blocking_config, @created_at, @updated_at)
     `);
     this.updateSessionStmt = db.prepare(`
       UPDATE focus_sessions SET
@@ -241,6 +272,9 @@ export class FocusRepository implements IFocusRepository {
         total_pause_ms = @total_pause_ms,
         elapsed_ms = @elapsed_ms,
         blocking_lease_id = @blocking_lease_id,
+        end_reason = @end_reason,
+        end_note = @end_note,
+        blocking_config = @blocking_config,
         updated_at = @updated_at
       WHERE id = @id
     `);
@@ -358,6 +392,10 @@ export class FocusRepository implements IFocusRepository {
     return row ? rowToSession(row) : null;
   }
 
+  getOpenSessions(): FocusSession[] {
+    return (this.getOpenSessionsStmt.all() as SessionRow[]).map(rowToSession);
+  }
+
   getSessionsByRange(from: string, to: string): FocusSession[] {
     return (this.getSessionsByRangeStmt.all({ from, to }) as SessionRow[]).map(rowToSession);
   }
@@ -376,6 +414,27 @@ export class FocusRepository implements IFocusRepository {
 
   updateSession(session: FocusSession): void {
     this.updateSessionStmt.run(sessionToRow(session));
+  }
+
+  deleteSession(id: string): void {
+    this.deleteSessionStmt.run({ id });
+  }
+
+  getPreferences(): FocusPreferences {
+    const row = this.getPreferencesStmt.get() as { data: string } | undefined;
+    if (!row) return { ...DEFAULT_FOCUS_PREFERENCES };
+    try {
+      return normalizeFocusPreferences(JSON.parse(row.data));
+    } catch {
+      return { ...DEFAULT_FOCUS_PREFERENCES };
+    }
+  }
+
+  savePreferences(preferences: FocusPreferences): void {
+    this.savePreferencesStmt.run({
+      data: JSON.stringify(normalizeFocusPreferences(preferences)),
+      updated_at: new Date().toISOString(),
+    });
   }
 
   getInterruptions(sessionId: string): FocusInterruption[] {
@@ -477,6 +536,9 @@ function rowToSession(r: SessionRow): FocusSession {
     totalPauseMs: r.total_pause_ms,
     elapsedMs: r.elapsed_ms,
     blockingLeaseId: r.blocking_lease_id,
+    endReason: r.end_reason,
+    endNote: r.end_note,
+    blockingConfig: parseBlockingConfig(r.blocking_config),
     createdAt: r.created_at,
     updatedAt: r.updated_at,
   };
@@ -497,6 +559,9 @@ function sessionToRow(s: FocusSession): SessionRow {
     total_pause_ms: s.totalPauseMs,
     elapsed_ms: s.elapsedMs,
     blocking_lease_id: s.blockingLeaseId,
+    end_reason: s.endReason,
+    end_note: s.endNote,
+    blocking_config: s.blockingConfig ? JSON.stringify(s.blockingConfig) : null,
     created_at: s.createdAt,
     updated_at: s.updatedAt,
   };

@@ -1,60 +1,95 @@
-import type { FocusProfile, FocusProfileRule } from './FocusModels.js';
+import type { EffectiveBlockingConfig, FocusProfileRule } from './FocusModels.js';
 
 export type BlockingLeaseId = string;
 
-/**
- * Abstraction over the external Windows Service that controls distraction
- * blocking. The real implementation will call the service via named pipes or a
- * local HTTP loopback; the stub logs and records commands so the app can still
- * be tested and developed without the service installed.
- */
-export interface IBlockingManager {
-  /**
-   * Start a blocking lease with the given profile rules.
-   * Returns a lease id that can be used to extend/release it.
-   */
-  start(profile: FocusProfile, sessionId: string): Promise<BlockingLeaseId>;
+export interface BlockedAttemptEvent {
+  type: FocusProfileRule['type'];
+  target: string;
+  sessionId: string;
+}
 
-  /** Extend the lease. The service may release the lease if this is missed. */
-  heartbeat(leaseId: BlockingLeaseId, sessionId: string): Promise<void>;
+export type BlockedAttemptCallback = (attempt: BlockedAttemptEvent) => void;
 
-  /** Stop blocking and release the lease. */
-  stop(leaseId: BlockingLeaseId, sessionId: string): Promise<void>;
+export type BlockingFailureCode =
+  | 'elevation-declined'
+  | 'helper-unavailable'
+  | 'disconnected'
+  | 'timeout'
+  | 'lease-lost'
+  | 'rejected';
 
-  /** Record an attempt that was blocked by the service. */
-  onBlockedAttempt(callback: (attempt: { type: FocusProfileRule['type']; target: string; sessionId: string }) => void): void;
-  offBlockedAttempt(callback: (attempt: { type: FocusProfileRule['type']; target: string; sessionId: string }) => void): void;
+/** A blocking failure the user can be told about in plain language. */
+export class BlockingError extends Error {
+  constructor(
+    readonly code: BlockingFailureCode,
+    message: string,
+  ) {
+    super(message);
+    this.name = 'BlockingError';
+  }
 }
 
 /**
- * Stub blocking manager that does not actually block anything. It still issues
- * lease ids and logs commands so the FocusService can be developed without the
- * external Windows Service.
+ * Abstraction over the privileged enforcement layer. A lease means: "this
+ * Focus session currently owns this blocking state". The enforcement side
+ * releases a lease on its own if it is not heartbeated, so an orphaned
+ * session can never block the machine permanently.
  */
-export class StubBlockingManager implements IBlockingManager {
-  private nextLeaseId = 1;
-  private readonly callbacks: Array<(attempt: { type: FocusProfileRule['type']; target: string; sessionId: string }) => void> = [];
+export interface IBlockingManager {
+  /** 'none' when this manager cannot enforce anything on this platform. */
+  readonly enforcement: 'real' | 'none';
 
-  async start(profile: FocusProfile, sessionId: string): Promise<BlockingLeaseId> {
-    const leaseId = `stub-lease-${this.nextLeaseId++}`;
-    console.log(`[StubBlockingManager] start lease ${leaseId} for session ${sessionId} with profile ${profile.name} (${profile.rules.length} rules)`);
-    return leaseId;
+  /**
+   * Start enforcing `config` for a session. Resolves only once enforcement
+   * is confirmed; rejects with a `BlockingError` otherwise.
+   */
+  start(config: EffectiveBlockingConfig, sessionId: string): Promise<BlockingLeaseId>;
+
+  /** Extend the lease. Rejects if the lease is no longer held. */
+  heartbeat(leaseId: BlockingLeaseId, sessionId: string): Promise<void>;
+
+  /** Stop blocking and restore the machine. */
+  stop(leaseId: BlockingLeaseId, sessionId: string): Promise<void>;
+
+  /** True if blocking from an earlier session is still in place on disk. */
+  hasResidue(): boolean;
+
+  /** Remove leftover blocking when no session owns it. */
+  clearResidue(): Promise<void>;
+
+  /** Release everything this manager holds (app shutdown). */
+  dispose(): Promise<void>;
+
+  /** Subscribe to attempts the enforcement layer stopped. */
+  onBlockedAttempt(callback: BlockedAttemptCallback): void;
+  offBlockedAttempt(callback: BlockedAttemptCallback): void;
+}
+
+/**
+ * Blocking manager for platforms without an enforcement implementation. It
+ * enforces nothing and says so (`enforcement: 'none'`), so the UI reports
+ * blocking as unavailable instead of pretending.
+ */
+export class NoopBlockingManager implements IBlockingManager {
+  readonly enforcement = 'none' as const;
+
+  async start(): Promise<BlockingLeaseId> {
+    throw new BlockingError('helper-unavailable', 'Blocking is not available on this platform.');
   }
 
-  async heartbeat(leaseId: BlockingLeaseId, sessionId: string): Promise<void> {
-    console.log(`[StubBlockingManager] heartbeat lease ${leaseId} for session ${sessionId}`);
+  async heartbeat(): Promise<void> {}
+
+  async stop(): Promise<void> {}
+
+  hasResidue(): boolean {
+    return false;
   }
 
-  async stop(leaseId: BlockingLeaseId, sessionId: string): Promise<void> {
-    console.log(`[StubBlockingManager] stop lease ${leaseId} for session ${sessionId}`);
-  }
+  async clearResidue(): Promise<void> {}
 
-  onBlockedAttempt(callback: (attempt: { type: FocusProfileRule['type']; target: string; sessionId: string }) => void): void {
-    this.callbacks.push(callback);
-  }
+  async dispose(): Promise<void> {}
 
-  offBlockedAttempt(callback: (attempt: { type: FocusProfileRule['type']; target: string; sessionId: string }) => void): void {
-    const idx = this.callbacks.indexOf(callback);
-    if (idx !== -1) this.callbacks.splice(idx, 1);
-  }
+  onBlockedAttempt(): void {}
+
+  offBlockedAttempt(): void {}
 }

@@ -1,318 +1,369 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { cleanIpcError } from './focusView';
 
-export type FocusMode = 'stopwatch' | 'countdown';
+export { formatClock } from './focusView';
+export type { FocusMode } from './focusView';
 
-export interface FocusProfileDto {
-  id: string;
-  name: string;
-  description: string | null;
-  isDefault: boolean;
-  mode: FocusMode;
-  defaultDurationMinutes: number | null;
-  blocksDistractions: boolean;
-  soundCue: string | null;
-  createdAt: string;
-  updatedAt: string;
-  rules: FocusProfileRuleDto[];
-}
-
-export interface FocusProfileRuleDto {
-  id: string;
-  profileId: string;
-  type: 'app' | 'website' | 'category';
-  target: string;
-  action: 'block' | 'allow';
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface FocusRuleDto {
-  id: string;
-  type: 'app' | 'website' | 'category';
-  target: string;
-  action: 'block' | 'allow';
-  enabled: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface FocusSessionDto {
-  id: string;
-  profileId: string;
-  task: string;
-  notes: string | null;
-  mode: FocusMode;
-  plannedDurationMinutes: number | null;
-  state: 'planned' | 'active' | 'paused' | 'completed' | 'cancelled';
-  startedAt: string | null;
-  endedAt: string | null;
-  pausedAt: string | null;
-  totalPauseMs: number;
-  elapsedMs: number;
-  blockingLeaseId: string | null;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface ActiveFocusSessionDto {
-  session: FocusSessionDto;
-  profile: FocusProfileDto;
-  liveElapsedMs: number;
-  isRunning: boolean;
-  remainingMs: number | null;
-}
-
-export interface FocusSummaryDto {
-  session: FocusSessionDto;
-  profile: FocusProfileDto;
-  trackedSessionIds: string[];
-  interruptionCount: number;
-  blockedAttemptCount: number;
-  productiveMs: number;
-}
+// The DTO shapes are declared globally in types.d.ts; re-exported under the
+// names the Focus components import.
+type ProfileDto = FocusProfileDto;
+type ProfileRuleDto = FocusProfileRuleDto;
+type RuleDto = FocusRuleDto;
+type SessionDto = FocusSessionDto;
+type ActiveDto = ActiveFocusSessionDto;
+type SummaryDto = FocusSummaryDto;
+type PreferencesDto = FocusPreferencesDto;
+type EndChallengeDto = EndFocusChallengeDto;
+type IntentDto = FocusIntentDto;
+export type {
+  ProfileDto as FocusProfileDto,
+  ProfileRuleDto as FocusProfileRuleDto,
+  RuleDto as FocusRuleDto,
+  SessionDto as FocusSessionDto,
+  ActiveDto as ActiveFocusSessionDto,
+  SummaryDto as FocusSummaryDto,
+  PreferencesDto as FocusPreferencesDto,
+  EndChallengeDto as EndFocusChallengeDto,
+  IntentDto as FocusIntentDto,
+};
 
 export interface StartFocusRequest {
   profileId: string;
   task: string;
   notes?: string | null;
-  mode?: FocusMode;
+  mode?: 'stopwatch' | 'countdown';
   plannedDurationMinutes?: number | null;
+  withoutBlocking?: boolean;
 }
 
+export interface NewBlock {
+  profileId?: string | null;
+  type: FocusRuleDto['type'];
+  target: string;
+  action?: FocusRuleDto['action'];
+}
+
+/** The operation currently in flight; controls stay disabled meanwhile. */
+export type FocusBusy = 'starting' | 'pausing' | 'resuming' | 'ending' | 'restoring';
+
+export const FALLBACK_PREFERENCES: PreferencesDto = {
+  defaultProfileId: null,
+  idleAutoPause: true,
+  idleThresholdSeconds: 120,
+  idleAutoResume: true,
+  notifyStart: false,
+  notifyIdle: true,
+  notifyComplete: true,
+  notifyBlocked: true,
+};
+
 export interface UseFocusResult {
-  profiles: FocusProfileDto[];
-  rules: FocusRuleDto[];
-  activeSession: ActiveFocusSessionDto | null;
-  summary: FocusSummaryDto | null;
+  /** False until the first load finished — render nothing session-specific before. */
+  ready: boolean;
+  profiles: ProfileDto[];
+  rules: RuleDto[];
+  preferences: PreferencesDto;
+  activeSession: ActiveDto | null;
+  summary: SummaryDto | null;
   dismissSummary: () => void;
-  loading: boolean;
+  /** Show the summary of a past session (from the Timeline). */
+  showSummaryFor: (sessionId: string) => Promise<void>;
+  busy: FocusBusy | null;
   error: string | null;
+  clearError: () => void;
+  /** Blocking left behind by an earlier session is still in place. */
+  blockingResidue: boolean;
+  clearBlockingResidue: () => Promise<void>;
+  /** A request from the tray to open a specific flow; `nonce` makes repeats distinct. */
+  intent: { kind: IntentDto; nonce: number } | null;
+  consumeIntent: () => void;
   refresh: () => Promise<void>;
-  start: (request: StartFocusRequest) => Promise<void>;
-  pause: (reason?: string | null) => Promise<void>;
-  resume: () => Promise<void>;
-  stop: (state: 'completed' | 'cancelled') => Promise<void>;
-  saveProfile: (profile: FocusProfileDto, ruleIds: string[]) => Promise<void>;
+  start: (request: StartFocusRequest) => Promise<boolean>;
+  pause: (reason?: string | null) => Promise<boolean>;
+  resume: () => Promise<boolean>;
+  requestEnd: () => Promise<EndChallengeDto | null>;
+  confirmEnd: (request: { token: string; phrase?: string | null; reason?: string | null }) => Promise<string | null>;
+  restoreBlocking: () => Promise<void>;
+  savePreferences: (preferences: PreferencesDto) => Promise<void>;
+  /** Categories, open apps and recent sites the blocking editor can offer. */
+  blockingOptions: FocusBlockingOptionsDto | null;
+  loadBlockingOptions: () => Promise<void>;
+  /** Resolves to null on success or to the reason it was refused. */
+  addBlock: (block: NewBlock) => Promise<string | null>;
+  setProfileBlock: (profileId: string, ruleId: string, on: boolean) => Promise<void>;
+  /** `ruleIds: null` keeps the profile's current rules. */
+  saveProfile: (profile: ProfileDto, ruleIds: string[] | null) => Promise<void>;
   deleteProfile: (id: string) => Promise<void>;
-  saveRule: (rule: FocusRuleDto) => Promise<void>;
+  saveRule: (rule: RuleDto) => Promise<void>;
   deleteRule: (id: string) => Promise<void>;
-  getSessionsByRange: (from: string, to: string) => Promise<FocusSessionDto[]>;
-  getSessionsForDay: (isoDate: string) => Promise<FocusSessionDto[]>;
-  getHistory: (limit?: number) => Promise<FocusSessionDto[]>;
-  getSessionSummary: (sessionId: string) => Promise<FocusSummaryDto | null>;
+  getSessionsByRange: (from: string, to: string) => Promise<SessionDto[]>;
+  getSessionsForDay: (isoDate: string) => Promise<SessionDto[]>;
+  getHistory: (limit?: number) => Promise<SessionDto[]>;
+  getSessionSummary: (sessionId: string) => Promise<SummaryDto | null>;
 }
 
 export function useFocus(): UseFocusResult {
-  const [profiles, setProfiles] = useState<FocusProfileDto[]>([]);
-  const [rules, setRules] = useState<FocusRuleDto[]>([]);
-  const [activeSession, setActiveSession] = useState<ActiveFocusSessionDto | null>(null);
-  const [summary, setSummary] = useState<FocusSummaryDto | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [ready, setReady] = useState(false);
+  const [profiles, setProfiles] = useState<ProfileDto[]>([]);
+  const [rules, setRules] = useState<RuleDto[]>([]);
+  const [preferences, setPreferences] = useState<PreferencesDto>(FALLBACK_PREFERENCES);
+  const [activeSession, setActiveSession] = useState<ActiveDto | null>(null);
+  const [summary, setSummary] = useState<SummaryDto | null>(null);
+  const [busy, setBusy] = useState<FocusBusy | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const liveRef = useRef<number | null>(null);
+  const [blockingResidue, setBlockingResidue] = useState(false);
+  const [intent, setIntent] = useState<{ kind: IntentDto; nonce: number } | null>(null);
+  const [blockingOptions, setBlockingOptions] = useState<FocusBlockingOptionsDto | null>(null);
+  // Guards against double-clicks; the service enforces the same thing.
+  const busyRef = useRef<FocusBusy | null>(null);
 
   const refresh = useCallback(async () => {
     try {
-      const [profileList, ruleList, active] = await Promise.all([
+      const [profileList, ruleList, active, prefs, residue] = await Promise.all([
         window.focusMode.listProfiles(),
         window.focusMode.listRules(),
         window.focusMode.getActiveSession(),
+        window.focusMode.getPreferences(),
+        window.focusMode.getBlockingResidue(),
       ]);
       setProfiles(profileList);
       setRules(ruleList);
       setActiveSession(active);
-      if (active?.isRunning) {
-        startLiveTick();
-      } else {
-        stopLiveTick();
-      }
+      setPreferences(prefs);
+      setBlockingResidue(residue);
     } catch (e) {
-      setError((e as Error)?.message ?? String(e));
+      setError(cleanIpcError(e));
+    } finally {
+      setReady(true);
     }
   }, []);
 
   useEffect(() => {
     refresh();
-    const onChange = (dto: ActiveFocusSessionDto | null) => {
+    const onChange = (dto: ActiveDto | null) => {
       setActiveSession(dto);
-      if (dto?.isRunning) startLiveTick();
-      else stopLiveTick();
+      // A session just ended: check whether its blocking was fully released.
+      if (!dto) window.focusMode.getBlockingResidue().then(setBlockingResidue).catch(() => {});
     };
-    const onSummary = (dto: FocusSummaryDto) => {
-      setSummary(dto);
-    };
+    const onSummary = (dto: SummaryDto) => setSummary(dto);
+    const onIntent = (kind: IntentDto) => setIntent({ kind, nonce: Date.now() });
     window.focusMode.onActiveSessionChanged(onChange);
     window.focusMode.onSummary(onSummary);
+    window.focusMode.onIntent(onIntent);
     return () => {
       window.focusMode.offActiveSessionChanged(onChange);
       window.focusMode.offSummary(onSummary);
-      stopLiveTick();
+      window.focusMode.offIntent(onIntent);
     };
   }, [refresh]);
 
-  function startLiveTick() {
-    if (liveRef.current) return;
-    liveRef.current = window.setInterval(() => {
-      setActiveSession((prev) => {
-        if (!prev || !prev.isRunning) return prev;
-        const elapsed = prev.liveElapsedMs + 1000;
-        let remainingMs: number | null = null;
-        if (prev.session.mode === 'countdown' && prev.session.plannedDurationMinutes !== null) {
-          remainingMs = Math.max(0, prev.session.plannedDurationMinutes * 60_000 - elapsed);
-        }
-        return { ...prev, liveElapsedMs: elapsed, remainingMs };
-      });
-    }, 1000);
-  }
-
-  function stopLiveTick() {
-    if (liveRef.current) {
-      clearInterval(liveRef.current);
-      liveRef.current = null;
-    }
-  }
-
-  const start = useCallback(async (request: StartFocusRequest) => {
-    setLoading(true);
+  /** Run one session operation at a time; returns whether it succeeded. */
+  const run = useCallback(async (kind: FocusBusy, op: () => Promise<void>): Promise<boolean> => {
+    if (busyRef.current) return false;
+    busyRef.current = kind;
+    setBusy(kind);
     setError(null);
     try {
-      await window.focusMode.start(request);
-      await refresh();
+      await op();
+      return true;
     } catch (e) {
-      setError((e as Error)?.message ?? String(e));
+      setError(cleanIpcError(e));
+      return false;
     } finally {
-      setLoading(false);
+      busyRef.current = null;
+      setBusy(null);
     }
-  }, [refresh]);
-
-  const pause = useCallback(async (reason?: string | null) => {
-    try {
-      await window.focusMode.pause(reason ?? null);
-      await refresh();
-    } catch (e) {
-      setError((e as Error)?.message ?? String(e));
-    }
-  }, [refresh]);
-
-  const resume = useCallback(async () => {
-    try {
-      await window.focusMode.resume();
-      await refresh();
-    } catch (e) {
-      setError((e as Error)?.message ?? String(e));
-    }
-  }, [refresh]);
-
-  const stop = useCallback(async (state: 'completed' | 'cancelled') => {
-    try {
-      await window.focusMode.stop(state);
-      await refresh();
-    } catch (e) {
-      setError((e as Error)?.message ?? String(e));
-    }
-  }, [refresh]);
-
-  const getSessionsByRange = useCallback(async (from: string, to: string) => {
-    return window.focusMode.getSessionsByRange(from, to);
   }, []);
 
-  const getSessionsForDay = useCallback(async (isoDate: string) => {
-    return window.focusMode.getSessionsForDay(isoDate);
+  const start = useCallback(
+    (request: StartFocusRequest) =>
+      run('starting', async () => {
+        setActiveSession(await window.focusMode.start(request));
+      }),
+    [run],
+  );
+
+  const pause = useCallback(
+    (reason?: string | null) =>
+      run('pausing', async () => {
+        setActiveSession(await window.focusMode.pause(reason ?? null));
+      }),
+    [run],
+  );
+
+  const resume = useCallback(
+    () =>
+      run('resuming', async () => {
+        setActiveSession(await window.focusMode.resume());
+      }),
+    [run],
+  );
+
+  const requestEnd = useCallback(async () => {
+    try {
+      setError(null);
+      return await window.focusMode.requestEnd();
+    } catch (e) {
+      setError(cleanIpcError(e));
+      return null;
+    }
   }, []);
 
-  const getHistory = useCallback(async (limit?: number) => {
-    return window.focusMode.getHistory(limit);
+  /** Resolves to null on success, or to the reason the service refused. */
+  const confirmEnd = useCallback(async (request: { token: string; phrase?: string | null; reason?: string | null }) => {
+    if (busyRef.current) return 'Please wait…';
+    busyRef.current = 'ending';
+    setBusy('ending');
+    try {
+      await window.focusMode.confirmEnd(request);
+      setActiveSession(null);
+      return null;
+    } catch (e) {
+      return cleanIpcError(e);
+    } finally {
+      busyRef.current = null;
+      setBusy(null);
+    }
   }, []);
 
-  const getSessionSummary = useCallback(async (sessionId: string) => {
-    return window.focusMode.getSessionSummary(sessionId);
+  const restoreBlocking = useCallback(async () => {
+    await run('restoring', async () => {
+      const dto = await window.focusMode.restoreBlocking();
+      if (dto) setActiveSession(dto);
+    });
+  }, [run]);
+
+  const clearBlockingResidue = useCallback(async () => {
+    try {
+      setError(null);
+      setBlockingResidue(await window.focusMode.clearBlockingResidue());
+    } catch (e) {
+      setError(cleanIpcError(e));
+    }
   }, []);
 
-  const saveProfile = useCallback(async (profile: FocusProfileDto, ruleIds: string[]) => {
+  const savePreferences = useCallback(async (next: PreferencesDto) => {
+    setPreferences(next);
     try {
-      await window.focusMode.saveProfile(profile, ruleIds);
-      await refresh();
+      setPreferences(await window.focusMode.savePreferences(next));
     } catch (e) {
-      setError((e as Error)?.message ?? String(e));
-      throw e;
+      setError(cleanIpcError(e));
     }
-  }, [refresh]);
+  }, []);
 
-  const deleteProfile = useCallback(async (id: string) => {
+  const loadBlockingOptions = useCallback(async () => {
     try {
-      await window.focusMode.deleteProfile(id);
-      await refresh();
-    } catch (e) {
-      setError((e as Error)?.message ?? String(e));
-      throw e;
+      setBlockingOptions(await window.focusMode.getBlockingOptions());
+    } catch {
+      // Suggestions are a convenience; the editor works without them.
     }
-  }, [refresh]);
+  }, []);
 
-  const saveRule = useCallback(async (rule: FocusRuleDto) => {
-    try {
-      await window.focusMode.saveRule(rule);
-      await refresh();
-    } catch (e) {
-      setError((e as Error)?.message ?? String(e));
-      throw e;
-    }
-  }, [refresh]);
+  const addBlock = useCallback(
+    async (block: NewBlock) => {
+      try {
+        await window.focusMode.addBlock(block);
+        await refresh();
+        return null;
+      } catch (e) {
+        return cleanIpcError(e);
+      }
+    },
+    [refresh],
+  );
 
-  const deleteRule = useCallback(async (id: string) => {
+  const setProfileBlock = useCallback(
+    async (profileId: string, ruleId: string, on: boolean) => {
+      try {
+        await window.focusMode.setProfileBlock(profileId, ruleId, on);
+        await refresh();
+      } catch (e) {
+        setError(cleanIpcError(e));
+      }
+    },
+    [refresh],
+  );
+
+  const getSessionsByRange = useCallback((from: string, to: string) => window.focusMode.getSessionsByRange(from, to), []);
+  const getSessionsForDay = useCallback((isoDate: string) => window.focusMode.getSessionsForDay(isoDate), []);
+  const getHistory = useCallback((limit?: number) => window.focusMode.getHistory(limit), []);
+  const getSessionSummary = useCallback((sessionId: string) => window.focusMode.getSessionSummary(sessionId), []);
+
+  const showSummaryFor = useCallback(async (sessionId: string) => {
     try {
-      await window.focusMode.deleteRule(id);
-      await refresh();
+      const dto = await window.focusMode.getSessionSummary(sessionId);
+      if (dto) setSummary(dto);
     } catch (e) {
-      setError((e as Error)?.message ?? String(e));
-      throw e;
+      setError(cleanIpcError(e));
     }
-  }, [refresh]);
+  }, []);
+
+  const mutate = useCallback(
+    async (op: () => Promise<unknown>) => {
+      try {
+        await op();
+        await refresh();
+      } catch (e) {
+        const message = cleanIpcError(e);
+        setError(message);
+        throw new Error(message);
+      }
+    },
+    [refresh],
+  );
+
+  const saveProfile = useCallback((profile: ProfileDto, ruleIds: string[] | null) => mutate(() => window.focusMode.saveProfile(profile, ruleIds)), [mutate]);
+  const deleteProfile = useCallback((id: string) => mutate(() => window.focusMode.deleteProfile(id)), [mutate]);
+  const saveRule = useCallback((rule: RuleDto) => mutate(() => window.focusMode.saveRule(rule)), [mutate]);
+  const deleteRule = useCallback((id: string) => mutate(() => window.focusMode.deleteRule(id)), [mutate]);
 
   const dismissSummary = useCallback(() => setSummary(null), []);
+  const clearError = useCallback(() => setError(null), []);
+  const consumeIntent = useCallback(() => setIntent(null), []);
 
-  return useMemo(() => ({
-    profiles,
-    rules,
-    activeSession,
-    summary,
-    dismissSummary,
-    loading,
-    error,
-    refresh,
-    start,
-    pause,
-    resume,
-    stop,
-    saveProfile,
-    deleteProfile,
-    saveRule,
-    deleteRule,
-    getSessionsByRange,
-    getSessionsForDay,
-    getHistory,
-    getSessionSummary,
-  }), [profiles, rules, activeSession, summary, dismissSummary, loading, error, refresh, start, pause, resume, stop, saveProfile, deleteProfile, saveRule, deleteRule, getSessionsByRange, getSessionsForDay, getHistory, getSessionSummary]);
-}
-
-export function formatDuration(ms: number): string {
-  const totalSeconds = Math.floor(ms / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  const parts: string[] = [];
-  if (hours > 0) parts.push(`${hours}h`);
-  if (minutes > 0 || hours > 0) parts.push(`${minutes.toString().padStart(2, '0')}m`);
-  parts.push(`${seconds.toString().padStart(2, '0')}s`);
-  return parts.join(' ');
-}
-
-export function formatClock(ms: number): string {
-  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  }
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  return useMemo(
+    () => ({
+      ready,
+      profiles,
+      rules,
+      preferences,
+      activeSession,
+      summary,
+      dismissSummary,
+      showSummaryFor,
+      busy,
+      error,
+      clearError,
+      blockingResidue,
+      clearBlockingResidue,
+      intent,
+      consumeIntent,
+      refresh,
+      start,
+      pause,
+      resume,
+      requestEnd,
+      confirmEnd,
+      restoreBlocking,
+      savePreferences,
+      blockingOptions,
+      loadBlockingOptions,
+      addBlock,
+      setProfileBlock,
+      saveProfile,
+      deleteProfile,
+      saveRule,
+      deleteRule,
+      getSessionsByRange,
+      getSessionsForDay,
+      getHistory,
+      getSessionSummary,
+    }),
+    [
+      ready, profiles, rules, preferences, activeSession, summary, dismissSummary, showSummaryFor, busy, error,
+      clearError, blockingResidue, clearBlockingResidue, intent, consumeIntent, refresh, start, pause, resume,
+      requestEnd, confirmEnd, restoreBlocking, savePreferences, blockingOptions, loadBlockingOptions, addBlock, setProfileBlock, saveProfile, deleteProfile, saveRule, deleteRule,
+      getSessionsByRange, getSessionsForDay, getHistory, getSessionSummary,
+    ],
+  );
 }

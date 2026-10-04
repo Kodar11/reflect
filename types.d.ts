@@ -251,8 +251,18 @@ interface FocusRuleDto {
   target: string;
   action: 'block' | 'allow';
   enabled: boolean;
+  /** Human name: "Discord", "Social media", "youtube.com". */
+  label: string;
   createdAt: string;
   updatedAt: string;
+}
+
+interface FocusBlockingOptionsDto {
+  categories: Array<{ id: string; label: string; siteCount: number; appCount: number }>;
+  /** Apps with an open window right now, most recently used first. */
+  openApps: Array<{ name: string; process: string }>;
+  /** Sites visited recently, most recent first. */
+  recentSites: string[];
 }
 
 interface FocusProfileRuleDto {
@@ -277,7 +287,14 @@ interface FocusProfileDto {
   createdAt: string;
   updatedAt: string;
   rules: FocusProfileRuleDto[];
+  /** Every rule attached to the profile, including currently disabled ones. */
+  ruleIds: string[];
+  /** What a session started from this profile would actually enforce. */
+  blocking: { enabled: boolean; ruleCount: number; siteCount: number; appCount: number };
 }
+
+type FocusEndReasonDto = 'completed' | 'finished' | 'ended-early' | 'abandoned';
+type FocusBlockingStatusDto = 'active' | 'off' | 'recovering' | 'degraded' | 'unavailable';
 
 interface FocusSessionDto {
   id: string;
@@ -293,6 +310,8 @@ interface FocusSessionDto {
   totalPauseMs: number;
   elapsedMs: number;
   blockingLeaseId: string | null;
+  endReason: FocusEndReasonDto | null;
+  endNote: string | null;
   createdAt: string;
   updatedAt: string;
 }
@@ -302,8 +321,36 @@ interface ActiveFocusSessionDto {
   profile: FocusProfileDto;
   liveElapsedMs: number;
   isRunning: boolean;
+  /** Remaining time; frozen while paused. Null for a stopwatch. */
   remainingMs: number | null;
+  plannedEndsAt: string | null;
+  pauseKind: 'manual' | 'idle' | null;
+  blocking: { status: FocusBlockingStatusDto; ruleCount: number; message: string | null };
 }
+
+/** What the service requires before it will end the current session. */
+interface EndFocusChallengeDto {
+  token: string;
+  sessionId: string;
+  early: boolean;
+  requiresPhrase: boolean;
+  phrase: string;
+  remainingMs: number | null;
+  expiresAt: string;
+}
+
+interface FocusPreferencesDto {
+  defaultProfileId: string | null;
+  idleAutoPause: boolean;
+  idleThresholdSeconds: number;
+  idleAutoResume: boolean;
+  notifyStart: boolean;
+  notifyIdle: boolean;
+  notifyComplete: boolean;
+  notifyBlocked: boolean;
+}
+
+type FocusIntentDto = 'open' | 'pause' | 'end';
 
 interface StartFocusRequestDto {
   profileId: string;
@@ -311,6 +358,7 @@ interface StartFocusRequestDto {
   notes?: string | null;
   mode?: 'stopwatch' | 'countdown';
   plannedDurationMinutes?: number | null;
+  withoutBlocking?: boolean;
 }
 
 interface FocusSummaryDto {
@@ -547,7 +595,8 @@ interface Window {
   };
   focusMode: {
     listProfiles: () => Promise<FocusProfileDto[]>;
-    saveProfile: (profile: FocusProfileDto, ruleIds: string[]) => Promise<{ ok: boolean }>;
+    /** `ruleIds: null` keeps the profile's current rules. */
+    saveProfile: (profile: FocusProfileDto, ruleIds: string[] | null) => Promise<{ ok: boolean }>;
     deleteProfile: (id: string) => Promise<{ ok: boolean }>;
     listRules: () => Promise<FocusRuleDto[]>;
     saveRule: (rule: FocusRuleDto) => Promise<{ ok: boolean }>;
@@ -560,7 +609,21 @@ interface Window {
     start: (request: StartFocusRequestDto) => Promise<ActiveFocusSessionDto>;
     pause: (reason?: string | null) => Promise<ActiveFocusSessionDto | null>;
     resume: () => Promise<ActiveFocusSessionDto | null>;
-    stop: (state: 'completed' | 'cancelled') => Promise<FocusSessionDto | null>;
+    getBlockingOptions: () => Promise<FocusBlockingOptionsDto>;
+    /** Normalizes, reuses an existing block, and turns it on for the preset. */
+    addBlock: (block: { profileId?: string | null; type: FocusRuleDto['type']; target: string; action?: FocusRuleDto['action'] }) => Promise<{ ruleId: string; created: boolean }>;
+    setProfileBlock: (profileId: string, ruleId: string, on: boolean) => Promise<{ ok: boolean }>;
+    /** Ask to end the session; nothing ends until `confirmEnd`. */
+    requestEnd: () => Promise<EndFocusChallengeDto | null>;
+    confirmEnd: (request: { token: string; phrase?: string | null; reason?: string | null }) => Promise<FocusSessionDto>;
+    restoreBlocking: () => Promise<ActiveFocusSessionDto | null>;
+    getPreferences: () => Promise<FocusPreferencesDto>;
+    savePreferences: (preferences: FocusPreferencesDto) => Promise<FocusPreferencesDto>;
+    getBlockingResidue: () => Promise<boolean>;
+    /** Resolves to whether leftover blocking is still present afterwards. */
+    clearBlockingResidue: () => Promise<boolean>;
+    onIntent: (callback: (intent: FocusIntentDto) => void) => void;
+    offIntent: (callback: (intent: FocusIntentDto) => void) => void;
     onActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => void;
     offActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => void;
     onSummary: (callback: (dto: FocusSummaryDto) => void) => void;

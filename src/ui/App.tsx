@@ -7,7 +7,7 @@ import { ThemeToggle } from './components/ThemeToggle';
 import { ActivityPage } from './pages/Activity/ActivityPage';
 import { SessionsPage } from './pages/SessionsPage';
 import { TimelinePage } from './Timeline/TimelinePage';
-import { useFocus, formatClock } from './Focus/useFocus';
+import { useFocus } from './Focus/useFocus';
 import { FocusPage } from './Focus/FocusPage';
 import { FocusWidget } from './Focus/FocusWidget';
 import { FocusSummaryModal } from './Focus/FocusSummaryModal';
@@ -34,9 +34,6 @@ function App() {
   const [activityTab, setActivityTab] = useState<'events' | 'usage' | 'rules'>('events');
   const [editingRuleId, setEditingRuleId] = useState<string | null>(null);
   const [prefilledRule, setPrefilledRule] = useState<any | null>(null);
-  const [widgetMinimized, setWidgetMinimized] = useState(false);
-  const [focusInitialTab, setFocusInitialTab] = useState<Parameters<typeof FocusPage>[0]['initialTab']>('focus');
-  const [focusHistorySessionId, setFocusHistorySessionId] = useState<string | null>(null);
   const [onboarding, setOnboarding] = useState<OnboardingGate>({ phase: 'loading' });
   // Set when an evidence link in Reflection opens the Timeline at a specific
   // day / activity; cleared on ordinary navigation.
@@ -65,52 +62,41 @@ function App() {
     settings: 'Productivity Coach — Settings',
   };
 
+  const focusActive = focus.activeSession !== null;
+  const focusTask = focus.activeSession?.session.task ?? null;
   useEffect(() => {
-    const title = focus.activeSession
-      ? `▶ ${formatClock(focus.activeSession.remainingMs ?? focus.activeSession.liveElapsedMs)} · Productivity Coach`
-      : PAGE_TITLES[route] ?? 'Productivity Coach';
-    document.title = title;
-  }, [route, focus.activeSession]);
+    document.title = focusTask ? `Focus — ${focusTask}` : PAGE_TITLES[route] ?? 'Productivity Coach';
+  }, [route, focusTask]);
 
+  // Ctrl+Shift+F opens Focus from anywhere. Pausing (Space) is handled on the
+  // Focus page itself; no shortcut ends a session.
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'f') {
         e.preventDefault();
         setRoute('focus');
-        setFocusInitialTab('focus');
-        return;
-      }
-      if (!focus.activeSession) return;
-      if (e.code === 'Space') {
-        e.preventDefault();
-        if (focus.activeSession.isRunning) focus.pause('user');
-        else focus.resume();
-      }
-      if (e.code === 'Escape') {
-        e.preventDefault();
-        if (window.confirm('Stop the current focus session?')) {
-          focus.stop('completed');
-        }
       }
     }
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [focus]);
+  }, []);
 
-  const navigateToFocusHistory = (sessionId: string) => {
-    setRoute('focus');
-    setFocusInitialTab('focus');
-    setFocusHistorySessionId(sessionId);
+  // The tray's Focus entries bring the Focus page forward; the page then
+  // opens the requested flow.
+  useEffect(() => {
+    if (focus.intent) setRoute('focus');
+  }, [focus.intent]);
+
+  // A Focus band in the Timeline: the running session opens the Focus page,
+  // a past one shows its summary in place.
+  const openFocusSession = (sessionId: string) => {
+    if (focus.activeSession?.session.id === sessionId) setRoute('focus');
+    else void focus.showSummaryFor(sessionId);
   };
 
   const handleNavigate = (r: Route) => {
     setRoute(r);
     setTimelineTarget(null);
-    if (r !== 'focus') {
-      setFocusInitialTab('focus');
-      setFocusHistorySessionId(null);
-    }
   };
 
   return (
@@ -144,7 +130,7 @@ function App() {
               <TimelinePage
                 focus={focus}
                 navigationTarget={timelineTarget}
-                onNavigateToFocus={navigateToFocusHistory}
+                onNavigateToFocus={openFocusSession}
                 onNavigateToRule={(ruleId) => {
                   setRoute('activity');
                   setActivityTab('rules');
@@ -170,12 +156,7 @@ function App() {
                 />
               </div>
             ) : route === 'focus' ? (
-              <FocusPage
-                focus={focus}
-                initialTab={focusInitialTab}
-                initialHistorySessionId={focusHistorySessionId}
-                onViewInTimeline={() => setRoute('timeline')}
-              />
+              <FocusPage focus={focus} />
             ) : route === 'reflection' ? (
               <ReflectionPage
                 onViewTimeline={(target) => {
@@ -196,15 +177,8 @@ function App() {
         </div>
       )}
 
-      {focus.activeSession && (
-        <FocusWidget
-          session={focus.activeSession}
-          minimized={widgetMinimized}
-          onToggleMinimize={() => setWidgetMinimized((v) => !v)}
-          onPause={focus.pause}
-          onResume={focus.resume}
-          onStop={focus.stop}
-        />
+      {focus.activeSession && focusActive && route !== 'focus' && onboarding.phase === 'hidden' && (
+        <FocusWidget session={focus.activeSession} onOpen={() => setRoute('focus')} />
       )}
 
       {onboarding.phase === 'hidden' && <LearnedPatternToast />}

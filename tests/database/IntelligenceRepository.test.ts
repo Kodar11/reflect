@@ -87,7 +87,7 @@ suite('IntelligenceRepository (SQLite)', () => {
 
   it('migration v10 creates the intelligence tables, indexes and rule source', () => {
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(13);
+    expect(raw.pragma('user_version', { simple: true })).toBe(14);
     const names = (raw.prepare("SELECT name FROM sqlite_master WHERE name LIKE '%intelligence%'").all() as { name: string }[]).map((r) => r.name);
     expect(names).toEqual(
       expect.arrayContaining([

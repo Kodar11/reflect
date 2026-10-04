@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 13) return;
+    if (version >= 14) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -1157,6 +1157,56 @@ export class Database {
         `);
 
         this.db.pragma('user_version = 13');
+      })();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v13 → v14
+    //
+    // Focus Mode V2.
+    //
+    // 1. focus_sessions records HOW a session ended (end_reason: a fulfilled
+    //    countdown, a deliberately finished stopwatch, an early exit or an
+    //    abandoned session), the optional reason the user gave for ending
+    //    early, and a snapshot of the blocking it enforced — editing a
+    //    profile never changes what a past or running session blocked.
+    //
+    // 2. focus_preferences holds the persistent Focus configuration in the
+    //    main process, where the service can act on it. (It used to live in
+    //    the renderer's localStorage, which the service never saw.)
+    //
+    // Purely additive; existing sessions are kept and back-filled.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 14) {
+      this.db.transaction(() => {
+        if (!tableHasColumn('focus_sessions', 'end_reason')) {
+          this.db.exec('ALTER TABLE focus_sessions ADD COLUMN end_reason TEXT');
+        }
+        if (!tableHasColumn('focus_sessions', 'end_note')) {
+          this.db.exec('ALTER TABLE focus_sessions ADD COLUMN end_note TEXT');
+        }
+        if (!tableHasColumn('focus_sessions', 'blocking_config')) {
+          this.db.exec('ALTER TABLE focus_sessions ADD COLUMN blocking_config TEXT');
+        }
+
+        this.db.exec(`
+          UPDATE focus_sessions
+          SET end_reason = CASE state
+            WHEN 'completed' THEN 'completed'
+            WHEN 'cancelled' THEN 'ended-early'
+          END
+          WHERE end_reason IS NULL
+            AND state IN ('completed', 'cancelled');
+
+          CREATE TABLE IF NOT EXISTS focus_preferences (
+            id         INTEGER PRIMARY KEY CHECK (id = 1),
+            data       TEXT NOT NULL,
+            updated_at DATETIME NOT NULL
+          );
+        `);
+
+        this.db.pragma('user_version = 14');
       })();
     }
   }

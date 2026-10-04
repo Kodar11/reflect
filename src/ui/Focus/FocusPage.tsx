@@ -1,62 +1,61 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Target } from 'lucide-react';
 import type { UseFocusResult } from './useFocus';
-import { FocusDashboard } from './FocusDashboard';
+import { FocusActive } from './FocusActive';
+import { FocusStart } from './FocusStart';
 import { FocusPreferences } from './FocusPreferences';
 
 export type FocusPageTab = 'focus' | 'preferences';
 
 interface FocusPageProps {
   focus: UseFocusResult;
-  initialTab?: FocusPageTab;
-  initialHistorySessionId?: string | null;
-  onViewInTimeline?: (isoDate: string) => void;
 }
 
-export function FocusPage({
-  focus,
-  initialTab = 'focus',
-  initialHistorySessionId,
-  onViewInTimeline,
-}: FocusPageProps) {
-  const [tab, setTab] = useState<FocusPageTab>(initialTab);
+/**
+ * One page that changes state: start → active. While a session runs the
+ * page shows only that session — the Preferences tab (profiles, rules,
+ * notifications) is not reachable until Focus has ended.
+ */
+export function FocusPage({ focus }: FocusPageProps) {
+  const [tab, setTab] = useState<FocusPageTab>('focus');
+  const active = focus.activeSession;
+
+  // A tray action or a new session always brings the Focus view forward.
+  useEffect(() => {
+    if (active || focus.intent) setTab('focus');
+  }, [active, focus.intent]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      {/* Header */}
-      <div className="px-6 py-4 border-b border-default bg-secondary shrink-0 flex items-center justify-between">
+      <div
+        className="px-6 border-b border-default shrink-0 flex items-center justify-between"
+        style={{ background: 'var(--bg-secondary)', height: 60 }}
+      >
         <div className="flex items-center gap-3">
-          <Target size={20} className="text-accent" style={{ color: 'var(--accent)' }} />
+          <Target size={20} style={{ color: 'var(--accent)' }} />
           <h1 className="text-[20px] font-extrabold tracking-tight">Focus</h1>
         </div>
-        <div className="flex items-center bg-default p-0.5 rounded-lg border border-default">
-          {(['focus', 'preferences'] as FocusPageTab[]).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className="px-3 py-1 rounded-md text-[12px] font-bold transition-colors capitalize"
-              style={{
-                background: tab === t ? 'var(--bg-secondary)' : 'transparent',
-                color: tab === t ? 'var(--text)' : 'var(--text-muted)',
-                boxShadow: tab === t ? 'var(--shadow-sm)' : 'none',
-              }}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
+        {focus.ready && !active && (
+          <div className="focus-tabs" role="tablist">
+            {(['focus', 'preferences'] as FocusPageTab[]).map((t) => (
+              <button key={t} type="button" role="tab" aria-selected={tab === t} onClick={() => setTab(t)} className="capitalize">
+                {t}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Content */}
-      <div className="flex-1 min-h-0 overflow-hidden">
-        {tab === 'focus' ? (
-          <FocusDashboard
-            focus={focus}
-            initialHistorySessionId={initialHistorySessionId}
-            onViewInTimeline={onViewInTimeline}
-          />
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        {!focus.ready ? (
+          // Nothing half-populated: wait for profiles and the active session.
+          <div className="focus-stage" aria-busy="true" />
+        ) : active ? (
+          <FocusActive focus={focus} session={active} />
+        ) : tab === 'preferences' ? (
+          <FocusPreferences focus={focus} onUsePreset={() => setTab('focus')} />
         ) : (
-          <FocusPreferences focus={focus} />
+          <FocusStart focus={focus} />
         )}
       </div>
     </div>

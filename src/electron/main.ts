@@ -8,7 +8,8 @@ if (process.argv.includes('--dev') && process.env.NODE_ENV !== 'development') {
   process.env.NODE_ENV = 'development';
 }
 
-import { app, BrowserWindow, Tray, Menu, nativeImage } from 'electron';
+import { app, BrowserWindow, Tray, Menu, Notification, nativeImage, powerMonitor } from 'electron';
+import path from 'node:path';
 import activeWin from 'active-win';
 import { isDev, ipcMainHandle, ipcMainOn } from './util.js';
 import { getPreloadPath, getUIPath } from './pathResolver.js';
@@ -29,8 +30,13 @@ import { registerExportIpc } from './exportIpc.js';
 import { ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
 import { FocusRepository } from '../database/FocusRepository.js';
 import { FocusService } from '../focus/FocusService.js';
-import { StubBlockingManager } from '../focus/BlockingManager.js';
-import { registerFocusIpc } from '../focus/focusIpc.js';
+import { NoopBlockingManager, type IBlockingManager } from '../focus/BlockingManager.js';
+import { HelperBlockingManager } from '../focus/blocker/HelperBlockingManager.js';
+import { createElevatedLauncher } from '../focus/blocker/elevatedLauncher.js';
+import { isBlockerHelperInvocation, runBlockerHelperProcess } from '../focus/blocker/blockerHelper.js';
+import { FocusNotifier } from '../focus/FocusNotifier.js';
+import { registerFocusIpc, type FocusIntent } from '../focus/focusIpc.js';
+import type { ActiveFocusSessionDto } from '../focus/FocusModels.js';
 import { CategorizationRepository } from '../database/CategorizationRepository.js';
 import { CategorizationService } from '../categorization/CategorizationService.js';
 import { registerCategorizationIpc } from '../categorization/categorizationIpc.js';
@@ -74,11 +80,28 @@ let focusService: FocusService | null = null;
 let intelligenceScheduler: IntelligenceScheduler | null = null;
 let reflectionScheduler: ReflectionScheduler | null = null;
 let quitting = false;
+let quitStarted = false;
+let appLogger: Logger | null = null;
+/** Set once the Focus IPC is registered; routes tray actions to the renderer. */
+let sendFocusIntent: ((intent: FocusIntent) => void) | null = null;
+
+/**
+ * This executable doubles as the elevated Focus blocker helper. When started
+ * with `--focus-blocker` (through a UAC prompt, by HelperBlockingManager) it
+ * runs ONLY the helper: no window, no tray, no database, no tracking.
+ */
+const blockerHelperMode = isBlockerHelperInvocation(process.argv);
+if (blockerHelperMode) {
+  app.disableHardwareAcceleration();
+  // Keep the elevated instance out of the real profile directory.
+  app.setPath('userData', path.join(app.getPath('temp'), 'reflect-focus-blocker'));
+  runBlockerHelperProcess(process.argv, (code) => app.exit(code));
+}
 
 // Prototype secret loading: in development, read GEMINI_API_KEY (and friends)
 // from a git-ignored `.env` in the project root. The key stays in the main
 // process — it is never sent over IPC or exposed through preload.
-if (isDev()) {
+if (isDev() && !blockerHelperMode) {
   try {
     process.loadEnvFile();
   } catch {
@@ -109,8 +132,42 @@ function createMainWindow(logger: Logger): BrowserWindow {
     mainWindow.loadFile(getUIPath());
   }
 
+  // Closing the window never ends tracking or Focus: it hides to the tray.
+  // Only a real quit (tray menu, OS shutdown) lets the window go.
+  const win = mainWindow;
+  win.on('close', (e) => {
+    if (quitting) return;
+    e.preventDefault();
+    win.hide();
+  });
+  win.on('closed', () => {
+    if (mainWindow === win) mainWindow = null;
+  });
+  // Windows is shutting down or the user is signing out: there may be no
+  // `before-quit`, so flush tracking and release blocking right now.
+  win.on('session-end', () => {
+    void quitApp(logger);
+  });
+
   logger.info('[APP] Window ready.');
   return mainWindow;
+}
+
+function showMainWindow(): void {
+  if (!mainWindow || mainWindow.isDestroyed()) {
+    if (!appLogger) return;
+    createMainWindow(appLogger);
+    return;
+  }
+  if (mainWindow.isMinimized()) mainWindow.restore();
+  mainWindow.show();
+  mainWindow.focus();
+}
+
+/** Bring the Focus page forward, optionally opening its pause or end flow. */
+function openFocus(intent: FocusIntent): void {
+  showMainWindow();
+  sendFocusIntent?.(intent);
 }
 
 /**
@@ -143,6 +200,10 @@ async function pollActiveWin(): Promise<ActivitySample | null> {
     }
   }
 
+  // Focus only reads this to log an attempt on a blocked site; tracking is
+  // unaffected by whether a Focus session exists.
+  focusService?.observeDomain(url);
+
   return {
     watcher: 'window',
     app,
@@ -162,17 +223,72 @@ function createTray(logger: Logger): Tray {
   // needs bytes — a 1x1 PNG is the cheapest viable placeholder.
   const icon = nativeImage.createFromBuffer(Buffer.from(BASE64_TRAY_ICON, 'base64'));
   tray = new Tray(icon.isEmpty() ? nativeImage.createEmpty() : icon);
-  tray.setToolTip('Productivity Coach');
-  tray.setContextMenu(Menu.buildFromTemplate([
-    { label: 'Show', click: () => mainWindow?.show() },
-    { type: 'separator' },
-    { label: 'Quit', click: () => quitApp(logger) },
-  ]));
-  tray.on('click', () => mainWindow?.show());
+  tray.on('click', () => showMainWindow());
+  updateTray(focusService?.getActiveSession() ?? null, logger);
   return tray;
 }
 
+/** What the tray menu was last built from; rebuilt only when this changes. */
+let trayMenuKey = '';
+
+/**
+ * The tray mirrors the Focus session. Its "End Focus" and "Quit" entries
+ * open the same deliberate exit flow as the Focus page — the tray is not a
+ * shortcut around the commitment.
+ */
+function updateTray(dto: ActiveFocusSessionDto | null, logger: Logger): void {
+  if (!tray || tray.isDestroyed()) return;
+
+  if (!dto) {
+    tray.setToolTip('Productivity Coach');
+    if (trayMenuKey === 'idle') return;
+    trayMenuKey = 'idle';
+    tray.setContextMenu(Menu.buildFromTemplate([
+      { label: 'Show', click: () => showMainWindow() },
+      { label: 'Start Focus', click: () => openFocus('open') },
+      { type: 'separator' },
+      { label: 'Quit', click: () => quitApp(logger) },
+    ]));
+    return;
+  }
+
+  const clock = formatFocusMs(dto.remainingMs ?? dto.liveElapsedMs);
+  const paused = !dto.isRunning;
+  const task = dto.session.task.length > 48 ? `${dto.session.task.slice(0, 47)}…` : dto.session.task;
+  tray.setToolTip(`${paused ? 'Paused' : 'Focus'} ${clock} — ${task}`.slice(0, 120));
+
+  const minutes = Math.ceil((dto.remainingMs ?? dto.liveElapsedMs) / 60_000);
+  const timeLabel = dto.remainingMs !== null ? `${minutes} min left` : `${Math.floor(dto.liveElapsedMs / 60_000)} min`;
+  const blockingLabel =
+    dto.blocking.status === 'active' ? 'Blocking active'
+    : dto.blocking.status === 'off' ? 'Blocking off'
+    : dto.blocking.status === 'recovering' ? 'Restoring blocking…'
+    : dto.blocking.status === 'unavailable' ? 'Blocking unavailable'
+    : 'Blocking stopped';
+  const key = [dto.session.id, paused, timeLabel, blockingLabel].join('|');
+  if (key === trayMenuKey) return;
+  trayMenuKey = key;
+
+  tray.setContextMenu(Menu.buildFromTemplate([
+    { label: `${paused ? 'Paused' : 'Focus'}: ${timeLabel}`, enabled: false },
+    { label: task, enabled: false },
+    { label: blockingLabel, enabled: false },
+    { type: 'separator' },
+    { label: 'Open Focus', click: () => openFocus('open') },
+    paused
+      ? { label: 'Resume Focus', click: () => void focusService?.resume() }
+      : { label: 'Pause Focus…', click: () => openFocus('pause') },
+    { label: 'End Focus…', click: () => openFocus('end') },
+    { type: 'separator' },
+    // Quitting would drop the session's enforcement, so it goes through the
+    // same exit flow as ending Focus.
+    { label: 'Quit (end Focus first)…', click: () => openFocus('end') },
+  ]));
+}
+
 async function quitApp(logger: Logger) {
+  if (quitStarted) return;
+  quitStarted = true;
   logger.info('[APP] Quit requested — flushing tracker.');
   try {
     await trackingService?.stop();
@@ -182,9 +298,11 @@ async function quitApp(logger: Logger) {
   intelligenceScheduler?.stop();
   reflectionScheduler?.stop();
   try {
-    focusService?.destroy();
+    // Releases blocking and persists the session; an open session is picked
+    // up again by startup reconciliation.
+    await focusService?.shutdown();
   } catch (e) {
-    logger.error(`[APP] focus service destroy error: ${(e as Error)?.message ?? e}`);
+    logger.error(`[APP] focus service shutdown error: ${(e as Error)?.message ?? e}`);
   }
   try {
     database?.close();
@@ -192,12 +310,14 @@ async function quitApp(logger: Logger) {
     logger.error(`[APP] db close error: ${(e as Error)?.message ?? e}`);
   }
   tray?.destroy();
+  quitting = true;
   app.quit();
 }
 
-app.whenReady().then(async () => {
+if (!blockerHelperMode) app.whenReady().then(async () => {
   const userData = app.getPath('userData');
   const logger = new Logger({ dir: userData, source: 'app' });
+  appLogger = logger;
   logger.info('[APP] Starting Productivity Coach — Stage 1 tracker.');
 
   // --- Construct the focus layer first (Stage 3.10) ---
@@ -213,17 +333,65 @@ app.whenReady().then(async () => {
     return;
   }
   const focusRepo = new FocusRepository(database);
-  const blockingManager = new StubBlockingManager();
-  focusService = new FocusService(focusRepo, blockingManager);
-  await focusService.reconcileActiveSession();
-  focusService.on('activeSessionChanged', (dto) => {
-    tray?.setToolTip(dto ? `▶ ${dto.session.task} — ${formatFocusMs(dto.remainingMs ?? dto.liveElapsedMs)}` : 'Productivity Coach');
+  // Real enforcement lives in an elevated helper process (hosts file +
+  // process termination); the app only holds a lease on it. The renderer is
+  // never the enforcement authority.
+  const blockingManager: IBlockingManager =
+    process.platform === 'win32'
+      ? new HelperBlockingManager({
+          launch: createElevatedLauncher({
+            execPath: process.execPath,
+            // In development Electron needs the app path before our flags.
+            leadingArgs: app.isPackaged ? [] : [app.getAppPath()],
+            dev: isDev(),
+          }),
+          log: (m) => logger.info(`[FOCUS] ${m}`),
+        })
+      : new NoopBlockingManager();
+  focusService = new FocusService(focusRepo, blockingManager, {
+    // Real keyboard/mouse idleness — window polling keeps reporting the
+    // foreground app even when nobody is at the machine.
+    getIdleSeconds: () => powerMonitor.getSystemIdleTime(),
+    log: (m) => logger.warn(`[FOCUS] ${m}`),
   });
+  const focusNotifier = new FocusNotifier(
+    () => focusService?.getPreferences() ?? focusRepo.getPreferences(),
+    ({ title, body }) => {
+      if (!Notification.isSupported()) return;
+      new Notification({ title, body, silent: true }).show();
+    },
+  );
+  focusService.on('notice', (notice) => focusNotifier.onNotice(notice));
+  focusService.on('summary', (session, profile) => focusNotifier.onSummary(session, profile));
+  focusService.on('activeSessionChanged', (dto) => updateTray(dto, logger));
+  focusService.on('tick', (dto) => updateTray(dto, logger));
+  // After sleep, timers alone are not trustworthy: reconcile against the
+  // clock straight away (countdown expiry, slept time, blocking lease).
+  powerMonitor.on('resume', () => focusService?.handleSystemResume());
+  // Recover a session left open by a crash, quit or reboot. Not awaited:
+  // re-acquiring blocking may wait on a UAC prompt, and the window should
+  // not. Any Focus action taken meanwhile queues behind it.
+  void focusService
+    .reconcileActiveSession()
+    .catch((e) => logger.error(`[FOCUS] startup reconciliation failed: ${(e as Error)?.message ?? e}`))
+    .then(() => {
+      // A crash or power loss can leave Focus's entries in the hosts file with
+      // no session to own them. Say so instead of leaving sites mysteriously
+      // blocked; removing them needs the user's approval (elevation).
+      if (!focusService?.hasBlockingResidue() || !Notification.isSupported()) return;
+      const notice = new Notification({
+        title: 'Focus blocking is still on',
+        body: 'Blocking from an earlier Focus session was not removed. Open Focus to remove it.',
+        silent: true,
+      });
+      notice.on('click', () => openFocus('open'));
+      notice.show();
+    });
   logger.info('[APP] Focus service ready.');
 
   // --- Construct the tracking stack via DI ---
   const repo = new EventRepository(database);
-  const engine = new HeartbeatEngine(repo, () => new Date(), 5000, () => focusService?.recordActivity());
+  const engine = new HeartbeatEngine(repo, () => new Date(), 5000);
 
   const windowWatcher = new WindowWatcher(pollActiveWin, engine, 1000, {
     info: (m) => logger.info(m),
@@ -448,7 +616,7 @@ app.whenReady().then(async () => {
   logger.info('[APP] Export service ready.');
 
   // --- Wire focus IPC (Stage 3.10) ---
-  registerFocusIpc(focusService, focusRepo, ipcMainHandle, () =>
+  const focusIpc = registerFocusIpc(focusService, focusRepo, ipcMainHandle, () =>
     BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
     (session) => {
       const trackedSessionIds: string[] = [];
@@ -465,10 +633,20 @@ app.whenReady().then(async () => {
           }
         }
       }
-      const profile = focusRepo.getProfileById(session.profileId);
-      if (!profile) {
-        throw new Error(`Focus profile not found for session: ${session.profileId}`);
-      }
+      // The profile may have been deleted since; the session still has a summary.
+      const profile = focusRepo.getProfileById(session.profileId) ?? {
+        id: session.profileId,
+        name: 'Focus',
+        description: null,
+        isDefault: false,
+        mode: session.mode,
+        defaultDurationMinutes: session.plannedDurationMinutes,
+        blocksDistractions: false,
+        soundCue: null,
+        createdAt: session.createdAt,
+        updatedAt: session.updatedAt,
+        rules: [],
+      };
       const interruptions = focusRepo.getInterruptions(session.id);
       const blockedAttempts = focusRepo.getBlockedAttempts(session.id);
       return {
@@ -480,8 +658,23 @@ app.whenReady().then(async () => {
         productiveMs,
       };
     },
+    // Suggestions for the blocking editor, from what Reflect already sees:
+    // apps with an open window, and sites visited in the last day.
+    async () => {
+      const windows = await activeWin.getOpenWindows().catch(() => []);
+      const openApps = windows
+        .filter((w) => w.owner?.path && w.owner.processId !== process.pid)
+        .map((w) => ({ name: w.owner.name, process: path.basename(w.owner.path) }));
+      const now = Date.now();
+      const visits = repo
+        .getByRange(new Date(now - 24 * 60 * 60 * 1000).toISOString(), new Date(now).toISOString())
+        .filter((e) => e.url)
+        .sort((a, b) => String(b.endedAt).localeCompare(String(a.endedAt)));
+      return { openApps, recentSites: visits.map((e) => String(e.url)) };
+    },
   );
-  logger.info('[APP] Focus service ready.');
+  sendFocusIntent = (intent) => focusIpc.sendIntent(intent);
+  logger.info('[APP] Focus IPC ready.');
 
   createMainWindow(logger);
   createTray(logger);
@@ -525,17 +718,19 @@ app.on('window-all-closed', () => {
 });
 
 app.on('before-quit', async (e) => {
-  // If the renderer/Electron itself initiates quit (Alt+F4 on a visible
-  // window, OS shutdown), give the tracker a chance to flush before exit.
-  // Guard against re-entry: `quitApp` calls `app.quit()` which would fire
-  // this handler again.
+  // The blocker helper has no tracker, tray or database to flush.
+  if (blockerHelperMode) return;
+  // If Electron itself initiates quit (OS shutdown, an installer), give the
+  // tracker a chance to flush and Focus a chance to release blocking before
+  // exit. `quitApp` sets `quitting` right before its own `app.quit()`, so the
+  // second pass through this handler falls straight through.
   if (quitting) return;
-  quitting = true;
   e.preventDefault();
-  await quitApp(new Logger({ dir: app.getPath('userData'), source: 'app' }));
+  await quitApp(appLogger ?? new Logger({ dir: app.getPath('userData'), source: 'app' }));
 });
 
 app.on('activate', () => {
+  if (blockerHelperMode) return;
   if (BrowserWindow.getAllWindows().length === 0) {
     const logger = new Logger({ dir: app.getPath('userData'), source: 'app' });
     createMainWindow(logger);

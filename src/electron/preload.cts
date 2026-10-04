@@ -147,7 +147,7 @@ function registerFocusListener(channel: string, callback: (event: any) => void):
 
 electron.contextBridge.exposeInMainWorld('focusMode', {
   listProfiles: () => electron.ipcRenderer.invoke('focus:listProfiles'),
-  saveProfile: (profile: FocusProfileDto, ruleIds: string[]) => electron.ipcRenderer.invoke('focus:saveProfile', { profile, ruleIds }),
+  saveProfile: (profile: FocusProfileDto, ruleIds: string[] | null) => electron.ipcRenderer.invoke('focus:saveProfile', { profile, ruleIds }),
   deleteProfile: (id: string) => electron.ipcRenderer.invoke('focus:deleteProfile', { id }),
   listRules: () => electron.ipcRenderer.invoke('focus:listRules'),
   saveRule: (rule: FocusRuleDto) => electron.ipcRenderer.invoke('focus:saveRule', rule),
@@ -160,7 +160,21 @@ electron.contextBridge.exposeInMainWorld('focusMode', {
   start: (request: StartFocusRequestDto) => electron.ipcRenderer.invoke('focus:start', request),
   pause: (reason?: string | null) => electron.ipcRenderer.invoke('focus:pause', { reason }),
   resume: () => electron.ipcRenderer.invoke('focus:resume'),
-  stop: (state: 'completed' | 'cancelled') => electron.ipcRenderer.invoke('focus:stop', { state }),
+  getBlockingOptions: () => electron.ipcRenderer.invoke('focus:getBlockingOptions'),
+  addBlock: (block: { profileId?: string | null; type: FocusRuleDto['type']; target: string; action?: FocusRuleDto['action'] }) =>
+    electron.ipcRenderer.invoke('focus:addBlock', block),
+  setProfileBlock: (profileId: string, ruleId: string, on: boolean) =>
+    electron.ipcRenderer.invoke('focus:setProfileBlock', { profileId, ruleId, on }),
+  requestEnd: () => electron.ipcRenderer.invoke('focus:requestEnd'),
+  confirmEnd: (request: { token: string; phrase?: string | null; reason?: string | null }) =>
+    electron.ipcRenderer.invoke('focus:confirmEnd', request),
+  restoreBlocking: () => electron.ipcRenderer.invoke('focus:restoreBlocking'),
+  getPreferences: () => electron.ipcRenderer.invoke('focus:getPreferences'),
+  savePreferences: (preferences: FocusPreferencesDto) => electron.ipcRenderer.invoke('focus:savePreferences', preferences),
+  getBlockingResidue: () => electron.ipcRenderer.invoke('focus:getBlockingResidue'),
+  clearBlockingResidue: () => electron.ipcRenderer.invoke('focus:clearBlockingResidue'),
+  onIntent: (callback: (intent: FocusIntentDto) => void) => { registerFocusListener('focus:intent', callback); },
+  offIntent: (callback: (intent: FocusIntentDto) => void) => { focusListeners.get('focus:intent')?.delete(callback); },
   onActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => { registerFocusListener('focus:activeSessionChanged', callback); },
   offActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => { focusListeners.get('focus:activeSessionChanged')?.delete(callback); },
   onSummary: (callback: (dto: FocusSummaryDto) => void) => { registerFocusListener('focus:summary', callback); },
