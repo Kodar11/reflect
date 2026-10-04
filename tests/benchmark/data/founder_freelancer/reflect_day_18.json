@@ -1,0 +1,535 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 18,
+    "date": "2026-09-18",
+    "day_type": "beta_feedback_iteration_day",
+    "circumstances": [
+      "The first beta rollout from the previous day produced onboarding feedback that became the main product thread.",
+      "Product work moved from broad release preparation into a narrower feedback-driven investigation and fix cycle.",
+      "The freelance project continued with a contained settings change and staging verification.",
+      "Lead generation stayed at maintenance level through one existing proposal.",
+      "There was a short unrelated YouTube break and substantial offline time around normal personal activities."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:16",
+      "last_seen": "21:25",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 92
+    }
+  },
+  "raw_events": [
+    {
+      "id": 412,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T08:16:00+05:30",
+      "ended_at": "2026-09-18T08:32:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 413,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T08:32:00+05:30",
+      "ended_at": "2026-09-18T08:54:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Beta testers",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 414,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T08:54:00+05:30",
+      "ended_at": "2026-09-18T09:19:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 415,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T09:19:00+05:30",
+      "ended_at": "2026-09-18T09:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=signup+flow+email+verification",
+      "payload": null
+    },
+    {
+      "id": 416,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T09:47:00+05:30",
+      "ended_at": "2026-09-18T10:14:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 417,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T10:14:00+05:30",
+      "ended_at": "2026-09-18T10:33:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- onboarding",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 418,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T10:33:00+05:30",
+      "ended_at": "2026-09-18T10:52:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 419,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T10:52:00+05:30",
+      "ended_at": "2026-09-18T11:07:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Beta testers",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 420,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T11:07:00+05:30",
+      "ended_at": "2026-09-18T11:41:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 421,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T11:41:00+05:30",
+      "ended_at": "2026-09-18T12:05:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm run build",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 422,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T12:05:00+05:30",
+      "ended_at": "2026-09-18T12:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Vercel",
+      "url": "https://vercel.com/dashboard",
+      "payload": null
+    },
+    {
+      "id": 423,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T13:47:00+05:30",
+      "ended_at": "2026-09-18T14:05:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 424,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T14:05:00+05:30",
+      "ended_at": "2026-09-18T14:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "freelance-project — settings.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 425,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T14:34:00+05:30",
+      "ended_at": "2026-09-18T14:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 426,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T14:49:00+05:30",
+      "ended_at": "2026-09-18T15:08:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 427,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T15:08:00+05:30",
+      "ended_at": "2026-09-18T15:28:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 428,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T15:28:00+05:30",
+      "ended_at": "2026-09-18T15:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 429,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T15:46:00+05:30",
+      "ended_at": "2026-09-18T16:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 430,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T16:18:00+05:30",
+      "ended_at": "2026-09-18T16:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 431,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T17:56:00+05:30",
+      "ended_at": "2026-09-18T18:23:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 432,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T18:23:00+05:30",
+      "ended_at": "2026-09-18T18:51:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Beta feedback notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 433,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T18:51:00+05:30",
+      "ended_at": "2026-09-18T19:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 434,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T19:17:00+05:30",
+      "ended_at": "2026-09-18T19:36:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- onboarding",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 435,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T19:36:00+05:30",
+      "ended_at": "2026-09-18T20:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 436,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T20:41:00+05:30",
+      "ended_at": "2026-09-18T21:02:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "SaaS beta onboarding copy",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 437,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T21:02:00+05:30",
+      "ended_at": "2026-09-18T21:25:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-18-01",
+        "started_at": "08:16",
+        "ended_at": "08:54",
+        "title": "Morning beta communication",
+        "summary": "Reviewed inbox and checked messages from beta testers before investigating the latest product feedback.",
+        "event_ids": [
+          412,
+          413
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-02",
+        "started_at": "08:54",
+        "ended_at": "12:24",
+        "title": "Beta onboarding issue investigation",
+        "summary": "Reproduced an onboarding problem in the SaaS, researched the likely signup-flow behavior, implemented changes, ran targeted tests, rebuilt the app, and checked the deployed result.",
+        "event_ids": [
+          414,
+          415,
+          416,
+          417,
+          418,
+          419,
+          420,
+          421,
+          422
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-03",
+        "started_at": "13:47",
+        "ended_at": "15:28",
+        "title": "Freelance settings change",
+        "summary": "Picked up the current client request, changed the settings screen, checked staging, ran tests, and reported the result in the client workspace.",
+        "event_ids": [
+          423,
+          424,
+          425,
+          426,
+          427
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-04",
+        "started_at": "15:28",
+        "ended_at": "16:18",
+        "title": "Freelance lead maintenance",
+        "summary": "Reviewed LinkedIn and refined an existing proposal rather than starting a new outreach campaign.",
+        "event_ids": [
+          428,
+          429
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-18-05",
+        "started_at": "16:18",
+        "ended_at": "16:31",
+        "title": "Unrelated YouTube break",
+        "summary": "Watched unrelated YouTube content.",
+        "event_ids": [
+          430
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-18-06",
+        "started_at": "17:56",
+        "ended_at": "18:51",
+        "title": "Beta feedback review",
+        "summary": "Checked new beta-related email and consolidated tester feedback into notes to separate the onboarding issue from lower-priority requests.",
+        "event_ids": [
+          431,
+          432
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-07",
+        "started_at": "18:51",
+        "ended_at": "20:03",
+        "title": "Onboarding follow-up fix",
+        "summary": "Applied a follow-up change to the onboarding flow, re-ran the targeted tests, and checked the deployed app again.",
+        "event_ids": [
+          433,
+          434,
+          435
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-08",
+        "started_at": "20:41",
+        "ended_at": "21:25",
+        "title": "Beta onboarding copy and roadmap",
+        "summary": "Refined onboarding copy based on the feedback and recorded the resulting product decisions in the SaaS roadmap.",
+        "event_ids": [
+          436,
+          437
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:24",
+        "ended_at": "13:47",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:31",
+        "ended_at": "17:56",
+        "reason": "Personal activity / offline"
+      },
+      {
+        "started_at": "20:03",
+        "ended_at": "20:41",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The SaaS beta produced a concrete onboarding issue, and most of the day's product work followed a useful reproduce → investigate → change → test → deploy → re-check loop.",
+      "Beta feedback was reviewed again in the evening, which helped distinguish the immediate onboarding issue from lower-priority requests instead of expanding the scope broadly.",
+      "Freelance work progressed through implementation, staging verification, tests, and a client update without becoming an urgent interruption.",
+      "Freelance lead generation remained limited to maintaining an existing proposal.",
+      "The short unrelated YouTube session was isolated and followed by a return to work."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "very strong progress / feedback-driven iteration"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "meaningful progress"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "maintenance only"
+      }
+    ],
+    "important_uncertainty": [
+      "The captured events show repeated testing and deployment checks, but they do not prove that the onboarding issue is fully resolved for every tester.",
+      "Beta feedback notes establish that feedback was reviewed, but the dataset does not show the complete response rate or tester outcomes.",
+      "The proposal work shows refinement but does not establish that a new client was acquired."
+    ],
+    "possible_next_step": "Use the next beta responses to verify whether the onboarding change actually removes the observed friction before opening a broader feature-development cycle."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Verify the beta onboarding fix",
+      "action_type": "complete_open_loop",
+      "reason": "The current product loop is centered on a real beta issue that has been changed and re-tested but still needs validation from actual tester behavior.",
+      "suggested_focus_minutes": 60,
+      "target": "Own SaaS"
+    },
+    "secondary_action": {
+      "title": "Finish the current freelance change",
+      "action_type": "complete_open_loop",
+      "reason": "The client settings change has already moved through implementation and staging checks, so closing the remaining delivery loop is more useful than starting unrelated work.",
+      "suggested_focus_minutes": 45,
+      "target": "Freelance"
+    },
+    "things_not_to_do": [
+      "Do not treat repeated local or staging checks as proof that every beta user is unblocked.",
+      "Do not add several new SaaS features merely because testers have mentioned lower-priority requests.",
+      "Do not interpret proposal refinement as evidence of a new client conversion.",
+      "Do not overreact to the short unrelated YouTube break.",
+      "Do not infer tester satisfaction or frustration from message volume alone."
+    ]
+  }
+}

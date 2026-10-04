@@ -1,0 +1,445 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 26,
+    "date": "2026-09-26",
+    "day_type": "light_saturday_client_setup_and_beta_monitoring",
+    "circumstances": [
+      "Saturday had a late start and substantial offline periods, keeping laptop usage below the recent weekday level.",
+      "The new freelance engagement received its first real implementation work after the kickoff, centered on an initial authentication slice.",
+      "The SaaS beta was observed rather than broadly changed; new feedback was reviewed and the roadmap was intentionally kept narrow.",
+      "A technical video and search session supported the current client authentication work rather than being unrelated entertainment.",
+      "The older freelance project produced an acceptance message and was treated as moving into closeout."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:14",
+      "last_seen": "20:42",
+      "approx_active_hours": 7.3,
+      "longest_unobserved_gap_minutes": 85
+    }
+  },
+  "raw_events": [
+    {
+      "id": 620,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T10:14:00+05:30",
+      "ended_at": "2026-09-26T10:29:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 621,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T10:29:00+05:30",
+      "ended_at": "2026-09-26T10:47:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 622,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T10:47:00+05:30",
+      "ended_at": "2026-09-26T11:12:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Project requirements",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 623,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T11:12:00+05:30",
+      "ended_at": "2026-09-26T11:39:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — app.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 624,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T11:39:00+05:30",
+      "ended_at": "2026-09-26T12:01:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 625,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T12:01:00+05:30",
+      "ended_at": "2026-09-26T12:18:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 626,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T12:18:00+05:30",
+      "ended_at": "2026-09-26T12:34:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Client repository",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 627,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T12:34:00+05:30",
+      "ended_at": "2026-09-26T12:46:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 628,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T14:11:00+05:30",
+      "ended_at": "2026-09-26T14:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 629,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T14:29:00+05:30",
+      "ended_at": "2026-09-26T14:51:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Analytics dashboard",
+      "url": "https://app.posthog.com/",
+      "payload": null
+    },
+    {
+      "id": 630,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T14:51:00+05:30",
+      "ended_at": "2026-09-26T15:08:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Beta feedback notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 631,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T15:08:00+05:30",
+      "ended_at": "2026-09-26T15:31:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Beta feedback",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 632,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T15:31:00+05:30",
+      "ended_at": "2026-09-26T15:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 633,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T15:49:00+05:30",
+      "ended_at": "2026-09-26T16:07:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 634,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T16:58:00+05:30",
+      "ended_at": "2026-09-26T17:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 635,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T17:17:00+05:30",
+      "ended_at": "2026-09-26T17:36:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=react+auth+best+practices",
+      "payload": null
+    },
+    {
+      "id": 636,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T17:36:00+05:30",
+      "ended_at": "2026-09-26T18:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 637,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T18:04:00+05:30",
+      "ended_at": "2026-09-26T18:22:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- auth",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 638,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T18:22:00+05:30",
+      "ended_at": "2026-09-26T18:41:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 639,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T19:34:00+05:30",
+      "ended_at": "2026-09-26T19:52:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Client acceptance",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 640,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T19:52:00+05:30",
+      "ended_at": "2026-09-26T20:15:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Freelance tracker",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 641,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T20:15:00+05:30",
+      "ended_at": "2026-09-26T20:42:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-26-01",
+        "started_at": "10:14",
+        "ended_at": "12:46",
+        "title": "New client first-deliverable setup",
+        "summary": "Reviewed the new client's requirements, inspected the existing app, implemented the first authentication pieces, ran tests, checked the repository, and clarified the current status with the client.",
+        "event_ids": [
+          620,
+          621,
+          622,
+          623,
+          624,
+          625,
+          626,
+          627
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-02",
+        "started_at": "14:11",
+        "ended_at": "16:07",
+        "title": "SaaS beta monitoring",
+        "summary": "Checked the live SaaS, reviewed analytics and beta feedback, checked for new user reports, and updated the roadmap without opening a broad new build.",
+        "event_ids": [
+          628,
+          629,
+          630,
+          631,
+          632,
+          633
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-03",
+        "started_at": "16:58",
+        "ended_at": "18:41",
+        "title": "Technical learning and client follow-up",
+        "summary": "Watched a technical video related to authentication, researched implementation guidance, applied the relevant changes to the new client project, ran targeted tests, and sent a status update.",
+        "event_ids": [
+          634,
+          635,
+          636,
+          637,
+          638
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-26-04",
+        "started_at": "19:34",
+        "ended_at": "20:15",
+        "title": "Existing client closeout and freelance tracking",
+        "summary": "Reviewed the existing client's acceptance email and updated the freelance tracker to reflect the current project state.",
+        "event_ids": [
+          639,
+          640
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-05",
+        "started_at": "20:15",
+        "ended_at": "20:42",
+        "title": "SaaS roadmap review",
+        "summary": "Reviewed the SaaS roadmap and recorded that the beta should remain in observation mode before another major product change.",
+        "event_ids": [
+          641
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:46",
+        "ended_at": "14:11",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:07",
+        "ended_at": "16:58",
+        "reason": "Personal activity / offline"
+      },
+      {
+        "started_at": "18:41",
+        "ended_at": "19:34",
+        "reason": "Evening personal activity / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The new freelance engagement moved beyond setup into a first concrete implementation slice, with authentication work progressing through code, tests, repository review, and client communication.",
+      "The SaaS beta was deliberately kept in observation mode: analytics and user feedback were checked, but no broad feature expansion was started.",
+      "The technical YouTube/search session is ambiguous from raw events alone, but in the actual sequence it fed directly into the new client's authentication implementation.",
+      "The older freelance project appears to have reached client acceptance, creating a cleaner delivery state while the newer engagement becomes the main freelance workload.",
+      "This was a lighter Saturday with meaningful but bounded work and long offline periods."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "moderate progress / beta monitoring and decision discipline"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "strong progress / acceptance reached on the older project"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "limited today; existing pipeline was maintained"
+      }
+    ],
+    "important_uncertainty": [
+      "Client acceptance email indicates the older project moved toward closure, but final payment or administrative closure is not established.",
+      "The new client's authentication slice was tested, but the first deliverable is not complete based on the captured work alone.",
+      "The SaaS beta feedback and analytics review do not establish whether activation or retention is improving."
+    ],
+    "possible_next_step": "Finish the new client's first authentication deliverable while keeping the SaaS beta stable until another meaningful user signal arrives."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the new client's first deliverable",
+      "action_type": "complete_open_loop",
+      "reason": "The new client has moved into real implementation and testing, making completion of the initial authentication slice the clearest near-term freelance milestone.",
+      "suggested_focus_minutes": 90,
+      "target": "Freelance"
+    },
+    "secondary_action": {
+      "title": "Keep the SaaS in observation mode",
+      "action_type": "protect_priority",
+      "reason": "The beta is producing feedback and analytics that have already shaped recent changes, so another broad feature cycle should wait for more evidence.",
+      "suggested_focus_minutes": 45,
+      "target": "Own SaaS"
+    },
+    "things_not_to_do": [
+      "Do not treat the older client's acceptance email as proof that all administrative closeout is complete.",
+      "Do not infer that the technical YouTube session was entertainment just because it occurred on YouTube.",
+      "Do not treat the new client's authentication work as finished because tests passed.",
+      "Do not add a major SaaS feature while the beta remains in an evidence-gathering phase.",
+      "Do not infer anything about the long offline periods beyond the stated unobserved status."
+    ]
+  }
+}

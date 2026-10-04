@@ -1,0 +1,423 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 27,
+    "date": "2026-09-27",
+    "day_type": "light_sunday_cross_project_review",
+    "circumstances": [
+      "Sunday remained relatively light, with a late start and substantial offline time.",
+      "The SaaS beta was mostly monitored rather than modified, followed by a small research and note-taking session.",
+      "The new freelance client received another authentication implementation and staging-verification block, continuing the first-deliverable thread.",
+      "Lead generation remained maintenance-level rather than expanding into a new campaign.",
+      "A YouTube session was useful product research rather than unrelated entertainment."
+    ],
+    "laptop_usage": {
+      "first_seen": "11:03",
+      "last_seen": "21:07",
+      "approx_active_hours": 6.3,
+      "longest_unobserved_gap_minutes": 91
+    }
+  },
+  "raw_events": [
+    {
+      "id": 642,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T11:03:00+05:30",
+      "ended_at": "2026-09-27T11:19:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 643,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T11:19:00+05:30",
+      "ended_at": "2026-09-27T11:36:00+05:30",
+      "app": "WhatsApp",
+      "browser": null,
+      "title": "WhatsApp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 644,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T11:36:00+05:30",
+      "ended_at": "2026-09-27T12:02:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Weekend notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 645,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T12:02:00+05:30",
+      "ended_at": "2026-09-27T12:28:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 646,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T12:28:00+05:30",
+      "ended_at": "2026-09-27T12:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Analytics dashboard",
+      "url": "https://app.posthog.com/",
+      "payload": null
+    },
+    {
+      "id": 647,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T12:49:00+05:30",
+      "ended_at": "2026-09-27T13:07:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Beta feedback",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 648,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T14:38:00+05:30",
+      "ended_at": "2026-09-27T14:57:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 649,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T14:57:00+05:30",
+      "ended_at": "2026-09-27T15:23:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 650,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T15:23:00+05:30",
+      "ended_at": "2026-09-27T15:41:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- auth",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 651,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T15:41:00+05:30",
+      "ended_at": "2026-09-27T16:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://new-client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 652,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T16:03:00+05:30",
+      "ended_at": "2026-09-27T16:18:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 653,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T16:18:00+05:30",
+      "ended_at": "2026-09-27T16:37:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Project tasks",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 654,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T17:44:00+05:30",
+      "ended_at": "2026-09-27T18:01:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 655,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T18:01:00+05:30",
+      "ended_at": "2026-09-27T18:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=saas+beta+activation+examples",
+      "payload": null
+    },
+    {
+      "id": 656,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T18:24:00+05:30",
+      "ended_at": "2026-09-27T18:46:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "SaaS beta notes",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 657,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T19:53:00+05:30",
+      "ended_at": "2026-09-27T20:11:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 658,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T20:11:00+05:30",
+      "ended_at": "2026-09-27T20:29:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance outreach",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 659,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T20:29:00+05:30",
+      "ended_at": "2026-09-27T20:48:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 660,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T20:48:00+05:30",
+      "ended_at": "2026-09-27T21:07:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-27-01",
+        "started_at": "11:03",
+        "ended_at": "11:36",
+        "title": "Weekend communication",
+        "summary": "Checked email and handled personal WhatsApp communication before opening the laptop for a short product review.",
+        "event_ids": [
+          642,
+          643
+        ],
+        "context": "Personal",
+        "area": null,
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-27-02",
+        "started_at": "11:36",
+        "ended_at": "13:07",
+        "title": "SaaS beta health check",
+        "summary": "Reviewed weekend notes, checked the live SaaS and activation analytics, and looked at incoming beta feedback without changing the product.",
+        "event_ids": [
+          644,
+          645,
+          646,
+          647
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-27-03",
+        "started_at": "14:38",
+        "ended_at": "16:37",
+        "title": "New client authentication deliverable",
+        "summary": "Continued the new client's authentication work, ran targeted tests, verified the staging build, communicated status, and updated project tasks.",
+        "event_ids": [
+          648,
+          649,
+          650,
+          651,
+          652,
+          653
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-27-04",
+        "started_at": "17:44",
+        "ended_at": "18:46",
+        "title": "SaaS activation research and notes",
+        "summary": "Watched a product-growth video, searched for SaaS activation examples, and captured notes for comparison with the current beta.",
+        "event_ids": [
+          654,
+          655,
+          656
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-27-05",
+        "started_at": "19:53",
+        "ended_at": "20:48",
+        "title": "Freelance lead maintenance",
+        "summary": "Checked LinkedIn, maintained an outreach draft, and reviewed incoming email without starting a new proposal cycle.",
+        "event_ids": [
+          657,
+          658,
+          659
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-27-06",
+        "started_at": "20:48",
+        "ended_at": "21:07",
+        "title": "SaaS roadmap review",
+        "summary": "Updated the SaaS roadmap with the current beta observations and left the next product decision open for the coming week.",
+        "event_ids": [
+          660
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:07",
+        "ended_at": "14:38",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:37",
+        "ended_at": "17:44",
+        "reason": "Personal activity / offline"
+      },
+      {
+        "started_at": "18:46",
+        "ended_at": "19:53",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The SaaS remained deliberately stable: live beta behavior, analytics, and feedback were reviewed without another immediate product change.",
+      "The new client's first authentication deliverable continued through implementation, tests, staging verification, and task tracking, making freelance execution the larger build thread today.",
+      "The YouTube/search session was connected to SaaS activation research, demonstrating that the raw app alone is insufficient to classify it as leisure.",
+      "Lead generation stayed at maintenance level, which is reasonable for a light Sunday but left no new acquisition push visible today.",
+      "The day had lower laptop activity than recent weekdays and included several normal offline periods."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "moderate progress / monitoring and focused research"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "strong progress on the new client's first deliverable"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "maintenance only"
+      }
+    ],
+    "important_uncertainty": [
+      "The beta health check does not establish whether activation is improving or whether all important user behavior is being captured.",
+      "The new client's authentication slice is progressing but is not shown as fully accepted or complete.",
+      "The activation research provides context but does not prove that a particular growth pattern applies to this SaaS."
+    ],
+    "possible_next_step": "Start the week by finishing the new client's first authentication deliverable and then use the accumulated beta evidence to choose one concrete SaaS change."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the new client auth slice",
+      "action_type": "complete_open_loop",
+      "reason": "The authentication work has already passed through implementation, testing, and staging verification, so the next useful step is to close the first deliverable.",
+      "suggested_focus_minutes": 75,
+      "target": "Freelance"
+    },
+    "secondary_action": {
+      "title": "Choose one SaaS beta change",
+      "action_type": "clarify_priority",
+      "reason": "The SaaS has accumulated several days of beta feedback, analytics, and research; the next product block should turn that evidence into one explicit decision rather than more open-ended observation.",
+      "suggested_focus_minutes": 45,
+      "target": "Own SaaS"
+    },
+    "things_not_to_do": [
+      "Do not classify the YouTube activation video as entertainment based only on the domain.",
+      "Do not treat the new client deliverable as complete because staging and tests passed.",
+      "Do not make another broad SaaS feature change before selecting a specific beta-supported problem.",
+      "Do not infer that the quieter Sunday meant no offline work or personal activity.",
+      "Do not interpret the analytics review as proof of improved activation."
+    ]
+  }
+}

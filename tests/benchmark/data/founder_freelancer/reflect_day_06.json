@@ -1,0 +1,509 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 6,
+    "date": "2026-09-06",
+    "day_type": "deadline_driven_client_day",
+    "circumstances": [
+      "Sunday started relatively normally, with a brief review of the SaaS roadmap and the new freelance prospect.",
+      "An existing client reported a deadline-related issue that required same-day attention.",
+      "Most of the main work period shifted to client debugging, implementation, testing, and deployment preparation.",
+      "The new freelance prospect was acknowledged but not given a full follow-up because the client issue took priority.",
+      "The afternoon included a longer offline break before returning to the client project for final verification.",
+      "Late evening returned briefly to the SaaS to review the deferred authentication work and record the next step."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:36",
+      "last_seen": "23:10",
+      "approx_active_hours": 8.5,
+      "longest_unobserved_gap_minutes": 136
+    }
+  },
+  "raw_events": [
+    {
+      "id": 123,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T08:36:00+05:30",
+      "ended_at": "2026-09-06T08:52:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 124,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T08:52:00+05:30",
+      "ended_at": "2026-09-06T09:18:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 125,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T09:18:00+05:30",
+      "ended_at": "2026-09-06T09:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 126,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T09:31:00+05:30",
+      "ended_at": "2026-09-06T09:46:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 127,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T09:46:00+05:30",
+      "ended_at": "2026-09-06T10:07:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project \u2014 checkout.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 128,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T10:07:00+05:30",
+      "ended_at": "2026-09-06T10:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Stripe API documentation",
+      "url": "https://docs.stripe.com/api",
+      "payload": null
+    },
+    {
+      "id": 129,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T10:29:00+05:30",
+      "ended_at": "2026-09-06T10:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project \u2014 checkout.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 130,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T10:58:00+05:30",
+      "ended_at": "2026-09-06T11:14:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 131,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:14:00+05:30",
+      "ended_at": "2026-09-06T11:31:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 132,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:31:00+05:30",
+      "ended_at": "2026-09-06T11:49:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Client release checklist",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 133,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T12:04:00+05:30",
+      "ended_at": "2026-09-06T12:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Railway Dashboard",
+      "url": "https://railway.app/dashboard",
+      "payload": null
+    },
+    {
+      "id": 134,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T12:21:00+05:30",
+      "ended_at": "2026-09-06T12:42:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git status && npm run build",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 135,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T13:06:00+05:30",
+      "ended_at": "2026-09-06T13:28:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 136,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T13:28:00+05:30",
+      "ended_at": "2026-09-06T13:47:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 137,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T13:47:00+05:30",
+      "ended_at": "2026-09-06T14:02:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/messaging/",
+      "payload": null
+    },
+    {
+      "id": 138,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T16:18:00+05:30",
+      "ended_at": "2026-09-06T16:36:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 139,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T16:36:00+05:30",
+      "ended_at": "2026-09-06T17:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project \u2014 checkout.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 140,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T17:02:00+05:30",
+      "ended_at": "2026-09-06T17:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "client staging",
+      "url": "https://staging.example-client.app/",
+      "payload": null
+    },
+    {
+      "id": 141,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T17:24:00+05:30",
+      "ended_at": "2026-09-06T17:41:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git diff && git log -1",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 142,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T19:36:00+05:30",
+      "ended_at": "2026-09-06T19:53:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 143,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T21:07:00+05:30",
+      "ended_at": "2026-09-06T21:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GitHub",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 144,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T21:24:00+05:30",
+      "ended_at": "2026-09-06T21:51:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app \u2014 middleware.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 145,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T21:51:00+05:30",
+      "ended_at": "2026-09-06T22:13:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 146,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T22:13:00+05:30",
+      "ended_at": "2026-09-06T22:31:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 147,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T22:31:00+05:30",
+      "ended_at": "2026-09-06T23:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-06-01",
+        "started_at": "08:36",
+        "ended_at": "09:31",
+        "title": "Morning review and triage",
+        "summary": "Checked communication, reviewed the SaaS roadmap, and looked over the new freelance opportunity before starting the day's work.",
+        "event_ids": [
+          123,
+          124,
+          125
+        ],
+        "context": "Work",
+        "area": "Plan",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-06-02",
+        "started_at": "09:31",
+        "ended_at": "12:42",
+        "title": "Urgent client checkout fix",
+        "summary": "Responded to a client-reported checkout problem, investigated the payment flow, implemented a fix, ran tests, and prepared the change for release.",
+        "event_ids": [
+          126,
+          127,
+          128,
+          129,
+          130,
+          131,
+          132,
+          133,
+          134
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-06-03",
+        "started_at": "13:06",
+        "ended_at": "14:02",
+        "title": "Freelance opportunity check-in",
+        "summary": "Checked email from the prospective client, reviewed the proposal, and sent a short LinkedIn follow-up acknowledging the current timing.",
+        "event_ids": [
+          135,
+          136,
+          137
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-06-04",
+        "started_at": "16:18",
+        "ended_at": "17:41",
+        "title": "Client release verification",
+        "summary": "Returned to the client project, checked the fix in staging, reviewed the diff, and verified the release candidate.",
+        "event_ids": [
+          138,
+          139,
+          140,
+          141
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-06-05",
+        "started_at": "19:36",
+        "ended_at": "19:53",
+        "title": "Unrelated YouTube break",
+        "summary": "Watched unrelated YouTube content after the client work block.",
+        "event_ids": [
+          142
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-06",
+        "started_at": "21:07",
+        "ended_at": "22:31",
+        "title": "Deferred SaaS authentication work",
+        "summary": "Returned to the SaaS late in the evening, reviewed the middleware changes, reran tests, and checked the roadmap for the next product task.",
+        "event_ids": [
+          143,
+          144,
+          145,
+          146
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-06-07",
+        "started_at": "22:31",
+        "ended_at": "23:10",
+        "title": "End-of-day communication",
+        "summary": "Checked and responded to email, including client communication and the prospective freelance thread, before finishing for the night.",
+        "event_ids": [
+          147
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:42",
+        "ended_at": "13:06",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "14:02",
+        "ended_at": "16:18",
+        "reason": "Extended Sunday offline break / personal activity"
+      },
+      {
+        "started_at": "17:41",
+        "ended_at": "19:36",
+        "reason": "Offline personal time / dinner"
+      },
+      {
+        "started_at": "19:53",
+        "ended_at": "21:07",
+        "reason": "Offline evening activity"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The existing client issue became the dominant work thread and consumed substantially more observed work time than the SaaS.",
+      "The client work progressed from an incoming problem through debugging, implementation, testing, staging verification, and release preparation.",
+      "The prospective freelance opportunity was not ignored, but only received a brief communication block while the urgent client issue was active.",
+      "The SaaS authentication thread was deferred during the day and only revisited briefly late at night.",
+      "The day included several substantial offline periods, especially in the afternoon and evening, which should not be interpreted as missing work automatically."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "limited progress; work was mostly deferred because of client demands"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "strong progress; urgent issue moved through implementation and release verification"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "some progress; brief follow-up maintained the active prospect thread"
+      }
+    ],
+    "important_uncertainty": [
+      "The client fix was verified in staging, but the captured activity does not prove that the production deployment was completed or that the issue was fully resolved for end users.",
+      "Most afternoon and evening periods are unobserved and cannot be classified from desktop activity.",
+      "The prospective client's level of interest or likelihood of conversion cannot be inferred from the brief follow-up activity."
+    ],
+    "possible_next_step": "Once the client release is stable, protect the next substantial work block for the SaaS authentication thread rather than extending client work by default."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Return to the deferred SaaS task",
+      "action_type": "protect_priority",
+      "reason": "The client issue legitimately dominated today, while the SaaS authentication work was only revisited briefly at the end of the day.",
+      "suggested_focus_minutes": 120,
+      "target": "Own SaaS"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not criticize the Sunday offline periods or assume they were unproductive.",
+      "Do not label the urgent client work as distraction simply because it displaced the SaaS plan.",
+      "Do not assume the client issue was fully resolved just because staging verification occurred.",
+      "Do not treat the brief freelance follow-up as evidence that the prospect will convert.",
+      "Do not recommend extending the workday further merely because SaaS time was reduced."
+    ]
+  }
+}

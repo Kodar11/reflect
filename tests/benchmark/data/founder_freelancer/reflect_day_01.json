@@ -1,0 +1,587 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+
+  "day": {
+    "day_number": 1,
+    "date": "2026-09-01",
+    "day_type": "normal_mixed_workday",
+    "circumstances": [
+      "Started work later than planned",
+      "Good morning product work",
+      "Unexpected client bug interrupted planned work",
+      "Afternoon became fragmented",
+      "Spent some time watching unrelated YouTube content",
+      "Evening used for learning and planning"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:32",
+      "last_seen": "21:47",
+      "approx_active_hours": 8.1,
+      "longest_unobserved_gap_minutes": 78
+    }
+  },
+
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:32:00+05:30",
+      "ended_at": "2026-09-01T09:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:47:00+05:30",
+      "ended_at": "2026-09-01T10:04:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Linear",
+      "url": "https://linear.app/acme/...",
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:04:00+05:30",
+      "ended_at": "2026-09-01T10:21:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:21:00+05:30",
+      "ended_at": "2026-09-01T10:39:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — api/client.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:39:00+05:30",
+      "ended_at": "2026-09-01T10:58:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Stripe API documentation",
+      "url": "https://docs.stripe.com/api",
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:58:00+05:30",
+      "ended_at": "2026-09-01T11:19:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — billing.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:19:00+05:30",
+      "ended_at": "2026-09-01T11:34:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:34:00+05:30",
+      "ended_at": "2026-09-01T11:51:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — billing.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:51:00+05:30",
+      "ended_at": "2026-09-01T12:08:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T12:08:00+05:30",
+      "ended_at": "2026-09-01T12:27:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GitHub",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T12:27:00+05:30",
+      "ended_at": "2026-09-01T12:41:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T13:59:00+05:30",
+      "ended_at": "2026-09-01T14:14:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T14:14:00+05:30",
+      "ended_at": "2026-09-01T14:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T14:31:00+05:30",
+      "ended_at": "2026-09-01T14:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Stack Overflow",
+      "url": "https://stackoverflow.com/questions/...",
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T14:49:00+05:30",
+      "ended_at": "2026-09-01T15:11:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T15:11:00+05:30",
+      "ended_at": "2026-09-01T15:26:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T15:26:00+05:30",
+      "ended_at": "2026-09-01T15:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=...",
+      "payload": null
+    },
+    {
+      "id": 18,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T15:44:00+05:30",
+      "ended_at": "2026-09-01T16:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T16:03:00+05:30",
+      "ended_at": "2026-09-01T16:18:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git diff",
+      "url": null,
+      "payload": null
+    },
+
+    {
+      "id": 20,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T17:41:00+05:30",
+      "ended_at": "2026-09-01T17:58:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 21,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T17:58:00+05:30",
+      "ended_at": "2026-09-01T18:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 22,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T18:17:00+05:30",
+      "ended_at": "2026-09-01T18:34:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/feed/",
+      "payload": null
+    },
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T18:34:00+05:30",
+      "ended_at": "2026-09-01T18:52:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS launch plan",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T18:52:00+05:30",
+      "ended_at": "2026-09-01T19:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T20:06:00+05:30",
+      "ended_at": "2026-09-01T20:23:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google",
+      "url": "https://www.google.com/search?q=postgresql+indexing",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T20:23:00+05:30",
+      "ended_at": "2026-09-01T20:49:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PostgreSQL indexing tutorial",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T20:49:00+05:30",
+      "ended_at": "2026-09-01T21:08:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Technical notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T21:08:00+05:30",
+      "ended_at": "2026-09-01T21:31:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS launch plan",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T21:31:00+05:30",
+      "ended_at": "2026-09-01T21:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01",
+        "started_at": "09:32",
+        "ended_at": "10:04",
+        "title": "Morning planning and task review",
+        "summary": "Reviewed email and project tasks before starting product work.",
+        "event_ids": [1, 2],
+        "context": "Work",
+        "area": "Plan",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-02",
+        "started_at": "10:04",
+        "ended_at": "12:27",
+        "title": "SaaS billing implementation",
+        "summary": "Implemented and tested billing-related functionality, including API research and code changes.",
+        "event_ids": [3, 4, 5, 6, 8, 9, 10],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03",
+        "started_at": "11:19",
+        "ended_at": "11:34",
+        "title": "Unrelated YouTube break",
+        "summary": "Brief entertainment break during product work.",
+        "event_ids": [7],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04",
+        "started_at": "12:27",
+        "ended_at": "12:41",
+        "title": "Client communication",
+        "summary": "Checked client communication and noticed an authentication issue.",
+        "event_ids": [11],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05",
+        "started_at": "13:59",
+        "ended_at": "16:18",
+        "title": "Client authentication bug",
+        "summary": "Investigated and fixed an authentication issue reported by a client.",
+        "event_ids": [12, 13, 14, 15, 17, 18, 19],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-06",
+        "started_at": "15:11",
+        "ended_at": "15:26",
+        "title": "Entertainment break",
+        "summary": "Took an unplanned YouTube break while working on the client issue.",
+        "event_ids": [16],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07",
+        "started_at": "17:41",
+        "ended_at": "18:34",
+        "title": "Client follow-up and lead activity",
+        "summary": "Handled email and spent time on LinkedIn for professional networking and lead generation.",
+        "event_ids": [20, 21, 22],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-08",
+        "started_at": "18:34",
+        "ended_at": "18:52",
+        "title": "SaaS launch planning",
+        "summary": "Reviewed and updated the launch plan for the own product.",
+        "event_ids": [23],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09",
+        "started_at": "18:52",
+        "ended_at": "19:09",
+        "title": "Entertainment",
+        "summary": "Watched unrelated YouTube content.",
+        "event_ids": [24],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10",
+        "started_at": "20:06",
+        "ended_at": "21:08",
+        "title": "Technical learning",
+        "summary": "Studied PostgreSQL indexing through search, a tutorial, and personal notes.",
+        "event_ids": [25, 26, 27],
+        "context": "Work",
+        "area": "Learning",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-11",
+        "started_at": "21:08",
+        "ended_at": "21:31",
+        "title": "SaaS planning",
+        "summary": "Returned to the product launch plan and adjusted upcoming work.",
+        "event_ids": [28],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-12",
+        "started_at": "21:31",
+        "ended_at": "21:47",
+        "title": "End-of-day communication",
+        "summary": "Checked and responded to remaining email before finishing.",
+        "event_ids": [29],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      }
+    ],
+
+    "unobserved_periods": [
+      {
+        "started_at": "12:41",
+        "ended_at": "13:59",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:18",
+        "ended_at": "17:41",
+        "reason": "Personal activity / offline"
+      },
+      {
+        "started_at": "19:09",
+        "ended_at": "20:06",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The day contained meaningful progress on both the SaaS product and client work.",
+      "An unexpected client issue displaced some planned product work.",
+      "The day became fragmented in the afternoon and evening.",
+      "The user still returned to product planning and technical learning."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [
+      "Some offline periods are completely unobserved.",
+      "YouTube activity alone cannot establish whether a video was useful or distracting without additional context."
+    ],
+    "possible_next_step": "Protect a longer uninterrupted block for SaaS development tomorrow."
+  },
+
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Protect a focused SaaS block",
+      "action_type": "protect_priority",
+      "reason": "Client work unexpectedly consumed a significant portion of the planned product time.",
+      "suggested_focus_minutes": 90,
+      "target": "Own SaaS"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not criticize YouTube usage as inherently unproductive.",
+      "Do not claim that offline time was wasted.",
+      "Do not infer motivation, stress, or psychological state.",
+      "Do not claim the client issue was avoidable."
+    ]
+  }
+}

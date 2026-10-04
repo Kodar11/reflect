@@ -1,0 +1,572 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 29,
+    "date": "2026-09-29",
+    "day_type": "client_iteration_and_beta_experiment_day",
+    "circumstances": [
+      "The new client reviewed the first deliverable and requested a small profile-flow adjustment, creating another implementation and verification pass.",
+      "The SaaS beta produced enough activation information to justify one narrower follow-up experiment rather than another broad roadmap change.",
+      "Freelance pipeline activity included maintaining current opportunities and checking for additional leads.",
+      "The day had normal offline gaps and one short unrelated YouTube break."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:05",
+      "last_seen": "20:29",
+      "approx_active_hours": 9.6,
+      "longest_unobserved_gap_minutes": 76
+    }
+  },
+  "raw_events": [
+    {
+      "id": 690,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T08:05:00+05:30",
+      "ended_at": "2026-09-29T08:21:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 691,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T08:21:00+05:30",
+      "ended_at": "2026-09-29T08:39:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 692,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T08:39:00+05:30",
+      "ended_at": "2026-09-29T09:06:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 693,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:06:00+05:30",
+      "ended_at": "2026-09-29T09:23:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- auth",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 694,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:23:00+05:30",
+      "ended_at": "2026-09-29T09:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://new-client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 695,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:45:00+05:30",
+      "ended_at": "2026-09-29T10:11:00+05:30",
+      "app": "Google Meet",
+      "browser": "Chrome",
+      "title": "Client review call",
+      "url": "https://meet.google.com/...",
+      "payload": null
+    },
+    {
+      "id": 696,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T10:11:00+05:30",
+      "ended_at": "2026-09-29T10:32:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Project feedback notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 697,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T10:32:00+05:30",
+      "ended_at": "2026-09-29T10:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — profile.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 698,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T10:58:00+05:30",
+      "ended_at": "2026-09-29T11:16:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://new-client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 699,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T11:16:00+05:30",
+      "ended_at": "2026-09-29T11:31:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 700,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:17:00+05:30",
+      "ended_at": "2026-09-29T12:35:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 701,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:35:00+05:30",
+      "ended_at": "2026-09-29T12:58:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Analytics dashboard",
+      "url": "https://app.posthog.com/",
+      "payload": null
+    },
+    {
+      "id": 702,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:58:00+05:30",
+      "ended_at": "2026-09-29T13:15:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Activation experiment data",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 703,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T13:15:00+05:30",
+      "ended_at": "2026-09-29T13:34:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Beta feedback notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 704,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T13:34:00+05:30",
+      "ended_at": "2026-09-29T13:57:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "SaaS experiment plan",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 705,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T13:57:00+05:30",
+      "ended_at": "2026-09-29T14:24:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 706,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T14:24:00+05:30",
+      "ended_at": "2026-09-29T14:41:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- onboarding",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 707,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T14:41:00+05:30",
+      "ended_at": "2026-09-29T15:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 708,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:03:00+05:30",
+      "ended_at": "2026-09-29T15:19:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Freelance inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 709,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:19:00+05:30",
+      "ended_at": "2026-09-29T15:37:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Freelance tracker",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 710,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:37:00+05:30",
+      "ended_at": "2026-09-29T15:56:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 711,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:56:00+05:30",
+      "ended_at": "2026-09-29T16:13:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 712,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T17:28:00+05:30",
+      "ended_at": "2026-09-29T17:51:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Client feedback",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 713,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T17:51:00+05:30",
+      "ended_at": "2026-09-29T18:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — profile.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 714,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T18:17:00+05:30",
+      "ended_at": "2026-09-29T18:35:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 715,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T18:35:00+05:30",
+      "ended_at": "2026-09-29T18:58:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://new-client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 716,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T19:47:00+05:30",
+      "ended_at": "2026-09-29T20:05:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 717,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T20:05:00+05:30",
+      "ended_at": "2026-09-29T20:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-29-01",
+        "started_at": "08:05",
+        "ended_at": "08:39",
+        "title": "Morning client review",
+        "summary": "Checked the inbox and client workspace before continuing the new client's first deliverable.",
+        "event_ids": [
+          690,
+          691
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-02",
+        "started_at": "08:39",
+        "ended_at": "11:31",
+        "title": "New client deliverable iteration",
+        "summary": "Ran authentication tests and staging checks, joined a client review call, documented feedback, implemented a requested profile-flow adjustment, and reported the updated state.",
+        "event_ids": [
+          692,
+          693,
+          694,
+          695,
+          696,
+          697,
+          698,
+          699
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-03",
+        "started_at": "12:17",
+        "ended_at": "13:34",
+        "title": "SaaS activation data review",
+        "summary": "Checked the live SaaS, reviewed analytics and activation experiment data, and consolidated the latest beta feedback.",
+        "event_ids": [
+          700,
+          701,
+          702,
+          703
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-04",
+        "started_at": "13:34",
+        "ended_at": "15:03",
+        "title": "SaaS next-step experiment",
+        "summary": "Defined a smaller follow-up experiment, adjusted the onboarding flow, ran targeted tests, and checked the live result.",
+        "event_ids": [
+          704,
+          705,
+          706,
+          707
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-05",
+        "started_at": "15:03",
+        "ended_at": "15:37",
+        "title": "Freelance pipeline maintenance",
+        "summary": "Reviewed a freelance inquiry and updated the tracker with the current state of active and inactive opportunities.",
+        "event_ids": [
+          708,
+          709
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-06",
+        "started_at": "15:37",
+        "ended_at": "15:56",
+        "title": "Freelance lead search",
+        "summary": "Checked LinkedIn for additional freelance opportunities after updating the pipeline.",
+        "event_ids": [
+          710
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-07",
+        "started_at": "15:56",
+        "ended_at": "16:13",
+        "title": "Unrelated YouTube break",
+        "summary": "Watched unrelated YouTube content.",
+        "event_ids": [
+          711
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-08",
+        "started_at": "17:28",
+        "ended_at": "18:58",
+        "title": "New client feedback implementation",
+        "summary": "Reviewed new client feedback, adjusted the profile flow, ran tests, and verified the updated staging build.",
+        "event_ids": [
+          712,
+          713,
+          714,
+          715
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-09",
+        "started_at": "19:47",
+        "ended_at": "20:29",
+        "title": "SaaS roadmap and beta check",
+        "summary": "Updated the SaaS roadmap with the latest experiment decision and checked the live product once more.",
+        "event_ids": [
+          716,
+          717
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "11:31",
+        "ended_at": "12:17",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:13",
+        "ended_at": "17:28",
+        "reason": "Personal activity / offline"
+      },
+      {
+        "started_at": "18:58",
+        "ended_at": "19:47",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The new client's first deliverable moved into a review-and-iteration loop, with client feedback converted into a profile-flow change and then re-tested on staging.",
+      "The SaaS beta also moved forward, but in a constrained way: analytics and feedback were reviewed first, then one smaller experiment was implemented and checked.",
+      "Freelance acquisition received maintenance attention through pipeline review and LinkedIn, but no new engagement was established.",
+      "The day therefore had two active execution loops—client iteration and SaaS experimentation—without broad scope expansion in either.",
+      "The short unrelated YouTube session was isolated and followed by a return to client work."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "strong progress / one focused follow-up experiment"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "strong progress / deliverable actively iterated"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "some progress / pipeline maintained"
+      }
+    ],
+    "important_uncertainty": [
+      "The SaaS experiment was implemented and checked, but the events do not yet establish whether it improves activation.",
+      "The new client's staging verification does not establish final acceptance of the revised deliverable.",
+      "LinkedIn and inquiry activity shows pipeline maintenance but does not establish a new lead conversion."
+    ],
+    "possible_next_step": "Close the current client feedback loop while leaving the SaaS experiment stable long enough to produce another comparable beta signal."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the current client iteration",
+      "action_type": "complete_open_loop",
+      "reason": "The client feedback has already been translated into an implementation and staging verification, so the clearest next move is to confirm the deliverable rather than keep expanding the change.",
+      "suggested_focus_minutes": 45,
+      "target": "Freelance"
+    },
+    "secondary_action": {
+      "title": "Let the SaaS experiment run",
+      "action_type": "protect_priority",
+      "reason": "The latest product change has been implemented and checked, so another immediate change would reduce the value of observing a comparable beta signal.",
+      "suggested_focus_minutes": 60,
+      "target": "Own SaaS"
+    },
+    "things_not_to_do": [
+      "Do not treat staging verification as proof of client acceptance.",
+      "Do not claim the SaaS experiment improved activation from the same-day implementation checks.",
+      "Do not start another SaaS experiment before collecting evidence from the current one.",
+      "Do not treat LinkedIn activity as a successful lead acquisition by itself.",
+      "Do not overreact to the isolated YouTube break or infer anything about the offline periods."
+    ]
+  }
+}

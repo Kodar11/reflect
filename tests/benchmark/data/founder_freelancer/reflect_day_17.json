@@ -1,0 +1,574 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 17,
+    "date": "2026-09-17",
+    "day_type": "first_beta_rollout_and_feedback_day",
+    "circumstances": [
+      "The SaaS moved from launch preparation into a small real beta rollout with invited testers.",
+      "The morning focused on release verification, production checks, tester coordination, and feedback collection.",
+      "Early tester activity produced at least one concrete dashboard issue that was triaged and addressed later the same day.",
+      "The freelance project continued with a normal implementation and staging-verification block rather than an urgent interruption.",
+      "Freelance lead generation received a smaller maintenance session.",
+      "The day included a short unrelated YouTube break and normal offline periods."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:07",
+      "last_seen": "21:31",
+      "approx_active_hours": 8.0,
+      "longest_unobserved_gap_minutes": 96
+    }
+  },
+  "raw_events": [
+    {
+      "id": 384,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T08:07:00+05:30",
+      "ended_at": "2026-09-17T08:23:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 385,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T08:23:00+05:30",
+      "ended_at": "2026-09-17T08:41:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Launch checklist",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 386,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T08:41:00+05:30",
+      "ended_at": "2026-09-17T09:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS staging",
+      "url": "https://staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 387,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:09:00+05:30",
+      "ended_at": "2026-09-17T09:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 388,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:34:00+05:30",
+      "ended_at": "2026-09-17T09:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 389,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:51:00+05:30",
+      "ended_at": "2026-09-17T10:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Vercel",
+      "url": "https://vercel.com/dashboard",
+      "payload": null
+    },
+    {
+      "id": 390,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T10:12:00+05:30",
+      "ended_at": "2026-09-17T10:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 391,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T10:31:00+05:30",
+      "ended_at": "2026-09-17T10:48:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Beta testers",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 392,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T10:48:00+05:30",
+      "ended_at": "2026-09-17T11:17:00+05:30",
+      "app": "Google Forms",
+      "browser": "Chrome",
+      "title": "Beta feedback form",
+      "url": "https://docs.google.com/forms/",
+      "payload": null
+    },
+    {
+      "id": 393,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T11:17:00+05:30",
+      "ended_at": "2026-09-17T11:41:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Beta invites",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 394,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T11:41:00+05:30",
+      "ended_at": "2026-09-17T12:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 395,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:03:00+05:30",
+      "ended_at": "2026-09-17T12:26:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 396,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T13:52:00+05:30",
+      "ended_at": "2026-09-17T14:11:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 397,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T14:11:00+05:30",
+      "ended_at": "2026-09-17T14:37:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "freelance-project — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 398,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T14:37:00+05:30",
+      "ended_at": "2026-09-17T14:54:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 399,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T14:54:00+05:30",
+      "ended_at": "2026-09-17T15:13:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 400,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:13:00+05:30",
+      "ended_at": "2026-09-17T15:34:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 401,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:34:00+05:30",
+      "ended_at": "2026-09-17T15:51:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 402,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:51:00+05:30",
+      "ended_at": "2026-09-17T16:13:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 403,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:13:00+05:30",
+      "ended_at": "2026-09-17T16:28:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 404,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T17:41:00+05:30",
+      "ended_at": "2026-09-17T18:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/dashboard",
+      "payload": null
+    },
+    {
+      "id": 405,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:03:00+05:30",
+      "ended_at": "2026-09-17T18:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/settings",
+      "payload": null
+    },
+    {
+      "id": 406,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:24:00+05:30",
+      "ended_at": "2026-09-17T18:43:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Beta testers",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 407,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T19:39:00+05:30",
+      "ended_at": "2026-09-17T20:02:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Beta feedback notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 408,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T20:02:00+05:30",
+      "ended_at": "2026-09-17T20:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 409,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T20:29:00+05:30",
+      "ended_at": "2026-09-17T20:47:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 410,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T20:47:00+05:30",
+      "ended_at": "2026-09-17T21:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 411,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T21:09:00+05:30",
+      "ended_at": "2026-09-17T21:31:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-17-01",
+        "started_at": "08:07",
+        "ended_at": "08:41",
+        "title": "Morning launch review",
+        "summary": "Checked email and reviewed the launch checklist before starting the beta rollout work.",
+        "event_ids": [
+          384,
+          385
+        ],
+        "context": "Work",
+        "area": "Plan",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-02",
+        "started_at": "08:41",
+        "ended_at": "10:31",
+        "title": "Beta release verification",
+        "summary": "Ran the staged SaaS through the remaining checks, fixed dashboard issues, tested the build, checked deployment, and verified the production app.",
+        "event_ids": [
+          386,
+          387,
+          388,
+          389,
+          390
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-03",
+        "started_at": "10:31",
+        "ended_at": "12:26",
+        "title": "Beta tester rollout",
+        "summary": "Coordinated a small tester group, prepared feedback collection, sent beta invitations, tested the production app, and made a small dashboard adjustment based on the first checks.",
+        "event_ids": [
+          391,
+          392,
+          393,
+          394,
+          395
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-04",
+        "started_at": "13:52",
+        "ended_at": "15:34",
+        "title": "Freelance delivery work",
+        "summary": "Checked the client workspace, implemented the current dashboard change, reviewed the staging result, ran tests, and sent a project update.",
+        "event_ids": [
+          396,
+          397,
+          398,
+          399,
+          400
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-05",
+        "started_at": "15:34",
+        "ended_at": "16:13",
+        "title": "Freelance lead maintenance",
+        "summary": "Reviewed LinkedIn and updated a separate proposal while the active client work was paused.",
+        "event_ids": [
+          401,
+          402
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-17-06",
+        "started_at": "16:13",
+        "ended_at": "16:28",
+        "title": "Unrelated YouTube break",
+        "summary": "Watched unrelated YouTube content.",
+        "event_ids": [
+          403
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-07",
+        "started_at": "17:41",
+        "ended_at": "18:43",
+        "title": "Beta product walkthrough",
+        "summary": "Walked through the production SaaS as a beta user, checked dashboard and settings flows, and discussed tester observations in Slack.",
+        "event_ids": [
+          404,
+          405,
+          406
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-08",
+        "started_at": "19:39",
+        "ended_at": "21:09",
+        "title": "Beta feedback triage and dashboard fix",
+        "summary": "Reviewed early tester feedback, translated one concrete issue into a dashboard change, ran tests, and rechecked the production app.",
+        "event_ids": [
+          407,
+          408,
+          409,
+          410
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-09",
+        "started_at": "21:09",
+        "ended_at": "21:31",
+        "title": "SaaS roadmap update",
+        "summary": "Recorded the beta findings and updated the roadmap with the next product fixes.",
+        "event_ids": [
+          411
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:26",
+        "ended_at": "13:52",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:28",
+        "ended_at": "17:41",
+        "reason": "Walk / personal activity"
+      },
+      {
+        "started_at": "18:43",
+        "ended_at": "19:39",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The SaaS crossed an important transition from preparation into an actual beta rollout with testers.",
+      "The rollout produced useful feedback that was turned into a concrete dashboard fix and re-tested the same day.",
+      "Product work therefore moved through a full loop of release verification → tester exposure → feedback → fix → re-test rather than remaining purely theoretical launch preparation.",
+      "The freelance project remained productive but more contained than the SaaS, and it did not create a major new interruption.",
+      "The short YouTube break was isolated and did not prevent the later beta-feedback work."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "very strong progress / moved into real beta testing"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "meaningful progress"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "maintenance only"
+      }
+    ],
+    "important_uncertainty": [
+      "The beta rollout confirms tester exposure, but the captured desktop events do not establish tester satisfaction, retention, or conversion.",
+      "A concrete dashboard issue was triaged and re-tested, but the events do not establish that all beta issues were discovered.",
+      "The number and quality of tester responses cannot be inferred from the Slack and feedback-form windows alone."
+    ],
+    "possible_next_step": "Continue the beta feedback loop with a small, explicit set of fixes rather than expanding the product scope while real tester behavior is still being observed."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Run the next beta feedback cycle",
+      "action_type": "continue_successful_behavior",
+      "reason": "The first beta rollout produced an actionable feedback-to-fix loop, which is currently more valuable than adding unrelated product scope.",
+      "suggested_focus_minutes": 90,
+      "target": "Own SaaS"
+    },
+    "secondary_action": {
+      "title": "Keep the freelance delivery on its current cadence",
+      "action_type": "continue_successful_behavior",
+      "reason": "The client work progressed normally without creating a major escalation, so there is no evidence that the workflow needs a larger intervention.",
+      "suggested_focus_minutes": 45,
+      "target": "Freelance"
+    },
+    "things_not_to_do": [
+      "Do not treat the beta rollout as evidence of product-market fit or successful conversion.",
+      "Do not infer tester satisfaction from invitation or Slack activity alone.",
+      "Do not assume the first dashboard issue was the only beta issue.",
+      "Do not classify the short unrelated YouTube session as a launch failure.",
+      "Do not add a broad new SaaS feature before using the beta feedback to identify what actually needs improvement."
+    ]
+  }
+}

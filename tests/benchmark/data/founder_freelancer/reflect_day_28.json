@@ -1,0 +1,577 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 28,
+    "date": "2026-09-28",
+    "day_type": "client_blocked_and_saas_iteration_day",
+    "circumstances": [
+      "The new freelance client’s authentication slice was technically verified in the morning, but a required access credential was still missing.",
+      "The SaaS beta data suggested enough onboarding friction to justify a narrower simplification of the flow rather than another broad feature.",
+      "Freelance lead generation included both maintenance of an existing proposal and a search for additional remote opportunities.",
+      "The missing client credential arrived in the evening, allowing the new client work to continue into integration testing and staging verification.",
+      "A technical YouTube session was related to the current onboarding/activation problem rather than unrelated entertainment.",
+      "The day included several normal offline gaps and did not become an extreme late-night workday."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:09",
+      "last_seen": "21:13",
+      "approx_active_hours": 9.9,
+      "longest_unobserved_gap_minutes": 57
+    }
+  },
+  "raw_events": [
+    {
+      "id": 661,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T08:09:00+05:30",
+      "ended_at": "2026-09-28T08:24:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 662,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T08:24:00+05:30",
+      "ended_at": "2026-09-28T08:47:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 663,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T08:47:00+05:30",
+      "ended_at": "2026-09-28T09:13:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 664,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T09:13:00+05:30",
+      "ended_at": "2026-09-28T09:32:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- auth",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 665,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T09:32:00+05:30",
+      "ended_at": "2026-09-28T09:54:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://new-client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 666,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T09:54:00+05:30",
+      "ended_at": "2026-09-28T10:12:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "new-client-project",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 667,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T10:12:00+05:30",
+      "ended_at": "2026-09-28T10:29:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 668,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T10:29:00+05:30",
+      "ended_at": "2026-09-28T10:46:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Client access request",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 669,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T11:21:00+05:30",
+      "ended_at": "2026-09-28T11:42:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Analytics dashboard",
+      "url": "https://app.posthog.com/",
+      "payload": null
+    },
+    {
+      "id": 670,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T11:42:00+05:30",
+      "ended_at": "2026-09-28T12:03:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Beta activation data",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 671,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T12:03:00+05:30",
+      "ended_at": "2026-09-28T12:28:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=saas+onboarding+activation+friction",
+      "payload": null
+    },
+    {
+      "id": 672,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T12:28:00+05:30",
+      "ended_at": "2026-09-28T12:54:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "SaaS onboarding simplification",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 673,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T12:54:00+05:30",
+      "ended_at": "2026-09-28T13:16:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 674,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T13:16:00+05:30",
+      "ended_at": "2026-09-28T13:33:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- onboarding",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 675,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T13:33:00+05:30",
+      "ended_at": "2026-09-28T13:51:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 676,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T14:47:00+05:30",
+      "ended_at": "2026-09-28T15:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 677,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T15:03:00+05:30",
+      "ended_at": "2026-09-28T15:21:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Freelance proposal update",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 678,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T15:21:00+05:30",
+      "ended_at": "2026-09-28T15:47:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 679,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T15:47:00+05:30",
+      "ended_at": "2026-09-28T16:05:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 680,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T16:05:00+05:30",
+      "ended_at": "2026-09-28T16:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=react+developer+freelance+remote",
+      "payload": null
+    },
+    {
+      "id": 681,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T16:29:00+05:30",
+      "ended_at": "2026-09-28T16:44:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Freelance inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 682,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T17:38:00+05:30",
+      "ended_at": "2026-09-28T17:56:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 683,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T17:56:00+05:30",
+      "ended_at": "2026-09-28T18:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 684,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T18:18:00+05:30",
+      "ended_at": "2026-09-28T18:42:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Beta feedback notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 685,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T18:42:00+05:30",
+      "ended_at": "2026-09-28T19:06:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Client access credentials",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 686,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T19:06:00+05:30",
+      "ended_at": "2026-09-28T19:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "new-client-project — config.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 687,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T19:31:00+05:30",
+      "ended_at": "2026-09-28T19:48:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- integration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 688,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T19:48:00+05:30",
+      "ended_at": "2026-09-28T20:11:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://new-client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 689,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T20:54:00+05:30",
+      "ended_at": "2026-09-28T21:13:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-28-01",
+        "started_at": "08:09",
+        "ended_at": "10:46",
+        "title": "New client auth verification",
+        "summary": "Reviewed client communication, completed the current authentication slice, ran tests, verified staging, checked the repository, and reported status.",
+        "event_ids": [
+          661,
+          662,
+          663,
+          664,
+          665,
+          666,
+          667,
+          668
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-02",
+        "started_at": "11:21",
+        "ended_at": "13:51",
+        "title": "SaaS activation signal and onboarding simplification",
+        "summary": "Reviewed beta activation data, researched onboarding friction patterns, designed a simpler flow, implemented the change, tested it, and checked the live app.",
+        "event_ids": [
+          669,
+          670,
+          671,
+          672,
+          673,
+          674,
+          675
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-03",
+        "started_at": "14:47",
+        "ended_at": "16:05",
+        "title": "Freelance proposal and client follow-up",
+        "summary": "Checked LinkedIn and email, refined a separate proposal, and checked in with the active client about the pending access requirement.",
+        "event_ids": [
+          676,
+          677,
+          678,
+          679
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-28-04",
+        "started_at": "16:05",
+        "ended_at": "16:44",
+        "title": "Freelance lead search",
+        "summary": "Searched for additional remote development opportunities and reviewed a new freelance inquiry.",
+        "event_ids": [
+          680,
+          681
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-28-05",
+        "started_at": "17:38",
+        "ended_at": "18:18",
+        "title": "Technical learning and SaaS check",
+        "summary": "Watched a technical video about onboarding or product activation, then checked the live SaaS after the morning change.",
+        "event_ids": [
+          682,
+          683
+        ],
+        "context": "Work",
+        "area": "Learning",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-28-06",
+        "started_at": "18:18",
+        "ended_at": "19:48",
+        "title": "Beta notes and client access unblock",
+        "summary": "Consolidated beta notes, received the client's missing access credentials, integrated the configuration into the new project, and ran the integration tests.",
+        "event_ids": [
+          684,
+          685,
+          686,
+          687
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-07",
+        "started_at": "19:48",
+        "ended_at": "20:11",
+        "title": "New client staging verification",
+        "summary": "Verified the newly unblocked client configuration in staging.",
+        "event_ids": [
+          688
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-08",
+        "started_at": "20:54",
+        "ended_at": "21:13",
+        "title": "SaaS roadmap update",
+        "summary": "Updated the product roadmap to reflect the onboarding change and the next beta measurement checkpoint.",
+        "event_ids": [
+          689
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:46",
+        "ended_at": "11:21",
+        "reason": "Short offline break / personal activity"
+      },
+      {
+        "started_at": "13:51",
+        "ended_at": "14:47",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:44",
+        "ended_at": "17:38",
+        "reason": "Personal activity / offline"
+      },
+      {
+        "started_at": "20:11",
+        "ended_at": "20:54",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The new client moved forward through a real implementation and verification loop, then briefly stalled on a dependency outside the code before the missing credential arrived.",
+      "The SaaS beta now influenced a concrete product decision: the onboarding flow was simplified and checked rather than expanding scope broadly.",
+      "The evening shows the new client dependency resolving and the work immediately converting into integration and staging verification.",
+      "Lead generation was present but secondary, split between proposal maintenance and searching for additional opportunities.",
+      "The technical YouTube session should be interpreted in context: it was connected to the SaaS onboarding problem and followed by a live product check."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "strong progress / beta-informed onboarding simplification"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "strong progress with a temporary external dependency"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [
+      "The SaaS simplification was implemented and checked, but the dataset does not yet show whether subsequent beta activation improved.",
+      "The client staging verification confirms a technical check, not final client acceptance.",
+      "The lead-search and inquiry activity does not establish that any new opportunity converted."
+    ],
+    "possible_next_step": "Let the simplified SaaS onboarding collect another beta signal while finishing the new client's first deliverable now that the access dependency is resolved."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the new client first deliverable",
+      "action_type": "complete_open_loop",
+      "reason": "The external access blocker has cleared and the work has already reached integration tests and staging verification, making final delivery the clearest near-term freelance milestone.",
+      "suggested_focus_minutes": 60,
+      "target": "Freelance"
+    },
+    "secondary_action": {
+      "title": "Wait for the next SaaS beta signal",
+      "action_type": "continue_successful_behavior",
+      "reason": "The onboarding simplification has been implemented and checked, so gathering another comparable user signal is more valuable than immediately making another product change.",
+      "suggested_focus_minutes": 45,
+      "target": "Own SaaS"
+    },
+    "things_not_to_do": [
+      "Do not treat the missing client credential as wasted work; it was an external dependency visible in communication.",
+      "Do not assume the onboarding simplification improved activation before new beta behavior is observed.",
+      "Do not treat the staging verification as proof of final client acceptance.",
+      "Do not classify the technical YouTube session as unrelated entertainment solely from the app name.",
+      "Do not start another broad SaaS feature while the current onboarding change is still gathering evidence."
+    ]
+  }
+}

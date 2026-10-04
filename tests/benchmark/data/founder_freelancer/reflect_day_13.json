@@ -1,0 +1,453 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 13,
+    "date": "2026-09-13",
+    "day_type": "deadline_driven_sunday",
+    "circumstances": [
+      "A Monday client delivery deadline caused the Sunday to become substantially more work-heavy than the previous weekend day.",
+      "The morning was dominated by hands-on freelance implementation and deployment verification.",
+      "A short lead-maintenance block was retained but did not become a major acquisition session.",
+      "After the client deadline work was stabilized, the founder returned to the SaaS dashboard in the afternoon.",
+      "The evening included relevant dashboard UX learning followed by implementation and roadmap consolidation.",
+      "Several substantial offline periods remained unobserved."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:06",
+      "last_seen": "21:49",
+      "approx_active_hours": 6.8,
+      "longest_unobserved_gap_minutes": 110
+    }
+  },
+  "raw_events": [
+    {
+      "id": 282,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T08:06:00+05:30",
+      "ended_at": "2026-09-13T08:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 283,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T08:21:00+05:30",
+      "ended_at": "2026-09-13T08:39:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 284,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T08:39:00+05:30",
+      "ended_at": "2026-09-13T09:04:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Project scope",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 285,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T09:04:00+05:30",
+      "ended_at": "2026-09-13T09:36:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "freelance-project — feature-flags.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 286,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T09:36:00+05:30",
+      "ended_at": "2026-09-13T09:53:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 287,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T09:53:00+05:30",
+      "ended_at": "2026-09-13T10:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Firebase Console",
+      "url": "https://console.firebase.google.com/",
+      "payload": null
+    },
+    {
+      "id": 288,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T10:18:00+05:30",
+      "ended_at": "2026-09-13T10:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "freelance-project — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 289,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T10:47:00+05:30",
+      "ended_at": "2026-09-13T11:03:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm run build",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 290,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T11:03:00+05:30",
+      "ended_at": "2026-09-13T11:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Vercel",
+      "url": "https://vercel.com/dashboard",
+      "payload": null
+    },
+    {
+      "id": 291,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T11:24:00+05:30",
+      "ended_at": "2026-09-13T11:42:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 292,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T13:18:00+05:30",
+      "ended_at": "2026-09-13T13:35:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 293,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T13:35:00+05:30",
+      "ended_at": "2026-09-13T13:52:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 294,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T15:41:00+05:30",
+      "ended_at": "2026-09-13T16:08:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "SaaS Dashboard",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 295,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T16:08:00+05:30",
+      "ended_at": "2026-09-13T16:41:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 296,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T16:41:00+05:30",
+      "ended_at": "2026-09-13T17:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:3000",
+      "url": "http://localhost:3000/dashboard",
+      "payload": null
+    },
+    {
+      "id": 297,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T17:03:00+05:30",
+      "ended_at": "2026-09-13T17:22:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git diff",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 298,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T18:54:00+05:30",
+      "ended_at": "2026-09-13T19:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — dashboard UX patterns",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 299,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T19:17:00+05:30",
+      "ended_at": "2026-09-13T19:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 300,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T19:46:00+05:30",
+      "ended_at": "2026-09-13T20:05:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 301,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T21:08:00+05:30",
+      "ended_at": "2026-09-13T21:31:00+05:30",
+      "app": "WhatsApp",
+      "browser": null,
+      "title": "WhatsApp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 302,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T21:31:00+05:30",
+      "ended_at": "2026-09-13T21:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-13-01",
+        "started_at": "08:06",
+        "ended_at": "08:39",
+        "title": "Sunday client deadline review",
+        "summary": "Checked email and the client workspace after receiving a message about a Monday delivery deadline.",
+        "event_ids": [
+          282,
+          283
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-13-02",
+        "started_at": "08:39",
+        "ended_at": "11:42",
+        "title": "Freelance deadline implementation",
+        "summary": "Reviewed the scope, implemented the feature-flag and dashboard changes, checked the Firebase console, built the project, reviewed the deployment dashboard, and sent a status update.",
+        "event_ids": [
+          284,
+          285,
+          286,
+          287,
+          288,
+          289,
+          290,
+          291
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-13-03",
+        "started_at": "13:18",
+        "ended_at": "13:52",
+        "title": "Freelance lead maintenance",
+        "summary": "Briefly checked LinkedIn and revised a separate proposal while the active client work was paused.",
+        "event_ids": [
+          292,
+          293
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-13-04",
+        "started_at": "15:41",
+        "ended_at": "17:22",
+        "title": "SaaS dashboard implementation",
+        "summary": "Designed and implemented dashboard changes, checked them locally, and reviewed the resulting diff.",
+        "event_ids": [
+          294,
+          295,
+          296,
+          297
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-13-05",
+        "started_at": "18:54",
+        "ended_at": "20:05",
+        "title": "Dashboard UX learning and product consolidation",
+        "summary": "Studied dashboard UX patterns through a technical tutorial, applied the ideas to the dashboard, and updated the SaaS roadmap.",
+        "event_ids": [
+          298,
+          299,
+          300
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-13-06",
+        "started_at": "21:08",
+        "ended_at": "21:49",
+        "title": "Personal communication and email check",
+        "summary": "Used WhatsApp for personal communication and checked email once more before stopping for the night.",
+        "event_ids": [
+          301,
+          302
+        ],
+        "context": "Personal",
+        "area": null,
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "11:42",
+        "ended_at": "13:18",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "13:52",
+        "ended_at": "15:41",
+        "reason": "Weekend personal activity / offline"
+      },
+      {
+        "started_at": "17:22",
+        "ended_at": "18:54",
+        "reason": "Dinner / personal time"
+      },
+      {
+        "started_at": "20:05",
+        "ended_at": "21:08",
+        "reason": "Offline personal activity"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Although this was Sunday, a Monday delivery deadline shifted the first half of the day heavily toward the active freelance project.",
+      "The client work included a complete chain from scope review through implementation, testing, build, deployment verification, and status communication.",
+      "The SaaS dashboard was not abandoned: it received a focused implementation block and a relevant UX-learning follow-up later in the day.",
+      "Freelance lead generation received only a small maintenance session because the active client deadline was the more immediate requirement.",
+      "The day retained large offline periods, so the desktop record represents only the observed portion of the day."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "meaningful progress"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "strong progress because the deadline work was substantially advanced"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "maintenance only"
+      }
+    ],
+    "important_uncertainty": [
+      "The deployment and client communication indicate that the deadline work was substantially advanced, but the events do not independently prove final client acceptance.",
+      "The SaaS dashboard implementation shows concrete progress, but the captured activity does not establish whether the dashboard reached a complete milestone.",
+      "Offline periods are not observable and should not be treated as either work or inactivity."
+    ],
+    "possible_next_step": "Confirm the client deadline deliverable, then return to the dashboard milestone rather than allowing the urgent client work to become an indefinite priority."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the Monday client deliverable",
+      "action_type": "complete_open_loop",
+      "reason": "The client work was pushed forward substantially because of the deadline, and the remaining useful step is to confirm the deliverable is accepted and clearly closed.",
+      "suggested_focus_minutes": 20,
+      "target": "Freelance"
+    },
+    "secondary_action": {
+      "title": "Protect a SaaS dashboard block",
+      "action_type": "protect_priority",
+      "reason": "The founder returned to the SaaS after the deadline work, so preserving that continuity is valuable before more client work arrives.",
+      "suggested_focus_minutes": 90,
+      "target": "Own SaaS"
+    },
+    "things_not_to_do": [
+      "Do not criticize Sunday work when it was tied to a concrete client deadline.",
+      "Do not assume deployment activity means the client formally accepted the deliverable.",
+      "Do not treat the short LinkedIn session as a major acquisition effort.",
+      "Do not classify the dashboard UX tutorial as unrelated entertainment.",
+      "Do not infer anything about the unobserved weekend periods."
+    ]
+  }
+}

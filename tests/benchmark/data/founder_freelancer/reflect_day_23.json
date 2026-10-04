@@ -1,0 +1,547 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 23,
+    "date": "2026-09-23",
+    "day_type": "freelance_opportunity_heavy_day",
+    "circumstances": [
+      "The newer freelance prospect moved from general scoping into concrete estimate and proposal work, taking more of the daytime than the SaaS.",
+      "The existing client generated a small settings request that was implemented and verified without becoming an extended issue.",
+      "A second prospect conversation required a proposal revision, creating an active commercial open loop.",
+      "The SaaS received a shorter evening maintenance and beta-review block rather than a new feature-development cycle.",
+      "There was one short unrelated YouTube break and several normal offline gaps."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:43",
+      "last_seen": "20:58",
+      "approx_active_hours": 8.9,
+      "longest_unobserved_gap_minutes": 94
+    }
+  },
+  "raw_events": [
+    {
+      "id": 536,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T08:43:00+05:30",
+      "ended_at": "2026-09-23T08:58:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 537,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T08:58:00+05:30",
+      "ended_at": "2026-09-23T09:16:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Founder Dashboard",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 538,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T09:16:00+05:30",
+      "ended_at": "2026-09-23T09:34:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Freelance inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 539,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T09:34:00+05:30",
+      "ended_at": "2026-09-23T10:01:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Project scope draft",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 540,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T10:01:00+05:30",
+      "ended_at": "2026-09-23T10:19:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Project estimate",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 541,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T10:19:00+05:30",
+      "ended_at": "2026-09-23T10:41:00+05:30",
+      "app": "Google Meet",
+      "browser": "Chrome",
+      "title": "Potential client call",
+      "url": "https://meet.google.com/...",
+      "payload": null
+    },
+    {
+      "id": 542,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T10:41:00+05:30",
+      "ended_at": "2026-09-23T11:07:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 543,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T11:07:00+05:30",
+      "ended_at": "2026-09-23T11:24:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 544,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T11:24:00+05:30",
+      "ended_at": "2026-09-23T11:42:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Freelance opportunity notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 545,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T11:42:00+05:30",
+      "ended_at": "2026-09-23T12:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 546,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T12:03:00+05:30",
+      "ended_at": "2026-09-23T12:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 547,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T13:52:00+05:30",
+      "ended_at": "2026-09-23T14:09:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 548,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T14:09:00+05:30",
+      "ended_at": "2026-09-23T14:36:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "freelance-project — settings.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 549,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T14:36:00+05:30",
+      "ended_at": "2026-09-23T14:52:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 550,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T14:52:00+05:30",
+      "ended_at": "2026-09-23T15:11:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 551,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T15:11:00+05:30",
+      "ended_at": "2026-09-23T15:29:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 552,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T15:29:00+05:30",
+      "ended_at": "2026-09-23T15:49:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 553,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T15:49:00+05:30",
+      "ended_at": "2026-09-23T16:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Proposal revision",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 554,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T16:18:00+05:30",
+      "ended_at": "2026-09-23T16:37:00+05:30",
+      "app": "Google Meet",
+      "browser": "Chrome",
+      "title": "Potential client call",
+      "url": "https://meet.google.com/...",
+      "payload": null
+    },
+    {
+      "id": 555,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T16:37:00+05:30",
+      "ended_at": "2026-09-23T16:55:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Freelance opportunity notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 556,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T17:46:00+05:30",
+      "ended_at": "2026-09-23T18:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 557,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T18:09:00+05:30",
+      "ended_at": "2026-09-23T18:28:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Analytics dashboard",
+      "url": "https://app.posthog.com/",
+      "payload": null
+    },
+    {
+      "id": 558,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T18:28:00+05:30",
+      "ended_at": "2026-09-23T18:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 559,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T18:46:00+05:30",
+      "ended_at": "2026-09-23T19:04:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 560,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T19:04:00+05:30",
+      "ended_at": "2026-09-23T19:23:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 561,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T20:21:00+05:30",
+      "ended_at": "2026-09-23T20:36:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 562,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T20:36:00+05:30",
+      "ended_at": "2026-09-23T20:58:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-23-01",
+        "started_at": "08:43",
+        "ended_at": "09:16",
+        "title": "Morning review",
+        "summary": "Checked the inbox and founder dashboard before responding to the latest freelance inquiry.",
+        "event_ids": [
+          536,
+          537
+        ],
+        "context": "Work",
+        "area": "Plan",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-23-02",
+        "started_at": "09:16",
+        "ended_at": "11:24",
+        "title": "Freelance project scoping and estimate",
+        "summary": "Reviewed the new prospect's requirements, drafted scope, estimated the work, joined a short call, revised the proposal, and sent the updated version.",
+        "event_ids": [
+          538,
+          539,
+          540,
+          541,
+          542,
+          543
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-03",
+        "started_at": "11:24",
+        "ended_at": "12:03",
+        "title": "Freelance opportunity maintenance",
+        "summary": "Recorded the prospect follow-up details and briefly checked LinkedIn for additional opportunities.",
+        "event_ids": [
+          544,
+          545
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-23-04",
+        "started_at": "12:03",
+        "ended_at": "12:18",
+        "title": "Unrelated YouTube break",
+        "summary": "Watched unrelated YouTube content.",
+        "event_ids": [
+          546
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-23-05",
+        "started_at": "13:52",
+        "ended_at": "15:29",
+        "title": "Freelance client request",
+        "summary": "Handled a small client request, updated the settings screen, verified staging, ran tests, and reported the result.",
+        "event_ids": [
+          547,
+          548,
+          549,
+          550,
+          551
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-06",
+        "started_at": "15:29",
+        "ended_at": "16:55",
+        "title": "Prospect proposal revision",
+        "summary": "Reviewed a new message from the prospect, adjusted scope and proposal terms, joined a brief follow-up call, and recorded the next step.",
+        "event_ids": [
+          552,
+          553,
+          554,
+          555
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-07",
+        "started_at": "17:46",
+        "ended_at": "19:23",
+        "title": "SaaS beta maintenance review",
+        "summary": "Checked the live SaaS and early analytics, made a small dashboard maintenance change, ran tests, and rechecked the deployed app.",
+        "event_ids": [
+          556,
+          557,
+          558,
+          559,
+          560
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-08",
+        "started_at": "20:21",
+        "ended_at": "20:58",
+        "title": "End-of-day product review",
+        "summary": "Checked remaining email and updated the SaaS roadmap with the current beta status and deferred product decisions.",
+        "event_ids": [
+          561,
+          562
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:18",
+        "ended_at": "13:52",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:55",
+        "ended_at": "17:46",
+        "reason": "Personal activity / offline"
+      },
+      {
+        "started_at": "19:23",
+        "ended_at": "20:21",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Freelance work temporarily became the dominant stream because the newer prospect moved into concrete scoping, estimating, and proposal revision.",
+      "The new opportunity advanced materially through multiple conversations and document revisions, but it remains an open commercial loop rather than a confirmed client.",
+      "The existing client request was handled efficiently through implementation, staging verification, testing, and a status update.",
+      "SaaS work was intentionally smaller today, focused on checking the beta and making a limited maintenance change rather than broadening scope.",
+      "The isolated YouTube break was brief relative to the surrounding work and was followed by continued execution."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "some meaningful progress, but secondary today"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "meaningful progress"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "very strong progress / active commercial opportunity"
+      }
+    ],
+    "important_uncertainty": [
+      "Proposal revisions and prospect calls do not establish that the project was accepted or paid.",
+      "The SaaS maintenance change was technically verified, but the events do not show whether beta behavior changed afterward.",
+      "The active client request was tested and reported, but final client acceptance is not visible."
+    ],
+    "possible_next_step": "Close the commercial loop with the prospect while returning the SaaS to a protected development block once the proposal decision is no longer time-sensitive."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the freelance opportunity loop",
+      "action_type": "complete_open_loop",
+      "reason": "The prospect has progressed through scope, estimate, and follow-up conversation, so the clearest immediate step is to obtain a decision or send the final concrete next step.",
+      "suggested_focus_minutes": 30,
+      "target": "Freelance"
+    },
+    "secondary_action": {
+      "title": "Protect the next SaaS build block",
+      "action_type": "protect_priority",
+      "reason": "Product work was appropriately reduced today by a real commercial opportunity; the next useful move is to restore a defined product block rather than letting proposal work continue indefinitely.",
+      "suggested_focus_minutes": 90,
+      "target": "Own SaaS"
+    },
+    "things_not_to_do": [
+      "Do not treat the proposal stage as a signed client commitment.",
+      "Do not interpret today's lower SaaS time as evidence that the product priority was abandoned.",
+      "Do not keep refining the proposal indefinitely without seeking a concrete decision from the prospect.",
+      "Do not infer anything about offline activity from the gaps in desktop tracking.",
+      "Do not overreact to the short unrelated YouTube break."
+    ]
+  }
+}

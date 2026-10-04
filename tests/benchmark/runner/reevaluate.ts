@@ -1,0 +1,94 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { EVALUATOR_VERSION, checkAnswerKeyVocabulary, evaluateDay, summarize, type BenchmarkSummary, type DayEvaluation } from '../evaluators/index';
+import { buildLeakDetector } from '../evaluators/leakage';
+import type { CapturedDay } from './capture';
+import type { BenchmarkConfig } from './config';
+import { loadDataset, splitDataset, type EvaluationOnlyDay } from './dataset';
+import type { RunManifest } from './manifest';
+import { renderReport, renderReviewPacket } from './report';
+
+/**
+ * Score a stored run again — no database, no Gemini.
+ *
+ * A run keeps everything Reflect produced (`days/day_NN.json` → `captured`).
+ * Evaluation is a pure function of that and the answer key, so a changed
+ * threshold, mapping or criterion can be applied to the SAME model output
+ * instead of paying for, and adding the noise of, a new run.
+ */
+
+export interface ReevaluationResult {
+  runId: string;
+  days: number;
+  summary: BenchmarkSummary;
+  resultsDir: string;
+}
+
+const readJson = <T>(file: string): T => JSON.parse(fs.readFileSync(file, 'utf8')) as T;
+const writeJson = (file: string, value: unknown) => fs.writeFileSync(file, JSON.stringify(value, null, 2));
+
+interface StoredDay {
+  dayNumber: number;
+  date: string;
+  gemini: unknown[];
+  captured: CapturedDay;
+  evaluation: DayEvaluation;
+}
+
+export function reevaluate(config: BenchmarkConfig, runDir = path.join(config.resultsDir, 'latest')): ReevaluationResult {
+  const manifestPath = path.join(runDir, 'manifest.json');
+  if (!fs.existsSync(manifestPath)) throw new Error(`No stored run at ${runDir}`);
+  const manifest = readJson<RunManifest>(manifestPath);
+
+  const { dataset } = loadDataset(config.datasetDir, config.expectedDays);
+  if (dataset.version !== manifest.dataset.version) {
+    throw new Error(`The stored run was made from dataset ${manifest.dataset.version}; the dataset on disk is ${dataset.version}. Re-scoring against a different answer key would not be the same run.`);
+  }
+  const { input, evaluation } = splitDataset(dataset);
+  const vocabulary = checkAnswerKeyVocabulary(evaluation);
+  if (vocabulary.errors.length > 0) throw new Error(`The answer key uses labels the evaluator cannot read:\n  ${vocabulary.errors.join('\n  ')}`);
+  const detector = buildLeakDetector(evaluation, input);
+
+  const files = fs.readdirSync(path.join(runDir, 'days')).filter((f) => /^day_\d{2}\.json$/.test(f)).sort();
+  const knownBlockIds = new Set<string>();
+  const rescored: { evaluation: DayEvaluation; captured: CapturedDay; answer: EvaluationOnlyDay; geminiCalls: number }[] = [];
+  let hasHistory = false;
+
+  for (const file of files) {
+    const stored = readJson<StoredDay>(path.join(runDir, 'days', file));
+    const answer = evaluation.days.find((d) => d.dayNumber === stored.dayNumber);
+    if (!answer) throw new Error(`${file}: day ${stored.dayNumber} is not in the dataset`);
+    for (const block of stored.captured.timeline) knownBlockIds.add(block.id);
+    const dayEvaluation = evaluateDay(stored.captured, answer, {
+      // The thresholds in force are the ones passed now; they are written back to the manifest.
+      config,
+      taxonomy: manifest.input.taxonomy,
+      knownBlockIds,
+      hasHistory,
+      findLeaks: detector.findLeaks,
+    });
+    hasHistory ||= stored.captured.reflection.report !== null;
+    writeJson(path.join(runDir, 'days', file), { ...stored, evaluation: dayEvaluation });
+    rescored.push({ evaluation: dayEvaluation, captured: stored.captured, answer, geminiCalls: stored.gemini.length });
+  }
+
+  const summary = summarize(rescored.map((r) => r.evaluation));
+  const updated: RunManifest = {
+    ...manifest,
+    versions: { ...manifest.versions, evaluator: EVALUATOR_VERSION },
+    config: { ...manifest.config, matching: config.matching, semantic: config.semantic },
+  };
+  writeJson(manifestPath, updated);
+  writeJson(path.join(runDir, 'summary.json'), summary);
+  fs.writeFileSync(path.join(runDir, 'report.md'), renderReport({ manifest: updated, summary, days: rescored }));
+  fs.writeFileSync(path.join(runDir, 'review.md'), renderReviewPacket(rescored));
+
+  // Keep the archived copy of the same run in step.
+  const archive = path.join(config.resultsDir, 'archived', manifest.runId);
+  if (fs.existsSync(archive) && path.resolve(archive) !== path.resolve(runDir)) {
+    for (const name of ['manifest.json', 'summary.json', 'report.md', 'review.md']) fs.copyFileSync(path.join(runDir, name), path.join(archive, name));
+    fs.cpSync(path.join(runDir, 'days'), path.join(archive, 'days'), { recursive: true });
+  }
+
+  return { runId: manifest.runId, days: rescored.length, summary, resultsDir: runDir };
+}

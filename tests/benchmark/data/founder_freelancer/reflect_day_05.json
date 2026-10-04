@@ -1,0 +1,376 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+
+  "day": {
+    "day_number": 5,
+    "date": "2026-09-05",
+    "day_type": "weekend_opportunity_day",
+    "circumstances": [
+      "Saturday was mostly personal and offline.",
+      "A prospective freelance client replied and requested a short call, turning yesterday's open loop into a concrete opportunity.",
+      "Spent a focused but limited block updating the proposal after the call.",
+      "Afternoon included unrelated YouTube and then a short technical research session.",
+      "Returned briefly to the SaaS to investigate an authentication edge case and verify the fix.",
+      "Evening included personal communication before a short final product review."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:14",
+      "last_seen": "21:14",
+      "approx_active_hours": 4.4,
+      "longest_unobserved_gap_minutes": 227
+    }
+  },
+
+  "raw_events": [
+    {
+      "id": 109,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T10:14:00+05:30",
+      "ended_at": "2026-09-05T10:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 110,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T10:29:00+05:30",
+      "ended_at": "2026-09-05T10:41:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Calendar",
+      "url": "https://calendar.google.com/",
+      "payload": null
+    },
+    {
+      "id": 111,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T10:41:00+05:30",
+      "ended_at": "2026-09-05T11:07:00+05:30",
+      "app": "Zoom",
+      "browser": null,
+      "title": "Discovery Call",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 112,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T11:07:00+05:30",
+      "ended_at": "2026-09-05T11:32:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 113,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T11:32:00+05:30",
+      "ended_at": "2026-09-05T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 114,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T15:27:00+05:30",
+      "ended_at": "2026-09-05T15:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 115,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T15:49:00+05:30",
+      "ended_at": "2026-09-05T16:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Supabase Row Level Security",
+      "url": "https://www.google.com/search?q=supabase+row+level+security",
+      "payload": null
+    },
+    {
+      "id": 116,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T16:12:00+05:30",
+      "ended_at": "2026-09-05T16:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — middleware.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 117,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T16:48:00+05:30",
+      "ended_at": "2026-09-05T17:03:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 118,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T18:19:00+05:30",
+      "ended_at": "2026-09-05T18:41:00+05:30",
+      "app": "WhatsApp",
+      "browser": null,
+      "title": "WhatsApp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 119,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T20:02:00+05:30",
+      "ended_at": "2026-09-05T20:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GitHub",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 120,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T20:17:00+05:30",
+      "ended_at": "2026-09-05T20:45:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — middleware.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 121,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T20:45:00+05:30",
+      "ended_at": "2026-09-05T20:57:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git diff",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 122,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T20:57:00+05:30",
+      "ended_at": "2026-09-05T21:14:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    }
+  ],
+
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-05-01",
+        "started_at": "10:14",
+        "ended_at": "10:41",
+        "title": "Prospective client coordination",
+        "summary": "Checked the new prospect response and prepared for the requested discovery call.",
+        "event_ids": [109, 110],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-02",
+        "started_at": "10:41",
+        "ended_at": "11:07",
+        "title": "Freelance discovery call",
+        "summary": "Held a short discovery call with a prospective client to understand the requested project and scope.",
+        "event_ids": [111],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-03",
+        "started_at": "11:07",
+        "ended_at": "11:40",
+        "title": "Proposal revision and send",
+        "summary": "Updated the freelance proposal based on the discovery call and sent the revised version.",
+        "event_ids": [112, 113],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-04",
+        "started_at": "15:27",
+        "ended_at": "15:49",
+        "title": "Unrelated YouTube break",
+        "summary": "Watched unrelated YouTube content during an afternoon break.",
+        "event_ids": [114],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-05",
+        "started_at": "15:49",
+        "ended_at": "16:12",
+        "title": "SaaS authentication research",
+        "summary": "Investigated Supabase row-level security behavior related to an authentication edge case in the SaaS.",
+        "event_ids": [115],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-05-06",
+        "started_at": "16:12",
+        "ended_at": "17:03",
+        "title": "SaaS authentication fix and testing",
+        "summary": "Adjusted middleware behavior for the authentication edge case and ran tests to verify the change.",
+        "event_ids": [116, 117],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-07",
+        "started_at": "18:19",
+        "ended_at": "18:41",
+        "title": "Personal communication",
+        "summary": "Used WhatsApp for personal communication.",
+        "event_ids": [118],
+        "context": "Personal",
+        "area": null,
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-08",
+        "started_at": "20:02",
+        "ended_at": "21:14",
+        "title": "SaaS verification and roadmap review",
+        "summary": "Reviewed the recent authentication changes in GitHub and VS Code, checked the diff, and updated the SaaS roadmap.",
+        "event_ids": [119, 120, 121, 122],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      }
+    ],
+
+    "unobserved_periods": [
+      {
+        "started_at": "11:40",
+        "ended_at": "15:27",
+        "reason": "Weekend errands / lunch / offline personal activity"
+      },
+      {
+        "started_at": "17:03",
+        "ended_at": "18:19",
+        "reason": "Offline personal activity"
+      },
+      {
+        "started_at": "18:41",
+        "ended_at": "20:02",
+        "reason": "Dinner / offline personal activity"
+      }
+    ]
+  },
+
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "This was a light laptop-usage Saturday with substantial unobserved time.",
+      "The freelance opportunity from the previous day progressed materially: the prospect responded, a discovery call happened, and a revised proposal was sent.",
+      "The SaaS received a smaller but meaningful thread of work, moving from authentication research to implementation, testing, and evening verification.",
+      "The day did not contain a long uninterrupted workday, but the observed work blocks were tied to concrete outcomes.",
+      "The afternoon YouTube session appears to be leisure, while the later technical research was directly related to the SaaS evidence in the surrounding events."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "meaningful progress"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "strong progress because a prospect advanced to a discovery call and revised proposal"
+      }
+    ],
+    "important_uncertainty": [
+      "Most of the day was offline and cannot be evaluated from desktop events.",
+      "The exact scope, budget, or likelihood of the prospective client's project cannot be inferred from the visible communication windows.",
+      "The authentication change was tested and reviewed, but successful tests do not establish that every production edge case is resolved."
+    ],
+    "possible_next_step": "Follow up on the revised proposal at an appropriate time while protecting a focused SaaS block to continue the authentication and MVP work."
+  },
+
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Follow up on the new freelance opportunity",
+      "action_type": "complete_open_loop",
+      "reason": "The prospect progressed from a reply to a discovery call and revised proposal, creating a concrete next communication point.",
+      "suggested_focus_minutes": 15,
+      "target": "Freelance"
+    },
+    "secondary_action": {
+      "title": "Protect one focused SaaS block",
+      "action_type": "protect_priority",
+      "reason": "The SaaS authentication issue moved from research through implementation and testing, so a focused continuation is more useful than adding more planning.",
+      "suggested_focus_minutes": 90,
+      "target": "Own SaaS"
+    },
+    "things_not_to_do": [
+      "Do not treat the large offline portions of Saturday as lost productivity.",
+      "Do not criticize the short leisure break simply because it occurred between work blocks.",
+      "Do not assume that a sent proposal means the freelance opportunity will convert to paid work.",
+      "Do not infer production correctness solely from the local test run and code review evidence.",
+      "Do not recommend filling the remaining weekend with additional screen time merely because laptop usage was low."
+    ]
+  }
+}

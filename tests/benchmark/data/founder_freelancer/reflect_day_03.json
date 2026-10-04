@@ -1,0 +1,577 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+
+  "day": {
+    "day_number": 3,
+    "date": "2026-09-03",
+    "day_type": "high_output_founder_day",
+    "circumstances": [
+      "Started early and had a clear product goal",
+      "Spent a long uninterrupted block implementing a major SaaS feature",
+      "Had one scheduled client meeting",
+      "Worked on a proposal afterward",
+      "Afternoon contained some marketing research and distraction",
+      "Returned to product development in the evening",
+      "Ended the day with a small production bug investigation"
+    ],
+    "laptop_usage": {
+      "first_seen": "07:41",
+      "last_seen": "22:38",
+      "approx_active_hours": 11.4,
+      "longest_unobserved_gap_minutes": 64
+    }
+  },
+
+  "raw_events": [
+    {
+      "id": 49,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T07:41:00+05:30",
+      "ended_at": "2026-09-03T07:58:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 50,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T07:58:00+05:30",
+      "ended_at": "2026-09-03T08:19:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — pricing.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 51,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T08:19:00+05:30",
+      "ended_at": "2026-09-03T08:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — pricing.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 52,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T08:47:00+05:30",
+      "ended_at": "2026-09-03T09:06:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Razorpay Documentation",
+      "url": "https://razorpay.com/docs/",
+      "payload": null
+    },
+    {
+      "id": 53,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:06:00+05:30",
+      "ended_at": "2026-09-03T09:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — checkout.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 54,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:31:00+05:30",
+      "ended_at": "2026-09-03T09:56:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — checkout.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 55,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:56:00+05:30",
+      "ended_at": "2026-09-03T10:13:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 56,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:13:00+05:30",
+      "ended_at": "2026-09-03T10:34:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GitHub",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 57,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:34:00+05:30",
+      "ended_at": "2026-09-03T10:57:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — checkout.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 58,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:57:00+05:30",
+      "ended_at": "2026-09-03T11:14:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Stripe Pricing",
+      "url": "https://stripe.com/pricing",
+      "payload": null
+    },
+
+    {
+      "id": 59,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T11:14:00+05:30",
+      "ended_at": "2026-09-03T11:31:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 60,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T11:31:00+05:30",
+      "ended_at": "2026-09-03T12:06:00+05:30",
+      "app": "Zoom",
+      "browser": null,
+      "title": "Client project meeting",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 61,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T12:06:00+05:30",
+      "ended_at": "2026-09-03T12:22:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 62,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T12:22:00+05:30",
+      "ended_at": "2026-09-03T12:41:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Client project notes",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+
+    {
+      "id": 63,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T13:45:00+05:30",
+      "ended_at": "2026-09-03T14:08:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 64,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T14:08:00+05:30",
+      "ended_at": "2026-09-03T14:27:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 65,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T14:27:00+05:30",
+      "ended_at": "2026-09-03T14:51:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/feed/",
+      "payload": null
+    },
+    {
+      "id": 66,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T14:51:00+05:30",
+      "ended_at": "2026-09-03T15:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 67,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:09:00+05:30",
+      "ended_at": "2026-09-03T15:28:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=saas+landing+page+examples",
+      "payload": null
+    },
+    {
+      "id": 68,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:28:00+05:30",
+      "ended_at": "2026-09-03T15:49:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "SaaS Landing Page",
+      "url": null,
+      "payload": null
+    },
+
+    {
+      "id": 69,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T16:52:00+05:30",
+      "ended_at": "2026-09-03T17:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — landing-page.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 70,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:17:00+05:30",
+      "ended_at": "2026-09-03T17:44:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — landing-page.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 71,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:44:00+05:30",
+      "ended_at": "2026-09-03T18:02:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:3000",
+      "url": "http://localhost:3000/",
+      "payload": null
+    },
+    {
+      "id": 72,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T18:02:00+05:30",
+      "ended_at": "2026-09-03T18:26:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "SaaS Landing Page",
+      "url": null,
+      "payload": null
+    },
+
+    {
+      "id": 73,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T19:41:00+05:30",
+      "ended_at": "2026-09-03T19:58:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 74,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T19:58:00+05:30",
+      "ended_at": "2026-09-03T20:19:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — landing-page.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 75,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T20:19:00+05:30",
+      "ended_at": "2026-09-03T20:41:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm run build",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 76,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T20:41:00+05:30",
+      "ended_at": "2026-09-03T21:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:3000",
+      "url": "http://localhost:3000/",
+      "payload": null
+    },
+    {
+      "id": 77,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T21:03:00+05:30",
+      "ended_at": "2026-09-03T21:26:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — api.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 78,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T21:26:00+05:30",
+      "ended_at": "2026-09-03T21:49:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git status && git diff",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 79,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T21:49:00+05:30",
+      "ended_at": "2026-09-03T22:08:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GitHub",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 80,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T22:08:00+05:30",
+      "ended_at": "2026-09-03T22:38:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    }
+  ],
+
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "07:41",
+        "ended_at": "08:19",
+        "title": "Product planning and setup",
+        "summary": "Reviewed the SaaS roadmap and started work on pricing and checkout.",
+        "event_ids": [49, 50],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "08:19",
+        "ended_at": "11:14",
+        "title": "SaaS checkout implementation",
+        "summary": "Implemented payment and checkout functionality, researched the payment provider, ran tests, and reviewed the code.",
+        "event_ids": [51, 52, 53, 54, 55, 56, 57, 58],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-03",
+        "started_at": "11:14",
+        "ended_at": "12:41",
+        "title": "Client meeting and follow-up",
+        "summary": "Attended a scheduled client meeting and documented the resulting tasks.",
+        "event_ids": [59, 60, 61, 62],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-04",
+        "started_at": "13:45",
+        "ended_at": "14:51",
+        "title": "Freelance lead generation",
+        "summary": "Worked on a freelance proposal and researched potential leads on LinkedIn.",
+        "event_ids": [63, 64, 65],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-03-05",
+        "started_at": "14:51",
+        "ended_at": "15:09",
+        "title": "Unrelated YouTube break",
+        "summary": "Took an unplanned entertainment break.",
+        "event_ids": [66],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-03-06",
+        "started_at": "15:09",
+        "ended_at": "15:49",
+        "title": "SaaS landing-page research",
+        "summary": "Researched SaaS landing pages and experimented with a design direction.",
+        "event_ids": [67, 68],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-03-07",
+        "started_at": "16:52",
+        "ended_at": "18:26",
+        "title": "SaaS landing page implementation",
+        "summary": "Implemented and visually tested changes to the SaaS landing page.",
+        "event_ids": [69, 70, 71, 72],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-08",
+        "started_at": "19:41",
+        "ended_at": "22:38",
+        "title": "SaaS integration and bug investigation",
+        "summary": "Returned to the product, built the latest changes, tested the result, investigated a small API issue, and reviewed the final diff.",
+        "event_ids": [73, 74, 75, 76, 77, 78, 79, 80],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+
+    "unobserved_periods": [
+      {
+        "started_at": "12:41",
+        "ended_at": "13:45",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "15:49",
+        "ended_at": "16:52",
+        "reason": "Break / offline"
+      },
+      {
+        "started_at": "18:26",
+        "ended_at": "19:41",
+        "reason": "Dinner / personal activity"
+      }
+    ]
+  },
+
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "This was a substantially higher-output day than the previous two days.",
+      "The SaaS received multiple meaningful blocks across implementation, design, testing, and bug fixing.",
+      "Freelance obligations were present but did not consume the majority of the day.",
+      "There was some distraction in the afternoon, but the user returned to the main product priority.",
+      "Product work was distributed across several blocks rather than being confined to one continuous session."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [
+      "Offline periods are not observable.",
+      "Research, design, implementation, and testing are distinguishable from the available evidence, but exact business impact cannot be inferred."
+    ],
+    "possible_next_step": "Preserve the current product momentum while ensuring the next client commitment is handled."
+  },
+
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Continue the current SaaS momentum",
+      "action_type": "continue_successful_behavior",
+      "reason": "The SaaS received sustained attention across implementation, design, testing, and debugging, making continuation more valuable than changing direction.",
+      "suggested_focus_minutes": 120,
+      "target": "Own SaaS"
+    },
+    "secondary_action": {
+      "title": "Send the next freelance follow-up",
+      "action_type": "complete_open_loop",
+      "reason": "A proposal and lead-generation work were started but no completed follow-up is visible in the captured activity.",
+      "suggested_focus_minutes": 20,
+      "target": "Freelance"
+    },
+    "things_not_to_do": [
+      "Do not treat the scheduled client meeting as fragmentation or distraction.",
+      "Do not overreact to the short YouTube break.",
+      "Do not assume every hour of the day was spent working because laptop usage was high.",
+      "Do not infer that the user should work even longer simply because this was a high-output day."
+    ]
+  }
+}

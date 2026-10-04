@@ -1,0 +1,671 @@
+import { createHash } from 'node:crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+
+/**
+ * The benchmark dataset: schema, loader, validator, and the split between what
+ * Reflect may see and what only the evaluator may see.
+ *
+ * Two objects leave this module and they never meet again until scoring:
+ *
+ *   ReflectInput    raw observable events + the persona a real user would have
+ *                   typed into onboarding. The ONLY thing the runner hands to
+ *                   production services.
+ *   EvaluationOnly  ground truth, expected reflection, expected coach outcome.
+ *                   Imported by `evaluators/` and by nothing under `runner/`
+ *                   that touches a production service.
+ *
+ * The validator reports problems; it never repairs them.
+ */
+
+// ── Raw file schema (exactly what is on disk) ───────────────────────────────
+
+export interface DatasetPersona {
+  id: string;
+  type: string;
+  role: string;
+  current_work: string[];
+  priorities: string[];
+}
+
+export interface DatasetRawEvent {
+  id: number;
+  watcher: string;
+  started_at: string;
+  ended_at: string;
+  app: string | null;
+  browser: string | null;
+  title: string | null;
+  url: string | null;
+  payload: unknown;
+}
+
+export interface DatasetGroundTruthActivity {
+  id: string;
+  started_at: string;
+  ended_at: string;
+  title: string;
+  summary: string;
+  event_ids: number[];
+  context: string;
+  area: string | null;
+  intent: string;
+  quality: string;
+  importance: string;
+}
+
+export interface DatasetUnobservedPeriod {
+  started_at: string;
+  ended_at: string;
+  reason: string;
+}
+
+export interface DatasetExpectedAction {
+  title: string;
+  action_type: string;
+  reason: string;
+  suggested_focus_minutes: number | null;
+  target: string | null;
+}
+
+export interface DatasetDayFile {
+  persona: DatasetPersona;
+  day: {
+    day_number: number;
+    date: string;
+    day_type: string;
+    circumstances: string[];
+    laptop_usage: {
+      first_seen: string;
+      last_seen: string;
+      approx_active_hours: number;
+      longest_unobserved_gap_minutes: number;
+    };
+  };
+  raw_events: DatasetRawEvent[];
+  ground_truth: {
+    activities: DatasetGroundTruthActivity[];
+    unobserved_periods: DatasetUnobservedPeriod[];
+  };
+  expected_reflection: {
+    period: string;
+    key_observations: string[];
+    priority_alignment: { priority: string; assessment: string }[];
+    important_uncertainty: string[];
+    possible_next_step: string;
+  };
+  expected_coach_outcome: {
+    primary_action: DatasetExpectedAction | null;
+    secondary_action: DatasetExpectedAction | null;
+    things_not_to_do: string[];
+  };
+  /** Optional; evaluation-only when present. */
+  evaluation_objectives?: unknown;
+}
+
+// ── The two halves ──────────────────────────────────────────────────────────
+
+/** One observable event, exactly as tracked. Carries no label of any kind. */
+export interface RawEventInput {
+  /** The dataset's id for this event (the evaluator's key back to ground truth). */
+  datasetId: number;
+  watcher: string;
+  startedAt: string;
+  endedAt: string;
+  app: string | null;
+  browser: string | null;
+  title: string | null;
+  url: string | null;
+}
+
+export interface ReflectDayInput {
+  dayNumber: number;
+  /** Local calendar date, `YYYY-MM-DD`. */
+  date: string;
+  rawEvents: RawEventInput[];
+}
+
+/** Everything Reflect is allowed to receive. */
+export interface ReflectInput {
+  persona: DatasetPersona;
+  /** UTC offset every timestamp in the dataset carries, e.g. `+05:30`. */
+  utcOffset: string;
+  days: ReflectDayInput[];
+}
+
+/** The answer key for one day. Never passed to a production service. */
+export interface EvaluationOnlyDay {
+  dayNumber: number;
+  date: string;
+  utcOffset: string;
+  dayType: string;
+  circumstances: string[];
+  laptopUsage: DatasetDayFile['day']['laptop_usage'];
+  /** The day's raw events as the dataset states them (for interval math). */
+  events: { datasetId: number; startMs: number; endMs: number; app: string | null; title: string | null; url: string | null }[];
+  groundTruth: DatasetDayFile['ground_truth'];
+  expectedReflection: DatasetDayFile['expected_reflection'];
+  expectedCoachOutcome: DatasetDayFile['expected_coach_outcome'];
+  evaluationObjectives: unknown;
+}
+
+export interface EvaluationOnly {
+  priorities: string[];
+  days: EvaluationOnlyDay[];
+}
+
+export interface LoadedDataset {
+  dir: string;
+  /** `sha256:<16 hex>` over every file's name and bytes, in order. */
+  version: string;
+  files: { name: string; sha256: string }[];
+  days: DatasetDayFile[];
+}
+
+// ── Validation ──────────────────────────────────────────────────────────────
+
+export type IssueSeverity = 'error' | 'warning';
+
+export interface DatasetIssue {
+  severity: IssueSeverity;
+  code: string;
+  file: string;
+  /** JSON-ish path inside the file, e.g. `ground_truth.activities[5].ended_at`. */
+  where: string;
+  message: string;
+}
+
+export interface ValidationResult {
+  ok: boolean;
+  issues: DatasetIssue[];
+  errors: DatasetIssue[];
+  warnings: DatasetIssue[];
+  stats: { days: number; rawEvents: number; groundTruthActivities: number; firstDate: string | null; lastDate: string | null; utcOffset: string | null };
+}
+
+export class DatasetValidationError extends Error {
+  constructor(public readonly result: ValidationResult) {
+    super(
+      `Benchmark dataset is invalid: ${result.errors.length} error(s).\n` +
+        result.errors.map((e) => `  [${e.code}] ${e.file} ${e.where}: ${e.message}`).join('\n'),
+    );
+    this.name = 'DatasetValidationError';
+  }
+}
+
+export const DAY_FILE_PATTERN = /^reflect_day_(\d{2})\.json$/;
+const ISO_WITH_OFFSET = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?(Z|[+-]\d{2}:\d{2})$/;
+const CLOCK = /^([01]\d|2[0-3]):[0-5]\d$/;
+const DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+const TOP_LEVEL_KEYS = ['persona', 'day', 'raw_events', 'ground_truth', 'expected_reflection', 'expected_coach_outcome'] as const;
+const OPTIONAL_TOP_LEVEL_KEYS = ['evaluation_objectives'];
+const EVENT_KEYS = ['id', 'watcher', 'started_at', 'ended_at', 'app', 'browser', 'title', 'url', 'payload'];
+const ACTIVITY_KEYS = ['id', 'started_at', 'ended_at', 'title', 'summary', 'event_ids', 'context', 'area', 'intent', 'quality', 'importance'];
+const ACTION_KEYS = ['title', 'action_type', 'reason', 'suggested_focus_minutes', 'target'];
+
+/** `+05:30` / `Z` suffix of an ISO timestamp. */
+export function utcOffsetOf(iso: string): string {
+  const m = /(Z|[+-]\d{2}:\d{2})$/.exec(iso);
+  return m ? (m[1] === 'Z' ? '+00:00' : m[1]) : '';
+}
+
+/** `HH:MM` on `date` in the dataset's offset → epoch ms. */
+export function clockToMs(date: string, hhmm: string, utcOffset: string): number {
+  return Date.parse(`${date}T${hhmm}:00${utcOffset}`);
+}
+
+const isString = (v: unknown): v is string => typeof v === 'string';
+const isStringArray = (v: unknown): v is string[] => Array.isArray(v) && v.every(isString);
+const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
+const nullableString = (v: unknown) => v === null || isString(v);
+
+/** Read every day file. Throws only when the directory or a file is unreadable JSON-wise is reported by `validate`. */
+export function readDatasetFiles(dir: string): { name: string; text: string }[] {
+  if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
+    throw new Error(`Benchmark dataset directory not found: ${dir}`);
+  }
+  return fs
+    .readdirSync(dir)
+    .filter((name) => name.toLowerCase().endsWith('.json'))
+    .sort()
+    .map((name) => ({ name, text: fs.readFileSync(path.join(dir, name), 'utf8') }));
+}
+
+/**
+ * Validate the dataset as it is on disk. Pure with respect to the dataset:
+ * nothing is rewritten, defaulted or skipped.
+ */
+export function validateDataset(dir: string, expectedDays: number): ValidationResult & { dataset: LoadedDataset | null } {
+  const issues: DatasetIssue[] = [];
+  const add = (severity: IssueSeverity, code: string, file: string, where: string, message: string) =>
+    issues.push({ severity, code, file, where, message });
+
+  const files = readDatasetFiles(dir);
+  const parsed: { name: string; number: number; data: DatasetDayFile }[] = [];
+
+  for (const file of files) {
+    const match = DAY_FILE_PATTERN.exec(file.name);
+    if (!match) {
+      add('error', 'unexpected_file', file.name, '', `File name does not match reflect_day_NN.json`);
+      continue;
+    }
+    let data: unknown;
+    try {
+      data = JSON.parse(file.text);
+    } catch (err) {
+      add('error', 'invalid_json', file.name, '', `Not valid JSON: ${err instanceof Error ? err.message : String(err)}`);
+      continue;
+    }
+    if (!isObject(data)) {
+      add('error', 'invalid_shape', file.name, '', 'Top level is not an object');
+      continue;
+    }
+    parsed.push({ name: file.name, number: Number(match[1]), data: data as unknown as DatasetDayFile });
+  }
+
+  // ── Day set ──
+  const numbers = parsed.map((p) => p.number);
+  if (parsed.length !== expectedDays) {
+    add('error', 'day_count', '(dataset)', '', `Expected exactly ${expectedDays} day files, found ${parsed.length}`);
+  }
+  for (let n = 1; n <= expectedDays; n++) {
+    if (!numbers.includes(n)) add('error', 'missing_day', '(dataset)', '', `reflect_day_${String(n).padStart(2, '0')}.json is missing`);
+  }
+
+  const seenEventIds = new Map<number, string>();
+  const seenDayNumbers = new Map<number, string>();
+  const seenDates = new Map<string, string>();
+  const offsets = new Set<string>();
+  let personaJson: string | null = null;
+  let previous: { name: string; date: string; lastEventId: number; lastEndMs: number } | null = null;
+  let rawEvents = 0;
+  let groundTruthActivities = 0;
+
+  for (const { name, number, data } of parsed) {
+    const err = (code: string, where: string, message: string) => add('error', code, name, where, message);
+    const warn = (code: string, where: string, message: string) => add('warning', code, name, where, message);
+
+    // ── Sections ──
+    let sectionsOk = true;
+    for (const key of TOP_LEVEL_KEYS) {
+      if (!(key in data)) {
+        err('missing_section', key, 'Required section is missing');
+        sectionsOk = false;
+      }
+    }
+    for (const key of Object.keys(data)) {
+      if (!(TOP_LEVEL_KEYS as readonly string[]).includes(key) && !OPTIONAL_TOP_LEVEL_KEYS.includes(key)) {
+        warn('unknown_section', key, 'Unknown top-level section; it is ignored by the runner and the evaluator');
+      }
+    }
+    if (!sectionsOk) continue;
+
+    // ── Persona ──
+    const persona = data.persona;
+    if (!isObject(persona) || !isString(persona.id) || !isString(persona.type) || !isString(persona.role) || !isStringArray(persona.current_work) || !isStringArray(persona.priorities)) {
+      err('persona_shape', 'persona', 'Expected { id, type, role, current_work[], priorities[] }');
+    } else {
+      const json = JSON.stringify(persona);
+      if (personaJson === null) personaJson = json;
+      else if (json !== personaJson) {
+        err('persona_changed', 'persona', 'Persona differs from day 1; the dataset has no way to state a legitimate profile change');
+      }
+    }
+
+    // ── Day ──
+    const day = data.day;
+    let date: string | null = null;
+    if (!isObject(day)) {
+      err('day_shape', 'day', 'Expected an object');
+    } else {
+      if (!Number.isInteger(day.day_number)) err('day_number', 'day.day_number', 'Expected an integer');
+      else {
+        if (day.day_number !== number) err('day_number_mismatch', 'day.day_number', `day_number ${day.day_number} does not match file number ${number}`);
+        const earlier = seenDayNumbers.get(day.day_number);
+        if (earlier) err('duplicate_day_number', 'day.day_number', `day_number ${day.day_number} already used by ${earlier}`);
+        seenDayNumbers.set(day.day_number, name);
+      }
+      if (!isString(day.date) || !DATE.test(day.date) || Number.isNaN(Date.parse(`${day.date}T00:00:00Z`))) {
+        err('day_date', 'day.date', `Expected YYYY-MM-DD, got ${JSON.stringify(day.date)}`);
+      } else {
+        date = day.date;
+        const earlier = seenDates.get(date);
+        if (earlier) err('duplicate_date', 'day.date', `Date ${date} already used by ${earlier}`);
+        seenDates.set(date, name);
+        if (previous) {
+          if (date <= previous.date) err('date_order', 'day.date', `Date ${date} is not after ${previous.date} (${previous.name})`);
+          else if (Date.parse(`${date}T00:00:00Z`) - Date.parse(`${previous.date}T00:00:00Z`) !== 86_400_000) {
+            warn('date_gap', 'day.date', `Date ${date} does not directly follow ${previous.date}`);
+          }
+        }
+      }
+      if (!isString(day.day_type)) err('day_type', 'day.day_type', 'Expected a string');
+      if (!isStringArray(day.circumstances)) err('circumstances', 'day.circumstances', 'Expected string[]');
+      const usage = day.laptop_usage;
+      if (!isObject(usage) || !isString(usage.first_seen) || !isString(usage.last_seen)) {
+        err('laptop_usage', 'day.laptop_usage', 'Expected { first_seen, last_seen, ... }');
+      } else {
+        for (const key of ['first_seen', 'last_seen'] as const) {
+          if (!CLOCK.test(usage[key])) err('malformed_time', `day.laptop_usage.${key}`, `Expected HH:MM, got ${JSON.stringify(usage[key])}`);
+        }
+      }
+    }
+
+    // ── Raw events ──
+    const events = data.raw_events;
+    const dayEvents = new Map<number, DatasetRawEvent>();
+    let firstEvent: DatasetRawEvent | null = null;
+    let lastEvent: DatasetRawEvent | null = null;
+    if (!Array.isArray(events) || events.length === 0) {
+      err('raw_events', 'raw_events', 'Expected a non-empty array');
+    } else {
+      rawEvents += events.length;
+      let prevStart = -Infinity;
+      let prevEnd = -Infinity;
+      let prevId = previous?.lastEventId ?? -Infinity;
+      events.forEach((e, i) => {
+        const where = `raw_events[${i}]`;
+        if (!isObject(e)) return err('event_shape', where, 'Expected an object');
+        for (const key of EVENT_KEYS) if (!(key in e)) err('event_field_missing', `${where}.${key}`, 'Required field is missing');
+        for (const key of Object.keys(e)) if (!EVENT_KEYS.includes(key)) err('event_field_unknown', `${where}.${key}`, 'Unknown field on a raw event; raw events must carry observable data only');
+        if (!Number.isInteger(e.id)) return err('event_id', `${where}.id`, 'Expected an integer id');
+        const id = e.id as number;
+        const owner = seenEventIds.get(id);
+        if (owner) err('duplicate_event_id', `${where}.id`, `Event id ${id} already used in ${owner}`);
+        seenEventIds.set(id, name);
+        if (id <= prevId) err('event_id_order', `${where}.id`, `Event id ${id} does not increase (previous ${prevId}); ids must rise in insertion order`);
+        prevId = id;
+        if (!isString(e.watcher) || !e.watcher) err('event_watcher', `${where}.watcher`, 'Expected a non-empty string');
+        for (const key of ['app', 'browser', 'title', 'url'] as const) {
+          if (!nullableString(e[key])) err('event_field_type', `${where}.${key}`, 'Expected a string or null');
+        }
+        let ok = true;
+        for (const key of ['started_at', 'ended_at'] as const) {
+          const value = e[key];
+          if (!isString(value) || !ISO_WITH_OFFSET.test(value) || Number.isNaN(Date.parse(value))) {
+            err('malformed_time', `${where}.${key}`, `Expected an ISO-8601 timestamp with offset, got ${JSON.stringify(value)}`);
+            ok = false;
+          }
+        }
+        if (!ok) return;
+        const event = e as unknown as DatasetRawEvent;
+        const start = Date.parse(event.started_at);
+        const end = Date.parse(event.ended_at);
+        offsets.add(utcOffsetOf(event.started_at));
+        offsets.add(utcOffsetOf(event.ended_at));
+        if (start >= end) err('event_range', where, `started_at ${event.started_at} is not before ended_at ${event.ended_at}`);
+        if (start < prevStart) err('event_order', where, `Event ${id} starts before the previous event (not chronological)`);
+        if (start < prevEnd) err('event_overlap', where, `Event ${id} starts before the previous event ended`);
+        if (previous && i === 0 && start < previous.lastEndMs) err('event_order_across_days', where, `Event ${id} starts before the last event of ${previous.name} ended`);
+        if (date && (event.started_at.slice(0, 10) !== date || event.ended_at.slice(0, 10) !== date)) {
+          err('event_off_date', where, `Event ${id} (${event.started_at} → ${event.ended_at}) is not on the day's date ${date}`);
+        }
+        prevStart = start;
+        prevEnd = Math.max(prevEnd, end);
+        dayEvents.set(id, event);
+        firstEvent ??= event;
+        lastEvent = event;
+      });
+    }
+
+    // ── Ground truth ──
+    const gt = data.ground_truth;
+    if (!isObject(gt) || !Array.isArray(gt.activities) || !Array.isArray(gt.unobserved_periods)) {
+      err('ground_truth_shape', 'ground_truth', 'Expected { activities[], unobserved_periods[] }');
+    } else {
+      groundTruthActivities += gt.activities.length;
+      if (gt.activities.length === 0) err('ground_truth_empty', 'ground_truth.activities', 'Expected at least one activity');
+      const activityIds = new Set<string>();
+      const ownerOf = new Map<number, string>();
+      gt.activities.forEach((a, i) => {
+        const where = `ground_truth.activities[${i}]`;
+        if (!isObject(a)) return err('activity_shape', where, 'Expected an object');
+        for (const key of ACTIVITY_KEYS) if (!(key in a)) err('activity_field_missing', `${where}.${key}`, 'Required field is missing');
+        const label = isString(a.id) ? a.id : `#${i}`;
+        if (!isString(a.id) || !a.id) err('activity_id', `${where}.id`, 'Expected a non-empty string id');
+        else if (activityIds.has(a.id)) err('duplicate_activity_id', `${where}.id`, `Activity id ${a.id} is used twice in this day`);
+        else activityIds.add(a.id);
+        for (const key of ['title', 'summary', 'context', 'intent', 'quality', 'importance'] as const) {
+          if (!isString(a[key]) || !a[key]) err('activity_field_type', `${where}.${key}`, 'Expected a non-empty string');
+        }
+        if (!nullableString(a.area)) err('activity_field_type', `${where}.area`, 'Expected a string or null');
+
+        let timesOk = true;
+        for (const key of ['started_at', 'ended_at'] as const) {
+          if (!isString(a[key]) || !CLOCK.test(a[key] as string)) {
+            err('malformed_time', `${where}.${key}`, `Activity ${label}: expected HH:MM, got ${JSON.stringify(a[key])}`);
+            timesOk = false;
+          }
+        }
+        if (timesOk && (a.started_at as string) >= (a.ended_at as string)) {
+          err('activity_range', where, `Activity ${label}: started_at ${a.started_at} is not before ended_at ${a.ended_at}`);
+        }
+
+        if (!Array.isArray(a.event_ids) || a.event_ids.length === 0 || !a.event_ids.every((id) => Number.isInteger(id))) {
+          return err('activity_event_ids', `${where}.event_ids`, `Activity ${label}: expected a non-empty array of integer event ids`);
+        }
+        const owned: DatasetRawEvent[] = [];
+        for (const id of a.event_ids as number[]) {
+          const event = dayEvents.get(id);
+          if (!event) {
+            err('dangling_event_reference', `${where}.event_ids`, `Activity ${label} references event ${id}, which is not in this day's raw_events`);
+            continue;
+          }
+          const other = ownerOf.get(id);
+          if (other) err('event_owned_twice', `${where}.event_ids`, `Event ${id} belongs to both ${other} and ${label}`);
+          ownerOf.set(id, label);
+          owned.push(event);
+        }
+        if (owned.length > 0 && timesOk) {
+          const sorted = [...owned].sort((x, y) => Date.parse(x.started_at) - Date.parse(y.started_at));
+          const first = sorted[0].started_at.slice(11, 16);
+          const last = sorted.reduce((latest, e) => (e.ended_at > latest ? e.ended_at : latest), sorted[0].ended_at).slice(11, 16);
+          if (first !== a.started_at || last !== a.ended_at) {
+            err(
+              'activity_range_mismatch',
+              where,
+              `Activity ${label} states ${a.started_at}–${a.ended_at} but its events span ${first}–${last}`,
+            );
+          }
+        }
+      });
+      for (const id of dayEvents.keys()) {
+        if (!ownerOf.has(id)) warn('event_without_ground_truth', 'ground_truth.activities', `Raw event ${id} belongs to no ground-truth activity`);
+      }
+
+      gt.unobserved_periods.forEach((u, i) => {
+        const where = `ground_truth.unobserved_periods[${i}]`;
+        if (!isObject(u) || !isString(u.reason)) return err('unobserved_shape', where, 'Expected { started_at, ended_at, reason }');
+        let ok = true;
+        for (const key of ['started_at', 'ended_at'] as const) {
+          if (!isString(u[key]) || !CLOCK.test(u[key] as string)) {
+            err('malformed_time', `${where}.${key}`, `Expected HH:MM, got ${JSON.stringify(u[key])}`);
+            ok = false;
+          }
+        }
+        if (!ok) return;
+        if ((u.started_at as string) >= (u.ended_at as string)) err('unobserved_range', where, `started_at ${u.started_at} is not before ended_at ${u.ended_at}`);
+        for (const e of dayEvents.values()) {
+          const s = e.started_at.slice(11, 16);
+          const en = e.ended_at.slice(11, 16);
+          if (s < (u.ended_at as string) && en > (u.started_at as string)) {
+            err('unobserved_overlaps_event', where, `Unobserved period ${u.started_at}–${u.ended_at} overlaps raw event ${e.id} (${s}–${en})`);
+          }
+        }
+      });
+    }
+
+    // ── Laptop usage vs events (evaluation metadata; a mismatch does not block) ──
+    if (isObject(day) && isObject(day.laptop_usage) && firstEvent && lastEvent) {
+      const first = (firstEvent as DatasetRawEvent).started_at.slice(11, 16);
+      const last = (lastEvent as DatasetRawEvent).ended_at.slice(11, 16);
+      if (day.laptop_usage.first_seen !== first) warn('laptop_usage_mismatch', 'day.laptop_usage.first_seen', `States ${day.laptop_usage.first_seen}, first event starts ${first}`);
+      if (day.laptop_usage.last_seen !== last) warn('laptop_usage_mismatch', 'day.laptop_usage.last_seen', `States ${day.laptop_usage.last_seen}, last event ends ${last}`);
+    }
+
+    // ── Expected reflection ──
+    const reflection = data.expected_reflection;
+    if (!isObject(reflection)) {
+      err('expected_reflection_shape', 'expected_reflection', 'Expected an object');
+    } else {
+      if (!isString(reflection.period)) err('expected_reflection_field', 'expected_reflection.period', 'Expected a string');
+      if (!isStringArray(reflection.key_observations) || reflection.key_observations.length === 0) {
+        err('expected_reflection_field', 'expected_reflection.key_observations', 'Expected a non-empty string[]');
+      }
+      if (!isStringArray(reflection.important_uncertainty)) err('expected_reflection_field', 'expected_reflection.important_uncertainty', 'Expected string[]');
+      if (!isString(reflection.possible_next_step)) err('expected_reflection_field', 'expected_reflection.possible_next_step', 'Expected a string');
+      if (!Array.isArray(reflection.priority_alignment)) {
+        err('expected_reflection_field', 'expected_reflection.priority_alignment', 'Expected an array');
+      } else {
+        reflection.priority_alignment.forEach((p, i) => {
+          const where = `expected_reflection.priority_alignment[${i}]`;
+          if (!isObject(p) || !isString(p.priority) || !isString(p.assessment)) return err('priority_alignment_shape', where, 'Expected { priority, assessment }');
+          if (isObject(persona) && isStringArray(persona.priorities) && !persona.priorities.includes(p.priority)) {
+            err('unknown_priority', where, `Priority ${JSON.stringify(p.priority)} is not one of the persona's priorities`);
+          }
+        });
+      }
+    }
+
+    // ── Expected coach outcome ──
+    const coach = data.expected_coach_outcome;
+    if (!isObject(coach)) {
+      err('expected_coach_shape', 'expected_coach_outcome', 'Expected an object');
+    } else {
+      for (const key of ['primary_action', 'secondary_action'] as const) {
+        if (!(key in coach)) {
+          err('expected_coach_field', `expected_coach_outcome.${key}`, 'Required field is missing (use null for "no action")');
+          continue;
+        }
+        const action = coach[key];
+        if (action === null) continue;
+        if (!isObject(action)) {
+          err('expected_action_shape', `expected_coach_outcome.${key}`, 'Expected an object or null');
+          continue;
+        }
+        for (const field of ACTION_KEYS) if (!(field in action)) err('expected_action_field', `expected_coach_outcome.${key}.${field}`, 'Required field is missing');
+        for (const field of ['title', 'action_type', 'reason'] as const) {
+          if (!isString(action[field]) || !action[field]) err('expected_action_field', `expected_coach_outcome.${key}.${field}`, 'Expected a non-empty string');
+        }
+      }
+      if (!isStringArray(coach.things_not_to_do)) err('expected_coach_field', 'expected_coach_outcome.things_not_to_do', 'Expected string[]');
+    }
+
+    if (date && lastEvent) {
+      previous = {
+        name,
+        date,
+        lastEventId: (lastEvent as DatasetRawEvent).id,
+        lastEndMs: Date.parse((lastEvent as DatasetRawEvent).ended_at),
+      };
+    }
+  }
+
+  if (offsets.size > 1) {
+    add('error', 'mixed_utc_offsets', '(dataset)', '', `Timestamps use more than one UTC offset: ${[...offsets].join(', ')}`);
+  }
+
+  const errors = issues.filter((i) => i.severity === 'error');
+  const warnings = issues.filter((i) => i.severity === 'warning');
+  const ordered = [...parsed].sort((a, b) => a.number - b.number);
+  const fileHashes = files.map((f) => ({ name: f.name, sha256: createHash('sha256').update(f.text).digest('hex') }));
+  const version = createHash('sha256');
+  for (const f of fileHashes) version.update(`${f.name}:${f.sha256}\n`);
+
+  const dates = ordered.map((p) => p.data.day?.date).filter(isString);
+  return {
+    ok: errors.length === 0,
+    issues,
+    errors,
+    warnings,
+    stats: {
+      days: parsed.length,
+      rawEvents,
+      groundTruthActivities,
+      firstDate: dates[0] ?? null,
+      lastDate: dates[dates.length - 1] ?? null,
+      utcOffset: offsets.size === 1 ? [...offsets][0] : null,
+    },
+    dataset:
+      errors.length === 0
+        ? { dir, version: `sha256:${version.digest('hex').slice(0, 16)}`, files: fileHashes, days: ordered.map((p) => p.data) }
+        : null,
+  };
+}
+
+/** Load the dataset or fail loudly with every validation error. */
+export function loadDataset(dir: string, expectedDays: number): { dataset: LoadedDataset; validation: ValidationResult } {
+  const { dataset, ...validation } = validateDataset(dir, expectedDays);
+  if (!dataset) throw new DatasetValidationError(validation);
+  return { dataset, validation };
+}
+
+/**
+ * Split a validated dataset into the two halves. `input` is built by copying
+ * an explicit whitelist of observable fields, so a new answer-key field added
+ * to the files later can never reach Reflect by accident.
+ */
+export function splitDataset(dataset: LoadedDataset): { input: ReflectInput; evaluation: EvaluationOnly } {
+  const first = dataset.days[0];
+  const utcOffset = utcOffsetOf(first.raw_events[0].started_at);
+
+  const input: ReflectInput = {
+    persona: {
+      id: first.persona.id,
+      type: first.persona.type,
+      role: first.persona.role,
+      current_work: [...first.persona.current_work],
+      priorities: [...first.persona.priorities],
+    },
+    utcOffset,
+    days: dataset.days.map((d) => ({
+      dayNumber: d.day.day_number,
+      date: d.day.date,
+      rawEvents: d.raw_events.map((e) => ({
+        datasetId: e.id,
+        watcher: e.watcher,
+        startedAt: e.started_at,
+        endedAt: e.ended_at,
+        app: e.app,
+        browser: e.browser,
+        title: e.title,
+        url: e.url,
+      })),
+    })),
+  };
+
+  const evaluation: EvaluationOnly = {
+    priorities: [...first.persona.priorities],
+    days: dataset.days.map((d) => ({
+      dayNumber: d.day.day_number,
+      date: d.day.date,
+      utcOffset,
+      dayType: d.day.day_type,
+      circumstances: d.day.circumstances,
+      laptopUsage: d.day.laptop_usage,
+      events: d.raw_events.map((e) => ({
+        datasetId: e.id,
+        startMs: Date.parse(e.started_at),
+        endMs: Date.parse(e.ended_at),
+        app: e.app,
+        title: e.title,
+        url: e.url,
+      })),
+      groundTruth: d.ground_truth,
+      expectedReflection: d.expected_reflection,
+      expectedCoachOutcome: d.expected_coach_outcome,
+      evaluationObjectives: d.evaluation_objectives ?? null,
+    })),
+  };
+
+  return { input: deepFreeze(input), evaluation: deepFreeze(evaluation) };
+}
+
+function deepFreeze<T>(value: T): T {
+  if (typeof value === 'object' && value !== null && !Object.isFrozen(value)) {
+    Object.freeze(value);
+    for (const child of Object.values(value)) deepFreeze(child);
+  }
+  return value;
+}

@@ -1,0 +1,379 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 20,
+    "date": "2026-09-20",
+    "day_type": "light_sunday_beta_review",
+    "circumstances": [
+      "Sunday was substantially lighter than the recent weekday workdays, with long offline periods and a late start.",
+      "The SaaS received review and planning work rather than another large implementation cycle.",
+      "The beta is now producing enough early usage information to support questions about activation, but the evidence is still limited.",
+      "The freelance project had a small handoff-verification loop and did not become a major workstream.",
+      "A technical YouTube session was related to the current analytics problem rather than unrelated entertainment."
+    ],
+    "laptop_usage": {
+      "first_seen": "11:14",
+      "last_seen": "21:07",
+      "approx_active_hours": 6.0,
+      "longest_unobserved_gap_minutes": 134
+    }
+  },
+  "raw_events": [
+    {
+      "id": 460,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T11:14:00+05:30",
+      "ended_at": "2026-09-20T11:29:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 461,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T11:29:00+05:30",
+      "ended_at": "2026-09-20T11:52:00+05:30",
+      "app": "WhatsApp",
+      "browser": null,
+      "title": "WhatsApp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 462,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T11:52:00+05:30",
+      "ended_at": "2026-09-20T12:17:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 463,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T12:17:00+05:30",
+      "ended_at": "2026-09-20T12:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Analytics dashboard",
+      "url": "https://app.posthog.com/",
+      "payload": null
+    },
+    {
+      "id": 464,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T12:46:00+05:30",
+      "ended_at": "2026-09-20T13:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=activation+funnel+signup+saas",
+      "payload": null
+    },
+    {
+      "id": 465,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T13:03:00+05:30",
+      "ended_at": "2026-09-20T13:28:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS app",
+      "url": "https://app.example.com/",
+      "payload": null
+    },
+    {
+      "id": 466,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T15:41:00+05:30",
+      "ended_at": "2026-09-20T15:58:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 467,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T15:58:00+05:30",
+      "ended_at": "2026-09-20T16:19:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 468,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T16:19:00+05:30",
+      "ended_at": "2026-09-20T16:43:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "freelance-project — settings.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 469,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T16:43:00+05:30",
+      "ended_at": "2026-09-20T17:02:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 470,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T17:02:00+05:30",
+      "ended_at": "2026-09-20T17:17:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 471,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T18:56:00+05:30",
+      "ended_at": "2026-09-20T19:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 472,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T19:18:00+05:30",
+      "ended_at": "2026-09-20T19:46:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Beta feedback notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 473,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T19:46:00+05:30",
+      "ended_at": "2026-09-20T20:14:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Analytics dashboard",
+      "url": "https://app.posthog.com/",
+      "payload": null
+    },
+    {
+      "id": 474,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T20:14:00+05:30",
+      "ended_at": "2026-09-20T20:31:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "SaaS beta notes",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 475,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T20:31:00+05:30",
+      "ended_at": "2026-09-20T20:52:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 476,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T20:52:00+05:30",
+      "ended_at": "2026-09-20T21:07:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-20-01",
+        "started_at": "11:14",
+        "ended_at": "11:52",
+        "title": "Weekend inbox and personal communication",
+        "summary": "Checked email and then spent time on personal WhatsApp communication before returning to the product.",
+        "event_ids": [
+          460,
+          461
+        ],
+        "context": "Personal",
+        "area": null,
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-20-02",
+        "started_at": "11:52",
+        "ended_at": "13:28",
+        "title": "SaaS beta usage review",
+        "summary": "Reviewed the roadmap, inspected current beta analytics, researched activation funnels, and checked the live signup flow.",
+        "event_ids": [
+          462,
+          463,
+          464,
+          465
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-20-03",
+        "started_at": "15:41",
+        "ended_at": "17:17",
+        "title": "Freelance handoff verification",
+        "summary": "Checked client communication, made a small existing settings adjustment, verified staging, and reported the result back to the client.",
+        "event_ids": [
+          466,
+          467,
+          468,
+          469,
+          470
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Manage",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-20-04",
+        "started_at": "18:56",
+        "ended_at": "19:18",
+        "title": "Relevant technical YouTube session",
+        "summary": "Watched a technical video related to SaaS analytics and activation measurement.",
+        "event_ids": [
+          471
+        ],
+        "context": "Work",
+        "area": "Learning",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-20-05",
+        "started_at": "19:18",
+        "ended_at": "21:07",
+        "title": "Beta findings consolidation",
+        "summary": "Consolidated beta feedback, checked analytics again, recorded product notes, and updated the roadmap before the final inbox check.",
+        "event_ids": [
+          472,
+          473,
+          474,
+          475,
+          476
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:28",
+        "ended_at": "15:41",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "17:17",
+        "ended_at": "18:56",
+        "reason": "Personal / outside"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "This was a lighter Sunday with two meaningful SaaS review blocks rather than another large coding day.",
+      "The SaaS work is shifting from fixing individual beta issues toward interpreting early activation and usage signals.",
+      "The evening session consolidated feedback and analytics into explicit roadmap notes, creating a clearer decision point for the next product iteration.",
+      "Freelance work was limited to a small staging/handoff loop and did not materially displace product review.",
+      "The technical YouTube session was directly related to the current product analytics question, so app choice alone would be misleading."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "meaningful progress through beta review and next-step definition"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "contained handoff progress"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "no meaningful activity observed"
+      }
+    ],
+    "important_uncertainty": [
+      "Early analytics activity is too limited to establish a reliable activation funnel or product-market signal.",
+      "The technical YouTube session is clearly related to the SaaS topic, but watching a tutorial does not prove that a particular approach will be useful.",
+      "The final inbox check does not establish whether any client or lead response required action."
+    ],
+    "possible_next_step": "Choose one concrete activation question from the beta data and test it with the next small product iteration rather than broadening the roadmap."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Turn one beta signal into a test",
+      "action_type": "experiment",
+      "reason": "The SaaS has moved beyond basic rollout mechanics, and the current evidence is most useful when converted into one focused activation hypothesis.",
+      "suggested_focus_minutes": 75,
+      "target": "Own SaaS"
+    },
+    "secondary_action": {
+      "title": "Close the client handoff",
+      "action_type": "complete_open_loop",
+      "reason": "The client change was already verified and reported, so confirming the handoff would remove the remaining small freelance loop.",
+      "suggested_focus_minutes": 15,
+      "target": "Freelance"
+    },
+    "things_not_to_do": [
+      "Do not treat a small amount of beta analytics as a reliable product-market or retention signal.",
+      "Do not classify the YouTube tutorial as distraction solely because it occurred in the evening.",
+      "Do not infer that no lead activity means the user made no progress elsewhere offline.",
+      "Do not expand the SaaS roadmap broadly before deciding what the current beta evidence actually supports."
+    ]
+  }
+}

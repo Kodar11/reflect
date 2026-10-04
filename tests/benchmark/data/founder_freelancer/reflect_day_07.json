@@ -1,0 +1,540 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 7,
+    "date": "2026-09-07",
+    "day_type": "mixed_monday_product_reset",
+    "circumstances": [
+      "The Monday started with a check on the client release status before returning attention to the SaaS.",
+      "A substantial morning block continued the authentication work carried over from the weekend.",
+      "The middle of the day included a short analytics review followed by freelance outreach and proposal work.",
+      "An afternoon research-and-design block focused on improving the SaaS onboarding flow.",
+      "The evening returned to implementation and testing, ending with a small authentication API issue still under investigation.",
+      "There were several normal offline periods for lunch, a break, and dinner."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:52",
+      "last_seen": "21:57",
+      "approx_active_hours": 7.1,
+      "longest_unobserved_gap_minutes": 93
+    }
+  },
+  "raw_events": [
+    {
+      "id": 148,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T08:52:00+05:30",
+      "ended_at": "2026-09-07T09:06:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 149,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T09:06:00+05:30",
+      "ended_at": "2026-09-07T09:19:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Founder Dashboard",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 150,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T09:19:00+05:30",
+      "ended_at": "2026-09-07T09:42:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 151,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T09:42:00+05:30",
+      "ended_at": "2026-09-07T10:08:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git status && npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 152,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T10:08:00+05:30",
+      "ended_at": "2026-09-07T10:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Supabase documentation",
+      "url": "https://supabase.com/docs",
+      "payload": null
+    },
+    {
+      "id": 153,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T10:31:00+05:30",
+      "ended_at": "2026-09-07T11:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 154,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T11:02:00+05:30",
+      "ended_at": "2026-09-07T11:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:3000",
+      "url": "http://localhost:3000/",
+      "payload": null
+    },
+    {
+      "id": 155,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T11:24:00+05:30",
+      "ended_at": "2026-09-07T11:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — middleware.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 156,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T11:47:00+05:30",
+      "ended_at": "2026-09-07T12:05:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm run lint",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 157,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T12:05:00+05:30",
+      "ended_at": "2026-09-07T12:26:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Analytics",
+      "url": "https://analytics.google.com/",
+      "payload": null
+    },
+    {
+      "id": 158,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T13:58:00+05:30",
+      "ended_at": "2026-09-07T14:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 159,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T14:17:00+05:30",
+      "ended_at": "2026-09-07T14:44:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance proposal",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 160,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T14:44:00+05:30",
+      "ended_at": "2026-09-07T15:02:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 161,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T15:02:00+05:30",
+      "ended_at": "2026-09-07T15:15:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 162,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T15:15:00+05:30",
+      "ended_at": "2026-09-07T15:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=saas+onboarding+examples",
+      "payload": null
+    },
+    {
+      "id": 163,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T15:39:00+05:30",
+      "ended_at": "2026-09-07T16:11:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Onboarding Flow",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 164,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T17:26:00+05:30",
+      "ended_at": "2026-09-07T17:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 165,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T17:48:00+05:30",
+      "ended_at": "2026-09-07T18:13:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:3000",
+      "url": "http://localhost:3000/onboarding",
+      "payload": null
+    },
+    {
+      "id": 166,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T19:46:00+05:30",
+      "ended_at": "2026-09-07T20:03:00+05:30",
+      "app": "WhatsApp",
+      "browser": null,
+      "title": "WhatsApp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 167,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T20:03:00+05:30",
+      "ended_at": "2026-09-07T20:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 168,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T20:29:00+05:30",
+      "ended_at": "2026-09-07T20:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 169,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T20:58:00+05:30",
+      "ended_at": "2026-09-07T21:22:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm run build",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 170,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T21:22:00+05:30",
+      "ended_at": "2026-09-07T21:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:3000",
+      "url": "http://localhost:3000/onboarding",
+      "payload": null
+    },
+    {
+      "id": 171,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T21:39:00+05:30",
+      "ended_at": "2026-09-07T21:57:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — api/auth.ts",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-07-01",
+        "started_at": "08:52",
+        "ended_at": "09:19",
+        "title": "Morning communication and review",
+        "summary": "Checked email for the client release status and reviewed the day’s open work.",
+        "event_ids": [
+          148,
+          149
+        ],
+        "context": "Work",
+        "area": "Plan",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-07-02",
+        "started_at": "09:19",
+        "ended_at": "12:05",
+        "title": "SaaS authentication cleanup",
+        "summary": "Continued the authentication thread from the weekend, researched the auth platform, tested the changes, and verified the onboarding flow locally.",
+        "event_ids": [
+          150,
+          151,
+          152,
+          153,
+          154,
+          155,
+          156
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-03",
+        "started_at": "12:05",
+        "ended_at": "12:26",
+        "title": "Product analytics review",
+        "summary": "Looked through product analytics and checked current usage information.",
+        "event_ids": [
+          157
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-07-04",
+        "started_at": "13:58",
+        "ended_at": "15:02",
+        "title": "Freelance outreach and client check-in",
+        "summary": "Reviewed LinkedIn for potential leads, revised a proposal, and checked a client workspace for the status of the weekend fix.",
+        "event_ids": [
+          158,
+          159,
+          160
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-07-05",
+        "started_at": "15:02",
+        "ended_at": "15:15",
+        "title": "Unrelated YouTube break",
+        "summary": "Took a short entertainment break.",
+        "event_ids": [
+          161
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-06",
+        "started_at": "15:15",
+        "ended_at": "16:11",
+        "title": "SaaS onboarding research and design",
+        "summary": "Researched onboarding examples and worked on the onboarding flow in Figma.",
+        "event_ids": [
+          162,
+          163
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-07",
+        "started_at": "17:26",
+        "ended_at": "18:13",
+        "title": "SaaS onboarding implementation",
+        "summary": "Implemented changes to the onboarding flow and checked them in the local application.",
+        "event_ids": [
+          164,
+          165
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-08",
+        "started_at": "19:46",
+        "ended_at": "20:03",
+        "title": "Personal communication",
+        "summary": "Used WhatsApp for personal communication.",
+        "event_ids": [
+          166
+        ],
+        "context": "Personal",
+        "area": null,
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-09",
+        "started_at": "20:03",
+        "ended_at": "20:29",
+        "title": "Unrelated YouTube session",
+        "summary": "Watched unrelated YouTube content before returning to the product.",
+        "event_ids": [
+          167
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-10",
+        "started_at": "20:29",
+        "ended_at": "21:57",
+        "title": "Onboarding integration and bug investigation",
+        "summary": "Returned to the onboarding work, built the application, re-tested the flow, and investigated a small authentication API issue that remained open at the end of the session.",
+        "event_ids": [
+          168,
+          169,
+          170,
+          171
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:26",
+        "ended_at": "13:58",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:11",
+        "ended_at": "17:26",
+        "reason": "Walk / offline break"
+      },
+      {
+        "started_at": "18:13",
+        "ended_at": "19:46",
+        "reason": "Dinner / personal activity"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The SaaS received the strongest share of observed work today, especially around authentication and onboarding.",
+      "The authentication thread from the weekend continued into a broader onboarding implementation and design effort rather than remaining isolated to one bug.",
+      "Freelance lead generation and the existing client thread both received attention, but neither dominated the day.",
+      "The day was interrupted by normal offline periods and two short leisure sessions, yet product work resumed afterward.",
+      "A small authentication API issue remained open at the end of the day, so the onboarding work was not completely finished."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "maintenance / confirmation only"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [
+      "The client workspace check confirms follow-up activity but does not establish that the production issue was fully resolved.",
+      "Analytics review shows usage information was inspected, but the captured activity does not establish what decisions were made from it.",
+      "The final authentication API issue was still being investigated; the captured activity does not prove whether it was resolved after the observed period."
+    ],
+    "possible_next_step": "Resolve the open authentication API issue before starting another major SaaS thread, while keeping the freelance follow-up loop alive."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Complete the authentication open loop",
+      "action_type": "complete_open_loop",
+      "reason": "The strongest product thread progressed across research, implementation, build, and verification but ended with a small API issue still under investigation.",
+      "suggested_focus_minutes": 60,
+      "target": "Own SaaS"
+    },
+    "secondary_action": {
+      "title": "Follow up on the active freelance opportunity",
+      "action_type": "complete_open_loop",
+      "reason": "A proposal was revised and the lead thread remains active, so a concise follow-up would keep the opportunity moving without taking over the day.",
+      "suggested_focus_minutes": 15,
+      "target": "Freelance"
+    },
+    "things_not_to_do": [
+      "Do not treat the offline periods as missing productivity.",
+      "Do not classify the YouTube sessions as harmful solely from the website; the ground truth distinguishes them as leisure, but Reflect only has noisy desktop evidence.",
+      "Do not infer that the analytics review produced a successful product decision.",
+      "Do not assume the weekend client issue was fully resolved from a status check alone.",
+      "Do not recommend abandoning the SaaS onboarding thread simply because it ended with a bug investigation."
+    ]
+  }
+}

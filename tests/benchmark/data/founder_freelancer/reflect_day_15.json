@@ -1,0 +1,524 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 15,
+    "date": "2026-09-15",
+    "day_type": "launch_preparation_and_client_iteration_day",
+    "circumstances": [
+      "The existing client work reached a handoff point in the morning, but a new scope adjustment arrived later and required a contained implementation pass.",
+      "The SaaS dashboard became the dominant product thread and reached a meaningful milestone.",
+      "Launch preparation expanded from a checklist into positioning work, a LinkedIn draft, and Product Hunt research.",
+      "The day included several normal offline gaps and a later return to both SaaS and client work."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:14",
+      "last_seen": "19:31",
+      "approx_active_hours": 8.6,
+      "longest_unobserved_gap_minutes": 49
+    }
+  },
+  "raw_events": [
+    {
+      "id": 331,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T08:14:00+05:30",
+      "ended_at": "2026-09-15T08:28:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 332,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T08:28:00+05:30",
+      "ended_at": "2026-09-15T08:52:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://client-staging.example.com/",
+      "payload": null
+    },
+    {
+      "id": 333,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T08:52:00+05:30",
+      "ended_at": "2026-09-15T09:18:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project — auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 334,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T09:18:00+05:30",
+      "ended_at": "2026-09-15T09:36:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- auth",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 335,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T09:36:00+05:30",
+      "ended_at": "2026-09-15T09:49:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Project handoff",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 336,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T10:32:00+05:30",
+      "ended_at": "2026-09-15T10:51:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS dashboard",
+      "url": "https://app.example.com/dashboard",
+      "payload": null
+    },
+    {
+      "id": 337,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T10:51:00+05:30",
+      "ended_at": "2026-09-15T11:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 338,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T11:17:00+05:30",
+      "ended_at": "2026-09-15T11:41:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS dashboard",
+      "url": "http://localhost:3000/dashboard",
+      "payload": null
+    },
+    {
+      "id": 339,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T11:41:00+05:30",
+      "ended_at": "2026-09-15T12:02:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 340,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:02:00+05:30",
+      "ended_at": "2026-09-15T12:21:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "saas-app repository",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 341,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:21:00+05:30",
+      "ended_at": "2026-09-15T12:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS dashboard",
+      "url": "https://app.example.com/dashboard",
+      "payload": null
+    },
+    {
+      "id": 342,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:39:00+05:30",
+      "ended_at": "2026-09-15T13:00:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Launch checklist",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 343,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T13:48:00+05:30",
+      "ended_at": "2026-09-15T14:04:00+05:30",
+      "app": "LinkedIn",
+      "browser": "Chrome",
+      "title": "Home",
+      "url": "https://www.linkedin.com/feed/",
+      "payload": null
+    },
+    {
+      "id": 344,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:04:00+05:30",
+      "ended_at": "2026-09-15T14:28:00+05:30",
+      "app": "LinkedIn",
+      "browser": "Chrome",
+      "title": "Create a post",
+      "url": "https://www.linkedin.com/feed/",
+      "payload": null
+    },
+    {
+      "id": 345,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:28:00+05:30",
+      "ended_at": "2026-09-15T14:45:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Launch messaging notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 346,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:45:00+05:30",
+      "ended_at": "2026-09-15T15:02:00+05:30",
+      "app": "LinkedIn",
+      "browser": "Chrome",
+      "title": "Post preview",
+      "url": "https://www.linkedin.com/feed/",
+      "payload": null
+    },
+    {
+      "id": 347,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T15:02:00+05:30",
+      "ended_at": "2026-09-15T15:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Product Hunt",
+      "url": "https://www.producthunt.com/",
+      "payload": null
+    },
+    {
+      "id": 348,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T15:21:00+05:30",
+      "ended_at": "2026-09-15T15:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Product Hunt launch guide",
+      "url": "https://www.producthunt.com/",
+      "payload": null
+    },
+    {
+      "id": 349,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T15:39:00+05:30",
+      "ended_at": "2026-09-15T16:00:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Launch checklist",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 350,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T16:47:00+05:30",
+      "ended_at": "2026-09-15T17:12:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — dashboard.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 351,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T17:12:00+05:30",
+      "ended_at": "2026-09-15T17:28:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- dashboard",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 352,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T17:28:00+05:30",
+      "ended_at": "2026-09-15T17:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "SaaS dashboard",
+      "url": "http://localhost:3000/dashboard",
+      "payload": null
+    },
+    {
+      "id": 353,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T18:09:00+05:30",
+      "ended_at": "2026-09-15T18:31:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Client feedback",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 354,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T18:31:00+05:30",
+      "ended_at": "2026-09-15T18:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project — settings.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 355,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T18:58:00+05:30",
+      "ended_at": "2026-09-15T19:14:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git diff && npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 356,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T19:14:00+05:30",
+      "ended_at": "2026-09-15T19:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client staging",
+      "url": "https://client-staging.example.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-15-01",
+        "started_at": "08:14",
+        "ended_at": "09:49",
+        "title": "Client delivery verification and handoff",
+        "summary": "Checked the client staging build, verified the authentication flow, ran tests, and sent the current handoff status.",
+        "event_ids": [
+          331,
+          332,
+          333,
+          334,
+          335
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-02",
+        "started_at": "10:32",
+        "ended_at": "12:39",
+        "title": "SaaS dashboard milestone",
+        "summary": "Worked on the SaaS dashboard, moved between implementation and live/local checks, reviewed the roadmap and repository, and brought the dashboard slice to a meaningful milestone.",
+        "event_ids": [
+          336,
+          337,
+          338,
+          339,
+          340,
+          341
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-03",
+        "started_at": "12:39",
+        "ended_at": "13:00",
+        "title": "Launch checklist planning",
+        "summary": "Updated the launch checklist after reviewing the current product state.",
+        "event_ids": [
+          342
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-04",
+        "started_at": "13:48",
+        "ended_at": "15:02",
+        "title": "Launch positioning and LinkedIn draft",
+        "summary": "Reviewed LinkedIn, drafted a product-focused post, and prepared the messaging for upcoming launch communication.",
+        "event_ids": [
+          343,
+          344,
+          345,
+          346
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-05",
+        "started_at": "15:02",
+        "ended_at": "16:00",
+        "title": "Product Hunt launch research",
+        "summary": "Reviewed Product Hunt and launch guidance, then translated the relevant points into the product launch checklist.",
+        "event_ids": [
+          347,
+          348,
+          349
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-06",
+        "started_at": "16:47",
+        "ended_at": "17:46",
+        "title": "SaaS dashboard refinement",
+        "summary": "Refined the dashboard implementation, ran targeted tests, and checked the result in the application.",
+        "event_ids": [
+          350,
+          351,
+          352
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-07",
+        "started_at": "18:09",
+        "ended_at": "19:31",
+        "title": "Client scope adjustment",
+        "summary": "Reviewed a client-requested scope adjustment, implemented the corresponding settings change, ran tests, and verified the staging result.",
+        "event_ids": [
+          353,
+          354,
+          355,
+          356
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "09:49",
+        "ended_at": "10:32",
+        "reason": "Break / offline"
+      },
+      {
+        "started_at": "13:00",
+        "ended_at": "13:48",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:00",
+        "ended_at": "16:47",
+        "reason": "Personal activity / offline"
+      },
+      {
+        "started_at": "17:46",
+        "ended_at": "18:09",
+        "reason": "Short break / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The SaaS dashboard received the largest sustained portion of the day and moved from implementation into a usable milestone.",
+      "Launch preparation became more concrete: positioning, a LinkedIn draft, Product Hunt research, and a launch checklist all appeared alongside the dashboard work.",
+      "The client thread looked close to handoff in the morning but reopened later when a scope adjustment arrived; the adjustment was implemented and verified on staging.",
+      "Product work was not limited to coding—the launch communication and research activities were directly connected to getting the SaaS ready for release."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "strong progress / dashboard milestone and launch preparation"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "meaningfully progressed / handoff followed by contained scope adjustment"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "little visible progress today"
+      }
+    ],
+    "important_uncertainty": [
+      "The dashboard milestone is an implementation milestone; the events do not establish whether it improves user outcomes.",
+      "The LinkedIn draft and Product Hunt research represent launch preparation, not evidence of launch reach or acquisition.",
+      "The client staging verification does not prove final acceptance after the scope adjustment."
+    ],
+    "possible_next_step": "Finish the dashboard milestone cleanly, then turn the launch checklist into an explicit release gate while keeping the new client adjustment bounded."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Complete the dashboard milestone",
+      "action_type": "complete_open_loop",
+      "reason": "The SaaS dashboard is already the dominant thread and has reached a meaningful implementation checkpoint, so completing the remaining milestone is a clearer next step than starting another broad feature.",
+      "suggested_focus_minutes": 90,
+      "target": "Own SaaS"
+    },
+    "secondary_action": {
+      "title": "Run a small launch-content experiment",
+      "action_type": "experiment",
+      "reason": "A LinkedIn draft and Product Hunt research now provide a concrete base for testing one launch message without treating preparation as proof of demand.",
+      "suggested_focus_minutes": 30,
+      "target": "Own SaaS"
+    },
+    "things_not_to_do": [
+      "Do not treat the dashboard milestone as evidence of product-market fit or improved user outcomes.",
+      "Do not treat launch research as equivalent to a launch or customer acquisition.",
+      "Do not treat the morning client handoff as permanent closure after the later scope adjustment.",
+      "Do not criticize the offline gaps as lost work time.",
+      "Do not infer that limited lead-generation activity means the freelance pipeline is inactive."
+    ]
+  }
+}

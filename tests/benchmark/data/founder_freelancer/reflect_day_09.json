@@ -1,0 +1,504 @@
+{
+  "persona": {
+    "id": "founder_freelancer_01",
+    "type": "founder_freelancer",
+    "role": "Solo founder and freelance software developer",
+    "current_work": [
+      "Building own SaaS product",
+      "Maintaining one freelance client project",
+      "Trying to acquire new clients"
+    ],
+    "priorities": [
+      "Ship the SaaS MVP",
+      "Complete existing client work",
+      "Generate new freelance leads"
+    ]
+  },
+  "day": {
+    "day_number": 9,
+    "date": "2026-09-09",
+    "day_type": "new_client_kickoff_and_saas_recovery",
+    "circumstances": [
+      "The previous client's payment issue reached a final verification and deployment stage.",
+      "The freelance prospect from Day 8 converted into an active client thread with a kickoff call and initial scope notes.",
+      "After the client work, the founder returned to the SaaS authentication and onboarding work that had remained open for several days.",
+      "The SaaS block was the longest focused product session since the weekend.",
+      "The evening mixed a short unrelated YouTube break with useful technical learning and roadmap work.",
+      "Several normal offline gaps occurred between work blocks."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:31",
+      "last_seen": "21:31",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 104
+    }
+  },
+  "raw_events": [
+    {
+      "id": 194,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T08:31:00+05:30",
+      "ended_at": "2026-09-09T08:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 195,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T08:46:00+05:30",
+      "ended_at": "2026-09-09T09:05:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 196,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:05:00+05:30",
+      "ended_at": "2026-09-09T09:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "client-project — payment.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 197,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:31:00+05:30",
+      "ended_at": "2026-09-09T09:48:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 198,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:48:00+05:30",
+      "ended_at": "2026-09-09T10:06:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git status && git diff",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 199,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T10:06:00+05:30",
+      "ended_at": "2026-09-09T10:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Vercel",
+      "url": "https://vercel.com/dashboard",
+      "payload": null
+    },
+    {
+      "id": 200,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T10:24:00+05:30",
+      "ended_at": "2026-09-09T10:41:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 201,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T11:18:00+05:30",
+      "ended_at": "2026-09-09T11:37:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 202,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T11:37:00+05:30",
+      "ended_at": "2026-09-09T11:54:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Freelance project scope",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 203,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T11:54:00+05:30",
+      "ended_at": "2026-09-09T12:26:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Meet",
+      "url": "https://meet.google.com/",
+      "payload": null
+    },
+    {
+      "id": 204,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T12:26:00+05:30",
+      "ended_at": "2026-09-09T12:48:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Client project notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 205,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T14:32:00+05:30",
+      "ended_at": "2026-09-09T14:55:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — api/auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 206,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T14:55:00+05:30",
+      "ended_at": "2026-09-09T15:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Supabase documentation",
+      "url": "https://supabase.com/docs",
+      "payload": null
+    },
+    {
+      "id": 207,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T15:21:00+05:30",
+      "ended_at": "2026-09-09T15:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — api/auth.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 208,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T15:46:00+05:30",
+      "ended_at": "2026-09-09T16:03:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 209,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T16:03:00+05:30",
+      "ended_at": "2026-09-09T16:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:3000",
+      "url": "http://localhost:3000/onboarding",
+      "payload": null
+    },
+    {
+      "id": 210,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T16:21:00+05:30",
+      "ended_at": "2026-09-09T16:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 211,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T16:47:00+05:30",
+      "ended_at": "2026-09-09T17:09:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Onboarding Flow",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 212,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T18:06:00+05:30",
+      "ended_at": "2026-09-09T18:27:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 213,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T18:27:00+05:30",
+      "ended_at": "2026-09-09T18:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Docs",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 214,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T19:58:00+05:30",
+      "ended_at": "2026-09-09T20:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 215,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T20:24:00+05:30",
+      "ended_at": "2026-09-09T20:51:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — Next.js authentication patterns",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 216,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T20:51:00+05:30",
+      "ended_at": "2026-09-09T21:13:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "SaaS Roadmap",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 217,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T21:13:00+05:30",
+      "ended_at": "2026-09-09T21:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "saas-app — onboarding.tsx",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-09-01",
+        "started_at": "08:31",
+        "ended_at": "09:05",
+        "title": "Client release check",
+        "summary": "Checked email and the client workspace before verifying the payment fix.",
+        "event_ids": [
+          194,
+          195
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-02",
+        "started_at": "09:05",
+        "ended_at": "10:41",
+        "title": "Client payment fix verification and deployment",
+        "summary": "Ran the final tests, reviewed the change, checked the deployment dashboard, and confirmed the client payment issue was ready to close.",
+        "event_ids": [
+          196,
+          197,
+          198,
+          199,
+          200
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-03",
+        "started_at": "11:18",
+        "ended_at": "12:48",
+        "title": "New freelance client kickoff",
+        "summary": "Read the prospective client's reply, reviewed the project scope, joined a kickoff call, and captured initial project notes.",
+        "event_ids": [
+          201,
+          202,
+          203,
+          204
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-04",
+        "started_at": "14:32",
+        "ended_at": "17:09",
+        "title": "SaaS authentication and onboarding work",
+        "summary": "Returned to the multi-day authentication thread, researched the auth platform, implemented the remaining changes, tested them, checked the local onboarding flow, and refined the onboarding screen.",
+        "event_ids": [
+          205,
+          206,
+          207,
+          208,
+          209,
+          210,
+          211
+        ],
+        "context": "Work",
+        "area": "Own SaaS",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-05",
+        "started_at": "18:06",
+        "ended_at": "18:44",
+        "title": "Freelance follow-up and lead maintenance",
+        "summary": "Reviewed LinkedIn and updated the project document for the new client.",
+        "event_ids": [
+          212,
+          213
+        ],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-06",
+        "started_at": "19:58",
+        "ended_at": "20:24",
+        "title": "Unrelated YouTube break",
+        "summary": "Watched unrelated YouTube content.",
+        "event_ids": [
+          214
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-07",
+        "started_at": "20:24",
+        "ended_at": "21:31",
+        "title": "Authentication learning and SaaS consolidation",
+        "summary": "Watched a technical tutorial on Next.js authentication patterns, updated the SaaS roadmap, and made a final onboarding adjustment.",
+        "event_ids": [
+          215,
+          216,
+          217
+        ],
+        "context": "Work",
+        "area": "Learning",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:41",
+        "ended_at": "11:18",
+        "reason": "Short break / offline"
+      },
+      {
+        "started_at": "12:48",
+        "ended_at": "14:32",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "17:09",
+        "ended_at": "18:06",
+        "reason": "Walk / personal activity"
+      },
+      {
+        "started_at": "18:44",
+        "ended_at": "19:58",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The existing client issue moved to closure, reducing one recurring open loop from the previous days.",
+      "The freelance opportunity progressed materially: the prospect became an active project and a kickoff call established the initial scope.",
+      "The SaaS authentication/onboarding thread received a substantial focused block after several days of fragmented verification and investigation.",
+      "The day balanced immediate freelance revenue work with a return to the longer-term SaaS priority.",
+      "The late evening learning session was directly related to the authentication work rather than being a separate unrelated study topic.",
+      "There was a short entertainment break, but it did not prevent a return to the product work."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the SaaS MVP",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Complete existing client work",
+        "assessment": "strong progress / issue effectively closed"
+      },
+      {
+        "priority": "Generate new freelance leads",
+        "assessment": "strong progress because a lead became an active project"
+      }
+    ],
+    "important_uncertainty": [
+      "The observed deployment and communication suggest the old client issue was ready to close, but the events do not independently prove the client confirmed resolution.",
+      "The kickoff call establishes project initiation but does not reveal final commercial details or the full scope of the engagement.",
+      "The SaaS authentication work appears substantially advanced, but the captured activity does not establish that every downstream onboarding edge case is complete."
+    ],
+    "possible_next_step": "Protect a recurring SaaS block before the new client project expands enough to crowd out the product again."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Protect recurring SaaS focus time",
+      "action_type": "protect_priority",
+      "reason": "The founder successfully returned to the SaaS after closing a client issue and starting a new project, making continuity important before client work expands.",
+      "suggested_focus_minutes": 90,
+      "target": "Own SaaS"
+    },
+    "secondary_action": {
+      "title": "Send the new client kickoff follow-up",
+      "action_type": "complete_open_loop",
+      "reason": "The new client project was kicked off and documented, but a concise written follow-up is the natural next step to keep scope and responsibilities explicit.",
+      "suggested_focus_minutes": 15,
+      "target": "Freelance"
+    },
+    "things_not_to_do": [
+      "Do not treat the new client kickoff as a failure to follow the SaaS priority; it materially advanced the freelance priority.",
+      "Do not assume the old payment issue is permanently closed without client confirmation.",
+      "Do not conclude that the SaaS authentication work is finished solely because testing and the roadmap were updated.",
+      "Do not criticize the short YouTube break as inherently harmful.",
+      "Do not recommend dropping the new client project merely to protect SaaS time; the appropriate tradeoff is protected scheduling."
+    ]
+  }
+}
