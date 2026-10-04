@@ -4,19 +4,21 @@ import { DAY_PX_PER_HOUR, RULER_WIDTH } from './timelineUtils';
 interface RulerProps {
   /** Full 24-hour canvas height. */
   height: number;
+  /** Vertical scale; finer ticks appear as it grows. */
+  pxPerHour?: number;
 }
 
-export const Ruler = memo(function Ruler({ height }: RulerProps) {
-  const hours = 25; // 00:00 .. 24:00
+export const Ruler = memo(function Ruler({ height, pxPerHour = DAY_PX_PER_HOUR }: RulerProps) {
+  // Half-hour ticks at the base scale, quarter-hour ticks once there is room.
+  const stepMin = pxPerHour >= DAY_PX_PER_HOUR * 4 ? 15 : 30;
+  // Between-hour ticks are labelled only when the labels cannot crowd.
+  const labelMinor = pxPerHour >= DAY_PX_PER_HOUR * 2;
   const visible: { top: number; label: string; minor: boolean }[] = [];
 
-  for (let h = 0; h < hours; h++) {
-    const top = h * DAY_PX_PER_HOUR;
-    visible.push({ top, label: `${String(h).padStart(2, '0')}:00`, minor: false });
-    // Half-hour minor tick (only between hours, not after 24:00).
-    if (h < 24) {
-      visible.push({ top: top + DAY_PX_PER_HOUR / 2, label: '', minor: true });
-    }
+  for (let min = 0; min <= 24 * 60; min += stepMin) {
+    const minor = min % 60 !== 0;
+    const label = `${String(Math.floor(min / 60)).padStart(2, '0')}:${String(min % 60).padStart(2, '0')}`;
+    visible.push({ top: (min / 60) * pxPerHour, label: minor && !labelMinor ? '' : label, minor });
   }
 
   return (
@@ -53,19 +55,19 @@ export const Ruler = memo(function Ruler({ height }: RulerProps) {
               height: 1,
               background: t.minor ? 'var(--border-strong)' : 'var(--text)',
               opacity: t.minor ? 0.28 : 0.48,
-              marginRight: 8,
+              marginRight: t.minor ? 14 : 8,
               flexShrink: 0,
             }}
           />
-          {!t.minor && (
+          {t.label && (
             <span
               style={{
-                fontSize: '10.5px',
+                fontSize: t.minor ? '9.5px' : '10.5px',
                 color: 'var(--text)',
                 fontFamily: 'var(--font-sans)',
-                fontWeight: 600,
+                fontWeight: t.minor ? 500 : 600,
                 letterSpacing: '-0.02em',
-                opacity: 0.72,
+                opacity: t.minor ? 0.42 : 0.72,
                 transform: 'translateY(-50%)',
                 lineHeight: 1,
               }}

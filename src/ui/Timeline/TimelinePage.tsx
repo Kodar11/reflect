@@ -44,8 +44,18 @@ import {
   snapTime,
 } from './timelineUtils';
 import { resolveSelection } from './timelineSelection';
+import { parseDensity, pxPerHourFor, type TimelineDensity } from './timelineLayout';
 
 const POLL_MS = 2500;
+const DENSITY_STORAGE_KEY = 'timeline.density';
+
+function loadDensity(): TimelineDensity {
+  try {
+    return parseDensity(window.localStorage.getItem(DENSITY_STORAGE_KEY));
+  } catch {
+    return parseDensity(null);
+  }
+}
 
 export interface TimelinePageProps {
   onNavigateToRule?: (ruleId: string) => void;
@@ -73,6 +83,17 @@ export function TimelinePage({
 }: TimelinePageProps) {
   const [day, setDay] = useState<Date>(() => startOfDay(new Date()));
   const [view, setView] = useState<TimelineView>('day');
+  const [density, setDensity] = useState<TimelineDensity>(loadDensity);
+  const pxPerHour = pxPerHourFor(density);
+
+  const changeDensity = useCallback((next: TimelineDensity) => {
+    setDensity(next);
+    try {
+      window.localStorage.setItem(DENSITY_STORAGE_KEY, next);
+    } catch {
+      // A preference that cannot be saved still applies for this session.
+    }
+  }, []);
 
   const [sessions, setSessions] = useState<VerifiedSessionDto[]>([]);
   const [focusSessions, setFocusSessions] = useState<FocusSessionDto[]>([]);
@@ -659,6 +680,7 @@ export function TimelinePage({
     !isDayEditable
       ? noopCommit
       : onOverrideEnvelope,
+    pxPerHour,
   );
 
   const {
@@ -670,6 +692,7 @@ export function TimelinePage({
     !isDayEditable
       ? noopCommit
       : onOverrideEnvelope,
+    pxPerHour,
   );
 
   const preview = !isDayEditable
@@ -1066,6 +1089,8 @@ export function TimelinePage({
             y: 80,
           })
         }
+        density={density}
+        onDensityChange={changeDensity}
         customStart={customStart}
         customEnd={customEnd}
         onCustomStartChange={
@@ -1100,6 +1125,7 @@ export function TimelinePage({
               focusSessions={
                 focusSessions
               }
+              pxPerHour={pxPerHour}
               selectedId={selectedId}
               isToday={isToday}
               previewSession={preview}

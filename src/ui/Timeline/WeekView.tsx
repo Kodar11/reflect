@@ -10,13 +10,11 @@ import {
   snapTime,
   overlaps,
   fullDayHeight,
-  sortByStart,
-  computeLaneLayout,
-  RULER_WIDTH,
   TIMELINE_SIDE_PADDING,
   startOfDay,
   MIN_BLOCK_HEIGHT,
 } from './timelineUtils';
+import { computeDayLayout, MIN_MARKER_HEIGHT } from './timelineLayout';
 
 interface WeekViewProps {
   baseDay: Date;
@@ -380,8 +378,10 @@ export function WeekView({
               (s) => new Date(s.startedAt).toDateString() === dayOfWeek.toDateString()
             );
 
-            // Compute lanes for overlap display
-            const laneLayout = computeLaneLayout(daySessions);
+            // Collision-free lanes, same engine as the Day View.
+            const layout = computeDayLayout(daySessions, dayOfWeek);
+            // Width of the padded column, which the lanes divide.
+            const colWidth = Math.max(0, (columnsRef.current?.clientWidth ?? 700) / 7 - TIMELINE_SIDE_PADDING * 2);
 
             return (
               <div
@@ -435,23 +435,21 @@ export function WeekView({
                   // Hide or dim during drag/resize previews
                   if (isBeingDragged || isBeingResized) return null;
 
-                  const top = timeToPx(dayOfWeek, new Date(session.startedAt));
-                  const height = timeToPx(dayOfWeek, new Date(session.endedAt)) - top;
-                  const lane = laneLayout.get(session.id) ?? { lane: 0, laneCount: 1 };
+                  const block = layout.byId.get(session.id);
+                  if (!block) return null;
                   
-                  // Compute lanes width relative to the padded column width
-                  const colWidth = (columnsRef.current?.clientWidth ?? 700) / 7 - TIMELINE_SIDE_PADDING * 2;
-                  const laneWidth = Math.max(0, colWidth / lane.laneCount);
-
                   return (
                     <SessionBlock
                       key={session.id}
                       session={session}
-                      top={top}
-                      height={height}
-                      width={laneWidth}
-                      left={lane.lane * laneWidth}
+                      top={block.top + block.inset}
+                      height={block.height}
+                      trueHeight={block.trueHeight - block.inset}
+                      width={block.width * colWidth}
+                      left={block.left * colWidth}
+                      widthPx={block.width * colWidth}
                       isSelected={isSelected}
+                      tabbable={isSelected}
                       renameRequestNonce={renameRequest?.id === session.id ? renameRequest.nonce : undefined}
                       readonly={false}
                       actions={{
@@ -467,13 +465,13 @@ export function WeekView({
 
                 {/* Render active preview block inside this column if it lands here */}
                 {activePreview && activePreview.dayIdx === idx && (() => {
-                  const colWidth = (columnsRef.current?.clientWidth ?? 700) / 7 - TIMELINE_SIDE_PADDING * 2;
                   return (
                     <SessionBlock
                       session={activePreview.session}
                       top={activePreview.top}
-                      height={activePreview.height}
+                      height={Math.max(MIN_MARKER_HEIGHT, activePreview.height)}
                       width={colWidth}
+                      widthPx={colWidth}
                       left={0}
                       isSelected
                       isPreview

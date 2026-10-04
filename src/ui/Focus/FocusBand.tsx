@@ -16,6 +16,10 @@ export function FocusBand({ session, top, height, width, left, isActive, onOpenF
   const displayStart = session.startedAt ? new Date(session.startedAt) : displayEnd;
   const durationMs = displayEnd.getTime() - displayStart.getTime();
   const durationMin = Math.max(1, Math.round(durationMs / 60000));
+  const bandHeight = Math.max(height, 24);
+  // The task sits at the top edge and the summary at the bottom edge; a short
+  // band only has room for the task.
+  const showSummary = bandHeight >= 44;
 
   return (
     <div
@@ -29,7 +33,7 @@ export function FocusBand({ session, top, height, width, left, isActive, onOpenF
         top,
         left,
         width,
-        height: Math.max(height, 24),
+        height: bandHeight,
         background: isActive
           ? 'var(--accent-soft)'
           : 'var(--bg-tertiary)',
@@ -61,18 +65,20 @@ export function FocusBand({ session, top, height, width, left, isActive, onOpenF
         <Target size={11} />
         <span>{session.task}</span>
       </div>
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 6,
-          left: 8,
-          fontSize: '10px',
-          color: 'var(--text-muted)',
-          fontWeight: 600,
-        }}
-      >
-        {durationMin} min · {session.mode === 'countdown' ? 'countdown' : 'stopwatch'}
-      </div>
+      {showSummary && (
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 6,
+            left: 8,
+            fontSize: '10px',
+            color: 'var(--text-muted)',
+            fontWeight: 600,
+          }}
+        >
+          {durationMin} min · {session.mode === 'countdown' ? 'countdown' : 'stopwatch'}
+        </div>
+      )}
     </div>
   );
 }

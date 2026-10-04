@@ -4,9 +4,11 @@
  * virtualization (only renders blocks that intersect the visible area) for
  * smooth scrolling with hundreds of sessions.
  *
- * One column, overlap-reject policy (no lane math). Day View only — no zoom.
+ * Blocks are placed by `computeDayLayout`: exact time on the vertical axis,
+ * collision-free lanes on the horizontal one. `pxPerHour` is the Day View's
+ * density — a uniform scale shared by the ruler, the grid and every block.
  */
-import { useRef, useState, useEffect, useMemo, forwardRef, useImperativeHandle } from 'react';
+import { useRef, useState, useEffect, useLayoutEffect, useMemo, forwardRef, useImperativeHandle } from 'react';
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
 import { Ruler } from './Ruler';
 import { HourGrid } from './HourGrid';
@@ -18,12 +20,15 @@ import type { FocusSessionDto } from '../Focus/useFocus';
 import {
   timeToPx,
   fullDayHeight,
-  sortByStart,
-  computeLaneLayout,
+  DAY_PX_PER_HOUR,
   RULER_WIDTH,
   TIMELINE_SIDE_PADDING,
   pxToTime,
 } from './timelineUtils';
+import { computeDayLayout, MIN_MARKER_HEIGHT } from './timelineLayout';
+
+/** No layout effects during server rendering (static-markup tests). */
+const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 export interface TimelineCanvasHandle {
   scrollToTime: (date: Date) => void;
@@ -34,6 +39,8 @@ export interface TimelineCanvasProps {
   baseDay: Date;
   sessions: VerifiedSessionDto[];
   focusSessions?: FocusSessionDto[];
+  /** Vertical scale. Defaults to the base Day View scale. */
+  pxPerHour?: number;
   selectedId: string | null;
   isToday: boolean;
   previewSession?: { session: VerifiedSessionDto; top: number; height: number; invalid: boolean } | null;
@@ -54,6 +61,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
       baseDay,
       sessions,
       focusSessions = [],
+      pxPerHour = DAY_PX_PER_HOUR,
       selectedId,
       isToday,
       previewSession,
@@ -70,14 +78,14 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
     ref,
   ) {
     const containerRef = useRef<HTMLDivElement>(null);
-    const [viewport, setViewport] = useState({ top: 0, height: 600 });
+    const [viewport, setViewport] = useState({ top: 0, height: 600, width: 600 });
 
     useImperativeHandle(ref, () => ({
       scrollToTime: (date: Date) => {
-        containerRef.current?.scrollTo({ top: timeToPx(baseDay, date), behavior: 'smooth' });
+        containerRef.current?.scrollTo({ top: timeToPx(baseDay, date, pxPerHour), behavior: 'smooth' });
       },
       scrollToNow: () => {
-        containerRef.current?.scrollTo({ top: timeToPx(baseDay, new Date()), behavior: 'smooth' });
+        containerRef.current?.scrollTo({ top: timeToPx(baseDay, new Date(), pxPerHour), behavior: 'smooth' });
       },
     }));
 
@@ -87,45 +95,59 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
       function update() {
         const current = containerRef.current;
         if (!current) return;
-        setViewport({ top: current.scrollTop, height: current.clientHeight });
+        setViewport((prev) =>
+          prev.top === current.scrollTop && prev.height === current.clientHeight && prev.width === current.clientWidth
+            ? prev
+            : { top: current.scrollTop, height: current.clientHeight, width: current.clientWidth },
+        );
       }
       update();
       el.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
+      // The inspector divider resizes the canvas without resizing the window.
+      const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+      observer?.observe(el);
       return () => {
         el.removeEventListener('scroll', update);
         window.removeEventListener('resize', update);
+        observer?.disconnect();
       };
     }, []);
 
-    const totalHeight = fullDayHeight();
-    const contentWidth = Math.max(0, (containerRef.current?.clientWidth ?? 600) - RULER_WIDTH - TIMELINE_SIDE_PADDING * 2);
+    // Changing density rescales the canvas; keep the same moment in the middle
+    // of the viewport instead of jumping to another part of the day.
+    const previousPxPerHour = useRef(pxPerHour);
+    useIsomorphicLayoutEffect(() => {
+      const el = containerRef.current;
+      const previous = previousPxPerHour.current;
+      previousPxPerHour.current = pxPerHour;
+      if (!el || previous === pxPerHour) return;
+      const middle = el.scrollTop + el.clientHeight / 2;
+      el.scrollTop = middle * (pxPerHour / previous) - el.clientHeight / 2;
+    }, [pxPerHour]);
 
-    const laneLayout = useMemo(() => computeLaneLayout(sessions), [sessions]);
+    const totalHeight = fullDayHeight(pxPerHour);
+    const contentWidth = Math.max(0, viewport.width - RULER_WIDTH - TIMELINE_SIDE_PADDING * 2);
+
+    const layout = useMemo(() => computeDayLayout(sessions, baseDay, pxPerHour), [sessions, baseDay, pxPerHour]);
 
     const blocks = useMemo(() => {
-      const sorted = sortByStart(sessions);
-      return sorted.map((s) => {
-        const top = timeToPx(baseDay, new Date(s.startedAt));
-        const rawHeight = timeToPx(baseDay, new Date(s.endedAt)) - top;
-        const lane = laneLayout.get(s.id) ?? { lane: 0, laneCount: 1 };
-        const laneWidth = contentWidth / lane.laneCount;
-        return {
-          session: s,
-          top,
-          height: rawHeight,
-          left: lane.lane * laneWidth,
-          width: laneWidth,
-        };
-      });
-    }, [sessions, baseDay, contentWidth, laneLayout]);
+      const byId = new Map(sessions.map((s) => [s.id, s]));
+      return layout.blocks.map((block) => ({ session: byId.get(block.id)!, block }));
+    }, [sessions, layout]);
 
     const visibleBlocks = useMemo(() => {
       const pad = 120;
       return blocks.filter(
-        (b) => b.top + b.height >= viewport.top - pad && b.top <= viewport.top + viewport.height + pad,
+        ({ block }) =>
+          block.top + block.inset + block.height >= viewport.top - pad && block.top <= viewport.top + viewport.height + pad,
       );
-    }, [blocks, viewport]);
+    }, [blocks, viewport.top, viewport.height]);
+
+    // One tab stop for the timeline: the selected block, else the first one in view.
+    const tabStopId = visibleBlocks.some(({ session }) => session.id === selectedId)
+      ? selectedId
+      : visibleBlocks[0]?.session.id ?? null;
 
     const focusBands = useMemo(() => {
       const dayStart = baseDay.getTime();
@@ -142,8 +164,8 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
           const endTime = fs.endedAt ? new Date(fs.endedAt) : new Date();
           const startMs = Math.max(dayStart, startTime.getTime());
           const endMs = Math.min(dayEnd, endTime.getTime());
-          const top = timeToPx(baseDay, new Date(startMs));
-          const bottom = timeToPx(baseDay, new Date(endMs));
+          const top = timeToPx(baseDay, new Date(startMs), pxPerHour);
+          const bottom = timeToPx(baseDay, new Date(endMs), pxPerHour);
           return {
             session: fs,
             top,
@@ -153,11 +175,11 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
             isActive: fs.state === 'active' || fs.state === 'paused',
           };
         });
-    }, [focusSessions, baseDay, contentWidth]);
+    }, [focusSessions, baseDay, contentWidth, pxPerHour]);
 
     const now = new Date();
     const canvasIsToday = baseDay.toDateString() === now.toDateString();
-    const nowTop = canvasIsToday ? timeToPx(baseDay, now) : null;
+    const nowTop = canvasIsToday ? timeToPx(baseDay, now, pxPerHour) : null;
     const hasSessions = sessions.length > 0;
 
     return (
@@ -189,7 +211,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
           }}
         >
           {/* Left Time Column (fixed width, scrolls vertically naturally with flex row) */}
-          <Ruler height={totalHeight} />
+          <Ruler height={totalHeight} pxPerHour={pxPerHour} />
 
           {/* Right Day Canvas */}
           <div
@@ -202,7 +224,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
               if (e.target === e.currentTarget) {
                 const rect = e.currentTarget.getBoundingClientRect();
                 const clickY = e.clientY - rect.top;
-                const clickTime = pxToTime(baseDay, clickY);
+                const clickTime = pxToTime(baseDay, clickY, pxPerHour);
                 onCreateOfflineAt?.(clickTime, e.clientX, e.clientY);
               }
             }}
@@ -213,7 +235,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
               overflow: 'hidden',
             }}
           >
-            <HourGrid height={totalHeight} />
+            <HourGrid height={totalHeight} pxPerHour={pxPerHour} />
 
             {/* Session Blocks and Current Time Line Container */}
             <div
@@ -226,7 +248,7 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
                 if (e.target === e.currentTarget) {
                   const rect = e.currentTarget.getBoundingClientRect();
                   const clickY = e.clientY - rect.top;
-                  const clickTime = pxToTime(baseDay, clickY);
+                  const clickTime = pxToTime(baseDay, clickY, pxPerHour);
                   onCreateOfflineAt?.(clickTime, e.clientX, e.clientY);
                 }
               }}
@@ -251,19 +273,24 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
                 />
               ))}
 
-              {nowTop !== null && <CurrentTimeIndicator top={nowTop} />}
+              {/* Keyed by scale so a density change repositions the line at once
+                  instead of easing there. */}
+              {nowTop !== null && <CurrentTimeIndicator key={pxPerHour} top={nowTop} />}
 
               {hasSessions ? (
                 <>
-                  {visibleBlocks.map(({ session, top, height, left, width }) => (
+                  {visibleBlocks.map(({ session, block }) => (
                     <SessionBlock
                       key={session.id}
                       session={session}
-                      top={top}
-                      height={height}
-                      width={width}
-                      left={left}
+                      top={block.top + block.inset}
+                      height={block.height}
+                      trueHeight={block.trueHeight - block.inset}
+                      width={`${block.width * 100}%`}
+                      left={`${block.left * 100}%`}
+                      widthPx={block.width * contentWidth}
                       isSelected={selectedId === session.id}
+                      tabbable={tabStopId === session.id}
                       renameRequestNonce={renameRequest?.id === session.id ? renameRequest.nonce : undefined}
                       readonly={readonly}
                       actions={{
@@ -277,15 +304,15 @@ export const TimelineCanvas = forwardRef<TimelineCanvasHandle, TimelineCanvasPro
                   ))}
 
                   {previewSession && (() => {
-                    const lane = laneLayout.get(previewSession.session.id) ?? { lane: 0, laneCount: 1 };
-                    const laneWidth = contentWidth / lane.laneCount;
+                    const lane = layout.byId.get(previewSession.session.id) ?? { left: 0, width: 1 };
                     return (
                       <SessionBlock
                         session={previewSession.session}
                         top={previewSession.top}
-                        height={previewSession.height}
-                        width={laneWidth}
-                        left={lane.lane * laneWidth}
+                        height={Math.max(MIN_MARKER_HEIGHT, previewSession.height)}
+                        width={`${lane.width * 100}%`}
+                        left={`${lane.left * 100}%`}
+                        widthPx={lane.width * contentWidth}
                         isSelected
                         isPreview
                         invalid={previewSession.invalid}

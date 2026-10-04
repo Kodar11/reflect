@@ -315,6 +315,24 @@ input, textarea, select {
   opacity: 0.75 !important;
 }
 
+/* One-line blocks sit edge to edge with their neighbours: no lift on hover. */
+.session-block--slim:hover {
+  transform: none;
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+
+/* Slivers — activities too short for a label. */
+.session-marker:hover {
+  filter: brightness(1.15) saturate(1.2);
+  box-shadow: 0 0 0 1px var(--bg), 0 0 0 2px var(--accent) !important;
+}
+
+.session-block:focus-visible,
+.session-marker:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
 .animate-fadeIn {
   animation: fadeIn 140ms var(--ease-out) forwards;
 }

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{52586276-4762-2744-61F4-D2F3434EF9C9}</ProjectGuid>
+    <ProjectGuid>{9EC05A28-B231-C412-B1AE-8696F1D5B375}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>win_browser_url</RootNamespace>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
@@ -48,7 +48,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\include\node;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\src;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\openssl\config;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\openssl\openssl\include;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\uv\include;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\zlib;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\v8\include;C:\Users\Tanmay Chavan\Documents\Computer Science\Electron_project\reflect\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\include\node;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\src;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\openssl\config;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\openssl\openssl\include;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\uv\include;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\zlib;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\v8\include;E:\Electron_project\reflect\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus -std:c++20 %(AdditionalOptions)</AdditionalOptions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BufferSecurityCheck>true</BufferSecurityCheck>
@@ -72,7 +72,7 @@
       <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;oleaut32.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\Tanmay Chavan\\AppData\\Local\\node-gyp\\Cache\\32.1.2\\x64\\node.lib&quot;;uiautomationcore.lib;ole32.lib;uuid.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;oleaut32.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\Tanmay Chavan\\.electron-gyp\\32.1.2\\x64\\node.lib&quot;;uiautomationcore.lib;ole32.lib;uuid.lib</AdditionalDependencies>
       <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
       <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -84,13 +84,13 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\include\node;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\src;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\openssl\config;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\openssl\openssl\include;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\uv\include;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\zlib;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\v8\include;C:\Users\Tanmay Chavan\Documents\Computer Science\Electron_project\reflect\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\include\node;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\src;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\openssl\config;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\openssl\openssl\include;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\uv\include;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\zlib;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\v8\include;E:\Electron_project\reflect\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=win_browser_url;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_ISOLATE_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;NAPI_DISABLE_CPP_EXCEPTIONS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;DEBUG;_DEBUG;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\include\node;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\src;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\openssl\config;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\openssl\openssl\include;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\uv\include;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\zlib;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\v8\include;C:\Users\Tanmay Chavan\Documents\Computer Science\Electron_project\reflect\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\include\node;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\src;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\openssl\config;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\openssl\openssl\include;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\uv\include;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\zlib;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\v8\include;E:\Electron_project\reflect\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/Zc:__cplusplus -std:c++20 %(AdditionalOptions)</AdditionalOptions>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
@@ -117,7 +117,7 @@
       <AdditionalOptions>/LTCG:INCREMENTAL %(AdditionalOptions)</AdditionalOptions>
     </Lib>
     <Link>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;oleaut32.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\Tanmay Chavan\\AppData\\Local\\node-gyp\\Cache\\32.1.2\\x64\\node.lib&quot;;uiautomationcore.lib;ole32.lib;uuid.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;oleaut32.lib;odbc32.lib;DelayImp.lib;&quot;C:\\Users\\Tanmay Chavan\\.electron-gyp\\32.1.2\\x64\\node.lib&quot;;uiautomationcore.lib;ole32.lib;uuid.lib</AdditionalDependencies>
       <AdditionalOptions>/LTCG:INCREMENTAL /ignore:4199 %(AdditionalOptions)</AdditionalOptions>
       <DelayLoadDLLs>node.exe;%(DelayLoadDLLs)</DelayLoadDLLs>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -129,7 +129,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <ResourceCompile>
-      <AdditionalIncludeDirectories>C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\include\node;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\src;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\openssl\config;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\openssl\openssl\include;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\uv\include;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\zlib;C:\Users\Tanmay Chavan\AppData\Local\node-gyp\Cache\32.1.2\deps\v8\include;C:\Users\Tanmay Chavan\Documents\Computer Science\Electron_project\reflect\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\include\node;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\src;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\openssl\config;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\openssl\openssl\include;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\uv\include;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\zlib;C:\Users\Tanmay Chavan\.electron-gyp\32.1.2\deps\v8\include;E:\Electron_project\reflect\node_modules\node-addon-api;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NODE_GYP_MODULE_NAME=win_browser_url;USING_UV_SHARED=1;USING_V8_SHARED=1;V8_DEPRECATION_WARNINGS=1;_GLIBCXX_USE_CXX11_ABI=1;ELECTRON_ENSURE_CONFIG_GYPI;USING_ELECTRON_CONFIG_GYPI;V8_COMPRESS_POINTERS;V8_COMPRESS_POINTERS_IN_ISOLATE_CAGE;V8_31BIT_SMIS_ON_64BIT_ARCH;V8_ENABLE_SANDBOX;WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_HAS_EXCEPTIONS=0;OPENSSL_NO_PINSHARED;OPENSSL_THREADS;OPENSSL_NO_ASM;NAPI_DISABLE_CPP_EXCEPTIONS;BUILDING_NODE_EXTENSION;HOST_BINARY=&quot;node.exe&quot;;%(PreprocessorDefinitions);%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemDefinitionGroup>
@@ -140,11 +140,11 @@
     <ClCompile Include="..\src\win_browser_url.cc">
       <ObjectFileName>$(IntDir)\src\win_browser_url.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="C:\Users\Tanmay Chavan\Documents\Computer Science\Electron_project\reflect\node_modules\@electron\node-gyp\src\win_delay_load_hook.cc"/>
+    <ClCompile Include="E:\Electron_project\reflect\node_modules\@electron\node-gyp\src\win_delay_load_hook.cc"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\node_modules\node-addon-api\nothing.vcxproj">
-      <Project>{19AD8F72-80FE-BCAB-9E09-C01F03A2A7AC}</Project>
+      <Project>{F0612CA8-13F3-7ADA-60CF-AF8D80EF5EF3}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

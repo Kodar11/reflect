@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
-import { timeToPx, pxToTime, snapTime, overlaps } from './timelineUtils';
+import { timeToPx, pxToTime, snapTime, overlaps, DAY_PX_PER_HOUR } from './timelineUtils';
 
 const DRAG_THRESHOLD_PX = 4;
 
@@ -25,12 +25,13 @@ interface UseBlockDragResult {
  * envelope doesn't overlap another session, the `onCommit` callback receives
  * the new `startedAt`/`endedAt`. Otherwise the drag is rejected (snap-back).
  *
- * Day View only — no zoom parameter. All time math uses DAY_PX_PER_HOUR.
+ * Day View only. `pxPerHour` is the canvas scale the pointer moves over.
  */
 export function useBlockDrag(
   baseDay: Date,
   sessions: VerifiedSessionDto[],
   onCommit: (id: string, newStartedAt: string, newEndedAt: string) => void,
+  pxPerHour: number = DAY_PX_PER_HOUR,
 ): UseBlockDragResult {
   const [drag, setDrag] = useState<DragState | null>(null);
   const containerRef = useRef<HTMLElement | null>(null);
@@ -50,7 +51,7 @@ export function useBlockDrag(
 
     const rect = container?.getBoundingClientRect();
     const offsetY = rect ? e.clientY - rect.top + (container?.scrollTop ?? 0) : 0;
-    const top = timeToPx(baseDay, new Date(session.startedAt));
+    const top = timeToPx(baseDay, new Date(session.startedAt), pxPerHour);
     let didMove = false;
 
     setDrag({
@@ -58,7 +59,7 @@ export function useBlockDrag(
       startY: offsetY,
       originalTop: top,
       currentTop: top,
-      originalHeight: timeToPx(baseDay, new Date(session.endedAt)) - top,
+      originalHeight: timeToPx(baseDay, new Date(session.endedAt), pxPerHour) - top,
       didMove: false,
     });
 
@@ -76,7 +77,7 @@ export function useBlockDrag(
       setDrag((prev) => {
         if (!prev) return prev;
         if (!prev.didMove) return null;
-        const proposedStart = snapTime(pxToTime(baseDay, prev.currentTop));
+        const proposedStart = snapTime(pxToTime(baseDay, prev.currentTop, pxPerHour));
         const duration = new Date(prev.session.endedAt).getTime() - new Date(prev.session.startedAt).getTime();
         const proposedEnd = new Date(proposedStart.getTime() + duration);
         if (
@@ -102,7 +103,7 @@ export function useBlockDrag(
 
     window.addEventListener('mousemove', handleMove);
     window.addEventListener('mouseup', handleUp);
-  }, [baseDay, onCommit]);
+  }, [baseDay, onCommit, pxPerHour]);
 
   const preview = drag?.didMove
     ? {
@@ -110,7 +111,7 @@ export function useBlockDrag(
         top: drag.currentTop,
         height: drag.originalHeight,
         invalid: (() => {
-          const proposedStart = snapTime(pxToTime(baseDay, drag.currentTop));
+          const proposedStart = snapTime(pxToTime(baseDay, drag.currentTop, pxPerHour));
           const duration = new Date(drag.session.endedAt).getTime() - new Date(drag.session.startedAt).getTime();
           const proposedEnd = new Date(proposedStart.getTime() + duration);
           return sessionsRef.current
@@ -145,6 +146,7 @@ export function useBlockResize(
   baseDay: Date,
   sessions: VerifiedSessionDto[],
   onCommit: (id: string, newStartedAt: string, newEndedAt: string) => void,
+  pxPerHour: number = DAY_PX_PER_HOUR,
 ): UseBlockResizeResult {
   const [resize, setResize] = useState<ResizeState | null>(null);
   const containerRef = useRef<HTMLElement | null>(null);
@@ -161,8 +163,8 @@ export function useBlockResize(
 
     const rect = container?.getBoundingClientRect();
     const offsetY = rect ? e.clientY - rect.top + (container?.scrollTop ?? 0) : 0;
-    const top = timeToPx(baseDay, new Date(session.startedAt));
-    const height = timeToPx(baseDay, new Date(session.endedAt)) - top;
+    const top = timeToPx(baseDay, new Date(session.startedAt), pxPerHour);
+    const height = timeToPx(baseDay, new Date(session.endedAt), pxPerHour) - top;
 
     setResize({
       session,
@@ -196,8 +198,8 @@ export function useBlockResize(
     const handleUp = () => {
       setResize((prev) => {
         if (!prev) return prev;
-        const proposedStart = snapTime(pxToTime(baseDay, prev.currentTop));
-        const proposedEnd = snapTime(pxToTime(baseDay, prev.currentTop + prev.currentHeight));
+        const proposedStart = snapTime(pxToTime(baseDay, prev.currentTop, pxPerHour));
+        const proposedEnd = snapTime(pxToTime(baseDay, prev.currentTop + prev.currentHeight, pxPerHour));
         if (proposedEnd <= proposedStart) return null;
 
         const invalid = sessionsRef.current
@@ -219,7 +221,7 @@ export function useBlockResize(
     window.addEventListener('mouseup', handleUp);
     e.preventDefault();
     e.stopPropagation();
-  }, [baseDay, onCommit]);
+  }, [baseDay, onCommit, pxPerHour]);
 
   const preview = resize
     ? {
@@ -227,8 +229,8 @@ export function useBlockResize(
         top: resize.currentTop,
         height: resize.currentHeight,
         invalid: (() => {
-          const proposedStart = snapTime(pxToTime(baseDay, resize.currentTop));
-          const proposedEnd = snapTime(pxToTime(baseDay, resize.currentTop + resize.currentHeight));
+          const proposedStart = snapTime(pxToTime(baseDay, resize.currentTop, pxPerHour));
+          const proposedEnd = snapTime(pxToTime(baseDay, resize.currentTop + resize.currentHeight, pxPerHour));
           if (proposedEnd <= proposedStart) return true;
           return sessionsRef.current
             .filter((s) => s.id !== resize.session.id)

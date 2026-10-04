@@ -3,11 +3,14 @@ import { DAY_PX_PER_HOUR } from './timelineUtils';
 
 interface HourGridProps {
   height: number;
+  /** Vertical scale; must match the ruler beside it. */
+  pxPerHour?: number;
 }
 
-export const HourGrid = memo(function HourGrid({ height }: HourGridProps) {
-  const hourStep = DAY_PX_PER_HOUR;
-  const halfStep = DAY_PX_PER_HOUR / 2;
+export const HourGrid = memo(function HourGrid({ height, pxPerHour = DAY_PX_PER_HOUR }: HourGridProps) {
+  const hourStep = pxPerHour;
+  // Same minor step as the ruler's ticks.
+  const halfStep = pxPerHour >= DAY_PX_PER_HOUR * 4 ? pxPerHour / 4 : pxPerHour / 2;
 
   return (
     <div

@@ -2,42 +2,41 @@
  * Shared time / color / summary helpers for the calendar-style Day View timeline.
  * Pure functions only — no React, no Electron.
  *
- * Stage 3.6 collapses the Stage 3.5 multi-zoom system into a single, polished
- * Day View. One density (px/hour), one snap grid (minutes), one ruler — so the
- * whole timeline reads at a glance with no layout recalculation or virtualization
- * gymnastics. Keeping this file zoom-free removes a prop that threaded through
- * six components for a feature we explicitly deferred (premium zoom).
+ * One snap grid (minutes) and one ruler. The time scale is uniform: the Day
+ * View can pick a density (see `timelineLayout.ts`), which only changes the
+ * px/hour passed to the conversions below — time is never bent. Everything
+ * defaults to DAY_PX_PER_HOUR, which is also the Week View's scale.
  */
 
-/** Pixels per hour for the Day View. ~1728px full-day height. */
+/** Base pixels per hour (the compact density). ~1728px full-day height. */
 export const DAY_PX_PER_HOUR = 72;
 /** Snap grid for drag/resize, in minutes. */
 export const DAY_SNAP_MIN = 15;
 /** Left ruler column width. Wide enough for "12:00" + half-hour "30" ticks. */
 export const RULER_WIDTH = 64;
 export const TIMELINE_SIDE_PADDING = 12;
-/** Minimum rendered block height so very short sessions stay clickable.
- * Rize-style: tiny 2–3 minute sessions still render tall enough to read. */
+/** Smallest height a block can be resized down to by dragging an edge. Not a
+ * drawing minimum — drawn heights come from `computeDayLayout`. */
 export const MIN_BLOCK_HEIGHT = 56;
 
 /** Minutes in a day. */
 export const DAY_MIN = 24 * 60;
 
 /** Full 24-hour canvas height. */
-export function fullDayHeight(): number {
-  return DAY_PX_PER_HOUR * 24;
+export function fullDayHeight(pxPerHour: number = DAY_PX_PER_HOUR): number {
+  return pxPerHour * 24;
 }
 
 /** Convert a wall-clock Date to a Y pixel offset from the start of `baseDay`. */
-export function timeToPx(baseDay: Date, time: Date): number {
+export function timeToPx(baseDay: Date, time: Date, pxPerHour: number = DAY_PX_PER_HOUR): number {
   const base = startOfDay(baseDay).getTime();
-  return ((time.getTime() - base) / 3600_000) * DAY_PX_PER_HOUR;
+  return ((time.getTime() - base) / 3600_000) * pxPerHour;
 }
 
 /** Convert a Y pixel offset back to a wall-clock Date on `baseDay`. */
-export function pxToTime(baseDay: Date, px: number): Date {
+export function pxToTime(baseDay: Date, px: number, pxPerHour: number = DAY_PX_PER_HOUR): Date {
   const base = startOfDay(baseDay).getTime();
-  return new Date(base + (px / DAY_PX_PER_HOUR) * 3600_000);
+  return new Date(base + (px / pxPerHour) * 3600_000);
 }
 
 /** Snap a date to the Day View grid (DAY_SNAP_MIN minutes). */
@@ -137,7 +136,9 @@ export function overlaps(aStart: Date, aEnd: Date, bStart: Date, bEnd: Date): bo
   return aStart < bEnd && aEnd > bStart;
 }
 
-/** Layout assignment for the Day View lane algorithm (Rize / Google Calendar).
+/** Lane assignment over clock-time intervals only. The timeline itself draws
+ * from `computeDayLayout` (timelineLayout.ts), which also accounts for the
+ * height a block is actually drawn at.
  *
  * 1. Sort sessions by start time.
  * 2. Group them into contiguous overlap clusters. A new cluster starts when the

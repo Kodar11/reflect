@@ -1,5 +1,6 @@
-import { ChevronLeft, ChevronRight, Plus, RotateCcw, RotateCw, Calendar } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, RotateCcw, RotateCw, Calendar, Rows2, Rows3, Rows4 } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { TIMELINE_DENSITIES, type TimelineDensity } from './timelineLayout';
 
 export type TimelineView = 'day' | 'week' | 'month' | 'year' | 'custom';
 
@@ -18,6 +19,9 @@ interface TimelineToolbarProps {
   onUndo: () => void;
   onRedo: () => void;
   onInsertOffline: () => void;
+  /** Day View time scale. */
+  density: TimelineDensity;
+  onDensityChange: (density: TimelineDensity) => void;
   // Custom View Range Props
   customStart: string;
   customEnd: string;
@@ -40,6 +44,8 @@ export function TimelineToolbar({
   onUndo,
   onRedo,
   onInsertOffline,
+  density,
+  onDensityChange,
   customStart,
   customEnd,
   onCustomStartChange,
@@ -59,10 +65,14 @@ export function TimelineToolbar({
         borderBottom: '1px solid var(--border)',
         flexShrink: 0,
         gap: 12,
+        // On a narrow window the actions move to a second row instead of
+        // running off the edge.
+        flexWrap: 'wrap',
+        rowGap: 8,
       }}
     >
       {/* Left section: Date Navigation or Custom Pickers */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: '1 0 auto' }}>
         {view === 'custom' ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: '4px 10px' }}>
             <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>Range:</span>
@@ -165,7 +175,38 @@ export function TimelineToolbar({
       </div>
 
       {/* Right section: Undo/Redo & Add Offline (Day & Week views only) */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 200, justifyContent: 'flex-end', flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 200, justifyContent: 'flex-end', flex: '1 0 auto' }}>
+        {view === 'day' && (
+          <div
+            role="group"
+            aria-label="Timeline density"
+            style={{ display: 'flex', background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: 2 }}
+          >
+            {TIMELINE_DENSITIES.map((d) => {
+              const isActive = density === d;
+              const Icon = DENSITY_ICON[d];
+              return (
+                <TBtn
+                  key={d}
+                  onClick={() => onDensityChange(d)}
+                  title={DENSITY_HINT[d]}
+                  label={DENSITY_HINT[d]}
+                  pressed={isActive}
+                  icon
+                  style={{
+                    background: isActive ? 'var(--bg)' : 'transparent',
+                    color: isActive ? 'var(--text)' : 'var(--text-muted)',
+                    borderRadius: 'var(--radius-sm)',
+                    boxShadow: isActive ? 'var(--shadow-sm)' : 'none',
+                  }}
+                >
+                  <Icon size={14} />
+                </TBtn>
+              );
+            })}
+          </div>
+        )}
+
         {(view === 'day' || view === 'week') ? (
           <>
             <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderRadius: 'var(--radius-md)', padding: 2 }}>
@@ -198,12 +239,27 @@ export function TimelineToolbar({
   );
 }
 
+const DENSITY_HINT: Record<TimelineDensity, string> = {
+  compact: 'Compact — the whole day at a glance',
+  normal: 'Normal density',
+  detailed: 'Detailed — room to read short activities',
+};
+
+/** More rows = more of the day on screen. */
+const DENSITY_ICON: Record<TimelineDensity, typeof Rows3> = {
+  compact: Rows4,
+  normal: Rows3,
+  detailed: Rows2,
+};
+
 function TBtn({
   children,
   onClick,
   disabled,
   title,
   icon,
+  pressed,
+  label,
   style,
 }: {
   children: React.ReactNode;
@@ -211,6 +267,10 @@ function TBtn({
   disabled?: boolean;
   title?: string;
   icon?: boolean;
+  /** Set on toggle buttons so their state is announced. */
+  pressed?: boolean;
+  /** Accessible name for icon-only buttons. */
+  label?: string;
   style?: React.CSSProperties;
 }) {
   return (
@@ -218,6 +278,8 @@ function TBtn({
       onClick={onClick}
       disabled={disabled}
       title={title}
+      aria-pressed={pressed}
+      aria-label={label}
       style={{
         display: 'inline-flex',
         alignItems: 'center',
