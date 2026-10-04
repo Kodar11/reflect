@@ -15,6 +15,7 @@ import { OnboardingFlow } from './Onboarding/OnboardingFlow';
 import { PersonalContextCard } from './Onboarding/PersonalContextCard';
 import { LearnedPatternToast } from './components/LearnedPatternToast';
 import { ReflectionPage } from './Reflection/ReflectionPage';
+import { BackgroundControls } from './Settings/BackgroundControls';
 import type { TimelineTarget } from './Reflection/reflectionView';
 import type { FocusPrefill } from './Focus/FocusStart';
 import { shouldShowOnboarding, type UserProfile } from '../profile/UserProfile';
@@ -41,6 +42,8 @@ function App() {
   const [timelineTarget, setTimelineTarget] = useState<(TimelineTarget & { nonce: number }) | null>(null);
   // Set when a coach recommendation is started as a Focus session.
   const [focusPrefill, setFocusPrefill] = useState<FocusPrefill | null>(null);
+  // Set when the window was opened on a specific reflection (its notification).
+  const [reflectionTarget, setReflectionTarget] = useState<{ anchor: string | null; nonce: number } | null>(null);
 
   // First-run onboarding: shown only while it hasn't been finished or skipped.
   // Any failure falls through to the normal app — onboarding never blocks it.
@@ -91,6 +94,39 @@ function App() {
     return () => window.reflection.offOpenRequested(open);
   }, []);
 
+  // The tray, the widget and notifications open this window at a specific
+  // place. The request waits in the main process — this window may only just
+  // have been created — and is collected on mount and whenever one arrives.
+  const requestFocusIntent = focus.requestIntent;
+  useEffect(() => {
+    let cancelled = false;
+    const collect = () => {
+      // A request is handed out once: a listener that is no longer current must not take it.
+      if (cancelled) return;
+      window.background
+        .takeNavigation()
+        .then((target) => {
+          // Once taken, a request is always applied — also if this effect was
+          // re-run meanwhile (React's development double-mount). The request
+          // exists only here now; dropping it would lose the navigation.
+          if (!target) return;
+          if (target.route === 'settings') setRoute('settings');
+          else if (target.route === 'focus') requestFocusIntent(target.intent);
+          else {
+            setReflectionTarget({ anchor: target.anchor, nonce: Date.now() });
+            setRoute('reflection');
+          }
+        })
+        .catch((e) => console.error('[App] failed to read the navigation request', e));
+    };
+    collect();
+    const subscription = window.background.onNavigationRequested(collect);
+    return () => {
+      cancelled = true;
+      window.background.offNavigationRequested(subscription);
+    };
+  }, [requestFocusIntent]);
+
   // The tray's Focus entries bring the Focus page forward; the page then
   // opens the requested flow.
   useEffect(() => {
@@ -108,6 +144,7 @@ function App() {
     setRoute(r);
     setTimelineTarget(null);
     setFocusPrefill(null);
+    setReflectionTarget(null);
   };
 
   return (
@@ -170,6 +207,7 @@ function App() {
               <FocusPage focus={focus} prefill={focusPrefill} onPrefillConsumed={() => setFocusPrefill(null)} />
             ) : route === 'reflection' ? (
               <ReflectionPage
+                target={reflectionTarget}
                 onViewTimeline={(target) => {
                   setTimelineTarget({ ...target, nonce: Date.now() });
                   setRoute('timeline');
@@ -255,8 +293,19 @@ function SettingsPage(props: { theme: string; setTheme: (theme: any) => void }) 
     <div className="space-y-8" style={{ animation: 'fadeIn 180ms var(--ease-out)' }}>
       <div>
         <h1 className="text-[28px] font-extrabold tracking-tight">Settings</h1>
-        <p className="text-[14px] text-muted mt-1">Configure appearance preferences and export your tracking databases.</p>
+        <p className="text-[14px] text-muted mt-1">Configure how Reflect runs, appearance preferences and export your tracking databases.</p>
       </div>
+
+      {/* Background & Tracking Section */}
+      <section className="space-y-4">
+        <div className="border-b border-default pb-2">
+          <h2 className="text-[18px] font-bold">Background &amp; Tracking</h2>
+          <p className="text-[13px] text-muted mt-1">
+            Reflect works in the background. You do not need to keep this window open — closing it leaves Reflect running in the system tray.
+          </p>
+        </div>
+        <BackgroundControls variant="settings" />
+      </section>
 
       {/* Appearance Section */}
       <section className="space-y-4">

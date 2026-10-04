@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reflect</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';"
+    />
+  </head>
+  <body>
+    <!-- The floating widget: a pill that opens into a small card on hover.
+         Plain DOM, no framework — it has to be nearly free to keep running. -->
+    <div id="widget" class="widget" data-view="pill" data-state="running">
+      <div class="pill">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="pill-label" id="pill-label">Reflect</span>
+        <span class="pill-value" id="pill-value"></span>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="card-title" id="card-title"></span>
+          <span class="card-clock" id="card-clock"></span>
+        </div>
+        <div class="card-body" id="card-body"></div>
+        <div class="card-actions" id="card-actions"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/ui/widget/widget.ts"></script>
+  </body>
+</html>

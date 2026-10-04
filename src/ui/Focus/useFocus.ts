@@ -77,6 +77,8 @@ export interface UseFocusResult {
   /** A request from the tray to open a specific flow; `nonce` makes repeats distinct. */
   intent: { kind: IntentDto; nonce: number } | null;
   consumeIntent: () => void;
+  /** The same request, arriving through the main window's navigation (tray, widget). */
+  requestIntent: (kind: IntentDto) => void;
   refresh: () => Promise<void>;
   start: (request: StartFocusRequest) => Promise<boolean>;
   pause: (reason?: string | null) => Promise<boolean>;
@@ -320,6 +322,7 @@ export function useFocus(): UseFocusResult {
   const dismissSummary = useCallback(() => setSummary(null), []);
   const clearError = useCallback(() => setError(null), []);
   const consumeIntent = useCallback(() => setIntent(null), []);
+  const requestIntent = useCallback((kind: IntentDto) => setIntent({ kind, nonce: Date.now() }), []);
 
   return useMemo(
     () => ({
@@ -338,6 +341,7 @@ export function useFocus(): UseFocusResult {
       clearBlockingResidue,
       intent,
       consumeIntent,
+      requestIntent,
       refresh,
       start,
       pause,
@@ -361,7 +365,7 @@ export function useFocus(): UseFocusResult {
     }),
     [
       ready, profiles, rules, preferences, activeSession, summary, dismissSummary, showSummaryFor, busy, error,
-      clearError, blockingResidue, clearBlockingResidue, intent, consumeIntent, refresh, start, pause, resume,
+      clearError, blockingResidue, clearBlockingResidue, intent, consumeIntent, requestIntent, refresh, start, pause, resume,
       requestEnd, confirmEnd, restoreBlocking, savePreferences, blockingOptions, loadBlockingOptions, addBlock, setProfileBlock, saveProfile, deleteProfile, saveRule, deleteRule,
       getSessionsByRange, getSessionsForDay, getHistory, getSessionSummary,
     ],

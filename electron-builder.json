@@ -4,7 +4,7 @@
   "files": ["dist-electron", "dist-react"],
   "asar": true,
   "asarUnpack": ["**/*.node"],
-  "extraResources": ["dist-electron/electron/preload.cjs"],
+  "extraResources": ["dist-electron/electron/preload.cjs", "dist-electron/electron/widgetPreload.cjs"],
   "icon": "./desktopIcon.png",
   "win": {
     "target": ["nsis"]

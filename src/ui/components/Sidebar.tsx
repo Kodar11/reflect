@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Settings as SettingsIcon, Sparkles, Activity, Layers, Clock, Target, Lightbulb, type LucideIcon } from 'lucide-react';
 import { APP_VERSION } from '../lib/version';
+import { useBackgroundStatus } from '../hooks/useBackground';
+import { trackingLabel } from '../../background/statusFormat';
 
 export type Route = 'timeline' | 'activity' | 'focus' | 'reflection' | 'settings' | 'sessions';
 
@@ -21,34 +23,18 @@ const ITEMS: { id: Route; label: string; Icon: LucideIcon }[] = [
 
 export function Sidebar({ route, onNavigate, open }: SidebarProps) {
   const [hovered, setHovered] = useState(false);
-  const [currentEvent, setCurrentEvent] = useState<any>(null);
   const [timeString, setTimeString] = useState('');
+  // Tracking state comes from the background runtime — the same status the
+  // tray and the widget show. Nothing here polls, and nothing here tracks.
+  const status = useBackgroundStatus();
+  const trackingPaused = status?.tracking === 'paused';
+  const currentLabel = trackingPaused ? 'Nothing is being recorded' : status?.currentActivity?.label ?? 'Idle';
 
   const isExpanded = open || hovered;
 
-  // Poll current active tracking details
-  const fetchCurrent = async () => {
-    try {
-      const events = await window.tracker.getToday();
-      const active = events.find((e: any) => e.watcher === 'window-watcher');
-      if (active) {
-        setCurrentEvent(active);
-      } else {
-        setCurrentEvent(null);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
+  // Update real-time clock — only while it is actually on screen.
   useEffect(() => {
-    fetchCurrent();
-    const pollInterval = setInterval(fetchCurrent, 3000);
-    return () => clearInterval(pollInterval);
-  }, []);
-
-  // Update real-time clock
-  useEffect(() => {
+    if (!isExpanded) return;
     const updateTime = () => {
       const now = new Date();
       let hrs = now.getHours();
@@ -63,7 +49,7 @@ export function Sidebar({ route, onNavigate, open }: SidebarProps) {
     updateTime();
     const clockInterval = setInterval(updateTime, 1000);
     return () => clearInterval(clockInterval);
-  }, []);
+  }, [isExpanded]);
 
   return (
     <aside
@@ -141,14 +127,17 @@ export function Sidebar({ route, onNavigate, open }: SidebarProps) {
           <div className="mt-auto px-4 pb-4 animate-fadeIn">
             <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: 8, padding: '10px 12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '10px', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-                <span>Currently Tracking</span>
+                <span
+                  className={`h-2 w-2 rounded-full shrink-0 ${trackingPaused ? '' : 'bg-emerald-500 animate-pulse'}`}
+                  style={trackingPaused ? { boxShadow: 'inset 0 0 0 2px var(--warning)' } : undefined}
+                />
+                <span>{status ? (trackingPaused ? trackingLabel(status) : 'Currently Tracking') : 'Currently Tracking'}</span>
               </div>
               <div style={{ fontSize: '18px', fontWeight: 800, color: 'var(--text)', margin: '4px 0', fontFamily: 'monospace, var(--font-mono)' }}>
                 {timeString}
               </div>
-              <div style={{ fontSize: '11.5px', color: 'var(--text-muted)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', fontWeight: 550 }} title={currentEvent?.app ?? 'Idle'}>
-                {currentEvent?.app ?? 'Idle'}
+              <div style={{ fontSize: '11.5px', color: 'var(--text-muted)', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', fontWeight: 550 }} title={currentLabel}>
+                {currentLabel}
               </div>
             </div>
           </div>

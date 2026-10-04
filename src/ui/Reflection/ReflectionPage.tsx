@@ -20,6 +20,8 @@ export interface ReflectionPageProps {
   onViewTimeline: (target: TimelineTarget) => void;
   /** Run a coach recommendation as a Focus session. */
   onStartFocus: (action: CoachActionDto) => void;
+  /** Open on this day's report (an instant inside it); `nonce` makes repeats distinct. */
+  target?: { anchor: string | null; nonce: number } | null;
 }
 
 /**
@@ -33,7 +35,7 @@ export interface ReflectionPageProps {
  * is the only place Gemini is ever called. Opening the tab never triggers a
  * generation.
  */
-export function ReflectionPage({ onViewTimeline, onStartFocus }: ReflectionPageProps) {
+export function ReflectionPage({ onViewTimeline, onStartFocus, target }: ReflectionPageProps) {
   const [type, setType] = useState<ReflectionPeriodTypeDto>('day');
   /** `null` = the current period; otherwise an instant inside the period being browsed. */
   const [anchor, setAnchor] = useState<string | null>(null);
@@ -46,6 +48,8 @@ export function ReflectionPage({ onViewTimeline, onStartFocus }: ReflectionPageP
   const [notice, setNotice] = useState<string | null>(null);
   /** Guards against a slow response for a period the user already left. */
   const requestRef = useRef(0);
+  /** A specific day was asked for from outside; the default landing must not override it. */
+  const targetedRef = useRef(false);
 
   const [coachState, setCoachState] = useState<CoachStateDto | null>(null);
   const [busyActionId, setBusyActionId] = useState<string | null>(null);
@@ -63,7 +67,8 @@ export function ReflectionPage({ onViewTimeline, onStartFocus }: ReflectionPageP
       .then((result) => {
         if (cancelled) return;
         setLanding({ resolved: true, anchor: result.anchor });
-        if (result.anchor) setAnchor(result.anchor);
+        // A notification that asked for a specific day wins over the default landing.
+        if (result.anchor && !targetedRef.current) setAnchor(result.anchor);
       })
       .catch(() => {
         if (!cancelled) setLanding({ resolved: true, anchor: null });
@@ -72,6 +77,15 @@ export function ReflectionPage({ onViewTimeline, onStartFocus }: ReflectionPageP
       cancelled = true;
     };
   }, []);
+
+  // Opened from the "reflection is ready" notification (or the tray / widget):
+  // show that day's report.
+  useEffect(() => {
+    if (!target?.anchor) return;
+    targetedRef.current = true;
+    setType('day');
+    setAnchor(target.anchor);
+  }, [target?.anchor, target?.nonce]);
 
   const load = useCallback(
     async (showLoading: boolean) => {

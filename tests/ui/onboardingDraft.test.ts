@@ -89,19 +89,22 @@ describe('onboarding draft — tags', () => {
 });
 
 describe('onboarding draft — navigation', () => {
-  it('walks welcome → tour → one question per screen → done', () => {
+  it('walks welcome → tour → background → one question per screen → done', () => {
     const seen: OnboardingStep[] = [];
     let s: OnboardingStep = 'welcome';
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 9; i++) {
       seen.push(s);
       s = nextStep(s);
     }
-    expect(seen).toEqual(['welcome', 'tour', 'about', 'work', 'priorities', 'interests', 'context', 'done']);
+    expect(seen).toEqual(['welcome', 'tour', 'background', 'about', 'work', 'priorities', 'interests', 'context', 'done']);
     expect(QUESTION_STEPS.map((x) => stepNumber(x))).toEqual([1, 2, 3, 4, 5]);
     expect(stepNumber('welcome')).toBeNull();
     expect(stepNumber('tour')).toBeNull();
     expect(isQuestionStep('work')).toBe(true);
     expect(isQuestionStep('tour')).toBe(false);
+    // The background screen is an introduction, not a numbered question.
+    expect(stepNumber('background')).toBeNull();
+    expect(isQuestionStep('background')).toBe(false);
   });
 
   it('stops at both ends', () => {
@@ -113,7 +116,7 @@ describe('onboarding draft — navigation', () => {
   it('navigating backward keeps the draft (state is independent of step)', () => {
     let d = toggleRole(emptyDraft(), 'Student');
     d = { ...d, currentWork: addTag(d.currentWork, 'Reflect', 6).tags };
-    let step: OnboardingStep = nextStep(nextStep('tour')); // work
+    let step: OnboardingStep = nextStep(nextStep('background')); // work
     step = previousStep(step);
     expect(step).toBe('about');
     expect(d.roles).toEqual(['Student']);

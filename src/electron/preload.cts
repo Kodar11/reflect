@@ -6,6 +6,56 @@ electron.contextBridge.exposeInMainWorld('app', {
   },
 } satisfies Window['app']);
 
+// Background runtime IPC surface. The main process owns tracking, the widget,
+// the startup setting and notifications; the renderer shows their state and
+// asks for changes. Nothing here keeps anything running.
+//
+// Subscriptions are identified by a number, not by the callback: a function
+// that crosses the context bridge arrives as a new proxy each time, so the
+// callback handed to "off" would never match the one handed to "on".
+let nextSubscription = 1;
+const backgroundStatusListeners = new Map<number, (status: BackgroundStatusDto) => void>();
+let backgroundStatusSubscribed = false;
+const navigationListeners = new Map<number, () => void>();
+let navigationSubscribed = false;
+
+electron.contextBridge.exposeInMainWorld('background', {
+  getStatus: (): Promise<BackgroundStatusDto> => electron.ipcRenderer.invoke('background:getStatus'),
+  getSettings: (): Promise<BackgroundSettingsDto> => electron.ipcRenderer.invoke('background:getSettings'),
+  updateSettings: (patch: BackgroundSettingsPatchDto): Promise<BackgroundSettingsDto> =>
+    electron.ipcRenderer.invoke('background:updateSettings', patch),
+  pauseTracking: (duration: PauseDurationDto): Promise<BackgroundStatusDto> =>
+    electron.ipcRenderer.invoke('background:pauseTracking', { duration }),
+  resumeTracking: (): Promise<BackgroundStatusDto> => electron.ipcRenderer.invoke('background:resumeTracking'),
+  takeNavigation: (): Promise<UiNavigationDto | null> => electron.ipcRenderer.invoke('background:takeNavigation'),
+  onStatus: (callback: (status: BackgroundStatusDto) => void) => {
+    if (!backgroundStatusSubscribed) {
+      backgroundStatusSubscribed = true;
+      electron.ipcRenderer.on('background:status', (_event: unknown, status: BackgroundStatusDto) =>
+        backgroundStatusListeners.forEach((cb) => cb(status)),
+      );
+    }
+    const subscription = nextSubscription++;
+    backgroundStatusListeners.set(subscription, callback);
+    return subscription;
+  },
+  offStatus: (subscription: number) => {
+    backgroundStatusListeners.delete(subscription);
+  },
+  onNavigationRequested: (callback: () => void) => {
+    if (!navigationSubscribed) {
+      navigationSubscribed = true;
+      electron.ipcRenderer.on('background:navigate', () => navigationListeners.forEach((cb) => cb()));
+    }
+    const subscription = nextSubscription++;
+    navigationListeners.set(subscription, callback);
+    return subscription;
+  },
+  offNavigationRequested: (subscription: number) => {
+    navigationListeners.delete(subscription);
+  },
+} satisfies Window['background']);
+
 // Tracker IPC surface (read-only queries for the raw event viewer).
 electron.contextBridge.exposeInMainWorld('tracker', {
   getToday: (): Promise<TrackerEventDto[]> => electron.ipcRenderer.invoke('tracker:getToday'),

@@ -8,11 +8,22 @@ if (process.argv.includes('--dev') && process.env.NODE_ENV !== 'development') {
   process.env.NODE_ENV = 'development';
 }
 
-import { app, BrowserWindow, Tray, Menu, Notification, nativeImage, powerMonitor } from 'electron';
+import {
+  app,
+  BrowserWindow,
+  Tray,
+  Menu,
+  Notification,
+  nativeImage,
+  powerMonitor,
+  screen,
+  type MenuItemConstructorOptions,
+  type WebContents,
+} from 'electron';
 import path from 'node:path';
 import activeWin from 'active-win';
-import { isDev, ipcMainHandle, ipcMainOn } from './util.js';
-import { getPreloadPath, getUIPath } from './pathResolver.js';
+import { isDev, ipcMainHandle, ipcMainOn, widgetIpcHandle, widgetIpcOn } from './util.js';
+import { getPreloadPath, getUIPath, getWidgetPreloadPath, getWidgetUIPath } from './pathResolver.js';
 import { Logger } from '../service/logger.js';
 import { Database } from '../database/Database.js';
 import { EventRepository } from '../database/EventRepository.js';
@@ -36,7 +47,6 @@ import { createElevatedLauncher } from '../focus/blocker/elevatedLauncher.js';
 import { isBlockerHelperInvocation, runBlockerHelperProcess } from '../focus/blocker/blockerHelper.js';
 import { FocusNotifier } from '../focus/FocusNotifier.js';
 import { registerFocusIpc, type FocusIntent } from '../focus/focusIpc.js';
-import type { ActiveFocusSessionDto } from '../focus/FocusModels.js';
 import { CategorizationRepository } from '../database/CategorizationRepository.js';
 import { CategorizationService } from '../categorization/CategorizationService.js';
 import { registerCategorizationIpc } from '../categorization/categorizationIpc.js';
@@ -63,10 +73,34 @@ import { DEFAULT_REFLECTION_CONFIG, type TaxonomyNames } from '../reflection/Ref
 import { ReflectionScheduler } from '../reflection/ReflectionScheduler.js';
 import { ReflectionService } from '../reflection/ReflectionService.js';
 import { registerReflectionIpc } from '../reflection/reflectionIpc.js';
-import { setDayStartMinutes } from '../reflection/ReflectionPeriods.js';
+import { periodContaining, setDayStartMinutes } from '../reflection/ReflectionPeriods.js';
 import { CoachRepository } from '../database/CoachRepository.js';
 import { CoachService } from '../coach/CoachService.js';
 import { registerCoachIpc } from '../coach/coachIpc.js';
+import { BackgroundRepository } from '../database/BackgroundRepository.js';
+import { AppSettingsStore } from '../background/AppSettings.js';
+import { BackgroundStatusService, type BackgroundStatus } from '../background/BackgroundStatus.js';
+import { Notifier } from '../background/Notifier.js';
+import { ReflectionNotifier } from '../background/ReflectionNotifier.js';
+import {
+  ShutdownSequence,
+  acquireSingleInstance,
+  isBackgroundLaunch,
+  syncLoginItem,
+  type LoginItemResult,
+} from '../background/Startup.js';
+import { TrackingController } from '../background/TrackingController.js';
+import { buildTrayModel, createTrayDispatcher, type TrayAction, type TrayItem } from '../background/TrayMenu.js';
+import { MainWindowController, type MainWindowLike } from '../background/MainWindowController.js';
+import { TRAY_ICON_SIZE, renderTrayIcon } from '../background/trayIcon.js';
+import { WidgetController, widgetWindowOptions, type WidgetWindowLike } from '../background/WidgetController.js';
+import type { Rect } from '../background/widgetGeometry.js';
+import {
+  PendingNavigation,
+  registerBackgroundIpc,
+  type BackgroundSettingsView,
+  type UiNavigation,
+} from '../background/backgroundIpc.js';
 import type { RuleCondition } from '../categorization/Classification.js';
 import type { ActivitySample } from '../models/Event.js';
 import {
@@ -83,11 +117,43 @@ let trackingService: TrackingService | null = null;
 let focusService: FocusService | null = null;
 let intelligenceScheduler: IntelligenceScheduler | null = null;
 let reflectionScheduler: ReflectionScheduler | null = null;
+/** True once the background runtime has been shut down: windows may now really close. */
 let quitting = false;
-let quitStarted = false;
 let appLogger: Logger | null = null;
-/** Set once the Focus IPC is registered; routes tray actions to the renderer. */
-let sendFocusIntent: ((intent: FocusIntent) => void) | null = null;
+/** The ordered shutdown of the background runtime; set once the runtime is up. */
+let shutdown: ShutdownSequence | null = null;
+/** Navigation requests for the main window, which may not exist yet. */
+const navigation = new PendingNavigation();
+/** Runs whenever the main window comes on screen. */
+let onMainWindowShown: (() => void) | null = null;
+/** The runtime is up: services exist and IPC is registered, so a window may be opened. */
+let runtimeReady = false;
+/** The user launched Reflect again while it was still starting. */
+let openWhenReady = false;
+
+/**
+ * LIFECYCLE OWNERSHIP
+ *
+ * The Electron main process IS the background runtime: the database,
+ * tracking, Focus, the intelligence + reflection schedulers, notifications,
+ * the tray and the floating widget are all created and owned here, and none
+ * of them needs a window.
+ *
+ * The main BrowserWindow is a client of that runtime. It is created only when
+ * somebody asks for it, closing it hides it, a hidden window is eventually
+ * released, and a crashed renderer is simply dropped — in every case the
+ * runtime keeps going. Only the tray's Quit (or the OS ending the session)
+ * stops it, through `quitApp`.
+ */
+
+/** Windows identifies the app by this id: notifications and the login item are filed under it. */
+const APP_USER_MODEL_ID = 'com.tanmaychavan.productivitycoach';
+/** A hidden main window is released after this long; reopening builds a new one. */
+const RELEASE_HIDDEN_WINDOW_AFTER_MS = 10 * 60 * 1000;
+/** Silence longer than this (sleep, a frozen process) is not tracked time. */
+const TRACKING_MAX_GAP_MS = 30_000;
+/** After wake-up, give the network a moment before catching up on missed work. */
+const WAKE_CATCH_UP_DELAY_MS = 30_000;
 
 /**
  * This executable doubles as the elevated Focus blocker helper. When started
@@ -102,6 +168,21 @@ if (blockerHelperMode) {
   runBlockerHelperProcess(process.argv, (code) => app.exit(code));
 }
 
+/**
+ * One Reflect per user. A second launch must never build a second tracker,
+ * tray or widget (duplicate events, duplicate model calls): it hands over to
+ * the running instance — which shows its window — and exits before anything
+ * is created. The elevated blocker helper is a different role of the same
+ * executable and is not part of this.
+ */
+const primaryInstance =
+  !blockerHelperMode &&
+  acquireSingleInstance(app, () => {
+    if (runtimeReady) openMain();
+    else openWhenReady = true;
+  });
+if (primaryInstance && app.isPackaged) app.setAppUserModelId(APP_USER_MODEL_ID);
+
 // Prototype secret loading: in development, read GEMINI_API_KEY (and friends)
 // from a git-ignored `.env` in the project root. The key stays in the main
 // process — it is never sent over IPC or exposed through preload.
@@ -113,8 +194,12 @@ if (isDev() && !blockerHelperMode) {
   }
 }
 
-function createMainWindow(logger: Logger): BrowserWindow {
-  mainWindow = new BrowserWindow({
+/**
+ * Builds the main BrowserWindow. Only the Electron specifics are here; what a
+ * close, a hide or a renderer crash MEANS is decided by MainWindowController.
+ */
+function createMainWindow(): MainWindowLike {
+  const win = new BrowserWindow({
     width: 1200,
     height: 800,
     minWidth: 960,
@@ -129,49 +214,122 @@ function createMainWindow(logger: Logger): BrowserWindow {
     backgroundColor: '#f7f7f5',
     title: 'Productivity Coach',
   });
+  mainWindow = win;
 
   if (isDev()) {
-    mainWindow.loadURL('http://localhost:5123');
+    win.loadURL('http://localhost:5123');
   } else {
-    mainWindow.loadFile(getUIPath());
+    win.loadFile(getUIPath());
   }
 
-  // Closing the window never ends tracking or Focus: it hides to the tray.
-  // Only a real quit (tray menu, OS shutdown) lets the window go.
-  const win = mainWindow;
-  win.on('close', (e) => {
-    if (quitting) return;
-    e.preventDefault();
-    win.hide();
-  });
   win.on('closed', () => {
     if (mainWindow === win) mainWindow = null;
   });
   // Windows is shutting down or the user is signing out: there may be no
   // `before-quit`, so flush tracking and release blocking right now.
   win.on('session-end', () => {
-    void quitApp(logger);
+    void quitApp();
   });
 
-  logger.info('[APP] Window ready.');
-  return mainWindow;
+  return {
+    isDestroyed: () => win.isDestroyed(),
+    destroy: () => win.destroy(),
+    show: () => win.show(),
+    hide: () => win.hide(),
+    focus: () => win.focus(),
+    restore: () => win.restore(),
+    isVisible: () => win.isVisible(),
+    isMinimized: () => win.isMinimized(),
+    isFocused: () => win.isFocused(),
+    send: (channel, payload) => {
+      if (!win.webContents.isDestroyed()) win.webContents.send(channel, payload);
+    },
+    onClose: (listener) => win.on('close', listener),
+    onClosed: (listener) => win.on('closed', listener),
+    onHide: (listener) => win.on('hide', listener),
+    onShow: (listener) => win.on('show', listener),
+    onRendererGone: (listener) => win.webContents.on('render-process-gone', (_event, details) => listener(details.reason)),
+  };
 }
 
-function showMainWindow(): void {
-  if (!mainWindow || mainWindow.isDestroyed()) {
-    if (!appLogger) return;
-    createMainWindow(appLogger);
-    return;
-  }
-  if (mainWindow.isMinimized()) mainWindow.restore();
-  mainWindow.show();
-  mainWindow.focus();
+/** Owns when the main window exists. Closing it hides it; it never ends the runtime. */
+const mainWindowController = new MainWindowController({
+  create: createMainWindow,
+  navigation,
+  isQuitting: () => quitting,
+  releaseAfterHiddenMs: RELEASE_HIDDEN_WINDOW_AFTER_MS,
+  onShown: () => onMainWindowShown?.(),
+  logger: {
+    info: (m) => appLogger?.info(m),
+    error: (m) => appLogger?.error(m),
+  },
+});
+
+/** Show the main window, optionally at a specific place (see MainWindowController.open). */
+function openMain(target?: UiNavigation): void {
+  mainWindowController.open(target);
 }
 
 /** Bring the Focus page forward, optionally opening its pause or end flow. */
 function openFocus(intent: FocusIntent): void {
-  showMainWindow();
-  sendFocusIntent?.(intent);
+  openMain({ route: 'focus', intent });
+}
+
+/** The main window's renderer, when there is one to push to. */
+function mainRendererContents(): WebContents[] {
+  if (!mainWindow || mainWindow.isDestroyed() || mainWindow.webContents.isDestroyed()) return [];
+  return [mainWindow.webContents];
+}
+
+/**
+ * The floating widget's window. Built from `widgetWindowOptions` (frameless,
+ * always on top, out of the taskbar, never focusable) with its own minimal
+ * preload; it may not navigate anywhere or open anything.
+ */
+function createWidgetWindow(bounds: Rect): WidgetWindowLike {
+  const win = new BrowserWindow({ ...widgetWindowOptions(getWidgetPreloadPath()), ...bounds, title: 'Reflect' });
+  win.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  if (isDev()) {
+    void win.loadURL('http://localhost:5123/widget.html');
+  } else {
+    win.webContents.on('will-navigate', (e) => e.preventDefault());
+    void win.loadFile(getWidgetUIPath());
+  }
+  win.on('session-end', () => void quitApp());
+  return {
+    isDestroyed: () => win.isDestroyed(),
+    destroy: () => win.destroy(),
+    showInactive: () => win.showInactive(),
+    getBounds: () => win.getBounds(),
+    setBounds: (b) => win.setBounds(b),
+    send: (channel, payload) => {
+      if (!win.isDestroyed() && !win.webContents.isDestroyed()) win.webContents.send(channel, payload);
+    },
+    onGone: (listener) => {
+      win.webContents.on('render-process-gone', () => listener('crashed'));
+      win.on('closed', () => listener('closed'));
+    },
+  };
+}
+
+/**
+ * A window that is never shown and never loads a page. Windows tells
+ * top-level windows when the session is ending; with the main window closed
+ * and the widget hidden there would be nobody to hear it. This one always
+ * does, so a shutdown or sign-out still flushes tracking and releases Focus
+ * blocking.
+ */
+function createLifecycleWindow(): void {
+  const win = new BrowserWindow({
+    show: false,
+    width: 1,
+    height: 1,
+    frame: false,
+    skipTaskbar: true,
+    focusable: false,
+    webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true },
+  });
+  win.on('session-end', () => void quitApp());
 }
 
 /**
@@ -222,103 +380,78 @@ async function pollActiveWin(): Promise<ActivitySample | null> {
   };
 }
 
-function createTray(logger: Logger): Tray {
-  // 16x16 transparent-ish icon; real icon swapped in later. nativeImage.fromBuffer
-  // needs bytes — a 1x1 PNG is the cheapest viable placeholder.
-  const icon = nativeImage.createFromBuffer(Buffer.from(BASE64_TRAY_ICON, 'base64'));
-  tray = new Tray(icon.isEmpty() ? nativeImage.createEmpty() : icon);
-  tray.on('click', () => showMainWindow());
-  updateTray(focusService?.getActiveSession() ?? null, logger);
+function trayImage(paused: boolean) {
+  return nativeImage.createFromBitmap(renderTrayIcon(paused), { width: TRAY_ICON_SIZE, height: TRAY_ICON_SIZE, scaleFactor: 2 });
+}
+
+function createTray(): Tray {
+  tray = new Tray(trayImage(false));
+  tray.on('click', () => openMain());
   return tray;
 }
 
-/** What the tray menu was last built from; rebuilt only when this changes. */
+/** What the tray was last built from; the menu is rebuilt only when this changes. */
 let trayMenuKey = '';
+let trayPaused = false;
 
 /**
- * The tray mirrors the Focus session. Its "End Focus" and "Quit" entries
- * open the same deliberate exit flow as the Focus page — the tray is not a
- * shortcut around the commitment.
+ * The tray renders the background status: tracking on / paused, the Focus
+ * session, the widget. It keeps no state of its own. Its "End Focus" and
+ * "Quit" entries open the same deliberate exit flow as the Focus page — the
+ * tray is not a shortcut around the commitment.
  */
-function updateTray(dto: ActiveFocusSessionDto | null, logger: Logger): void {
+function applyTray(status: BackgroundStatus, dispatch: (action: TrayAction) => void): void {
   if (!tray || tray.isDestroyed()) return;
-
-  if (!dto) {
-    tray.setToolTip('Productivity Coach');
-    if (trayMenuKey === 'idle') return;
-    trayMenuKey = 'idle';
-    tray.setContextMenu(Menu.buildFromTemplate([
-      { label: 'Show', click: () => showMainWindow() },
-      { label: 'Start Focus', click: () => openFocus('open') },
-      { type: 'separator' },
-      { label: 'Quit', click: () => quitApp(logger) },
-    ]));
-    return;
+  const model = buildTrayModel(status);
+  tray.setToolTip(model.tooltip);
+  if (model.paused !== trayPaused) {
+    trayPaused = model.paused;
+    tray.setImage(trayImage(model.paused));
   }
+  if (model.key === trayMenuKey) return;
+  trayMenuKey = model.key;
 
-  const clock = formatFocusMs(dto.remainingMs ?? dto.liveElapsedMs);
-  const paused = !dto.isRunning;
-  const task = dto.session.task.length > 48 ? `${dto.session.task.slice(0, 47)}…` : dto.session.task;
-  tray.setToolTip(`${paused ? 'Paused' : 'Focus'} ${clock} — ${task}`.slice(0, 120));
-
-  const minutes = Math.ceil((dto.remainingMs ?? dto.liveElapsedMs) / 60_000);
-  const timeLabel = dto.remainingMs !== null ? `${minutes} min left` : `${Math.floor(dto.liveElapsedMs / 60_000)} min`;
-  const blockingLabel =
-    dto.blocking.status === 'active' ? 'Blocking active'
-    : dto.blocking.status === 'off' ? 'Blocking off'
-    : dto.blocking.status === 'recovering' ? 'Restoring blocking…'
-    : dto.blocking.status === 'unavailable' ? 'Blocking unavailable'
-    : 'Blocking stopped';
-  const key = [dto.session.id, paused, timeLabel, blockingLabel].join('|');
-  if (key === trayMenuKey) return;
-  trayMenuKey = key;
-
-  tray.setContextMenu(Menu.buildFromTemplate([
-    { label: `${paused ? 'Paused' : 'Focus'}: ${timeLabel}`, enabled: false },
-    { label: task, enabled: false },
-    { label: blockingLabel, enabled: false },
-    { type: 'separator' },
-    { label: 'Open Focus', click: () => openFocus('open') },
-    paused
-      ? { label: 'Resume Focus', click: () => void focusService?.resume() }
-      : { label: 'Pause Focus…', click: () => openFocus('pause') },
-    { label: 'End Focus…', click: () => openFocus('end') },
-    { type: 'separator' },
-    // Quitting would drop the session's enforcement, so it goes through the
-    // same exit flow as ending Focus.
-    { label: 'Quit (end Focus first)…', click: () => openFocus('end') },
-  ]));
+  const toMenu = (items: TrayItem[]): MenuItemConstructorOptions[] =>
+    items.map((item) => {
+      if (item.separator) return { type: 'separator' };
+      const action = item.action;
+      return {
+        label: item.label,
+        enabled: !item.disabled,
+        ...(item.submenu ? { submenu: toMenu(item.submenu) } : {}),
+        ...(action ? { click: () => dispatch(action) } : {}),
+      };
+    });
+  tray.setContextMenu(Menu.buildFromTemplate(toMenu(model.items)));
 }
 
-async function quitApp(logger: Logger) {
-  if (quitStarted) return;
-  quitStarted = true;
-  logger.info('[APP] Quit requested — flushing tracker.');
-  try {
-    await trackingService?.stop();
-  } catch (e) {
-    logger.error(`[APP] tracking stop error: ${(e as Error)?.message ?? e}`);
-  }
-  intelligenceScheduler?.stop();
-  reflectionScheduler?.stop();
-  try {
-    // Releases blocking and persists the session; an open session is picked
-    // up again by startup reconciliation.
-    await focusService?.shutdown();
-  } catch (e) {
-    logger.error(`[APP] focus service shutdown error: ${(e as Error)?.message ?? e}`);
-  }
-  try {
-    database?.close();
-  } catch (e) {
-    logger.error(`[APP] db close error: ${(e as Error)?.message ?? e}`);
-  }
-  tray?.destroy();
+/**
+ * The real quit — reached only from the tray's Quit, from Electron's own
+ * quit (an installer, the OS) and from Windows ending the session. Closing a
+ * window never comes here. The shutdown sequence runs once however many of
+ * those arrive together; only afterwards may windows close and the process
+ * exit.
+ */
+async function quitApp(): Promise<void> {
+  if (shutdown) await shutdown.run();
   quitting = true;
   app.quit();
 }
 
-if (!blockerHelperMode) app.whenReady().then(async () => {
+if (primaryInstance) {
+  // An always-on background process must not die — or stop on a modal error
+  // dialog — because one subsystem threw. Log it and keep tracking.
+  process.on('uncaughtException', (err) => {
+    console.error('[APP] Uncaught exception:', err);
+    appLogger?.error(`[APP] Uncaught exception: ${err instanceof Error ? err.stack ?? err.message : String(err)}`);
+  });
+  process.on('unhandledRejection', (reason) => {
+    console.error('[APP] Unhandled rejection:', reason);
+    appLogger?.error(`[APP] Unhandled rejection: ${reason instanceof Error ? reason.stack ?? reason.message : String(reason)}`);
+  });
+}
+
+if (primaryInstance) app.whenReady().then(async () => {
   const userData = app.getPath('userData');
   const logger = new Logger({ dir: userData, source: 'app' });
   appLogger = logger;
@@ -332,10 +465,25 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     database = new Database(Database.filePathFor(userData));
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
-    logger.error(`[APP] Database initialization failed: ${message}`);
+    // Fatal: without the database nothing can be tracked, and pretending
+    // otherwise would be worse than not running.
+    logger.error(`[APP] FATAL — database initialization failed, tracking is NOT running: ${message}`);
     app.exit(1);
     return;
   }
+
+  // --- Background runtime state ---
+  // The application settings (start with Windows, tracking pause, widget,
+  // notifications) are read here, in the main process, before any window.
+  const backgroundRepo = new BackgroundRepository(database);
+  const appSettings = new AppSettingsStore(backgroundRepo, { log: (m) => logger.error(m) });
+  const notifier = new Notifier({
+    isEnabled: () => appSettings.get().notificationsEnabled,
+    isSupported: () => Notification.isSupported(),
+    create: (options) => new Notification(options),
+    logger,
+  });
+
   const focusRepo = new FocusRepository(database);
   // Real enforcement lives in an elevated helper process (hosts file +
   // process termination); the app only holds a lease on it. The renderer is
@@ -359,16 +507,18 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     log: (m) => logger.warn(`[FOCUS] ${m}`),
   });
   const focusNotifier = new FocusNotifier(
-    () => focusService?.getPreferences() ?? focusRepo.getPreferences(),
-    ({ title, body }) => {
-      if (!Notification.isSupported()) return;
-      new Notification({ title, body, silent: true }).show();
+    () => {
+      const prefs = focusService?.getPreferences() ?? focusRepo.getPreferences();
+      if (appSettings.get().notificationsEnabled) return prefs;
+      // The notification switch silences every optional Focus notification.
+      // The loss of blocking is still reported — that rule is FocusNotifier's.
+      return { ...prefs, notifyStart: false, notifyIdle: false, notifyComplete: false, notifyBlocked: false };
     },
+    // FocusNotifier has already decided this one is to be shown.
+    ({ title, body }) => void notifier.show({ title, body, critical: true }),
   );
   focusService.on('notice', (notice) => focusNotifier.onNotice(notice));
   focusService.on('summary', (session, profile) => focusNotifier.onSummary(session, profile));
-  focusService.on('activeSessionChanged', (dto) => updateTray(dto, logger));
-  focusService.on('tick', (dto) => updateTray(dto, logger));
   // After sleep, timers alone are not trustworthy: reconcile against the
   // clock straight away (countdown expiry, slept time, blocking lease).
   powerMonitor.on('resume', () => focusService?.handleSystemResume());
@@ -382,36 +532,63 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
       // A crash or power loss can leave Focus's entries in the hosts file with
       // no session to own them. Say so instead of leaving sites mysteriously
       // blocked; removing them needs the user's approval (elevation).
-      if (!focusService?.hasBlockingResidue() || !Notification.isSupported()) return;
-      const notice = new Notification({
+      if (!focusService?.hasBlockingResidue()) return;
+      notifier.show({
         title: 'Focus blocking is still on',
         body: 'Blocking from an earlier Focus session was not removed. Open Focus to remove it.',
-        silent: true,
+        critical: true,
+        onClick: () => openFocus('open'),
       });
-      notice.on('click', () => openFocus('open'));
-      notice.show();
     });
   logger.info('[APP] Focus service ready.');
 
   // --- Construct the tracking stack via DI ---
   const repo = new EventRepository(database);
-  const engine = new HeartbeatEngine(repo, () => new Date(), 5000);
+  const engine = new HeartbeatEngine(repo, () => new Date(), 5000, undefined, TRACKING_MAX_GAP_MS);
+  const trackerLogger = {
+    info: (m: string) => logger.info(m),
+    warn: (m: string) => logger.warn(m),
+    error: (m: string) => logger.error(m),
+  };
 
-  const windowWatcher = new WindowWatcher(pollActiveWin, engine, 1000, {
-    info: (m) => logger.info(m),
-    warn: (m) => logger.warn(m),
-    error: (m) => logger.error(m),
+  const windowWatcher = new WindowWatcher(pollActiveWin, engine, 1000, trackerLogger);
+
+  trackingService = new TrackingService([windowWatcher], engine, trackerLogger);
+
+  // The one authority on whether tracking is on. It starts the tracker with
+  // the runtime (below) and stops it only for a pause the user asked for.
+  const trackingController = new TrackingController({
+    tracking: trackingService,
+    settings: appSettings,
+    pauses: backgroundRepo,
+    nextDayStart: (now) => new Date(periodContaining('day', now).end),
+    logger: trackerLogger,
   });
 
-  trackingService = new TrackingService([windowWatcher], engine, {
-    info: (m) => logger.info(m),
-    warn: (m) => logger.warn(m),
-    error: (m) => logger.error(m),
+  // The floating widget and the status every surface renders.
+  const widgetController = new WidgetController({
+    host: {
+      createWindow: createWidgetWindow,
+      displays: () => {
+        const primaryId = screen.getPrimaryDisplay().id;
+        return screen.getAllDisplays().map((d) => ({ workArea: d.workArea, primary: d.id === primaryId }));
+      },
+      cursor: () => screen.getCursorScreenPoint(),
+    },
+    settings: appSettings,
+    onVisibilityChanged: () => statusService.refresh(),
+    logger: trackerLogger,
+  });
+  const statusService = new BackgroundStatusService({
+    tracking: trackingController,
+    events: repo,
+    focus: focusService,
+    widgetVisible: () => widgetController.visible,
+    dayStart: (now) => new Date(periodContaining('day', now).start),
+    logger,
   });
 
-  registerTrackerIpc(repo, ipcMainHandle, () =>
-    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
-  );
+  registerTrackerIpc(repo, ipcMainHandle, mainRendererContents);
 
   // Reflections are written from the verified timeline and the user profile.
   // Handlers registered through this wrapper tell the reflection layer (built
@@ -438,9 +615,7 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
   // --- Construct the session layer (read-side transform over raw events) ---
   // Sessions are derived on demand from the same raw repo; never persisted.
   const sessionService = new SessionService(repo);
-  registerSessionIpc(sessionService, ipcMainHandle, () =>
-    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
-  );
+  registerSessionIpc(sessionService, ipcMainHandle, mainRendererContents);
   logger.info('[APP] Session service ready.');
 
   // --- Construct the timeline layer (Stage 3) ---
@@ -461,12 +636,8 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     onCorrection: (correction) => learnedRuleService?.onCorrection(correction),
   });
   const timelineService = new TimelineService(sessionService, editRepo, activityRuleRepo, categorizationService, aiTimelineSource);
-  const timelineIpc = registerTimelineIpc(timelineService, activityRuleRepo, ipcHandleTracked, () =>
-    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
-  );
-  registerCategorizationIpc(categorizationService, ipcHandleTracked, () =>
-    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
-  );
+  const timelineIpc = registerTimelineIpc(timelineService, activityRuleRepo, ipcHandleTracked, mainRendererContents);
+  registerCategorizationIpc(categorizationService, ipcHandleTracked, mainRendererContents);
   logger.info('[APP] Timeline + categorization services ready.');
 
   // --- Construct the intelligence layer (Gemini) ---
@@ -542,6 +713,8 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
       focus: focusRepo,
       taxonomy: reflectionTaxonomy,
       firstEventAt: () => repo.getFirstEventStart(),
+      // A pause is missing data, not inactivity — the reflection is told so.
+      trackingPausedMs: (from, to) => backgroundRepo.pausedMsBetween(from, to) + trackingController.currentPauseMsBetween(from, to),
     },
     reflectionRepo,
     { config: DEFAULT_REFLECTION_CONFIG },
@@ -608,8 +781,29 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     dailyReflectionMinutes: () => coachService.getSettings().reflectionMinutes,
     logger: intelligenceLogger,
   });
-  const rendererContents = () => BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed());
-  const reflectionIpc = registerReflectionIpc(reflectionService, ipcMainHandle, rendererContents);
+  const rendererContents = mainRendererContents;
+  const reflectionIpc = registerReflectionIpc(
+    reflectionService,
+    (key, handler) =>
+      ipcMainHandle(key, (payload) => {
+        // A report read while the window is on screen means the user is looking at it.
+        if (key === 'reflection:getReport' && mainWindowController.onScreen) statusService.clearReflectionPending();
+        return handler(payload);
+      }),
+    rendererContents,
+  );
+  // "Your reflection is ready": decided and sent from here, with no window
+  // needed, and at most once per day (the claim is persisted).
+  const reflectionNotifier = new ReflectionNotifier({
+    ledger: backgroundRepo,
+    wantsNotification: () => coachService.getSettings().notifyDailyReflection,
+    isUserLooking: () => mainWindowController.focused,
+    pendingQuestions: () => coachService.getState().commitments.filter((a) => a.pending !== null).length,
+    notify: (request) => notifier.show(request),
+    onPending: (notice) => statusService.markReflectionPending(notice.period.start),
+    open: (notice) => openMain({ route: 'reflection', anchor: notice.period.start }),
+    logger: intelligenceLogger,
+  });
   // A cycle runs right behind every intelligence cycle, so the AI activities
   // of the hour that just ended always exist first; its one timer wakes at
   // the user's reflection time so the end-of-day report does not wait an hour.
@@ -618,23 +812,9 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     onGenerated: (results) => {
       reflectionIpc.notifyReflectionChanged();
       notifyCoachChanged();
-      // The one proactive nudge: the day's reflection is ready. Calm, silent,
-      // and only for a report the scheduler wrote about today or yesterday.
-      const daily = results.find((r) => r.status === 'succeeded' && r.period.type === 'day');
-      const recent = daily && Date.now() - Date.parse(daily.period.end) < 12 * 60 * 60 * 1000;
-      if (!daily || !recent || !coachService.getSettings().notifyDailyReflection || !Notification.isSupported()) return;
-      if (mainWindow && !mainWindow.isDestroyed() && mainWindow.isFocused()) return;
-      const pending = coachService.getState().commitments.filter((a) => a.pending !== null).length;
-      const notice = new Notification({
-        title: 'Your reflection is ready',
-        body: pending > 0 ? 'Reflect also has a question about something you planned.' : 'A short briefing on today, and what might be worth doing next.',
-        silent: true,
-      });
-      notice.on('click', () => {
-        showMainWindow();
-        reflectionIpc.requestOpen();
-      });
-      notice.show();
+      // The one proactive nudge: the day's reflection is ready — also for a
+      // day whose reflection time was missed and is written at the next start.
+      reflectionNotifier.onGenerated(results);
     },
     onDailyReflectionDue: () => {
       // Bring the AI activities up to date first; its completion runs the reflection cycle.
@@ -682,8 +862,7 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
   logger.info('[APP] Export service ready.');
 
   // --- Wire focus IPC (Stage 3.10) ---
-  const focusIpc = registerFocusIpc(focusService, focusRepo, ipcMainHandle, () =>
-    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
+  registerFocusIpc(focusService, focusRepo, ipcMainHandle, mainRendererContents,
     (session) => {
       const trackedSessionIds: string[] = [];
       let productiveMs = 0;
@@ -739,16 +918,110 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
       return { openApps, recentSites: visits.map((e) => String(e.url)) };
     },
   );
-  sendFocusIntent = (intent) => focusIpc.sendIntent(intent);
   logger.info('[APP] Focus IPC ready.');
 
-  createMainWindow(logger);
-  createTray(logger);
+  // --- Background surfaces: tray, widget, settings, status ---
+  let loginItem: LoginItemResult = { action: 'skipped-development', disabledBySystem: false };
+  const applyLoginItem = () => {
+    try {
+      loginItem = syncLoginItem(app, {
+        enabled: appSettings.get().startWithWindows,
+        isPackaged: app.isPackaged,
+        execPath: process.execPath,
+      });
+      if (loginItem.action !== 'unchanged') logger.info(`[APP] Start with Windows: ${loginItem.action}.`);
+    } catch (e) {
+      logger.error(`[APP] Could not update the login item: ${(e as Error)?.message ?? e}`);
+    }
+  };
+  const backgroundSettingsView = (): BackgroundSettingsView => {
+    const settings = appSettings.get();
+    return {
+      startWithWindows: settings.startWithWindows,
+      widgetEnabled: settings.widgetEnabled,
+      notificationsEnabled: settings.notificationsEnabled,
+      startupAvailable: app.isPackaged,
+      startupDisabledBySystem: loginItem.disabledBySystem,
+    };
+  };
+
+  const dispatchTrayAction = createTrayDispatcher({
+    openMain,
+    reflectionAnchor: () => statusService.reflectionAnchor,
+    resumeFocus: () => {
+      void focusService?.resume().catch((e) => logger.error(`[FOCUS] resume failed: ${(e as Error)?.message ?? e}`));
+    },
+    pauseTracking: (duration) => void trackingController.pause(duration),
+    resumeTracking: () => void trackingController.resume(),
+    setWidgetVisible: (visible) => widgetController.setEnabled(visible),
+    quit: () => void quitApp(),
+  });
+
+  // One status, three surfaces. Each just renders what it is handed; a
+  // surface that is missing or broken is skipped without affecting the others.
+  statusService.onChanged((status) => {
+    try {
+      applyTray(status, dispatchTrayAction);
+    } catch (e) {
+      logger.error(`[APP] Tray update failed: ${(e as Error)?.message ?? e}`);
+    }
+    widgetController.pushStatus(status);
+    for (const wc of mainRendererContents()) wc.send('background:status', status);
+  });
+  trackingController.onChanged(() => statusService.refresh());
+  appSettings.onChanged((next, previous) => {
+    if (next.startWithWindows !== previous.startWithWindows) applyLoginItem();
+    if (next.widgetEnabled !== previous.widgetEnabled) widgetController.sync();
+    statusService.refresh();
+  });
+  // Focus state comes from FocusService alone. The widget counts its own
+  // clock between pushes, so the per-second tick only matters here when the
+  // minute shown in the tray changes.
+  let focusMinuteShown = -1;
+  focusService.on('activeSessionChanged', () => {
+    focusMinuteShown = -1;
+    statusService.refresh();
+  });
+  focusService.on('tick', (dto) => {
+    const minute = Math.ceil((dto.remainingMs ?? dto.liveElapsedMs) / 60_000);
+    if (minute === focusMinuteShown) return;
+    focusMinuteShown = minute;
+    statusService.refresh();
+  });
+  // A window that comes back on screen while a reflection is waiting re-reads it.
+  onMainWindowShown = () => {
+    if (statusService.reflectionAnchor !== null || statusService.getStatus().reflectionPending) {
+      reflectionIpc.notifyReflectionChanged();
+    }
+  };
+  screen.on('display-added', () => widgetController.handleDisplaysChanged());
+  screen.on('display-removed', () => widgetController.handleDisplaysChanged());
+  screen.on('display-metrics-changed', () => widgetController.handleDisplaysChanged());
+
+  registerBackgroundIpc(
+    {
+      status: statusService,
+      tracking: trackingController,
+      settings: {
+        view: backgroundSettingsView,
+        update: (patch) => {
+          appSettings.update(patch);
+          return backgroundSettingsView();
+        },
+      },
+      navigation,
+      widget: widgetController,
+      openMain,
+      reflectionAnchor: () => statusService.reflectionAnchor,
+    },
+    { handleMain: ipcMainHandle, handleWidget: widgetIpcHandle, onWidget: widgetIpcOn },
+  );
+  logger.info('[APP] Background IPC ready.');
 
   // Window frame controls (minimize / maximize / close-to-tray).
   ipcMainOn('sendFrameAction', (action) => {
-    const win = BrowserWindow.getFocusedWindow() ?? mainWindow;
-    if (!win) return;
+    const win = mainWindow;
+    if (!win || win.isDestroyed()) return;
     switch (action) {
       case 'MINIMIZE':
         win.minimize();
@@ -758,63 +1031,127 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
         else win.maximize();
         break;
       case 'CLOSE':
-        win.hide();
+        // To the tray, like every other close. Tracking is not involved.
+        mainWindowController.hide();
         break;
     }
   });
 
-  // Tracker starts automatically with the app, independent of the window.
-  // Closing the window hides to tray; tracking keeps running.
-  await trackingService.start();
-  logger.info('[APP] Tracking started.');
+  // ── Start the background runtime ──────────────────────────────────────────
+  // Everything below runs with no window. Each step is isolated: a tray,
+  // widget or login-item problem is logged and never stops tracking.
+  const step = (name: string, run: () => void) => {
+    try {
+      run();
+    } catch (e) {
+      logger.error(`[APP] Startup step "${name}" failed: ${(e as Error)?.message ?? e}`);
+    }
+  };
 
-  // Startup reconciliation + hourly analysis. Runs in the background and never
-  // blocks the UI; work done before the last shutdown is analysed now. Each
-  // cycle is followed by a reflection cycle (missing closed periods, then the
-  // evening reflection).
-  reflectionScheduler.start();
-  intelligenceScheduler.start();
+  // The real quit: stop tracking (flushing the open events), stop the
+  // schedulers, let Focus release its blocking, remove the widget and the
+  // tray, and close the database last.
+  shutdown = new ShutdownSequence(
+    [
+      { name: 'tracking', run: () => trackingController.shutdown() },
+      {
+        name: 'schedulers',
+        run: () => {
+          intelligenceScheduler?.stop();
+          reflectionScheduler?.stop();
+          statusService.stop();
+        },
+      },
+      // Releases blocking and persists the session; an open session is picked
+      // up again by startup reconciliation.
+      { name: 'focus', run: () => focusService?.shutdown() },
+      { name: 'widget', run: () => widgetController.dispose() },
+      {
+        name: 'tray',
+        run: () => {
+          tray?.destroy();
+          tray = null;
+        },
+      },
+      {
+        name: 'database',
+        run: () => {
+          database?.close();
+          database = null;
+        },
+      },
+    ],
+    logger,
+  );
+
+  // Tracking is passive: it starts here, with the runtime, and needs no
+  // window and no click. Only a pause the user asked for keeps it off.
+  try {
+    const tracking = await trackingController.start();
+    logger.info(tracking.state === 'running' ? '[APP] Tracking started.' : '[APP] Tracking is paused by the user.');
+  } catch (e) {
+    logger.error(`[APP] Tracking failed to start: ${(e as Error)?.message ?? e}`);
+  }
+
+  // After sleep nothing may be assumed: sleep is not tracked time, a timed
+  // pause may have ended, and the hourly cycle or the reflection time may
+  // have passed while every timer stood still.
+  powerMonitor.on('suspend', () => trackingController.handleSystemSuspend());
+  powerMonitor.on('resume', () => {
+    void trackingController.handleSystemResume().then(() => statusService.refresh());
+    reflectionScheduler?.reschedule();
+    const catchUp = setTimeout(() => void intelligenceScheduler?.runCycle(), WAKE_CATCH_UP_DELAY_MS);
+    catchUp.unref?.();
+  });
+
+  // Startup reconciliation + hourly analysis — the single scheduler pair,
+  // owned by the main process. Work done before the last shutdown is analysed
+  // now, and each cycle is followed by a reflection cycle: closed periods
+  // still missing their report (a reflection time that was missed while the
+  // machine was off), then the evening reflection.
+  step('schedulers', () => {
+    reflectionScheduler?.start();
+    intelligenceScheduler?.start();
+  });
+
+  step('tray', () => {
+    createTray();
+    // Drawn from the current status straight away; later updates arrive as changes.
+    applyTray(statusService.getStatus(), dispatchTrayAction);
+  });
+  step('status', () => statusService.start());
+  step('widget', () => widgetController.sync());
+  step('login item', applyLoginItem);
+  step('lifecycle window', createLifecycleWindow);
+
+  // The main window is opened when somebody asks for it. Started by Windows at
+  // sign-in, Reflect stays in the background; started by the user, it shows.
+  runtimeReady = true;
+  if (isBackgroundLaunch(process.argv) && !openWhenReady) logger.info('[APP] Started in the background (no main window).');
+  else step('main window', () => openMain());
+  logger.info('[APP] Background runtime ready.');
 });
 
 app.on('window-all-closed', () => {
-  // Stage 1 keeps tracking alive when the window is closed: hide to tray
-  // instead of quitting. Real quit comes from the tray "Quit" menu only.
-  if (process.platform === 'darwin') return;
-  BrowserWindow.getAllWindows().forEach((w) => w.hide());
+  // Reflect lives in the tray: having no window is its normal state, not a
+  // reason to quit. (Without this listener Electron would quit.) Real quit
+  // comes from the tray "Quit" menu only.
 });
 
 app.on('before-quit', async (e) => {
-  // The blocker helper has no tracker, tray or database to flush.
-  if (blockerHelperMode) return;
+  // The blocker helper has no tracker, tray or database to flush; a second
+  // instance that is only handing over has nothing to shut down either.
+  if (!primaryInstance) return;
   // If Electron itself initiates quit (OS shutdown, an installer), give the
   // tracker a chance to flush and Focus a chance to release blocking before
   // exit. `quitApp` sets `quitting` right before its own `app.quit()`, so the
   // second pass through this handler falls straight through.
   if (quitting) return;
   e.preventDefault();
-  await quitApp(appLogger ?? new Logger({ dir: app.getPath('userData'), source: 'app' }));
+  await quitApp();
 });
 
 app.on('activate', () => {
-  if (blockerHelperMode) return;
-  if (BrowserWindow.getAllWindows().length === 0) {
-    const logger = new Logger({ dir: app.getPath('userData'), source: 'app' });
-    createMainWindow(logger);
-  }
+  if (!primaryInstance) return;
+  openMain();
 });
-
-function formatFocusMs(ms: number): string {
-  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  }
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-}
-
-// 16x16 1x1 transparent PNG (minimal placeholder tray icon).
-const BASE64_TRAY_ICON =
-  'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA3XAAAN1wFCKJt4AAAA' +
-  'DklEQVR42mNk+M9QDwADhwH/xpYk2gAAAABJRU5ErkJggg==';

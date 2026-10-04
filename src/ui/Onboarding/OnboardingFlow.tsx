@@ -9,6 +9,8 @@ import {
   Clapperboard,
   Clock,
   Code,
+  EyeOff,
+  Eye,
   FlaskConical,
   GraduationCap,
   Palette,
@@ -31,6 +33,7 @@ import {
 } from '../../profile/UserProfile';
 import {
   QUESTION_STEPS,
+  STEP_ORDER,
   TAG_LIMITS,
   draftFromProfile,
   draftToInput,
@@ -46,6 +49,7 @@ import {
   type TagField,
 } from './onboardingDraft';
 import { TagInput } from './TagInput';
+import { BackgroundControls } from '../Settings/BackgroundControls';
 
 const AUTOSAVE_DELAY_MS = 400;
 
@@ -70,7 +74,7 @@ const TOUR_POINTS: { Icon: LucideIcon; title: string; body: string }[] = [
   {
     Icon: Activity,
     title: 'It runs quietly in the background',
-    body: 'Reflect notes the app, window title and website you have in front of you. There is nothing to start or stop.',
+    body: 'Reflect notes the app, window title and website you have in front of you. There is nothing to start or stop, and no window to keep open.',
   },
   {
     Icon: Clock,
@@ -87,6 +91,21 @@ const TOUR_POINTS: { Icon: LucideIcon; title: string; body: string }[] = [
     title: 'Your answers make it personal',
     body: 'Five short questions tell Reflect who you are, so a hobby is not mistaken for work.',
   },
+];
+
+/** What tracking records — and, as plainly, what it has no way of knowing. */
+const OBSERVED = [
+  'The app and window title in front of you',
+  'The website you are on (its domain, not the page)',
+  'When, and for how long',
+  'Your Focus sessions',
+];
+
+const NOT_OBSERVED = [
+  'Anything you do away from this computer',
+  'What you were thinking, or meant to do',
+  'Anything you have not told it',
+  'What is inside your documents and pages',
 ];
 
 interface OnboardingFlowProps {
@@ -186,8 +205,7 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
 
   const goTo = (target: OnboardingStep) => {
     void flush();
-    const order: readonly OnboardingStep[] = ['welcome', 'tour', ...QUESTION_STEPS, 'done'];
-    setDirection(order.indexOf(target) < order.indexOf(step) ? 'back' : 'forward');
+    setDirection(STEP_ORDER.indexOf(target) < STEP_ORDER.indexOf(step) ? 'back' : 'forward');
     setStep(target);
   };
 
@@ -320,13 +338,68 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
 
             <div className="space-y-3">
               <Actions
-                primary={{ label: 'Personalize Reflect', onClick: () => goTo('about'), disabled: busy }}
+                primary={{ label: 'Continue', onClick: () => goTo('background'), disabled: busy }}
                 back={back}
                 secondary={{ label: 'Set up later', onClick: skip, disabled: busy }}
                 enterHint
               />
               <PrivacyNote />
             </div>
+          </Intro>
+        )}
+
+        {step === 'background' && (
+          <Intro key="background" direction={direction}>
+            <div className="space-y-3">
+              <p className="onb-eyebrow">Set it up once</p>
+              <h1 id="onb-heading" ref={headingRef} tabIndex={-1} className="onb-title">
+                Reflect works in the background. You do not need to open it for tracking to work.
+              </h1>
+              <p className="onb-lede">
+                Close this window whenever you like — Reflect stays in the system tray and keeps your record. Open it
+                when you want to look at your day.
+              </p>
+            </div>
+
+            <div className="onb-observes">
+              <div>
+                <div className="flex items-center gap-2 text-[13.5px] font-semibold">
+                  <Eye size={15} style={{ color: 'var(--accent)' }} aria-hidden="true" />
+                  What Reflect notes
+                </div>
+                <ul>
+                  {OBSERVED.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <div className="flex items-center gap-2 text-[13.5px] font-semibold">
+                  <EyeOff size={15} className="text-faint" aria-hidden="true" />
+                  What it cannot know
+                </div>
+                <ul>
+                  {NOT_OBSERVED.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <BackgroundControls variant="onboarding" />
+              <p className="text-[12.5px] text-faint leading-relaxed">
+                These are on by default. You can pause tracking from the tray or the widget at any time, and change
+                everything here later in <strong>Settings → Background &amp; Tracking</strong>.
+              </p>
+            </div>
+
+            <Actions
+              primary={{ label: 'Personalize Reflect', onClick: () => goTo('about'), disabled: busy }}
+              back={back}
+              secondary={{ label: 'Set up later', onClick: skip, disabled: busy }}
+              enterHint
+            />
           </Intro>
         )}
 
@@ -548,7 +621,7 @@ export function OnboardingFlow({ mode, initialProfile, onExit }: OnboardingFlowP
             <ul className="onb-next">
               <li>
                 <Activity size={15} aria-hidden="true" />
-                <span>Reflect is already running. Just use your computer as usual.</span>
+                <span>Reflect is already running, and keeps running after you close this window. Just use your computer as usual.</span>
               </li>
               <li>
                 <Clock size={15} aria-hidden="true" />

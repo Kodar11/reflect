@@ -236,7 +236,7 @@ migrationSuite('Database migration', () => {
     expect(tableHasColumn(raw, 'event_classifications', 'rule_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'created_at')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'updated_at')).toBe(true);
-    expect(raw.pragma('user_version', { simple: true })).toBe(15);
+    expect(raw.pragma('user_version', { simple: true })).toBe(16);
     raw.close();
 
     const repo = new CategorizationRepository(db);
@@ -260,7 +260,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(15);
+    expect(after.pragma('user_version', { simple: true })).toBe(16);
     expect(tableHasColumn(after, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
     after.close();
@@ -316,7 +316,7 @@ migrationSuite('Database migration', () => {
     db2.close();
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(15);
+    expect(raw.pragma('user_version', { simple: true })).toBe(16);
     expect(tableHasColumn(raw, 'categorization_overrides', 'anchor_event_id')).toBe(true);
     expect(tableHasColumn(raw, 'event_classifications', 'event_id')).toBe(true);
     raw.close();
@@ -338,7 +338,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(15);
+    expect(after.pragma('user_version', { simple: true })).toBe(16);
     expect(tableHasColumn(after, 'event_classifications', 'event_id')).toBe(true);
 
     const overrideRow = after.prepare('SELECT * FROM categorization_overrides WHERE id = ?').get('ov_v8') as {
@@ -380,7 +380,7 @@ migrationSuite('Database migration', () => {
     new Database(dbPath).close(); // idempotent
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(15);
+    expect(after.pragma('user_version', { simple: true })).toBe(16);
     const rules = after.prepare('SELECT id, source FROM tracking_rules ORDER BY id').all();
     expect(rules).toEqual([
       { id: 'rule_1700000000000', source: 'user' },
@@ -466,7 +466,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const after = new BetterSqliteDB(dbPath);
-    expect(after.pragma('user_version', { simple: true })).toBe(15);
+    expect(after.pragma('user_version', { simple: true })).toBe(16);
     const tables = schemaNames(after, 'table');
     for (const t of INTELLIGENCE_TABLES) expect(tables).toContain(t);
     expect(schemaNames(after, 'index')).toEqual(expect.arrayContaining(INTELLIGENCE_INDEXES));
@@ -498,7 +498,7 @@ migrationSuite('Database migration', () => {
     const db = new Database(dbPath);
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(15);
+    expect(raw.pragma('user_version', { simple: true })).toBe(16);
     const tables = schemaNames(raw, 'table');
     for (const t of [...INTELLIGENCE_TABLES, 'user_profile']) expect(tables).toContain(t);
     expect(schemaNames(raw, 'index')).toEqual(expect.arrayContaining(INTELLIGENCE_INDEXES));

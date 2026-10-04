@@ -1,0 +1,211 @@
+/* The floating widget. Same tokens as the app (src/ui/index.css), copied
+ * rather than imported so this page stays a few kilobytes. Calm by design:
+ * no animation, no colour beyond one small status dot. */
+
+:root {
+  --bg: #ffffff;
+  --bg-hover: rgba(55, 53, 47, 0.06);
+  --bg-active: rgba(55, 53, 47, 0.09);
+  --text: #37352f;
+  --text-muted: rgba(55, 53, 47, 0.65);
+  --text-faint: rgba(55, 53, 47, 0.4);
+  --border: rgba(55, 53, 47, 0.18);
+  --accent: #2382e2;
+  --success: #0f7b6c;
+  --warning: #d9730d;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #252525;
+    --bg-hover: rgba(255, 255, 255, 0.07);
+    --bg-active: rgba(255, 255, 255, 0.11);
+    --text: rgba(255, 255, 255, 0.86);
+    --text-muted: rgba(255, 255, 255, 0.52);
+    --text-faint: rgba(255, 255, 255, 0.3);
+    --border: rgba(255, 255, 255, 0.16);
+    --accent: #529cca;
+    --success: #4dab9a;
+    --warning: #ffa344;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  font-family: 'Inter', 'Aptos', 'Segoe UI', system-ui, sans-serif;
+  font-size: 12.5px;
+  line-height: 1.35;
+  color: var(--text);
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+.widget {
+  width: 100%;
+  height: 100%;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  overflow: hidden;
+  cursor: default;
+}
+.widget[data-view='pill'] {
+  border-radius: 999px;
+}
+.widget[data-view='card'] {
+  border-radius: 12px;
+}
+.widget[data-view='pill'] .card,
+.widget[data-view='card'] .pill {
+  display: none;
+}
+
+/* ── Status dot ─────────────────────────────────────────────────────────── */
+
+.dot {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+}
+.widget[data-state='paused'] .dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--warning);
+}
+.widget[data-state='focus'] .dot {
+  background: var(--accent);
+}
+.widget[data-state='focus-paused'] .dot {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+/* ── Pill ───────────────────────────────────────────────────────────────── */
+
+.pill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px 0 12px;
+  white-space: nowrap;
+}
+.pill-label {
+  font-weight: 550;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pill-value {
+  margin-left: auto;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Card ───────────────────────────────────────────────────────────────── */
+
+.card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 11px 12px 10px;
+  gap: 8px;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.card-title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-clock {
+  margin-left: auto;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.row {
+  display: flex;
+  gap: 12px;
+  white-space: nowrap;
+}
+.row-label {
+  flex: none;
+  width: 56px;
+  color: var(--text-muted);
+}
+.row-value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.line {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.line-muted {
+  color: var(--text-muted);
+}
+.note {
+  color: var(--accent);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 -4px -2px;
+}
+.card-actions[data-layout='grid'] {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+button {
+  font: inherit;
+  color: var(--text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  padding: 4px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+button:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+button:active {
+  background: var(--bg-active);
+}
+button.primary {
+  color: var(--text);
+  font-weight: 550;
+}
+.card-actions[data-layout='grid'] button {
+  text-align: left;
+}
+.spacer {
+  flex: 1;
+}

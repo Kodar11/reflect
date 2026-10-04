@@ -119,6 +119,30 @@ export class EventRepository implements IEventRepository {
     return (this.allStmt.all({ limit }) as unknown[] as EventRow[]).map(rowToEvent);
   }
 
+  /**
+   * Tracked time inside [from, to), in ms: the summed duration of the window
+   * watcher's events, clipped to the range. One aggregate query — cheap enough
+   * for the always-on status surfaces (tray, widget).
+   */
+  sumTrackedMs(from: string, to: string): number {
+    const row = this.db
+      .prepare(
+        `SELECT COALESCE(SUM(
+            (julianday(MIN(ended_at, @to)) - julianday(MAX(started_at, @from))) * 86400000.0
+          ), 0) AS ms
+         FROM events
+         WHERE watcher = 'window' AND started_at < @to AND ended_at > @from`,
+      )
+      .get({ from, to }) as { ms: number | null };
+    return Math.max(0, Math.round(row.ms ?? 0));
+  }
+
+  /** The most recently updated event, or null with no events. */
+  getLatest(): Event | null {
+    const row = this.db.prepare(`SELECT * FROM events ORDER BY ended_at DESC, id DESC LIMIT 1`).get() as EventRow | undefined;
+    return row ? rowToEvent(row) : null;
+  }
+
   /** When tracking began: the earliest event start, or null with no events. */
   getFirstEventStart(): string | null {
     const row = this.db.prepare(`SELECT MIN(started_at) AS first FROM events`).get() as { first: string | null };

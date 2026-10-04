@@ -80,6 +80,14 @@ export class TrackingService {
     this.logger.info('[TrackingService] stopped (watchers + heartbeat).');
   }
 
+  /**
+   * The machine is about to sleep. What is open ends now; whatever is in
+   * front after wake-up starts a new event, so sleep is never tracked time.
+   */
+  handleSystemSuspend(): void {
+    if (this.started) this.engine.closeOpen();
+  }
+
   get isRunning(): boolean {
     return this.started;
   }

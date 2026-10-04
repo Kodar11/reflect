@@ -657,7 +657,86 @@ type ReflectionGenerateResultDto =
     }
   | { status: 'failed'; category: string; error: string; reportId: string | null; period: ReflectionPeriodDto; attempts: number };
 
+// ── Background runtime ───────────────────────────────────────────────────────
+
+type PauseDurationDto = '15m' | '1h' | 'tomorrow' | 'manual';
+
+/** What the background runtime is doing. Owned by the main process; mirrors `BackgroundStatus`. */
+interface BackgroundStatusDto {
+  tracking: 'running' | 'paused';
+  pausedSince: string | null;
+  /** Null while running, and for a pause that waits for the user. */
+  pausedUntil: string | null;
+  todayTrackedMs: number;
+  currentActivity: { label: string; since: string } | null;
+  focus: {
+    sessionId: string;
+    task: string;
+    profileName: string;
+    isRunning: boolean;
+    pauseKind: 'manual' | 'idle' | null;
+    remainingMs: number | null;
+    elapsedMs: number;
+    blocking: FocusBlockingStatusDto;
+  } | null;
+  widgetVisible: boolean;
+  reflectionPending: boolean;
+  asOf: string;
+}
+
+interface BackgroundSettingsDto {
+  startWithWindows: boolean;
+  widgetEnabled: boolean;
+  notificationsEnabled: boolean;
+  /** False in a development build: the login item is never registered there. */
+  startupAvailable: boolean;
+  /** Registered, but switched off in Windows' own startup settings. */
+  startupDisabledBySystem: boolean;
+}
+
+type BackgroundSettingsPatchDto = Partial<Pick<BackgroundSettingsDto, 'startWithWindows' | 'widgetEnabled' | 'notificationsEnabled'>>;
+
+/** Where the main window was asked to go from outside (tray, widget, notification). */
+type UiNavigationDto =
+  | { route: 'settings' }
+  | { route: 'focus'; intent: FocusIntentDto }
+  | { route: 'reflection'; anchor: string | null };
+
+type WidgetActionDto =
+  | { type: 'open-main' }
+  | { type: 'open-focus' }
+  | { type: 'open-reflection' }
+  | { type: 'pause-tracking'; duration: PauseDurationDto }
+  | { type: 'resume-tracking' }
+  | { type: 'hide' };
+
 interface Window {
+  /** The background runtime: tracking on/off, startup, widget, notifications. */
+  background: {
+    getStatus: () => Promise<BackgroundStatusDto>;
+    getSettings: () => Promise<BackgroundSettingsDto>;
+    updateSettings: (patch: BackgroundSettingsPatchDto) => Promise<BackgroundSettingsDto>;
+    pauseTracking: (duration: PauseDurationDto) => Promise<BackgroundStatusDto>;
+    resumeTracking: () => Promise<BackgroundStatusDto>;
+    /** A navigation request parked for this window, if any (cleared by reading it). */
+    takeNavigation: () => Promise<UiNavigationDto | null>;
+    /** Returns the subscription to pass to `offStatus`. */
+    onStatus: (callback: (status: BackgroundStatusDto) => void) => number;
+    offStatus: (subscription: number) => void;
+    /** A navigation request is waiting — call `takeNavigation`. Returns the subscription for `offNavigationRequested`. */
+    onNavigationRequested: (callback: () => void) => number;
+    offNavigationRequested: (subscription: number) => void;
+  };
+  /** The floating widget's own bridge. Present only in the widget's page. */
+  widget: {
+    getStatus: () => Promise<BackgroundStatusDto>;
+    onStatus: (callback: (status: BackgroundStatusDto) => void) => void;
+    /** Ask for the hover card (true) or the pill (false). */
+    setExpanded: (expanded: boolean) => Promise<void>;
+    /** The window follows the OS cursor between 'start' and 'end'. */
+    drag: (phase: 'start' | 'move' | 'end') => void;
+    act: (action: WidgetActionDto) => Promise<void>;
+  };
   /** Reflections: persisted, evidence-backed readings of a day / week / month / year. */
   reflection: {
     /** The period's view. Never triggers a Gemini call. */

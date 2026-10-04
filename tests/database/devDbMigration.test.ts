@@ -13,7 +13,7 @@ import { FocusRepository } from '../../src/database/FocusRepository';
 
 const copy = process.env.REFLECT_DB_COPY;
 
-it.skipIf(!copy)('migrates a copy of the development database to v15 and keeps its Focus data', () => {
+it.skipIf(!copy)('migrates a copy of the development database to the current schema and keeps its Focus data', () => {
   const before = new BetterSqliteDB(copy!);
   const fromVersion = before.pragma('user_version', { simple: true });
   const sessionsBefore = (before.prepare('SELECT COUNT(*) AS n FROM focus_sessions').get() as { n: number }).n;
@@ -40,7 +40,7 @@ it.skipIf(!copy)('migrates a copy of the development database to v15 and keeps i
   console.log(
     JSON.stringify({ fromVersion, toVersion, sessionsBefore, sessionsAfter: sessions.length, open: open.length, profiles: profiles.length, eventsBefore, eventsAfter }),
   );
-  expect(toVersion).toBe(15);
+  expect(toVersion).toBe(16);
   expect(sessions.length).toBe(sessionsBefore);
   expect(eventsAfter).toBe(eventsBefore);
   expect(fk).toEqual([]);

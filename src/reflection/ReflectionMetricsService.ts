@@ -39,7 +39,15 @@ export interface ReflectionDataSources {
   taxonomy(): TaxonomyNames;
   /** When tracking began; nothing before it is ever loaded or compared. */
   firstEventAt(): string | null;
+  /**
+   * How long the user had tracking paused inside [fromIso, toIso), in ms.
+   * Paused time is missing data — it must not be read as inactivity.
+   */
+  trackingPausedMs?(fromIso: string, toIso: string): number;
 }
+
+/** Shorter pauses are not worth a note. */
+const PAUSE_NOTE_MIN_MS = 5 * 60_000;
 
 export interface ReflectionMetricsServiceOptions {
   config: ReflectionConfig;
@@ -66,6 +74,17 @@ export class ReflectionMetricsService {
     this.config = options.config;
     this.now = options.now ?? (() => new Date());
     this.yieldToEventLoop = options.yieldToEventLoop ?? (() => new Promise<void>((resolve) => setImmediate(resolve)));
+  }
+
+  /** Time the user had tracking paused inside the period (up to now); 0 when unknown. */
+  private pausedMs(period: ReflectionPeriod): number {
+    try {
+      const end = Math.min(Date.parse(period.end), this.now().getTime());
+      if (end <= Date.parse(period.start)) return 0;
+      return this.sources.trackingPausedMs?.(period.start, new Date(end).toISOString()) ?? 0;
+    } catch {
+      return 0;
+    }
   }
 
   /** Forget cached days — call whenever the timeline may have changed. */
@@ -207,6 +226,12 @@ export class ReflectionMetricsService {
       notes.push('This period is still in progress, so only rates and averages are compared — not totals.');
     }
     if (core.priorities.length === 0) notes.push('No current priorities are stated, so priority alignment cannot be assessed.');
+    const pausedMs = this.pausedMs(period);
+    if (pausedMs >= PAUSE_NOTE_MIN_MS) {
+      notes.push(
+        `The user paused tracking for about ${formatPause(pausedMs)} during this ${period.type}. Nothing was recorded in that time: it is missing data, not inactivity or a break.`,
+      );
+    }
 
     // A day also sees the days just before it, one by one.
     let recent: MetricSet = {};
@@ -264,4 +289,15 @@ export class ReflectionMetricsService {
     }
     return facts;
   }
+}
+
+/** "25 minutes", "1 hour", "3 hours 10 minutes". */
+function formatPause(ms: number): string {
+  const minutes = Math.round(ms / 60_000);
+  const h = Math.floor(minutes / 60);
+  const m = minutes % 60;
+  const hours = h === 1 ? '1 hour' : `${h} hours`;
+  const mins = m === 1 ? '1 minute' : `${m} minutes`;
+  if (h === 0) return mins;
+  return m === 0 ? hours : `${hours} ${mins}`;
 }

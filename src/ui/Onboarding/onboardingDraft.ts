@@ -114,12 +114,13 @@ export const QUESTION_STEPS = ['about', 'work', 'priorities', 'interests', 'cont
 export type QuestionStep = (typeof QUESTION_STEPS)[number];
 
 /**
- * `welcome` and `tour` introduce Reflect (first run only), the question steps
- * collect the profile, `done` recaps it.
+ * `welcome` and `tour` introduce Reflect (first run only), `background`
+ * explains that it keeps running without this window and what it observes,
+ * the question steps collect the profile, `done` recaps it.
  */
-export type OnboardingStep = 'welcome' | 'tour' | QuestionStep | 'done';
+export type OnboardingStep = 'welcome' | 'tour' | 'background' | QuestionStep | 'done';
 
-const STEP_ORDER: readonly OnboardingStep[] = ['welcome', 'tour', ...QUESTION_STEPS, 'done'];
+export const STEP_ORDER: readonly OnboardingStep[] = ['welcome', 'tour', 'background', ...QUESTION_STEPS, 'done'];
 
 export function isQuestionStep(step: OnboardingStep): step is QuestionStep {
   return (QUESTION_STEPS as readonly string[]).includes(step);

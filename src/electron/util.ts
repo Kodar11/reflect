@@ -1,5 +1,5 @@
 import { ipcMain, WebContents, WebFrameMain } from 'electron';
-import { getUIPath } from './pathResolver.js';
+import { getUIPath, getWidgetUIPath } from './pathResolver.js';
 import { pathToFileURL } from 'url';
 
 export function isDev(): boolean {
@@ -44,12 +44,47 @@ export function ipcWebContentsSend(
   webContents.send(key, payload);
 }
 
+const DEV_HOST = 'localhost:5123';
+const DEV_WIDGET_PATH = '/widget.html';
+
+/** Accept IPC only from the main window's page. */
 export function validateEventFrame(frame: WebFrameMain | null) {
   if (!frame) return;
-  if (isDev() && new URL(frame.url).host === 'localhost:5123') {
-    return;
+  if (isDev()) {
+    const url = new URL(frame.url);
+    if (url.host === DEV_HOST && url.pathname !== DEV_WIDGET_PATH) return;
   }
   if (frame.url !== pathToFileURL(getUIPath()).toString()) {
     throw new Error('Malicious event');
   }
+}
+
+/**
+ * Accept IPC only from the floating widget's page. The widget has its own
+ * channels and may use nothing else: a `widget:*` handler refuses the main
+ * page, and every other handler refuses the widget.
+ */
+export function validateWidgetFrame(frame: WebFrameMain | null) {
+  if (!frame) return;
+  if (isDev()) {
+    const url = new URL(frame.url);
+    if (url.host === DEV_HOST && url.pathname === DEV_WIDGET_PATH) return;
+  }
+  if (frame.url !== pathToFileURL(getWidgetUIPath()).toString()) {
+    throw new Error('Malicious event');
+  }
+}
+
+export function widgetIpcHandle(key: string, handler: (payload?: any) => any) {
+  ipcMain.handle(key, async (event, payload) => {
+    validateWidgetFrame(event.senderFrame);
+    return await handler(payload);
+  });
+}
+
+export function widgetIpcOn(key: string, handler: (payload: any) => void) {
+  ipcMain.on(key, (event, payload) => {
+    validateWidgetFrame(event.senderFrame);
+    return handler(payload);
+  });
 }

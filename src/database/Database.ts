@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 15) return;
+    if (version >= 16) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -1364,6 +1364,54 @@ export class Database {
         `);
 
         this.db.pragma('user_version = 15');
+      })();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v15 → v16
+    //
+    // Background runtime.
+    //
+    // 1. app_settings is the one application-level preference store the main
+    //    process reads without any window open: start with Windows, the
+    //    tracking pause, the floating widget (on/off + position) and the
+    //    notification switch.
+    //
+    // 2. tracking_pauses records every finished pause, so a reflection can
+    //    say that data is missing instead of reading a pause as inactivity.
+    //
+    // 3. notification_log remembers which user-visible notifications were
+    //    already sent, so a retry or a restart never repeats one.
+    //
+    // Purely additive.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 16) {
+      this.db.transaction(() => {
+        this.db.exec(`
+          CREATE TABLE IF NOT EXISTS app_settings (
+            id         INTEGER PRIMARY KEY CHECK (id = 1),
+            data       TEXT NOT NULL,
+            updated_at DATETIME NOT NULL
+          );
+
+          CREATE TABLE IF NOT EXISTS tracking_pauses (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            started_at DATETIME NOT NULL,
+            ended_at   DATETIME NOT NULL
+          );
+
+          CREATE INDEX IF NOT EXISTS idx_tracking_pauses_range
+            ON tracking_pauses (started_at, ended_at);
+
+          CREATE TABLE IF NOT EXISTS notification_log (
+            key        TEXT PRIMARY KEY,
+            kind       TEXT NOT NULL,
+            created_at DATETIME NOT NULL
+          );
+        `);
+
+        this.db.pragma('user_version = 16');
       })();
     }
   }

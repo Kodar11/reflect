@@ -21,6 +21,7 @@
   "include": [
     "src/ui/main.tsx",
     "src/ui/App.tsx",
+    "src/ui/widget/widget.ts",
     "src/ui/index.css",
     "src/ui/components/Header.tsx",
     "src/ui/components/Sidebar.tsx",
