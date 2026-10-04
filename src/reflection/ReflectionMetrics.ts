@@ -223,6 +223,12 @@ export interface MetricsInput {
   priorities: ReflectionPriority[];
   taxonomy: TaxonomyNames;
   focus: FocusSessionFacts[];
+  /**
+   * Every Focus session of the period, including ones ended early. Described
+   * one by one for a day, so "did the commitment actually happen?" can be
+   * answered from evidence.
+   */
+  focusSessions?: FocusSessionFacts[];
   /** Threads to report even when they are not among the largest — used so a
    * comparison period can state a real zero instead of "unknown". */
   forceThreads?: string[];
@@ -600,6 +606,16 @@ export function computeMetrics(input: MetricsInput): MetricSet {
     }
   }
 
+  // ── Each Focus session of a day: planned vs actual, and how it ended ──
+  if (!multiDay) {
+    const sessions = [...(input.focusSessions ?? [])].sort((a, b) => (a.startedAt < b.startedAt ? -1 : 1)).slice(0, MAX_FOCUS_SESSION_METRICS);
+    sessions.forEach((f, index) => {
+      add(`focus.s${index + 1}`, `Focus session “${f.task}” (${formatLocalDateTime(f.startedAt)})`, describeFocusSession(f), 'text', 'focus', {
+        range: { start: f.startedAt, end: f.endedAt },
+      });
+    });
+  }
+
   // ── Series: how the period moved across its natural sub-divisions ──
   const buckets = subBuckets(period);
   if (buckets.length > 0) {
@@ -665,6 +681,104 @@ export function computeMetrics(input: MetricsInput): MetricSet {
   }
 
   return metrics;
+}
+
+const MAX_FOCUS_SESSION_METRICS = 6;
+
+const FOCUS_END_PHRASES: Record<string, string> = {
+  completed: 'ran its full planned time',
+  finished: 'ended by you',
+  'ended-early': 'ended early',
+  abandoned: 'left unfinished',
+};
+
+/** `38m of 45m planned · 2 interruptions · ended early · note: "call came in"`. */
+export function describeFocusSession(f: FocusSessionFacts): string {
+  const parts = [f.plannedMinutes ? `${formatMinutes(f.elapsedMinutes)} of ${formatMinutes(f.plannedMinutes)} planned` : `${formatMinutes(f.elapsedMinutes)}, no time limit`];
+  if (f.interruptionCount > 0) parts.push(`${f.interruptionCount} interruption${f.interruptionCount === 1 ? '' : 's'}`);
+  if (f.blockedAttemptCount > 0) parts.push(`${f.blockedAttemptCount} blocked attempt${f.blockedAttemptCount === 1 ? '' : 's'}`);
+  parts.push(f.endReason ? FOCUS_END_PHRASES[f.endReason] ?? f.endReason : 'still running');
+  if (f.note) parts.push(`note: “${f.note.replace(/\s+/g, ' ').trim().slice(0, 140)}”`);
+  return parts.join(' · ');
+}
+
+// ── Recent days ─────────────────────────────────────────────────────────────
+
+export interface RecentDay {
+  key: string;
+  /** `Fri, Oct 2`. */
+  label: string;
+  range: { start: string; end: string };
+  /** Core metrics of that day, however little was tracked. */
+  metrics: MetricSet;
+}
+
+/**
+ * The days just before a day, as citable measurements: each day's totals, and
+ * how often each current priority / thread appeared across them. This is what
+ * lets a reflection say "this has happened three times recently" from
+ * evidence instead of from memory.
+ */
+export function buildRecentDayMetrics(input: {
+  /** Earlier days, any order. */
+  days: RecentDay[];
+  priorities: Pick<ReflectionPriority, 'id' | 'text'>[];
+  /** Threads of the day being reflected on. */
+  threads: string[];
+  lookback: number;
+}): MetricSet {
+  const out: MetricSet = {};
+  const days = [...input.days].sort((a, b) => (a.key < b.key ? 1 : -1));
+  const put = (metric: Metric) => {
+    out[metric.key] = metric;
+  };
+  const span = `the previous ${input.lookback} days`;
+  const tracked = (d: RecentDay) => numberOf(d.metrics['time.tracked_minutes']) ?? 0;
+  const active = days.filter((d) => tracked(d) >= ACTIVE_DAY_MIN_MINUTES);
+  if (days.length === 0) return out;
+
+  put({ key: 'recent.active_days', label: `Days with tracked activity in ${span}`, value: active.length, unit: 'count', display: String(active.length), group: 'series' });
+
+  for (const d of active) {
+    const copy = (source: string, suffix: string, label: string) => {
+      const metric = d.metrics[source];
+      if (!metric) return;
+      put({ key: `recent.${d.key}.${suffix}`, label: `${label} — ${d.label}`, value: metric.value, unit: metric.unit, display: metric.display, group: 'series', range: d.range });
+    };
+    copy('time.tracked_minutes', 'tracked_minutes', 'Tracked time');
+    copy('time.focused_minutes', 'focused_minutes', 'Focused time');
+    copy('behavior.switches', 'switches', 'Context switches');
+    copy('focus.session_count', 'focus_sessions', 'Focus sessions');
+    const top = Object.values(d.metrics)
+      .filter((m) => /^thread\.[^.]+\.minutes$/.test(m.key) && typeof m.value === 'number' && m.thread)
+      .sort((a, b) => (b.value as number) - (a.value as number))[0];
+    if (top && (top.value as number) >= SHORT_ACTIVITY_MINUTES) {
+      put({ key: `recent.${d.key}.top_thread`, label: `Main thread — ${d.label}`, value: top.thread!, unit: 'text', display: `${top.thread} (${top.display})`, group: 'series', range: d.range, thread: top.thread });
+    }
+  }
+
+  const presence = (key: (d: RecentDay) => string, minMinutes: number) => {
+    const hits = active.filter((d) => (numberOf(d.metrics[key(d)]) ?? 0) >= minMinutes);
+    const minutes = active.reduce((sum, d) => sum + (numberOf(d.metrics[key(d)]) ?? 0), 0);
+    return { days: hits.length, minutes, last: hits[0] ?? null };
+  };
+
+  for (const p of input.priorities) {
+    const seen = presence(() => `priority.${p.id}.minutes`, MEANINGFUL_ACTIVITY_MINUTES);
+    put({ key: `recent.priority.${p.id}.active_days`, label: `Days with work linked to the priority “${p.text}” in ${span}`, value: seen.days, unit: 'count', display: `${seen.days} of ${active.length}`, group: 'series', priorityId: p.id });
+    put({ key: `recent.priority.${p.id}.minutes`, label: `Time linked to the priority “${p.text}” in ${span}`, value: Math.round(seen.minutes), unit: 'minutes', display: formatMinutes(seen.minutes), group: 'series', priorityId: p.id });
+    if (seen.last) {
+      put({ key: `recent.priority.${p.id}.last_day`, label: `Most recent earlier day with work linked to the priority “${p.text}”`, value: seen.last.label, unit: 'text', display: seen.last.label, group: 'series', priorityId: p.id, range: seen.last.range });
+    }
+  }
+
+  for (const thread of input.threads.slice(0, MAX_THREAD_METRICS)) {
+    const slug = threadSlug(thread);
+    if (!slug) continue;
+    const seen = presence(() => `thread.${slug}.minutes`, MEANINGFUL_ACTIVITY_MINUTES);
+    put({ key: `recent.thread.${slug}.active_days`, label: `Days with work on “${thread}” in ${span}`, value: seen.days, unit: 'count', display: `${seen.days} of ${active.length}`, group: 'series', thread });
+  }
+  return out;
 }
 
 // ── Data sufficiency ────────────────────────────────────────────────────────

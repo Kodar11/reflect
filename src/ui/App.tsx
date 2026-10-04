@@ -16,6 +16,7 @@ import { PersonalContextCard } from './Onboarding/PersonalContextCard';
 import { LearnedPatternToast } from './components/LearnedPatternToast';
 import { ReflectionPage } from './Reflection/ReflectionPage';
 import type { TimelineTarget } from './Reflection/reflectionView';
+import type { FocusPrefill } from './Focus/FocusStart';
 import { shouldShowOnboarding, type UserProfile } from '../profile/UserProfile';
 
 type OnboardingGate =
@@ -38,6 +39,8 @@ function App() {
   // Set when an evidence link in Reflection opens the Timeline at a specific
   // day / activity; cleared on ordinary navigation.
   const [timelineTarget, setTimelineTarget] = useState<(TimelineTarget & { nonce: number }) | null>(null);
+  // Set when a coach recommendation is started as a Focus session.
+  const [focusPrefill, setFocusPrefill] = useState<FocusPrefill | null>(null);
 
   // First-run onboarding: shown only while it hasn't been finished or skipped.
   // Any failure falls through to the normal app — onboarding never blocks it.
@@ -81,6 +84,13 @@ function App() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
+  // The end-of-day notification opens the Reflection tab.
+  useEffect(() => {
+    const open = () => setRoute('reflection');
+    window.reflection.onOpenRequested(open);
+    return () => window.reflection.offOpenRequested(open);
+  }, []);
+
   // The tray's Focus entries bring the Focus page forward; the page then
   // opens the requested flow.
   useEffect(() => {
@@ -97,6 +107,7 @@ function App() {
   const handleNavigate = (r: Route) => {
     setRoute(r);
     setTimelineTarget(null);
+    setFocusPrefill(null);
   };
 
   return (
@@ -156,12 +167,25 @@ function App() {
                 />
               </div>
             ) : route === 'focus' ? (
-              <FocusPage focus={focus} />
+              <FocusPage focus={focus} prefill={focusPrefill} onPrefillConsumed={() => setFocusPrefill(null)} />
             ) : route === 'reflection' ? (
               <ReflectionPage
                 onViewTimeline={(target) => {
                   setTimelineTarget({ ...target, nonce: Date.now() });
                   setRoute('timeline');
+                }}
+                // Focus is the one execution mechanism: a recommendation is run
+                // through the ordinary start flow, with what and how long filled in.
+                onStartFocus={(action) => {
+                  if (!focus.activeSession) {
+                    setFocusPrefill({
+                      task: action.focusTask ?? action.title,
+                      minutes: action.focusMinutes,
+                      actionId: action.id,
+                      nonce: Date.now(),
+                    });
+                  }
+                  setRoute('focus');
                 }}
               />
             ) : route === 'settings' ? (

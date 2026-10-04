@@ -11,12 +11,25 @@ import {
  * the wording or the input layout changes so persisted reports stay
  * attributable to the prompt that produced them.
  */
-export const REFLECTION_PROMPT_VERSION = 'reflect-reflection-v1';
+export const REFLECTION_PROMPT_VERSION = 'reflect-reflection-v2';
+
+/**
+ * What the Coach adds to a day's request so reflection and coaching are ONE
+ * model call. Built by the coach layer; this module only places it.
+ */
+export interface CoachPromptParts {
+  /** Appended to the system instruction. */
+  systemInstruction: string;
+  /** Appended to the user turn (previous actions, what has worked, memory…). */
+  promptSection: string;
+  /** JSON Schema of the `coach` property of the response. */
+  responseSchema: unknown;
+}
 
 const SYSTEM_INSTRUCTION = `ROLE
 You are Reflect, a personal activity reflection system.
 Your job is to help a user understand their own observed behavior: what it shows, whether it lines up with what they said matters, and what is worth carrying forward.
-You are not a productivity dashboard, a scorer, a coach or a task manager.
+You are not a productivity dashboard, a scorer or a task manager.
 
 THE TEST
 Every insight must pass this test: would knowing this plausibly change what the user does, notices, continues or experiments with next? If not, leave it out.
@@ -25,6 +38,14 @@ Surface a small number of meaningful insights. Fewer is better than padded. If n
 
 WHAT YOU RECEIVE
 Reflect has already measured everything. METRICS and COMPARISONS are deterministic measurements; ACTIVITIES are the meaningful activities Reflect identified. You interpret these measurements. You never calculate, and you never invent a fact.
+
+WHOSE WORD COUNTS (highest first)
+1. What the user corrected or ruled explicitly: an activity with source "user_override", an EXPLICIT RULE, a note the user wrote.
+2. What the user stated: their priorities, the task of a Focus session, a commitment they accepted.
+3. A LEARNED PATTERN the user confirmed.
+4. Reflect's own interpretation (source "ai").
+5. A generic guess (source "deterministic").
+Never let a lower level contradict a higher one. Where the evidence conflicts or is thin, say that you are not sure instead of choosing.
 
 PRINCIPLES
 - Do not judge the user. Do not impose your own definition of productivity.
@@ -68,12 +89,12 @@ STRUCTURE OF AN INSIGHT
 - observation: what was observed, with the numbers. Facts only.
 - interpretation: what that observation shows, staying within the evidence. No causes, no psychology.
 - relevance: why it matters to this user in light of their own context or priorities, or null when there is no such link.
-- suggestedAction: leave null. The single action belongs in carryForward.
+- suggestedAction: leave null. Actions never belong inside an insight.
 - confidence: 0 to 1 — how strongly the cited evidence supports the insight.
 Choose insights that complement each other (for example progress + alignment + a pattern + a change), not several variations of one observation.
 
-CARRY FORWARD
-At most ONE carry-forward: a single concrete thing to continue, protect or try next period, grounded in what was observed (cite the metrics or activities behind it). It is a suggestion, not a task list. If the evidence does not support one, use null.
+NARRATIVE
+For a DAY, write "narrative": two to four plain sentences on what happened, in order — the story of the day, not a list of numbers. It may quote the day's plain totals (tracked time, focused time, context switches, longest block, Focus sessions) and any number the insights cite; nothing else. For a week, month or year, use null.
 
 NOVELTY
 PREVIOUSLY SURFACED lists claims Reflect already made in recent periods. Do not repeat one unless this period shows a meaningful change in it — and then say what changed, citing the comparison.
@@ -83,6 +104,12 @@ FEEDBACK HISTORY shows which kinds of insight this user found useful or not. Lea
 OUTPUT
 Respond with JSON matching the response schema, with schemaVersion ${REFLECTION_OUTPUT_SCHEMA_VERSION}.
 Return periodType, periodStart and periodEnd exactly as given under PERIOD.`;
+
+const CARRY_FORWARD_INSTRUCTION = `CARRY FORWARD
+At most ONE carry-forward: a single concrete thing to continue, protect or try next period, grounded in what was observed (cite the metrics or activities behind it). It is a suggestion, not a task list. If the evidence does not support one, use null.`;
+
+const NO_CARRY_FORWARD_INSTRUCTION = `CARRY FORWARD
+Use null. What to do next belongs in the "coach" part of this response, described below.`;
 
 const PURPOSE: Record<ReflectionPeriodType, string> = {
   day:
@@ -99,8 +126,15 @@ const PURPOSE: Record<ReflectionPeriodType, string> = {
     'Look at the threads that received sustained attention, how behavior evolved, priorities versus actual behavior, recurring long-term patterns and major shifts. This is a retrospective of the whole year, not twelve monthly summaries, and never a personality profile.',
 };
 
-export function buildReflectionSystemInstruction(): string {
-  return SYSTEM_INSTRUCTION;
+/**
+ * The system instruction. With `coach` parts (a day's unified pass) the same
+ * request also decides what is worth doing next, so the single carry-forward
+ * is replaced by the Coach's tracked recommendations.
+ */
+export function buildReflectionSystemInstruction(coach?: CoachPromptParts | null): string {
+  return coach
+    ? `${SYSTEM_INSTRUCTION}\n\n${NO_CARRY_FORWARD_INSTRUCTION}\n\n${coach.systemInstruction}`
+    : `${SYSTEM_INSTRUCTION}\n\n${CARRY_FORWARD_INSTRUCTION}`;
 }
 
 /** One compact JSON object per line. */
@@ -122,7 +156,7 @@ function userContextSection(context: ReflectionInput['userContext']): string {
 }
 
 /** The per-report user turn: purpose, context, then the measured evidence. */
-export function buildReflectionPrompt(input: ReflectionInput): string {
+export function buildReflectionPrompt(input: ReflectionInput, coach?: CoachPromptParts | null): string {
   const { period } = input;
   const sections: string[] = [
     `PERIOD\n${JSON.stringify({ periodType: period.type, periodStart: period.start, periodEnd: period.end })}\n` +
@@ -153,8 +187,17 @@ export function buildReflectionPrompt(input: ReflectionInput): string {
       ? `ACTIVITIES (${input.activities.length}, chronological, local time; cite by ref)\n${lines(input.activities)}`
       : 'ACTIVITIES\nNone.',
 
+    input.explicitRules.length > 0
+      ? `EXPLICIT RULES (written by the user — authoritative; context only, do not report them back)\n${input.explicitRules.map((p) => `- ${p}`).join('\n')}`
+      : '',
+
     input.learnedPatterns.length > 0
       ? `LEARNED PATTERNS (classification knowledge the user confirmed — context only, do not report it back)\n${input.learnedPatterns.map((p) => `- ${p}`).join('\n')}`
+      : '',
+
+    input.longerTerm
+      ? `LONGER-TERM CONTEXT (${input.longerTerm.periodLabel} — what Reflect already said; background only, do not quote its numbers)\n` +
+        `${input.longerTerm.headline}\n${input.longerTerm.insights.map((i) => `- ${i}`).join('\n')}`
       : '',
 
     input.previousReflection
@@ -168,6 +211,8 @@ export function buildReflectionPrompt(input: ReflectionInput): string {
     input.feedbackHistory.length > 0 ? `FEEDBACK HISTORY\n${input.feedbackHistory.map((f) => `- ${f}`).join('\n')}` : '',
 
     `LIMIT\nAt most ${input.maxInsights} insights. Fewer is fine; zero is fine.`,
+
+    coach?.promptSection ?? '',
   ];
   return sections.filter(Boolean).join('\n\n');
 }
@@ -186,7 +231,7 @@ export function buildReflectionRetryFeedback(errors: string[]): string {
  * the supplied values; metric keys and activity refs are checked at runtime
  * (the lists are too long to enumerate). Runtime validation always runs.
  */
-export function buildReflectionResponseSchema(priorityIds: string[]): unknown {
+export function buildReflectionResponseSchema(priorityIds: string[], coach?: CoachPromptParts | null): unknown {
   const nullableString = { anyOf: [{ type: 'string' }, { type: 'null' }] };
   const stringArray = { type: 'array', items: { type: 'string' } };
   const priorityArray =
@@ -199,6 +244,7 @@ export function buildReflectionResponseSchema(priorityIds: string[]): unknown {
       periodStart: { type: 'string', description: 'ISO-8601 timestamp, exactly as given' },
       periodEnd: { type: 'string', description: 'ISO-8601 timestamp, exactly as given' },
       headline: { type: 'string' },
+      narrative: nullableString,
       insights: {
         type: 'array',
         items: {
@@ -243,7 +289,18 @@ export function buildReflectionResponseSchema(priorityIds: string[]): unknown {
           { type: 'null' },
         ],
       },
+      ...(coach ? { coach: coach.responseSchema } : {}),
     },
-    required: ['schemaVersion', 'periodType', 'periodStart', 'periodEnd', 'headline', 'insights', 'carryForward'],
+    required: [
+      'schemaVersion',
+      'periodType',
+      'periodStart',
+      'periodEnd',
+      'headline',
+      'narrative',
+      'insights',
+      'carryForward',
+      ...(coach ? ['coach'] : []),
+    ],
   };
 }

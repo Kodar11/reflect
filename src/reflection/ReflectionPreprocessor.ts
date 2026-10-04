@@ -41,6 +41,10 @@ export interface PreprocessContext {
   feedback: ReflectionFeedbackRecord[];
   /** Human descriptions of the user's confirmed learned rules. */
   learnedPatterns: string[];
+  /** Human descriptions of the rules the user wrote themselves. */
+  explicitRules?: string[];
+  /** The current report of the next larger period (a day's week), if any. */
+  longerTermReport?: ReflectionReport | null;
 }
 
 export interface PreparedReflection {
@@ -126,6 +130,7 @@ export function prepareReflection(dataset: PeriodDataset, ctx: PreprocessContext
       thread: a.thread,
       priorityId: a.priorityId,
       source: a.source,
+      ...(a.note ? { note: a.note } : {}),
     };
   });
 
@@ -182,6 +187,15 @@ export function prepareReflection(dataset: PeriodDataset, ctx: PreprocessContext
     comparisons: toComparisons(dataset.metrics),
     notes: dataset.notes,
     learnedPatterns: ctx.learnedPatterns,
+    explicitRules: ctx.explicitRules ?? [],
+    longerTerm:
+      ctx.longerTermReport && ctx.longerTermReport.headline
+        ? {
+            periodLabel: describePeriod(ctx.longerTermReport.period, ctx.nowIso).title,
+            headline: ctx.longerTermReport.headline,
+            insights: ctx.longerTermReport.insights.map((i) => `${i.type}: ${i.title}`),
+          }
+        : null,
     previousReflection:
       previous && previous.headline
         ? {

@@ -34,6 +34,8 @@ export function report(overrides: Partial<ReflectionReportDto> = {}): Reflection
     id: 'r1',
     status: 'fresh',
     headline: 'Project X received consistent attention this week, but your afternoons became more fragmented as you switched between projects.',
+    narrative: null,
+    coach: null,
     insights: [
       insight(),
       insight({
@@ -96,6 +98,7 @@ export function makeView(overrides: ViewOverrides = {}): ReflectionViewDto {
     canRefresh: false,
     refreshBlockedReason: 'up_to_date',
     refreshAvailableAt: null,
+    dailyReflectionAt: null,
     priorities: [
       {
         id: 'pr-1',

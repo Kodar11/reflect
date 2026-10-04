@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Lightbulb } from 'lucide-react';
+import type { CoachController } from './CoachPanel';
 import { ReflectionContent } from './ReflectionContent';
 import {
   PERIOD_TABS,
@@ -17,20 +18,27 @@ const LIVE_REFRESH_MS = 60_000;
 export interface ReflectionPageProps {
   /** Open the Timeline at the evidence behind an insight. */
   onViewTimeline: (target: TimelineTarget) => void;
+  /** Run a coach recommendation as a Focus session. */
+  onStartFocus: (action: CoachActionDto) => void;
 }
 
 /**
- * Reflection — the meaning layer. One period at a time (Today / Week / Month
- * / Year, with history), read as a short briefing rather than a dashboard.
+ * Reflection — the meaning layer, and the home of the Coach. One period at a
+ * time (Today / Week / Month / Year, with history), read as a short briefing
+ * rather than a dashboard. A day also carries what is worth doing next, what
+ * was already committed to, and a place to talk it over.
  *
  * This component only fetches and forwards: the main process owns the
- * reflection, decides whether a refresh is allowed, and is the only place
- * Gemini is ever called. Opening the tab never triggers a generation.
+ * reflection, the actions and the conversation, decides what is allowed, and
+ * is the only place Gemini is ever called. Opening the tab never triggers a
+ * generation.
  */
-export function ReflectionPage({ onViewTimeline }: ReflectionPageProps) {
+export function ReflectionPage({ onViewTimeline, onStartFocus }: ReflectionPageProps) {
   const [type, setType] = useState<ReflectionPeriodTypeDto>('day');
   /** `null` = the current period; otherwise an instant inside the period being browsed. */
   const [anchor, setAnchor] = useState<string | null>(null);
+  /** The day the tab opened on: the latest one with a reflection (null = today). */
+  const [landing, setLanding] = useState<{ resolved: boolean; anchor: string | null }>({ resolved: false, anchor: null });
   const [view, setView] = useState<ReflectionViewDto | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,6 +46,32 @@ export function ReflectionPage({ onViewTimeline }: ReflectionPageProps) {
   const [notice, setNotice] = useState<string | null>(null);
   /** Guards against a slow response for a period the user already left. */
   const requestRef = useRef(0);
+
+  const [coachState, setCoachState] = useState<CoachStateDto | null>(null);
+  const [busyActionId, setBusyActionId] = useState<string | null>(null);
+  const [coachNotice, setCoachNotice] = useState<string | null>(null);
+  const [chatBusy, setChatBusy] = useState(false);
+  const [chatError, setChatError] = useState<string | null>(null);
+  const coachRequestRef = useRef(0);
+
+  // A morning opens on yesterday's briefing: the latest completed daily
+  // report is the landing content, with a way back to today.
+  useEffect(() => {
+    let cancelled = false;
+    window.reflection
+      .getLanding()
+      .then((result) => {
+        if (cancelled) return;
+        setLanding({ resolved: true, anchor: result.anchor });
+        if (result.anchor) setAnchor(result.anchor);
+      })
+      .catch(() => {
+        if (!cancelled) setLanding({ resolved: true, anchor: null });
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const load = useCallback(
     async (showLoading: boolean) => {
@@ -63,9 +97,10 @@ export function ReflectionPage({ onViewTimeline }: ReflectionPageProps) {
   );
 
   useEffect(() => {
+    if (!landing.resolved) return;
     setNotice(null);
     void load(true);
-  }, [load]);
+  }, [load, landing.resolved]);
 
   // A scheduled reflection landed, or priorities changed, in the main process.
   useEffect(() => {
@@ -82,6 +117,109 @@ export function ReflectionPage({ onViewTimeline }: ReflectionPageProps) {
     return () => clearInterval(interval);
   }, [generating, isCurrent, load]);
 
+  // ── Coach ──────────────────────────────────────────────────────────────────
+
+  const reportId = type === 'day' ? view?.report?.id ?? null : null;
+  const loadCoach = useCallback(async () => {
+    const request = ++coachRequestRef.current;
+    try {
+      const next = await window.coach.getState(reportId);
+      if (request === coachRequestRef.current) setCoachState(next);
+    } catch (e) {
+      console.error('[ReflectionPage] failed to load coach state', e);
+    }
+  }, [reportId]);
+
+  useEffect(() => {
+    if (type !== 'day') return;
+    void loadCoach();
+  }, [type, loadCoach]);
+
+  // An action was observed, decided or settled in the main process.
+  useEffect(() => {
+    const onChanged = () => void loadCoach();
+    window.coach.onChanged(onChanged);
+    return () => window.coach.offChanged(onChanged);
+  }, [loadCoach]);
+
+  /** Run one change to an action; the main process is the source of truth for the result. */
+  const actOn = useCallback(
+    async (actionId: string, run: () => Promise<CoachActionResultDto>) => {
+      setBusyActionId(actionId);
+      setCoachNotice(null);
+      try {
+        const result = await run();
+        if (!result.ok) setCoachNotice(result.error);
+        else if (result.noteDropped) setCoachNotice('Saved. Reflect does not keep health or personal details, so only the reason was stored.');
+      } catch (e) {
+        console.error('[ReflectionPage] coach action failed', e);
+        setCoachNotice('That change could not be saved.');
+      } finally {
+        setBusyActionId(null);
+        void loadCoach();
+      }
+    },
+    [loadCoach],
+  );
+
+  const send = useCallback(
+    async (text: string) => {
+      if (chatBusy) return;
+      setChatBusy(true);
+      setChatError(null);
+      try {
+        const result = await window.coach.chat(text);
+        if (!result.ok) setChatError(result.message);
+      } catch (e) {
+        console.error('[ReflectionPage] coach chat failed', e);
+        setChatError('Something went wrong while answering. Nothing was changed.');
+      } finally {
+        setChatBusy(false);
+        void loadCoach();
+      }
+    },
+    [chatBusy, loadCoach],
+  );
+
+  // The day on screen is "live" when it is the one the tab opens on: today,
+  // or the latest day that has a reflection.
+  const live = type === 'day' && (anchor === null || anchor === landing.anchor);
+  const coach: CoachController | null = useMemo(
+    () =>
+      type !== 'day'
+        ? null
+        : {
+            state: coachState,
+            live,
+            busyActionId,
+            chatBusy,
+            chatError,
+            notice: coachNotice,
+            onDecide: (id, decision, reason) => void actOn(id, () => window.coach.decide(id, decision, reason)),
+            onEdit: (id, patch) => void actOn(id, () => window.coach.edit(id, patch)),
+            onExecution: (id, execution, reason) => void actOn(id, () => window.coach.reportExecution(id, execution, reason)),
+            onOutcome: (id, outcome, reason) => void actOn(id, () => window.coach.reportOutcome(id, outcome, reason)),
+            onStartFocus,
+            onSend: (text) => void send(text),
+            onRemoveMemory: (id) => {
+              void window.coach
+                .removeMemory(id)
+                .catch((e) => console.error('[ReflectionPage] could not remove memory', e))
+                .finally(() => void loadCoach());
+            },
+            onSaveSettings: (settings) => {
+              void window.coach
+                .saveSettings(settings)
+                .catch((e) => console.error('[ReflectionPage] could not save settings', e))
+                .finally(() => {
+                  void loadCoach();
+                  void load(false);
+                });
+            },
+          },
+    [type, coachState, live, busyActionId, chatBusy, chatError, coachNotice, actOn, onStartFocus, send, loadCoach, load],
+  );
+
   const refresh = async () => {
     if (busy) return;
     setBusy(true);
@@ -95,6 +233,7 @@ export function ReflectionPage({ onViewTimeline }: ReflectionPageProps) {
     } finally {
       setBusy(false);
       void load(false);
+      void loadCoach();
     }
   };
 
@@ -183,7 +322,7 @@ export function ReflectionPage({ onViewTimeline }: ReflectionPageProps) {
               </button>
               <div className="min-w-0">
                 <div className="text-[20px] font-bold tracking-tight text-default leading-tight">
-                  {view?.period.title ?? ' '}
+                  {view?.period.title ?? ' '}
                 </div>
                 {view && view.period.title !== view.period.range && (
                   <div className="text-[13px] text-muted">{view.period.range}</div>
@@ -217,6 +356,7 @@ export function ReflectionPage({ onViewTimeline }: ReflectionPageProps) {
             onFeedback={submitFeedback}
             onViewTimeline={onViewTimeline}
             onSetPriorityStatus={setPriorityStatus}
+            coach={coach}
           />
         </div>
       </div>

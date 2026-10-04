@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 14) return;
+    if (version >= 15) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -1207,6 +1207,163 @@ export class Database {
         `);
 
         this.db.pragma('user_version = 14');
+      })();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v14 → v15
+    //
+    // Productivity Coach.
+    //
+    // 1. A day's reflection becomes the day's INTELLIGENCE: reflection_reports
+    //    gains the narrative ("what happened") and the coach block written by
+    //    the same model call (follow-ups, uncertainty, a question).
+    //
+    // 2. coach_actions makes a recommendation a first-class, trackable entity:
+    //    decision, observed execution and stated outcome are separate columns,
+    //    because "I did it" and "it worked" are different facts.
+    //    coach_action_events is the audit trail of every lifecycle step.
+    //
+    // 3. coach_memory holds durable things the user said or that were
+    //    concluded from evidence. What worked / failed is NOT stored: it is
+    //    derived from coach_actions, so there is one source of truth.
+    //
+    // 4. coach_messages is the conversation; coach_settings the user's
+    //    reflection time and day boundary.
+    //
+    // Purely additive. Earlier reflections are kept as they are.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 15) {
+      this.db.transaction(() => {
+        if (!tableHasColumn('reflection_reports', 'narrative')) {
+          this.db.exec('ALTER TABLE reflection_reports ADD COLUMN narrative TEXT');
+        }
+        if (!tableHasColumn('reflection_reports', 'coach_json')) {
+          this.db.exec('ALTER TABLE reflection_reports ADD COLUMN coach_json TEXT');
+        }
+
+        this.db.exec(`
+          CREATE TABLE IF NOT EXISTS coach_actions (
+            id                       TEXT PRIMARY KEY,
+            source                   TEXT NOT NULL
+              CHECK (source IN ('daily', 'conversation')),
+            report_id                TEXT,
+            origin_day_key           TEXT NOT NULL,
+            parent_action_id         TEXT,
+
+            title                    TEXT NOT NULL,
+            description              TEXT,
+            rationale                TEXT NOT NULL,
+            action_type              TEXT NOT NULL,
+            daypart                  TEXT NOT NULL DEFAULT 'any',
+            target_start             DATETIME,
+            target_end               DATETIME,
+            focus_minutes            INTEGER,
+            focus_task               TEXT,
+            priority_id              TEXT,
+            thread                   TEXT,
+
+            strategy_key             TEXT NOT NULL,
+            target_key               TEXT,
+
+            evidence_json            TEXT NOT NULL DEFAULT '[]',
+            source_metric_keys_json  TEXT NOT NULL DEFAULT '[]',
+            source_activity_ids_json TEXT NOT NULL DEFAULT '[]',
+            confidence               REAL NOT NULL DEFAULT 0,
+
+            status                   TEXT NOT NULL
+              CHECK (status IN ('suggested', 'snoozed', 'accepted', 'review', 'closed', 'rejected', 'withdrawn', 'expired')),
+            execution                TEXT
+              CHECK (execution IS NULL OR execution IN ('done', 'partial', 'not_done')),
+            execution_source         TEXT,
+            outcome                  TEXT
+              CHECK (outcome IS NULL OR outcome IN ('worked', 'partly_worked', 'did_not_work', 'not_applicable')),
+            reason_code              TEXT,
+            note                     TEXT,
+            observation_json         TEXT,
+            linked_focus_session_id  TEXT,
+            snoozed_until            DATETIME,
+            snooze_count             INTEGER NOT NULL DEFAULT 0,
+            user_edited              INTEGER NOT NULL DEFAULT 0,
+
+            created_at               DATETIME NOT NULL,
+            accepted_at              DATETIME,
+            rejected_at              DATETIME,
+            executed_at              DATETIME,
+            outcome_at               DATETIME,
+            closed_at                DATETIME,
+            updated_at               DATETIME NOT NULL,
+
+            FOREIGN KEY (report_id)
+              REFERENCES reflection_reports (id)
+              ON DELETE SET NULL
+          );
+
+          CREATE INDEX IF NOT EXISTS idx_coach_actions_status
+            ON coach_actions (status);
+
+          CREATE INDEX IF NOT EXISTS idx_coach_actions_created
+            ON coach_actions (created_at);
+
+          CREATE INDEX IF NOT EXISTS idx_coach_actions_report
+            ON coach_actions (report_id);
+
+          CREATE TABLE IF NOT EXISTS coach_action_events (
+            id          TEXT PRIMARY KEY,
+            action_id   TEXT NOT NULL,
+            type        TEXT NOT NULL,
+            from_status TEXT,
+            to_status   TEXT NOT NULL,
+            detail_json TEXT,
+            created_at  DATETIME NOT NULL,
+
+            FOREIGN KEY (action_id)
+              REFERENCES coach_actions (id)
+              ON DELETE CASCADE
+          );
+
+          CREATE INDEX IF NOT EXISTS idx_coach_action_events_action
+            ON coach_action_events (action_id, created_at);
+
+          CREATE TABLE IF NOT EXISTS coach_memory (
+            id             TEXT PRIMARY KEY,
+            kind           TEXT NOT NULL,
+            text           TEXT NOT NULL,
+            normalized_key TEXT NOT NULL,
+            status         TEXT NOT NULL DEFAULT 'active'
+              CHECK (status IN ('active', 'resolved', 'removed')),
+            source         TEXT NOT NULL
+              CHECK (source IN ('user', 'coach')),
+            source_ref     TEXT,
+            target_key     TEXT,
+            created_at     DATETIME NOT NULL,
+            updated_at     DATETIME NOT NULL
+          );
+
+          CREATE INDEX IF NOT EXISTS idx_coach_memory_status
+            ON coach_memory (status);
+
+          CREATE TABLE IF NOT EXISTS coach_messages (
+            id         TEXT PRIMARY KEY,
+            role       TEXT NOT NULL
+              CHECK (role IN ('user', 'coach')),
+            text       TEXT NOT NULL,
+            meta_json  TEXT,
+            created_at DATETIME NOT NULL
+          );
+
+          CREATE INDEX IF NOT EXISTS idx_coach_messages_created
+            ON coach_messages (created_at);
+
+          CREATE TABLE IF NOT EXISTS coach_settings (
+            id         INTEGER PRIMARY KEY CHECK (id = 1),
+            data       TEXT NOT NULL,
+            updated_at DATETIME NOT NULL
+          );
+        `);
+
+        this.db.pragma('user_version = 15');
       })();
     }
   }

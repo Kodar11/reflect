@@ -16,6 +16,7 @@ import type {
   ReflectionReport,
   ReflectionReportStatus,
   ReflectionTrigger,
+  ReportCoachBlock,
 } from '../reflection/ReflectionModels.js';
 import type { PrioritySyncPlan } from '../reflection/ReflectionPriorities.js';
 
@@ -101,11 +102,20 @@ export interface ReflectionCommit {
   model: string;
   attemptCount: number;
   headline: string;
+  narrative: string | null;
   carryForward: ReflectionCarryForward | null;
+  /** The coaching half of a day's intelligence, when it was written together. */
+  coach: ReportCoachBlock | null;
   insights: ReflectionInsight[];
   dataSnapshot: ReflectionDataSnapshot;
   metricsSnapshot: MetricSet;
   nowIso: string;
+  /**
+   * Further writes that must land atomically with the report (the Coach's
+   * actions and memory). Runs inside the commit's transaction: if it throws,
+   * nothing of this commit is kept.
+   */
+  alongside?: () => void;
 }
 
 export interface ReflectionFeedbackRecord {
@@ -128,7 +138,9 @@ interface ReportRow {
   status: string;
   trigger_source: string;
   headline: string | null;
+  narrative: string | null;
   carry_forward_json: string | null;
+  coach_json: string | null;
   input_schema_version: number;
   output_schema_version: number;
   prompt_version: string;
@@ -260,7 +272,8 @@ export class ReflectionRepository implements IReflectionRepository {
     );
     this.completeReportStmt = db.prepare(
       `UPDATE reflection_reports
-       SET status = 'fresh', headline = @headline, carry_forward_json = @carry_forward_json,
+       SET status = 'fresh', headline = @headline, narrative = @narrative,
+           carry_forward_json = @carry_forward_json, coach_json = @coach_json,
            covered_until = @covered_until, model = @model, attempt_count = @attempt_count,
            data_snapshot_json = @data_snapshot_json, metrics_snapshot_json = @metrics_snapshot_json,
            error = NULL, error_category = NULL, stale_reason = NULL, stale_at = NULL,
@@ -434,7 +447,9 @@ export class ReflectionRepository implements IReflectionRepository {
       const done = this.completeReportStmt.run({
         id: commit.reportId,
         headline: commit.headline,
+        narrative: commit.narrative,
         carry_forward_json: commit.carryForward ? JSON.stringify(commit.carryForward) : null,
+        coach_json: commit.coach ? JSON.stringify(commit.coach) : null,
         covered_until: commit.coveredUntil,
         model: commit.model,
         attempt_count: commit.attemptCount,
@@ -466,6 +481,8 @@ export class ReflectionRepository implements IReflectionRepository {
 
       // Earlier failed / insufficient attempts of this period are now history.
       this.deleteFailedStmt.run({ period_type: period.type, period_key: period.key });
+
+      commit.alongside?.();
     });
   }
 
@@ -656,7 +673,9 @@ export class ReflectionRepository implements IReflectionRepository {
       status: row.status as ReflectionReportStatus,
       trigger: row.trigger_source as ReflectionTrigger,
       headline: row.headline,
+      narrative: row.narrative ?? null,
       carryForward: parseJson<ReflectionCarryForward | null>(row.carry_forward_json, null),
+      coach: parseJson<ReportCoachBlock | null>(row.coach_json ?? null, null),
       insights,
       inputSchemaVersion: row.input_schema_version,
       outputSchemaVersion: row.output_schema_version,

@@ -82,8 +82,8 @@ describe('ReflectionService.generate', () => {
       coveredUntil: week42.end,
       promptVersion: REFLECTION_PROMPT_VERSION,
       model: 'test-model-001',
-      inputSchemaVersion: 1,
-      outputSchemaVersion: 1,
+      inputSchemaVersion: 2,
+      outputSchemaVersion: 2,
     });
     // Observation / interpretation / evidence stay separate — not one paragraph.
     expect(report.insights[1]).toMatchObject({
@@ -553,7 +553,7 @@ describe('ReflectionService.pendingScheduledPeriods', () => {
   });
 
   it('writes today\'s reflection once the daily reflection time has passed — and only once', async () => {
-    const h = harness({ activities: [...twoWeeks(), ...workday(19)], now: local(19, '21:30') });
+    const h = harness({ activities: [...twoWeeks(), ...workday(19)], now: local(19, '19:30') });
     seedThreads(h.repo, h.activities, { 'Project X': h.priorityId });
     const today = periodContaining('day', local(19));
     expect(await keys(h)).not.toContain('day:2026-10-19');
@@ -613,8 +613,8 @@ describe('ReflectionService — recovery', () => {
       period: week42,
       coveredUntil: week42.end,
       trigger: 'scheduled',
-      inputSchemaVersion: 1,
-      outputSchemaVersion: 1,
+      inputSchemaVersion: 2,
+      outputSchemaVersion: 2,
       promptVersion: REFLECTION_PROMPT_VERSION,
       model: 'test-model',
       nowIso: iso(18),

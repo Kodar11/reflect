@@ -356,6 +356,12 @@ input, textarea, select {
   border-top: 1px solid var(--border);
 }
 
+/* Under a section heading, the first insight needs no rule of its own. */
+.reflection-group > .reflection-insight:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
 .reflection-carry {
   padding: 18px 20px;
   border-radius: var(--radius-lg);
@@ -494,6 +500,202 @@ input, textarea, select {
   padding-top: 24px;
   border-top: 1px solid var(--border);
 }
+
+/* ---------- Coach (inside Reflection) ----------
+   Recommendations are things to decide on, not a to-do list: one calm card
+   each, the open question first, everything optional folded away. */
+
+.coach-section {
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.coach-action {
+  padding: 16px 18px;
+  border-radius: var(--radius-lg);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+}
+.coach-action[aria-busy='true'] { opacity: 0.6; }
+.coach-action[data-status='closed'],
+.coach-action[data-status='rejected'] {
+  background: transparent;
+}
+
+.coach-status {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.coach-action[data-status='review'] .coach-status { color: var(--text); }
+.coach-action[data-tone='good'] .coach-status { color: var(--success); }
+
+.coach-facts {
+  margin-top: 6px;
+  padding-left: 10px;
+  border-left: 2px solid var(--border);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.coach-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.coach-controls:empty { display: none; }
+.coach-controls > details[open] { flex-basis: 100%; }
+
+.coach-more > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  padding: 5px 8px;
+  border-radius: var(--radius-md);
+}
+.coach-more > summary::-webkit-details-marker { display: none; }
+.coach-more > summary:hover { color: var(--text); background: var(--bg-hover); }
+.coach-more > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.coach-section > .coach-more > summary { padding-left: 0; }
+.coach-section > .coach-more > summary:hover { background: transparent; }
+
+.coach-reasons {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.coach-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.coach-chip {
+  font-size: 12.5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-muted);
+  transition: background-color 80ms ease, color 80ms ease;
+}
+.coach-chip:hover:not(:disabled) {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+.coach-chip:disabled { opacity: 0.5; cursor: default; }
+.coach-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.coach-inline-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.coach-inline-form > .field { flex: 1; min-width: 0; }
+
+.coach-edit {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+  align-items: end;
+}
+.coach-edit label,
+.coach-settings label {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.coach-edit .coach-edit-wide { grid-column: 1 / -1; }
+.coach-edit .field { width: 100%; }
+
+.coach-rows,
+.coach-followups,
+.coach-uncertainty,
+.coach-learned,
+.coach-memory {
+  margin-top: 10px;
+  display: grid;
+  gap: 10px;
+}
+.coach-row,
+.coach-uncertainty li,
+.coach-learned li {
+  font-size: 13.5px;
+  line-height: 1.5;
+  padding-left: 10px;
+  border-left: 2px solid var(--border);
+  color: var(--text-muted);
+}
+.coach-learned li[data-kind='works'] { border-left-color: var(--success); }
+.coach-followups li {
+  padding-left: 12px;
+  border-left: 2px solid var(--border-strong);
+}
+.coach-memory li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.coach-chat {
+  margin-top: 12px;
+  display: grid;
+  gap: 14px;
+}
+.coach-msg-who {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-faint);
+  margin-bottom: 2px;
+}
+.coach-msg[data-role='user'] .reflection-prose { color: var(--text-muted); }
+.coach-msg[data-kind='question'] {
+  padding: 12px 14px;
+  border-radius: var(--radius-lg);
+  background: var(--accent-soft);
+}
+.coach-msg-change {
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  padding-left: 10px;
+  border-left: 2px solid var(--accent);
+}
+
+.coach-settings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 220px));
+  gap: 12px 20px;
+  margin-top: 10px;
+}
+.coach-settings .coach-settings-check {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text);
+}
+.coach-settings p { grid-column: 1 / -1; }
 
 @keyframes fadeIn {
   from {

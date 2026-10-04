@@ -122,7 +122,7 @@ function report(weeksBack: number, signature: string, title: string): Reflection
 describe('prepareReflection', () => {
   it('builds a compact dataset: aliases, names, local times — no raw events', () => {
     const { input, activityByRef, snapshot } = prepareReflection(dataset(), context());
-    expect(input.schemaVersion).toBe(1);
+    expect(input.schemaVersion).toBe(2);
     expect(input.period).toMatchObject({ type: 'week', start: period.start, end: period.end, isPartial: false });
     expect(input.period.label).toBe('Last week (Oct 12 – Oct 18)');
 
@@ -301,7 +301,9 @@ describe('reflection prompt', () => {
     expect(insight.properties.type.enum).toContain('priority_alignment');
     expect(insight.properties.type.enum).toHaveLength(9);
     expect(insight.properties.priorityIds.items.enum).toEqual(['p1']);
-    expect(schema.required).toEqual(['schemaVersion', 'periodType', 'periodStart', 'periodEnd', 'headline', 'insights', 'carryForward']);
+    expect(schema.required).toEqual(['schemaVersion', 'periodType', 'periodStart', 'periodEnd', 'headline', 'narrative', 'insights', 'carryForward']);
+    // Coaching is only part of the contract when a coach joins the request.
+    expect(schema.properties.coach).toBeUndefined();
     // No canonical ids are requested from the model.
     expect(JSON.stringify(schema)).not.toContain('"id"');
   });

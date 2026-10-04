@@ -256,12 +256,24 @@ export function FocusStartView(props: FocusStartViewProps) {
   );
 }
 
+/** A session set up on behalf of a coach recommendation. */
+export interface FocusPrefill {
+  task: string;
+  minutes: number | null;
+  /** The coach action this session carries out. */
+  actionId: string | null;
+  /** Makes repeated requests distinct. */
+  nonce: number;
+}
+
 interface FocusStartProps {
   focus: UseFocusResult;
+  prefill?: FocusPrefill | null;
+  onPrefillConsumed?: () => void;
 }
 
 /** Holds the draft and starts the session. */
-export function FocusStart({ focus }: FocusStartProps) {
+export function FocusStart({ focus, prefill, onPrefillConsumed }: FocusStartProps) {
   const { profiles, preferences, busy, error, blockingResidue, start, clearBlockingResidue, clearError, getHistory, consumeIntent, intent, saveProfile } = focus;
   const defaultProfile = useMemo(() => pickDefaultProfile(profiles, preferences.defaultProfileId), [profiles, preferences.defaultProfileId]);
 
@@ -307,9 +319,21 @@ export function FocusStart({ focus }: FocusStartProps) {
     if (intent) consumeIntent();
   }, [intent, consumeIntent]);
 
-  const begin = (withoutBlocking: boolean) => {
+  // Opened from a coach recommendation: what and how long are already decided.
+  useEffect(() => {
+    if (!prefill) return;
+    setTask(prefill.task.slice(0, MAX_TASK_LENGTH));
+    if (prefill.minutes) {
+      setMode('countdown');
+      setDurationMinutes(Math.min(MAX_DURATION_MINUTES, prefill.minutes));
+      setCustomDuration(!(DURATION_PRESETS as readonly number[]).includes(prefill.minutes));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [prefill?.nonce]);
+
+  const begin = async (withoutBlocking: boolean) => {
     if (!profileId) return;
-    void start({
+    const started = await start({
       profileId,
       task: task.trim(),
       notes: notes.trim() || null,
@@ -317,6 +341,12 @@ export function FocusStart({ focus }: FocusStartProps) {
       plannedDurationMinutes: mode === 'countdown' ? durationMinutes : null,
       withoutBlocking,
     });
+    // The session that just started is the execution of that recommendation;
+    // the main process links them so its outcome becomes the evidence.
+    if (started && prefill?.actionId) {
+      window.coach.linkFocus(prefill.actionId).catch((e) => console.error('[FocusStart] could not link the coach action', e));
+      onPrefillConsumed?.();
+    }
   };
 
   const editing = profiles.find((p) => p.id === editingPreset) ?? null;
@@ -366,8 +396,8 @@ export function FocusStart({ focus }: FocusStartProps) {
         }}
         onToggleNotes={() => setNotesOpen(true)}
         onNotesChange={setNotes}
-        onSubmit={() => begin(false)}
-        onStartWithoutBlocking={() => begin(true)}
+        onSubmit={() => void begin(false)}
+        onStartWithoutBlocking={() => void begin(true)}
         onClearResidue={() => void clearBlockingResidue()}
       />
       {editing && <PresetEditor focus={focus} profile={editing} onClose={() => setEditingPreset(null)} />}

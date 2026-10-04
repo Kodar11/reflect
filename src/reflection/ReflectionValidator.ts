@@ -35,7 +35,17 @@ const DUPLICATE_TITLE_OVERLAP = 0.7;
 /** A pattern surfaced in this many recent reports needs new evidence to return. */
 const REPEAT_THRESHOLD = 2;
 
-const LIMITS = { title: 120, observation: 500, interpretation: 500, relevance: 300, action: 240, headline: 240 };
+const LIMITS = { title: 120, observation: 500, interpretation: 500, relevance: 300, action: 240, headline: 240, narrative: 700 };
+
+/** Plain totals the narrative may quote directly. */
+export const NARRATIVE_METRIC_KEYS: readonly string[] = [
+  'time.tracked_minutes',
+  'time.focused_minutes',
+  'behavior.switches',
+  'block.longest_minutes',
+  'focus.session_count',
+  'focus.total_minutes',
+];
 
 const nullableText = z.preprocess((v) => (v === undefined || v === '' ? null : v), z.string().nullable());
 const stringList = z.preprocess((v) => (v === undefined || v === null ? [] : v), z.array(z.string()));
@@ -59,6 +69,7 @@ const outputSchema = z.object({
   periodStart: z.string(),
   periodEnd: z.string(),
   headline: z.string(),
+  narrative: nullableText,
   insights: z.array(insightSchema),
   carryForward: z
     .object({
@@ -99,6 +110,7 @@ export interface ValidatedInsight {
 
 export interface ValidatedReflection {
   headline: string;
+  narrative: string | null;
   insights: ValidatedInsight[];
   carryForward: ReflectionCarryForward | null;
 }
@@ -172,6 +184,27 @@ function findPattern(text: string, patterns: [RegExp, string][]): string | null 
   return null;
 }
 
+export type LanguageRule = 'judgment' | 'psychology' | 'causal' | 'generic_advice';
+
+const RULE_PATTERNS: Record<LanguageRule, [RegExp, string][]> = {
+  judgment: JUDGMENT_PATTERNS,
+  psychology: PSYCHOLOGY_PATTERNS,
+  causal: CAUSAL_PATTERNS,
+  generic_advice: GENERIC_ADVICE_PATTERNS,
+};
+
+/**
+ * The first language rule `text` breaks, described for the model, or `null`.
+ * Shared with the Coach so every sentence Reflect shows obeys the same rules.
+ */
+export function findLanguageIssue(text: string, rules: readonly LanguageRule[]): string | null {
+  for (const rule of rules) {
+    const hit = findPattern(text, RULE_PATTERNS[rule]);
+    if (hit) return hit;
+  }
+  return null;
+}
+
 // ── Numbers ─────────────────────────────────────────────────────────────────
 
 const NUMBER_RE = /\d+(?:[.,:]\d+)*/g;
@@ -189,7 +222,7 @@ export function extractNumbers(text: string): string[] {
   return (text.match(NUMBER_RE) ?? []).map(normalizeNumber);
 }
 
-function addNumbersFrom(set: Set<string>, text: string): void {
+export function addNumbersFrom(set: Set<string>, text: string): void {
   for (const n of extractNumbers(text)) {
     set.add(n);
     // `10:40` also licenses a plain "10" ("around 10 AM").
@@ -197,7 +230,7 @@ function addNumbersFrom(set: Set<string>, text: string): void {
   }
 }
 
-function addMinutes(set: Set<string>, minutes: number): void {
+export function addMinutes(set: Set<string>, minutes: number): void {
   const m = Math.round(Math.abs(minutes));
   set.add(String(m));
   addNumbersFrom(set, formatMinutes(m));
@@ -225,7 +258,7 @@ function numbersOfActivity(activity: ReflectionActivity): Set<string> {
   return set;
 }
 
-function unsupportedNumbers(text: string, allowed: Set<string>): string[] {
+export function unsupportedNumbers(text: string, allowed: Set<string>): string[] {
   return [...new Set(extractNumbers(text).filter((n) => !allowed.has(n)))];
 }
 
@@ -257,9 +290,94 @@ function jaccard(a: Set<string>, b: Set<string>): number {
 
 const titleTokens = (title: string) => new Set(priorityKey(title).split(' ').filter((t) => t.length > 2));
 
-function clean(text: string, max: number): string {
+export function clean(text: string, max: number): string {
   const t = text.replace(/\s+/g, ' ').trim();
   return t.length > max ? t.slice(0, max - 1).trimEnd() + '…' : t;
+}
+
+// ── Evidence resolution ─────────────────────────────────────────────────────
+
+export interface EvidenceContext {
+  metrics: MetricSet;
+  activityByRef: Map<string, ReflectionActivity>;
+  priorities: Pick<ReflectionPriority, 'id' | 'text'>[];
+  periodLabel: string;
+}
+
+export interface EvidenceToolkit {
+  /** Numbers that may always be quoted (the period's own label). */
+  globalNumbers: Set<string>;
+  /** Resolve cited keys / refs; anything that does not exist is reported in `problems`. */
+  resolve(
+    metricKeys: string[],
+    activityRefs: string[],
+    label: string,
+    problems: string[],
+  ): { metrics: Metric[]; activities: ReflectionActivity[] };
+  /** Every number the cited evidence licenses. */
+  allowedFor(metrics: Metric[], activities: ReflectionActivity[]): Set<string>;
+  /** Self-contained evidence records to store with a claim. */
+  toEvidence(metrics: Metric[], activities: ReflectionActivity[], citedPriorityIds: string[]): ReflectionEvidence[];
+}
+
+/**
+ * The evidence rules, usable by anything that validates model output written
+ * from a reflection dataset (the reflection itself, and the Coach).
+ */
+export function createEvidenceToolkit(ctx: EvidenceContext): EvidenceToolkit {
+  const globalNumbers = new Set<string>();
+  addNumbersFrom(globalNumbers, ctx.periodLabel);
+
+  return {
+    globalNumbers,
+    resolve(metricKeys, activityRefs, label, problems) {
+      const metrics: Metric[] = [];
+      const activities: ReflectionActivity[] = [];
+      for (const key of [...new Set(metricKeys)]) {
+        const metric = ctx.metrics[key];
+        if (!metric) problems.push(`${label}: metric "${key}" does not exist`);
+        else metrics.push(metric);
+      }
+      for (const ref of [...new Set(activityRefs)]) {
+        const activity = ctx.activityByRef.get(ref);
+        if (!activity) problems.push(`${label}: activity "${ref}" does not exist`);
+        else activities.push(activity);
+      }
+      return { metrics, activities };
+    },
+    allowedFor(metrics, activities) {
+      const allowed = new Set(globalNumbers);
+      for (const m of metrics) for (const n of numbersOfMetric(m)) allowed.add(n);
+      for (const a of activities) for (const n of numbersOfActivity(a)) allowed.add(n);
+      return allowed;
+    },
+    toEvidence(metrics, activities, citedPriorityIds) {
+      const evidence: ReflectionEvidence[] = metrics.map((m) => ({
+        kind: isComparisonKey(m.key) ? 'comparison' : m.key.startsWith('priority.') ? 'priority' : 'metric',
+        metricKey: m.key,
+        ...(m.priorityId ? { priorityId: m.priorityId } : {}),
+        label: m.label,
+        value: m.display,
+        ...(m.range ? { period: m.range } : {}),
+      }));
+      for (const a of activities) {
+        evidence.push({
+          kind: 'activity',
+          activityId: a.id,
+          label: a.title,
+          value: `${formatMinutes(a.durationMinutes)} · ${formatLocalDateTime(a.startedAt)}`,
+          period: { start: a.startedAt, end: a.endedAt },
+        });
+      }
+      const covered = new Set(evidence.map((e) => e.priorityId).filter(Boolean));
+      for (const id of citedPriorityIds) {
+        if (covered.has(id)) continue;
+        const priority = ctx.priorities.find((p) => p.id === id);
+        if (priority) evidence.push({ kind: 'priority', priorityId: id, label: `Priority: ${priority.text}` });
+      }
+      return evidence;
+    },
+  };
 }
 
 // ── Validation ──────────────────────────────────────────────────────────────
@@ -291,58 +409,7 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
   }
 
   const priorityIds = new Set(ctx.priorities.map((p) => p.id));
-  const globalNumbers = new Set<string>();
-  addNumbersFrom(globalNumbers, ctx.periodLabel);
-
-  const resolve = (metricKeys: string[], activityRefs: string[], label: string, problems: string[]) => {
-    const metrics: Metric[] = [];
-    const activities: ReflectionActivity[] = [];
-    for (const key of [...new Set(metricKeys)]) {
-      const metric = ctx.metrics[key];
-      if (!metric) problems.push(`${label}: metric "${key}" does not exist`);
-      else metrics.push(metric);
-    }
-    for (const ref of [...new Set(activityRefs)]) {
-      const activity = ctx.activityByRef.get(ref);
-      if (!activity) problems.push(`${label}: activity "${ref}" does not exist`);
-      else activities.push(activity);
-    }
-    return { metrics, activities };
-  };
-
-  const allowedFor = (metrics: Metric[], activities: ReflectionActivity[]) => {
-    const allowed = new Set(globalNumbers);
-    for (const m of metrics) for (const n of numbersOfMetric(m)) allowed.add(n);
-    for (const a of activities) for (const n of numbersOfActivity(a)) allowed.add(n);
-    return allowed;
-  };
-
-  const toEvidence = (metrics: Metric[], activities: ReflectionActivity[], citedPriorityIds: string[]): ReflectionEvidence[] => {
-    const evidence: ReflectionEvidence[] = metrics.map((m) => ({
-      kind: isComparisonKey(m.key) ? 'comparison' : m.key.startsWith('priority.') ? 'priority' : 'metric',
-      metricKey: m.key,
-      ...(m.priorityId ? { priorityId: m.priorityId } : {}),
-      label: m.label,
-      value: m.display,
-      ...(m.range ? { period: m.range } : {}),
-    }));
-    for (const a of activities) {
-      evidence.push({
-        kind: 'activity',
-        activityId: a.id,
-        label: a.title,
-        value: `${formatMinutes(a.durationMinutes)} · ${formatLocalDateTime(a.startedAt)}`,
-        period: { start: a.startedAt, end: a.endedAt },
-      });
-    }
-    const covered = new Set(evidence.map((e) => e.priorityId).filter(Boolean));
-    for (const id of citedPriorityIds) {
-      if (covered.has(id)) continue;
-      const priority = ctx.priorities.find((p) => p.id === id);
-      if (priority) evidence.push({ kind: 'priority', priorityId: id, label: `Priority: ${priority.text}` });
-    }
-    return evidence;
-  };
+  const { globalNumbers, resolve, allowedFor, toEvidence } = createEvidenceToolkit(ctx);
 
   // ── Insights ──
   const valid: (ValidatedInsight & { allowed: Set<string>; keySet: Set<string> })[] = [];
@@ -518,8 +585,28 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     fatal.push(`headline: number(s) ${badHeadline.map((n) => `"${n}"`).join(', ')} not found in the insights' evidence`);
   }
 
+  // ── Narrative: "what happened", bound by the same rules as the headline ──
+  let narrative = output.narrative ? clean(output.narrative, LIMITS.narrative) || null : null;
+  if (narrative) {
+    const issue =
+      findPattern(narrative, JUDGMENT_PATTERNS) ?? findPattern(narrative, PSYCHOLOGY_PATTERNS) ?? findPattern(narrative, CAUSAL_PATTERNS);
+    // The day's plain totals may be stated without a separate insight behind them.
+    const narrativeNumbers = new Set(headlineNumbers);
+    for (const key of NARRATIVE_METRIC_KEYS) {
+      const metric = ctx.metrics[key];
+      if (metric) for (const n of numbersOfMetric(metric)) narrativeNumbers.add(n);
+    }
+    const badNarrative = unsupportedNumbers(narrative, narrativeNumbers);
+    if (issue) errors.push(`narrative: contains ${issue}`);
+    else if (badNarrative.length > 0) {
+      errors.push(`narrative: number(s) ${badNarrative.map((n) => `"${n}"`).join(', ')} not found in the insights' evidence`);
+    }
+    if (issue || badNarrative.length > 0 || narrative.length < 20) narrative = null;
+  }
+
   const reflection: ValidatedReflection = {
     headline,
+    narrative,
     insights: selected.map((full) => {
       const { allowed: _allowed, keySet: _keySet, ...insight } = full;
       return { ...insight, suggestedAction: full === promoted ? full.suggestedAction : null };

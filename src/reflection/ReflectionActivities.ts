@@ -74,6 +74,7 @@ export function toReflectionActivities(
       domain: s.primaryUrl ?? null,
       thread: null,
       priorityId: null,
+      ...(s.note?.trim() ? { note: s.note.trim().slice(0, 200) } : {}),
     });
   }
   return out;

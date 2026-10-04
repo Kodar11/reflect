@@ -147,7 +147,7 @@ function wire(dbPath: string, gemini: ScriptedGemini, clock: { now: Date }) {
       windowEnd: iso(day + 1),
       model: 'test-model',
       promptVersion: 'test',
-      schemaVersion: 1,
+      schemaVersion: 2,
       nowIso: iso(day + 1),
     });
     const create = blocks.map((b, index) => {
@@ -247,7 +247,7 @@ suite('Reflection pipeline (SQLite, end to end)', () => {
 
     // ── Week 41: the first week Reflect has tracked ──
     gemini.push(linking, {
-      schemaVersion: 1,
+      schemaVersion: 2,
       periodType: 'week',
       periodStart: week41.start,
       periodEnd: week41.end,
@@ -290,7 +290,7 @@ suite('Reflection pipeline (SQLite, end to end)', () => {
 
     // ── Week 42: deterministic metrics, baseline and week-over-week change ──
     gemini.push({
-      schemaVersion: 1,
+      schemaVersion: 2,
       periodType: 'week',
       periodStart: week42.start,
       periodEnd: week42.end,
@@ -454,7 +454,7 @@ suite('Reflection pipeline (SQLite, end to end)', () => {
     scheduler.start();
 
     const nothing = (period: ReturnType<typeof periodContaining>) => ({
-      schemaVersion: 1,
+      schemaVersion: 2,
       periodType: period.type,
       periodStart: period.start,
       periodEnd: period.end,

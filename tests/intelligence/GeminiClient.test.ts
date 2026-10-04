@@ -39,6 +39,34 @@ describe('GeminiClient', () => {
     expect(client.model).toBe(GEMINI_MODEL);
   });
 
+  it('the model can be replaced from the environment without a code change', async () => {
+    const generateContent = vi.fn(async () => ({ text: '{}' }));
+    let configured: string | undefined = '  gemini-next-lite  ';
+    const client = new GeminiClient({ getApiKey: () => 'test-key', createTransport: () => ({ generateContent }), getModel: () => configured });
+
+    expect(client.model).toBe('gemini-next-lite');
+    expect((await client.generateJson(request)).modelVersion).toBe('gemini-next-lite');
+    expect(generateContent).toHaveBeenLastCalledWith(expect.objectContaining({ model: 'gemini-next-lite' }));
+
+    // Unset or blank falls back to the built-in default — read at call time.
+    for (const value of [undefined, '', '   ']) {
+      configured = value;
+      expect(client.model).toBe(GEMINI_MODEL);
+    }
+    expect(GEMINI_MODEL).toBe('gemini-3.5-flash-lite');
+  });
+
+  it('a retired model is reported as such, and not retried', async () => {
+    const retired = Object.assign(new Error('This model models/gemini-2.5-flash-lite is no longer available to new users.'), { status: 404 });
+    const client = new GeminiClient({ getApiKey: () => 'test-key', createTransport: () => ({ generateContent: vi.fn(async () => Promise.reject(retired)) }) });
+    await expect(client.generateJson(request)).rejects.toMatchObject({
+      category: 'api',
+      retryable: false,
+      status: 404,
+      message: expect.stringContaining('Gemini model unavailable (404) — set GEMINI_MODEL'),
+    });
+  });
+
   it('missing API key: not configured, clear error, no request made', async () => {
     for (const key of [undefined, '', '   ']) {
       const generateContent = vi.fn();

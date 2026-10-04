@@ -1,4 +1,6 @@
-import type { FocusSession } from '../../src/focus/FocusModels';
+import { DEFAULT_COACH_CONFIG, type CoachConfig } from '../../src/coach/CoachModels';
+import { CoachService } from '../../src/coach/CoachService';
+import type { FocusInterruption, FocusSession } from '../../src/focus/FocusModels';
 import { UserProfileContextProvider } from '../../src/intelligence/IntelligenceContext';
 import { ReflectionAnnotator } from '../../src/reflection/ReflectionAnnotator';
 import { ReflectionMetricsService } from '../../src/reflection/ReflectionMetricsService';
@@ -12,6 +14,7 @@ import {
 } from '../../src/reflection/ReflectionModels';
 import { priorityKey } from '../../src/reflection/ReflectionPriorities';
 import { ReflectionService } from '../../src/reflection/ReflectionService';
+import { FakeCoachRepository } from '../coach/FakeCoachRepository';
 import { FakeUserProfileRepository, ScriptedGemini } from '../intelligence/helpers';
 import { FakeReflectionRepository } from './FakeReflectionRepository';
 
@@ -142,6 +145,13 @@ export interface ReflectionHarness {
   setNow(date: Date): void;
   /** How many times each local day was loaded from the timeline. */
   dayLoads: number[];
+  /** Interruptions per Focus session id. */
+  interruptions: Record<string, FocusInterruption[]>;
+  /** Present when the harness was built with `coach`. */
+  coach: CoachService;
+  coachRepo: FakeCoachRepository;
+  /** How often the Coach announced a change. */
+  coachChanges: { count: number };
 }
 
 export interface HarnessOptions {
@@ -153,6 +163,10 @@ export interface HarnessOptions {
   priorities?: string[];
   /** Use the real annotator (consumes one scripted response when it runs). */
   realAnnotator?: boolean;
+  /** Plug the Coach into the reflection pipeline (optionally with config overrides). */
+  coach?: boolean | Partial<CoachConfig>;
+  /** Minutes after midnight at which the day's reflection is written. */
+  reflectionMinutes?: number;
 }
 
 export function makeReflectionHarness(options: HarnessOptions = {}): ReflectionHarness {
@@ -161,6 +175,7 @@ export function makeReflectionHarness(options: HarnessOptions = {}): ReflectionH
   const gemini = new ScriptedGemini(options.script ?? []);
   const profiles = new FakeUserProfileRepository();
   const focusSessions: FocusSession[] = [];
+  const interruptions: Record<string, FocusInterruption[]> = {};
   const sleeps: number[] = [];
   const dayLoads: number[] = [];
   const config = { ...DEFAULT_REFLECTION_CONFIG, ...options.config };
@@ -190,6 +205,15 @@ export function makeReflectionHarness(options: HarnessOptions = {}): ReflectionH
     },
   };
 
+  const focus = {
+    getSessionsByRange: (from: string, to: string) =>
+      focusSessions.filter((s) => s.startedAt !== null && s.startedAt >= from && s.startedAt < to),
+    getInterruptions: (id: string) => interruptions[id] ?? [],
+    getBlockedAttempts: () => [],
+    getSessionById: (id: string) => focusSessions.find((s) => s.id === id) ?? null,
+    getActiveSession: () => focusSessions.find((s) => s.state === 'active' || s.state === 'paused') ?? null,
+  };
+
   const metrics = new ReflectionMetricsService(
     {
       getActivities: (from, to) => {
@@ -198,12 +222,7 @@ export function makeReflectionHarness(options: HarnessOptions = {}): ReflectionH
         // whatever the test put on the activity by seeding matching annotations.
         return activities.filter((a) => a.startedAt >= from && a.startedAt < to).map((a) => ({ ...a }));
       },
-      focus: {
-        getSessionsByRange: (from, to) =>
-          focusSessions.filter((s) => s.startedAt !== null && s.startedAt >= from && s.startedAt < to),
-        getInterruptions: () => [],
-        getBlockedAttempts: () => [],
-      },
+      focus,
       taxonomy: () => TAXONOMY,
       firstEventAt: () =>
         activities.length === 0 ? null : activities.reduce((min, a) => (a.startedAt < min ? a.startedAt : min), activities[0].startedAt),
@@ -212,12 +231,36 @@ export function makeReflectionHarness(options: HarnessOptions = {}): ReflectionH
     { config, now: () => now, yieldToEventLoop: async () => {} },
   );
 
+  // The Coach shares the reflection layer's clock, metrics and Gemini.
+  const coachRepo = new FakeCoachRepository();
+  const coachChanges = { count: 0 };
+  let coachIds = 0;
+  let serviceRef: ReflectionService | null = null;
+  const userContext = new UserProfileContextProvider(datedProfiles);
+  const coach = new CoachService({
+    repo: coachRepo,
+    gemini,
+    reflections: repo,
+    metrics,
+    focus,
+    userContext,
+    priorities: () => serviceRef?.syncPriorities() ?? [],
+    onChanged: () => {
+      coachChanges.count++;
+    },
+    config: { ...DEFAULT_COACH_CONFIG, ...(typeof options.coach === 'object' ? options.coach : {}) },
+    now: () => now,
+    newId: () => `c-${String(++coachIds).padStart(4, '0')}`,
+  });
+
   const service = new ReflectionService({
     repo,
     gemini,
     metrics,
+    ...(options.coach ? { coach } : {}),
+    ...(options.reflectionMinutes !== undefined ? { dailyReflectionMinutes: () => options.reflectionMinutes! } : {}),
     annotator: options.realAnnotator ? new ReflectionAnnotator({ gemini, repo, now: () => now }) : { annotate: async () => 0 },
-    userContext: new UserProfileContextProvider(datedProfiles),
+    userContext,
     profiles: datedProfiles,
     taxonomy: () => TAXONOMY,
     learnedPatterns: () => [],
@@ -229,6 +272,8 @@ export function makeReflectionHarness(options: HarnessOptions = {}): ReflectionH
     newId: () => `id-${String(++idCounter).padStart(4, '0')}`,
   });
 
+  serviceRef = service;
+
   return {
     service,
     metrics,
@@ -237,6 +282,10 @@ export function makeReflectionHarness(options: HarnessOptions = {}): ReflectionH
     profiles,
     activities,
     focusSessions,
+    interruptions,
+    coach,
+    coachRepo,
+    coachChanges,
     sleeps,
     dayLoads,
     setNow: (date) => {
@@ -266,7 +315,7 @@ export function seedThreads(repo: FakeReflectionRepository, activities: Reflecti
 /** A model reflection with sensible defaults for `period`. */
 export function modelReflection(period: ReflectionPeriod, overrides: Record<string, unknown> = {}) {
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     periodType: period.type,
     periodStart: period.start,
     periodEnd: period.end,
@@ -289,6 +338,39 @@ export function modelInsight(overrides: Record<string, unknown> = {}) {
     activityRefs: [],
     priorityIds: [],
     confidence: 0.85,
+    ...overrides,
+  };
+}
+
+/** A Focus session starting at local `day hhmm`. Ended unless `state` says otherwise. */
+export function focusSession(
+  day: number,
+  hhmm: string,
+  minutes: number,
+  overrides: Partial<FocusSession> = {},
+): FocusSession {
+  const start = local(day, hhmm);
+  const startedAt = start.toISOString();
+  const endedAt = new Date(start.getTime() + minutes * 60_000).toISOString();
+  return {
+    id: `focus-${day}-${hhmm}`,
+    profileId: 'default-deep-work',
+    task: 'Project X',
+    notes: null,
+    mode: 'countdown',
+    plannedDurationMinutes: minutes,
+    state: 'completed',
+    startedAt,
+    endedAt,
+    pausedAt: null,
+    totalPauseMs: 0,
+    elapsedMs: minutes * 60_000,
+    blockingLeaseId: null,
+    endReason: 'completed',
+    endNote: null,
+    blockingConfig: null,
+    createdAt: startedAt,
+    updatedAt: endedAt,
     ...overrides,
   };
 }

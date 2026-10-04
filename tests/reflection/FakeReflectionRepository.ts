@@ -38,7 +38,9 @@ export class FakeReflectionRepository implements IReflectionRepository {
       status,
       trigger: report.trigger,
       headline: null,
+      narrative: null,
       carryForward: null,
+      coach: null,
       insights: [],
       inputSchemaVersion: report.inputSchemaVersion,
       outputSchemaVersion: report.outputSchemaVersion,
@@ -85,13 +87,18 @@ export class FakeReflectionRepository implements IReflectionRepository {
     }
     const target = this.reports.find((r) => r.id === commit.reportId && r.status === 'generating');
     if (!target) throw new Error(`Reflection report ${commit.reportId} is not being generated`);
+    // All or nothing, like the SQLite transaction: a failure in the writes
+    // that travel with the report leaves everything as it was.
+    commit.alongside?.();
     for (const r of this.ofPeriod(commit.period.type, commit.period.key)) {
       if (r.id !== commit.reportId && (r.status === 'fresh' || r.status === 'stale')) r.status = 'superseded';
     }
     Object.assign(target, {
       status: 'fresh',
       headline: commit.headline,
+      narrative: commit.narrative,
       carryForward: commit.carryForward,
+      coach: commit.coach,
       coveredUntil: commit.coveredUntil,
       model: commit.model,
       attemptCount: commit.attemptCount,

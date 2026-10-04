@@ -49,6 +49,9 @@ export function registerReflectionIpc(
 
   ipcMainHandle('reflection:getAvailablePeriods', () => service.listAvailablePeriods());
 
+  /** Which day the tab should open on: `null` = today, else the latest day with a reflection. */
+  ipcMainHandle('reflection:getLanding', () => ({ anchor: service.landingAnchor() }));
+
   /** Manual "Refresh reflection" — throttled by the service. */
   ipcMainHandle('reflection:generate', async (p?: PeriodRequest) => {
     const period = service.resolvePeriod(periodType(p?.type, 'reflection:generate'), anchorOf(p?.anchor));
@@ -80,5 +83,11 @@ export function registerReflectionIpc(
     return priorities;
   });
 
-  return { notifyReflectionChanged: notifyChanged };
+  return {
+    notifyReflectionChanged: notifyChanged,
+    /** Bring the renderer to the Reflection tab (the end-of-day notification). */
+    requestOpen() {
+      for (const wc of webContentsForPush()) wc.send('reflection:open', null);
+    },
+  };
 }

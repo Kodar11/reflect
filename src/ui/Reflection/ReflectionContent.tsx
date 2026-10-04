@@ -1,4 +1,15 @@
 import { Loader2, RefreshCw } from 'lucide-react';
+import {
+  CoachActionCard,
+  CoachActionRow,
+  CoachCommitments,
+  CoachConversation,
+  CoachKnowledge,
+  CoachRecent,
+  CoachSettings,
+  type CoachController,
+} from './CoachPanel';
+import { groupInsights, nextActions } from './coachView';
 import { EvidenceList, InsightCard } from './InsightCard';
 import {
   dailyReflectionTimeLabel,
@@ -24,6 +35,8 @@ export interface ReflectionContentProps {
   onFeedback: (insightId: string, feedback: ReflectionFeedbackDto | null) => void;
   onViewTimeline: (target: TimelineTarget) => void;
   onSetPriorityStatus: (id: string, status: ReflectionPriorityDto['status']) => void;
+  /** The Coach. Present on the day view; a day is then read as a briefing. */
+  coach?: CoachController | null;
 }
 
 /**
@@ -32,6 +45,10 @@ export interface ReflectionContentProps {
  *
  * Reading order is the product: period → headline → a few insights with their
  * evidence → one carry-forward → small supporting numbers.
+ *
+ * A day, with the Coach, is a personal briefing instead: what happened → what
+ * stands out → what changed → what it means for your priorities → what is
+ * worth doing next → what you already committed to → a place to talk it over.
  */
 export function ReflectionContent(props: ReflectionContentProps) {
   const { view, error, busy, notice, onRefresh, onRetryLoad } = props;
@@ -57,6 +74,7 @@ export function ReflectionContent(props: ReflectionContentProps) {
   }
 
   const generating = busy || view.generation.state === 'generating';
+  const coach = view.period.type === 'day' ? props.coach ?? null : null;
   const hint = refreshHint(view);
   const refreshButton = (primary: boolean) => (
     <button
@@ -84,11 +102,27 @@ export function ReflectionContent(props: ReflectionContentProps) {
         <LiveNumbers title={`${view.period.title} so far`} metrics={view.live.metrics} />
       )}
 
+      {coach?.notice && (
+        <div className="reflection-banner" role="status">
+          {coach.notice}
+        </div>
+      )}
+
       {screen === 'report' && view.report ? (
-        <ReportBody {...props} view={view} report={view.report} refreshButton={refreshButton(false)} generating={generating} />
+        coach ? (
+          <DailyBody {...props} view={view} report={view.report} coach={coach} refreshButton={refreshButton(false)} generating={generating} />
+        ) : (
+          <ReportBody {...props} view={view} report={view.report} refreshButton={refreshButton(false)} generating={generating} />
+        )
       ) : (
         <EmptyState screen={screen} view={view} refreshButton={refreshButton(true)} hint={hint} />
       )}
+
+      {coach && (
+        <CoachLive coach={coach} view={view} onViewTimeline={props.onViewTimeline} showNext={!(screen === 'report' && view.report)} />
+      )}
+
+      {coach && screen === 'report' && view.report && <DailyNumbers view={view} report={view.report} onViewTimeline={props.onViewTimeline} />}
 
       <Priorities priorities={view.priorities} onSetStatus={props.onSetPriorityStatus} />
     </div>
@@ -176,6 +210,211 @@ function ReportBody({
   );
 }
 
+type BodyProps = ReflectionContentProps & { view: ReflectionViewDto; report: ReflectionReportDto; refreshButton: JSX.Element; generating: boolean };
+
+/**
+ * A day's intelligence, read top to bottom: the reflection and the coaching
+ * were written together, so they are shown as one briefing.
+ */
+function DailyBody({ view, report, coach, refreshButton, generating, onFeedback, onViewTimeline }: BodyProps & { coach: CoachController }) {
+  const generatedAt = formatGeneratedAt(report.generatedAt);
+  const failed = view.generation.state === 'failed';
+  const groups = groupInsights(report.insights);
+  const next = nextActions(report, coach.state, coach.live);
+  // A section heading that already names the kind of insight replaces the per-insight label.
+  const insightList = (insights: ReflectionInsightDto[], hideLabel = false) =>
+    insights.map((insight) => (
+      <InsightCard
+        key={insight.id}
+        insight={insight}
+        period={view.period}
+        onFeedback={onFeedback}
+        onViewTimeline={onViewTimeline}
+        hideLabel={hideLabel}
+      />
+    ));
+
+  return (
+    <>
+      {report.status === 'stale' && (
+        <div className="reflection-banner" role="status">
+          <span>{staleMessage(report.staleReason)} It still describes what Reflect saw at the time.</span>
+        </div>
+      )}
+      {failed && view.generation.message && (
+        <div className="reflection-banner" role="status">
+          The last refresh did not complete. {view.generation.message} The reflection below is the previous one.
+        </div>
+      )}
+
+      <section>
+        <div className="reflection-eyebrow">What happened</div>
+        <p className="reflection-headline text-default mt-2">{report.headline}</p>
+        {report.narrative && <p className="reflection-prose text-default mt-3">{report.narrative}</p>}
+        <div className="mt-3 flex items-center justify-between gap-4">
+          <div className="text-[12.5px] text-faint">
+            {generatedAt ? `Written ${generatedAt}` : 'Written earlier'}
+            {report.isPartial && view.period.isCurrent ? ' · covers today so far' : ''}
+          </div>
+          {(view.canRefresh || generating || report.status === 'stale') && refreshButton}
+        </div>
+      </section>
+
+      {groups.standsOut.length > 0 && (
+        <section>
+          <div className="reflection-eyebrow">What stands out</div>
+          <div className="reflection-group space-y-7 mt-3">{insightList(groups.standsOut)}</div>
+        </section>
+      )}
+
+      {groups.changed.length > 0 && (
+        <section>
+          <div className="reflection-eyebrow">What changed</div>
+          <div className="reflection-group space-y-7 mt-3">{insightList(groups.changed, true)}</div>
+        </section>
+      )}
+
+      {groups.priorities.length > 0 && (
+        <section>
+          <div className="reflection-eyebrow">What this means for your priorities</div>
+          <div className="reflection-group space-y-7 mt-3">{insightList(groups.priorities, true)}</div>
+        </section>
+      )}
+
+      {report.coach && report.coach.followups.length > 0 && (
+        <section className="coach-section">
+          <div className="reflection-eyebrow">What you had planned</div>
+          <ul className="coach-followups">
+            {report.coach.followups.map((followup) => (
+              <li key={followup.actionId}>
+                {followup.title && <div className="text-[14px] font-semibold text-default">{followup.title}</div>}
+                <p className="reflection-prose text-default">{followup.note}</p>
+                {followup.learned && <p className="reflection-prose text-muted">{followup.learned}</p>}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {report.coach && report.coach.uncertainty.length > 0 && (
+        <section>
+          <div className="reflection-eyebrow">What Reflect is not sure about</div>
+          <ul className="coach-uncertainty">
+            {report.coach.uncertainty.map((line) => (
+              <li key={line}>{line}</li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section className="coach-section" aria-label="Next">
+        <div className="reflection-eyebrow">Next</div>
+        {next.undecided.length > 0 ? (
+          <div className="space-y-5 mt-3">
+            {next.undecided.map((action) => (
+              <CoachActionCard key={action.id} action={action} coach={coach} period={view.period} onViewTimeline={onViewTimeline} />
+            ))}
+          </div>
+        ) : next.decided.length === 0 ? (
+          report.carryForward && !report.coach ? (
+            // A reflection written before the Coach existed: its one carry-forward.
+            <div className="reflection-carry mt-3">
+              <p className="reflection-prose text-default font-medium">{report.carryForward.text}</p>
+              <div className="mt-2">
+                <EvidenceList evidence={report.carryForward.evidence} period={view.period} onViewTimeline={onViewTimeline} />
+              </div>
+            </div>
+          ) : (
+            <p className="reflection-prose text-muted mt-2">
+              No suggestion today.{report.coach?.noActionReason ? ` ${report.coach.noActionReason}` : ''}
+            </p>
+          )
+        ) : null}
+        {next.decided.length > 0 && (
+          <ul className="coach-rows">
+            {next.decided.map((action) => (
+              <CoachActionRow key={action.id} action={action} />
+            ))}
+          </ul>
+        )}
+      </section>
+    </>
+  );
+}
+
+/** The day's small, secondary numbers — below everything that asks for a decision. */
+function DailyNumbers({
+  view,
+  report,
+  onViewTimeline,
+}: {
+  view: ReflectionViewDto;
+  report: ReflectionReportDto;
+  onViewTimeline: (target: TimelineTarget) => void;
+}) {
+  return (
+    <>
+      {report.supportingMetrics.length > 0 && (
+        <section className="coach-section">
+          <div className="flex items-center justify-between">
+            <div className="reflection-eyebrow">Supporting numbers</div>
+            <button type="button" className="reflection-link" onClick={() => onViewTimeline(timelineTargetFor(null, view.period))}>
+              View this day in the timeline
+            </button>
+          </div>
+          <MetricRow metrics={report.supportingMetrics} />
+        </section>
+      )}
+
+      {report.notes.length > 0 && (
+        <ul className="text-[12.5px] text-faint space-y-1">
+          {report.notes.map((note) => (
+            <li key={note}>{note}</li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+/**
+ * The parts of the Coach that are about NOW, whichever day is on screen: what
+ * the user committed to, what is waiting for their word, and the conversation.
+ */
+function CoachLive({
+  coach,
+  view,
+  onViewTimeline,
+  showNext,
+}: {
+  coach: CoachController;
+  view: ReflectionViewDto;
+  onViewTimeline: (target: TimelineTarget) => void;
+  /** No report is on screen, so suggestions waiting for a decision are shown here. */
+  showNext: boolean;
+}) {
+  const waiting = showNext ? nextActions(null, coach.state, true).undecided : [];
+  return (
+    <>
+      {waiting.length > 0 && (
+        <section className="coach-section" aria-label="Next">
+          <div className="reflection-eyebrow">Next</div>
+          <div className="space-y-5 mt-3">
+            {waiting.map((action) => (
+              <CoachActionCard key={action.id} action={action} coach={coach} period={view.period} onViewTimeline={onViewTimeline} />
+            ))}
+          </div>
+        </section>
+      )}
+      <CoachCommitments coach={coach} period={view.period} onViewTimeline={onViewTimeline} />
+      <CoachConversation coach={coach} onViewTimeline={onViewTimeline} />
+      <CoachRecent coach={coach} period={view.period} onViewTimeline={onViewTimeline} />
+      <CoachKnowledge coach={coach} />
+      <CoachSettings coach={coach} />
+    </>
+  );
+}
+
 function EmptyState({
   screen,
   view,
@@ -213,7 +452,7 @@ function EmptyState({
     default:
       if (view.period.isCurrent && view.period.type === 'day') {
         title = 'Today’s reflection has not been written yet.';
-        detail = `Reflect writes it around ${dailyReflectionTimeLabel()}, once most of the day has happened.`;
+        detail = `Reflect writes it around ${dailyReflectionTimeLabel(view)}, once most of the day has happened.`;
       } else if (view.period.isCurrent) {
         title = `This ${view.period.type} is still in progress.`;
         detail = `Its reflection is written when the ${view.period.type} closes. You can ask for one covering it so far.`;

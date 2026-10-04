@@ -89,10 +89,13 @@ electron.contextBridge.exposeInMainWorld('learnedRules', {
 // renderer reads a period's view, may request a refresh and reports feedback.
 const reflectionListeners = new Set<() => void>();
 let reflectionSubscribed = false;
+const reflectionOpenListeners = new Set<() => void>();
+let reflectionOpenSubscribed = false;
 
 electron.contextBridge.exposeInMainWorld('reflection', {
   getReport: (period: ReflectionPeriodRequestDto) => electron.ipcRenderer.invoke('reflection:getReport', period),
   getAvailablePeriods: () => electron.ipcRenderer.invoke('reflection:getAvailablePeriods'),
+  getLanding: () => electron.ipcRenderer.invoke('reflection:getLanding'),
   generate: (period: ReflectionPeriodRequestDto) => electron.ipcRenderer.invoke('reflection:generate', period),
   submitFeedback: (insightId: string, feedback: ReflectionFeedbackDto | null) =>
     electron.ipcRenderer.invoke('reflection:submitFeedback', { insightId, feedback }),
@@ -109,7 +112,48 @@ electron.contextBridge.exposeInMainWorld('reflection', {
   offChanged: (callback: () => void) => {
     reflectionListeners.delete(callback);
   },
+  onOpenRequested: (callback: () => void) => {
+    if (!reflectionOpenSubscribed) {
+      reflectionOpenSubscribed = true;
+      electron.ipcRenderer.on('reflection:open', () => reflectionOpenListeners.forEach((cb) => cb()));
+    }
+    reflectionOpenListeners.add(callback);
+  },
+  offOpenRequested: (callback: () => void) => {
+    reflectionOpenListeners.delete(callback);
+  },
 } satisfies Window['reflection']);
+
+// Coach IPC surface. The main process owns every action, memory and message;
+// the renderer shows them and reports what the user chose.
+const coachListeners = new Set<() => void>();
+let coachSubscribed = false;
+
+electron.contextBridge.exposeInMainWorld('coach', {
+  getState: (reportId?: string | null) => electron.ipcRenderer.invoke('coach:getState', { reportId: reportId ?? null }),
+  decide: (actionId: string, decision: CoachDecisionDto, reason?: CoachReasonInputDto) =>
+    electron.ipcRenderer.invoke('coach:decide', { actionId, decision, ...reason }),
+  edit: (actionId: string, patch: CoachEditDto) => electron.ipcRenderer.invoke('coach:edit', { actionId, patch }),
+  reportExecution: (actionId: string, execution: CoachExecutionDto, reason?: CoachReasonInputDto) =>
+    electron.ipcRenderer.invoke('coach:reportExecution', { actionId, execution, ...reason }),
+  reportOutcome: (actionId: string, outcome: CoachOutcomeDto, reason?: CoachReasonInputDto) =>
+    electron.ipcRenderer.invoke('coach:reportOutcome', { actionId, outcome, ...reason }),
+  linkFocus: (actionId: string) => electron.ipcRenderer.invoke('coach:linkFocus', { actionId }),
+  chat: (text: string) => electron.ipcRenderer.invoke('coach:chat', { text }),
+  removeMemory: (id: string) => electron.ipcRenderer.invoke('coach:removeMemory', { id }),
+  getSettings: () => electron.ipcRenderer.invoke('coach:getSettings'),
+  saveSettings: (settings: Partial<CoachSettingsDto>) => electron.ipcRenderer.invoke('coach:saveSettings', settings),
+  onChanged: (callback: () => void) => {
+    if (!coachSubscribed) {
+      coachSubscribed = true;
+      electron.ipcRenderer.on('coach:changed', () => coachListeners.forEach((cb) => cb()));
+    }
+    coachListeners.add(callback);
+  },
+  offChanged: (callback: () => void) => {
+    coachListeners.delete(callback);
+  },
+} satisfies Window['coach']);
 
 electron.contextBridge.exposeInMainWorld('settings', {
   exportTimeline: (format: 'csv' | 'json') =>

@@ -9,8 +9,12 @@ import { ApiError, GoogleGenAI } from '@google/genai';
  * logged, or passed to the renderer.
  */
 
-/** The single place the Gemini model is selected. */
-export const GEMINI_MODEL = 'gemini-2.5-flash-lite';
+/**
+ * The single place the Gemini model is selected. `GEMINI_MODEL` in the
+ * environment overrides it, so a model Google retires for a key (the API then
+ * answers 404) can be replaced without a code change.
+ */
+export const GEMINI_MODEL = 'gemini-3.5-flash-lite';
 
 const REQUEST_TIMEOUT_MS = 90_000;
 
@@ -63,10 +67,12 @@ export interface GeminiClientOptions {
   getApiKey?: () => string | undefined;
   /** Defaults to the real `@google/genai` SDK. */
   createTransport?: (apiKey: string) => GeminiTransport;
+  /** Defaults to `process.env.GEMINI_MODEL`, read at call time, then `GEMINI_MODEL`. */
+  getModel?: () => string | undefined;
 }
 
 export class GeminiClient implements IGeminiClient {
-  readonly model = GEMINI_MODEL;
+  private readonly getModel: () => string | undefined;
   private readonly getApiKey: () => string | undefined;
   private readonly createTransport: (apiKey: string) => GeminiTransport;
   private transport: GeminiTransport | null = null;
@@ -75,6 +81,12 @@ export class GeminiClient implements IGeminiClient {
   constructor(options: GeminiClientOptions = {}) {
     this.getApiKey = options.getApiKey ?? (() => process.env.GEMINI_API_KEY);
     this.createTransport = options.createTransport ?? defaultTransport;
+    this.getModel = options.getModel ?? (() => process.env.GEMINI_MODEL);
+  }
+
+  /** The model requests are sent to. */
+  get model(): string {
+    return this.getModel()?.trim() || GEMINI_MODEL;
   }
 
   isConfigured(): boolean {
@@ -137,6 +149,15 @@ function toGeminiError(err: unknown, apiKey: string): GeminiError {
   const status = err instanceof ApiError ? err.status : statusOf(err);
 
   if (typeof status === 'number') {
+    // The model itself is gone for this key: say so plainly, with the way out.
+    if (status === 404 && /model/i.test(message)) {
+      return new GeminiError(
+        'api',
+        `Gemini model unavailable (404) — set GEMINI_MODEL to a model this key can use: ${message}`,
+        false,
+        status,
+      );
+    }
     if (status === 429) return new GeminiError('quota', `Gemini quota/rate limit (429): ${message}`, true, status);
     if (status === 408 || status >= 500) return new GeminiError('api', `Gemini API error (${status}): ${message}`, true, status);
     return new GeminiError('api', `Gemini API error (${status}): ${message}`, false, status);

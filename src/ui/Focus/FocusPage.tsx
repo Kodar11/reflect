@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import { Target } from 'lucide-react';
 import type { UseFocusResult } from './useFocus';
 import { FocusActive } from './FocusActive';
-import { FocusStart } from './FocusStart';
+import { FocusStart, type FocusPrefill } from './FocusStart';
 import { FocusPreferences } from './FocusPreferences';
 
 export type FocusPageTab = 'focus' | 'preferences';
 
 interface FocusPageProps {
   focus: UseFocusResult;
+  /** A session to set up on behalf of a coach recommendation. */
+  prefill?: FocusPrefill | null;
+  onPrefillConsumed?: () => void;
 }
 
 /**
@@ -16,14 +19,14 @@ interface FocusPageProps {
  * page shows only that session — the Preferences tab (profiles, rules,
  * notifications) is not reachable until Focus has ended.
  */
-export function FocusPage({ focus }: FocusPageProps) {
+export function FocusPage({ focus, prefill, onPrefillConsumed }: FocusPageProps) {
   const [tab, setTab] = useState<FocusPageTab>('focus');
   const active = focus.activeSession;
 
   // A tray action or a new session always brings the Focus view forward.
   useEffect(() => {
-    if (active || focus.intent) setTab('focus');
-  }, [active, focus.intent]);
+    if (active || focus.intent || prefill) setTab('focus');
+  }, [active, focus.intent, prefill]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -55,7 +58,7 @@ export function FocusPage({ focus }: FocusPageProps) {
         ) : tab === 'preferences' ? (
           <FocusPreferences focus={focus} onUsePreset={() => setTab('focus')} />
         ) : (
-          <FocusStart focus={focus} />
+          <FocusStart focus={focus} prefill={prefill} onPrefillConsumed={onPrefillConsumed} />
         )}
       </div>
     </div>

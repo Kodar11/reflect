@@ -172,8 +172,12 @@ export function generateResultNotice(result: ReflectionGenerateResultDto): strin
   }
 }
 
-/** `around 10:00 PM` — when today's reflection is written. */
-export function dailyReflectionTimeLabel(): string {
+/** `10:00 PM` — when today's reflection is written: the user's own time when the view carries it. */
+export function dailyReflectionTimeLabel(view?: Pick<ReflectionViewDto, 'dailyReflectionAt'> | null): string {
+  if (view?.dailyReflectionAt) {
+    const at = new Date(view.dailyReflectionAt);
+    if (!Number.isNaN(at.getTime())) return formatClockMinutes(at.getHours() * 60 + at.getMinutes());
+  }
   const { dailyReflectionHour, dailyReflectionMinute } = DEFAULT_REFLECTION_CONFIG;
   return formatClockMinutes(dailyReflectionHour * 60 + dailyReflectionMinute);
 }

@@ -29,9 +29,9 @@
  */
 
 /** Version of the dataset handed to the model. Bump when its shape changes. */
-export const REFLECTION_INPUT_SCHEMA_VERSION = 1;
+export const REFLECTION_INPUT_SCHEMA_VERSION = 2;
 /** Version of the structured output contract. Bump when its shape changes. */
-export const REFLECTION_OUTPUT_SCHEMA_VERSION = 1;
+export const REFLECTION_OUTPUT_SCHEMA_VERSION = 2;
 
 // ── Periods ─────────────────────────────────────────────────────────────────
 
@@ -88,9 +88,15 @@ export const PATTERN_INSIGHT_TYPES: readonly ReflectionInsightType[] = [
 // ── Configuration ───────────────────────────────────────────────────────────
 
 export interface ReflectionConfig {
-  /** Local time at which the day's reflection is written. */
+  /** Local time at which the day's reflection is written, unless the user set their own. */
   dailyReflectionHour: number;
   dailyReflectionMinute: number;
+  /** The day's reflection may be written this long before that time… */
+  earlyReflectionWindowMinutes: number;
+  /** …once nothing has been tracked for this long (the day has wound down). */
+  windDownInactivityMinutes: number;
+  /** Earlier days whose numbers a day's reflection can cite. */
+  recentDays: number;
   /** Upper bound per period. Fewer is always fine; zero is valid. */
   maxInsights: Record<ReflectionPeriodType, number>;
   /** Personal baseline: how many earlier periods to look at, and how many of
@@ -119,6 +125,9 @@ export interface ReflectionConfig {
 export const DEFAULT_REFLECTION_CONFIG: ReflectionConfig = {
   dailyReflectionHour: 22,
   dailyReflectionMinute: 0,
+  earlyReflectionWindowMinutes: 120,
+  windDownInactivityMinutes: 40,
+  recentDays: 7,
   maxInsights: { day: 4, week: 5, month: 6, year: 8 },
   baseline: {
     day: { lookback: 14, minPeriods: 5 },
@@ -192,6 +201,8 @@ export interface ReflectionActivity {
   thread: string | null;
   /** The stated priority this activity served, when linked. */
   priorityId: string | null;
+  /** A note the user wrote on this block in the Timeline. */
+  note?: string | null;
 }
 
 // ── Priorities ──────────────────────────────────────────────────────────────
@@ -284,6 +295,12 @@ export interface FocusSessionFacts {
   elapsedMinutes: number;
   interruptionCount: number;
   blockedAttemptCount: number;
+  /** What the user committed to; null for a stopwatch session. */
+  plannedMinutes?: number | null;
+  /** How it ended: completed, finished, ended-early, abandoned; null while running. */
+  endReason?: string | null;
+  /** The user's own words: why they stopped early, or their session notes. */
+  note?: string | null;
 }
 
 export interface SufficiencyAssessment {
@@ -349,6 +366,24 @@ export interface ReflectionCarryForward {
   evidence: ReflectionEvidence[];
 }
 
+/**
+ * The coaching half of a day's intelligence, as stored with the report. The
+ * recommendations themselves are first-class `coach_actions` rows; this block
+ * holds what the Coach said about earlier ones and what it is unsure of.
+ */
+export interface ReportCoachBlock {
+  /** Recommendations this report created (canonical action ids). */
+  actionIds: string[];
+  /** What happened to earlier commitments, and what was learned. */
+  followups: { actionId: string; title: string; note: string; learned: string | null }[];
+  /** Where the evidence was too thin to say more. */
+  uncertainty: string[];
+  /** Why nothing was recommended, when nothing was. */
+  noActionReason: string | null;
+  /** A question the Coach needs answered before advising further. */
+  question: { text: string; actionId: string | null; targetKey: string | null } | null;
+}
+
 export type ReflectionFeedbackType = 'useful' | 'not_useful' | 'inaccurate';
 
 export const REFLECTION_FEEDBACK_TYPES: readonly ReflectionFeedbackType[] = ['useful', 'not_useful', 'inaccurate'];
@@ -404,7 +439,11 @@ export interface ReflectionReport {
   status: ReflectionReportStatus;
   trigger: ReflectionTrigger;
   headline: string | null;
+  /** "What happened", in a few sentences. Days only. */
+  narrative: string | null;
   carryForward: ReflectionCarryForward | null;
+  /** Present on a day's report written together with the Coach. */
+  coach: ReportCoachBlock | null;
   insights: (ReflectionInsight & { feedback: ReflectionFeedbackType | null })[];
   inputSchemaVersion: number;
   outputSchemaVersion: number;
@@ -441,6 +480,7 @@ export interface PromptActivity {
   thread: string | null;
   priorityId: string | null;
   source: ReflectionActivitySource;
+  note?: string;
 }
 
 export interface PromptPriority {
@@ -501,6 +541,10 @@ export interface ReflectionInput {
   comparisons: PromptComparison[];
   notes: string[];
   learnedPatterns: string[];
+  /** Rules the user wrote themselves — the strongest classification knowledge. */
+  explicitRules: string[];
+  /** The latest reflection of the next larger period (a day sees its week). */
+  longerTerm: { periodLabel: string; headline: string; insights: string[] } | null;
   previousReflection: PreviousReflectionInput | null;
   /** Claims already surfaced recently, with how often. */
   previouslySurfaced: { type: ReflectionInsightType; title: string; signature: string; timesSurfaced: number }[];

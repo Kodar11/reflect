@@ -4,6 +4,7 @@ import type { IUserProfileRepository } from '../database/UserProfileRepository.j
 import { GeminiError, type IGeminiClient } from '../intelligence/GeminiClient.js';
 import type { UserContextProvider } from '../intelligence/IntelligenceModels.js';
 import type { ReflectionAnnotator } from './ReflectionAnnotator.js';
+import type { DailyCoachSession, ReflectionCoachHook } from './ReflectionCoachHook.js';
 import { assessSufficiency, findMeaningfulDifference, selectSupportingMetrics } from './ReflectionMetrics.js';
 import type { ReflectionMetricsService } from './ReflectionMetricsService.js';
 import {
@@ -29,6 +30,7 @@ import {
   type ReflectionPriorityStatus,
   type ReflectionReport,
   type ReflectionTrigger,
+  type ReportCoachBlock,
   type TaxonomyNames,
 } from './ReflectionModels.js';
 import {
@@ -48,13 +50,17 @@ import {
   buildReflectionRetryFeedback,
   buildReflectionSystemInstruction,
 } from './ReflectionPrompt.js';
-import { validateReflectionOutput, type ValidatedReflection } from './ReflectionValidator.js';
+import { createEvidenceToolkit, validateReflectionOutput, type ValidatedReflection } from './ReflectionValidator.js';
 
 /**
  * `ReflectionService` owns the reflection pipeline and its read model:
  *
  *   verified timeline → deterministic metrics (+ baselines, priorities)
  *     → compact dataset → Gemini → validation → transactional persistence
+ *
+ * A day's report is the day's INTELLIGENCE: when a coach is plugged in, the
+ * same request also decides what is worth doing next, and its actions and
+ * memory are committed in the same transaction as the report.
  *
  * Manual refresh and the scheduler both go through `generate` — there is one
  * pipeline. Reflection is an enhancement: every public method resolves with a
@@ -68,6 +74,8 @@ const RETRY_DELAYS_MS = [1_000, 4_000];
 const REJECTION_CATEGORIES: ReflectionErrorCategory[] = ['malformed_output', 'validation'];
 const FEEDBACK_LOOKBACK_MS = 90 * 86_400_000;
 const RECENT_REPORTS = 4;
+/** The reflection of the next larger period is background for the smaller one. */
+const LARGER_PERIOD: Partial<Record<ReflectionPeriodType, ReflectionPeriodType>> = { day: 'week', week: 'month', month: 'year' };
 
 const FAILURE_MESSAGES: Record<ReflectionErrorCategory, string> = {
   missing_api_key: 'Gemini is not configured, so reflections cannot be written yet.',
@@ -90,6 +98,12 @@ export interface ReflectionServiceDeps {
   taxonomy: () => TaxonomyNames;
   /** Human descriptions of the user's confirmed learned rules. */
   learnedPatterns?: () => string[];
+  /** Human descriptions of the rules the user wrote themselves. */
+  explicitRules?: () => string[];
+  /** Joins a day's reflection with coaching in one request. */
+  coach?: ReflectionCoachHook;
+  /** Minutes after local midnight at which the day's reflection is written; defaults to the config. */
+  dailyReflectionMinutes?: () => number;
   config?: ReflectionConfig;
   logger?: ReflectionLogger;
   now?: () => Date;
@@ -120,6 +134,10 @@ export interface ReflectionReportView {
   id: string;
   status: 'fresh' | 'stale';
   headline: string;
+  /** "What happened", in a few sentences. Days only. */
+  narrative: string | null;
+  /** The coaching written with this report; the actions themselves are read through the Coach. */
+  coach: ReportCoachBlock | null;
   insights: ReflectionInsightView[];
   carryForward: { text: string; evidence: ReflectionEvidence[] } | null;
   generatedAt: string | null;
@@ -171,6 +189,8 @@ export interface ReflectionView {
   refreshBlockedReason: RefreshBlockedReason | null;
   refreshAvailableAt: string | null;
   priorities: ReflectionPriorityView[];
+  /** When today's reflection is written (only for the day that is running). */
+  dailyReflectionAt: string | null;
 }
 
 export interface GenerateOptions {
@@ -285,7 +305,46 @@ export class ReflectionService {
       refreshBlockedReason: refresh.reason,
       refreshAvailableAt: refresh.availableAt,
       priorities: this.priorityViews(priorities, nowIso),
+      dailyReflectionAt:
+        period.type === 'day' && isCurrentPeriod(period, now) ? new Date(this.dailyReflectionTime(period)).toISOString() : null,
     };
+  }
+
+  /**
+   * What the Reflection tab should open on: today when today already has a
+   * reflection, otherwise the latest day that has one (a morning opens on
+   * yesterday's briefing). `null` means today.
+   */
+  landingAnchor(): string | null {
+    try {
+      const today = periodContaining('day', this.now());
+      if (this.deps.repo.getCurrentReport('day', today.key)) return null;
+      for (let back = 1; back <= 3; back++) {
+        const day = shiftPeriod(today, -back);
+        if (this.deps.repo.getCurrentReport('day', day.key)) return day.start;
+      }
+    } catch (err) {
+      this.log.error(`[REFLECTION] Could not resolve the landing day: ${messageOf(err)}`);
+    }
+    return null;
+  }
+
+  /** The instant at which `day`'s reflection is due. */
+  private dailyReflectionTime(day: ReflectionPeriod): number {
+    const start = new Date(day.start);
+    const startMinutes = start.getHours() * 60 + start.getMinutes();
+    const configured = this.deps.dailyReflectionMinutes?.() ?? this.config.dailyReflectionHour * 60 + this.config.dailyReflectionMinute;
+    // A reflection time "before" the day's start belongs to the small hours at its end.
+    const offset = (((configured - startMinutes) % 1440) + 1440) % 1440;
+    return new Date(start.getFullYear(), start.getMonth(), start.getDate(), start.getHours(), start.getMinutes() + offset).getTime();
+  }
+
+  /** The next time a day's reflection falls due — when the scheduler should wake. */
+  nextDailyReflectionAt(): Date {
+    const now = this.now();
+    const today = periodContaining('day', now);
+    const due = this.dailyReflectionTime(today);
+    return new Date(due > now.getTime() ? due : this.dailyReflectionTime(shiftPeriod(today, 1)));
   }
 
   /** Periods that have a reflection, plus when tracking began. */
@@ -413,26 +472,33 @@ export class ReflectionService {
         }
       }
 
+      // Today's reflection: at the user's reflection time — or a little
+      // earlier, once the day has visibly wound down.
       const today = periodContaining('day', now);
-      const start = new Date(today.start);
-      const reflectionTime = new Date(
-        start.getFullYear(),
-        start.getMonth(),
-        start.getDate(),
-        this.config.dailyReflectionHour,
-        this.config.dailyReflectionMinute,
-      );
-      if (now.getTime() >= reflectionTime.getTime() && !this.rejectedTooOften(today)) {
+      const reflectionTime = this.dailyReflectionTime(today);
+      const earliest = reflectionTime - this.config.earlyReflectionWindowMinutes * 60_000;
+      if (now.getTime() >= earliest && !this.rejectedTooOften(today)) {
         const current = this.deps.repo.getCurrentReport('day', today.key);
         const latest = this.deps.repo.getLatestAttempt('day', today.key);
-        const written = current !== null && Date.parse(current.generatedAt ?? current.createdAt) >= reflectionTime.getTime();
-        const tooThin = latest?.status === 'insufficient_data' && Date.parse(latest.createdAt) >= reflectionTime.getTime();
-        if (!written && !tooThin) pending.push(today);
+        const written = current !== null && current.coveredUntil !== null && Date.parse(current.coveredUntil) >= earliest;
+        const tooThin = latest?.status === 'insufficient_data' && Date.parse(latest.createdAt) >= reflectionTime;
+        const due = now.getTime() >= reflectionTime ? !tooThin : await this.hasWoundDown(today, now);
+        if (!written && due) pending.push(today);
       }
     } catch (err) {
       this.log.error(`[REFLECTION] Could not plan scheduled reflections: ${messageOf(err)}`);
     }
     return pending;
+  }
+
+  /**
+   * Natural end of the day: enough happened to reflect on, and nothing has
+   * been tracked for a while.
+   */
+  private async hasWoundDown(today: ReflectionPeriod, now: Date): Promise<boolean> {
+    const pulse = await this.deps.metrics.activityPulse(today.start, now.toISOString());
+    if (pulse.lastEndedAt === null || pulse.minutes < this.config.sufficiency.day.minTrackedMinutes) return false;
+    return now.getTime() - Date.parse(pulse.lastEndedAt) >= this.config.windDownInactivityMinutes * 60_000;
   }
 
   private rejectedTooOften(period: ReflectionPeriod): boolean {
@@ -545,24 +611,52 @@ export class ReflectionService {
         recentReports: repo.listCurrentReports(period.type, RECENT_REPORTS, period.start),
         feedback: repo.listFeedback(new Date(now.getTime() - FEEDBACK_LOOKBACK_MS).toISOString()),
         learnedPatterns: this.deps.learnedPatterns?.() ?? [],
+        explicitRules: this.deps.explicitRules?.() ?? [],
+        longerTermReport: this.longerTermReport(period),
       });
       const label = describePeriod(period, now);
+
+      // A day is reflected on and coached in one request. The coach is an
+      // enhancement of the reflection: if it cannot start, the day is still
+      // reflected on.
+      let coach: DailyCoachSession | null = null;
+      if (period.type === 'day' && this.deps.coach) {
+        try {
+          coach = await this.deps.coach.beginDaily({
+            period,
+            coveredUntil,
+            now,
+            dataset,
+            replacesReportId: repo.getCurrentReport(period.type, period.key)?.id ?? null,
+          });
+        } catch (err) {
+          this.log.warn(`[REFLECTION] Coach unavailable for ${period.key}; reflecting without it: ${messageOf(err)}`);
+        }
+      }
 
       this.log.info(
         `[REFLECTION] Generation started: ${period.type} ${period.key}, ${dataset.activities.length} activities, ` +
           `${prepared.input.metrics.length} metrics, ${prepared.input.comparisons.length} comparisons, ` +
-          `user context ${userContext ? 'present' : 'not provided'}.`,
+          `user context ${userContext ? 'present' : 'not provided'}, coach ${coach ? 'included' : 'not included'}.`,
       );
 
       reportId = this.newId();
       repo.createGenerating({ ...base, id: reportId });
 
-      const systemInstruction = buildReflectionSystemInstruction();
-      const basePrompt = buildReflectionPrompt(prepared.input);
-      const responseJsonSchema = buildReflectionResponseSchema(dataset.priorities.map((p) => p.id));
+      const systemInstruction = buildReflectionSystemInstruction(coach?.parts);
+      const basePrompt = buildReflectionPrompt(prepared.input, coach?.parts);
+      const responseJsonSchema = buildReflectionResponseSchema(dataset.priorities.map((p) => p.id), coach?.parts);
+      const periodLabel = `${label.title} ${label.range}`;
+      const evidence = createEvidenceToolkit({
+        metrics: dataset.metrics,
+        activityByRef: prepared.activityByRef,
+        priorities: dataset.priorities,
+        periodLabel,
+      });
 
-      let accepted: { reflection: ValidatedReflection; model: string } | null = null;
-      let salvage: { reflection: ValidatedReflection; model: string } | null = null;
+      type Accepted = { reflection: ValidatedReflection; coach: unknown; model: string };
+      let accepted: Accepted | null = null;
+      let salvage: Accepted | null = null;
       let lastError: { category: ReflectionErrorCategory; message: string } = { category: 'internal', message: 'No attempt was made' };
       let feedback: string[] | null = null;
 
@@ -599,16 +693,21 @@ export class ReflectionService {
             priorities: dataset.priorities,
             maxInsights: this.config.maxInsights[period.type],
             recentSignatures: prepared.recentSignatures,
-            periodLabel: `${label.title} ${label.range}`,
+            periodLabel,
           });
-          if (validation.ok) {
-            accepted = { reflection: validation.reflection, model: response.modelVersion };
+          // The coaching half is checked against the same evidence. Its valid
+          // subset is always usable, so it can never sink a good reflection.
+          const coachCheck = coach ? coach.validate((rawOutput as { coach?: unknown } | null)?.coach, evidence) : null;
+          const problems = [...(validation.ok ? [] : validation.errors), ...(coachCheck && !coachCheck.ok ? coachCheck.errors : [])];
+          const reflection = validation.ok ? validation.reflection : validation.salvaged;
+          if (problems.length === 0 && reflection) {
+            accepted = { reflection, coach: coachCheck?.value ?? null, model: response.modelVersion };
             break;
           }
-          lastError = { category: 'validation', message: validation.errors.slice(0, 5).join('; ') };
-          feedback = validation.errors;
-          if (validation.salvaged) salvage = { reflection: validation.salvaged, model: response.modelVersion };
-          this.log.warn(`[REFLECTION] Validation failed: ${validation.errors.length} problem(s). ${lastError.message}`);
+          lastError = { category: 'validation', message: problems.slice(0, 5).join('; ') };
+          feedback = problems;
+          if (reflection) salvage = { reflection, coach: coachCheck?.value ?? null, model: response.modelVersion };
+          this.log.warn(`[REFLECTION] Validation failed: ${problems.length} problem(s). ${lastError.message}`);
         } catch (err) {
           if (!(err instanceof GeminiError)) throw err;
           lastError = { category: err.category, message: err.message };
@@ -637,6 +736,9 @@ export class ReflectionService {
         createdAt,
       }));
       try {
+        // Canonical ids for everything the coach creates are minted here, by
+        // the backend; the model's aliases never reach the database.
+        const coachPlan = coach && accepted.coach !== null ? coach.plan(accepted.coach, reportId, createdAt) : null;
         repo.commitReport({
           reportId,
           period,
@@ -644,7 +746,11 @@ export class ReflectionService {
           model: accepted.model,
           attemptCount: attempts,
           headline: accepted.reflection.headline,
-          carryForward: accepted.reflection.carryForward,
+          narrative: accepted.reflection.narrative,
+          // With a coach, what to do next is a tracked action, not a sentence.
+          carryForward: coach ? null : accepted.reflection.carryForward,
+          coach: coachPlan?.block ?? null,
+          alongside: coachPlan?.apply,
           insights,
           dataSnapshot: prepared.snapshot,
           metricsSnapshot: dataset.metrics,
@@ -715,6 +821,14 @@ export class ReflectionService {
 
   // ── helpers ────────────────────────────────────────────────────────────────
 
+  /** The current reflection of the next larger period containing (or just before) this one. */
+  private longerTermReport(period: ReflectionPeriod): ReflectionReport | null {
+    const type = LARGER_PERIOD[period.type];
+    if (!type) return null;
+    const containing = periodContaining(type, period.start);
+    return this.deps.repo.getCurrentReport(type, containing.key) ?? this.deps.repo.getCurrentReport(type, shiftPeriod(containing, -1).key);
+  }
+
   /** May the user refresh this period now, and if not, why? */
   private refreshState(
     period: ReflectionPeriod,
@@ -766,6 +880,8 @@ function toReportView(report: ReflectionReport, type: ReflectionPeriodType): Ref
     id: report.id,
     status: report.status === 'stale' ? 'stale' : 'fresh',
     headline: report.headline ?? '',
+    narrative: report.narrative,
+    coach: report.coach,
     insights: report.insights.map((i) => ({
       id: i.id,
       type: i.type,

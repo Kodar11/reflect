@@ -10,7 +10,33 @@ import type { ReflectionPeriod, ReflectionPeriodType } from './ReflectionModels.
  *   Week  = Monday–Sunday
  *   Month = calendar month
  *   Year  = calendar year
+ *
+ * The user's day does not have to end at midnight. `setDayStartMinutes` moves
+ * the boundary (someone who works until 2 AM can have their day start at
+ * 4 AM): every period then begins that long after local midnight, and an
+ * instant before the boundary belongs to the previous day. It is process-wide
+ * configuration set once by the main process; `shiftPeriod` and the labels
+ * never read it — they work from a period's own `start` — so the renderer,
+ * which only receives periods, needs no knowledge of it.
  */
+
+let dayStartMinutes = 0;
+
+/** Minutes after local midnight at which a day begins (0 = midnight). */
+export function setDayStartMinutes(minutes: number): void {
+  dayStartMinutes = Number.isFinite(minutes) ? Math.min(12 * 60, Math.max(0, Math.round(minutes))) : 0;
+}
+
+export function getDayStartMinutes(): number {
+  return dayStartMinutes;
+}
+
+/** The instant shifted back by the day boundary: its calendar date is the logical day. */
+function logical(at: Date | string): Date {
+  const d = new Date(at);
+  if (dayStartMinutes === 0) return d;
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes() - dayStartMinutes, d.getSeconds(), d.getMilliseconds());
+}
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MONTHS_LONG = [
@@ -31,24 +57,28 @@ const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
+/** Start of the (logical) day containing `at`. */
 export function startOfLocalDay(at: Date | string): Date {
-  const d = new Date(at);
-  d.setHours(0, 0, 0, 0);
-  return d;
+  const d = logical(at);
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, dayStartMinutes);
 }
 
-/** Local calendar day, `YYYY-MM-DD`. */
+/** The (logical) local day `at` belongs to, `YYYY-MM-DD`. */
 export function localDayKey(at: Date | string): string {
-  const d = new Date(at);
+  const d = logical(at);
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+/** Calendar date of a period start, whatever time of day it begins at. */
+function calendarKey(start: Date): string {
+  return `${start.getFullYear()}-${pad(start.getMonth() + 1)}-${pad(start.getDate())}`;
 }
 
 /** Monday of the local week containing `at`. */
 function startOfLocalWeek(at: Date | string): Date {
   const d = startOfLocalDay(at);
   const daysSinceMonday = (d.getDay() + 6) % 7;
-  d.setDate(d.getDate() - daysSinceMonday);
-  return d;
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate() - daysSinceMonday, d.getHours(), d.getMinutes());
 }
 
 /** ISO-8601 week label of the week starting on `monday`: `2026-W40`. */
@@ -66,24 +96,31 @@ function isoWeekKey(monday: Date): string {
   return `${thursday.getFullYear()}-W${pad(Math.floor(days / 7) + 1)}`;
 }
 
+/**
+ * A period beginning at `start`. The time of day of `start` is the day
+ * boundary; it is carried over to `end`, so a period derived from another
+ * period's start keeps the same boundary without consulting configuration.
+ */
 function build(type: ReflectionPeriodType, start: Date): ReflectionPeriod {
+  const h = start.getHours();
+  const min = start.getMinutes();
   let end: Date;
   let key: string;
   switch (type) {
     case 'day':
-      end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 1);
-      key = localDayKey(start);
+      end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 1, h, min);
+      key = calendarKey(start);
       break;
     case 'week':
-      end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 7);
+      end = new Date(start.getFullYear(), start.getMonth(), start.getDate() + 7, h, min);
       key = isoWeekKey(start);
       break;
     case 'month':
-      end = new Date(start.getFullYear(), start.getMonth() + 1, 1);
+      end = new Date(start.getFullYear(), start.getMonth() + 1, 1, h, min);
       key = `${start.getFullYear()}-${pad(start.getMonth() + 1)}`;
       break;
     case 'year':
-      end = new Date(start.getFullYear() + 1, 0, 1);
+      end = new Date(start.getFullYear() + 1, 0, 1, h, min);
       key = String(start.getFullYear());
       break;
   }
@@ -92,31 +129,33 @@ function build(type: ReflectionPeriodType, start: Date): ReflectionPeriod {
 
 /** The period of `type` that contains the instant `at`. */
 export function periodContaining(type: ReflectionPeriodType, at: Date | string): ReflectionPeriod {
-  const d = new Date(at);
+  const d = logical(at);
   switch (type) {
     case 'day':
-      return build('day', startOfLocalDay(d));
+      return build('day', startOfLocalDay(at));
     case 'week':
-      return build('week', startOfLocalWeek(d));
+      return build('week', startOfLocalWeek(at));
     case 'month':
-      return build('month', new Date(d.getFullYear(), d.getMonth(), 1));
+      return build('month', new Date(d.getFullYear(), d.getMonth(), 1, 0, dayStartMinutes));
     case 'year':
-      return build('year', new Date(d.getFullYear(), 0, 1));
+      return build('year', new Date(d.getFullYear(), 0, 1, 0, dayStartMinutes));
   }
 }
 
 /** The period `offset` periods after (negative: before) `period`. */
 export function shiftPeriod(period: ReflectionPeriod, offset: number): ReflectionPeriod {
   const s = new Date(period.start);
+  const h = s.getHours();
+  const min = s.getMinutes();
   switch (period.type) {
     case 'day':
-      return build('day', new Date(s.getFullYear(), s.getMonth(), s.getDate() + offset));
+      return build('day', new Date(s.getFullYear(), s.getMonth(), s.getDate() + offset, h, min));
     case 'week':
-      return build('week', new Date(s.getFullYear(), s.getMonth(), s.getDate() + 7 * offset));
+      return build('week', new Date(s.getFullYear(), s.getMonth(), s.getDate() + 7 * offset, h, min));
     case 'month':
-      return build('month', new Date(s.getFullYear(), s.getMonth() + offset, 1));
+      return build('month', new Date(s.getFullYear(), s.getMonth() + offset, 1, h, min));
     case 'year':
-      return build('year', new Date(s.getFullYear() + offset, 0, 1));
+      return build('year', new Date(s.getFullYear() + offset, 0, 1, h, min));
   }
 }
 
@@ -152,6 +191,16 @@ export function listDays(start: string | Date, end: string | Date): ReflectionPe
   return out;
 }
 
+/**
+ * The last day a range ending (exclusive) at `endMs` covers. `boundaryOf` is
+ * any period start: its time of day is the day boundary, so a week ending
+ * Monday 4 AM still ends on Sunday.
+ */
+function lastDayBefore(endMs: number, boundaryOf: string): Date {
+  const s = new Date(boundaryOf);
+  return new Date(endMs - 1 - (s.getHours() * 60 + s.getMinutes()) * 60_000);
+}
+
 export interface PeriodBucket {
   key: string;
   label: string;
@@ -183,7 +232,7 @@ export function subBuckets(period: ReflectionPeriod): PeriodBucket[] {
       while (Date.parse(week.start) < endMs) {
         const s = Math.max(Date.parse(week.start), startMs);
         const e = Math.min(Date.parse(week.end), endMs);
-        const last = new Date(e - 1);
+        const last = lastDayBefore(e, period.start);
         out.push({
           key: `w${out.length + 1}`,
           label: `${formatDayShort(new Date(s))}–${formatDayShort(last)}`,
@@ -259,7 +308,7 @@ export interface PeriodLabel {
 /** Human labels for a period, relative to `now`. */
 export function describePeriod(period: ReflectionPeriod, now: Date | string): PeriodLabel {
   const start = new Date(period.start);
-  const last = new Date(Date.parse(period.end) - 1);
+  const last = lastDayBefore(Date.parse(period.end), period.start);
   const current = periodContaining(period.type, now);
   const offset = period.key === current.key ? 0 : period.key === shiftPeriod(current, -1).key ? -1 : null;
 
@@ -293,19 +342,19 @@ export function periodFromKey(type: ReflectionPeriodType, key: string): Reflecti
   let at: Date | null = null;
   if (type === 'day') {
     const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(key);
-    if (m) at = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
+    if (m) at = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), 0, dayStartMinutes);
   } else if (type === 'month') {
     const m = /^(\d{4})-(\d{2})$/.exec(key);
-    if (m) at = new Date(Number(m[1]), Number(m[2]) - 1, 1);
+    if (m) at = new Date(Number(m[1]), Number(m[2]) - 1, 1, 0, dayStartMinutes);
   } else if (type === 'year') {
     const m = /^(\d{4})$/.exec(key);
-    if (m) at = new Date(Number(m[1]), 0, 1);
+    if (m) at = new Date(Number(m[1]), 0, 1, 0, dayStartMinutes);
   } else {
     const m = /^(\d{4})-W(\d{2})$/.exec(key);
     if (m) {
       // Week 1 is the week containing January 4th.
-      const firstMonday = startOfLocalWeek(new Date(Number(m[1]), 0, 4));
-      at = new Date(firstMonday.getFullYear(), firstMonday.getMonth(), firstMonday.getDate() + (Number(m[2]) - 1) * 7);
+      const firstMonday = startOfLocalWeek(new Date(Number(m[1]), 0, 4, 0, dayStartMinutes));
+      at = new Date(firstMonday.getFullYear(), firstMonday.getMonth(), firstMonday.getDate() + (Number(m[2]) - 1) * 7, 0, dayStartMinutes);
     }
   }
   if (!at || Number.isNaN(at.getTime())) return null;

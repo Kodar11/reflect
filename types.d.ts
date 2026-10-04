@@ -447,10 +447,22 @@ interface ReflectionInsightDto {
   feedback: ReflectionFeedbackDto | null;
 }
 
+/** The coaching written with a day's reflection. Its actions are read through `window.coach`. */
+interface ReflectionCoachBlockDto {
+  actionIds: string[];
+  followups: { actionId: string; title: string; note: string; learned: string | null }[];
+  uncertainty: string[];
+  noActionReason: string | null;
+  question: { text: string; actionId: string | null; targetKey: string | null } | null;
+}
+
 interface ReflectionReportDto {
   id: string;
   status: 'fresh' | 'stale';
   headline: string;
+  /** "What happened", in a few sentences. Days only. */
+  narrative: string | null;
+  coach: ReflectionCoachBlockDto | null;
   insights: ReflectionInsightDto[];
   carryForward: { text: string; evidence: ReflectionEvidenceDto[] } | null;
   generatedAt: string | null;
@@ -504,7 +516,137 @@ interface ReflectionViewDto {
   refreshBlockedReason: ReflectionRefreshBlockedDto | null;
   refreshAvailableAt: string | null;
   priorities: ReflectionPriorityDto[];
+  /** When today's reflection is written (only for the day that is running). */
+  dailyReflectionAt: string | null;
 }
+
+// ── Coach ────────────────────────────────────────────────────────────────────
+
+type CoachActionTypeDto =
+  | 'continue_behavior'
+  | 'focus_session'
+  | 'change_timing'
+  | 'protect_priority'
+  | 'reduce_fragmentation'
+  | 'close_open_loop'
+  | 'avoid_pattern'
+  | 'experiment'
+  | 'change_approach'
+  | 'rest'
+  | 'clarify_priority'
+  | 'drop';
+
+type CoachActionStatusDto = 'suggested' | 'snoozed' | 'accepted' | 'review' | 'closed' | 'rejected' | 'withdrawn' | 'expired';
+type CoachDecisionDto = 'accept' | 'not_now' | 'reject';
+type CoachExecutionDto = 'done' | 'partial' | 'not_done';
+type CoachOutcomeDto = 'worked' | 'partly_worked' | 'did_not_work' | 'not_applicable';
+type CoachDaypartDto = 'morning' | 'afternoon' | 'evening' | 'night' | 'any';
+type CoachReasonCodeDto =
+  | 'not_relevant'
+  | 'bad_timing'
+  | 'too_difficult'
+  | 'different_priority'
+  | 'already_doing'
+  | 'external_constraint'
+  | 'not_applicable'
+  | 'other';
+
+interface CoachReasonInputDto {
+  reasonCode?: CoachReasonCodeDto | null;
+  note?: string | null;
+}
+
+interface CoachEditDto {
+  title?: string;
+  description?: string | null;
+  focusMinutes?: number | null;
+  focusTask?: string | null;
+  when?: 'today' | 'tomorrow' | 'this_week';
+  daypart?: CoachDaypartDto;
+}
+
+/** A recommendation as a tracked entity. Every label is decided in the main process. */
+interface CoachActionDto {
+  id: string;
+  source: 'daily' | 'conversation';
+  reportId: string | null;
+  title: string;
+  description: string | null;
+  rationale: string;
+  actionType: CoachActionTypeDto;
+  status: CoachActionStatusDto;
+  /** Did it happen? */
+  execution: CoachExecutionDto | null;
+  executionSource: 'observed' | 'user' | null;
+  /** Did it help? */
+  outcome: CoachOutcomeDto | null;
+  reasonCode: CoachReasonCodeDto | null;
+  note: string | null;
+  targetLabel: string | null;
+  focusMinutes: number | null;
+  focusTask: string | null;
+  daypart: CoachDaypartDto;
+  evidence: ReflectionEvidenceDto[];
+  /** What Reflect's own data showed. */
+  observation: { kind: 'executed' | 'attempted' | 'ambiguous' | 'not_observed' | 'unobservable'; facts: string[] } | null;
+  /** What the user is being asked about it, if anything. */
+  pending: 'decision' | 'execution' | 'outcome' | null;
+  statusLine: string;
+  canStartFocus: boolean;
+  adaptedFrom: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface CoachMemoryDto {
+  id: string;
+  kind: 'preference' | 'constraint' | 'decision' | 'priority_note' | 'open_loop' | 'conclusion';
+  text: string;
+  source: 'user' | 'coach';
+  createdAt: string;
+}
+
+interface CoachMessageDto {
+  id: string;
+  role: 'user' | 'coach';
+  text: string;
+  meta: {
+    kind?: 'question' | 'reply' | 'error';
+    actions?: { actionId: string; change: string }[];
+    memoryIds?: string[];
+    correction?: { activityId: string; title: string; start: string; end: string } | null;
+    aboutActionId?: string | null;
+  } | null;
+  createdAt: string;
+}
+
+interface CoachSettingsDto {
+  /** Minutes after local midnight at which the day's reflection is written. */
+  reflectionMinutes: number;
+  /** Minutes after local midnight at which the user's day begins. */
+  dayStartMinutes: number;
+  notifyDailyReflection: boolean;
+}
+
+interface CoachStateDto {
+  configured: boolean;
+  settings: CoachSettingsDto;
+  /** Suggestions waiting for a decision. */
+  next: CoachActionDto[];
+  /** Accepted, or waiting for the user's word on what happened. */
+  commitments: CoachActionDto[];
+  recent: CoachActionDto[];
+  /** The actions of the report that was asked for. */
+  reportActions: CoachActionDto[];
+  learned: { kind: 'works' | 'does_not_work'; text: string }[];
+  memory: CoachMemoryDto[];
+  question: { messageId: string; text: string; actionId: string | null } | null;
+  messages: CoachMessageDto[];
+}
+
+type CoachActionResultDto = { ok: true; action: CoachActionDto; noteDropped?: boolean } | { ok: false; error: string };
+
+type CoachChatResultDto = { ok: true; messages: CoachMessageDto[] } | { ok: false; category: string; message: string };
 
 type ReflectionGenerateResultDto =
   | { status: 'succeeded'; reportId: string; period: ReflectionPeriodDto; attempts: number; insightCount: number }
@@ -521,12 +663,36 @@ interface Window {
     /** The period's view. Never triggers a Gemini call. */
     getReport: (period: ReflectionPeriodRequestDto) => Promise<ReflectionViewDto>;
     getAvailablePeriods: () => Promise<{ periods: ReflectionPeriodDto[]; hasHistory: boolean }>;
+    /** Which day to open on: `null` = today, else an instant inside the latest day with a reflection. */
+    getLanding: () => Promise<{ anchor: string | null }>;
     /** Manual "Refresh reflection" (throttled in the main process). */
     generate: (period: ReflectionPeriodRequestDto) => Promise<ReflectionGenerateResultDto>;
     /** `null` clears the feedback. */
     submitFeedback: (insightId: string, feedback: ReflectionFeedbackDto | null) => Promise<{ ok: boolean }>;
     getPriorities: () => Promise<ReflectionPriorityDto[]>;
     setPriorityStatus: (id: string, status: ReflectionPriorityDto['status']) => Promise<ReflectionPriorityDto[]>;
+    onChanged: (callback: () => void) => void;
+    offChanged: (callback: () => void) => void;
+    /** The end-of-day notification was clicked. */
+    onOpenRequested: (callback: () => void) => void;
+    offOpenRequested: (callback: () => void) => void;
+  };
+  /** The Coach: tracked recommendations, their outcomes, memory and conversation. */
+  coach: {
+    /** Never triggers a Gemini call. `reportId` also returns that report's actions. */
+    getState: (reportId?: string | null) => Promise<CoachStateDto>;
+    decide: (actionId: string, decision: CoachDecisionDto, reason?: CoachReasonInputDto) => Promise<CoachActionResultDto>;
+    edit: (actionId: string, patch: CoachEditDto) => Promise<CoachActionResultDto>;
+    /** Whether it happened — not whether it helped. */
+    reportExecution: (actionId: string, execution: CoachExecutionDto, reason?: CoachReasonInputDto) => Promise<CoachActionResultDto>;
+    /** Whether it helped. */
+    reportOutcome: (actionId: string, outcome: CoachOutcomeDto, reason?: CoachReasonInputDto) => Promise<CoachActionResultDto>;
+    /** The Focus session now running was started for this action. */
+    linkFocus: (actionId: string) => Promise<CoachActionResultDto>;
+    chat: (text: string) => Promise<CoachChatResultDto>;
+    removeMemory: (id: string) => Promise<{ ok: boolean }>;
+    getSettings: () => Promise<CoachSettingsDto>;
+    saveSettings: (settings: Partial<CoachSettingsDto>) => Promise<CoachSettingsDto>;
     onChanged: (callback: () => void) => void;
     offChanged: (callback: () => void) => void;
   };

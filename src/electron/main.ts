@@ -63,6 +63,10 @@ import { DEFAULT_REFLECTION_CONFIG, type TaxonomyNames } from '../reflection/Ref
 import { ReflectionScheduler } from '../reflection/ReflectionScheduler.js';
 import { ReflectionService } from '../reflection/ReflectionService.js';
 import { registerReflectionIpc } from '../reflection/reflectionIpc.js';
+import { setDayStartMinutes } from '../reflection/ReflectionPeriods.js';
+import { CoachRepository } from '../database/CoachRepository.js';
+import { CoachService } from '../coach/CoachService.js';
+import { registerCoachIpc } from '../coach/coachIpc.js';
 import type { RuleCondition } from '../categorization/Classification.js';
 import type { ActivitySample } from '../models/Event.js';
 import {
@@ -542,13 +546,14 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     reflectionRepo,
     { config: DEFAULT_REFLECTION_CONFIG },
   );
-  // Confirmed learned rules are classification knowledge the model may use as
-  // context. Reflection never creates them.
-  const learnedPatternLabels = (): string[] => {
+  // Rules are classification knowledge the model may use as context: the ones
+  // the user wrote are authoritative, the learned ones were confirmed by them.
+  // Reflection never creates either.
+  const ruleLabels = (source: 'learned' | 'user') => (): string[] => {
     const taxonomy = reflectionTaxonomy();
     const labels: string[] = [];
     for (const rule of activityRuleRepo.listRules()) {
-      if (rule.source !== 'learned' || rule.enabled !== 1) continue;
+      if (rule.source !== source || rule.enabled !== 1) continue;
       try {
         const pattern = describePattern(JSON.parse(rule.conditions) as RuleCondition[]);
         const classification = describeClassification({
@@ -557,7 +562,7 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
           intent: rule.intentId ? taxonomy.intents[rule.intentId] ?? null : null,
           quality: rule.qualityId ? taxonomy.qualities[rule.qualityId] ?? null : null,
         });
-        if (pattern && classification) labels.push(`${pattern} is usually ${classification}`);
+        if (pattern && classification) labels.push(`${pattern} ${source === 'user' ? 'is' : 'is usually'} ${classification}`);
       } catch {
         // Malformed rule conditions — not worth mentioning to the model.
       }
@@ -565,6 +570,30 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     }
     return labels;
   };
+  // --- Construct the coach layer ---
+  // The final loop: a day's reflection and its coaching are ONE model request
+  // (the coach plugs into the reflection pipeline below), recommendations are
+  // tracked entities, execution is observed from Focus sessions and the
+  // timeline, and outcomes feed the next recommendation. An enhancement only:
+  // without Gemini, commitments and their tracking keep working.
+  const coachRepo = new CoachRepository(database);
+  // The user's day boundary applies to every period Reflection computes.
+  setDayStartMinutes(coachRepo.getSettings().dayStartMinutes);
+  let notifyCoachChanged: () => void = () => {};
+  const coachService = new CoachService({
+    repo: coachRepo,
+    gemini: geminiClient,
+    reflections: reflectionRepo,
+    metrics: reflectionMetrics,
+    focus: focusRepo,
+    userContext: userContextProvider,
+    priorities: () => reflectionService?.syncPriorities() ?? reflectionRepo.listPriorities(),
+    onChanged: () => notifyCoachChanged(),
+    logger: intelligenceLogger,
+  });
+  // A Focus session that just ended is the evidence for the action it was for.
+  focusService.on('summary', () => void coachService.onFocusEnded());
+
   reflectionService = new ReflectionService({
     repo: reflectionRepo,
     gemini: geminiClient,
@@ -573,19 +602,55 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     userContext: userContextProvider,
     profiles: userProfileRepo,
     taxonomy: reflectionTaxonomy,
-    learnedPatterns: learnedPatternLabels,
+    learnedPatterns: ruleLabels('learned'),
+    explicitRules: ruleLabels('user'),
+    coach: coachService,
+    dailyReflectionMinutes: () => coachService.getSettings().reflectionMinutes,
     logger: intelligenceLogger,
   });
-  const reflectionIpc = registerReflectionIpc(reflectionService, ipcMainHandle, () =>
-    BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed()),
-  );
-  // No timer of its own: a cycle runs right behind every intelligence cycle,
-  // so the AI activities of the hour that just ended always exist first.
+  const rendererContents = () => BrowserWindow.getAllWindows().map((w) => w.webContents).filter((wc) => !wc.isDestroyed());
+  const reflectionIpc = registerReflectionIpc(reflectionService, ipcMainHandle, rendererContents);
+  // A cycle runs right behind every intelligence cycle, so the AI activities
+  // of the hour that just ended always exist first; its one timer wakes at
+  // the user's reflection time so the end-of-day report does not wait an hour.
   reflectionScheduler = new ReflectionScheduler(reflectionService, {
     logger: intelligenceLogger,
-    onGenerated: () => reflectionIpc.notifyReflectionChanged(),
+    onGenerated: (results) => {
+      reflectionIpc.notifyReflectionChanged();
+      notifyCoachChanged();
+      // The one proactive nudge: the day's reflection is ready. Calm, silent,
+      // and only for a report the scheduler wrote about today or yesterday.
+      const daily = results.find((r) => r.status === 'succeeded' && r.period.type === 'day');
+      const recent = daily && Date.now() - Date.parse(daily.period.end) < 12 * 60 * 60 * 1000;
+      if (!daily || !recent || !coachService.getSettings().notifyDailyReflection || !Notification.isSupported()) return;
+      if (mainWindow && !mainWindow.isDestroyed() && mainWindow.isFocused()) return;
+      const pending = coachService.getState().commitments.filter((a) => a.pending !== null).length;
+      const notice = new Notification({
+        title: 'Your reflection is ready',
+        body: pending > 0 ? 'Reflect also has a question about something you planned.' : 'A short briefing on today, and what might be worth doing next.',
+        silent: true,
+      });
+      notice.on('click', () => {
+        showMainWindow();
+        reflectionIpc.requestOpen();
+      });
+      notice.show();
+    },
+    onDailyReflectionDue: () => {
+      // Bring the AI activities up to date first; its completion runs the reflection cycle.
+      void intelligenceScheduler?.runCycle();
+    },
   });
-  logger.info('[APP] Reflection service ready.');
+  const coachIpc = registerCoachIpc(coachService, ipcMainHandle, rendererContents, {
+    onSettingsChanged: (settings) => {
+      setDayStartMinutes(settings.dayStartMinutes);
+      reflectionMetrics.invalidate();
+      reflectionScheduler?.reschedule();
+      reflectionIpc.notifyReflectionChanged();
+    },
+  });
+  notifyCoachChanged = () => coachIpc.notifyCoachChanged();
+  logger.info('[APP] Reflection + coach services ready.');
 
   // New AI activities are matched against candidates locally — no Gemini call.
   const onAnalyzed = () => {
@@ -603,7 +668,8 @@ if (!blockerHelperMode) app.whenReady().then(async () => {
     logger: intelligenceLogger,
     onAnalyzed,
     onCycleComplete: () => {
-      void reflectionScheduler?.runCycle();
+      // Reflections first, then a look at whether open commitments happened.
+      void reflectionScheduler?.runCycle().then(() => coachService.observe());
     },
   });
   logger.info(

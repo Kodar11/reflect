@@ -56,14 +56,16 @@ interface InsightCardProps {
   period: ReflectionPeriodDto;
   onFeedback: (insightId: string, feedback: ReflectionFeedbackDto | null) => void;
   onViewTimeline: (target: TimelineTarget) => void;
+  /** Hide the type label when the section it sits in already says it. */
+  hideLabel?: boolean;
 }
 
 /** One insight: what was observed, what it shows, why it matters — then its evidence. */
-export function InsightCard({ insight, period, onFeedback, onViewTimeline }: InsightCardProps) {
+export function InsightCard({ insight, period, onFeedback, onViewTimeline, hideLabel }: InsightCardProps) {
   return (
     <article className="reflection-insight" data-insight-type={insight.type}>
-      <div className="reflection-eyebrow">{INSIGHT_TYPE_LABELS[insight.type] ?? 'Insight'}</div>
-      <h3 className="text-[17px] font-semibold text-default mt-1.5 leading-snug">{insight.title}</h3>
+      {!hideLabel && <div className="reflection-eyebrow">{INSIGHT_TYPE_LABELS[insight.type] ?? 'Insight'}</div>}
+      <h3 className={`text-[17px] font-semibold text-default leading-snug ${hideLabel ? '' : 'mt-1.5'}`}>{insight.title}</h3>
       <p className="reflection-prose text-default mt-2">
         {insight.observation} {insight.interpretation}
       </p>
@@ -85,6 +87,21 @@ export function InsightCard({ insight, period, onFeedback, onViewTimeline }: Ins
           ))}
         </div>
       </div>
+
+      {/* "That wasn't what I was doing": the fix belongs in the Timeline, where it also teaches Reflect. */}
+      {insight.feedback === 'inaccurate' && (
+        <p className="text-[12.5px] text-muted mt-2">
+          If an activity was misread,{' '}
+          <button
+            type="button"
+            className="reflection-link"
+            onClick={() => onViewTimeline(timelineTargetFor(insight.evidence.find((e) => e.kind === 'activity') ?? null, period))}
+          >
+            correct it in the timeline
+          </button>{' '}
+          — the next reflection will use your correction.
+        </p>
+      )}
     </article>
   );
 }

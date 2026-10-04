@@ -6,7 +6,7 @@ import {
   clipActivities,
   mergeFragments,
 } from './ReflectionActivities.js';
-import { assessSufficiency, buildComparisons, computeMetrics } from './ReflectionMetrics.js';
+import { assessSufficiency, buildComparisons, buildRecentDayMetrics, computeMetrics, type RecentDay } from './ReflectionMetrics.js';
 import type {
   FocusSessionFacts,
   MetricSet,
@@ -17,7 +17,7 @@ import type {
   ReflectionPriority,
   TaxonomyNames,
 } from './ReflectionModels.js';
-import { listDays, localDayKey, previousPeriodName, previousPeriods, shiftPeriod } from './ReflectionPeriods.js';
+import { formatDay, listDays, localDayKey, previousPeriodName, previousPeriods, shiftPeriod } from './ReflectionPeriods.js';
 import { prioritiesActiveDuring } from './ReflectionPriorities.js';
 
 /**
@@ -123,12 +123,16 @@ export class ReflectionMetricsService {
   ): Promise<{ metrics: MetricSet; activities: ReflectionActivity[]; priorities: ReflectionPriority[] }> {
     const priorities = prioritiesActiveDuring(allPriorities, period.start, coveredUntil);
     const activities = await this.loadActivities(period.start, coveredUntil, priorities);
+    const focusSessions = this.focusFacts(period.start, coveredUntil);
     const metrics = computeMetrics({
       period,
       activities,
       priorities,
       taxonomy: this.sources.taxonomy(),
-      focus: this.focusFacts(period.start, coveredUntil),
+      // Aggregate Focus metrics count sessions that ran their course; the
+      // per-session facts also include the ones that were ended early.
+      focus: focusSessions.filter((f) => f.endReason !== 'ended-early' && f.endReason !== 'abandoned'),
+      focusSessions,
       forceThreads,
     });
     return { metrics, activities, priorities };
@@ -159,10 +163,16 @@ export class ReflectionMetricsService {
     // Threads of this period are reported for the reference periods too, so
     // "no time on it then" is a measured zero rather than an unknown.
     const threads = [...new Set(core.activities.map((a) => a.thread).filter((t): t is string => t !== null))];
+    const cores = new Map<string, MetricSet | null>();
+    const coreOf = async (p: ReflectionPeriod): Promise<MetricSet | null> => {
+      if (!cores.has(p.key)) {
+        cores.set(p.key, this.hasHistoryBefore(p.end) ? (await this.computeCore(p, p.end, allPriorities, threads)).metrics : null);
+      }
+      return cores.get(p.key)!;
+    };
     const reference = async (p: ReflectionPeriod): Promise<MetricSet | null> => {
-      if (!this.hasHistoryBefore(p.end)) return null;
-      const result = await this.computeCore(p, p.end, allPriorities, threads);
-      return assessSufficiency(result.metrics, p.type, this.config).enough ? result.metrics : null;
+      const metrics = await coreOf(p);
+      return metrics && assessSufficiency(metrics, p.type, this.config).enough ? metrics : null;
     };
 
     const previous = await reference(shiftPeriod(period, -1));
@@ -198,22 +208,44 @@ export class ReflectionMetricsService {
     }
     if (core.priorities.length === 0) notes.push('No current priorities are stated, so priority alignment cannot be assessed.');
 
+    // A day also sees the days just before it, one by one.
+    let recent: MetricSet = {};
+    if (period.type === 'day' && this.config.recentDays > 0) {
+      const days: RecentDay[] = [];
+      for (const p of previousPeriods(period, this.config.recentDays)) {
+        const metrics = await coreOf(p);
+        if (metrics) days.push({ key: p.key, label: formatDay(new Date(p.start)), range: { start: p.start, end: p.end }, metrics });
+      }
+      recent = buildRecentDayMetrics({ days, priorities: core.priorities, threads, lookback: this.config.recentDays });
+    }
+
     return {
       ...dataset,
-      metrics: { ...core.metrics, ...comparisons },
+      metrics: { ...core.metrics, ...comparisons, ...recent },
       notes,
       hasPreviousComparison: previous !== null,
       baselinePeriodCount: hasBaseline ? baselines.length : 0,
     };
   }
 
-  /** Focus sessions that ran inside the range, as plain facts. */
-  private focusFacts(startIso: string, endIso: string): FocusSessionFacts[] {
+  /** How much was tracked in [startIso, endIso), and when the last of it ended. */
+  async activityPulse(startIso: string, endIso: string): Promise<{ minutes: number; lastEndedAt: string | null }> {
+    const activities = await this.loadRawActivities(startIso, endIso);
+    return {
+      minutes: activities.reduce((sum, a) => sum + a.durationMinutes, 0),
+      lastEndedAt: activities.reduce<string | null>((latest, a) => (latest === null || a.endedAt > latest ? a.endedAt : latest), null),
+    };
+  }
+
+  /** Focus sessions that started inside the range, as plain facts. */
+  focusFacts(startIso: string, endIso: string): FocusSessionFacts[] {
     const start = Date.parse(startIso);
     const end = Date.parse(endIso);
     const facts: FocusSessionFacts[] = [];
     for (const session of this.sources.focus.getSessionsByRange(startIso, endIso)) {
-      if (!session.startedAt || session.state === 'planned' || session.state === 'cancelled') continue;
+      if (!session.startedAt || session.state === 'planned') continue;
+      // A session that was started and dropped at once is not evidence of anything.
+      if (session.state === 'cancelled' && session.elapsedMs < 60_000) continue;
       const s = Date.parse(session.startedAt);
       if (Number.isNaN(s) || s < start || s >= end) continue;
       const sessionEnd = session.endedAt ?? new Date(Math.min(end, s + session.elapsedMs + session.totalPauseMs)).toISOString();
@@ -225,6 +257,9 @@ export class ReflectionMetricsService {
         elapsedMinutes: session.elapsedMs / 60_000,
         interruptionCount: this.sources.focus.getInterruptions(session.id).filter((i) => i.type !== 'resume').length,
         blockedAttemptCount: this.sources.focus.getBlockedAttempts(session.id).length,
+        plannedMinutes: session.plannedDurationMinutes,
+        endReason: session.endReason ?? (session.state === 'completed' ? 'completed' : session.state === 'cancelled' ? 'ended-early' : null),
+        note: session.endNote ?? session.notes ?? null,
       });
     }
     return facts;

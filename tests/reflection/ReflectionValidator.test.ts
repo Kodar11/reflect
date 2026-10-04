@@ -135,7 +135,7 @@ describe('validateReflectionOutput — acceptance', () => {
     );
     expect(result).toEqual({
       ok: true,
-      reflection: { headline: 'Nothing unusual stood out this week.', insights: [], carryForward: null },
+      reflection: { headline: 'Nothing unusual stood out this week.', narrative: null, insights: [], carryForward: null },
     });
   });
 });
@@ -143,7 +143,7 @@ describe('validateReflectionOutput — acceptance', () => {
 describe('validateReflectionOutput — rejection', () => {
   it('rejects an invalid schema', () => {
     expect(errorsOf({ headline: 'x' })[0]).toMatch(/^schema:/);
-    expect(errorsOf({ ...good(), schemaVersion: 2 })[0]).toMatch(/schemaVersion/);
+    expect(errorsOf({ ...good(), schemaVersion: 1 })[0]).toMatch(/schemaVersion/);
     expect(errorsOf({ ...good(), insights: [{ type: 'progress' }] }).join(' ')).toMatch(/insights\.0/);
     const result = validateReflectionOutput('not an object', ctx());
     expect(result.ok === false && result.salvaged).toBeNull();
