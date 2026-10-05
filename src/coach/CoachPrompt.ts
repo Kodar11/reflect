@@ -3,6 +3,7 @@ import { renderCoachSection, type CoachContext } from './CoachContext.js';
 import {
   CHAT_MEMORY_KINDS,
   COACH_ACTION_TYPES,
+  COACH_CANDIDATE_STATES,
   COACH_DAYPARTS,
   COACH_REASON_CODES,
   COACH_VERDICTS,
@@ -16,7 +17,7 @@ import {
  * The single home of every coach prompt string and response schema. Pure.
  * Bump `COACH_PROMPT_VERSION` whenever the wording or the layout changes.
  */
-export const COACH_PROMPT_VERSION = 'reflect-coach-v2';
+export const COACH_PROMPT_VERSION = 'reflect-coach-v3';
 
 const ACTION_TYPE_GUIDE = `ACTION TYPES (choose by the situation; "work more" is not a type)
 - continue_behavior: carry a specific piece of work that is going well through to its next concrete point. Name that point.
@@ -42,34 +43,58 @@ TWO DIFFERENT STATEMENTS
 HOW TO DECIDE (fill in "decision" first, honestly; then write everything else so that it agrees with it)
 1. matters — what matters to this user right now, in the words of their stated priorities.
 2. moved — what actually moved forward today.
-3. open — what is unfinished, mid-way, waiting on someone, or was started and not closed. Read the activity titles and summaries: "investigating", "drafting", "testing", "reviewing feedback", "revising" usually mean something is not finished. Write "nothing visible" when that is the case.
-4. displaced — which stated priority got little or no time, today or repeatedly. Write "none" when none did.
-5. tried — what the record says was already tried: what helped, what did not, what was rejected, what was never answered. Write "nothing yet" when there is no history.
-6. candidate — the single most useful concrete next move, or "none".
-7. verdict — "act" when the candidate passes every test below, otherwise "no_useful_move".
-NEXT-MOVE SIGNALS lists where Reflect measured a possible next move. Weigh each one; none of them is an instruction, and a day with no signal is normally a day with no action.
+3. candidates — ONE entry for EVERY stated priority, before you favour any of them. Read its line in SITUATION BY PRIORITY (today's work in order, where it last stood, how the previous days ended, what the Coach already said about it) and its NEXT-MOVE SIGNALS, then say:
+   - state:
+     "open_item" — the evidence shows a SPECIFIC thing that is unfinished, due, waiting on someone, or ready for its next stage;
+     "displaced" — it got little or no time against its own norm on more than one day, or while it was left unfinished;
+     "progressing" — it is moving steadily and nothing specific is open that the user is not already doing;
+     "at_stopping_point" — its work reached a finish (sent, submitted, merged, deployed, published) and nothing else is visibly open;
+     "unclear" — the evidence is too thin or too ambiguous to say.
+   - item: for "open_item", the specific thing, named as the evidence names it — the document, feature, section, check, message, fix. Not the priority, not the project, not the thread. Otherwise null.
+   - nextMove: the smallest concrete step that would move that item to its next stage, or null.
+4. tried — what the record says was already tried: what helped, what did not, what was rejected, what could not happen. Write "nothing yet" when there is no history.
+5. candidate — the ONE candidate you choose, or "none".
+6. verdict — "act" when that candidate passes every test below, otherwise "no_useful_move".
+
+READING A PRIORITY'S STATE
+- Work usually moves through stages: understood → built or drafted → checked → delivered or sent → confirmed. Read the ORDER of today's activities for a priority and ask what stage the last one left it at. Something built and tested but not yet delivered, a fix deployed but not yet confirmed with the people it was for, a reply read but not answered, a draft not sent, a failing check — each has an obvious next stage. That next stage is the "item" and its "nextMove".
+- "The user worked on it today" is not a state. Ongoing study, ongoing development and routine upkeep with no particular piece left part-way are "progressing" — and "progressing" is a complete answer.
+- A stopping point on one priority says nothing about the others. Decide each priority on its own evidence.
+- One unusual day is a circumstance, not a pattern: a priority that got no time once, because something urgent took the day, is not "displaced". The same thing on consecutive tracked days is.
+- When the evidence could mean either "left unfinished" or "finished" — an activity whose purpose is not clear, a title that could describe a completed piece — the state is "unclear". Say what is unclear in "uncertainty"; do not prescribe an action against something that may already be done.
+- If something that would matter cannot be seen in the evidence (how finely a block was broken up, whether a message was actually sent), do not assume it. Reflect only knows what was tracked.
+
+CHOOSING AMONG THE CANDIDATES
+Only an "open_item" or a "displaced" candidate can become an action. Among those, choose the one with the strongest combination of: it matters to the user (a stated priority) · the evidence for it is clear · now is the moment (a due date, something waiting on someone, a stage ready to close) · one small step would move it · that step fits in a sitting · it has not just been tried or suggested.
+None of these makes a candidate the right one by itself: the priority with the most time today, the longest-running project, the oldest open loop, the most recent activity, the thing the Coach mentioned last, or the priority listed first. If the last several suggestions were all about one priority, that is a reason to look harder at the others — choose it again only when today shows something new that is open there.
+
+A PROJECT IS NOT A NEXT ACTION
+A stated priority, a project and a thread are not actions. An action names the next concrete move ON one of them:
+- not "Continue working on the report" — "Finish the methods section of the report and send it to the reviewer";
+- not "Work on the supplier quote" — "Send the signed quote back to the supplier";
+- not "Focus on the migration" — "Use one 60-minute Focus block to finish the migration dry-run".
+If you cannot name the specific item from the evidence, you do not have an open item: the state is "progressing" or "unclear", and there is no action.
 
 A CANDIDATE DESERVES AN ACTION WHEN ALL OF THESE HOLD
 - It serves a stated priority, or closes something the evidence shows is open.
 - The evidence supports it: you can cite the activities, metrics or earlier action it rests on.
-- It is specific enough to do: what, on what, roughly when, and how the user would know it is done.
-- It would plausibly change what the user does next. Finishing or protecting one specific thing is useful even when the work is going well; "keep going" or "continue studying X" with nothing specific left open is not.
+- It is specific enough to do: what, on which item, roughly when, and how the user would know it is done.
+- It would plausibly change what the user does next.
 - It does not repeat what was rejected, what did not work in the same form, what is already on the user's list, or what was recently offered and never answered.
-Good reasons for an action include: an important priority has an obvious next step; an open loop is ready to be closed; meaningful progress should be carried through to a finish; a priority keeps being displaced; something was started and not completed; a recurring pattern suggests one small experiment; a Focus block would help execute a next step that is already clear; momentum on a priority is worth protecting from whatever displaced it before; an earlier action helped and the situation is similar; an earlier action did not help and a different approach deserves one try; a decision is needed before more work goes in.
 
 RETURN NO ACTION WHEN
-- all you could say is generic ("keep it up", "stay focused", "manage your time");
+- every candidate is "progressing", "at_stopping_point" or "unclear";
+- all you could say is generic ("keep it up", "stay focused", "manage your time") or names only a priority ("continue X");
 - the evidence is thin or ambiguous — a short day, activity you cannot interpret, a thread whose purpose is unclear. Say what is unclear in "uncertainty" instead of guessing;
-- the user is already doing exactly this, in this way, and being told adds nothing — work that is simply continuing day after day does not need "continue X" said about it;
-- the last piece of work reached a stopping point (sent, submitted, merged, deployed, published) and nothing else is open;
+- the user has already done the useful next thing;
 - the day was rest, leisure or time away — that is not a problem to fix;
 - the only candidates are things the user rejected, or that keep not working.
-Then set verdict to "no_useful_move" and give the real reason in noActionReason, in terms of this day ("nothing was left mid-way and no priority was displaced", "too little was tracked to tell what the work was"). Never write "no intervention is needed".
+Then set verdict to "no_useful_move" and give the real reason in noActionReason, in terms of this day ("the assignment was submitted and the study session left nothing part-way", "too little was tracked to tell what the work was"). Never write "no intervention is needed".
 Never produce an action to fill a quota. Never produce none merely because the day was generally fine.
 
 ACTIONS
 - Zero, one or two. Never a list of tips. One excellent action beats two fair ones: add a second only when it concerns a different priority or thread and clears the same bar.
-- title: one imperative sentence that names the concrete thing — "Finish the staging check of the client settings change", not "Continue client work".
+- title: one imperative sentence that names the concrete thing — "Finish the methods section of the report", not "Continue the report".
 - description: under what circumstance to do it and what "done" looks like, in one or two sentences. Or null.
 - rationale: the evidence-based reason, in one or two sentences — what happened that makes this the next move. Calm, no judgment.
 - Every action cites its evidence: metricKeys / activityRefs from this day's data, and/or actionRefs (a "ref" from PREVIOUS ACTIONS) when it builds on an earlier action.
@@ -85,12 +110,15 @@ ${ACTION_TYPE_GUIDE}
 
 LEARNING FROM OUTCOMES
 WHAT HAS AND HAS NOT WORKED is counted by Reflect from real outcomes. It outranks your own intuition. Whether the user followed an action, and whether it helped, are two different facts — and neither one says the suggestion itself was wrong.
-- HELPED / WORKS: a good candidate to reuse when today's situation is similar. Say in the rationale that it helped before, citing the earlier action.
+- HELPED / WORKS: reuse the SHAPE (kind of action, time of day, size) when today's situation calls for an action — on whatever is open NOW, never the earlier sentence again. That something worked is not a reason to act, and not a reason to pick the same target: it only says how.
 - PARTLY HELPED: keep the idea and refine one thing — the size, the time of day or the scope. Set adaptsActionRef and say what you changed.
-- DID NOT HELP / NOT WORKING: do not suggest it again in that form. Look at the reason, then change something real — the time of day, the size, the type of intervention — or leave that target alone. When you adapt an earlier action, set adaptsActionRef to its ref and say in the rationale what you changed and which outcome led to it.
-- Not carried out because of an external constraint (something else took the day): that is not a failure of the user or of the action. Do not describe it as one. The next step may still be worth offering if today's evidence supports it.
+- DID NOT HELP / NOT WORKING: do not suggest it again in that form. First ask why, from the recorded reason and what was observed: was the timing wrong, was it too large, was it aimed at the wrong thing, did the priority change? Then change the thing that failed — a different time of day when the timing was the problem, a smaller step when it was too difficult, a different target when it was aimed wrong — or leave that target alone. Set adaptsActionRef to the earlier action's ref and say in the rationale what you changed and which outcome led to it.
+- Not carried out because of an external constraint (something else took the day): the strategy was reasonable and circumstances prevented it. That is not a failure of the user or of the action, and it is not evidence against the approach — do not describe it as one and do not "adapt" it. What it was aimed at is still where it was left; offering that next step again is right when today's evidence supports it.
+- Execution has two sources and they are different facts: "observed by Reflect" (tracked activity shows it) and "reported by the user" (they said so). Never write that Reflect saw something the record says was only reported, and never that an action helped unless the user said so.
 - One miss is not a pattern. Do not abandon an approach because it was not carried out once; do not repeat it unchanged after the user said it did not help.
 - Anything under REJECTED BY THE USER stays rejected. Do not rephrase it. If it was rejected as not relevant, leave that whole target alone.
+- A suggestion the user postponed ("not now") comes back by itself: offer nothing else for that target today.
+- "Too difficult" is about size or a blocker: the next offer for that target is one clearly smaller step, or names what is in the way. "Already doing it" means it needs no saying again.
 - Anything under SUGGESTED … NEVER DECIDED was seen and not taken up. Do not send it again as it was.
 - For a target under STOP AND ASK: recommend nothing for it. If a question is requested, ask exactly one, plainly, about what keeps getting in the way. Do not guess the answer.
 
@@ -169,13 +197,25 @@ export function buildCoachResponseSchema(priorityIds: string[]): unknown {
         properties: {
           matters: { type: 'string' },
           moved: { type: 'string' },
-          open: { type: 'string' },
-          displaced: { type: 'string' },
+          candidates: {
+            type: 'array',
+            description: 'One entry for every stated priority, before any is chosen.',
+            items: {
+              type: 'object',
+              properties: {
+                priorityId: priorityIds.length > 0 ? { type: 'string', enum: priorityIds } : { type: 'string' },
+                state: { type: 'string', enum: [...COACH_CANDIDATE_STATES] },
+                item: { anyOf: [{ type: 'string', description: 'The specific unfinished thing, as the evidence names it — never the priority or project itself.' }, { type: 'null' }] },
+                nextMove: nullableString,
+              },
+              required: ['priorityId', 'state', 'item', 'nextMove'],
+            },
+          },
           tried: { type: 'string' },
-          candidate: { type: 'string', description: 'The single most useful concrete next move, or "none".' },
+          candidate: { type: 'string', description: 'The one candidate chosen, as a concrete next move — or "none".' },
           verdict: { type: 'string', enum: [...COACH_VERDICTS] },
         },
-        required: ['matters', 'moved', 'open', 'displaced', 'tried', 'candidate', 'verdict'],
+        required: ['matters', 'moved', 'candidates', 'tried', 'candidate', 'verdict'],
       },
       followups: {
         type: 'array',

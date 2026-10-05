@@ -30,7 +30,9 @@ import { buildCoachContext, renderActionLine, type ActionRef, type CoachContext 
 import { REASON_LABELS, effectivenessLines, learnedStatements } from './CoachEffectiveness.js';
 import { CoachTransitionError, applyTransition, isTerminal, type CoachTransition } from './CoachLifecycle.js';
 import { detectOpportunities, type CoachOpportunity } from './CoachOpportunities.js';
+import { buildSituations, renderSituations, situationText, type PrioritySituation, type SituationDay } from './CoachSituation.js';
 import {
+  observationGraceEnd,
   observationWindow,
   observeAction,
   resolveTarget,
@@ -105,6 +107,8 @@ const CHAT_ACTIVITY_LIMIT = 15;
 const CHAT_CLOSED_ACTIONS = 12;
 const CHAT_RECENT_DAYS = 7;
 const STATE_RECENT_MS = 7 * 86_400_000;
+/** Earlier days whose activities are read to see where each priority stood. */
+const SITUATION_DAYS = 4;
 const STATE_MESSAGES = 40;
 
 export interface CoachServiceDeps {
@@ -210,16 +214,36 @@ export class CoachService implements ReflectionCoachHook {
     // What happened to earlier commitments is settled first, from Reflect's own data.
     await this.observe(now);
 
-    // Where a next move could come from, measured before the model is asked.
+    // Where each priority stands across the recent days, and where a next move
+    // could come from — both measured before the model is asked.
+    const activityRefOf = (id: string) => input.activityRefs?.get(id) ?? null;
     let opportunities: CoachOpportunity[] = [];
+    let situations: PrioritySituation[] = [];
+    let recentDays: SituationDay[] = [];
+    try {
+      recentDays = await this.recentDays(dataset);
+      situations = buildSituations({
+        priorities: dataset.priorities,
+        activities: dataset.activities,
+        metrics: dataset.metrics,
+        recentDays,
+        actions: this.deps.repo
+          .listActions(new Date(now.getTime() - this.config.effectivenessLookbackMs).toISOString())
+          // The report being regenerated takes its own undecided suggestions with it.
+          .filter((a) => !(input.replacesReportId && a.reportId === input.replacesReportId && (a.status === 'suggested' || a.status === 'snoozed'))),
+      });
+    } catch (err) {
+      this.log.error(`[COACH] Could not build the situation board: ${messageOf(err)}`);
+    }
     try {
       opportunities = detectOpportunities({
-        lastKnown: await this.lastKnownWork(dataset),
+        lastKnown: await this.lastKnownWork(dataset, recentDays),
         activities: dataset.activities,
         metrics: dataset.metrics,
         priorities: dataset.priorities,
         memories: this.deps.repo.listMemories().filter((m) => m.status === 'active'),
         openLoopsSince: new Date(now.getTime() - this.config.openLoopSignalMs).toISOString(),
+        situations,
       });
     } catch (err) {
       // Signals are an aid to the decision, never a precondition for it.
@@ -227,7 +251,9 @@ export class CoachService implements ReflectionCoachHook {
     }
     const context = this.buildContext(now, period, dataset.priorities, threadsOf(dataset.activities), input.replacesReportId, {
       opportunities,
-      activityRefOf: (id) => input.activityRefs?.get(id) ?? null,
+      activityRefOf,
+      situationSection: renderSituations(situations, dataset.metrics, activityRefOf),
+      evidenceText: [...dataset.activities.map((a) => `${a.title} ${a.summary ?? ''} ${a.thread ?? ''}`), situationText(situations)].join(' '),
     });
     this.log.info(
       `[COACH] Daily context: ${context.followups.length} action(s) to follow up, ${context.open.length} open, ` +
@@ -243,6 +269,7 @@ export class CoachService implements ReflectionCoachHook {
           const result = validateDailyCoach({ raw, context, evidence });
           this.log.info(
             `[COACH] Decision: ${result.decision ? `${result.decision.verdict}${result.decision.candidate ? ` — candidate “${result.decision.candidate}”` : ''}` : 'not stated'}; ` +
+              (result.decision?.candidates?.length ? `read ${result.decision.candidates.map((c) => `${c.priorityId}=${c.state}`).join(', ')}; ` : '') +
               `${result.proposed} action(s) proposed, ${result.coach.actions.length} kept` +
               (result.errors.length ? `; problems: ${result.errors.slice(0, 3).join('; ')}` : '') +
               (result.coach.actions.length === 0 && result.coach.noActionReason ? `; reason given: ${result.coach.noActionReason}` : ''),
@@ -258,18 +285,37 @@ export class CoachService implements ReflectionCoachHook {
     };
   }
 
+  /** The tracked days just before the report day, most recent first, with their activities. */
+  private async recentDays(dataset: DailyCoachInput['dataset']): Promise<SituationDay[]> {
+    const out: SituationDay[] = [];
+    for (const day of previousPeriods(dataset.period, SITUATION_DAYS)) {
+      try {
+        const activities = await this.deps.metrics.loadActivities(day.start, day.end, dataset.priorities);
+        if (activities.length > 0) out.push({ dayKey: day.key, dayLabel: formatDay(new Date(day.start)), activities });
+      } catch {
+        // A day that cannot be loaded simply adds nothing.
+      }
+    }
+    return out;
+  }
+
   /**
    * For every priority that had no work today: the last activity linked to it
    * on its most recent earlier day — whether it was left mid-way or finished.
    */
-  private async lastKnownWork(dataset: DailyCoachInput['dataset']): Promise<Record<string, { title: string; summary: string | null; dayLabel: string }>> {
+  private async lastKnownWork(
+    dataset: DailyCoachInput['dataset'],
+    recentDays: SituationDay[] = [],
+  ): Promise<Record<string, { title: string; summary: string | null; dayLabel: string }>> {
     const out: Record<string, { title: string; summary: string | null; dayLabel: string }> = {};
     for (const p of dataset.priorities) {
       if (dataset.activities.some((a) => a.priorityId === p.id && a.durationMinutes >= MEANINGFUL_ACTIVITY_MINUTES)) continue;
       const lastDay = dataset.metrics[`recent.priority.${p.id}.last_day`];
       if (!lastDay?.range) continue;
       try {
-        const earlier = await this.deps.metrics.loadActivities(lastDay.range.start, lastDay.range.end, dataset.priorities);
+        // Usually one of the days already loaded for the situation board.
+        const loaded = recentDays.find((d) => d.activities.some((a) => a.startedAt >= lastDay.range!.start && a.startedAt < lastDay.range!.end));
+        const earlier = loaded?.activities ?? (await this.deps.metrics.loadActivities(lastDay.range.start, lastDay.range.end, dataset.priorities));
         const last = earlier
           .filter((a) => a.priorityId === p.id && a.durationMinutes >= MEANINGFUL_ACTIVITY_MINUTES)
           .sort((a, b) => (a.endedAt < b.endedAt ? -1 : 1))
@@ -288,7 +334,7 @@ export class CoachService implements ReflectionCoachHook {
     priorities: Pick<ReflectionPriority, 'id' | 'text'>[],
     threads: string[],
     supersededReportId: string | null = null,
-    daily: { opportunities: CoachOpportunity[]; activityRefOf: (activityId: string) => string | null } | null = null,
+    daily: { opportunities: CoachOpportunity[]; activityRefOf: (activityId: string) => string | null; situationSection?: string; evidenceText?: string } | null = null,
   ): CoachContext {
     const { repo } = this.deps;
     const actions = repo.listActions(new Date(now.getTime() - this.config.effectivenessLookbackMs).toISOString());
@@ -426,6 +472,16 @@ export class CoachService implements ReflectionCoachHook {
     const { repo } = this.deps;
     const ids: string[] = [];
     for (const add of adds) {
+      // One inferred open loop per target: a newer reading replaces the older
+      // one instead of piling up beside it and making that target look busier
+      // than it is. What the user said is never replaced this way.
+      if (source === 'coach' && add.kind === 'open_loop' && add.targetKey) {
+        for (const older of repo.listMemories()) {
+          if (older.status === 'active' && older.source === 'coach' && older.kind === 'open_loop' && older.targetKey === add.targetKey) {
+            repo.updateMemory({ ...older, status: 'resolved', updatedAt: nowIso });
+          }
+        }
+      }
       const memory: CoachMemory = {
         id: this.newId(),
         kind: add.kind,
@@ -638,6 +694,11 @@ export class CoachService implements ReflectionCoachHook {
           } else if (action.status === 'accepted') {
             if (await this.observeOne(action, now, priorities)) changed++;
           } else if (action.status === 'review') {
+            // Asked "did it happen?" when its window ended — but the rest of that day can still answer it.
+            if (action.execution === null && action.observation && now.getTime() <= Date.parse(observationGraceEnd(action.observation.window)) + this.config.dailyEligibilityMs) {
+              if (await this.observeOne(action, now, priorities)) changed++;
+              continue;
+            }
             const since = action.executedAt ?? action.observation?.observedAt ?? action.updatedAt;
             if (now.getTime() - Date.parse(since) >= this.config.reviewTimeoutMs) {
               this.persist(action, { type: 'timeout' }, nowIso);
@@ -658,7 +719,8 @@ export class CoachService implements ReflectionCoachHook {
   private async observeOne(action: CoachAction, now: Date, priorities: ReflectionPriority[]): Promise<boolean> {
     const window = observationWindow(action, this.config);
     if (now.getTime() < Date.parse(window.start) && !action.linkedFocusSessionId) return false;
-    const until = new Date(Math.min(now.getTime(), Date.parse(window.end))).toISOString();
+    // Work that happens later than suggested, the same day, still happened.
+    const until = new Date(Math.min(now.getTime(), Date.parse(observationGraceEnd(window)))).toISOString();
 
     const focus = this.focusFacts(window.start, window.end, action.linkedFocusSessionId);
     const activities = until > window.start ? await this.deps.metrics.loadActivities(window.start, until, priorities) : [];
@@ -677,7 +739,9 @@ export class CoachService implements ReflectionCoachHook {
       action.observation !== null &&
       action.observation.kind === result.observation.kind &&
       action.observation.facts.join('|') === result.observation.facts.join('|');
-    if (!conclusive && sameAsBefore) return false;
+    if (sameAsBefore && (!conclusive || action.status === 'review')) return false;
+    // In review, only something better than "nothing seen" is worth recording.
+    if (action.status === 'review' && result.execution === null) return false;
 
     this.persist(
       action,

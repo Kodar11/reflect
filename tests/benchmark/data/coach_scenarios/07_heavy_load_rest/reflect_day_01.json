@@ -409,7 +409,7 @@
         "started_at": "07:30",
         "ended_at": "12:00",
         "title": "Shipping invoice templates",
-        "summary": "Completed invoice templates, merged the pull request and deployed it to production.",
+        "summary": "invoice templates: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           1,
           2,
@@ -464,7 +464,7 @@
         "started_at": "18:00",
         "ended_at": "20:10",
         "title": "Shipping invoice templates polish",
-        "summary": "Completed invoice templates polish, merged the pull request and deployed it to production.",
+        "summary": "invoice templates polish: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           28,
           29,

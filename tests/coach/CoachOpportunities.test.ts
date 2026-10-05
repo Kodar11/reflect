@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import { OPPORTUNITY_RULES, detectOpportunities, renderOpportunities, workStateOf, type OpportunityInput } from '../../src/coach/CoachOpportunities';
+import { OPPORTUNITY_RULES, detectOpportunities, orderSignals, outcomeSignals, renderOpportunities, workStateOf, type OpportunityInput } from '../../src/coach/CoachOpportunities';
+import { buildSituations, type SituationDay } from '../../src/coach/CoachSituation';
 import type { Metric, MetricSet, MetricUnit } from '../../src/reflection/ReflectionModels';
 import { activity, iso } from '../reflection/helpers';
-import { memory } from './helpers';
+import { coachAction, memory, worked } from './helpers';
 
 /**
  * Next-move signals: where an action COULD come from. Pure, deterministic,
@@ -77,11 +78,14 @@ describe('detectOpportunities — left off', () => {
     expect(signal.fits).toContain('close_open_loop');
   });
 
-  it('is only "possible" — ordinary ongoing work, not a loose end — when nothing says the work is unfinished', () => {
+  it('is only "possible" — and states evidence, not a verdict — when nothing says the work is unfinished', () => {
     const ongoing = activity(12, '17:00', 60, { title: 'Developing and testing the SaaS dashboard component', priorityId: 'pr-saas' });
     const [signal] = detectOpportunities(input({ activities: [ongoing], metrics: dayMetrics({ tracked: 300, saas: 180 }), priorities: [SAAS] }));
     expect(signal).toMatchObject({ kind: 'left_off', strength: 'possible' });
-    expect(signal.summary).toContain('on its own this is ordinary ongoing work, not a loose end');
+    expect(signal.summary).toContain('Nothing states whether it was finished.');
+    // A signal is evidence: it carries how clearly it was measured, and no advice.
+    expect(signal.confidence).toBeLessThan(0.5);
+    expect(signal.summary).not.toMatch(/should|needs no advice|not a loose end/i);
     // Too brief a stretch to call anything.
     const glance = activity(12, '17:00', 3, { title: 'Debugging the dashboard', priorityId: 'pr-saas' });
     const earlier = activity(12, '09:00', 40, { title: 'Dashboard work', priorityId: 'pr-saas' });
@@ -101,13 +105,37 @@ describe('detectOpportunities — displaced priority', () => {
     metric('recent.priority.pr-saas.last_day', 'Fri, Oct 9', 'text', 'Fri, Oct 9', { priorityId: 'pr-saas' }),
   ];
 
-  it('is clear when an actively worked priority got no real time today', () => {
+  it('one day without an actively worked priority is a circumstance: possible, never clear', () => {
     const signals = detectOpportunities(input({ metrics: dayMetrics({ tracked: 320, client: 300, extra: recent(4) }), priorities: [SAAS] }));
     expect(signals).toHaveLength(1);
-    expect(signals[0]).toMatchObject({ kind: 'displaced_priority', strength: 'clear', priorityId: 'pr-saas' });
-    expect(signals[0].summary).toBe('“Ship the SaaS MVP” got no linked time today; it was worked on 4 of 5 recent days (last on Fri, Oct 9).');
+    expect(signals[0]).toMatchObject({ kind: 'displaced_priority', strength: 'possible', priorityId: 'pr-saas' });
+    expect(signals[0].summary).toBe('“Ship the SaaS MVP” got no linked time today; it was worked on 4 of 5 recent days (last on Fri, Oct 9). That is one day so far.');
     expect(signals[0].metricKeys).toEqual(['recent.priority.pr-saas.active_days', 'recent.priority.pr-saas.last_day', 'time.tracked_minutes']);
     expect(signals[0].fits).toEqual(['protect_priority', 'focus_session', 'clarify_priority']);
+  });
+
+  it('the same displacement on consecutive tracked days is a pattern: clear, and clearer the longer it lasts', () => {
+    const clientDay = (day: number): SituationDay => ({
+      dayKey: `2026-10-${String(day).padStart(2, '0')}`,
+      dayLabel: `Oct ${day}`,
+      activities: [activity(day, '09:00', 240, { title: 'Acme portal support', priorityId: 'pr-client' })],
+    });
+    const saasDay: SituationDay = { dayKey: '2026-10-09', dayLabel: 'Oct 9', activities: [activity(9, '09:00', 120, { title: 'Implementing recurring invoices', priorityId: 'pr-saas' })] };
+    const metrics = dayMetrics({ tracked: 320, client: 300, extra: recent(2) });
+    const today = [activity(12, '09:00', 300, { title: 'Acme portal support', priorityId: 'pr-client' })];
+    const at = (recentDays: SituationDay[]) => {
+      const situations = buildSituations({ priorities: [SAAS, CLIENT], activities: today, metrics, recentDays, actions: [] });
+      return detectOpportunities(input({ activities: today, metrics, situations })).find((s) => s.kind === 'displaced_priority')!;
+    };
+    const first = at([saasDay]);
+    expect(first).toMatchObject({ strength: 'possible' });
+    const second = at([clientDay(11), saasDay]);
+    expect(second).toMatchObject({ strength: 'clear' });
+    expect(second.summary).toContain('That is 2 tracked days in a row without it.');
+    const third = at([clientDay(11), clientDay(10), saasDay]);
+    expect(third.summary).toContain('That is 3 tracked days in a row without it.');
+    expect(third.confidence).toBeGreaterThan(second.confidence);
+    expect(second.confidence).toBeGreaterThan(first.confidence);
   });
 
   it('is only possible when today was merely well below the priority\'s own average share', () => {
@@ -135,7 +163,7 @@ describe('detectOpportunities — displaced priority', () => {
     const [signal] = detectOpportunities(input({ metrics: quiet(0, 4), priorities: [SAAS] }));
     expect(signal).toMatchObject({ kind: 'displaced_priority', strength: 'clear' });
     expect(signal.fits[0]).toBe('clarify_priority');
-    expect(signal.summary).toContain('worth one decision: protect a block for it, or say it is no longer current');
+    expect(signal.summary).toContain('either it needs a protected block, or it is no longer current — only the user can say which');
     expect(kinds({ metrics: quiet(1, 3), priorities: [SAAS] })).toEqual(['displaced_priority:clear:pr-saas']);
     // One day without it, and nothing known about where it stood: only "possible".
     expect(kinds({ metrics: quiet(1, 2), priorities: [SAAS] })).toEqual(['displaced_priority:possible:pr-saas']);
@@ -158,7 +186,7 @@ describe('detectOpportunities — displaced priority', () => {
 });
 
 describe('detectOpportunities — momentum, fragmentation, load, unlinked time, open loops', () => {
-  it('momentum is never more than "possible", and says steady work needs no advice by itself', () => {
+  it('momentum is never more than "possible", and is the weakest signal there is', () => {
     const steady = activity(12, '09:00', 120, { title: 'Finishing and deploying tax settings', priorityId: 'pr-saas' });
     const signals = detectOpportunities(
       input({
@@ -168,7 +196,8 @@ describe('detectOpportunities — momentum, fragmentation, load, unlinked time, 
       }),
     );
     expect(signals.map((s) => `${s.kind}:${s.strength}`)).toEqual(['momentum:possible']);
-    expect(signals[0].summary).toContain('Steady work needs no advice by itself');
+    expect(signals[0].summary).toBe('“Ship the SaaS MVP” had 3h 0m today and was worked on 6 of 7 recent days.');
+    expect(signals[0].confidence).toBeLessThan(0.4);
     expect(signals[0].fits).toEqual(['continue_behavior', 'protect_priority']);
   });
 
@@ -240,7 +269,7 @@ describe('detectOpportunities — the whole day', () => {
     expect(detectOpportunities(input({ metrics: dayMetrics({ tracked: 0 }) }))).toEqual([]);
   });
 
-  it('orders clear loose ends first, caps the list, and is deterministic', () => {
+  it('orders by how clearly each was measured, gives every priority its turn, caps the list, and is deterministic', () => {
     const debugging = activity(12, '17:00', 60, { title: 'Debugging the export job', priorityId: 'pr-client' });
     const metrics = dayMetrics({
       tracked: 400,
@@ -253,7 +282,9 @@ describe('detectOpportunities — the whole day', () => {
       ],
     });
     const run = () => detectOpportunities(input({ activities: [debugging], metrics }));
-    expect(run().map((s) => `${s.kind}:${s.strength}`)).toEqual(['displaced_priority:clear', 'left_off:clear', 'fragmentation:possible', 'momentum:possible']);
+    // The unfinished work and the fragmentation come first; one day without the other priority is only "possible";
+    // the client priority's second line (momentum) waits until every target has had one.
+    expect(run().map((s) => `${s.kind}:${s.strength}`)).toEqual(['left_off:clear', 'fragmentation:possible', 'displaced_priority:possible', 'momentum:possible']);
     expect(run()).toEqual(run());
     expect(run().length).toBeLessThanOrEqual(OPPORTUNITY_RULES.maxSignals);
   });
@@ -266,5 +297,118 @@ describe('detectOpportunities — the whole day', () => {
     expect(text).toContain('"cite":{"metricKeys":["priority.pr-client.minutes"],"activityRefs":["a7"]}');
     // The raw activity id never reaches the model.
     expect(text).not.toContain(debugging.id);
+  });
+});
+
+describe('detectOpportunities — finished work going quiet is completion', () => {
+  it('stays "it may simply be done" however many days pass, and never becomes a clear displacement', () => {
+    const submitted: SituationDay = { dayKey: '2026-10-09', dayLabel: 'Oct 9', activities: [activity(9, '10:00', 40, { title: 'Submitting Assignment 3', summary: 'Submitted on the course site.', priorityId: 'pr-saas' })] };
+    const other = (n: number): SituationDay => ({ dayKey: `2026-10-${n}`, dayLabel: `Oct ${n}`, activities: [activity(n, '09:00', 200, { title: 'Client portal support', priorityId: 'pr-client' })] });
+    const today = [activity(12, '09:00', 300, { title: 'Client portal support', priorityId: 'pr-client' })];
+    const metrics = dayMetrics({
+      tracked: 320,
+      client: 300,
+      extra: [metric('recent.active_days', 3, 'count', '3'), metric('recent.priority.pr-saas.active_days', 1, 'count', '1 of 3', { priorityId: 'pr-saas' }), metric('recent.priority.pr-saas.last_day', 'Fri, Oct 9', 'text', 'Fri, Oct 9')],
+    });
+    const situations = buildSituations({ priorities: [SAAS, CLIENT], activities: today, metrics, recentDays: [other(11), other(10), submitted], actions: [] });
+    expect(situations[0].untouchedStreak).toBe(3);
+    const signal = detectOpportunities(
+      input({ activities: today, metrics, situations, lastKnown: { 'pr-saas': { title: 'Submitting Assignment 3', summary: 'Submitted on the course site.', dayLabel: 'Fri, Oct 9' } } }),
+    ).find((s) => s.kind === 'displaced_priority' && s.priorityId === 'pr-saas')!;
+    expect(signal).toMatchObject({ strength: 'possible', fits: ['clarify_priority'] });
+    expect(signal.summary).toContain('it may simply be done; only the user can say');
+    expect(signal.summary).not.toContain('days in a row');
+  });
+
+  it('"Monthly invoicing" names a chore — it does not say anything was sent', () => {
+    expect(workStateOf({ title: 'Monthly invoicing', summary: 'Prepared client invoices; 2 drafts, 0 sent.' })).toBe('open');
+    expect(workStateOf({ title: 'Monthly invoicing', summary: 'Prepared client invoices.' })).toBe('unknown');
+  });
+});
+
+describe('detectOpportunities — carried over, interleaving', () => {
+  const day = (n: number, title: string, summary: string | null = null): SituationDay => ({
+    dayKey: `2026-10-${String(n).padStart(2, '0')}`,
+    dayLabel: `Oct ${n}`,
+    activities: [activity(n, '17:00', 60, { title, summary, priorityId: 'pr-saas', thread: 'SaaS MVP' })],
+  });
+  const metrics = dayMetrics({ tracked: 300, saas: 180 });
+
+  it('the same piece of work ending the day unfinished, day after day, is its own signal', () => {
+    const today = [activity(12, '17:00', 60, { title: 'Investigating the authentication API issue', priorityId: 'pr-saas', thread: 'SaaS MVP' })];
+    const situations = buildSituations({
+      priorities: [SAAS],
+      activities: today,
+      metrics,
+      recentDays: [day(11, 'Investigating authentication API errors'), day(10, 'Testing authentication API responses')],
+      actions: [],
+    });
+    expect(situations[0].carriedOver).toMatchObject({ days: 3, item: 'Investigating the authentication API issue' });
+    const signal = detectOpportunities(input({ activities: today, metrics, priorities: [SAAS], situations })).find((s) => s.kind === 'carried_over')!;
+    expect(signal).toMatchObject({ strength: 'clear', priorityId: 'pr-saas', activityIds: [today[0].id] });
+    expect(signal.summary).toBe('“Investigating the authentication API issue” has been the last work toward “Ship the SaaS MVP” on 3 tracked days in a row without reading as finished.');
+    expect(signal.fits).toContain('change_approach');
+  });
+
+  it('is not raised when yesterday ended on something else, or on a finish', () => {
+    const today = [activity(12, '17:00', 60, { title: 'Investigating the authentication API issue', priorityId: 'pr-saas' })];
+    const carried = (recentDays: SituationDay[]) => buildSituations({ priorities: [SAAS], activities: today, metrics, recentDays, actions: [] })[0].carriedOver;
+    expect(carried([day(11, 'Designing the dashboard layout')])).toBeNull();
+    expect(carried([day(11, 'Authentication API issue', 'Fixed, merged and deployed.')])).toBeNull();
+    expect(carried([])).toBeNull();
+  });
+
+  it('two activities spread over the same stretch are reported as interleaved — and as far as the record goes, no further', () => {
+    const support = activity(12, '09:00', 92, { title: 'Client portal support', priorityId: 'pr-client', thread: 'Client Portal' });
+    const invoices = activity(12, '09:10', 72, { title: 'Recurring invoices', priorityId: 'pr-saas', thread: 'SaaS MVP' });
+    // Each one's span is far longer than the time spent in it.
+    const spread = [
+      { ...support, endedAt: iso(12, '11:44') },
+      { ...invoices, endedAt: iso(12, '11:33') },
+    ];
+    const signal = detectOpportunities(input({ activities: spread, metrics: dayMetrics({ tracked: 164, saas: 72, client: 92 }) })).find((s) => s.kind === 'fragmentation')!;
+    expect(signal).toMatchObject({ strength: 'possible', activityIds: [support.id, invoices.id] });
+    expect(signal.summary).toContain('ran over the same stretch');
+    expect(signal.summary).toContain('How finely it broke up is not recorded.');
+    // Two solid blocks one after the other are not interleaved.
+    const solid = [activity(12, '09:00', 90, { title: 'Client portal support', priorityId: 'pr-client' }), activity(12, '10:30', 70, { title: 'Recurring invoices', priorityId: 'pr-saas' })];
+    expect(detectOpportunities(input({ activities: solid, metrics: dayMetrics({ tracked: 160, saas: 70, client: 90 }) })).filter((s) => s.kind === 'fragmentation')).toEqual([]);
+  });
+});
+
+describe('signals are evidence — ordering and earlier outcomes', () => {
+  it('no priority drops off the list because another produced more lines', () => {
+    const base = { strength: 'possible' as const, thread: null, summary: 's', metricKeys: [], activityIds: [], fits: [] };
+    const ordered = orderSignals([
+      { ...base, kind: 'left_off', confidence: 0.75, priorityId: 'a' },
+      { ...base, kind: 'carried_over', confidence: 0.7, priorityId: 'a' },
+      { ...base, kind: 'momentum', confidence: 0.35, priorityId: 'a' },
+      { ...base, kind: 'left_off', confidence: 0.4, priorityId: 'b' },
+    ]);
+    expect(ordered.map((s) => `${s.priorityId}:${s.kind}`)).toEqual(['a:left_off', 'b:left_off', 'a:carried_over', 'a:momentum']);
+  });
+
+  it('what happened to an earlier suggestion becomes a signal that keeps "could not happen" apart from "did not help"', () => {
+    const label = (code: string) => code.replace('_', ' ');
+    const helped = worked(11, { title: 'Finish the tax settings check', priorityId: 'pr-saas', targetKey: 'p:pr-saas' });
+    const failed = worked(11, { title: 'Run a morning block on invoices', outcome: 'did_not_work', reasonCode: 'bad_timing', targetKey: 'p:pr-saas' });
+    const blocked = coachAction({ title: 'Return to recurring invoices', status: 'closed', execution: 'not_done', executionSource: 'user', reasonCode: 'external_constraint', targetKey: 'p:pr-saas' });
+    const rejected = coachAction({ title: 'Review lecture notes', status: 'rejected', reasonCode: 'not_relevant' });
+    const signals = outcomeSignals(
+      [helped, failed, blocked, rejected].map((action, i) => ({ ref: `k${i + 1}`, action })),
+      label,
+    );
+    expect(signals.map((s) => [s.kind, s.actionRefs?.[0], s.priorityId])).toEqual([
+      ['tried_before', 'k1', 'pr-saas'],
+      ['tried_before', 'k2', 'pr-saas'],
+      ['tried_before', 'k3', 'pr-saas'],
+    ]);
+    expect(signals[0].summary).toContain('whether there is anything new to use it ON is a separate question');
+    expect(signals[1].summary).toContain('did not help (the reason given: bad timing)');
+    expect(signals[1].fits).toEqual(['change_timing', 'change_approach', 'experiment']);
+    // Circumstances prevented it: not a failed strategy, and nothing to "adapt".
+    expect(signals[2].summary).toContain('That says nothing against the action');
+    expect(signals[2].fits).toEqual(['protect_priority', 'focus_session', 'close_open_loop']);
+    expect(renderOpportunities(signals, () => null)).toContain('"actionRefs":["k2"]');
   });
 });

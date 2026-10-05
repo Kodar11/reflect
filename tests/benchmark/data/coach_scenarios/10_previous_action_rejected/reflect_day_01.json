@@ -17,7 +17,7 @@
     "date": "2026-11-02",
     "day_type": "10_previous_action_rejected",
     "circumstances": [
-      "The user rejected a recommendation as not relevant → it must not come back, in any wording."
+      "The user turned a recommendation down as not relevant → the Coach stays off that item afterwards, however it might be reworded."
     ],
     "laptop_usage": {
       "first_seen": "10:00",
@@ -192,20 +192,13 @@
       "reason": "The indexing section was left as a draft.",
       "priority": "Finish the database systems assignment",
       "type": "complete_open_loop"
-    },
-    "execution_scenario": {
-      "reason_code": "not_relevant",
-      "user_decision": "rejected",
-      "execution": "not_applicable",
-      "outcome": "not_applicable",
-      "reason": "The rest of the assignment is being done with a lab partner, away from the laptop."
     }
   },
   "evaluation_objectives": {
     "coach_scenario": {
       "id": "10_previous_action_rejected",
       "title": "Previous action rejected",
-      "tests": "The user rejected a recommendation as not relevant → it must not come back, in any wording.",
+      "tests": "The user turned a recommendation down as not relevant → the Coach stays off that item afterwards, however it might be reworded.",
       "probe": false
     }
   }

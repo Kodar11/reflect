@@ -35,6 +35,18 @@ export interface LeakDetector {
   findLeaks(text: string): string[];
   /** Number of distinct answer-key shingles being watched for. */
   shingleCount: number;
+  /**
+   * Record text Reflect itself produced during the run (a model response).
+   * A leak has to ENTER a prompt from outside; wording the model wrote on an
+   * earlier day and that later comes back to it (a remembered open loop, the
+   * previous reflection) entered from Reflect's own output, having passed this
+   * same check on the way in. Without this, an ordinary eight-word phrase the
+   * model happens to share with the key ("remained open at the end of the
+   * day") aborts a run days after it was written.
+   */
+  allowOwnOutput(text: string): void;
+  /** How many answer-key shingles the model reproduced on its own (reported, never hidden). */
+  coincidences(): number;
 }
 
 export function buildLeakDetector(evaluation: EvaluationOnly, input: ReflectInput): LeakDetector {
@@ -66,13 +78,19 @@ export function buildLeakDetector(evaluation: EvaluationOnly, input: ReflectInpu
   // Day-type slugs are single tokens no prompt has a reason to contain.
   const slugs = evaluation.days.map((d) => d.dayType.toLowerCase()).filter((s) => s.includes('_'));
 
+  const ownOutput = new Set<string>();
   return {
     shingleCount: shingles.size,
+    allowOwnOutput(text: string): void {
+      for (const shingle of shinglesOf(text)) if (shingles.has(shingle)) ownOutput.add(shingle);
+    },
+    coincidences: () => ownOutput.size,
     findLeaks(text: string): string[] {
       const found = new Set<string>();
       const tokens = wordsOf(text);
       for (let i = 0; i + SHINGLE_WORDS <= tokens.length; i++) {
-        const source = shingles.get(tokens.slice(i, i + SHINGLE_WORDS).join(' '));
+        const shingle = tokens.slice(i, i + SHINGLE_WORDS).join(' ');
+        const source = ownOutput.has(shingle) ? undefined : shingles.get(shingle);
         if (source) found.add(source);
       }
       const lower = text.toLowerCase();

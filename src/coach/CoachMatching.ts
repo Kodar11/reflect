@@ -57,6 +57,54 @@ function containment(a: Set<string>, b: Set<string>): number {
   return shared / Math.min(a.size, b.size);
 }
 
+/** Whether two tokens are forms of one word ("verify" / "verification", "invoice" / "invoices"). */
+export function sameWord(a: string, b: string): boolean {
+  if (a === b) return true;
+  const n = Math.min(a.length, b.length);
+  return n >= 4 && a.slice(0, Math.max(4, n - 2)) === b.slice(0, Math.max(4, n - 2));
+}
+
+/** Tokens of `of` that occur (as a form of the same word) in `within`. */
+export function sharedWords(of: Set<string>, within: Set<string>): string[] {
+  const out: string[] = [];
+  for (const token of of) for (const other of within) if (sameWord(token, other)) { out.push(token); break; }
+  return out;
+}
+
+/**
+ * Words that say an action is to be taken, or which stage comes next, without
+ * saying on what. Left out when asking what specific thing an action names:
+ * "confirm", "send" and "verify" are the step, never the item.
+ */
+const ACTION_VERBS = new Set([
+  'confirm', 'confirming', 'confirmation', 'send', 'sending', 'verify', 'verifying', 'verification', 'submit', 'submitting', 'deliver', 'delivering',
+  'ship', 'shipping', 'deploy', 'deploying', 'publish', 'publishing', 'test', 'testing', 'ask', 'decide', 'reply', 'respond', 'follow', 'followup',
+  'schedule', 'share', 'update', 'fix', 'fixing', 'hand', 'handoff', 'handover', 'wrap', 'settle', 'choose', 'define', 'open', 'unfinished', 'pending',
+  'complete', 'completing', 'completed', 'finalize', 'finalise', 'finalizing', 'finishing', 'finished', 'resume', 'resuming', 'continuing',
+  'develop', 'developing', 'development', 'draft', 'drafting', 'write', 'writing', 'review', 'reviewing', 'check', 'checking', 'close', 'closing',
+  'carry', 'move', 'push', 'make', 'return', 'pick', 'get', 'put', 'use', 'give', 'take', 'set', 'begin', 'remaining', 'rest', 'more', 'further',
+  'implement', 'implementing', 'implementation', 'study', 'studying', 'prepare', 'preparing', 'preparation', 'practice', 'practicing', 'organize', 'organizing',
+  'through', 'until', 'done', 'another', 'current', 'specific', 'details', 'items', 'steps', 'part', 'parts', 'section', 'sections', 'progress',
+]);
+
+/**
+ * What an action names beyond the priority or thread it serves: the specific
+ * item. "Finish the methods section of the report" for the priority "Publish
+ * the annual report" names `methods`; "Continue working on the annual report"
+ * names nothing.
+ */
+export function itemTokensOf(action: { title: string; focusTask?: string | null }, targetTexts: (string | null | undefined)[]): Set<string> {
+  const target = new Set<string>();
+  for (const text of targetTexts) for (const token of tokensOf(text)) target.add(token);
+  const out = new Set<string>();
+  for (const token of tokensOf(`${action.title} ${action.focusTask ?? ''}`)) {
+    if (ACTION_VERBS.has(token)) continue;
+    if ([...target].some((t) => sameWord(t, token))) continue;
+    out.add(token);
+  }
+  return out;
+}
+
 export function titleSimilarity(a: string, b: string): number {
   return jaccard(tokensOf(a), tokensOf(b));
 }
@@ -226,12 +274,28 @@ export function observationWindow(action: CoachAction, config: Pick<CoachConfig,
   return { start, end };
 }
 
+/**
+ * Work suggested for "tomorrow morning" that happens tomorrow afternoon still
+ * happened. The question "did it happen?" is still raised when the window
+ * ends, but a window shorter than a day keeps being looked at until the end of
+ * its own day, and what was seen after the window is reported as such.
+ */
+export function observationGraceEnd(window: { start: string; end: string }): string {
+  const spanMs = Date.parse(window.end) - Date.parse(window.start);
+  if (!(spanMs > 0) || spanMs >= 86_400_000) return window.end;
+  const dayEnd = periodContaining('day', new Date(Date.parse(window.end) - 1)).end;
+  return dayEnd > window.end ? dayEnd : window.end;
+}
+
+/** Action types that are about one particular item: seeing work on the same priority is not seeing the item done. */
+const ITEM_DIRECTED_TYPES: readonly CoachActionType[] = ['close_open_loop', 'change_approach'];
+
 export interface ObserveInput {
   action: CoachAction;
   nowIso: string;
   /** Focus sessions that started inside the window. */
   focus: FocusFact[];
-  /** Timeline activities overlapping the window (thread / priority attached). */
+  /** Timeline activities overlapping the window or the rest of its day (thread / priority attached). */
   activities: ReflectionActivity[];
   /** Text of the priority the action targets, when it targets one. */
   priorityText: string | null;
@@ -255,7 +319,9 @@ export function observeAction(input: ObserveInput): ObserveResult {
   const window = observationWindow(action, config);
   const ws = Date.parse(window.start);
   const we = Date.parse(window.end);
+  const ge = Date.parse(observationGraceEnd(window));
   const ended = Date.parse(nowIso) >= we;
+  const dayEnded = Date.parse(nowIso) >= ge;
 
   const base = {
     observedAt: nowIso,
@@ -297,20 +363,29 @@ export function observeAction(input: ObserveInput): ObserveResult {
 
   // ── Timeline activity ──
   const slug = action.thread ? threadSlug(action.thread) : null;
+  // The specific thing the action names, beyond the priority / thread it serves.
+  const itemTokens = itemTokensOf(action, [input.priorityText, action.thread]);
   let matchedMinutes = 0;
+  /** Matching work after the suggested window, later the same day. */
+  let laterMinutes = 0;
+  let itemSeen = false;
   const matched: ReflectionActivity[] = [];
   for (const a of input.activities) {
     const s = Date.parse(a.startedAt);
     const e = Date.parse(a.endedAt);
-    const overlap = Math.min(e, we) - Math.max(s, ws);
-    if (!(overlap > 0)) continue;
+    const overlap = Math.max(0, Math.min(e, we) - Math.max(s, ws));
+    const later = Math.max(0, Math.min(e, ge) - Math.max(s, we));
+    if (!(overlap > 0) && !(later > 0)) continue;
     const related =
       (action.priorityId !== null && a.priorityId === action.priorityId) ||
       (slug !== null && a.thread !== null && threadSlug(a.thread) === slug) ||
       (!untargeted && relatedText(`${a.title} ${a.thread ?? ''}`));
     if (!related) continue;
     matched.push(a);
-    matchedMinutes += e > s ? a.durationMinutes * Math.min(1, overlap / (e - s)) : a.durationMinutes;
+    const share = (ms: number) => (e > s ? a.durationMinutes * Math.min(1, ms / (e - s)) : a.durationMinutes);
+    if (overlap > 0) matchedMinutes += share(overlap);
+    if (later > 0) laterMinutes += e > s ? share(later) : 0;
+    if (itemTokens.size > 0 && sharedWords(itemTokens, tokensOf(`${a.title} ${a.summary ?? ''}`)).length > 0) itemSeen = true;
   }
 
   const label = action.thread ?? input.priorityText ?? action.focusTask ?? action.title;
@@ -333,6 +408,9 @@ export function observeAction(input: ObserveInput): ObserveResult {
       `${formatMinutes(matchedMinutes)} of tracked work on “${label}” between ${formatDay(new Date(ws))}, ${formatClock(window.start)} and ${formatClock(window.end)}.`,
     );
   }
+  if (laterMinutes >= 1) {
+    facts.push(`${formatMinutes(laterMinutes)} of tracked work on “${label}” later that day, after ${formatClock(window.end)}.`);
+  }
 
   const filled = {
     ...base,
@@ -340,6 +418,8 @@ export function observeAction(input: ObserveInput): ObserveResult {
     activityIds: matched.map((a) => a.id).slice(0, 12),
     focusMinutes: Math.round(focusMinutes),
     matchedMinutes: Math.round(matchedMinutes),
+    laterMinutes: Math.round(laterMinutes),
+    evidenceLevel: matched.length === 0 ? null : itemTokens.size === 0 || itemSeen ? ('item' as const) : ('target' as const),
     interruptions,
   };
   const lastEvidenceEnd = [...relevantFocus.map((f) => f.endedAt ?? f.startedAt), ...matched.map((a) => a.endedAt)]
@@ -355,23 +435,39 @@ export function observeAction(input: ObserveInput): ObserveResult {
   // A session still in progress settles nothing yet.
   if (running) return result('ambiguous', null);
 
+  // An action about one particular item is not shown to have happened by work
+  // on the same priority that never names the item: that is "something related
+  // happened", and the user is asked rather than execution being assumed.
+  const itemUnseen =
+    relevantFocus.length === 0 && ITEM_DIRECTED_TYPES.includes(action.actionType) && itemTokens.size > 0 && matched.length > 0 && !itemSeen;
+  const unseenNote = [`That shows work on “${label}”; nothing tracked names what this action was about, so Reflect cannot tell whether it was this.`];
+
   const planned = action.focusMinutes;
+  const allDay = matchedMinutes + laterMinutes;
   if (planned !== null) {
     if (focusMinutes >= config.doneRatio * planned) return result('executed', 'done');
     if (focusMinutes >= Math.max(config.minSignalMinutes, config.partialRatio * planned)) return result('executed', 'partial');
+    if (itemUnseen && allDay >= config.minSignalMinutes) return result('ambiguous', null, unseenNote);
     if (matchedMinutes >= config.doneRatio * planned) {
       return result('attempted', 'partial', ['The work happened, but not as a Focus session.']);
     }
-    if (focusMinutes > 0 || matchedMinutes >= config.minSignalMinutes || otherFocus.length > 0) {
+    if (ended && allDay >= config.doneRatio * planned) {
+      return result('attempted', 'partial', ['The work happened later than suggested, and not as a Focus session.']);
+    }
+    if (focusMinutes > 0 || allDay >= config.minSignalMinutes || otherFocus.length > 0) {
       const other = otherFocus.length > 0 ? [`A Focus session on something else ran in that window (“${otherFocus[0].task}”).`] : [];
       return result('ambiguous', null, other);
     }
   } else {
     const minutes = Math.max(focusMinutes, matchedMinutes);
+    if (itemUnseen && Math.max(minutes, allDay) >= config.minSignalMinutes) return result('ambiguous', null, unseenNote);
     if (minutes >= config.minAttemptMinutes) return result('executed', 'done');
-    if (minutes >= config.minSignalMinutes) return result('ambiguous', null);
+    if (ended && Math.max(focusMinutes, allDay) >= config.minAttemptMinutes) {
+      return result('attempted', 'done', ['The work happened later than the suggested time.']);
+    }
+    if (Math.max(minutes, allDay) >= config.minSignalMinutes) return result('ambiguous', null);
   }
   return result('not_observed', null, [
-    `Nothing matching was observed between ${formatDay(new Date(ws))}, ${formatClock(window.start)} and ${formatClock(window.end)}.`,
+    `Nothing matching was observed between ${formatDay(new Date(ws))}, ${formatClock(window.start)} and ${formatClock(window.end)}${dayEnded && ge > we ? ', or later that day' : ''}.`,
   ]);
 }

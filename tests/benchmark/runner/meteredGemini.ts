@@ -59,6 +59,8 @@ export interface MeteredGeminiOptions {
   /** Returns the answer-key fragments found in `text` (empty when clean). */
   findLeaks: (text: string) => string[];
   minCallIntervalMs?: number;
+  /** Called with every response the model returned (Reflect's own output, for the leak check). */
+  onResponseText?: (text: string) => void;
   /** Called after every request with the full payload (for `--save-prompts`). */
   onCall?: (record: GeminiCallRecord, request: GeminiJsonRequest, responseText: string | null, error: string | null) => void;
 }
@@ -133,6 +135,7 @@ export class MeteredGemini implements IGeminiClient {
       record.ok = true;
       record.modelVersion = response.modelVersion;
       record.responseChars = response.text.length;
+      this.options.onResponseText?.(response.text);
       this.options.onCall?.(record, request, response.text, null);
       return response;
     } catch (err) {

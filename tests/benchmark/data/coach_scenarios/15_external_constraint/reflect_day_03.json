@@ -371,5 +371,18 @@
       "tests": "An accepted action could not be carried out because an outage took the day → adapt, do not blame.",
       "probe": true
     }
-  }
+  },
+  "coach_history": [
+    {
+      "title": "Keep a ninety-minute morning block for recurring invoices",
+      "action_type": "protect_priority",
+      "daypart": "morning",
+      "focus_minutes": 90,
+      "priority": "Ship the invoicing SaaS beta",
+      "user_decision": "accepted",
+      "execution": "not_done",
+      "outcome": "not_applicable",
+      "reason_code": "external_constraint"
+    }
+  ]
 }

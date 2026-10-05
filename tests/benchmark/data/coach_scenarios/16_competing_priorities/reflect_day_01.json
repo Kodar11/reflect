@@ -1,0 +1,283 @@
+{
+  "persona": {
+    "id": "freelance_designer_01",
+    "type": "designer",
+    "role": "Freelance brand and web designer",
+    "current_work": [
+      "Brand guidelines for a bakery client",
+      "Own portfolio site",
+      "Monthly invoicing"
+    ],
+    "priorities": [
+      "Deliver the bakery brand guidelines",
+      "Update the portfolio site",
+      "Send this month's client invoices"
+    ]
+  },
+  "day": {
+    "day_number": 1,
+    "date": "2026-11-02",
+    "day_type": "16_competing_priorities",
+    "circumstances": [
+      "Three priorities: the biggest was delivered, one is simply continuing, the smallest has a specific unfinished item → the action belongs to the smallest, not the most visible."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:00",
+      "last_seen": "15:30",
+      "approx_active_hours": 4.5,
+      "longest_unobserved_gap_minutes": 120
+    }
+  },
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:00:00+05:30",
+      "ended_at": "2026-11-02T09:20:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Bakery brand guidelines — colour palette — Figma",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:20:00+05:30",
+      "ended_at": "2026-11-02T09:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Bakery moodboard — Pinterest",
+      "url": "https://www.pinterest.com/designer/bakery-moodboard/",
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:40:00+05:30",
+      "ended_at": "2026-11-02T10:00:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Bakery brand guidelines — colour palette — Figma",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:00:00+05:30",
+      "ended_at": "2026-11-02T10:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Bakery moodboard — Pinterest",
+      "url": "https://www.pinterest.com/designer/bakery-moodboard/",
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:20:00+05:30",
+      "ended_at": "2026-11-02T10:40:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Bakery brand guidelines — colour palette — Figma",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:40:00+05:30",
+      "ended_at": "2026-11-02T11:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Bakery moodboard — Pinterest",
+      "url": "https://www.pinterest.com/designer/bakery-moodboard/",
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:00:00+05:30",
+      "ended_at": "2026-11-02T11:20:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Bakery brand guidelines — colour palette — Figma",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:20:00+05:30",
+      "ended_at": "2026-11-02T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Bakery moodboard — Pinterest",
+      "url": "https://www.pinterest.com/designer/bakery-moodboard/",
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:40:00+05:30",
+      "ended_at": "2026-11-02T12:00:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Bakery brand guidelines — colour palette — Figma",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:00:00+05:30",
+      "ended_at": "2026-11-02T14:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "case-study-page.astro — portfolio — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:20:00+05:30",
+      "ended_at": "2026-11-02T14:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:4321/work",
+      "url": "http://localhost:4321/work",
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:40:00+05:30",
+      "ended_at": "2026-11-02T15:00:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "case-study-page.astro — portfolio — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T15:00:00+05:30",
+      "ended_at": "2026-11-02T15:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "localhost:4321/work",
+      "url": "http://localhost:4321/work",
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T15:20:00+05:30",
+      "ended_at": "2026-11-02T15:30:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "case-study-page.astro — portfolio — Visual Studio Code",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "09:00",
+        "ended_at": "12:00",
+        "title": "Designing brand colour palette",
+        "summary": "Worked on the colour palette pages of the bakery brand guidelines.",
+        "event_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "context": "Work",
+        "area": "Deliver the bakery brand guidelines",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "14:00",
+        "ended_at": "15:30",
+        "title": "Portfolio site: case study page",
+        "summary": "Edited the case study page of the portfolio site and previewed it locally.",
+        "event_ids": [
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "context": "Work",
+        "area": "Update the portfolio site",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Designing brand colour palette",
+      "Portfolio site: case study page"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Deliver the bakery brand guidelines",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Update the portfolio site",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Send this month's client invoices",
+        "assessment": "no substantial progress observed today"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Deliver the bakery brand guidelines"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Deliver the bakery brand guidelines",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Deliver the bakery brand guidelines"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Deliver the bakery brand guidelines",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "16_competing_priorities",
+      "title": "Competing priorities",
+      "tests": "Three priorities: the biggest was delivered, one is simply continuing, the smallest has a specific unfinished item → the action belongs to the smallest, not the most visible.",
+      "probe": false
+    }
+  }
+}

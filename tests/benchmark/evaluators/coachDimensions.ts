@@ -145,7 +145,7 @@ export interface ActionStateRecord {
   settledAt: string | null;
 }
 
-export type AdaptationKind = 'rejected_not_repeated' | 'failed_not_repeated' | 'worked_reused' | 'partly_refined' | 'external_not_penalised';
+export type AdaptationKind = 'rejected_not_repeated' | 'deferred_not_repeated' | 'failed_not_repeated' | 'worked_reused' | 'partly_refined' | 'external_not_penalised';
 
 export interface AdaptationCheck {
   kind: AdaptationKind;
@@ -278,7 +278,7 @@ function assessAction(
 
   // The same sentence as a recent action: whatever happened to that one, saying it again adds nothing.
   const recentSince = Date.parse(action.createdAt) - 3 * 86_400_000;
-  const twin = captured.coach.earlierActions.find((e) => e.status !== 'withdrawn' && Date.parse(e.createdAt) >= recentSince && e.targetKey === action.targetKey && sameTitle(e.title, action.title));
+  const twin = captured.coach.earlierActions.find((e) => e.status !== 'withdrawn' && Date.parse(e.createdAt) >= recentSince && e.targetKey === action.targetKey && e.actionType === action.actionType && sameTitle(e.title, action.title));
   const repeated = twin !== undefined;
   if (twin) notes.push(`says the same thing as "${twin.title}" suggested on ${twin.originDayKey}`);
 
@@ -324,6 +324,19 @@ function adaptationChecks(captured: CapturedDay, ctx: CoachDimensionContext): Ad
   const since = ctx.previousProcessedAt;
   for (const earlier of captured.coach.earlierActions) {
     const state = stateOf(earlier);
+    // "Not now", said since the previous day: it comes back by itself, so nothing else for that target today.
+    if (since !== null && earlier.status === 'snoozed' && earlier.updatedAt > since) {
+      const again = today.filter((a) => (earlier.targetKey !== null && a.targetKey === earlier.targetKey) || sameTitle(a.title, earlier.title));
+      checks.push({
+        earlierActionId: earlier.id,
+        earlierTitle: earlier.title,
+        kind: 'deferred_not_repeated',
+        pass: again.length === 0,
+        behaviour: again.length > 0 ? 'offered something for it again the same day' : 'left it for tomorrow',
+        detail: again.length > 0 ? `postponed ("not now"), and today's "${again[0].title}" is aimed at the same thing` : 'postponed ("not now"); nothing today is aimed at it',
+      });
+      continue;
+    }
     if (since === null || state.settledAt === null || state.settledAt <= since) continue;
     const onTarget = today.filter((a) => earlier.targetKey !== null && a.targetKey === earlier.targetKey);
     const unchanged = today.filter((a) => a.strategyKey === earlier.strategyKey && a.targetKey === earlier.targetKey);
@@ -372,16 +385,28 @@ function adaptationChecks(captured: CapturedDay, ctx: CoachDimensionContext): Ad
     } else if (earlier.outcome === 'worked') {
       // Only a day that offers something for the same target says anything about reuse.
       if (onTarget.length === 0) continue;
-      const reused = onTarget.filter((a) => a.actionType === earlier.actionType || a.actionType === 'continue_behavior');
+      // "Reuse" is the same strategy aimed at what is open NOW: the same kind of
+      // action, or the same shape (time of day + size) on a new item, or an
+      // action that explicitly builds on the earlier one. The very same
+      // sentence again is not reuse — it is a repeat.
+      const shapeOf = (key: string) => key.split('|').slice(1).join('|');
+      const verbatim = onTarget.filter((a) => sameTitle(a.title, earlier.title));
+      const reused = onTarget.filter(
+        (a) =>
+          !verbatim.includes(a) &&
+          (a.actionType === earlier.actionType || a.actionType === 'continue_behavior' || shapeOf(a.strategyKey) === shapeOf(earlier.strategyKey) || a.parentActionId === earlier.id),
+      );
       checks.push({
         ...base,
         kind: 'worked_reused',
         pass: reused.length > 0,
-        behaviour: reused.length > 0 ? 'reused what worked' : 'switched approach',
+        behaviour: reused.length > 0 ? 'reused what worked' : verbatim.length > 0 ? 'repeated the same sentence' : 'switched approach',
         detail:
           reused.length > 0
-            ? `"${earlier.title}" worked; today's "${reused[0].title}" builds on it (${reused[0].actionType})`
-            : `"${earlier.title}" worked, yet today's "${onTarget[0].title}" is a different kind of action (${onTarget[0].actionType})`,
+            ? `"${earlier.title}" worked; today's "${reused[0].title}" builds on it (${reused[0].actionType}, ${shapeOf(reused[0].strategyKey)})`
+            : verbatim.length > 0
+              ? `"${earlier.title}" worked and was carried out; today's "${verbatim[0].title}" says the same thing again instead of naming what is open now`
+              : `"${earlier.title}" worked, yet today's "${onTarget[0].title}" is a different kind of action at a different time and size (${onTarget[0].strategyKey})`,
       });
     } else if (earlier.outcome === 'partly_worked') {
       if (onTarget.length === 0) continue;
@@ -489,6 +514,12 @@ export interface CoachDimensionSummary {
   opportunityRecall: Ratio;
   /** Strong-opportunity days on which anything at all was recommended. */
   opportunityDetection: Ratio;
+  /** Strong-opportunity days answered with the expected move (verdict "correct"). */
+  fullyCorrect: Ratio;
+  /** Strong-opportunity days answered only in part (the secondary opportunity, or a different kind of action). */
+  partiallyCorrect: Ratio;
+  /** Of all actions, the share aimed at the single most-recommended target. High = the Coach keeps returning to one thing. */
+  targetConcentration: Ratio & { targetKey: string | null };
   /** Actions that were justified, of all actions generated. */
   actionPrecision: Ratio;
   actionAlignment: Ratio;
@@ -524,6 +555,10 @@ export interface CoachDimensionSummary {
   executionTracking: Ratio;
   /** …and of those, how many Reflect established from its own data, before anyone said so. */
   executionObserved: Ratio;
+  /** …how many Reflect's own tracked activity supports at all (whoever spoke first). */
+  executionSeenByReflect: Ratio;
+  /** …and how many rest on the user's word alone. */
+  executionReportedOnly: Ratio;
 
   // ── 3. Did it help? ──
   /** Carried-out actions for which the record holds an outcome. */
@@ -555,6 +590,11 @@ export function summarizeCoachDimensions(days: CoachAssessment[], finalStates: A
   const executionKnown = windowPassed.filter((s) => s.execution !== null);
   const carriedOut = states.filter((s) => s.execution === 'done' || s.execution === 'partial');
 
+  const seen = (s: ActionStateRecord) => s.observationKind === 'executed' || s.observationKind === 'attempted';
+  const perTarget = new Map<string, number>();
+  for (const a of actions) if (a.targetKey) perTarget.set(a.targetKey, (perTarget.get(a.targetKey) ?? 0) + 1);
+  const topTarget = [...perTarget.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0] ?? null;
+
   const checks = days.flatMap((d) => d.adaptation);
   const byKind: CoachDimensionSummary['adaptation']['byKind'] = {};
   for (const check of checks) {
@@ -573,6 +613,9 @@ export function summarizeCoachDimensions(days: CoachAssessment[], finalStates: A
     actionsGenerated: actions.length,
     opportunityRecall: ratio(strong.reduce((sum, d) => sum + (d.verdict === 'correct' ? 1 : d.verdict === 'partially_correct' ? 0.5 : 0), 0), strong.length),
     opportunityDetection: ratio(strong.filter((d) => d.actions.length > 0).length, strong.length),
+    fullyCorrect: ratio(strong.filter((d) => d.verdict === 'correct').length, strong.length),
+    partiallyCorrect: ratio(strong.filter((d) => d.verdict === 'partially_correct').length, strong.length),
+    targetConcentration: { ...ratio(topTarget?.[1] ?? 0, actions.length), targetKey: topTarget?.[0] ?? null },
     actionPrecision: ratio(count((a) => a.justified), actions.length),
     actionAlignment: ratio(count((a) => a.aligned), actions.length),
     actionSpecificity: ratio(count((a) => a.specific), actions.length),
@@ -601,6 +644,8 @@ export function summarizeCoachDimensions(days: CoachAssessment[], finalStates: A
     },
     executionTracking: ratio(executionKnown.length, windowPassed.length),
     executionObserved: ratio(executionKnown.filter((s) => s.executionSource === 'observed').length, executionKnown.length),
+    executionSeenByReflect: ratio(executionKnown.filter((s) => s.executionSource === 'observed' || seen(s)).length, executionKnown.length),
+    executionReportedOnly: ratio(executionKnown.filter((s) => s.executionSource === 'user' && !seen(s)).length, executionKnown.length),
     outcomeTracking: ratio(carriedOut.filter((s) => s.outcome !== null).length, carriedOut.length),
     adaptation: { checks: checks.length, passed: checks.filter((c) => c.pass).length, byKind },
   };

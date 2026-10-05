@@ -195,6 +195,29 @@ export function pendingInput(action: CoachAction): CoachPendingInput {
   return action.execution === null ? 'execution' : 'outcome';
 }
 
+/**
+ * Who established that an action happened — kept as two separate facts.
+ *
+ *   userReported  the user said so ("I did it" / "partly" / "I didn't")
+ *   observed      true   Reflect's own tracked activity shows it
+ *                 false  its window passed and nothing matching was seen
+ *                 null   unknown: not something Reflect can see, still open, or too little to call
+ *
+ * "The user said they did it" is never turned into "Reflect observed it", and
+ * an action existing is never evidence that it was carried out.
+ */
+export interface ExecutionEvidence {
+  userReported: boolean;
+  observed: boolean | null;
+}
+
+export function executionEvidence(action: Pick<CoachAction, 'execution' | 'executionSource' | 'observation'>): ExecutionEvidence {
+  const kind = action.observation?.kind ?? null;
+  const observed =
+    kind === 'executed' || kind === 'attempted' ? true : kind === 'not_observed' && action.observation?.final ? false : action.executionSource === 'observed' && action.execution !== null ? true : null;
+  return { userReported: action.executionSource === 'user' && action.execution !== null, observed };
+}
+
 /** Is this action finished for good (nothing more will happen to it on its own)? */
 export function isTerminal(status: CoachActionStatus): boolean {
   return status === 'closed' || status === 'rejected' || status === 'withdrawn' || status === 'expired';

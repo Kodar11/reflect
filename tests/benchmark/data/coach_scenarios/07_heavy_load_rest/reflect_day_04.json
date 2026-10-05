@@ -409,7 +409,7 @@
         "started_at": "07:30",
         "ended_at": "12:00",
         "title": "Shipping client portal links",
-        "summary": "Completed client portal links, merged the pull request and deployed it to production.",
+        "summary": "client portal links: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           103,
           104,
@@ -464,7 +464,7 @@
         "started_at": "18:00",
         "ended_at": "20:10",
         "title": "Shipping client portal links polish",
-        "summary": "Completed client portal links polish, merged the pull request and deployed it to production.",
+        "summary": "client portal links polish: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           130,
           131,

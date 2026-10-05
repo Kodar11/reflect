@@ -129,7 +129,7 @@ describe('daily intelligence — one request, one transaction', () => {
     const schema = responseJsonSchema as { required: string[]; properties: { coach: { properties: Record<string, unknown> } } };
     expect(schema.required).toContain('coach');
     expect(Object.keys(schema.properties.coach.properties)).toEqual(['decision', 'followups', 'actions', 'noActionReason', 'question', 'uncertainty', 'memoryUpdates']);
-    expect(COACH_PROMPT_VERSION).toBe('reflect-coach-v2');
+    expect(COACH_PROMPT_VERSION).toBe('reflect-coach-v3');
   });
 
   it('explicitly supports "no useful advice today"', async () => {

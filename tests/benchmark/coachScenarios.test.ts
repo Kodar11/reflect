@@ -10,8 +10,11 @@ import { coachDimensionRows } from './runner/report';
 import { BenchmarkAbortedError, runBenchmark } from './runner/run';
 
 /**
- * The Coach scenario set: fifteen small multi-day datasets, each asking the
- * Coach one question (open loop? stay silent? adapt after a failure?).
+ * The Coach scenario set: twenty-two small multi-day datasets across four
+ * personas, each asking the Coach one question (open loop? stay silent? which
+ * of several priorities? adapt after a failure, a rejection, a postponement?).
+ * It is deliberately not all "an action is expected": as many probe days call
+ * for silence or leave the choice open as call for one particular move.
  *
  * Two halves:
  *   - always on: every scenario directory is a valid dataset whose answer key
@@ -42,8 +45,8 @@ interface ScenarioMeta {
 const metaOf = (objectives: unknown): ScenarioMeta | null => (objectives as { coach_scenario?: ScenarioMeta } | null)?.coach_scenario ?? null;
 
 describe('coach scenario set — datasets', () => {
-  it('holds the fifteen scenarios, each a valid dataset the evaluator can read', () => {
-    expect(scenarioDirs).toHaveLength(15);
+  it('holds the twenty-two scenarios, each a valid dataset the evaluator can read', () => {
+    expect(scenarioDirs).toHaveLength(22);
     for (const id of scenarioDirs) {
       const { dataset, validation } = loadDataset(path.join(SCENARIO_ROOT, id), dayCount(id));
       expect(validation.errors, id).toEqual([]);
@@ -51,7 +54,7 @@ describe('coach scenario set — datasets', () => {
       expect(checkAnswerKeyVocabulary(evaluation).errors, id).toEqual([]);
       // Exactly one probe day, and nothing of the answer key in what Reflect is given.
       expect(evaluation.days.filter((d) => metaOf(d.evaluationObjectives)?.probe).length, id).toBe(1);
-      expect(JSON.stringify(input), id).not.toMatch(/action_opportunity|execution_scenario|coach_scenario|ground_truth/);
+      expect(JSON.stringify(input), id).not.toMatch(/action_opportunity|execution_scenario|coach_scenario|ground_truth|coach_history/);
     }
   });
 
@@ -63,16 +66,29 @@ describe('coach scenario set — datasets', () => {
     const strengths = probes.map((p) => p.probe.expectedCoachOutcome.action_opportunity!.strength);
     expect(strengths.filter((s) => s === 'strong').length).toBeGreaterThanOrEqual(6);
     expect(strengths.filter((s) => s === 'moderate').length).toBeGreaterThanOrEqual(2);
-    expect(strengths.filter((s) => s === 'none').length).toBeGreaterThanOrEqual(4);
+    // Silence has to be testable: a set where every day wants an action cannot tell a good Coach from a talkative one.
+    expect(strengths.filter((s) => s === 'none').length).toBeGreaterThanOrEqual(7);
+    expect(new Set(probes.map((p) => p.days[0].dayType.slice(0, 2))).size).toBe(22);
+    const personas = new Set(scenarioDirs.map((id) => loadDataset(path.join(SCENARIO_ROOT, id), dayCount(id)).dataset.days[0].persona.type));
+    expect(personas).toEqual(new Set(['student', 'founder', 'researcher', 'designer']));
     // A null day really expects nothing; a strong day really expects something.
     for (const p of probes) {
       const expected = p.probe.expectedCoachOutcome;
       expect(expected.primary_action === null, p.id).toBe(expected.action_opportunity!.strength === 'none');
     }
-    const scenarios = probes.flatMap((p) => p.days.map((d) => d.expectedCoachOutcome.execution_scenario)).filter((s) => s !== undefined);
-    expect(new Set(scenarios.map((s) => s!.user_decision))).toEqual(new Set(['accepted', 'rejected']));
-    expect(new Set(scenarios.map((s) => s!.execution))).toEqual(new Set(['done', 'not_done', 'not_applicable']));
-    expect(new Set(scenarios.map((s) => s!.outcome))).toEqual(new Set(['worked', 'did_not_work', 'not_applicable']));
+    // What the user did with a recommendation: answered live (execution_scenario) or as seeded history (coach_history).
+    const responses = probes.flatMap((p) =>
+      p.days.flatMap((d) => [
+        ...(d.expectedCoachOutcome.execution_scenario ? [d.expectedCoachOutcome.execution_scenario] : []),
+        ...d.coachHistory.map((h) => ({ user_decision: h.user_decision, execution: h.execution, outcome: h.outcome, reason_code: h.reason_code ?? null })),
+      ]),
+    );
+    expect(new Set(responses.map((s) => s.user_decision))).toEqual(new Set(['accepted', 'rejected', 'deferred']));
+    expect(new Set(responses.map((s) => s.execution))).toEqual(new Set(['done', 'partial', 'not_done', 'not_applicable']));
+    expect(new Set(responses.map((s) => s.outcome))).toEqual(new Set(['worked', 'partly_worked', 'did_not_work', 'not_applicable']));
+    expect(new Set(responses.map((s) => s.reason_code).filter(Boolean))).toEqual(new Set(['bad_timing', 'not_relevant', 'external_constraint', 'too_difficult']));
+    // Seeded history is history: it never states what the Coach should do next.
+    for (const p of probes) for (const d of p.days) for (const h of d.coachHistory) expect(h.title, p.id).not.toBe(d.expectedCoachOutcome.primary_action?.title);
   });
 });
 

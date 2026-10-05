@@ -395,5 +395,18 @@
       "tests": "The user did what was suggested and said it did not work → the strategy must change, not repeat.",
       "probe": true
     }
-  }
+  },
+  "coach_history": [
+    {
+      "title": "Keep the first ninety minutes of the morning for recurring invoices",
+      "action_type": "protect_priority",
+      "daypart": "morning",
+      "focus_minutes": 90,
+      "priority": "Ship the invoicing SaaS beta",
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "did_not_work",
+      "reason_code": "bad_timing"
+    }
+  ]
 }

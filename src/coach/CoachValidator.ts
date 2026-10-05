@@ -13,21 +13,35 @@ import {
 import { renderActionLine, type CoachContext } from './CoachContext.js';
 import { describeReasons, isBlocked } from './CoachEffectiveness.js';
 import { canTransition } from './CoachLifecycle.js';
-import { describeStrategy, isSameSuggestion, jaccard, resolveTarget, strategyKeyOf, targetKeyOf, titleSimilarity, tokensOf } from './CoachMatching.js';
+import {
+  describeStrategy,
+  isSameSuggestion,
+  itemTokensOf,
+  jaccard,
+  resolveTarget,
+  sharedWords,
+  strategyKeyOf,
+  targetKeyOf,
+  titleSimilarity,
+  tokensOf,
+} from './CoachMatching.js';
 import {
   CHAT_MEMORY_KINDS,
   COACH_ACTION_TYPES,
+  COACH_CANDIDATE_STATES,
   COACH_DAYPARTS,
   COACH_LIMITS,
   COACH_REASON_CODES,
   COACH_VERDICTS,
   COACH_WHEN,
   DAILY_MEMORY_KINDS,
+  ITEM_ACTION_TYPES,
   MAX_FOCUS_MINUTES,
   MIN_FOCUS_MINUTES,
   TARGETED_ACTION_TYPES,
   type CoachAction,
   type CoachActionType,
+  type CoachCandidateState,
   type CoachDaypart,
   type CoachExecution,
   type CoachMemoryKind,
@@ -93,11 +107,32 @@ const actionDraftSchema = z.object({
 
 type ActionDraft = z.infer<typeof actionDraftSchema>;
 
-/** The reasoning the model writes before its actions. Tolerated when absent; only `verdict` and `candidate` are read. */
+/**
+ * The reasoning the model writes before its actions. Tolerated when absent.
+ * `verdict` and `candidate` are read, and `candidates` — how it read each
+ * stated priority — is held against the actions it then wrote.
+ */
 const decisionSchema = z
-  .object({ candidate: z.string().optional(), verdict: z.string().optional() })
+  .object({
+    candidate: z.string().optional(),
+    verdict: z.string().optional(),
+    candidates: z
+      .preprocess(
+        (v) => (Array.isArray(v) ? v : []),
+        z.array(z.object({ priorityId: z.string().optional(), state: z.string().optional(), item: nullableText.optional(), nextMove: nullableText.optional() }).passthrough()),
+      )
+      .optional(),
+  })
   .passthrough()
   .nullish();
+
+/** How the model read one priority before choosing. */
+export interface CandidateReading {
+  priorityId: string;
+  state: CoachCandidateState;
+  item: string | null;
+  nextMove: string | null;
+}
 
 const dailySchema = z.object({
   decision: decisionSchema,
@@ -175,7 +210,7 @@ export interface CoachValidation {
   /** The part that fully validated — always usable. */
   coach: ValidatedCoach;
   /** What the model concluded before writing actions, when it said. For the log; never stored or shown. */
-  decision: { verdict: CoachVerdict; candidate: string | null } | null;
+  decision: { verdict: CoachVerdict; candidate: string | null; candidates?: CandidateReading[] } | null;
   /** How many actions the model proposed, before any was checked. */
   proposed: number;
 }
@@ -199,7 +234,31 @@ interface DraftEnvironment {
   requireEvidence: boolean;
   /** Apply what has been learned: rejections, failed strategies, escalations. */
   enforceLearning: boolean;
+  /**
+   * The daily pass: an action about a piece of work must name that piece, and
+   * must agree with how the model itself read the priority. Off in
+   * conversation, where the user's own wording of a commitment stands.
+   */
+  requireItem: boolean;
+  /** How the model read each stated priority, by id. Empty when it did not say. */
+  candidates: Map<string, CandidateReading>;
+  /** Tokens of everything the record names. Empty = grounding of the item is not checked. */
+  evidenceTokens: Set<string>;
 }
+
+const CARRY_ON_OPENERS = /^(continue|continuing|resume|keep (going|working|on|up)|carry on|work on|focus on|develop|proceed|go on)\b/i;
+
+/** States that say "nothing here to act on". */
+const NO_ACTION_STATES: readonly CoachCandidateState[] = ['progressing', 'at_stopping_point', 'unclear'];
+const STATE_PHRASES: Record<CoachCandidateState, string> = {
+  open_item: 'a specific open item',
+  displaced: 'displaced',
+  progressing: 'progressing, with nothing specific open',
+  at_stopping_point: 'at a stopping point',
+  unclear: 'unclear from the evidence',
+};
+const NO_ITEM_HINT =
+  'say which specific item the evidence shows (the document, feature, section, check or message) and the step that moves it to its next stage — and if the evidence shows no such item, return no action and say what is unclear';
 
 function numbersOfAction(ref: string, action: CoachAction, now: Date): Set<string> {
   const set = new Set<string>();
@@ -251,6 +310,68 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
     problems.push(`${label}: a ${actionType} action must say what it is aimed at — set priorityId, an exact thread name from ACTIVITIES, or focusTask`);
   }
 
+  // ── A project is not a next action ──
+  const priorityText = context.priorities.find((p) => p.id === priorityId)?.text ?? null;
+  const reading = priorityId ? env.candidates.get(priorityId) : undefined;
+  // A Focus block can legitimately be about the time itself (a displaced
+  // priority, a stretch that kept breaking up); it must name an item only when
+  // the model itself says there is an open item.
+  const mustNameItem = (ITEM_ACTION_TYPES as readonly string[]).includes(actionType) && (actionType !== 'focus_session' || reading?.state === 'open_item');
+  if (env.requireItem && mustNameItem) {
+    const item = itemTokensOf({ title, focusTask: draft.focusTask }, [priorityText, thread]);
+    if (item.size === 0) {
+      problems.push(`${label}: “${title}” names ${priorityText ? `the priority “${priorityText}”` : 'a project'}, not a next action — ${NO_ITEM_HINT}`);
+    }
+  }
+  if (env.requireItem && (ITEM_ACTION_TYPES as readonly string[]).includes(actionType)) {
+    // "Continue X" says to carry on, which the user will do anyway; an action names the point to reach.
+    if (CARRY_ON_OPENERS.test(title)) {
+      problems.push(
+        `${label}: “${title}” says to carry on, not what to finish — name the point the work should reach (the section completed, the check passing, the message sent), or return no action if nothing specific is open`,
+      );
+    }
+    // What it names must be something the record shows, not a topic that would be reasonable next.
+    const named = itemTokensOf({ title, focusTask: draft.focusTask }, [priorityText, thread]);
+    // (Checked against the reading's own item when there is one; here, when the priority was read as anything else.)
+    if (reading && reading.state !== 'open_item' && env.evidenceTokens.size > 0 && named.size >= 2 && sharedWords(named, env.evidenceTokens).length * 2 < named.size) {
+      problems.push(
+        `${label}: “${title}” names something today's activities, the earlier days and the record do not mention — name the item as the evidence names it, or return no action`,
+      );
+    }
+  }
+  // ── The action must agree with how the model itself read that priority ──
+  const buildsOnEarlier = Boolean(draft.adaptsActionRef) || draft.actionRefs.length > 0;
+  // (Actions about the day as a whole — fewer switches, a different time, rest — are not about one priority's state.)
+  if (env.requireItem && reading && priorityText && (TARGETED_ACTION_TYPES as readonly string[]).includes(actionType)) {
+    if (NO_ACTION_STATES.includes(reading.state) && !buildsOnEarlier && !(actionType === 'clarify_priority' && reading.state === 'unclear')) {
+      problems.push(
+        `${label}: decision.candidates reads “${priorityText}” as ${STATE_PHRASES[reading.state]}, and only an open item or a displaced priority can carry an action — ` +
+          'either that reading is wrong (then correct it and name the specific item), or there is no action for this priority',
+      );
+    } else if (
+      reading.state === 'displaced' &&
+      context.situationSection !== '' &&
+      !buildsOnEarlier &&
+      !context.opportunities.some((s) => s.kind === 'displaced_priority' && s.priorityId === priorityId && s.strength === 'clear')
+    ) {
+      // "Displaced" is a measurement, not an impression: one day without time is a circumstance.
+      problems.push(
+        `${label}: decision.candidates reads “${priorityText}” as displaced, but Reflect has not measured that — one day with little or no time is a circumstance, not a pattern. ` +
+          'If something specific is open there, read it as an open item and name it; otherwise there is no action for this priority',
+      );
+    } else if (reading.state === 'open_item' && (ITEM_ACTION_TYPES as readonly string[]).includes(actionType)) {
+      const named = itemTokensOf({ title: reading.item ?? '' }, [priorityText, thread]);
+      if (named.size === 0) {
+        problems.push(`${label}: decision.candidates calls “${priorityText}” an open item but names only the priority itself as the item — ${NO_ITEM_HINT}`);
+      } else if (env.evidenceTokens.size > 0 && sharedWords(named, env.evidenceTokens).length * 2 < named.size) {
+        // An open item is something the record shows — not a topic that would be reasonable to do next.
+        problems.push(
+          `${label}: the open item “${reading.item}” is not something today's activities, the earlier days or the record mention — name the item as the evidence names it, or there is no open item and no action`,
+        );
+      }
+    }
+  }
+
   // ── Evidence ──
   const cited = env.evidence
     ? env.evidence.resolve(draft.metricKeys, draft.activityRefs, label, problems)
@@ -296,6 +417,34 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
     return { action: null, problems: [`${label}: the user already has this (“${twin.title}”); do not suggest it again`] };
   }
   if (env.enforceLearning) {
+    // "Not now" is an answer for today: the postponed suggestion comes back by itself.
+    const postponed = context.open.find((a) => a.status === 'snoozed' && a.targetKey !== null && a.targetKey === candidate.targetKey);
+    if (postponed) {
+      return {
+        action: null,
+        problems: [`${label}: the user postponed “${postponed.title}” (“not now”) and it will be offered again by itself; do not suggest something else for the same target today`],
+      };
+    }
+    // "Too difficult" is about the size: the same size again, or a bigger one, repeats it.
+    const tooBig = context.followups
+      .map((f) => f.action)
+      .find(
+        (a) =>
+          a.reasonCode === 'too_difficult' &&
+          a.targetKey !== null &&
+          a.targetKey === candidate.targetKey &&
+          a.focusMinutes !== null &&
+          focusMinutes !== null &&
+          focusMinutes >= a.focusMinutes,
+      );
+    if (tooBig) {
+      return {
+        action: null,
+        problems: [
+          `${label}: the user said “${tooBig.title}” was too difficult at its size; this is no smaller — make it clearly smaller (one concrete step), or name the one thing that is blocking it`,
+        ],
+      };
+    }
     const rejected = context.rejected.find(
       (a) =>
         isSameSuggestion(a, candidate, context.config.duplicateTitleOverlap) ||
@@ -328,12 +477,17 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
     if (done) {
       return {
         action: null,
-        problems: [`${label}: the user already carried out “${done.title}” in the last few days; if something is open again, name what specifically (which item, which part) — or leave it`],
+        problems: [
+          `${label}: the user already carried out “${done.title}” in the last few days; if something is open again, name what specifically (which item, which part) — ` +
+            'or leave this target and check SITUATION BY PRIORITY for whether another priority holds the more useful next move',
+        ],
       };
     }
     // Sent before and never answered: the same thing again, the same way, is noise.
     const ignored = context.ignored.find((a) => a.strategyKey === candidate.strategyKey && a.targetKey === candidate.targetKey && isSameSuggestion(a, candidate, context.config.duplicateTitleOverlap) && titleSimilarity(a.title, candidate.title) >= context.config.duplicateTitleOverlap);
-    if (ignored) {
+    // …unless today measures the thing more clearly than a mere "where it stood": then it is a new situation, not a resend.
+    const strongerToday = context.opportunities.some((s) => s.strength === 'clear' && s.priorityId !== null && `p:${s.priorityId}` === candidate.targetKey);
+    if (ignored && !strongerToday) {
       return {
         action: null,
         problems: [`${label}: “${ignored.title}” was suggested recently and never taken up; do not send the same thing again — make it more specific or smaller, or leave it`],
@@ -437,9 +591,21 @@ export function validateDailyCoach(input: DailyCoachValidationInput): CoachValid
   const output = parsed.data;
   const errors: string[] = [];
   const verdict = output.decision?.verdict;
+  const candidates = new Map<string, CandidateReading>();
+  for (const c of output.decision?.candidates ?? []) {
+    if (!c.priorityId || !context.priorities.some((p) => p.id === c.priorityId)) continue;
+    if (!c.state || !(COACH_CANDIDATE_STATES as readonly string[]).includes(c.state)) continue;
+    if (candidates.has(c.priorityId)) continue;
+    candidates.set(c.priorityId, {
+      priorityId: c.priorityId,
+      state: c.state as CoachCandidateState,
+      item: c.item ? clean(c.item, 160) || null : null,
+      nextMove: c.nextMove ? clean(c.nextMove, 200) || null : null,
+    });
+  }
   const decision: CoachValidation['decision'] =
     verdict && (COACH_VERDICTS as readonly string[]).includes(verdict)
-      ? { verdict: verdict as CoachVerdict, candidate: clean(output.decision?.candidate ?? '', 160) || null }
+      ? { verdict: verdict as CoachVerdict, candidate: clean(output.decision?.candidate ?? '', 160) || null, candidates: [...candidates.values()] }
       : null;
   // The model's own conclusion and its output must agree. This never asks for
   // an action the model did not itself judge to be worth making.
@@ -479,13 +645,20 @@ export function validateDailyCoach(input: DailyCoachValidationInput): CoachValid
   });
 
   // ── Actions ──
+  // Numbers on the situation board and in the signals are Reflect's own record too.
+  const extraNumbers = new Set(evidence.globalNumbers);
+  addNumbersFrom(extraNumbers, context.situationSection);
+  for (const signal of context.opportunities) addNumbersFrom(extraNumbers, signal.summary);
   const env: DraftEnvironment = {
     context,
     actionRefs,
     evidence,
-    extraNumbers: evidence.globalNumbers,
+    extraNumbers,
     requireEvidence: true,
     enforceLearning: true,
+    requireItem: true,
+    candidates,
+    evidenceTokens: tokensOf(context.evidenceText),
   };
   const accepted: ValidatedCoachAction[] = [];
   output.actions.forEach((draft, index) => {
@@ -578,7 +751,8 @@ export function validateDailyCoach(input: DailyCoachValidationInput): CoachValid
     if (isDuplicateMemory(text, [...existing, ...coach.memoryAdds.map((m) => ({ text: m.text, normalizedKey: priorityKey(m.text) }))])) return;
     // An open loop that today's action already covers is tracked by that action, not remembered twice.
     if (draft.kind === 'open_loop' && coach.actions.some((a) => containment(tokensOf(`${a.title} ${a.focusTask ?? ''}`), tokensOf(text)) >= 0.6)) return;
-    coach.memoryAdds.push({ kind: draft.kind as CoachMemoryKind, text, targetKey: citedActions[0]?.targetKey ?? null });
+    const aboutPriority = cited.activities.find((a) => a.priorityId)?.priorityId ?? null;
+    coach.memoryAdds.push({ kind: draft.kind as CoachMemoryKind, text, targetKey: citedActions[0]?.targetKey ?? (aboutPriority ? `p:${aboutPriority}` : null) });
   });
 
   return { ok: errors.length === 0, errors, coach: withEscalationFallback(coach, context), decision, proposed: output.actions.length };
@@ -707,6 +881,9 @@ export function validateChat(input: ChatValidationInput): ChatValidation {
       requireEvidence: false,
       // What the user decides to do is theirs to decide, whatever the record says.
       enforceLearning: !committed,
+      requireItem: false,
+      candidates: new Map(),
+      evidenceTokens: new Set(),
     });
     if (result.action) chat.action = { ...result.action, committed };
     else errors.push(...result.problems);

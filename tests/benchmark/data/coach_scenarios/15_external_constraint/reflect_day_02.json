@@ -276,13 +276,6 @@
       "reason": "The product got no time today while recurring invoices is unfinished.",
       "priority": "Ship the invoicing SaaS beta",
       "type": "protect_priority"
-    },
-    "execution_scenario": {
-      "reason_code": "external_constraint",
-      "user_decision": "accepted",
-      "execution": "not_done",
-      "outcome": "not_applicable",
-      "reason": "A production outage at the client took the whole next day."
     }
   },
   "evaluation_objectives": {

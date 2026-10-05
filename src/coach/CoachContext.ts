@@ -9,10 +9,10 @@ import {
   type EffectivenessSummary,
   type Escalation,
 } from './CoachEffectiveness.js';
-import { isTerminal } from './CoachLifecycle.js';
+import { executionEvidence, isTerminal } from './CoachLifecycle.js';
 import { describeStrategy, describeTarget } from './CoachMatching.js';
 import type { CoachAction, CoachConfig, CoachMemory, CoachMessage } from './CoachModels.js';
-import { renderOpportunities, type CoachOpportunity } from './CoachOpportunities.js';
+import { orderSignals, outcomeSignals, renderOpportunities, type CoachOpportunity } from './CoachOpportunities.js';
 
 /**
  * Structured history → what the model is shown. Pure.
@@ -64,6 +64,14 @@ export interface CoachContext {
   opportunities: CoachOpportunity[];
   /** Activity id → the alias it carries in the day's prompt. */
   activityRefOf: (activityId: string) => string | null;
+  /** Where each stated priority stands, rendered (daily pass only; empty otherwise). */
+  situationSection: string;
+  /**
+   * Everything the day's evidence names — activity titles and summaries, the
+   * trail of the days before, memory, earlier actions. Used to check that an
+   * action names something the record actually shows. Empty = not checked.
+   */
+  evidenceText: string;
   effectiveness: EffectivenessSummary;
   escalations: EscalationContext[];
   memories: MemoryRef[];
@@ -89,6 +97,8 @@ export interface CoachContextInput {
   /** The day's measured next-move signals (daily pass only). */
   opportunities?: CoachOpportunity[];
   activityRefOf?: (activityId: string) => string | null;
+  situationSection?: string;
+  evidenceText?: string;
 }
 
 /** Human name of a target key (`p:<priority id>` / `t:<thread slug>`). */
@@ -168,6 +178,10 @@ export function buildCoachContext(input: CoachContextInput): CoachContext {
   const ignoredSince = new Date(now.getTime() - config.ignoredMemoryMs).toISOString();
   const failedSince = new Date(now.getTime() - config.recentFailureMs).toISOString();
 
+  const followups = selectFollowups(actions, reportDay, config.maxFollowups).map((action, index) => ({ ref: `k${index + 1}`, action }));
+  // On the daily pass, what just happened to earlier suggestions is evidence too.
+  const opportunities = input.opportunities ? orderSignals([...input.opportunities, ...outcomeSignals(followups, (code) => REASON_LABELS[code])]) : [];
+
   return {
     now,
     reportDay,
@@ -176,10 +190,15 @@ export function buildCoachContext(input: CoachContextInput): CoachContext {
     ignored: actions.filter((a) => a.status === 'expired' && a.acceptedAt === null && (a.closedAt ?? a.updatedAt) >= ignoredSince),
     failedRecently: actions.filter((a) => a.outcome === 'did_not_work' && (a.outcomeAt ?? a.updatedAt) >= failedSince),
     doneRecently: actions.filter((a) => (a.execution === 'done' || a.execution === 'partial') && (a.executedAt ?? a.closedAt ?? a.updatedAt) >= ignoredSince),
-    opportunities: input.opportunities ?? [],
+    opportunities,
     activityRefOf: input.activityRefOf ?? (() => null),
+    situationSection: input.situationSection ?? '',
+    evidenceText: [
+      input.evidenceText ?? '',
+      ...(input.evidenceText ? [...followups.map((f) => `${f.action.title} ${f.action.note ?? ''}`), ...input.memories.filter((m) => m.status === 'active').map((m) => m.text)] : []),
+    ].join(' '),
     maxActions: config.maxActionsPerDay,
-    followups: selectFollowups(actions, reportDay, config.maxFollowups).map((action, index) => ({ ref: `k${index + 1}`, action })),
+    followups,
     open: actions.filter((a) => !isTerminal(a.status)),
     rejected: actions.filter((a) => a.status === 'rejected' && (a.rejectedAt ?? a.updatedAt) >= rejectedSince),
     effectiveness: summarizeEffectiveness(actions, nowIso, config),
@@ -219,8 +238,19 @@ export function describeActionState(action: CoachAction): { decision: string; ex
                 : 'accepted';
   const executionWord =
     action.execution === 'done' ? 'carried out' : action.execution === 'partial' ? 'partly carried out' : action.execution === 'not_done' ? 'not carried out' : null;
+  const seen = executionEvidence(action);
   const execution = executionWord
-    ? `${executionWord} (${action.executionSource === 'user' ? 'the user said so' : 'observed by Reflect'})`
+    ? `${executionWord} (${
+        action.executionSource !== 'user'
+          ? 'observed by Reflect'
+          : action.execution === 'not_done'
+            ? 'the user said so'
+            : seen.observed === true
+              ? 'the user said so, and Reflect saw matching work'
+              : seen.observed === false
+                ? 'reported by the user; Reflect did not see matching work'
+                : 'reported by the user; not something Reflect could verify'
+      })`
     : action.observation?.kind === 'not_observed' && action.observation.final
       ? 'not observed (nothing matching was seen; the user has not said whether it happened)'
       : action.observation?.kind === 'ambiguous'
@@ -271,6 +301,8 @@ function describeStrategyOf(action: CoachAction): string {
 export function renderCoachSection(ctx: CoachContext): string {
   const sections: string[] = ['COACH CONTEXT (everything below is Reflect\'s own structured record — not a guess)'];
 
+  if (ctx.situationSection) sections.push(ctx.situationSection);
+
   sections.push(
     ctx.followups.length > 0
       ? `PREVIOUS ACTIONS (what was decided earlier and what then happened; refer to one by its ref)\n${ctx.followups
@@ -290,7 +322,7 @@ export function renderCoachSection(ctx: CoachContext): string {
 
   if (ctx.ignored.length > 0) {
     sections.push(
-      `SUGGESTED IN THE LAST FEW DAYS, NEVER DECIDED (the user saw these and did not answer; do not send the same thing again — offer it only if today's evidence makes it clearly more relevant, and then make it smaller or more specific)\n${ctx.ignored
+      `SUGGESTED IN THE LAST FEW DAYS, NEVER DECIDED (the user saw these and did not answer — that is not a rejection. Do not resend the same sentence; but when today's evidence is clearer or more pressing — another day without time, a due date, the same item still unfinished — the next step is worth offering again, more specific or smaller)\n${ctx.ignored
         .slice(0, 6)
         .map((a) => `- ${a.title}${ctx.targetLabel(a.targetKey) ? ` → “${ctx.targetLabel(a.targetKey)}”` : ''} (${describeStrategyOf(a)})`)
         .join('\n')}`,
@@ -309,7 +341,9 @@ export function renderCoachSection(ctx: CoachContext): string {
   const lines = effectivenessLines(ctx.effectiveness, ctx.targetLabel, ctx.config);
   sections.push(
     lines.length > 0
-      ? `WHAT HAS AND HAS NOT WORKED FOR THIS USER (counted by Reflect from real outcomes)\n${lines.map((l) => `- ${l}`).join('\n')}`
+      ? `WHAT HAS AND HAS NOT WORKED FOR THIS USER (counted by Reflect from real outcomes)\n` +
+        'This record says HOW to help — the shape that fits this user: the kind of action, the time of day, the size. It is never a reason to pick the same TARGET again: ' +
+        `choose what to act on from today's situation first, then borrow the shape that worked.\n${lines.map((l) => `- ${l}`).join('\n')}`
       : 'WHAT HAS AND HAS NOT WORKED FOR THIS USER\nNo outcomes recorded yet. With nothing to learn from, prefer one small, concrete action over an ambitious one.',
   );
 

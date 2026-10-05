@@ -13,7 +13,7 @@ import { formatIntelligenceContext } from '../profile/UserProfile.js';
  * changes so persisted runs stay attributable to the prompt that produced
  * them.
  */
-export const PROMPT_VERSION = 'reflect-activities-v3';
+export const PROMPT_VERSION = 'reflect-activities-v4';
 
 export function buildSystemInstruction(): string {
   return SYSTEM_INSTRUCTION;
@@ -110,7 +110,7 @@ Respond with JSON matching the response schema, with schemaVersion ${INTELLIGENC
 - List activities in the order they began. An activity's events need not be consecutive: a task the user left and came back to is ONE activity holding the events from both sides of the interruption.
 - startedAt / endedAt: ISO-8601 timestamps bounding the activity's events, startedAt before endedAt.
 - title: a short, specific, human description of the task as a whole — what the user was getting done, not the tool they had open.
-- summary: one sentence about what was done.
+- summary: one sentence about what was done — and, when the window titles themselves show it, where the work stood when it ended: a draft, a failing or passing check, something submitted, sent, merged or published, a due date, a count such as "2 of 5 sent". State only what the titles show; never infer whether something was finished.
 - confidence: a number from 0 to 1 for the interpretation as a whole.
 - uncertainty: optional short notes such as "Project name inferred from window title". Never include step-by-step reasoning.
 - unassignedEventIds: ids that cannot be meaningfully assigned. Use sparingly, only for genuinely noisy or ambiguous evidence.`;

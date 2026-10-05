@@ -82,6 +82,8 @@ export interface RunManifest {
   safeguards: {
     answerKeyShinglesWatched: number;
     promptLeaks: number;
+    /** Answer-key phrases the model wrote on its own and later read back (coincidences, not leaks). */
+    answerKeyPhrasesWrittenByModel?: number;
     databaseTablesScanned: number;
     databaseValuesScanned: number;
     databaseLeaks: number;

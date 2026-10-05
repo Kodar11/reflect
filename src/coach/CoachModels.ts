@@ -23,7 +23,8 @@ import type { ReflectionEvidence } from '../reflection/ReflectionModels.js';
  *     - CoachLifecycle.ts     the action state machine
  *     - CoachMatching.ts      similarity, strategy identity, execution detection
  *     - CoachEffectiveness.ts what has worked / failed for this user
- *     - CoachOpportunities.ts where a next move could come from (signals, not decisions)
+ *     - CoachOpportunities.ts where a next move could come from (signals: evidence, not decisions)
+ *     - CoachSituation.ts     where each stated priority stands across the recent days, side by side
  *     - CoachContext.ts       structured history → compact model input
  *     - CoachPrompt.ts        prompt text + response schemas
  *     - CoachValidator.ts     runtime validation of model output
@@ -57,6 +58,26 @@ export type CoachDaypart = (typeof COACH_DAYPARTS)[number];
 /** What the Coach concluded about the day: a concrete next move exists, or none is supported. */
 export const COACH_VERDICTS = ['act', 'no_useful_move'] as const;
 export type CoachVerdict = (typeof COACH_VERDICTS)[number];
+
+/**
+ * How the Coach reads one stated priority before choosing anything:
+ *
+ *   open_item          a specific thing the evidence shows is unfinished, due, waiting, or ready for its next stage
+ *   displaced          it got little or no time against its own norm — on more than one day, or while left unfinished
+ *   progressing        moving steadily; nothing specific is open that the user is not already doing
+ *   at_stopping_point  its work reached a finish (sent, submitted, deployed) and nothing else is visibly open
+ *   unclear            the evidence is too thin or too ambiguous to say
+ *
+ * Only the first two can carry an action. The other three are answers too.
+ */
+export const COACH_CANDIDATE_STATES = ['open_item', 'displaced', 'progressing', 'at_stopping_point', 'unclear'] as const;
+export type CoachCandidateState = (typeof COACH_CANDIDATE_STATES)[number];
+
+/**
+ * Action types that are about one particular piece of work. They must name
+ * that piece — a project or a priority is not a next action.
+ */
+export const ITEM_ACTION_TYPES: readonly CoachActionType[] = ['continue_behavior', 'close_open_loop', 'focus_session', 'change_approach'];
 
 /**
  * Action types that only mean something when aimed at a particular priority,
@@ -156,6 +177,14 @@ export interface CoachObservation {
   focusMinutes: number;
   /** Tracked minutes of matching activity. */
   matchedMinutes: number;
+  /** Matching minutes after the suggested window, later the same day. Absent on older records. */
+  laterMinutes?: number;
+  /**
+   * What the matching activity shows: `item` — it names the specific thing the
+   * action was about (or the action named nothing narrower than its target);
+   * `target` — only that the same priority / thread was worked on.
+   */
+  evidenceLevel?: 'item' | 'target' | null;
   plannedMinutes: number | null;
   interruptions: number;
   /** Plain statements of what was seen — shown to the user and to the model. */

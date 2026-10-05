@@ -240,5 +240,18 @@
       "tests": "An action was accepted, carried out and reported as having worked → is continuing with the same approach appropriate next?",
       "probe": true
     }
-  }
+  },
+  "coach_history": [
+    {
+      "title": "Get the index test passing in one morning block",
+      "action_type": "focus_session",
+      "daypart": "morning",
+      "focus_minutes": 60,
+      "priority": "Finish the database systems assignment",
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason_code": null
+    }
+  ]
 }

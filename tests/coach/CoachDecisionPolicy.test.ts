@@ -368,7 +368,9 @@ describe('unified daily intelligence → coach action → history → adaptation
     const tue = await generate(13, same, adapted);
     expect(tue.result).toMatchObject({ status: 'succeeded', attempts: 2 });
     const previous = section(tue.request.prompt, 'PREVIOUS ACTIONS');
-    expect(previous).toContain('"execution":"carried out (the user said so)"');
+    // Who established that it happened is stated as it is: the user's word, not Reflect's observation.
+    expect(previous).toMatch(/"execution":"carried out \((the user said so, and Reflect saw matching work|reported by the user; [^)]+)\)"/);
+    expect(previous).not.toContain('"execution":"carried out (observed by Reflect)"');
     expect(previous).toContain('"outcome":"the user said it did not work"');
     expect(section(tue.request.prompt, 'WHAT HAS AND HAS NOT WORKED')).toContain('The user said it DID NOT HELP');
     expect(tue.request.prompt).toContain('did not work (bad timing)');

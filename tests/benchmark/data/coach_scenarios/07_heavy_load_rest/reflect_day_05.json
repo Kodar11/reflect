@@ -409,7 +409,7 @@
         "started_at": "07:30",
         "ended_at": "12:00",
         "title": "Shipping multi-currency totals",
-        "summary": "Completed multi-currency totals, merged the pull request and deployed it to production.",
+        "summary": "multi-currency totals: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           137,
           138,
@@ -464,7 +464,7 @@
         "started_at": "18:00",
         "ended_at": "20:10",
         "title": "Shipping multi-currency totals polish",
-        "summary": "Completed multi-currency totals polish, merged the pull request and deployed it to production.",
+        "summary": "multi-currency totals polish: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           164,
           165,

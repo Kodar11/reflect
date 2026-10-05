@@ -1,0 +1,213 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-11-04",
+    "day_type": "17_finished_priority_goes_quiet__probe",
+    "circumstances": [
+      "A priority was completed and then, naturally, got no more time → its absence is not something to act on."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:00",
+      "last_seen": "20:40",
+      "approx_active_hours": 3,
+      "longest_unobserved_gap_minutes": 460
+    }
+  },
+  "raw_events": [
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:00:00+05:30",
+      "ended_at": "2026-11-04T10:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Network Flow — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 20,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:20:00+05:30",
+      "ended_at": "2026-11-04T10:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Network Flow — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 21,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:40:00+05:30",
+      "ended_at": "2026-11-04T11:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Network Flow.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 22,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:00:00+05:30",
+      "ended_at": "2026-11-04T11:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Network Flow — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:20:00+05:30",
+      "ended_at": "2026-11-04T11:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Network Flow — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:40:00+05:30",
+      "ended_at": "2026-11-04T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Network Flow.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T12:00:00+05:30",
+      "ended_at": "2026-11-04T12:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Network Flow — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T20:00:00+05:30",
+      "ended_at": "2026-11-04T20:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Best speedruns of the year - YouTube",
+      "url": "https://www.youtube.com/watch?v=speedruns",
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T20:30:00+05:30",
+      "ended_at": "2026-11-04T20:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Best speedruns of the year - YouTube",
+      "url": "https://www.youtube.com/watch?v=speedruns",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "10:00",
+        "ended_at": "12:20",
+        "title": "Completed Network Flow practice set",
+        "summary": "Finished every problem in the Network Flow practice set and checked the answers.",
+        "event_ids": [
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "20:00",
+        "ended_at": "20:40",
+        "title": "Watching videos",
+        "summary": "Watched entertainment videos.",
+        "event_ids": [
+          26,
+          27
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Completed Network Flow practice set",
+      "Watching videos"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "No next step is needed today."
+  },
+  "expected_coach_outcome": {
+    "primary_action": null,
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not recommend protecting time for the assignment after it was submitted."
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "The assignment was submitted two days ago, so its absence is completion and not displacement; today the practice set was completed too.",
+      "priority": null,
+      "type": null
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "17_finished_priority_goes_quiet",
+      "title": "Finished priority goes quiet",
+      "tests": "A priority was completed and then, naturally, got no more time → its absence is not something to act on.",
+      "probe": true
+    }
+  }
+}

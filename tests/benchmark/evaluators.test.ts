@@ -658,6 +658,17 @@ describe('answer-key leak detector', () => {
     expect(detector.findLeaks('You implemented billing and tested it. Then you researched the API.')).toEqual([]);
     expect(detector.findLeaks('ABOUT THE USER: Solo founder and freelance software developer who builds a SaaS product')).toEqual([]);
   });
+
+  it('does not treat a phrase the model itself wrote earlier in the run as a leak when it comes back in a later prompt', () => {
+    const own = buildLeakDetector(evaluation, input);
+    const phrase = 'implemented and tested billing related functionality including api research and code changes';
+    expect(own.findLeaks('COACH MEMORY ' + phrase)).toHaveLength(1);
+    own.allowOwnOutput('{"summary":"Implemented and tested billing-related functionality, including API research and code changes."}');
+    expect(own.findLeaks('COACH MEMORY ' + phrase)).toEqual([]);
+    expect(own.coincidences()).toBeGreaterThan(0);
+    // Anything else from the key is still caught.
+    expect(own.findLeaks('the day type was normal_mixed_workday')).toEqual(['normal_mixed_workday']);
+  });
 });
 
 // ── Coach, by dimension ─────────────────────────────────────────────────────
@@ -811,6 +822,44 @@ describe('coach dimensions — opportunity, precision, null, follow-through, ada
     expect(assessCoach(captured({ earlierActions: [settled({ outcome: 'worked' })] }), withOpportunity('strong'), { ...dimCtx, previousProcessedAt: iso(2000) }).adaptation).toEqual([]);
     const summary = summarizeCoachDimensions([reused, repeated, refined]);
     expect(summary.adaptation).toMatchObject({ checks: 3, passed: 2, byKind: { worked_reused: { checks: 1, passed: 1 }, partly_refined: { checks: 2, passed: 1 } } });
+  });
+
+  it('adaptation: reuse is the same strategy on what is open now — a different kind of action in the same shape counts, the same sentence again does not', () => {
+    const earlier = settled({ outcome: 'worked', actionType: 'close_open_loop', strategyKey: 'close_open_loop|morning|short', title: 'Send the revised proposal to the prospect' });
+    // Same time of day and size, a new item, a different action type: the strategy was reused.
+    const sameShape = assess(captured({ earlierActions: [earlier], actions: [action({ id: 'today', actionType: 'focus_session', strategyKey: 'focus_session|morning|short', title: 'Draft the estimate for the new inquiry' })] }));
+    expect(sameShape.adaptation).toMatchObject([{ kind: 'worked_reused', pass: true, behaviour: 'reused what worked' }]);
+    // A different kind of action at a different time and size is a switch.
+    const switched = assess(captured({ earlierActions: [earlier], actions: [action({ id: 'today', actionType: 'focus_session', strategyKey: 'focus_session|evening|long', title: 'Draft the estimate for the new inquiry' })] }));
+    expect(switched.adaptation).toMatchObject([{ kind: 'worked_reused', pass: false, behaviour: 'switched approach' }]);
+    // The very same sentence again is a repeat, not reuse.
+    const verbatim = assess(captured({ earlierActions: [earlier], actions: [action({ id: 'today', actionType: 'close_open_loop', strategyKey: 'close_open_loop|morning|short', title: 'Send the revised proposal to the prospect' })] }));
+    expect(verbatim.adaptation).toMatchObject([{ kind: 'worked_reused', pass: false, behaviour: 'repeated the same sentence' }]);
+  });
+
+  it('adaptation: "not now" is an answer for today — anything else for that target the same day fails', () => {
+    const postponed = action({ id: 'earlier', status: 'snoozed', snoozeCount: 1, updatedAt: iso(900) });
+    expect(assess(captured({ earlierActions: [postponed], actions: [action({ id: 'today', title: 'Protect a different block for the SaaS export' })] })).adaptation).toMatchObject([
+      { kind: 'deferred_not_repeated', pass: false, behaviour: 'offered something for it again the same day' },
+    ]);
+    expect(assess(captured({ earlierActions: [postponed], actions: [] })).adaptation).toMatchObject([{ kind: 'deferred_not_repeated', pass: true, behaviour: 'left it for tomorrow' }]);
+  });
+
+  it('reports how concentrated the recommendations were, and keeps "reported" apart from "observed"', () => {
+    const onSaas = assess(captured());
+    const summary = summarizeCoachDimensions([onSaas, onSaas, assess(captured({ actions: [action({ id: 'other', priorityId: 'pr-leads', targetKey: 'p:pr-leads', title: 'Send the revised proposal to the prospect tomorrow morning' })] }))]);
+    expect(summary.targetConcentration).toMatchObject({ numerator: 2, denominator: 3 });
+    expect(summary.fullyCorrect).toMatchObject({ numerator: 2, denominator: 3 });
+    const observation = (kind: string) => ({ kind } as CoachAction['observation']);
+    const states = [
+      stateOf(settled({ id: 'a', outcome: 'worked', executionSource: 'observed', observation: observation('executed') })),
+      stateOf(settled({ id: 'b', outcome: 'worked', executionSource: 'user', observation: observation('attempted') })),
+      stateOf(settled({ id: 'c', outcome: 'worked', executionSource: 'user', observation: observation('not_observed') })),
+    ];
+    const follow = summarizeCoachDimensions([], states);
+    expect(follow.executionObserved).toMatchObject({ numerator: 1, denominator: 3 });
+    expect(follow.executionSeenByReflect).toMatchObject({ numerator: 2, denominator: 3 });
+    expect(follow.executionReportedOnly).toMatchObject({ numerator: 1, denominator: 3 });
   });
 
   it('the summary carries the dimensions next to the thirteen criteria, without merging them', () => {

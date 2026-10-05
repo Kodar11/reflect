@@ -1,0 +1,202 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-11-03",
+    "day_type": "21_deferred_not_repeated__probe",
+    "circumstances": [
+      "The user postponed a recommendation (\"not now\") → it comes back by itself tomorrow; nothing more for that priority today."
+    ],
+    "laptop_usage": {
+      "first_seen": "11:00",
+      "last_seen": "21:00",
+      "approx_active_hours": 2.5,
+      "longest_unobserved_gap_minutes": 450
+    }
+  },
+  "raw_events": [
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:00:00+05:30",
+      "ended_at": "2026-11-03T11:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Graph Algorithms — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:20:00+05:30",
+      "ended_at": "2026-11-03T11:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Graph Algorithms — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:40:00+05:30",
+      "ended_at": "2026-11-03T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Graph Algorithms.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T12:00:00+05:30",
+      "ended_at": "2026-11-03T12:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Graph Algorithms — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T12:20:00+05:30",
+      "ended_at": "2026-11-03T12:30:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Graph Algorithms — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T20:00:00+05:30",
+      "ended_at": "2026-11-03T20:30:00+05:30",
+      "app": "Hades",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T20:30:00+05:30",
+      "ended_at": "2026-11-03T21:00:00+05:30",
+      "app": "Hades",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "11:00",
+        "ended_at": "12:30",
+        "title": "Completed Graph Algorithms practice set",
+        "summary": "Finished every problem in the Graph Algorithms practice set and checked the answers.",
+        "event_ids": [
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "20:00",
+        "ended_at": "21:00",
+        "title": "Playing a game",
+        "summary": "Played a game in the evening.",
+        "event_ids": [
+          13,
+          14
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Completed Graph Algorithms practice set",
+      "Playing a game"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "No next step is needed today."
+  },
+  "expected_coach_outcome": {
+    "primary_action": null,
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not recommend the indexing section again on the day it was postponed."
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "The one open item was postponed by the user and will be offered again by itself; the other priority reached a stopping point.",
+      "priority": null,
+      "type": null
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "21_deferred_not_repeated",
+      "title": "Deferred, not repeated",
+      "tests": "The user postponed a recommendation (\"not now\") → it comes back by itself tomorrow; nothing more for that priority today.",
+      "probe": true
+    }
+  },
+  "coach_history": [
+    {
+      "title": "Complete the indexing write-up before lunch",
+      "action_type": "close_open_loop",
+      "daypart": "morning",
+      "focus_minutes": null,
+      "priority": "Finish the database systems assignment",
+      "user_decision": "deferred",
+      "execution": "not_applicable",
+      "outcome": "not_applicable",
+      "reason_code": null
+    }
+  ]
+}

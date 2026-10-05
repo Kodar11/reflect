@@ -409,7 +409,7 @@
         "started_at": "07:30",
         "ended_at": "12:00",
         "title": "Shipping tax settings",
-        "summary": "Completed tax settings, merged the pull request and deployed it to production.",
+        "summary": "tax settings: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           35,
           36,
@@ -464,7 +464,7 @@
         "started_at": "18:00",
         "ended_at": "20:10",
         "title": "Shipping tax settings polish",
-        "summary": "Completed tax settings polish, merged the pull request and deployed it to production.",
+        "summary": "tax settings polish: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           62,
           63,

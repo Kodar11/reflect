@@ -1,5 +1,8 @@
-import type { CoachAction, CoachReasonCode } from '../../../src/coach/CoachModels';
-import { COACH_REASON_CODES } from '../../../src/coach/CoachModels';
+import { randomUUID } from 'node:crypto';
+import { daypartWindow, strategyKeyOf, targetKeyOf } from '../../../src/coach/CoachMatching';
+import type { CoachAction, CoachActionType, CoachDaypart, CoachReasonCode } from '../../../src/coach/CoachModels';
+import { COACH_ACTION_TYPES, COACH_DAYPARTS, COACH_REASON_CODES } from '../../../src/coach/CoachModels';
+import { periodContaining, shiftPeriod } from '../../../src/reflection/ReflectionPeriods';
 import { matchExpected } from '../evaluators/coachDimensions';
 import type { DatasetExecutionScenario, EvaluationOnlyDay } from './dataset';
 import type { BenchmarkRuntime } from './runtime';
@@ -24,6 +27,87 @@ import type { BenchmarkRuntime } from './runtime';
  *                         Reflect could not tell, or was wrong) and whether it
  *                         helped — before that evening's reflection is written.
  */
+
+/**
+ * Seeded history: a recommendation that was on the user's Coach panel since
+ * the evening before, and their answer to it. The action is stored through the
+ * Coach's own repository exactly as the daily pass stores one; everything that
+ * then happens to it — the decision, Reflect's own observation, "I did it",
+ * "it didn't help" — goes through the same service calls the Coach panel makes.
+ * Nothing about what the Coach SHOULD do next is passed along.
+ */
+export async function seedHistory(runtime: BenchmarkRuntime, answer: EvaluationOnlyDay, now: Date, priorities: { id: string; text: string }[]): Promise<FollowThroughRecord[]> {
+  const records: FollowThroughRecord[] = [];
+  const today = periodContaining('day', now);
+  const yesterday = shiftPeriod(today, -1);
+  for (const seed of answer.coachHistory) {
+    const priority = priorities.find((p) => p.text === seed.priority);
+    const actionType = (COACH_ACTION_TYPES as readonly string[]).includes(seed.action_type) ? (seed.action_type as CoachActionType) : 'focus_session';
+    const daypart = (COACH_DAYPARTS as readonly string[]).includes(seed.daypart) ? (seed.daypart as CoachDaypart) : 'any';
+    const window = daypartWindow(today, daypart);
+    // Suggested at 10 PM the evening before, for today.
+    const suggestedAt = new Date(Date.parse(yesterday.end) - 2 * 3_600_000).toISOString();
+    const shape = { actionType, daypart, focusMinutes: seed.focus_minutes };
+    const action: CoachAction = {
+      id: randomUUID(),
+      source: 'daily',
+      reportId: null,
+      originDayKey: yesterday.key,
+      parentActionId: null,
+      title: seed.title,
+      description: null,
+      rationale: 'Suggested the evening before.',
+      actionType,
+      daypart,
+      targetStart: window.start,
+      targetEnd: window.end,
+      focusMinutes: seed.focus_minutes,
+      focusTask: seed.focus_minutes ? seed.title : null,
+      priorityId: priority?.id ?? null,
+      thread: null,
+      strategyKey: strategyKeyOf(shape),
+      targetKey: targetKeyOf({ priorityId: priority?.id ?? null, thread: null }),
+      evidence: [],
+      sourceMetricKeys: [],
+      sourceActivityIds: [],
+      confidence: 0.8,
+      status: 'suggested',
+      execution: null,
+      executionSource: null,
+      outcome: null,
+      reasonCode: null,
+      note: null,
+      observation: null,
+      linkedFocusSessionId: null,
+      snoozedUntil: null,
+      snoozeCount: 0,
+      userEdited: false,
+      createdAt: suggestedAt,
+      acceptedAt: null,
+      rejectedAt: null,
+      executedAt: null,
+      outcomeAt: null,
+      closedAt: null,
+      updatedAt: suggestedAt,
+    };
+    runtime.coachRepo.insertAction(action);
+    runtime.coachRepo.insertActionEvent({ id: randomUUID(), actionId: action.id, type: 'suggested', fromStatus: null, toStatus: 'suggested', detail: { seeded: true }, createdAt: suggestedAt });
+
+    if (seed.user_decision === 'rejected') runtime.coachService.decide(action.id, 'reject', { reasonCode: reasonOf(seed.reason_code) });
+    else if (seed.user_decision === 'deferred') runtime.coachService.decide(action.id, 'not_now');
+    else runtime.coachService.decide(action.id, 'accept');
+    await runtime.coachService.observe();
+    if (seed.user_decision !== 'accepted') continue;
+
+    const record = await followThrough(runtime, {
+      dayNumber: answer.dayNumber - 1,
+      actionId: action.id,
+      scenario: { user_decision: 'accepted', execution: seed.execution, outcome: seed.outcome, reason: 'seeded history', reason_code: seed.reason_code ?? null },
+    });
+    if (record) records.push(record);
+  }
+  return records;
+}
 
 export interface PendingFollowThrough {
   dayNumber: number;

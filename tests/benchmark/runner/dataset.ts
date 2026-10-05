@@ -109,6 +109,28 @@ export interface DatasetExecutionScenario {
   reason_code?: string | null;
 }
 
+/**
+ * A recommendation that was already on the user's Coach panel when the day
+ * began, and what the user did with it — history, not an answer key. It lets a
+ * scenario ask "given THIS history, what does the Coach do next?" without
+ * depending on the Coach having happened to make that recommendation the day
+ * before. The harness stores it through the Coach's own repository and plays
+ * the user's part through the Coach's own service calls.
+ */
+export interface DatasetSeedAction {
+  title: string;
+  /** A Reflect `CoachActionType`. */
+  action_type: string;
+  daypart: string;
+  focus_minutes: number | null;
+  /** Text of the stated priority it was aimed at. */
+  priority: string;
+  user_decision: 'accepted' | 'rejected' | 'deferred';
+  execution: (typeof SCENARIO_EXECUTIONS)[number];
+  outcome: (typeof SCENARIO_OUTCOMES)[number];
+  reason_code?: string | null;
+}
+
 export interface DatasetDayFile {
   persona: DatasetPersona;
   day: {
@@ -146,6 +168,8 @@ export interface DatasetDayFile {
   };
   /** Optional; evaluation-only when present. */
   evaluation_objectives?: unknown;
+  /** Optional. Recommendations made the evening before this day, with the user's answer to each. */
+  coach_history?: DatasetSeedAction[];
 }
 
 // ── The two halves ──────────────────────────────────────────────────────────
@@ -192,6 +216,8 @@ export interface EvaluationOnlyDay {
   expectedReflection: DatasetDayFile['expected_reflection'];
   expectedCoachOutcome: DatasetDayFile['expected_coach_outcome'];
   evaluationObjectives: unknown;
+  /** Seeded history the simulated user plays out before this day's reflection. */
+  coachHistory: DatasetSeedAction[];
 }
 
 export interface EvaluationOnly {
@@ -246,7 +272,7 @@ const CLOCK = /^([01]\d|2[0-3]):[0-5]\d$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 const TOP_LEVEL_KEYS = ['persona', 'day', 'raw_events', 'ground_truth', 'expected_reflection', 'expected_coach_outcome'] as const;
-const OPTIONAL_TOP_LEVEL_KEYS = ['evaluation_objectives'];
+const OPTIONAL_TOP_LEVEL_KEYS = ['evaluation_objectives', 'coach_history'];
 const EVENT_KEYS = ['id', 'watcher', 'started_at', 'ended_at', 'app', 'browser', 'title', 'url', 'payload'];
 const ACTIVITY_KEYS = ['id', 'started_at', 'ended_at', 'title', 'summary', 'event_ids', 'context', 'area', 'intent', 'quality', 'importance'];
 const ACTION_KEYS = ['title', 'action_type', 'reason', 'suggested_focus_minutes', 'target'];
@@ -598,6 +624,27 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
       }
       if (!isStringArray(coach.things_not_to_do)) err('expected_coach_field', 'expected_coach_outcome.things_not_to_do', 'Expected string[]');
 
+      if ('coach_history' in data) {
+        const history = (data as { coach_history?: unknown }).coach_history;
+        if (!Array.isArray(history)) {
+          err('coach_history_shape', 'coach_history', 'Expected an array');
+        } else {
+          history.forEach((seed, i) => {
+            const where = `coach_history[${i}]`;
+            if (!isObject(seed) || !isString(seed.title) || !isString(seed.action_type) || !isString(seed.daypart) || !isString(seed.priority)) {
+              err('coach_history_shape', where, 'Expected { title, action_type, daypart, focus_minutes, priority, user_decision, execution, outcome }');
+              return;
+            }
+            if (!['accepted', 'rejected', 'deferred'].includes(seed.user_decision as string)) err('coach_history_field', `${where}.user_decision`, 'Expected accepted | rejected | deferred');
+            if (!(SCENARIO_EXECUTIONS as readonly unknown[]).includes(seed.execution)) err('coach_history_field', `${where}.execution`, `Expected one of ${SCENARIO_EXECUTIONS.join(' | ')}`);
+            if (!(SCENARIO_OUTCOMES as readonly unknown[]).includes(seed.outcome)) err('coach_history_field', `${where}.outcome`, `Expected one of ${SCENARIO_OUTCOMES.join(' | ')}`);
+            if (isObject(data.persona) && Array.isArray(data.persona.priorities) && !data.persona.priorities.includes(seed.priority)) {
+              err('coach_history_field', `${where}.priority`, 'Must be the text of one of the persona\'s stated priorities');
+            }
+          });
+        }
+      }
+
       if ('action_opportunity' in coach) {
         const o = coach.action_opportunity;
         const where = 'expected_coach_outcome.action_opportunity';
@@ -678,7 +725,11 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
 export function inputVersionOf(days: DatasetDayFile[]): string {
   const hash = createHash('sha256');
   hash.update(JSON.stringify(days[0]?.persona ?? null));
-  for (const day of days) hash.update(JSON.stringify([day.day.day_number, day.day.date, day.raw_events]));
+  for (const day of days) {
+    hash.update(JSON.stringify([day.day.day_number, day.day.date, day.raw_events]));
+    // Seeded history reaches Reflect too (as stored actions), so it is part of the input.
+    if (day.coach_history && day.coach_history.length > 0) hash.update(JSON.stringify(day.coach_history));
+  }
   return `sha256:${hash.digest('hex').slice(0, 16)}`;
 }
 
@@ -744,6 +795,7 @@ export function splitDataset(dataset: LoadedDataset): { input: ReflectInput; eva
       expectedReflection: d.expected_reflection,
       expectedCoachOutcome: d.expected_coach_outcome,
       evaluationObjectives: d.evaluation_objectives ?? null,
+      coachHistory: d.coach_history ?? [],
     })),
   };
 

@@ -7,7 +7,7 @@ Runs a 30-day simulated user through the **real** Reflect pipeline and the **rea
 ```
 tests/benchmark/
 ├── data/founder_freelancer/reflect_day_01.json … reflect_day_30.json
-├── data/coach_scenarios/<scenario>/reflect_day_NN.json   fifteen small Coach scenarios (+ generate.mjs)
+├── data/coach_scenarios/<scenario>/reflect_day_NN.json   twenty-two small Coach scenarios (+ generate.mjs)
 ├── data/annotate_coach.mjs   derives the coach answer-key annotations of the 30-day set
 ├── runner/            what talks to Reflect (sees raw events only)
 ├── runner/simulatedUser.ts   the user's decisions on recommendations (the one runner file that reads the answer key)
@@ -56,7 +56,7 @@ The same thirty days with the **simulated user** answering each recommendation a
 npm run benchmark -- --coach-scenarios
 ```
 
-The fifteen Coach scenarios instead of the 30-day set: each on its own database, through the same pipeline, with the simulated user. Results go to `results/coach_scenarios/summary.md` (`--scenario <text>` runs a subset).
+The twenty-two Coach scenarios instead of the 30-day set: each on its own database, through the same pipeline, with the simulated user. Results go to `results/coach_scenarios/summary.md` (`--scenario <text>` runs a subset).
 
 `npm run benchmark -- --help` lists every option. The launcher starts vitest under Electron's Node (the runtime the SQLite binding is built for, as `npm run test:db` does) in the simulated user's timezone.
 
@@ -134,10 +134,17 @@ Strict accuracy counts only labels with a single Reflect twin; lenient accuracy 
 
 | Question | Dimensions |
 | --- | --- |
-| Was the recommendation right? | opportunity recall · opportunity detection · action precision · alignment · specificity · evidence grounding · feasibility · not generic · appropriate null |
-| Did the user follow it? | decisions recorded · execution tracking coverage · share established by Reflect's own observation |
+| Was the recommendation right? | opportunity recall · fully correct · partially correct · opportunity detection · action precision · alignment · specificity · evidence grounding · feasibility · not generic · not a repeat · concentration on one target · appropriate null |
+| Did the user follow it? | decisions recorded · execution tracking coverage · established by Reflect itself · supported by Reflect's own observation · reported by the user only |
 | Did it help? | outcome tracking coverage · outcomes as stated |
-| Did the Coach adapt? | rejected not repeated · failed not repeated · worked reused · partly-worked refined · external constraint not penalised |
+| Did the Coach adapt? | rejected not repeated · deferred not repeated · failed not repeated · worked reused · partly-worked refined · external constraint not penalised |
+
+Three of these need a word:
+
+- **Fully / partially correct.** On the 30-day set "partially correct" almost always means *the action was aimed at the day's secondary work stream instead of its primary one* — a question of which priority was chosen, not of how specific the sentence is. The key cannot tell "Continue the assignment" from "Finish the query-plan section" beyond the kind of action; that distinction is enforced in production (`CoachValidator`: a project is not a next action) and pinned by unit tests.
+- **Concentration on one target** is the share of all actions aimed at the single most-recommended priority. It is reported, not scored: a user with one real priority should see it high.
+- **Execution** is counted three ways and never merged: Reflect established it before anyone spoke; Reflect's tracked activity supports it at all; the user said so and Reflect saw nothing matching. Only the first two are "observed".
+- **Worked reused** passes when the next action for that target keeps the strategy — the same kind of action, or the same shape (time of day + size) on a new item, or one that explicitly builds on the earlier action. The same sentence again is a repeat, not reuse, and fails.
 
 Nothing rewards volume: an action on a day with no opportunity is `unnecessary` and lowers precision and appropriate-null, exactly as silence on a strong day lowers recall. `coach_review.md` lays every day out as GROUND TRUTH → REFLECT COACH → VERDICT → WHY, followed by action → decision → execution → outcome → what the Coach did next.
 
@@ -155,11 +162,15 @@ Nothing rewards volume: an action on a day with no opportunity is `unnecessary` 
 
 Both live only in the answer key. `splitDataset` does not copy them into `ReflectInput`, raw events are unchanged, and the dataset's `inputVersion` (a hash of persona + raw events) lets a stored run be re-scored after the answer key gains annotations.
 
-For the 30-day set the two annotations are derived by `data/annotate_coach.mjs` from what the key already states (the expected actions, and the next day's ground-truth activities and priority assessments). That set has 24 strong and 6 moderate days and **no** null day — a founder with three active priorities always has a next move — so appropriate-null, rejection, failure and external-constraint handling are measured by the scenario set.
+For the 30-day set the two annotations are derived by `data/annotate_coach.mjs` from what the key already states (the expected actions, and the next day's ground-truth activities and priority assessments). That set has 24 strong and 6 moderate days and **no** null day, and its simulated user accepts and carries out everything. It therefore cannot tell a good Coach from a talkative one, and a Coach tuned to it would learn to always say something. Treat its recall as one reading among several: appropriate-null, rejection, postponement, failure, "too difficult", external-constraint handling and the choice among competing priorities are measured by the scenario set, which is the check against overfitting to this one.
+
+There is no College Student 30-day dataset yet (only `data/founder_freelancer`). The student persona is covered by eleven of the scenarios.
 
 ### Coach scenario set
 
-`data/coach_scenarios/` holds fifteen 2–5 day datasets, one question each, across three personas (student, founder, writer): clear open loop · priority repeatedly displaced · momentum worth protecting · approaching deadline · fragmented day · nothing needed · heavy load / rest · accepted-done-worked · previous action failed · previous action rejected · same app, different goal · stated priority vs attention · already on track · ambiguous evidence · external constraint. Each has exactly one **probe day**; the days before it are ordinary history (`moderate`). A scenario passes when its probe day is answered correctly and every adaptation check holds. Regenerate with `node tests/benchmark/data/coach_scenarios/generate.mjs`.
+`data/coach_scenarios/` holds twenty-two 2–5 day datasets, one question each, across four personas (student, founder, writer, designer): clear open loop · priority repeatedly displaced · momentum worth protecting · approaching deadline · fragmented day · nothing needed · heavy load / rest · accepted-done-worked · previous action failed · previous action rejected · same app, different goal · stated priority vs attention · already on track · ambiguous evidence · external constraint · competing priorities (three, the next move on the smallest) · a finished priority going quiet · a one-off displacement · success reused on a new target · partly worked → refined · postponed ("not now") · too difficult → smaller. Each has exactly one **probe day**; the days before it are ordinary history (`moderate`). Seven probe days expect silence, two leave the choice open, thirteen expect one particular kind of move. A scenario passes when its probe day is answered correctly and every adaptation check holds. Regenerate with `node tests/benchmark/data/coach_scenarios/generate.mjs`.
+
+**Seeded history.** A day may carry `coach_history`: recommendations that were on the user's Coach panel since the evening before, with the user's answer to each (`accepted | rejected | deferred`, then execution, outcome and a reason from Reflect's own list). The harness stores each one through `CoachRepository` exactly as the daily pass stores an action and then plays the user through the Coach's own service calls (`decide`, Reflect's observation sweep, `reportExecution`, `reportOutcome`). It lets a scenario ask "given THIS history, what does the Coach do next?" without depending on the Coach having happened to make that recommendation the day before — previously an adaptation scenario silently tested nothing whenever the earlier day produced no action. Seeded history is input, not answer key: it is part of `inputVersion`, and it never states what the Coach should do next.
 
 ### Two kinds of verdict
 

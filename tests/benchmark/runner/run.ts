@@ -16,7 +16,7 @@ import { RANDOMNESS_NOTE, describeEnvironment, describeVersions, type RunManifes
 import { MeteredGemini, summarizeCalls, type GeminiCallRecord } from './meteredGemini';
 import { renderCoachReview, renderReport, renderReviewPacket } from './report';
 import { createRuntime } from './runtime';
-import { decideOnDay, followThrough, type FollowThroughRecord, type PendingFollowThrough } from './simulatedUser';
+import { decideOnDay, followThrough, seedHistory, type FollowThroughRecord, type PendingFollowThrough } from './simulatedUser';
 
 /**
  * The benchmark, end to end:
@@ -101,6 +101,7 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
   const gemini = new MeteredGemini(new GeminiClient(), {
     simulatedNow: () => clock.peek(),
     findLeaks: detector.findLeaks,
+    onResponseText: detector.allowOwnOutput,
     minCallIntervalMs: config.minCallIntervalMs,
     onCall: config.savePrompts
       ? (record, request, responseText, error) => {
@@ -162,6 +163,13 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
             );
           }
           pendingFollowThrough = [];
+          // History the scenario starts from: what was on the Coach panel since last night, and the user's answer.
+          const seeds = evaluation.days[index].coachHistory;
+          if (seeds.length > 0) {
+            const records = await seedHistory(runtime, evaluation.days[index], clock.peek(), runtime.reflectionService.syncPriorities());
+            followThroughLog.push(...records);
+            say(`day ${String(day.dayNumber).padStart(2, '0')}: ${seeds.length} seeded earlier recommendation(s) — ${seeds.map((s) => `${s.user_decision}/${s.execution}/${s.outcome}`).join(', ')}`);
+          }
         },
       });
       const captured = await captureDay(runtime, processing);
@@ -289,6 +297,7 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
     safeguards: {
       answerKeyShinglesWatched: detector.shingleCount,
       promptLeaks: usage.leaks,
+      answerKeyPhrasesWrittenByModel: detector.coincidences(),
       databaseTablesScanned: databaseScan.tablesScanned,
       databaseValuesScanned: databaseScan.valuesScanned,
       databaseLeaks: databaseScan.leaks.length,

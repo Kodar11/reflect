@@ -1,0 +1,298 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "Independent researcher and writer",
+    "current_work": [
+      "A grant application for a field study",
+      "A weekly newsletter"
+    ],
+    "priorities": [
+      "Finish the grant application",
+      "Publish the weekly newsletter"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-11-03",
+    "day_type": "19_success_reused_on_new_target__probe",
+    "circumstances": [
+      "A morning block finished one section; the next section is now open → the same shape, aimed at the new item — not the old sentence."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:00",
+      "last_seen": "14:20",
+      "approx_active_hours": 3.5,
+      "longest_unobserved_gap_minutes": 90
+    }
+  },
+  "raw_events": [
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:00:00+05:30",
+      "ended_at": "2026-11-03T09:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — project description (final, 0 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:20:00+05:30",
+      "ended_at": "2026-11-03T09:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — project description (final, 0 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:40:00+05:30",
+      "ended_at": "2026-11-03T10:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — project description (final, 0 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:00:00+05:30",
+      "ended_at": "2026-11-03T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — project description (final, 0 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:30:00+05:30",
+      "ended_at": "2026-11-03T10:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #49 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:50:00+05:30",
+      "ended_at": "2026-11-03T11:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #49 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:10:00+05:30",
+      "ended_at": "2026-11-03T11:15:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #49 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:15:00+05:30",
+      "ended_at": "2026-11-03T11:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #49 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T13:00:00+05:30",
+      "ended_at": "2026-11-03T13:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — budget justification (draft, 3 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 18,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T13:20:00+05:30",
+      "ended_at": "2026-11-03T13:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Field Study Fund — Application guidelines",
+      "url": "https://fund.example.org/guidelines",
+      "payload": null
+    },
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T13:40:00+05:30",
+      "ended_at": "2026-11-03T14:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — budget justification (draft, 3 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 20,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:00:00+05:30",
+      "ended_at": "2026-11-03T14:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Field Study Fund — Application guidelines",
+      "url": "https://fund.example.org/guidelines",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "09:00",
+        "ended_at": "10:10",
+        "title": "Finishing the project description",
+        "summary": "Cleared every open comment and completed the project description.",
+        "event_ids": [
+          9,
+          10,
+          11,
+          12
+        ],
+        "context": "Work",
+        "area": "Finish the grant application",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "10:30",
+        "ended_at": "11:15",
+        "title": "Drafting newsletter 49",
+        "summary": "Wrote the draft of newsletter issue 49.",
+        "event_ids": [
+          13,
+          14,
+          15
+        ],
+        "context": "Work",
+        "area": "Publish the weekly newsletter",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-03",
+        "started_at": "11:15",
+        "ended_at": "11:30",
+        "title": "Publishing newsletter 49",
+        "summary": "Finalised issue 49 and published it to subscribers.",
+        "event_ids": [
+          16
+        ],
+        "context": "Work",
+        "area": "Publish the weekly newsletter",
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-04",
+        "started_at": "13:00",
+        "ended_at": "14:20",
+        "title": "Drafting grant budget justification",
+        "summary": "Wrote part of the budget justification; it still had open comments and unfinished paragraphs.",
+        "event_ids": [
+          17,
+          18,
+          19,
+          20
+        ],
+        "context": "Work",
+        "area": "Finish the grant application",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Finishing the project description",
+      "Drafting newsletter 49",
+      "Publishing newsletter 49",
+      "Drafting grant budget justification"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the grant application",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Publish the weekly newsletter",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Finish the budget justification in tomorrow morning's block"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the budget justification in tomorrow morning's block",
+      "action_type": "start_focus",
+      "reason": "A morning block finished the previous section, and the next section was drafted and left unfinished.",
+      "suggested_focus_minutes": 60,
+      "target": "Finish the grant application"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not recommend more work on the project description after it was completed."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "A morning block finished the previous section, and the next section was drafted and left unfinished.",
+      "priority": "Finish the grant application",
+      "type": "start_focus"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "19_success_reused_on_new_target",
+      "title": "Success reused on a new target",
+      "tests": "A morning block finished one section; the next section is now open → the same shape, aimed at the new item — not the old sentence.",
+      "probe": true
+    }
+  },
+  "coach_history": [
+    {
+      "title": "Resolve the open comments on the project description in one morning block",
+      "action_type": "focus_session",
+      "daypart": "morning",
+      "focus_minutes": 60,
+      "priority": "Finish the grant application",
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason_code": null
+    }
+  ]
+}

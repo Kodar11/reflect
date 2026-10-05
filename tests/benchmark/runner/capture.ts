@@ -209,7 +209,8 @@ export async function captureDay(runtime: BenchmarkRuntime, input: CaptureInput)
     },
     coach: {
       actions,
-      earlierActions: allActions.filter((a) => input.actionIdsBefore.has(a.id)),
+      // Everything that is not this day's own recommendation — including history a scenario seeded during the day.
+      earlierActions: allActions.filter((a) => !actions.some((own) => own.id === a.id)),
       lifecycleEvents: allActions
         .flatMap((a) => runtime.coachRepo.listActionEvents(a.id))
         .filter((e) => e.createdAt >= input.processedAt)

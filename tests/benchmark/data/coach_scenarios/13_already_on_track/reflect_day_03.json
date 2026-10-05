@@ -211,7 +211,7 @@
         "started_at": "09:00",
         "ended_at": "12:05",
         "title": "Shipping payment reminders",
-        "summary": "Completed payment reminders, merged the pull request and deployed it to production.",
+        "summary": "payment reminders: finished; its pull request went in and the production deploy went out.",
         "event_ids": [
           32,
           33,

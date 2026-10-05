@@ -219,13 +219,6 @@
       "reason": "The indexing section and its test were left unfinished.",
       "priority": "Finish the database systems assignment",
       "type": "complete_open_loop"
-    },
-    "execution_scenario": {
-      "reason_code": null,
-      "user_decision": "accepted",
-      "execution": "done",
-      "outcome": "worked",
-      "reason": "The next morning the section is finished in one block."
     }
   },
   "evaluation_objectives": {

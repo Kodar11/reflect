@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-// Coach scenario set — fifteen small, multi-day datasets, each built to ask the
-// Coach one question (is there an open loop? should it stay silent? does it
-// adapt after a failure?). Same file format as the 30-day dataset, so they run
+// Coach scenario set — twenty-two small, multi-day datasets, each built to ask
+// the Coach one question (is there an open loop? should it stay silent? which
+// of three priorities holds the next move? does it adapt after a failure?).
+// Four personas, and as many days that call for silence as for a particular
+// kind of action. Same file format as the 30-day dataset, so they run
 // through the same harness and therefore the same production path:
 //
 //   raw events → activity reconstruction → reflection + coach (one request)
@@ -52,6 +54,17 @@ const WRITER = {
   role: 'Independent researcher and writer',
   current_work: ['A grant application for a field study', 'A weekly newsletter'],
   priorities: [GRANT, NEWSLETTER],
+};
+
+const BRAND = 'Deliver the bakery brand guidelines';
+const PORTFOLIO = 'Update the portfolio site';
+const INVOICES = "Send this month's client invoices";
+const DESIGNER = {
+  id: 'freelance_designer_01',
+  type: 'designer',
+  role: 'Freelance brand and web designer',
+  current_work: ['Brand guidelines for a bakery client', 'Own portfolio site', 'Monthly invoicing'],
+  priorities: [BRAND, PORTFOLIO, INVOICES],
 };
 
 // ── Windows (what the tracker sees) ─────────────────────────────────────────
@@ -119,7 +132,7 @@ const saasBuilding = (at, min, feature) =>
     web(`Draft: ${feature} · Pull Request #41 · invoicely`, 'https://github.com/founder/invoicely/pull/41'),
   ]);
 const saasShipped = (at, min, feature) =>
-  block(at, min, `Shipping ${feature}`, `Completed ${feature}, merged the pull request and deployed it to production.`, work(SAAS, 'Complete'), [
+  block(at, min, `Shipping ${feature}`, `${feature}: finished; its pull request went in and the production deploy went out.`, work(SAAS, 'Complete'), [
     code(`${feature.replace(/\s+/g, '-')}.tsx`, 'invoicely'),
     web(`Merged: ${feature} by founder · Pull Request #41 · invoicely`, 'https://github.com/founder/invoicely/pull/41'),
     web('Deployment completed — invoicely — Vercel', 'https://vercel.com/founder/invoicely/deployments'),
@@ -160,7 +173,51 @@ const newsletterPublished = (at, min, issue) =>
     web(`Published — Newsletter #${issue} — Substack`, 'https://writer.substack.com/publish/post/48'),
   ], 15);
 
+// Designer — three priorities of very different size
+const brandWork = (at, min, part) =>
+  block(at, min, `Designing brand ${part}`, `Worked on the ${part} pages of the bakery brand guidelines.`, work(BRAND), [
+    app('Figma', `Bakery brand guidelines — ${part} — Figma`),
+    web('Bakery moodboard — Pinterest', 'https://www.pinterest.com/designer/bakery-moodboard/'),
+  ]);
+const brandDelivered = (at, min) =>
+  block(at, min, 'Delivering the brand guidelines', 'Exported the guidelines as a PDF and emailed them to the bakery client.', work(BRAND, 'Complete', 'Routine'), [
+    app('Figma', 'Bakery brand guidelines — Export PDF — Figma'),
+    web('Sent: Brand guidelines v1 (PDF attached) — Gmail', 'https://mail.google.com/mail/u/0/#sent'),
+  ], 15);
+const portfolioWork = (at, min, what) =>
+  block(at, min, `Portfolio site: ${what}`, `Edited the ${what} of the portfolio site and previewed it locally.`, work(PORTFOLIO, 'Create', 'Focused', 'medium'), [
+    code(`${what.replace(/\s+/g, '-')}.astro`, 'portfolio'),
+    web('localhost:4321/work', 'http://localhost:4321/work'),
+  ]);
+const invoicesDrafted = (at, min) =>
+  block(at, min, 'Drafting monthly invoices', 'Prepared two of the five client invoices; none had gone out when the block ended.', work(INVOICES, 'Manage', 'Routine'), [
+    web('Invoices — 2 drafts, 0 sent, 3 clients not invoiced — FreshBooks', 'https://my.freshbooks.com/#/invoices'),
+    app('Excel', 'Hours October.xlsx — Excel'),
+  ], 12);
+const incidentClosed = (at, min) =>
+  block(at, min, 'Closing the client incident', 'Saw the portal stay stable, posted the resolution note and closed the incident.', work(CLIENT, 'Complete', 'Routine'), [
+    web('Resolved: Portal unavailable — Acme Status', 'https://status.acme-portal.example/incidents/1042'),
+    app('Slack', 'Acme — #incident-portal-down — resolved — Slack'),
+  ], 15);
+
 // ── Answer-key helpers ──────────────────────────────────────────────────────
+
+/**
+ * History, not answer key: a recommendation that was on the Coach panel since
+ * the evening before the day it is attached to, and what the user did with it.
+ * `action_type` is one of Reflect's own action types.
+ */
+const seed = (title, action_type, daypart, focus_minutes, priority, user_decision, execution = 'not_applicable', outcome = 'not_applicable', reason_code = null) => ({
+  title,
+  action_type,
+  daypart,
+  focus_minutes,
+  priority,
+  user_decision,
+  execution,
+  outcome,
+  reason_code,
+});
 
 const action = (title, action_type, target, reason, minutes = null) => ({ title, action_type, reason, suggested_focus_minutes: minutes, target });
 
@@ -315,11 +372,11 @@ scenario('08_success_then_continuation', 'Accepted, done, worked', 'An action wa
     coach: {
       primary: action('Finish the indexing section and fix the failing index test', 'complete_open_loop', ASSIGNMENT, 'The indexing section and its test were left unfinished.', 60),
       strength: 'strong',
-      scenario: { user_decision: 'accepted', execution: 'done', outcome: 'worked', reason: 'The next morning the section is finished in one block.' },
     },
   },
   {
     probe: true,
+    history: [seed('Get the index test passing in one morning block', 'focus_session', 'morning', 60, ASSIGNMENT, 'accepted', 'done', 'worked')],
     blocks: [
       block('09:30', 70, 'Finishing the indexing section', 'Fixed the failing test and completed the indexing section; all tests passed.', work(ASSIGNMENT, 'Complete'), [
         code('indexing.sql', 'db-assignment-3'),
@@ -343,11 +400,11 @@ scenario('09_previous_action_failed', 'Previous action failed', 'The user did wh
     coach: {
       primary: action('Protect a block for the invoicing SaaS', 'protect_priority', SAAS, 'The product got no time today while recurring invoices is unfinished.', 90),
       strength: 'strong',
-      scenario: { user_decision: 'accepted', execution: 'done', outcome: 'did_not_work', reason: 'The block was attempted but kept being broken up by client messages.', reason_code: 'bad_timing' },
     },
   },
   {
     probe: true,
+    history: [seed('Keep the first ninety minutes of the morning for recurring invoices', 'protect_priority', 'morning', 90, SAAS, 'accepted', 'done', 'did_not_work', 'bad_timing')],
     blocks: [
       block('09:00', 15, 'Short stretch on recurring invoices', 'Started on recurring invoices before a client message arrived.', work(SAAS), [code('recurring-invoices.tsx', 'invoicely')], 15),
       block('09:15', 12, 'Replying in the client support channel', 'Answered a client question.', work(CLIENT, 'Communicate', 'Routine', 'medium'), [app('Slack', 'Acme — #portal-support — Slack')], 12),
@@ -366,17 +423,17 @@ scenario('09_previous_action_failed', 'Previous action failed', 'The user did wh
 ]);
 
 // ── 10. Previous action rejected ────────────────────────────────────────────
-scenario('10_previous_action_rejected', 'Previous action rejected', 'The user rejected a recommendation as not relevant → it must not come back, in any wording.', STUDENT, [
+scenario('10_previous_action_rejected', 'Previous action rejected', 'The user turned a recommendation down as not relevant → the Coach stays off that item afterwards, however it might be reworded.', STUDENT, [
   {
     blocks: [assignmentWriting('10:00', 70, 'indexing'), midtermStudy('14:00', 80, 'Dynamic Programming', true)],
     coach: {
       primary: action('Finish the indexing section of the assignment', 'complete_open_loop', ASSIGNMENT, 'The indexing section was left as a draft.', 60),
       strength: 'strong',
-      scenario: { user_decision: 'rejected', execution: 'not_applicable', outcome: 'not_applicable', reason: 'The rest of the assignment is being done with a lab partner, away from the laptop.', reason_code: 'not_relevant' },
     },
   },
   {
     probe: true,
+    history: [seed('Complete the indexing write-up before lunch', 'close_open_loop', 'morning', null, ASSIGNMENT, 'rejected', 'not_applicable', 'not_applicable', 'not_relevant')],
     blocks: [assignmentWriting('10:00', 40, 'indexing'), midtermStudy('14:00', 90, 'Graph Algorithms', true), gaming('20:00', 60)],
     coach: {
       primary: null,
@@ -457,16 +514,131 @@ scenario('15_external_constraint', 'External constraint', 'An accepted action co
     coach: {
       primary: action('Protect a block for the invoicing SaaS', 'protect_priority', SAAS, 'The product got no time today while recurring invoices is unfinished.', 90),
       strength: 'strong',
-      scenario: { user_decision: 'accepted', execution: 'not_done', outcome: 'not_applicable', reason: 'A production outage at the client took the whole next day.', reason_code: 'external_constraint' },
     },
   },
   {
     probe: true,
+    history: [seed('Keep a ninety-minute morning block for recurring invoices', 'protect_priority', 'morning', 90, SAAS, 'accepted', 'not_done', 'not_applicable', 'external_constraint')],
     blocks: [clientIncident('08:30', 240), clientIncident('13:30', 200)],
     coach: {
       primary: action('Return to recurring invoices once the incident is closed', 'protect_priority', SAAS, 'The planned product block could not happen: a client outage took the day. The product work is still where it was left.', 60),
       strength: 'strong',
       not: ['Do not describe the missed product block as a failure to follow through.', 'Do not recommend adding product work on top of the outage day.'],
+    },
+  },
+]);
+
+// ── 16. Competing priorities: the next move is on the smallest one ─────────
+scenario('16_competing_priorities', 'Competing priorities', 'Three priorities: the biggest was delivered, one is simply continuing, the smallest has a specific unfinished item → the action belongs to the smallest, not the most visible.', DESIGNER, [
+  { blocks: [brandWork('09:00', 180, 'colour palette'), portfolioWork('14:00', 90, 'case study page')], coach: ordinary(BRAND) },
+  { blocks: [brandWork('09:00', 200, 'typography'), portfolioWork('14:30', 60, 'about page')], coach: ordinary(BRAND) },
+  {
+    probe: true,
+    blocks: [brandWork('09:00', 150, 'logo usage'), brandDelivered('11:30', 30), portfolioWork('13:30', 80, 'case study page'), invoicesDrafted('15:30', 25)],
+    coach: {
+      primary: action('Send the remaining client invoices', 'complete_open_loop', INVOICES, 'Two of five invoices were drafted and none sent; the brand guidelines were delivered and the portfolio is simply continuing.', 30),
+      strength: 'strong',
+      not: ['Do not recommend more brand guideline work after it was delivered.'],
+    },
+  },
+]);
+
+// ── 17. A finished priority going quiet is not displacement ─────────────────
+scenario('17_finished_priority_goes_quiet', 'Finished priority goes quiet', 'A priority was completed and then, naturally, got no more time → its absence is not something to act on.', STUDENT, [
+  { blocks: [assignmentWriting('10:00', 60, 'transactions'), assignmentSubmit('11:15', 30), midtermStudy('14:00', 60, 'Dynamic Programming', true)], coach: ordinary(MIDTERM) },
+  { blocks: [midtermStudy('10:00', 150, 'Graph Algorithms', true), gaming('20:00', 60)], coach: ordinary(MIDTERM) },
+  {
+    probe: true,
+    blocks: [midtermStudy('10:00', 140, 'Network Flow', true), video('20:00', 40)],
+    coach: {
+      primary: null,
+      strength: 'none',
+      reason: 'The assignment was submitted two days ago, so its absence is completion and not displacement; today the practice set was completed too.',
+      not: ['Do not recommend protecting time for the assignment after it was submitted.'],
+    },
+  },
+]);
+
+// ── 18. One unusual day is a circumstance, not a pattern ────────────────────
+scenario('18_one_off_displacement', 'One-off displacement', 'One day lost to an outage that was then closed, after the other priority had shipped → no intervention.', FOUNDER, [
+  { blocks: [saasShipped('09:00', 170, 'invoice templates'), clientDelivered('13:30', 110, 'the CSV export')], coach: ordinary(SAAS) },
+  { blocks: [saasShipped('09:00', 180, 'tax settings'), clientDelivered('13:30', 100, 'the audit report')], coach: ordinary(SAAS) },
+  {
+    probe: true,
+    blocks: [clientIncident('08:30', 230), clientIncident('13:00', 150), incidentClosed('15:40', 30)],
+    coach: {
+      primary: null,
+      strength: 'none',
+      reason: 'A single day without product time, caused by an outage that was closed the same day; the product work had shipped the day before. One unusual day is not a pattern.',
+      not: ['Do not describe the product priority as neglected after one outage day.'],
+    },
+  },
+]);
+
+// ── 19. A strategy that worked, reused on what is open now ──────────────────
+scenario('19_success_reused_on_new_target', 'Success reused on a new target', 'A morning block finished one section; the next section is now open → the same shape, aimed at the new item — not the old sentence.', WRITER, [
+  { blocks: [newsletterDrafting('09:30', 60, 49), grantDrafting('11:00', 90, 'project description')], coach: ordinary(GRANT) },
+  {
+    probe: true,
+    history: [seed('Resolve the open comments on the project description in one morning block', 'focus_session', 'morning', 60, GRANT, 'accepted', 'done', 'worked')],
+    blocks: [
+      block('09:00', 70, 'Finishing the project description', 'Cleared every open comment and completed the project description.', work(GRANT, 'Complete'), [
+        web('Grant application — project description (final, 0 open comments) — Google Docs', 'https://docs.google.com/document/d/grant'),
+      ]),
+      newsletterDrafting('10:30', 45, 49),
+      newsletterPublished('11:15', 15, 49),
+      grantDrafting('13:00', 80, 'budget justification'),
+    ],
+    coach: {
+      primary: action("Finish the budget justification in tomorrow morning's block", 'start_focus', GRANT, 'A morning block finished the previous section, and the next section was drafted and left unfinished.', 60),
+      strength: 'strong',
+      not: ['Do not recommend more work on the project description after it was completed.'],
+    },
+  },
+]);
+
+// ── 20. Partly worked → refine one thing ────────────────────────────────────
+scenario('20_partly_worked_refined', 'Partly worked, refined', 'A long evening block was only partly carried out and partly helped → keep the idea, make it smaller or move it; do not repeat it unchanged.', STUDENT, [
+  { blocks: [assignmentSubmit('10:00', 30), midtermStudy('19:00', 60, 'Network Flow')], coach: ordinary(MIDTERM) },
+  {
+    probe: true,
+    history: [seed('Work through the Network Flow practice set in one long evening block', 'focus_session', 'evening', 120, MIDTERM, 'accepted', 'partial', 'partly_worked', 'too_difficult')],
+    blocks: [midtermStudy('19:00', 50, 'Network Flow'), gaming('20:00', 60)],
+    coach: {
+      primary: action('Finish the remaining Network Flow problems in a shorter block', 'start_focus', MIDTERM, 'The long evening block was only partly carried out; the practice set is still part-way.', 45),
+      strength: 'strong',
+      not: ['Do not recommend the same two-hour evening block again.'],
+    },
+  },
+]);
+
+// ── 21. "Not now" is an answer for today ────────────────────────────────────
+scenario('21_deferred_not_repeated', 'Deferred, not repeated', 'The user postponed a recommendation ("not now") → it comes back by itself tomorrow; nothing more for that priority today.', STUDENT, [
+  { blocks: [assignmentWriting('10:00', 70, 'indexing'), midtermStudy('14:00', 60, 'Dynamic Programming', true)], coach: ordinary(ASSIGNMENT) },
+  {
+    probe: true,
+    history: [seed('Complete the indexing write-up before lunch', 'close_open_loop', 'morning', null, ASSIGNMENT, 'deferred')],
+    blocks: [midtermStudy('11:00', 90, 'Graph Algorithms', true), gaming('20:00', 60)],
+    coach: {
+      primary: null,
+      strength: 'none',
+      reason: 'The one open item was postponed by the user and will be offered again by itself; the other priority reached a stopping point.',
+      not: ['Do not recommend the indexing section again on the day it was postponed.'],
+    },
+  },
+]);
+
+// ── 22. Too difficult → a smaller step ──────────────────────────────────────
+scenario('22_too_difficult_made_smaller', 'Too difficult, made smaller', 'A two-hour block was accepted and not done because it was too much → the next offer must be smaller or name the blocker.', FOUNDER, [
+  { blocks: [saasBuilding('09:00', 150, 'recurring invoices'), clientDelivered('13:30', 90, 'the CSV export')], coach: ordinary(SAAS) },
+  {
+    probe: true,
+    history: [seed('Finish recurring invoices in one two-hour morning block', 'focus_session', 'morning', 120, SAAS, 'accepted', 'not_done', 'not_applicable', 'too_difficult')],
+    blocks: [clientWork('09:00', 150, 'the audit report'), saasBuilding('13:30', 60, 'recurring invoices'), clientDelivered('15:00', 80, 'the audit report')],
+    coach: {
+      primary: action('Get the failing recurring-invoice tests passing in a short block', 'start_focus', SAAS, 'The two-hour block did not happen because it was too large; the feature is still unfinished with failing tests.', 45),
+      strength: 'strong',
+      not: ['Do not recommend the same two-hour block again.'],
     },
   },
 ]);
@@ -561,6 +733,7 @@ for (const s of scenarios) {
         ...(coach.scenario ? { execution_scenario: { reason_code: null, ...coach.scenario } } : {}),
       },
       evaluation_objectives: { coach_scenario: { id: s.id, title: s.title, tests: s.tests, probe: day.probe === true } },
+      ...(day.history ? { coach_history: day.history } : {}),
     };
     fs.writeFileSync(path.join(dir, `reflect_day_${String(index + 1).padStart(2, '0')}.json`), `${JSON.stringify(file, null, 2)}\n`);
     written++;
