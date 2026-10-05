@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { GeminiClient } from '../../../src/intelligence/GeminiClient';
+import { diagnoseRun, renderDiagnostics } from '../evaluators/coachDiagnostics';
 import { stateOf } from '../evaluators/coachDimensions';
 import { EVALUATOR_VERSION, checkAnswerKeyVocabulary, evaluateDay, summarize, type BenchmarkSummary, type DayEvaluation } from '../evaluators/index';
 import { buildLeakDetector, scanDatabaseForLeaks } from '../evaluators/leakage';
@@ -327,6 +328,10 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
       `(${Object.entries(usage.byStage).map(([stage, s]) => `${stage} ${s.calls}`).join(', ')}), ${manifest.totals.retries} retry(ies), ${usage.failed} failed`,
   );
   fs.writeFileSync(path.join(latestDir, 'run.log'), [...runLog, '', '--- pipeline log ---', ...pipelineLog].join('\n'));
+  // Why each unanswered day was unanswered — read back from what was just stored, with the measurement layer replayed.
+  const diagnostics = diagnoseRun(latestDir);
+  writeJson(path.join(latestDir, 'coach_diagnostics.json'), diagnostics);
+  fs.writeFileSync(path.join(latestDir, 'coach_diagnostics.md'), renderDiagnostics(diagnostics));
 
   // The archive is a copy of `latest` without the (large) database.
   fs.cpSync(latestDir, archiveDir, { recursive: true, filter: (source) => path.basename(source) !== 'benchmark.db' });

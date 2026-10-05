@@ -4,6 +4,7 @@
 //   npm run benchmark -- [options]        run the benchmark (real Gemini requests)
 //   npm run benchmark:validate            validate the dataset only (no database, no Gemini)
 //   npm run benchmark -- --reevaluate     re-score the stored run (no database, no Gemini)
+//   npm run benchmark -- --diagnose       why each unanswered Coach day was unanswered (no database, no Gemini)
 //   npm run benchmark -- --coach-scenarios   run the fifteen Coach scenarios (real Gemini requests)
 //
 // It turns flags into REFLECT_BENCH_* environment variables and starts vitest
@@ -52,7 +53,9 @@ Options
   --validate                    validate the dataset and stop
   --reevaluate                  re-score the stored run in results/latest with the current evaluators and
                                 thresholds (--iou etc.); no database, no Gemini requests
-  --run <dir>                   with --reevaluate: the stored run to re-score instead of results/latest
+  --diagnose                    classify every Coach day the stored run did not answer (MISS_REASON) and replay the
+                                Coach's measurement layer over its stored activities; no database, no Gemini requests
+  --run <dir>                   with --reevaluate / --diagnose: the stored run to read instead of results/latest
   --expected-days <n>           how many day files the dataset holds (default 30)
   --help
 `;
@@ -80,6 +83,7 @@ const BOOLEAN_FLAGS = { '--keep-db': 'REFLECT_BENCH_KEEP_DB', '--save-prompts': 
 const env = { ...process.env };
 let validateOnly = false;
 let reevaluateOnly = false;
+let diagnoseOnly = false;
 let coachScenarios = false;
 const args = process.argv.slice(2);
 for (let i = 0; i < args.length; i++) {
@@ -91,6 +95,8 @@ for (let i = 0; i < args.length; i++) {
     validateOnly = true;
   } else if (flag === '--reevaluate') {
     reevaluateOnly = true;
+  } else if (flag === '--diagnose') {
+    diagnoseOnly = true;
   } else if (flag === '--coach-scenarios') {
     coachScenarios = true;
   } else if (flag in BOOLEAN_FLAGS) {
@@ -115,6 +121,11 @@ if (validateOnly) {
   // Pure validation: plain Node is enough.
   command = process.execPath;
   commandArgs = [vitest, 'run', 'tests/benchmark/dataset.test.ts'];
+} else if (diagnoseOnly) {
+  // Diagnosis reads stored output only: no database, no Gemini, plain Node.
+  command = process.execPath;
+  commandArgs = [vitest, 'run', 'tests/benchmark/diagnose.test.ts', '--disable-console-intercept'];
+  env.REFLECT_BENCH_DIAGNOSE = '1';
 } else if (reevaluateOnly) {
   // Re-scoring reads stored output only: no database, no Gemini, plain Node.
   command = process.execPath;

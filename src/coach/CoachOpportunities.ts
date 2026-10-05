@@ -8,9 +8,11 @@ import {
   type ReflectionActivity,
   type ReflectionPriority,
 } from '../reflection/ReflectionModels.js';
-import { formatClock } from '../reflection/ReflectionPeriods.js';
-import type { CoachAction, CoachActionType, CoachMemory } from './CoachModels.js';
-import type { PrioritySituation } from './CoachSituation.js';
+import { formatClock, formatDay, periodFromKey } from '../reflection/ReflectionPeriods.js';
+import { itemTokensOf, sharedWords, tokensOf } from './CoachMatching.js';
+import type { CoachAction, CoachActionType, CoachConfig, CoachMemory, CoachReasonCode } from './CoachModels.js';
+import { mainItem, type PrioritySituation } from './CoachSituation.js';
+import { openEvidenceOf, wasDelivered, workStateOf } from './CoachWorkState.js';
 
 /**
  * Where could a next move come from? Pure.
@@ -28,6 +30,13 @@ import type { PrioritySituation } from './CoachSituation.js';
  * do, none is ranked by importance, and every one can be ignored: the Coach
  * still decides whether any of them deserves an action, and a day with no
  * signal is a day on which silence is the expected answer.
+ *
+ * A measurement is then read against the RECORD (`withRecord`): what was
+ * already suggested about that same thing, and what became of it. A signal
+ * the user has already heard, decided on or acted on is still true — it is
+ * just not news, and it is shown to the model as covered rather than as a
+ * candidate. One that was tried and did not help stays a candidate, with the
+ * form it may not take again.
  */
 
 export type OpportunityKind =
@@ -66,32 +75,217 @@ export interface CoachOpportunity {
   actionRefs?: string[];
   /** Action types that would be a sensible answer — a hint, not a rule. */
   fits: CoachActionType[];
+  /** The specific piece of work it is about, as the activity names it. Absent for a signal about a priority or the day as a whole. */
+  item?: string | null;
+  /** Tracked days in a row it has held, today included — one day is a circumstance, several are a pattern. */
+  days?: number;
+  /** What the record of earlier suggestions already says about this same thing. Absent = nothing. */
+  record?: SignalRecord;
+  /**
+   * Reflect cannot tell whether this is something to act on or something that is no longer current — only the
+   * user can. The one honest answer is a question (`clarify_priority`), never a prescription.
+   */
+  ask?: boolean;
+}
+
+export { openEvidenceOf, wasDelivered, workStateOf, type WorkState } from './CoachWorkState.js';
+
+// ── What the record already says ────────────────────────────────────────────
+
+/**
+ * How an earlier suggestion about the same thing stands.
+ *
+ * A measurement can be perfectly true and still not be news: the proposal that
+ * reads as "being drafted" every day was pointed at on Monday and worked on on
+ * Tuesday. Without this, the clearest signal of the day is the one the user
+ * has already heard — and the validator, which does know, then refuses it,
+ * leaving the day with nothing.
+ */
+export type SignalStanding =
+  /** Already on the user's list (suggested, accepted, or waiting for their word). */
+  | 'on_the_list'
+  /** Postponed with "not now": it comes back by itself. */
+  | 'postponed'
+  /** Turned down. */
+  | 'rejected'
+  /** Suggested, carried out and reported as helping, in the last few days. */
+  | 'acted_on'
+  /** Suggested and carried out repeatedly: ongoing work the user already handles. */
+  | 'routine'
+  /** Carried out, and only partly helped (or only partly carried out): worth refining. */
+  | 'partly_helped'
+  /** Tried and reported as not helping, or accepted and not carried out. */
+  | 'did_not_help'
+  /** Not carried out because something outside the user's control took the time. */
+  | 'could_not_happen'
+  /** Offered in the last few days and never answered. */
+  | 'unanswered';
+
+export interface SignalRecord {
+  standing: SignalStanding;
+  /** Earlier suggestions about this same thing inside the lookback. */
+  attempts: number;
+  lastTitle: string;
+  /** One plain sentence: what happened, and what that leaves room for. */
+  note: string;
+  /** The record already covers it — raising it again today would repeat what the user has seen, decided or done. */
+  settled: boolean;
+}
+
+type RecordAction = Pick<
+  CoachAction,
+  'title' | 'focusTask' | 'targetKey' | 'thread' | 'actionType' | 'status' | 'execution' | 'outcome' | 'reasonCode' | 'originDayKey' | 'createdAt' | 'acceptedAt' | 'rejectedAt' | 'executedAt' | 'outcomeAt' | 'closedAt' | 'updatedAt'
+>;
+
+export interface SignalRecordInput {
+  /** Every action inside the effectiveness lookback, any status. */
+  actions: RecordAction[];
+  priorities: Pick<ReflectionPriority, 'id' | 'text'>[];
+  nowIso: string;
+  config: Pick<CoachConfig, 'ignoredMemoryMs' | 'rejectionMemoryMs' | 'recentFailureMs'>;
+  reasonLabel?: (code: CoachReasonCode) => string;
+}
+
+/** Day-wide signals are answered by one kind of action, whatever it was aimed at. */
+const DAY_WIDE_ANSWER: Partial<Record<OpportunityKind, CoachActionType[]>> = {
+  fragmentation: ['reduce_fragmentation'],
+  sustained_load: ['rest'],
+  unlinked_time: ['clarify_priority'],
+};
+
+/** "…in Google Docs", "…on GitHub": the tool a title ends on says where the work is done, not what it is. */
+const TRAILING_TOOL = /\s+(?:in|on|via|using|with|from)\s+(?:the\s+)?[A-Z][\w.+#-]*(?:\s+[A-Z][\w.+#-]*){0,2}\s*$/;
+/** Nouns that say what KIND of thing an item is. Two items are not the same piece of work for sharing one of these. */
+const KIND_WORDS = new Set(['component', 'components', 'feature', 'features', 'module', 'modules', 'page', 'pages', 'code', 'app', 'application', 'product', 'project', 'document', 'documents', 'file', 'files', 'item', 'items', 'version', 'new']);
+
+/** The words by which a piece of work is recognised again: what a title names beyond its target, its tool and its kind. */
+function identityOf(title: string, focusTask: string | null | undefined, targetTexts: (string | null | undefined)[]): Set<string> {
+  const named = itemTokensOf({ title: title.replace(TRAILING_TOOL, ''), focusTask }, targetTexts);
+  const specific = new Set([...named].filter((token) => !KIND_WORDS.has(token)));
+  // A title made only of kind words ("New feature") is still recognised by them.
+  return specific.size > 0 ? specific : named;
+}
+
+/** Whether an earlier action was about the same thing a signal measures. */
+function concerns(signal: CoachOpportunity, action: RecordAction, priorityText: string | null): boolean {
+  if (signal.priorityId === null) {
+    if (signal.kind === 'open_loop') {
+      const loop = tokensOf(signal.item ?? '');
+      return loop.size > 0 && sharedWords(loop, tokensOf(`${action.title} ${action.focusTask ?? ''}`)).length * 2 >= loop.size;
+    }
+    return DAY_WIDE_ANSWER[signal.kind]?.includes(action.actionType) ?? false;
+  }
+  if (action.targetKey !== `p:${signal.priorityId}`) return false;
+  // A signal about the priority as a whole (no time, steady time) is answered by anything aimed at that priority.
+  if (!signal.item || signal.kind === 'displaced_priority' || signal.kind === 'momentum') return true;
+  const named = identityOf(signal.item, null, [priorityText, signal.thread]);
+  const acted = identityOf(action.title, action.focusTask, [priorityText, action.thread, signal.thread]);
+  if (named.size === 0 || acted.size === 0) return false; // neither names anything narrower than the priority: not known to be the same item
+  const shared = sharedWords(named, acted).length;
+  return shared >= 1 && shared * 2 >= Math.min(named.size, acted.size);
 }
 
 /**
- * Where a piece of work stood when it was last touched, read from how Reflect
- * itself described the activity. A hint only, and deliberately strict about
- * what counts as open:
- *
- *   open            the description itself says it is unfinished — a failing
- *                   test, a draft, something being debugged, blocked or waiting
- *   stopping_point  it says the work was sent, submitted, merged, deployed…
- *   unknown         an ordinary activity verb ("developing", "studying",
- *                   "reviewing") says what was done, not whether it is done
+ * Each measured signal, joined with what the record of earlier suggestions
+ * says about that same thing. Pure and deterministic; `tried_before` signals
+ * (which ARE the record) pass through untouched.
  */
-export type WorkState = 'open' | 'stopping_point' | 'unknown';
+export function withRecord(signals: CoachOpportunity[], input: SignalRecordInput): CoachOpportunity[] {
+  const now = Date.parse(input.nowIso);
+  const since = (ms: number) => new Date(now - ms).toISOString();
+  const recently = since(input.config.ignoredMemoryMs);
+  const why = (a: RecordAction) => (a.reasonCode && input.reasonLabel ? ` (${input.reasonLabel(a.reasonCode)})` : '');
+  const on = (a: RecordAction) => {
+    const day = periodFromKey('day', a.originDayKey);
+    return day ? ` on ${formatDay(new Date(day.start))}` : '';
+  };
 
-const STOPPING_POINT =
-  /\b(sen[td]|sending|submi(t|tted|tting|ssion)|deploy(ed|ing|ment)?|releas(e|ed|ing)|ship(ped|ping)|merg(e|ed|ing)|publish(ed|ing)?|deliver(ed|ing|y)|finish(ed|ing)|complet(ed|ing|ion)|finali[sz](ed|ing)|clos(ed|ing)|resolv(ed|ing)|invoiced|approved|accepted|launch(ed|ing)|wrapp(ed|ing) up|signed off|hand(ed)?[- ]?off)\b/i;
-const EXPLICITLY_OPEN =
-  /\b(draft(s|ing|ed)?|debug\w*|troubleshoot\w*|investigat\w+|diagnos\w+|fail(s|ed|ing|ure)?|error(s)?|broken|bug(s)?|in progress|unfinished|incomplete|not (yet )?(finished|submitted|sent|done|complete|resolved)|still (open|failing|pending|under way|unresolved)|pending|blocked|waiting (on|for)|awaiting|to be continued|partway|part-way|halfway|half-done|remaining|left (open|unfinished)|work in progress|wip|todo|unresolved|unsent|overdue|due (today|tomorrow))\b/i;
+  return signals.map((signal) => {
+    if (signal.kind === 'tried_before') return signal;
+    const priorityText = signal.priorityId ? input.priorities.find((p) => p.id === signal.priorityId)?.text ?? null : null;
+    const about = input.actions
+      .filter((a) => a.status !== 'withdrawn' && concerns(signal, a, priorityText))
+      .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+    const record = (standing: SignalStanding, action: RecordAction, note: string, settled: boolean): CoachOpportunity => ({
+      ...signal,
+      record: { standing, attempts: about.length, lastTitle: action.title, note, settled },
+    });
+    // A signal about a priority as a whole is not "used up" by work on one of its items:
+    // a priority that went without time again after an action was carried out is new evidence.
+    const wholePriority = signal.priorityId !== null && (!signal.item || signal.kind === 'displaced_priority' || signal.kind === 'momentum');
 
-export function workStateOf(activity: Pick<ReflectionActivity, 'title' | 'summary'>): WorkState {
-  const summary = activity.summary ?? '';
-  // What the summary says about how it ended outranks the title's verb.
-  if (EXPLICITLY_OPEN.test(summary)) return 'open';
-  if (STOPPING_POINT.test(activity.title) || STOPPING_POINT.test(summary)) return EXPLICITLY_OPEN.test(activity.title) && !STOPPING_POINT.test(summary) ? 'open' : 'stopping_point';
-  return EXPLICITLY_OPEN.test(activity.title) ? 'open' : 'unknown';
+    // "Not now" is an answer for the whole target: nothing else for it until the suggestion comes back.
+    const postponed = signal.priorityId
+      ? input.actions.find((a) => a.status === 'snoozed' && a.targetKey === `p:${signal.priorityId}`)
+      : about.find((a) => a.status === 'snoozed');
+    if (postponed) return record('postponed', postponed, `The user postponed “${postponed.title}” (“not now”); it comes back by itself.`, true);
+
+    const listed = about.find((a) => a.status === 'suggested' || a.status === 'accepted' || a.status === 'review');
+    if (listed) return record('on_the_list', listed, `Already on the user's list: “${listed.title}”.`, true);
+
+    const rejectedSince = since(input.config.rejectionMemoryMs);
+    const rejected =
+      (wholePriority ? undefined : about.find((a) => a.status === 'rejected' && (a.rejectedAt ?? a.updatedAt) >= rejectedSince)) ??
+      (signal.priorityId
+        ? input.actions.find((a) => a.status === 'rejected' && a.reasonCode === 'not_relevant' && a.targetKey === `p:${signal.priorityId}` && (a.rejectedAt ?? a.updatedAt) >= rejectedSince)
+        : undefined);
+    if (rejected) return record('rejected', rejected, `The user rejected “${rejected.title}”${rejected.reasonCode === 'not_relevant' ? ' as not relevant' : ''}.`, true);
+
+    const latest = about.find((a) => a.status === 'closed' || a.status === 'expired');
+    if (!latest) return signal;
+    const settledAt = latest.outcomeAt ?? latest.executedAt ?? latest.closedAt ?? latest.updatedAt;
+
+    if (latest.outcome === 'did_not_work' && settledAt >= since(input.config.recentFailureMs)) {
+      return record('did_not_help', latest, `“${latest.title}” was tried${on(latest)} and the user said it did not help${why(latest)}: the same form again would repeat it.`, false);
+    }
+    if (latest.execution === 'not_done' && settledAt >= recently) {
+      return latest.reasonCode === 'external_constraint'
+        ? record('could_not_happen', latest, `“${latest.title}” could not happen${on(latest)}: something outside the user's control took the time. Offering that step again is right.`, false)
+        : record(
+            'did_not_help',
+            latest,
+            `“${latest.title}” was accepted${on(latest)} and not carried out${why(latest)}` + (latest.reasonCode === 'too_difficult' ? ': only a clearly smaller step is worth offering.' : ': the same form again would repeat it.'),
+            false,
+          );
+    }
+    if (latest.execution === 'done' || latest.execution === 'partial') {
+      if (wholePriority) return signal;
+      const carriedOut = about.filter((a) => a.execution === 'done' || a.execution === 'partial');
+      const lastCarriedOutAt = latest.executedAt ?? latest.closedAt ?? latest.updatedAt;
+      if (carriedOut.length >= 2 && lastCarriedOutAt >= since(input.config.recentFailureMs)) {
+        return record(
+          'routine',
+          latest,
+          `Suggested ${carriedOut.length} times (latest: “${latest.title}”${on(latest)}) and carried out each time: this reads as ongoing work the user already handles, not something left hanging.`,
+          true,
+        );
+      }
+      if (lastCarriedOutAt >= recently) {
+        // What the user did and what they said about it stay two facts: "partly helped" is only ever their word.
+        return latest.outcome === 'partly_worked' || latest.execution === 'partial'
+          ? record(
+              'partly_helped',
+              latest,
+              `“${latest.title}” was ${latest.execution === 'partial' ? 'partly carried out' : 'carried out'}${on(latest)}` +
+                `${latest.outcome === 'partly_worked' ? ' and the user said it partly helped' : ''}: only a refinement (smaller, a different time, narrower) is worth offering.`,
+              false,
+            )
+          : record('acted_on', latest, `Suggested as “${latest.title}”${on(latest)} and carried out. That it still reads as in progress is not new evidence.`, true);
+      }
+      return signal;
+    }
+    if (latest.status === 'expired' && latest.acceptedAt === null && (latest.closedAt ?? latest.updatedAt) >= recently) {
+      return signal.strength === 'clear'
+        ? record('unanswered', latest, `Offered as “${latest.title}”${on(latest)} and not answered. Today's measurement is clear: offer it again only in a different form — a protected block before other work starts, one clearly smaller first step, or a different time of day.`, false)
+        : record('unanswered', latest, `Offered as “${latest.title}”${on(latest)} and not answered; nothing clearer has been measured since.`, true);
+    }
+    return signal;
+  });
+}
+
+/** Signals that are candidates for a next move today: measured, and not already covered by the record. */
+export function candidateSignals(signals: CoachOpportunity[]): CoachOpportunity[] {
+  return signals.filter((s) => !s.record?.settled);
 }
 
 export interface OpportunityInput {
@@ -120,6 +314,10 @@ export const OPPORTUNITY_RULES = {
   quietShareOfRecentDays: 1 / 3,
   /** Displacement on this many tracked days in a row is a pattern, not a circumstance. */
   recurringDays: 2,
+  /** No time for a priority on this many tracked days in a row, with the time going to nothing the user named: intention and attention disagree. */
+  elsewhereDays: 3,
+  /** The same main piece of work this many days running without a finish is a pattern, whatever its description says. */
+  persistentDays: 3,
   /** Today's share at or below this fraction of the user's own average share counts as displaced. */
   displacedShareRatio: 0.5,
   /** …but only for a priority that normally gets at least this share. */
@@ -144,6 +342,8 @@ export const OPPORTUNITY_RULES = {
 } as const;
 
 const numberOf = (metric: Metric | undefined): number | null => (metric && typeof metric.value === 'number' ? metric.value : null);
+/** Confidences are shown to the model: two decimals, never 0.44999999999999996. */
+const round2 = (value: number): number => Math.round(value * 100) / 100;
 
 /**
  * The signals of one day. Deterministic: the same dataset always yields the
@@ -179,19 +379,26 @@ export function detectOpportunities(input: OpportunityInput): CoachOpportunity[]
       const quiet = recentDays !== null && recentActive >= rules.momentumRecentDays && recentDays <= Math.floor(recentActive * rules.quietShareOfRecentDays);
       const streak = situation?.untouchedStreak ?? (untouched ? 1 : 0);
       if (untouched && recentDays !== null && (recentDays >= 1 || quiet)) {
-        // No time today for a stated priority that was being worked on. Four readings:
+        // No time today for a stated priority that was being worked on. Five readings:
         //   finished   its last work ended on "submitted" / "deployed" — it may simply be done
+        //   elsewhere  no time for days on end while the time went to nothing the user named — intention and attention disagree
         //   recurring  no time on several tracked days in a row, or absent from most of the recent days
         //   left open  one day without it, but it is known to have been left unfinished
         //   one-off    one day without it and nothing says where it stood — a circumstance, not a pattern
         const recurring = streak >= rules.recurringDays || quiet;
+        // Days on which the time did not go to another stated priority either. A step that was merely
+        // completed ("finished the practice set") does not explain that away; a hand-over ("submitted") does.
+        const elsewhere = situation?.elsewhereStreak ?? 0;
+        const adrift = elsewhere >= rules.elsewhereDays && !(lastKnown && wasDelivered(lastKnown));
         // Finished work going quiet is completion, however many days it lasts.
-        const finished = lastState === 'stopping_point';
-        const clear = !finished && (recurring || lastState === 'open');
+        const finished = lastState === 'stopping_point' && !adrift;
+        // Left at a draft, a fix or an investigation under way is left unfinished too.
+        const leftOpen = lastState === 'open' || lastState === 'underway';
+        const clear = adrift || (!finished && (recurring || leftOpen));
         out.push({
           kind: 'displaced_priority',
           strength: clear ? 'clear' : 'possible',
-          confidence: finished ? 0.3 : recurring ? Math.min(0.95, 0.75 + 0.05 * streak) : lastState === 'open' ? 0.7 : 0.45,
+          confidence: round2(finished ? 0.3 : recurring || adrift ? Math.min(0.95, 0.75 + 0.05 * streak) : leftOpen ? 0.7 : 0.45),
           priorityId: p.id,
           thread: null,
           summary:
@@ -201,14 +408,23 @@ export function detectOpportunities(input: OpportunityInput): CoachOpportunity[]
             (lastKnown
               ? finished
                 ? ` Its last tracked work, “${lastKnown.title}”, reads as finished — it may simply be done; only the user can say.`
-                : lastState === 'open'
+                : leftOpen
                   ? ` It was left unfinished at “${lastKnown.title}”.`
                   : ` It last stood at “${lastKnown.title}”.`
               : '') +
-            (quiet && !finished ? ' It has been absent from most of the recent days: either it needs a protected block, or it is no longer current — only the user can say which.' : ''),
+            (adrift
+              ? ` On ${elsewhere} of those days most of the tracked time was linked to none of the stated priorities: either it needs a protected block, or it is no longer current — only the user can say which.`
+              : quiet && !finished
+                ? leftOpen
+                  ? ' It has been absent from most of the recent days while that was left unfinished.'
+                  : ' It has been absent from most of the recent days: either it needs a protected block, or it is no longer current — only the user can say which.'
+                : ''),
           metricKeys: [...(metrics[minutesKey] ? [minutesKey] : []), recentDaysKey, ...(lastDay ? [lastDay.key] : []), 'time.tracked_minutes'],
           activityIds: [],
-          fits: finished ? ['clarify_priority'] : quiet && lastState !== 'open' ? ['clarify_priority', 'protect_priority', 'focus_session'] : ['protect_priority', 'focus_session', 'clarify_priority'],
+          fits: finished ? ['clarify_priority'] : adrift || (quiet && !leftOpen) ? ['clarify_priority', 'protect_priority', 'focus_session'] : ['protect_priority', 'focus_session', 'clarify_priority'],
+          item: lastKnown?.title ?? null,
+          days: streak,
+          ...(adrift ? { ask: true } : {}),
         });
       } else if (
         share !== null &&
@@ -226,48 +442,71 @@ export function detectOpportunities(input: OpportunityInput): CoachOpportunity[]
           metricKeys: [`priority.${p.id}.share`, `baseline.priority.${p.id}.share`, minutesKey],
           activityIds: linked.slice(-2).map((a) => a.id),
           fits: ['protect_priority', 'focus_session', 'change_timing'],
+          days: 1,
         });
       }
     }
 
     // ── Left off: where this priority's work stood when the day ended ──
-    // Only raised when that last piece of work does not read as finished: a
-    // priority whose day ended on "deployed" or "sent" has no loose end here.
+    // Only raised when the day did not end on a finish: a priority whose day
+    // ended on "deployed" or "sent" has no loose end here. What it names is the
+    // day's main piece of work — the last thing touched only when that is the
+    // same thing, or says outright that it is unfinished.
     const last = linked[linked.length - 1];
-    const state = last ? workStateOf(last) : 'unknown';
-    if (last && today >= rules.untouchedMinutes && state !== 'stopping_point') {
-      const thread = last.thread;
+    const main = situation?.main ?? mainItem(linked, p.text);
+    const state = main?.state ?? 'unknown';
+    if (last && main && today >= rules.untouchedMinutes && state !== 'stopping_point') {
+      const about = linked.find((a) => a.id === main.activityId) ?? last;
       const sessionsKey = `priority.${p.id}.sessions`;
-      const clear = state === 'open' && last.durationMinutes >= MEANINGFUL_ACTIVITY_MINUTES;
+      // An explicit statement ("still failing") and early-stage work ("drafted", "debugging") both say unfinished;
+      // the statement says it more plainly, and ranks higher.
+      const clear = (state === 'open' || state === 'underway') && main.minutes >= MEANINGFUL_ACTIVITY_MINUTES;
+      const said = state === 'open' ? openEvidenceOf(about) : null;
+      const ending =
+        state === 'open'
+          ? `; its description says it was not finished${said && said !== about.title ? ` (“${said}”)` : ''}.`
+          : state === 'underway'
+            ? '; it is described as work at an early stage (a draft, a fix or an investigation under way), not as finished.'
+            : '. Nothing states whether it was finished.';
       out.push({
         kind: 'left_off',
         strength: clear ? 'clear' : 'possible',
-        confidence: clear ? 0.75 : 0.4,
+        confidence: !clear ? 0.4 : state === 'open' ? 0.75 : 0.6,
         priorityId: p.id,
-        thread,
+        thread: about.thread,
         summary:
-          `Work toward “${p.text}” (${metrics[minutesKey].display} today) last stood at “${last.title}”, which ended at ${formatClock(last.endedAt)}` +
-          (state === 'open' ? '; its description says it was not finished.' : '. Nothing states whether it was finished.'),
+          about.id === last.id
+            ? `Work toward “${p.text}” (${metrics[minutesKey].display} today) last stood at “${last.title}”, which ended at ${formatClock(last.endedAt)}${ending}`
+            : `Work toward “${p.text}” (${metrics[minutesKey].display} today) was mainly “${main.title}” (${formatMinutes(main.minutes)}${main.sessions > 1 ? ` in ${main.sessions} sessions` : ''})${ending} ` +
+              `The last thing touched was “${last.title}”, which ended at ${formatClock(last.endedAt)}.`,
         metricKeys: [minutesKey, ...(metrics[sessionsKey] ? [sessionsKey] : [])],
-        activityIds: [last.id],
+        activityIds: about.id === last.id ? [last.id] : [about.id, last.id],
         fits: ['close_open_loop', 'focus_session', 'continue_behavior'],
+        item: main.title,
+        days: 1,
       });
     }
 
     // ── Carried over: the same piece of work ending the day unfinished, day after day ──
     if (situation?.carriedOver && today >= rules.untouchedMinutes) {
       const { days, item, activityId } = situation.carriedOver;
+      const carried = situation.carriedOver.state ?? state;
+      // Unfinished by its own description: a pattern from the second day. With nothing saying so, two days of the same
+      // item can be ordinary multi-day work — the third day running without a finish is what makes it one.
+      const clear = carried === 'open' || carried === 'underway' || days >= rules.persistentDays;
       out.push({
         kind: 'carried_over',
-        // Days of the same item with nothing saying it is unfinished can be ordinary multi-day work.
-        strength: state === 'open' ? 'clear' : 'possible',
-        confidence: state === 'open' ? Math.min(0.9, 0.6 + 0.1 * days) : Math.min(0.6, 0.35 + 0.05 * days),
+        strength: clear ? 'clear' : 'possible',
+        confidence:
+          round2(carried === 'open' ? Math.min(0.9, 0.6 + 0.1 * days) : carried === 'underway' ? Math.min(0.85, 0.5 + 0.1 * days) : clear ? Math.min(0.75, 0.35 + 0.1 * days) : 0.45),
         priorityId: p.id,
-        thread: last?.thread ?? null,
+        thread: linked.find((a) => a.id === activityId)?.thread ?? last?.thread ?? null,
         summary: `“${item}” has been the last work toward “${p.text}” on ${days} tracked days in a row without reading as finished.`,
         metricKeys: [minutesKey],
         activityIds: [activityId],
         fits: ['close_open_loop', 'focus_session', 'change_approach'],
+        item,
+        days,
       });
     }
 
@@ -413,6 +652,7 @@ export function detectOpportunities(input: OpportunityInput): CoachOpportunity[]
       metricKeys: [],
       activityIds: [],
       fits: ['close_open_loop', 'drop'],
+      item: memory.text,
     });
   }
 
@@ -425,6 +665,9 @@ export function detectOpportunities(input: OpportunityInput): CoachOpportunity[]
  * off the list. Stable for equal confidence.
  */
 export function orderSignals(signals: CoachOpportunity[]): CoachOpportunity[] {
+  // What the record already covers is not competing for a place: it goes last, in the order it was measured.
+  const covered = signals.filter((s) => s.record?.settled);
+  if (covered.length > 0) return [...orderSignals(signals.filter((s) => !s.record?.settled)), ...covered];
   const ranked = signals
     .map((signal, index) => ({ signal, index }))
     .sort((a, b) => b.signal.confidence - a.signal.confidence || a.index - b.index)
@@ -509,23 +752,48 @@ export function outcomeSignals(
   return out.slice(0, 3);
 }
 
-/** The signals as the model reads them. `refOf` turns an activity id into the alias used under ACTIVITIES. */
+const OTHER_EVIDENCE = 'Unless the evidence above shows a concrete next move some other way (a deadline, a failing check, something waiting on someone), the right answer is no action.';
+
+/**
+ * The signals as the model reads them. `refOf` turns an activity id into the alias used under ACTIVITIES.
+ *
+ * Two lists, never one: what is a candidate today, and what was measured but
+ * is already covered by the record (suggested and waiting, postponed,
+ * rejected, or done). The second list is shown so the model knows WHY those
+ * are not candidates — and does not rediscover them from the activities.
+ */
 export function renderOpportunities(signals: CoachOpportunity[], refOf: (activityId: string) => string | null): string {
-  if (signals.length === 0) {
+  const candidates = candidateSignals(signals);
+  const covered = signals.filter((s) => s.record?.settled);
+  const coveredBlock =
+    covered.length > 0
+      ? '\n\nALREADY COVERED BY THE RECORD (measured today as well, but NOT candidates: each was already suggested, decided on or carried out. Naming one of these again repeats what this user has seen)\n' +
+        covered
+          .map((s) => JSON.stringify({ signal: s.kind, ...(s.priorityId ? { priorityId: s.priorityId } : {}), ...(s.item ? { item: s.item } : {}), record: s.record!.note }))
+          .join('\n')
+      : '';
+  if (candidates.length === 0) {
     return (
       'NEXT-MOVE SIGNALS (measured by Reflect)\n' +
-      'None measured today: no stated priority was visibly left unfinished or displaced, and switching was within this user\'s norm. ' +
-      'Unless the evidence above shows a concrete next move some other way (a deadline, a failing check, something waiting on someone), the right answer is no action.'
+      (covered.length === 0
+        ? 'None measured today: no stated priority was visibly left unfinished or displaced, and switching was within this user\'s norm. '
+        : 'Nothing new measured today: everything Reflect measured is already covered by the record (listed below). ') +
+      OTHER_EVIDENCE +
+      coveredBlock
     );
   }
-  const lines = signals.map((s) =>
+  const lines = candidates.map((s) =>
     JSON.stringify({
       signal: s.kind,
       strength: s.strength,
       confidence: s.confidence,
       ...(s.priorityId ? { priorityId: s.priorityId } : {}),
       ...(s.thread ? { thread: s.thread } : {}),
+      ...(s.item ? { item: s.item } : {}),
+      ...(s.days && s.days > 1 ? { days: s.days } : {}),
       what: s.summary,
+      ...(s.record ? { record: s.record.note } : {}),
+      ...(s.ask ? { answer: 'a question to the user (clarify_priority) — not a prescription' } : {}),
       cite: {
         metricKeys: s.metricKeys,
         activityRefs: s.activityIds.map(refOf).filter((ref): ref is string => ref !== null),
@@ -538,9 +806,12 @@ export function renderOpportunities(signals: CoachOpportunity[], refOf: (activit
     'NEXT-MOVE SIGNALS (measured by Reflect from today and the days before it)\n' +
     'Each line is EVIDENCE of where a concrete next move may exist — a candidate to weigh, not an instruction, and not a ranking of what matters. ' +
     '"confidence" says how clearly the measurements show the thing itself (that work was left unfinished, that a priority went without time); it says nothing about importance. ' +
+    '"item" is the piece of work the line is about, "days" how many tracked days in a row it has held (one day is a circumstance; several are a pattern), and ' +
+    '"record" what Reflect\'s own history says about that same thing — when present, it limits the form an action may take. ' +
     'A left_off line that only says where work last stood, or a momentum line, is the weakest kind: it becomes a next move only when the trail in SITUATION BY PRIORITY shows a specific item with an obvious next stage — never as "continue X". ' +
     'An action that answers a signal should cite that signal\'s metricKeys / activityRefs / actionRefs.\n' +
-    lines.join('\n')
+    lines.join('\n') +
+    coveredBlock
   );
 }
 

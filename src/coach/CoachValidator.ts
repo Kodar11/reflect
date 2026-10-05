@@ -11,6 +11,7 @@ import {
   type EvidenceToolkit,
 } from '../reflection/ReflectionValidator.js';
 import { renderActionLine, type CoachContext } from './CoachContext.js';
+import { candidateSignals } from './CoachOpportunities.js';
 import { describeReasons, isBlocked } from './CoachEffectiveness.js';
 import { canTransition } from './CoachLifecycle.js';
 import {
@@ -260,6 +261,44 @@ const STATE_PHRASES: Record<CoachCandidateState, string> = {
 const NO_ITEM_HINT =
   'say which specific item the evidence shows (the document, feature, section, check or message) and the step that moves it to its next stage — and if the evidence shows no such item, return no action and say what is unclear';
 
+/**
+ * What else was measured as open today — appended to a refusal that rests on
+ * the record ("already done", "never answered"). A refusal that only says "not
+ * this" sends the model back to the same sentence; one that names what is left
+ * gives it somewhere to go, and says plainly when there is nowhere.
+ */
+function otherCandidates(context: CoachContext, targetKey: string | null, refusedTitle: string): string {
+  const refused = tokensOf(refusedTitle);
+  const others = candidateSignals(context.opportunities)
+    .filter((s) => s.kind !== 'tried_before' && s.kind !== 'momentum')
+    // Not the same thing over again: another target, or another item of this one.
+    .filter((s) => (s.priorityId ? `p:${s.priorityId}` : null) !== targetKey || (Boolean(s.item) && sharedWords(tokensOf(s.item), refused).length === 0))
+    .slice(0, 3)
+    .map((s) => {
+      const about = s.priorityId ? context.targetLabel(`p:${s.priorityId}`) : null;
+      return s.item ? `“${s.item}”${about ? ` (${about})` : ''}` : about ? `“${about}” (${s.kind.replace(/_/g, ' ')})` : s.kind.replace(/_/g, ' ');
+    });
+  return others.length > 0
+    ? `. Still measured as open today: ${others.join('; ')} — weigh those, or return no action`
+    : '. Nothing else was measured as open today: return no action and give the reason';
+}
+
+/**
+ * What a refusal about WORDING adds: the day's own words for that priority, to take the name of the piece from —
+ * and, where the model itself read something open there (or Reflect measured it clearly), that the move is to be
+ * reworded, not withdrawn. Without this a model told "name the item, or return no action" returns no action: the
+ * first live run lost a third of its right answers that way.
+ */
+function howToName(context: CoachContext, priorityId: string | null, reading: CandidateReading | undefined): string {
+  if (!priorityId) return '';
+  const said = context.workByPriority[priorityId] ?? [];
+  const measured = context.opportunities.some((s) => s.priorityId === priorityId && s.strength === 'clear' && !s.record?.settled && s.kind !== 'tried_before');
+  return (
+    (said.length > 0 ? `. Today's record for it reads: ${said.join('; ')} — take the name of the piece from there` : '') +
+    (reading?.state === 'open_item' || measured ? '. A move you found is reworded, not withdrawn over how it was phrased' : '')
+  );
+}
+
 function numbersOfAction(ref: string, action: CoachAction, now: Date): Set<string> {
   const set = new Set<string>();
   addNumbersFrom(set, renderActionLine(ref, action, now));
@@ -320,14 +359,14 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
   if (env.requireItem && mustNameItem) {
     const item = itemTokensOf({ title, focusTask: draft.focusTask }, [priorityText, thread]);
     if (item.size === 0) {
-      problems.push(`${label}: “${title}” names ${priorityText ? `the priority “${priorityText}”` : 'a project'}, not a next action — ${NO_ITEM_HINT}`);
+      problems.push(`${label}: “${title}” names ${priorityText ? `the priority “${priorityText}”` : 'a project'}, not a next action — ${NO_ITEM_HINT}${howToName(context, priorityId, reading)}`);
     }
   }
   if (env.requireItem && (ITEM_ACTION_TYPES as readonly string[]).includes(actionType)) {
     // "Continue X" says to carry on, which the user will do anyway; an action names the point to reach.
     if (CARRY_ON_OPENERS.test(title)) {
       problems.push(
-        `${label}: “${title}” says to carry on, not what to finish — name the point the work should reach (the section completed, the check passing, the message sent), or return no action if nothing specific is open`,
+        `${label}: “${title}” says to carry on, not what to finish — name the point the work should reach (the section completed, the check passing, the message sent), or return no action if nothing specific is open${howToName(context, priorityId, reading)}`,
       );
     }
     // What it names must be something the record shows, not a topic that would be reasonable next.
@@ -341,9 +380,13 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
   }
   // ── The action must agree with how the model itself read that priority ──
   const buildsOnEarlier = Boolean(draft.adaptsActionRef) || draft.actionRefs.length > 0;
+  // A priority Reflect itself cannot place — no time for days, the time going to nothing the user named.
+  const unsettled = priorityId ? context.opportunities.find((s) => s.ask && s.priorityId === priorityId) : undefined;
+  // A question to the user is the answer to "unclear" — and to a priority Reflect cannot place, however the model read it.
+  const asksTheUser = actionType === 'clarify_priority' && (reading?.state === 'unclear' || unsettled !== undefined);
   // (Actions about the day as a whole — fewer switches, a different time, rest — are not about one priority's state.)
   if (env.requireItem && reading && priorityText && (TARGETED_ACTION_TYPES as readonly string[]).includes(actionType)) {
-    if (NO_ACTION_STATES.includes(reading.state) && !buildsOnEarlier && !(actionType === 'clarify_priority' && reading.state === 'unclear')) {
+    if (NO_ACTION_STATES.includes(reading.state) && !buildsOnEarlier && !asksTheUser) {
       problems.push(
         `${label}: decision.candidates reads “${priorityText}” as ${STATE_PHRASES[reading.state]}, and only an open item or a displaced priority can carry an action — ` +
           'either that reading is wrong (then correct it and name the specific item), or there is no action for this priority',
@@ -362,7 +405,7 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
     } else if (reading.state === 'open_item' && (ITEM_ACTION_TYPES as readonly string[]).includes(actionType)) {
       const named = itemTokensOf({ title: reading.item ?? '' }, [priorityText, thread]);
       if (named.size === 0) {
-        problems.push(`${label}: decision.candidates calls “${priorityText}” an open item but names only the priority itself as the item — ${NO_ITEM_HINT}`);
+        problems.push(`${label}: decision.candidates calls “${priorityText}” an open item but names only the priority itself as the item — ${NO_ITEM_HINT}${howToName(context, priorityId, reading)}`);
       } else if (env.evidenceTokens.size > 0 && sharedWords(named, env.evidenceTokens).length * 2 < named.size) {
         // An open item is something the record shows — not a topic that would be reasonable to do next.
         problems.push(
@@ -370,6 +413,16 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
         );
       }
     }
+  }
+
+  // ── Where only the user can say, the Coach asks ──
+  // No time for days while the time went to nothing the user named: Reflect cannot tell a priority that needs
+  // protecting from one that is no longer current. Prescribing what to do for it would be a guess either way.
+  if (env.requireItem && unsettled && priorityText && actionType !== 'clarify_priority' && actionType !== 'drop' && !buildsOnEarlier) {
+    problems.push(
+      `${label}: “${priorityText}” has had no time for ${unsettled.days ?? 'several'} tracked days while the time went to nothing the user named — Reflect cannot tell whether it needs a protected block or is no longer current. ` +
+        'Do not prescribe what to do for it: ask the user which it is (actionType "clarify_priority"); the question may offer to keep one block for it',
+    );
   }
 
   // ── Evidence ──
@@ -474,25 +527,39 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
     }
     // Already done: the approach may be reused, the sentence may not. A repeat has to say what is newly open.
     const done = context.doneRecently.find((a) => a.targetKey === candidate.targetKey && titleSimilarity(a.title, candidate.title) >= context.config.duplicateTitleOverlap);
-    if (done) {
+    // …except the thing the record itself asks for, in a changed shape (smaller, another time of day, another kind):
+    //   - after "partly helped": a refinement tied to the action it refines;
+    //   - after "did not help": the same item approached differently. (Carried out and not helpful is a failed
+    //     strategy, not a finished job — refusing the changed attempt would forget the problem with the strategy.)
+    const reshaped = done !== undefined && done.strategyKey !== candidate.strategyKey;
+    const refines = reshaped && parent?.id === done!.id && (done!.outcome === 'partly_worked' || done!.execution === 'partial');
+    const retries = reshaped && done!.outcome === 'did_not_work';
+    if (done && !refines && !retries) {
       return {
         action: null,
         problems: [
           `${label}: the user already carried out “${done.title}” in the last few days; if something is open again, name what specifically (which item, which part) — ` +
-            'or leave this target and check SITUATION BY PRIORITY for whether another priority holds the more useful next move',
+            'or leave this target and check SITUATION BY PRIORITY for whether another priority holds the more useful next move' +
+            otherCandidates(context, candidate.targetKey, done.title),
         ],
       };
     }
     // Sent before and never answered: the same thing again, the same way, is noise.
     const ignored = context.ignored.find((a) => a.strategyKey === candidate.strategyKey && a.targetKey === candidate.targetKey && isSameSuggestion(a, candidate, context.config.duplicateTitleOverlap) && titleSimilarity(a.title, candidate.title) >= context.config.duplicateTitleOverlap);
-    // …unless today measures the thing more clearly than a mere "where it stood": then it is a new situation, not a resend.
-    const strongerToday = context.opportunities.some((s) => s.strength === 'clear' && s.priorityId !== null && `p:${s.priorityId}` === candidate.targetKey);
+    // …unless today measures the thing more clearly than a mere "where it stood", and the record does not already cover it: then it is a new situation, not a resend.
+    const strongerToday = context.opportunities.some((s) => s.strength === 'clear' && !s.record?.settled && s.priorityId !== null && `p:${s.priorityId}` === candidate.targetKey);
     if (ignored && !strongerToday) {
       return {
         action: null,
-        problems: [`${label}: “${ignored.title}” was suggested recently and never taken up; do not send the same thing again — make it more specific or smaller, or leave it`],
+        problems: [
+          `${label}: “${ignored.title}” was suggested recently and never taken up; do not send the same thing again — make it more specific or smaller, or leave it` +
+            otherCandidates(context, candidate.targetKey, ignored.title),
+        ],
       };
     }
+    // (With clearer evidence the same words may come back: the signal's "record" asks for a different form, but an
+    // unanswered suggestion is never a reason to stay silent about something that has become clearer. Refusing the
+    // very sentence was tried — and it refused exactly the action the day called for.)
     const escalation = candidate.targetKey ? context.escalations.find((e) => e.targetKey === candidate.targetKey) : undefined;
     if (escalation) {
       return {
@@ -648,7 +715,7 @@ export function validateDailyCoach(input: DailyCoachValidationInput): CoachValid
   // Numbers on the situation board and in the signals are Reflect's own record too.
   const extraNumbers = new Set(evidence.globalNumbers);
   addNumbersFrom(extraNumbers, context.situationSection);
-  for (const signal of context.opportunities) addNumbersFrom(extraNumbers, signal.summary);
+  for (const signal of context.opportunities) addNumbersFrom(extraNumbers, `${signal.summary} ${signal.record?.note ?? ''}`);
   const env: DraftEnvironment = {
     context,
     actionRefs,

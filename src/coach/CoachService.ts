@@ -254,12 +254,19 @@ export class CoachService implements ReflectionCoachHook {
       activityRefOf,
       situationSection: renderSituations(situations, dataset.metrics, activityRefOf),
       evidenceText: [...dataset.activities.map((a) => `${a.title} ${a.summary ?? ''} ${a.thread ?? ''}`), situationText(situations)].join(' '),
+      workByPriority: workByPriority(dataset.activities),
     });
     this.log.info(
       `[COACH] Daily context: ${context.followups.length} action(s) to follow up, ${context.open.length} open, ` +
         `${context.rejected.length} rejected, ${context.ignored.length} never decided, ${context.failedRecently.length} reported as not working, ` +
         `${context.escalations.length} escalation(s), ${context.memories.length} memory item(s), ` +
-        `${opportunities.length} next-move signal(s)${opportunities.length ? ` (${opportunities.map((o) => `${o.kind}:${o.strength}`).join(', ')})` : ''}.`,
+        `${opportunities.length} next-move signal(s)${opportunities.length ? ` (${opportunities.map((o) => `${o.kind}:${o.strength}`).join(', ')})` : ''}` +
+        // Which of them the record already covers — the difference between "nothing measured" and "nothing new".
+        (() => {
+          const covered = context.opportunities.filter((o) => o.record?.settled);
+          return covered.length > 0 ? `; ${covered.length} already covered by the record (${covered.map((o) => `${o.kind}:${o.record!.standing}`).join(', ')})` : '';
+        })() +
+        '.',
     );
 
     return {
@@ -274,7 +281,7 @@ export class CoachService implements ReflectionCoachHook {
               (result.errors.length ? `; problems: ${result.errors.slice(0, 3).join('; ')}` : '') +
               (result.coach.actions.length === 0 && result.coach.noActionReason ? `; reason given: ${result.coach.noActionReason}` : ''),
           );
-          return { ok: result.ok, errors: result.errors, value: result.coach };
+          return { ok: result.ok, errors: result.errors, value: result.coach, weight: result.coach.actions.length };
         } catch (err) {
           // A coach block that cannot even be checked is treated as absent.
           this.log.error(`[COACH] Validation error: ${messageOf(err)}`);
@@ -334,7 +341,7 @@ export class CoachService implements ReflectionCoachHook {
     priorities: Pick<ReflectionPriority, 'id' | 'text'>[],
     threads: string[],
     supersededReportId: string | null = null,
-    daily: { opportunities: CoachOpportunity[]; activityRefOf: (activityId: string) => string | null; situationSection?: string; evidenceText?: string } | null = null,
+    daily: { opportunities: CoachOpportunity[]; activityRefOf: (activityId: string) => string | null; situationSection?: string; evidenceText?: string; workByPriority?: Record<string, string[]> } | null = null,
   ): CoachContext {
     const { repo } = this.deps;
     const actions = repo.listActions(new Date(now.getTime() - this.config.effectivenessLookbackMs).toISOString());
@@ -397,7 +404,8 @@ export class CoachService implements ReflectionCoachHook {
             createdAt: nowIso,
           });
         }
-        this.applyMemory(coach.memoryAdds, coach.memoryResolveIds, [], 'coach', reportId, nowIso);
+        // Inferred open loops that have lapsed (too old, or since covered by an action) are closed with the report.
+        this.applyMemory(coach.memoryAdds, [...new Set([...coach.memoryResolveIds, ...context.staleMemoryIds])], [], 'coach', reportId, nowIso);
         if (coach.question) {
           repo.insertMessage({
             id: this.newId(),
@@ -1151,6 +1159,18 @@ function pendingQuestionFull(messages: CoachMessage[]): { text: string; targetKe
     if (m.meta?.kind === 'question') return { text: m.text, targetKey: m.meta.targetKey ?? null };
   }
   return null;
+}
+
+/** Today's work toward each priority in Reflect's own words, the piece that took the most time first. */
+function workByPriority(activities: ReflectionActivity[]): Record<string, string[]> {
+  const out: Record<string, string[]> = {};
+  const longestFirst = [...activities].filter((a) => a.priorityId !== null && a.durationMinutes >= MEANINGFUL_ACTIVITY_MINUTES).sort((a, b) => b.durationMinutes - a.durationMinutes);
+  for (const a of longestFirst) {
+    const said = `“${a.title}${a.summary ? ` — ${a.summary}` : ''}”`;
+    const list = (out[a.priorityId!] ??= []);
+    if (list.length < 3 && !list.includes(said)) list.push(said);
+  }
+  return out;
 }
 
 function threadsOf(activities: ReflectionActivity[]): string[] {

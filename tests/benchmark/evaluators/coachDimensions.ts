@@ -1,4 +1,5 @@
 import type { CoachAction } from '../../../src/coach/CoachModels';
+import { itemTokensOf, sameWord } from '../../../src/coach/CoachMatching';
 import { DEFAULT_COACH_CONFIG } from '../../../src/coach/CoachModels';
 import type { CapturedDay } from '../runner/capture';
 import type { SemanticConfig } from '../runner/config';
@@ -270,15 +271,33 @@ function assessAction(
   const genericPhrases = GENERIC_ADVICE.filter((phrase) => lowered.includes(phrase));
   const generic = genericPhrases.length > 0 || (!hasTarget && !cites);
   if (genericPhrases.length > 0) notes.push(`generic phrasing: ${genericPhrases.join(', ')}`);
+  // "The same … again" is a statement about repetition, so it is checked as one: the same strategy (kind of action,
+  // time of day, size) for the same target as an earlier action. A SHORTER block that mentions the long one it replaces
+  // shares its words and is the opposite of what the key rules out.
+  const sameStrategyAgain = captured.coach.earlierActions.some((e) => e.status !== 'withdrawn' && e.targetKey === action.targetKey && e.strategyKey === action.strategyKey);
   const forbidden = prohibitedRecommendations(expected.things_not_to_do)
     .map((item) => ({ item, score: coverage(item, text).score }))
-    .filter((f) => f.score >= ctx.semantic.passCoverage);
+    .filter((f) => f.score >= ctx.semantic.passCoverage)
+    .filter((f) => !/\bsame\b.*\bagain\b/i.test(f.item) || sameStrategyAgain);
   const prohibited = forbidden.length > 0;
   if (prohibited) notes.push(`resembles a recommendation the answer key rules out: "${forbidden[0].item}"`);
 
   // The same sentence as a recent action: whatever happened to that one, saying it again adds nothing.
   const recentSince = Date.parse(action.createdAt) - 3 * 86_400_000;
-  const twin = captured.coach.earlierActions.find((e) => e.status !== 'withdrawn' && Date.parse(e.createdAt) >= recentSince && e.targetKey === action.targetKey && e.actionType === action.actionType && sameTitle(e.title, action.title));
+  const priorityText = captured.priorities.find((p) => p.id === action.priorityId)?.text ?? null;
+  const twin = captured.coach.earlierActions.find(
+    (e) =>
+      e.status !== 'withdrawn' &&
+      Date.parse(e.createdAt) >= recentSince &&
+      e.targetKey === action.targetKey &&
+      e.actionType === action.actionType &&
+      sameTitle(e.title, action.title) &&
+      // The same frame around two different things ("address the open comments on the budget justification" /
+      // "…on the project description") is two actions, not one said twice.
+      !namesDifferentItems(e, action, priorityText) &&
+      // A step that could not happen for an outside reason is still the next step: offering it again is not a repeat.
+      !(e.execution === 'not_done' && e.reasonCode === 'external_constraint'),
+  );
   const repeated = twin !== undefined;
   if (twin) notes.push(`says the same thing as "${twin.title}" suggested on ${twin.originDayKey}`);
 
@@ -305,6 +324,25 @@ function assessAction(
     justified: answersTheDay && grounded && !generic && !prohibited && !repeated,
     notes,
   };
+}
+
+/**
+ * Whether two actions each name a specific thing the other does not: item
+ * words of their own (beyond the priority and thread they serve, and beyond
+ * the verbs) that make up at least a third of what each one names. An added
+ * adjective is a rewording; a different section, document or check is another item.
+ */
+export function namesDifferentItems(
+  a: Pick<CoachAction, 'title' | 'focusTask' | 'thread'>,
+  b: Pick<CoachAction, 'title' | 'focusTask' | 'thread'>,
+  priorityText: string | null,
+): boolean {
+  const targets = [priorityText, a.thread, b.thread];
+  const x = [...itemTokensOf({ title: a.title }, targets)];
+  const y = [...itemTokensOf({ title: b.title }, targets)];
+  const onlyIn = (own: string[], other: string[]) => own.filter((token) => !other.some((o) => sameWord(token, o)));
+  const [ownX, ownY] = [onlyIn(x, y).length, onlyIn(y, x).length];
+  return ownX >= 1 && ownY >= 1 && ownX * 3 >= x.length && ownY * 3 >= y.length;
 }
 
 // ── Adaptation ──────────────────────────────────────────────────────────────
@@ -514,6 +552,15 @@ export interface CoachDimensionSummary {
   opportunityRecall: Ratio;
   /** Strong-opportunity days on which anything at all was recommended. */
   opportunityDetection: Ratio;
+  /**
+   * Of the days on which the Coach said something, the share on which what it said answered an opportunity the
+   * day really held (verdict correct or partially correct). "It saw an opportunity" — was there one?
+   */
+  opportunityPrecision: Ratio;
+  /** The complement, counted directly: days with an action that answered nothing the day called for (wrong or unnecessary). */
+  falseOpportunityRate: Ratio;
+  /** Days left alone that were right to leave alone: a no-opportunity day, or an optional one. */
+  correctlySilentDays: number;
   /** Strong-opportunity days answered with the expected move (verdict "correct"). */
   fullyCorrect: Ratio;
   /** Strong-opportunity days answered only in part (the secondary opportunity, or a different kind of action). */
@@ -573,6 +620,7 @@ const SETTLED: CoachAction['status'][] = ['review', 'closed'];
 export function summarizeCoachDimensions(days: CoachAssessment[], finalStates: ActionStateRecord[] = []): CoachDimensionSummary {
   const strong = days.filter((d) => d.opportunity.strength === 'strong');
   const none = days.filter((d) => d.opportunity.strength === 'none');
+  const acted = days.filter((d) => d.actions.length > 0);
   const actions = days.flatMap((d) => d.actions);
   const count = (pick: (a: ActionAssessment) => boolean) => actions.filter(pick).length;
 
@@ -613,6 +661,9 @@ export function summarizeCoachDimensions(days: CoachAssessment[], finalStates: A
     actionsGenerated: actions.length,
     opportunityRecall: ratio(strong.reduce((sum, d) => sum + (d.verdict === 'correct' ? 1 : d.verdict === 'partially_correct' ? 0.5 : 0), 0), strong.length),
     opportunityDetection: ratio(strong.filter((d) => d.actions.length > 0).length, strong.length),
+    opportunityPrecision: ratio(acted.filter((d) => d.verdict === 'correct' || d.verdict === 'partially_correct').length, acted.length),
+    falseOpportunityRate: ratio(acted.filter((d) => d.verdict === 'wrong' || d.verdict === 'unnecessary').length, acted.length),
+    correctlySilentDays: verdicts.correct_null + verdicts.acceptable_null,
     fullyCorrect: ratio(strong.filter((d) => d.verdict === 'correct').length, strong.length),
     partiallyCorrect: ratio(strong.filter((d) => d.verdict === 'partially_correct').length, strong.length),
     targetConcentration: { ...ratio(topTarget?.[1] ?? 0, actions.length), targetKey: topTarget?.[0] ?? null },

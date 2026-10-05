@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import type { CoachAction } from '../../src/coach/CoachModels';
+import { REASON_LAYER, REASON_MEANING, type CoachDiagnostics, type DayDiagnosis } from './evaluators/coachDiagnostics';
 import { stateOf, summarizeCoachDimensions, type CoachAssessment, type CoachDimensionSummary } from './evaluators/coachDimensions';
 import { checkAnswerKeyVocabulary } from './evaluators/index';
 import { BENCHMARK_ROOT, loadConfig } from './runner/config';
@@ -109,6 +110,10 @@ interface ScenarioResult {
   probe: { dayNumber: number; strength: string; verdict: string; why: string; expected: string | null; actual: string[]; noActionReason: string | null } | null;
   adaptation: CoachAssessment['adaptation'];
   dimensions: CoachDimensionSummary | null;
+  /** The persona the scenario is about (student, founder, researcher, designer). */
+  persona: string;
+  /** Why the probe day was not answered, when it was not (`evaluators/coachDiagnostics.ts`). */
+  diagnosis: DayDiagnosis | null;
 }
 
 const PASSING = new Set(['correct', 'correct_null', 'acceptable_null']);
@@ -167,6 +172,9 @@ describe.skipIf(!enabled)('coach scenario set — real pipeline, real Gemini', (
         const probeDay = evaluation.days.find((d) => metaOf(d.evaluationObjectives)?.probe)!;
         const probe = days.find((d) => d.dayNumber === probeDay.dayNumber)?.evaluation.coach.assessment ?? null;
 
+        const diagnosticsPath = path.join(latest, 'coach_diagnostics.json');
+        const diagnostics = fs.existsSync(diagnosticsPath) ? (JSON.parse(fs.readFileSync(diagnosticsPath, 'utf8')) as CoachDiagnostics) : null;
+        const persona = loadDataset(config.datasetDir, config.expectedDays).dataset.days[0].persona.type;
         for (const day of days) assessments.push(day.evaluation.coach.assessment);
         finalStates.push(...final.map(stateOf));
         results.push({
@@ -182,6 +190,8 @@ describe.skipIf(!enabled)('coach scenario set — real pipeline, real Gemini', (
             : null,
           adaptation: days.flatMap((d) => d.evaluation.coach.assessment.adaptation),
           dimensions: run.summary.coach.dimensions,
+          persona,
+          diagnosis: diagnostics?.days.find((d) => d.dayNumber === probeDay.dayNumber) ?? null,
         });
       }
 
@@ -197,7 +207,20 @@ describe.skipIf(!enabled)('coach scenario set — real pipeline, real Gemini', (
         finalStates,
       );
       const outcome = results.map((r) => ({ ...r, result: scenarioPassed(r) }));
-      fs.writeFileSync(path.join(outRoot, 'summary.json'), JSON.stringify({ scenarios: outcome, overall, probeOnly }, null, 2));
+      // The same Coach, by persona: probe days only. Nothing in the Coach knows which persona it is looking at.
+      const probeAssessment = (r: ScenarioResult): CoachAssessment[] => {
+        const dir = path.join(outRoot, r.id, 'latest', 'days');
+        const day = fs.readdirSync(dir).sort().map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))).find((d) => d.dayNumber === r.probe?.dayNumber);
+        return day ? [day.evaluation.coach.assessment as CoachAssessment] : [];
+      };
+      const personas = [...new Set(results.map((r) => r.persona))].sort();
+      const byPersona = Object.fromEntries(
+        personas.map((persona) => {
+          const own = outcome.filter((r) => r.persona === persona);
+          return [persona, { scenarios: own.length, passed: own.filter((r) => r.result === 'pass').length, dimensions: summarizeCoachDimensions(own.flatMap(probeAssessment)) }];
+        }),
+      );
+      fs.writeFileSync(path.join(outRoot, 'summary.json'), JSON.stringify({ scenarios: outcome, overall, probeOnly, byPersona }, null, 2));
 
       const cell = (text: string) => text.replace(/\|/g, '\\|').replace(/\n+/g, ' ');
       const lines = [
@@ -220,6 +243,27 @@ describe.skipIf(!enabled)('coach scenario set — real pipeline, real Gemini', (
             '',
           ].join(' | ').trim(),
         ),
+        '',
+        '## Why the probe days that were not answered were not answered',
+        '',
+        '| Scenario | Verdict | MISS_REASON | Layer | Detail |',
+        '| --- | --- | --- | --- | --- |',
+        ...outcome
+          .filter((r) => r.diagnosis?.reason)
+          .map((r) => `| ${cell(r.title)} | ${r.diagnosis!.verdict.replace(/_/g, ' ')} | **${r.diagnosis!.reason}** | ${REASON_LAYER[r.diagnosis!.reason!].replace(/_/g, ' ')} | ${cell(r.diagnosis!.detail)} — _${REASON_MEANING[r.diagnosis!.reason!]}_ |`),
+        ...(outcome.some((r) => r.diagnosis?.reason) ? [] : ['| _every probe day was answered_ | | | | |']),
+        '',
+        '## By persona — probe days only',
+        '',
+        'The Coach is given no persona-specific rule; this is the same code on different kinds of work.',
+        '',
+        '| Persona | Scenarios passed | Opportunity recall | Opportunity precision | Action precision | Appropriate null |',
+        '| --- | --- | --- | --- | --- | --- |',
+        ...personas.map((persona) => {
+          const p = byPersona[persona];
+          const show = (r: { value: number | null; numerator: number; denominator: number }) => (r.value === null ? 'n/a' : `${Math.round(r.value * 100)}% (${Number.isInteger(r.numerator) ? r.numerator : r.numerator.toFixed(1)} / ${r.denominator})`);
+          return `| ${persona} | ${p.passed} / ${p.scenarios} | ${show(p.dimensions.opportunityRecall)} | ${show(p.dimensions.opportunityPrecision)} | ${show(p.dimensions.actionPrecision)} | ${show(p.dimensions.appropriateNull)} |`;
+        }),
         '',
         '## Dimensions — probe days only',
         '',

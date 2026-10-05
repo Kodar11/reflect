@@ -167,7 +167,8 @@ describe('an action must agree with how the model itself read the priority', () 
 
   it('the response schema asks for one reading per stated priority before anything is chosen', () => {
     const schema = buildCoachResponseSchema(['pr-db', 'pr-algo']) as { properties: { decision: { required: string[]; properties: { candidates: { items: { properties: { state: { enum: string[] }; priorityId: { enum: string[] } } } } } } } };
-    expect(schema.properties.decision.required).toEqual(['matters', 'moved', 'candidates', 'tried', 'candidate', 'verdict']);
+    // "patterns" (what held across days) was added in v4; nothing that was asked before was dropped.
+    expect(schema.properties.decision.required).toEqual(['matters', 'moved', 'patterns', 'candidates', 'tried', 'candidate', 'verdict']);
     expect(schema.properties.decision.properties.candidates.items.properties.state.enum).toEqual(['open_item', 'displaced', 'progressing', 'at_stopping_point', 'unclear']);
     expect(schema.properties.decision.properties.candidates.items.properties.priorityId.enum).toEqual(['pr-db', 'pr-algo']);
   });

@@ -17,7 +17,7 @@ import {
  * The single home of every coach prompt string and response schema. Pure.
  * Bump `COACH_PROMPT_VERSION` whenever the wording or the layout changes.
  */
-export const COACH_PROMPT_VERSION = 'reflect-coach-v3';
+export const COACH_PROMPT_VERSION = 'reflect-coach-v4';
 
 const ACTION_TYPE_GUIDE = `ACTION TYPES (choose by the situation; "work more" is not a type)
 - continue_behavior: carry a specific piece of work that is going well through to its next concrete point. Name that point.
@@ -41,20 +41,45 @@ TWO DIFFERENT STATEMENTS
 "Nothing went wrong today" and "there is no useful next move" are not the same statement. A day can be steady, focused and well aligned and still hold an obvious next move: the piece of work that was under way when the day ended, the follow-up that was drafted and not sent, the priority that got no time for the second day running. You are asked the second question. "Your time was aligned with your priorities" is never, on its own, a reason to recommend nothing — and neither is "the day is still in progress".
 
 HOW TO DECIDE (fill in "decision" first, honestly; then write everything else so that it agrees with it)
-1. matters — what matters to this user right now, in the words of their stated priorities.
-2. moved — what actually moved forward today.
-3. candidates — ONE entry for EVERY stated priority, before you favour any of them. Read its line in SITUATION BY PRIORITY (today's work in order, where it last stood, how the previous days ended, what the Coach already said about it) and its NEXT-MOVE SIGNALS, then say:
+Answer these in order, each from the evidence, in a short phrase. They are the questions a good coach asks before opening their mouth.
+1. matters — what this user INTENDED: what matters to them right now, in the words of their stated priorities.
+2. moved — what actually HAPPENED today and what meaningfully changed: what moved forward, what reached a finish, what was started.
+3. patterns — what has HELD ACROSS DAYS, read from SITUATION BY PRIORITY and the "days" of each signal: the same item ending the day unfinished again, a priority without time for another day, time going to nothing the user named, a steady run. Write "none" when today stands alone. One day is a circumstance; the same thing on consecutive tracked days is a pattern, and a pattern is stronger evidence than anything a single day can show.
+4. candidates — ONE entry for EVERY stated priority, before you favour any of them. Read its line in SITUATION BY PRIORITY (today's work in order, its main piece of work, where it last stood, how the previous days ended, what the Coach already said about it) and its NEXT-MOVE SIGNALS, then say what remains unresolved there:
    - state:
      "open_item" — the evidence shows a SPECIFIC thing that is unfinished, due, waiting on someone, or ready for its next stage;
      "displaced" — it got little or no time against its own norm on more than one day, or while it was left unfinished;
      "progressing" — it is moving steadily and nothing specific is open that the user is not already doing;
      "at_stopping_point" — its work reached a finish (sent, submitted, merged, deployed, published) and nothing else is visibly open;
      "unclear" — the evidence is too thin or too ambiguous to say.
-   - item: for "open_item", the specific thing, named as the evidence names it — the document, feature, section, check, message, fix. Not the priority, not the project, not the thread. Otherwise null.
+   - item: for "open_item", the specific thing, named as the evidence names it — the document, feature, section, check, message, fix. Not the priority, not the project, not the thread. A signal's "item", or the words its description uses for what is unfinished ("the failing tests", "the draft pull request"), are such names. Otherwise null.
    - nextMove: the smallest concrete step that would move that item to its next stage, or null.
-4. tried — what the record says was already tried: what helped, what did not, what was rejected, what could not happen. Write "nothing yet" when there is no history.
-5. candidate — the ONE candidate you choose, or "none".
-6. verdict — "act" when that candidate passes every test below, otherwise "no_useful_move".
+   - changes: what that step would change that will not simply happen anyway. Write "nothing" when the user is plainly already doing it — then there is no action for this priority, however open it looks.
+5. tried — what the record says was already tried: what helped, what did not, what was rejected, what could not happen. Write "nothing yet" when there is no history.
+6. candidate — the ONE candidate you choose, or "none".
+7. verdict — "act" when that candidate passes every test below, otherwise "no_useful_move".
+
+SIGNALS, AND WHAT THE RECORD SAYS ABOUT THEM
+NEXT-MOVE SIGNALS is Reflect's own measurement of where a next move may exist. Read it this way:
+- The clearest signal is not the most important one. "confidence" says how plainly the thing is shown, never how much it matters. A small routine item that reads as unfinished every day can carry the highest confidence on the list and be the least useful thing to mention.
+- "record" on a signal is what Reflect's history says about that same thing, and it limits the FORM an action may take: "partly helped" asks for a refinement; "did not help" or "not carried out" asks for a changed strategy — a smaller step, another time of day, another approach — never the same form again; "could not happen" leaves the step exactly as worth offering as it was; "not answered" with clearer evidence today asks for a different form than the one that went unanswered.
+- "answer" on a signal says the only form an action for it may take. Where Reflect cannot tell whether a priority needs protecting or is no longer current, that form is a question to the user (clarify_priority) — a title such as "Decide whether X is still current; if it is, keep one block for it" — never a prescription of what to work on.
+- ALREADY COVERED BY THE RECORD lists what was measured today and is NOT a candidate: it is already on the user's list, was postponed, was rejected, or was suggested and carried out. Do not act on those in any wording. That one priority's item is covered says nothing about the other priorities — look at what else is open there.
+
+WHEN AN INTERVENTION IS WORTH MAKING
+An action earns its place only when it would plausibly change what happens next. These do:
+- a loop about to be left open: something built, drafted or fixed that has not yet been delivered, sent, confirmed or answered — the step that gets skipped once the interesting part is done;
+- a specific item that has ended the day unfinished on consecutive days (a carried_over signal): one protected block that brings THAT item to a finish the user would recognise — a working build, the section written, the reply sent;
+- a stated priority without time on consecutive tracked days: protect a block for it — or, when the time has been going to nothing the user named, ask which is current (clarify_priority) instead of prescribing;
+- a stretch that kept breaking up around one unfinished piece of work. Switching matters only when it is attached to something that did not get done; many applications or many switches are not, by themselves, a finding;
+- an earlier action that did not work, could not happen or only partly helped, while the thing it was aimed at is still open: the next attempt, in a changed form;
+- a due date, or someone waiting, visible in the evidence;
+- a run of long days with nothing left open: rest — only when the record of long days supports it.
+These do not:
+- the main thread of every recent day, moving steadily and reaching its finishes: the user will continue it without being told;
+- something the user finished, changed their mind about, or set aside deliberately;
+- a priority that got less time once because another stated priority legitimately took the day;
+- a priority that merely received fewer minutes than another one.
 
 READING A PRIORITY'S STATE
 - Work usually moves through stages: understood → built or drafted → checked → delivered or sent → confirmed. Read the ORDER of today's activities for a priority and ask what stage the last one left it at. Something built and tested but not yet delivered, a fix deployed but not yet confirmed with the people it was for, a reply read but not answered, a draft not sent, a failing check — each has an obvious next stage. That next stage is the "item" and its "nextMove".
@@ -88,7 +113,7 @@ RETURN NO ACTION WHEN
 - the evidence is thin or ambiguous — a short day, activity you cannot interpret, a thread whose purpose is unclear. Say what is unclear in "uncertainty" instead of guessing;
 - the user has already done the useful next thing;
 - the day was rest, leisure or time away — that is not a problem to fix;
-- the only candidates are things the user rejected, or that keep not working.
+- the only candidates are things the user rejected, that keep not working, or that the record already covers.
 Then set verdict to "no_useful_move" and give the real reason in noActionReason, in terms of this day ("the assignment was submitted and the study session left nothing part-way", "too little was tracked to tell what the work was"). Never write "no intervention is needed".
 Never produce an action to fill a quota. Never produce none merely because the day was generally fine.
 
@@ -195,8 +220,9 @@ export function buildCoachResponseSchema(priorityIds: string[]): unknown {
         type: 'object',
         description: 'The reasoning behind act-or-not. Short phrases, one line each.',
         properties: {
-          matters: { type: 'string' },
-          moved: { type: 'string' },
+          matters: { type: 'string', description: 'What the user intended: what matters to them now.' },
+          moved: { type: 'string', description: 'What actually happened today and what meaningfully changed.' },
+          patterns: { type: 'string', description: 'What has held across consecutive days — or "none".' },
           candidates: {
             type: 'array',
             description: 'One entry for every stated priority, before any is chosen.',
@@ -207,15 +233,16 @@ export function buildCoachResponseSchema(priorityIds: string[]): unknown {
                 state: { type: 'string', enum: [...COACH_CANDIDATE_STATES] },
                 item: { anyOf: [{ type: 'string', description: 'The specific unfinished thing, as the evidence names it — never the priority or project itself.' }, { type: 'null' }] },
                 nextMove: nullableString,
+                changes: { anyOf: [{ type: 'string', description: 'What that step would change that will not happen anyway — "nothing" when the user is already doing it.' }, { type: 'null' }] },
               },
-              required: ['priorityId', 'state', 'item', 'nextMove'],
+              required: ['priorityId', 'state', 'item', 'nextMove', 'changes'],
             },
           },
           tried: { type: 'string' },
           candidate: { type: 'string', description: 'The one candidate chosen, as a concrete next move — or "none".' },
           verdict: { type: 'string', enum: [...COACH_VERDICTS] },
         },
-        required: ['matters', 'moved', 'candidates', 'tried', 'candidate', 'verdict'],
+        required: ['matters', 'moved', 'patterns', 'candidates', 'tried', 'candidate', 'verdict'],
       },
       followups: {
         type: 'array',

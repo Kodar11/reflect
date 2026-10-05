@@ -23,7 +23,7 @@ import type { Criterion, Verdict } from './text';
  */
 
 /** Bump when a metric's definition changes, so old and new results are not compared blindly. */
-export const EVALUATOR_VERSION = 'reflect-benchmark-eval-v2';
+export const EVALUATOR_VERSION = 'reflect-benchmark-eval-v3';
 
 export interface TrackEvaluation {
   segmentation: SegmentationResult;

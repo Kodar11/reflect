@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import type { CoachAction } from '../../../src/coach/CoachModels';
+import { diagnoseRun, renderDiagnostics } from '../evaluators/coachDiagnostics';
 import { stateOf } from '../evaluators/coachDimensions';
 import { EVALUATOR_VERSION, checkAnswerKeyVocabulary, evaluateDay, summarize, type BenchmarkSummary, type DayEvaluation } from '../evaluators/index';
 import { buildLeakDetector } from '../evaluators/leakage';
@@ -112,11 +113,15 @@ export function reevaluate(config: BenchmarkConfig, runDir = path.join(config.re
   fs.writeFileSync(path.join(runDir, 'report.md'), renderReport({ manifest: updated, summary, days: rescored }));
   fs.writeFileSync(path.join(runDir, 'review.md'), renderReviewPacket(rescored));
   fs.writeFileSync(path.join(runDir, 'coach_review.md'), renderCoachReview(rescored, summary, finalActions));
+  // Why each unanswered day was unanswered — read from the stored run, with the measurement layer replayed.
+  const diagnostics = diagnoseRun(runDir);
+  writeJson(path.join(runDir, 'coach_diagnostics.json'), diagnostics);
+  fs.writeFileSync(path.join(runDir, 'coach_diagnostics.md'), renderDiagnostics(diagnostics));
 
   // Keep the archived copy of the same run in step.
   const archive = path.join(config.resultsDir, 'archived', manifest.runId);
   if (fs.existsSync(archive) && path.resolve(archive) !== path.resolve(runDir)) {
-    for (const name of ['manifest.json', 'summary.json', 'report.md', 'review.md', 'coach_review.md']) fs.copyFileSync(path.join(runDir, name), path.join(archive, name));
+    for (const name of ['manifest.json', 'summary.json', 'report.md', 'review.md', 'coach_review.md', 'coach_diagnostics.json', 'coach_diagnostics.md']) fs.copyFileSync(path.join(runDir, name), path.join(archive, name));
     fs.cpSync(path.join(runDir, 'days'), path.join(archive, 'days'), { recursive: true });
   }
 

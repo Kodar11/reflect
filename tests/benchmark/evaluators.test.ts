@@ -3,7 +3,8 @@ import type { CoachAction } from '../../src/coach/CoachModels';
 import type { Metric, ReflectionReport } from '../../src/reflection/ReflectionModels';
 import { scoreClassification, type ClassificationSample, type PredictedLabels } from './evaluators/classification';
 import { evaluateCoach } from './evaluators/coach';
-import { assessCoach, opportunityOf, stateOf, summarizeCoachDimensions } from './evaluators/coachDimensions';
+import { diagnoseDay, parseDecisionAttempts, renderDiagnostics, summarizeDiagnoses } from './evaluators/coachDiagnostics';
+import { assessCoach, namesDifferentItems, opportunityOf, stateOf, summarizeCoachDimensions } from './evaluators/coachDimensions';
 import { countVerdicts, evaluateDay, summarize } from './evaluators/index';
 import { intersectionLength, normalize, temporalIou, totalLength } from './evaluators/intervals';
 import { buildLeakDetector } from './evaluators/leakage';
@@ -12,6 +13,7 @@ import { boundariesOf, evaluateSegmentation, segmentFromEvents, type TimedEvent 
 import { resolveMapping } from './evaluators/taxonomyMapping';
 import { coverage, stem, streamOfText, verdictFromCoverage } from './evaluators/text';
 import type { CapturedBlock, CapturedDay, CapturedTaxonomy } from './runner/capture';
+import { replayCoachSignals } from './runner/coachReplay';
 import type { EvaluationOnly, EvaluationOnlyDay, ReflectInput } from './runner/dataset';
 
 /**
@@ -862,6 +864,57 @@ describe('coach dimensions — opportunity, precision, null, follow-through, ada
     expect(follow.executionReportedOnly).toMatchObject({ numerator: 1, denominator: 3 });
   });
 
+  it('opportunity precision asks of every day the Coach spoke on: was there something to answer?', () => {
+    const days = [
+      assess(captured(), withOpportunity('strong')), // correct
+      assess(captured(), withOpportunity('none')), // unnecessary: it saw an opportunity where there was none
+      assess(captured({ actions: [action({ title: 'Send the revised proposal to the prospect tomorrow morning', rationale: 'The proposal was revised and not sent.', priorityId: 'pr-leads', thread: 'Leads', targetKey: 'p:pr-leads', focusTask: 'Proposal' })] })), // wrong target
+      assess(captured({ actions: [] }), withOpportunity('strong')), // missed
+      assess(captured({ actions: [] }), withOpportunity('none')), // correct null
+      assess(captured({ actions: [] }), withOpportunity('moderate')), // acceptable null
+    ];
+    const summary = summarizeCoachDimensions(days);
+    // Three days with an action; one of them answered an opportunity the day held.
+    expect(summary.opportunityPrecision).toEqual({ value: 1 / 3, numerator: 1, denominator: 3 });
+    expect(summary.falseOpportunityRate).toEqual({ value: 2 / 3, numerator: 2, denominator: 3 });
+    expect(summary.correctlySilentDays).toBe(2);
+    // Silence is never counted as a false opportunity, and never earns precision either.
+    expect(summarizeCoachDimensions([assess(captured({ actions: [] }), withOpportunity('strong'))])).toMatchObject({ opportunityPrecision: { value: null }, falseOpportunityRate: { value: null }, correctlySilentDays: 0 });
+  });
+
+  it('the same frame around two different things is two actions; a rewording or an added adjective is still a repeat', () => {
+    const grant = 'Finish the grant application';
+    expect(namesDifferentItems({ title: 'Address the open comments on the grant application budget justification', focusTask: null, thread: null }, { title: 'Address the open comments on the grant application project description', focusTask: null, thread: null }, grant)).toBe(true);
+    expect(namesDifferentItems({ title: 'Finish drafting the freelance proposal in Google Docs', focusTask: null, thread: null }, { title: 'Complete the remaining sections of the freelance proposal in Google Docs', focusTask: null, thread: null }, 'Generate new freelance leads')).toBe(false);
+    const same = (a: string, b: string, priority: string) => !namesDifferentItems({ title: a, focusTask: null, thread: null }, { title: b, focusTask: null, thread: null }, priority);
+    expect(same('Run tests and verify the staging site configuration for the new client project', 'Run tests and verify the staging site configuration for the updated client project code', 'Complete existing client work')).toBe(true);
+    expect(same('Review the SaaS roadmap in Notion', 'Review the SaaS roadmap in Notion and select the next feature to build', 'Ship the SaaS MVP')).toBe(true);
+    const earlier = action({ id: 'earlier', actionType: 'close_open_loop', title: 'Address the open comments on the project description', createdAt: iso(780 - 24 * 60) });
+    const today = assess(captured({ earlierActions: [earlier], actions: [action({ id: 'today', actionType: 'close_open_loop', title: 'Address the open comments on the budget justification' })] })).actions[0];
+    expect(today.repeated).toBe(false);
+    // The same section named again is a repeat, as before.
+    expect(assess(captured({ earlierActions: [earlier], actions: [action({ id: 'today', actionType: 'close_open_loop', title: 'Address the open comments on the project description' })] })).actions[0].repeated).toBe(true);
+  });
+
+  it('"do not recommend the same block again" is about repetition: a shorter block that mentions the long one is not it', () => {
+    const answer = withOpportunity('strong', { things_not_to_do: ['Do not recommend the same two-hour morning block again.'] });
+    const long = action({ id: 'earlier', title: 'Work through the SaaS billing work in one long morning block', focusMinutes: 120, strategyKey: 'focus_session|morning|long', actionType: 'focus_session', status: 'closed', execution: 'partial', outcome: 'partly_worked', createdAt: iso(780 - 24 * 60) });
+    const shorter = action({ id: 'today', actionType: 'focus_session', title: 'Finish the SaaS billing webhook in a shorter morning block', rationale: 'The two-hour morning block partly helped; a shorter block is the same idea made smaller.', focusMinutes: 45, strategyKey: 'focus_session|morning|medium' });
+    const refined = assess(captured({ earlierActions: [long], actions: [shorter] }), answer).actions[0];
+    expect(refined.notes).toEqual([]);
+    expect(refined).toMatchObject({ prohibited: false, justified: true });
+    // The same shape for the same target is exactly what was ruled out.
+    const again = action({ id: 'today', actionType: 'focus_session', title: 'Finish the SaaS billing webhook in a two-hour morning block again', rationale: 'The same two-hour morning block, once more.', focusMinutes: 120, strategyKey: 'focus_session|morning|long' });
+    expect(assess(captured({ earlierActions: [long], actions: [again] }), answer).actions[0]).toMatchObject({ prohibited: true, justified: false });
+  });
+
+  it('a step that could not happen for an outside reason is not a repeat when it is offered again', () => {
+    const interrupted = action({ id: 'earlier', status: 'closed', acceptedAt: iso(0), execution: 'not_done', executionSource: 'user', reasonCode: 'external_constraint', createdAt: iso(780 - 24 * 60) });
+    expect(assess(captured({ earlierActions: [interrupted], actions: [action({ id: 'today' })] })).actions[0]).toMatchObject({ repeated: false, justified: true });
+    // Not done for a reason that IS about the action: the same sentence again is a repeat.
+    expect(assess(captured({ earlierActions: [{ ...interrupted, reasonCode: 'too_difficult' }], actions: [action({ id: 'today' })] })).actions[0].repeated).toBe(true);
+  });
+
   it('the summary carries the dimensions next to the thirteen criteria, without merging them', () => {
     const evaluation = evaluateCoach(captured(), withOpportunity('strong'), coachCtx);
     expect(evaluation.assessment.verdict).toBe('correct');
@@ -870,5 +923,80 @@ describe('coach dimensions — opportunity, precision, null, follow-through, ada
     expect(verdictOf(evaluateCoach(captured(), withOpportunity('none'), coachCtx).criteria, 'coach_c13')).toBe('FAIL');
     expect(verdictOf(evaluateCoach(captured({ actions: [] }), withOpportunity('none'), coachCtx).criteria, 'coach_c13')).toBe('PASS');
     expect(verdictOf(evaluateCoach(captured(), withOpportunity('moderate'), coachCtx).criteria, 'coach_c13')).toBe('NOT_APPLICABLE');
+  });
+});
+
+describe('coach diagnostics — why a day was not answered', () => {
+  const dimCtx = { semantic: SEMANTIC, knownBlockIds: new Set(['b1', 'b2']), previousProcessedAt: iso(0) };
+  const strong: EvaluationOnlyDay = { ...ANSWER, expectedCoachOutcome: { ...ANSWER.expectedCoachOutcome, action_opportunity: { should_exist: true, strength: 'strong', reason: 'test', priority: 'Ship the SaaS MVP', type: 'complete_open_loop' } } };
+  const none: EvaluationOnlyDay = { ...ANSWER, expectedCoachOutcome: { ...ANSWER.expectedCoachOutcome, primary_action: null, action_opportunity: { should_exist: false, strength: 'none', reason: 'test', priority: null, type: null } } };
+  const line = (rest: string) => `2026-09-01T16:32:00.000Z INFO  [COACH] Decision: ${rest}`;
+  const refusedAsDone = line('act — candidate “Finish the proposal”; read pr-saas=progressing, pr-leads=open_item; 1 action(s) proposed, 0 kept; problems: action 1: the user already carried out “Finish the proposal” in the last few days; if something is open again, name what specifically');
+  const refusedAsVague = line('act — candidate “Continue the billing work”; read pr-saas=open_item; 1 action(s) proposed, 0 kept; problems: action 1: “Continue the billing work” says to carry on, not what to finish');
+  const silent = line('no_useful_move — candidate “none”; read pr-saas=progressing, pr-leads=progressing; 0 action(s) proposed, 0 kept; reason given: Everything moved steadily.');
+  const diagnose = (day: CapturedDay, answer: EvaluationOnlyDay, log: string[]) => diagnoseDay(day, assessCoach(day, answer, dimCtx), log, replayCoachSignals([day])[0]);
+  const missed = captured({ actions: [] });
+
+  it('reads the decision log: what was concluded, proposed, kept, and why not', () => {
+    expect(parseDecisionAttempts(['2026-09-01T16:31:00.000Z INFO  [REFLECTION] Generation started', refusedAsDone, silent])).toEqual([
+      { verdict: 'act', candidate: 'Finish the proposal', readings: { 'pr-saas': 'progressing', 'pr-leads': 'open_item' }, proposed: 1, kept: 0, problems: expect.stringContaining('already carried out') },
+      { verdict: 'no_useful_move', candidate: 'none', readings: { 'pr-saas': 'progressing', 'pr-leads': 'progressing' }, proposed: 0, kept: 0, problems: '' },
+    ]);
+  });
+
+  it('tells apart the layers a miss can come from', () => {
+    // The model kept proposing what the record covers, and nothing else: the validator was right, the day still got nothing.
+    expect(diagnose(missed, strong, [refusedAsDone, refusedAsDone])).toMatchObject({ reason: 'previous_action_suppression', verdict: 'missed' });
+    // Refused for how it was written.
+    expect(diagnose(missed, strong, [refusedAsVague])).toMatchObject({ reason: 'validator_suppression' });
+    // The model chose silence: what the measurement layer held for the target decides which kind of miss it was.
+    const withOpenWork = captured({ actions: [], timeline: [block('b1', [1, 2, 3], { title: 'SaaS billing webhook', summary: 'Two webhook tests were still failing.' })] });
+    expect(diagnose(withOpenWork, strong, [silent])).toMatchObject({ reason: 'gemini_decision', targetSignals: ['left_off:clear'] });
+    expect(diagnose(missed, strong, [silent])).toMatchObject({ reason: 'candidate_too_weak', targetSignals: ['left_off:possible'] });
+    const nothingLinked = captured({ actions: [], timeline: [block('b2', [4, 5], { title: 'Fix client authentication bug', thread: 'Client project', priorityId: 'pr-client' })] });
+    expect(diagnose(nothingLinked, strong, [silent])).toMatchObject({ reason: 'missing_upstream_evidence', targetSignals: [] });
+    // Found a move, refused for its wording, then silence: the refusal — not the reading of the day — produced the silence.
+    expect(diagnose(missed, strong, [refusedAsVague, silent])).toMatchObject({ reason: 'withdrawn_after_refusal' });
+    // Silence first, an action on a later attempt: the first valid answer stands — a wavering decision, not a lost write.
+    expect(diagnose(missed, strong, [silent, line('act — candidate “x”; read pr-saas=open_item; 1 action(s) proposed, 1 kept')])).toMatchObject({ reason: 'unstable_decision' });
+    // An attempt kept an action that the stored report does not hold.
+    expect(diagnose(missed, strong, [line('act — candidate “x”; read pr-saas=open_item; 1 action(s) proposed, 1 kept')])).toMatchObject({ reason: 'retry_persistence_loss' });
+    expect(diagnose(captured({ report: null, actions: [] }), strong, [])).toMatchObject({ reason: 'retry_persistence_loss' });
+  });
+
+  it('an action that did not answer the day is classified too, and an answered day has no reason', () => {
+    expect(diagnose(captured(), strong, [])).toMatchObject({ reason: null, verdict: 'correct' });
+    expect(diagnose(captured({ actions: [] }), none, [silent])).toMatchObject({ reason: null, verdict: 'correct_null' });
+    expect(diagnose(captured(), none, [])).toMatchObject({ reason: 'false_opportunity' });
+    const otherTarget = captured({ actions: [action({ title: 'Send the revised proposal to the prospect tomorrow morning', rationale: 'The proposal was revised and not sent.', priorityId: 'pr-leads', thread: 'Leads', targetKey: 'p:pr-leads', focusTask: 'Proposal' })] });
+    expect(diagnose(otherTarget, strong, [])).toMatchObject({ reason: 'priority_choice' });
+    const yesterday = action({ id: 'earlier', status: 'closed', execution: 'done', outcome: 'worked', createdAt: iso(780 - 24 * 60) });
+    expect(diagnose(captured({ earlierActions: [yesterday], actions: [action({ id: 'today' })] }), strong, [])).toMatchObject({ reason: 'repeat' });
+  });
+
+  it('summarises by reason and by layer, and renders the table the next iteration is planned from', () => {
+    const summary = summarizeDiagnoses([diagnose(missed, strong, [refusedAsDone]), diagnose(missed, strong, [silent]), diagnose(captured(), none, []), diagnose(captured(), strong, [])]);
+    expect(summary).toMatchObject({ unanswered: 3, byReason: { previous_action_suppression: 1, candidate_too_weak: 1, false_opportunity: 1 }, byLayer: { validation: 1, opportunity_generation: 1, reasoning: 1 } });
+    const text = renderDiagnostics(summary);
+    expect(text).toContain('| VALIDATION | 1 | previous_action_suppression 1 |');
+    expect(text).toContain('| OPPORTUNITY GENERATION | 1 | candidate_too_weak 1 |');
+    expect(text).toContain('**previous_action_suppression**');
+  });
+
+  it('the replay measures a stored day again without the model: candidates, and what the record covers', () => {
+    const proposal = block('b3', [4, 5], { title: 'Drafting freelance proposal', summary: 'Two sections of the proposal were still a draft.', thread: 'Freelance Outreach', priorityId: 'pr-leads' });
+    const done = (id: string, title: string, minutesAgo: number) =>
+      action({ id, title, actionType: 'close_open_loop', priorityId: 'pr-leads', thread: 'Freelance Outreach', targetKey: 'p:pr-leads', status: 'closed', acceptedAt: iso(0), execution: 'done', executionSource: 'user', outcome: 'worked', createdAt: iso(780 - minutesAgo), executedAt: iso(780 - minutesAgo + 600), closedAt: iso(780 - minutesAgo + 600), updatedAt: iso(780 - minutesAgo + 600) });
+    // The day's own metrics: an hour linked to the leads priority.
+    const withLeads = () => report({ metricsSnapshot: { ...report().metricsSnapshot!, 'priority.pr-leads.minutes': metric('priority.pr-leads.minutes', 60) } });
+    const fresh = replayCoachSignals([captured({ report: withLeads(), actions: [], timeline: [block('b1', [1, 2, 3]), proposal] })])[0];
+    expect(fresh.replayed).toBe(true);
+    expect(fresh.signals.find((s) => s.priorityId === 'pr-leads')).toMatchObject({ kind: 'left_off', strength: 'clear', item: 'Drafting freelance proposal' });
+    // The same day, after the item was suggested and carried out twice: measured, and covered.
+    const covered = replayCoachSignals([captured({ report: withLeads(), actions: [], timeline: [block('b1', [1, 2, 3]), proposal], earlierActions: [done('e1', 'Finish drafting the freelance proposal', 4 * 24 * 60), done('e2', 'Finish the freelance proposal sections', 2 * 24 * 60)] })])[0];
+    expect(covered.signals.find((s) => s.priorityId === 'pr-leads')?.record).toMatchObject({ standing: 'routine', settled: true });
+    expect(covered.signals[covered.signals.length - 1].priorityId).toBe('pr-leads');
+    // A day without a report has nothing to replay.
+    expect(replayCoachSignals([captured({ report: null, actions: [] })])[0]).toMatchObject({ replayed: false, signals: [] });
   });
 });

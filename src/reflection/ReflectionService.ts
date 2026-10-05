@@ -665,6 +665,9 @@ export class ReflectionService {
       // cannot support"); it must not also re-roll, or talk the model out of,
       // a coaching decision that had nothing wrong with it.
       let settledCoach: { value: unknown } | null = null;
+      // When no attempt's coaching validated cleanly, the subset that kept the most is what survives — not merely
+      // the last one. (An action that passed every check in attempt 2 is not lost because attempt 3 kept nothing.)
+      let bestCoach: { value: unknown; weight: number } | null = null;
 
       while (attempts < MAX_ATTEMPTS && !accepted) {
         if (attempts > 0) {
@@ -706,7 +709,8 @@ export class ReflectionService {
           const coachCheck = coach ? coach.validate((rawOutput as { coach?: unknown } | null)?.coach, evidence) : null;
           if (coachCheck?.ok && !settledCoach) settledCoach = { value: coachCheck.value };
           const coachProblems = settledCoach || !coachCheck || coachCheck.ok ? [] : coachCheck.errors;
-          const coachValue = settledCoach ? settledCoach.value : coachCheck?.value ?? null;
+          if (coachCheck && !coachCheck.ok && (!bestCoach || (coachCheck.weight ?? 0) > bestCoach.weight)) bestCoach = { value: coachCheck.value, weight: coachCheck.weight ?? 0 };
+          const coachValue = settledCoach ? settledCoach.value : coachCheck ? (coachCheck.ok ? coachCheck.value : bestCoach!.value) : null;
           const problems = [...(validation.ok ? [] : validation.errors), ...coachProblems];
           const reflection = validation.ok ? validation.reflection : validation.salvaged;
           if (problems.length === 0 && reflection) {

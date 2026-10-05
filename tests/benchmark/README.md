@@ -12,6 +12,8 @@ tests/benchmark/
 ├── runner/            what talks to Reflect (sees raw events only)
 ├── runner/simulatedUser.ts   the user's decisions on recommendations (the one runner file that reads the answer key)
 ├── evaluators/        what scores Reflect (the only place the answer key is read)
+├── evaluators/coachDiagnostics.ts   why each unanswered Coach day was unanswered (MISS_REASON)
+├── runner/coachReplay.ts   the Coach's measurement layer replayed over a stored run — no Gemini
 ├── dataset.test.ts    dataset validation — runs with the ordinary suite
 ├── evaluators.test.ts evaluator unit tests — runs with the ordinary suite
 ├── benchmark.test.ts  the end-to-end run — only with REFLECT_BENCHMARK=1
@@ -57,6 +59,12 @@ npm run benchmark -- --coach-scenarios
 ```
 
 The twenty-two Coach scenarios instead of the 30-day set: each on its own database, through the same pipeline, with the simulated user. Results go to `results/coach_scenarios/summary.md` (`--scenario <text>` runs a subset).
+
+```bash
+npm run benchmark -- --diagnose
+```
+
+Reads the stored run in `results/latest` (or `--run <dir>`) and writes `coach_diagnostics.md` — one MISS_REASON for every Coach day that was not answered correctly — and `coach_signals.md`, the Coach's measurement layer replayed over the run's stored activities. No database, no Gemini. Every run and every `--reevaluate` writes the diagnostics too.
 
 `npm run benchmark -- --help` lists every option. The launcher starts vitest under Electron's Node (the runtime the SQLite binding is built for, as `npm run test:db` does) in the simulated user's timezone.
 
@@ -134,12 +142,15 @@ Strict accuracy counts only labels with a single Reflect twin; lenient accuracy 
 
 | Question | Dimensions |
 | --- | --- |
-| Was the recommendation right? | opportunity recall · fully correct · partially correct · opportunity detection · action precision · alignment · specificity · evidence grounding · feasibility · not generic · not a repeat · concentration on one target · appropriate null |
+| Was the recommendation right? | opportunity recall · fully correct · partially correct · opportunity detection · opportunity precision · false opportunity rate · correctly silent days · action precision · alignment · specificity · evidence grounding · feasibility · not generic · not a repeat · concentration on one target · appropriate null |
 | Did the user follow it? | decisions recorded · execution tracking coverage · established by Reflect itself · supported by Reflect's own observation · reported by the user only |
 | Did it help? | outcome tracking coverage · outcomes as stated |
 | Did the Coach adapt? | rejected not repeated · deferred not repeated · failed not repeated · worked reused · partly-worked refined · external constraint not penalised |
 
 Three of these need a word:
+
+- **Opportunity precision / false opportunity rate** are counted over DAYS on which the Coach said something: on how many did what it said answer an opportunity the day really held (verdict correct or partially correct), and on how many did it answer nothing the day called for (wrong or unnecessary). Action precision asks the same of each ACTION and is stricter (a repeat, a generic or an ungrounded action is not justified even on the right day). Recall can be bought with volume; these two are what volume costs.
+- **Not a repeat** does not count two actions that share a frame but name different things ("address the open comments on the budget justification" / "…on the project description"), nor a step offered again after it could not happen for an outside reason. A rewording, or the same item with an adjective added, is still a repeat.
 
 - **Fully / partially correct.** On the 30-day set "partially correct" almost always means *the action was aimed at the day's secondary work stream instead of its primary one* — a question of which priority was chosen, not of how specific the sentence is. The key cannot tell "Continue the assignment" from "Finish the query-plan section" beyond the kind of action; that distinction is enforced in production (`CoachValidator`: a project is not a next action) and pinned by unit tests.
 - **Concentration on one target** is the share of all actions aimed at the single most-recommended priority. It is reported, not scored: a user with one real priority should see it high.
@@ -147,6 +158,21 @@ Three of these need a word:
 - **Worked reused** passes when the next action for that target keeps the strategy — the same kind of action, or the same shape (time of day + size) on a new item, or one that explicitly builds on the earlier action. The same sentence again is a repeat, not reuse, and fails.
 
 Nothing rewards volume: an action on a day with no opportunity is `unnecessary` and lowers precision and appropriate-null, exactly as silence on a strong day lowers recall. `coach_review.md` lays every day out as GROUND TRUTH → REFLECT COACH → VERDICT → WHY, followed by action → decision → execution → outcome → what the Coach did next.
+
+### Coach diagnostics — why a day was not answered
+
+"The Coach missed it" is an outcome; the cause decides what to change. `coach_diagnostics.md` puts one reason next to every day that was not answered correctly, taken from the verdict, the Coach's own decision log for the day (every attempt: what it concluded, what it proposed, what the validator kept and why not) and the measurement layer replayed over the day's stored activities:
+
+| Layer | MISS_REASON | Meaning |
+| --- | --- | --- |
+| DATA | `missing_upstream_evidence` | nothing tracked that day was linked to the expected target |
+| OPPORTUNITY GENERATION | `candidate_not_generated` · `candidate_too_weak` · `historical_context_missing` | no signal for the target · only a "possible" one · the expected move rests on a multi-day pattern that was not measured as one |
+| REASONING | `gemini_decision` · `unstable_decision` · `priority_choice` · `wrong_kind_of_action` · `false_opportunity` | a clear candidate, and silence · silence on one attempt and an action on another (the first valid answer is kept) · acted on another target · right target, wrong kind of move · acted on a day that called for nothing |
+| VALIDATION | `validator_suppression` · `withdrawn_after_refusal` · `previous_action_suppression` · `repeat` | refused for how it was written · refused for its wording and then withdrawn on the retry · the model kept proposing what the record already covers and nothing else · right target, restating a recent action |
+| PERSISTENCE | `retry_persistence_loss` | an attempt kept an action the stored report does not hold |
+| EVALUATION | `evaluator_mismatch` | the action answers the day; the evaluator did not count it |
+
+The replay (`runner/coachReplay.ts`) runs the Coach's deterministic half — situation board, signals, and what the record of earlier actions says about each signal — as the code is NOW over the activities a run produced THEN. For a fresh run the two coincide. For an older run the difference is the point: it shows what a change to the measurement layer would have measured on the same days, without the noise of a new model run.
 
 ### Coach answer key
 

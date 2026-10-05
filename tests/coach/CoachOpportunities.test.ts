@@ -270,7 +270,8 @@ describe('detectOpportunities — the whole day', () => {
   });
 
   it('orders by how clearly each was measured, gives every priority its turn, caps the list, and is deterministic', () => {
-    const debugging = activity(12, '17:00', 60, { title: 'Debugging the export job', priorityId: 'pr-client' });
+    // (The description states the open state. "Debugging" alone names an activity — see "an activity is not a state".)
+    const debugging = activity(12, '17:00', 60, { title: 'Debugging the export job', summary: 'The export was still failing at the end.', priorityId: 'pr-client' });
     const metrics = dayMetrics({
       tracked: 400,
       client: 380,

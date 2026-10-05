@@ -12,7 +12,8 @@ import {
 import { executionEvidence, isTerminal } from './CoachLifecycle.js';
 import { describeStrategy, describeTarget } from './CoachMatching.js';
 import type { CoachAction, CoachConfig, CoachMemory, CoachMessage } from './CoachModels.js';
-import { orderSignals, outcomeSignals, renderOpportunities, type CoachOpportunity } from './CoachOpportunities.js';
+import { jaccard, tokensOf } from './CoachMatching.js';
+import { orderSignals, outcomeSignals, renderOpportunities, withRecord, type CoachOpportunity } from './CoachOpportunities.js';
 
 /**
  * Structured history → what the model is shown. Pure.
@@ -67,6 +68,11 @@ export interface CoachContext {
   /** Where each stated priority stands, rendered (daily pass only; empty otherwise). */
   situationSection: string;
   /**
+   * Today's work toward each priority, in Reflect's own words ("title — summary"), main piece first. What a
+   * refused action is pointed at when it named the priority instead of the piece of work. Empty = not available.
+   */
+  workByPriority: Record<string, string[]>;
+  /**
    * Everything the day's evidence names — activity titles and summaries, the
    * trail of the days before, memory, earlier actions. Used to check that an
    * action names something the record actually shows. Empty = not checked.
@@ -75,6 +81,12 @@ export interface CoachContext {
   effectiveness: EffectivenessSummary;
   escalations: EscalationContext[];
   memories: MemoryRef[];
+  /**
+   * Open loops the Coach itself inferred that no longer hold: too old to argue
+   * for anything, or since covered by an action about the same thing. They are
+   * not shown to the model, and are resolved when the day's report is stored.
+   */
+  staleMemoryIds: string[];
   priorities: Pick<ReflectionPriority, 'id' | 'text'>[];
   /** Threads the day's evidence knows about. */
   knownThreads: string[];
@@ -99,6 +111,7 @@ export interface CoachContextInput {
   activityRefOf?: (activityId: string) => string | null;
   situationSection?: string;
   evidenceText?: string;
+  workByPriority?: Record<string, string[]>;
 }
 
 /** Human name of a target key (`p:<priority id>` / `t:<thread slug>`). */
@@ -142,6 +155,33 @@ export function escalationResets(messages: CoachMessage[]): { resets: Map<string
   return { resets, pending };
 }
 
+/**
+ * Open loops the Coach inferred on an earlier day that should no longer speak.
+ *
+ * An inferred open loop is yesterday's reading, kept so that something is not
+ * lost — it is not a measurement, and it never renews itself. Left in the
+ * prompt indefinitely it becomes the one thing the Coach "knows" is open, and
+ * the same item is proposed day after day. So it lapses when it is older than
+ * a recorded open loop is raised for, or once an action about the same thing
+ * has been suggested since. What the USER said is never touched here.
+ */
+export function staleOpenLoops(
+  memories: CoachMemory[],
+  actions: Pick<CoachAction, 'title' | 'focusTask' | 'targetKey' | 'status' | 'createdAt'>[],
+  nowIso: string,
+  config: Pick<CoachConfig, 'openLoopSignalMs'>,
+): CoachMemory[] {
+  const expired = new Date(Date.parse(nowIso) - config.openLoopSignalMs).toISOString();
+  return memories.filter((m) => {
+    if (m.status !== 'active' || m.kind !== 'open_loop' || m.source !== 'coach') return false;
+    if (m.createdAt < expired) return true;
+    const loop = tokensOf(m.text);
+    return actions.some(
+      (a) => a.status !== 'withdrawn' && a.createdAt > m.createdAt && (m.targetKey === null || a.targetKey === m.targetKey) && jaccard(loop, tokensOf(`${a.title} ${a.focusTask ?? ''}`)) >= 0.3,
+    );
+  });
+}
+
 /** Which earlier actions deserve a word in today's report, in order of importance. */
 function selectFollowups(actions: CoachAction[], reportDay: ReflectionPeriod, max: number): CoachAction[] {
   const dayStart = reportDay.start;
@@ -179,8 +219,17 @@ export function buildCoachContext(input: CoachContextInput): CoachContext {
   const failedSince = new Date(now.getTime() - config.recentFailureMs).toISOString();
 
   const followups = selectFollowups(actions, reportDay, config.maxFollowups).map((action, index) => ({ ref: `k${index + 1}`, action }));
-  // On the daily pass, what just happened to earlier suggestions is evidence too.
-  const opportunities = input.opportunities ? orderSignals([...input.opportunities, ...outcomeSignals(followups, (code) => REASON_LABELS[code])]) : [];
+  // On the daily pass, what just happened to earlier suggestions is evidence too —
+  // and every measured signal is read against what the record already says about that same thing.
+  const opportunities = input.opportunities
+    ? orderSignals([
+        ...withRecord(input.opportunities, { actions, priorities: input.priorities, nowIso, config, reasonLabel: (code) => REASON_LABELS[code] }),
+        ...outcomeSignals(followups, (code) => REASON_LABELS[code]),
+      ])
+    : [];
+
+  const staleMemoryIds = staleOpenLoops(input.memories, actions, nowIso, config).map((m) => m.id);
+  const liveMemories = input.memories.filter((m) => m.status === 'active' && !staleMemoryIds.includes(m.id));
 
   return {
     now,
@@ -193,9 +242,10 @@ export function buildCoachContext(input: CoachContextInput): CoachContext {
     opportunities,
     activityRefOf: input.activityRefOf ?? (() => null),
     situationSection: input.situationSection ?? '',
+    workByPriority: input.workByPriority ?? {},
     evidenceText: [
       input.evidenceText ?? '',
-      ...(input.evidenceText ? [...followups.map((f) => `${f.action.title} ${f.action.note ?? ''}`), ...input.memories.filter((m) => m.status === 'active').map((m) => m.text)] : []),
+      ...(input.evidenceText ? [...followups.map((f) => `${f.action.title} ${f.action.note ?? ''}`), ...liveMemories.map((m) => m.text)] : []),
     ].join(' '),
     maxActions: config.maxActionsPerDay,
     followups,
@@ -207,10 +257,8 @@ export function buildCoachContext(input: CoachContextInput): CoachContext {
       label: targetLabel(e.targetKey) ?? e.targetKey,
       alreadyAsked: pending.has(e.targetKey),
     })),
-    memories: input.memories
-      .filter((m) => m.status === 'active')
-      .slice(0, config.maxActiveMemories)
-      .map((memory, index) => ({ ref: `m${index + 1}`, memory })),
+    memories: liveMemories.slice(0, config.maxActiveMemories).map((memory, index) => ({ ref: `m${index + 1}`, memory })),
+    staleMemoryIds,
     priorities: input.priorities,
     knownThreads: input.knownThreads,
     config,
@@ -370,7 +418,7 @@ export function renderCoachSection(ctx: CoachContext): string {
 
   sections.push(
     ctx.memories.length > 0
-      ? `COACH MEMORY (durable things the user told Reflect, or that were concluded from evidence; respect them)\n${ctx.memories
+      ? `COACH MEMORY (durable things the user told Reflect, or that were concluded from evidence; respect them. An entry "from":"coach" is the Coach's own earlier reading — context to check against today's activities, never by itself evidence that something is still open)\n${ctx.memories
           .map((m) => JSON.stringify({ ref: m.ref, kind: m.memory.kind, text: m.memory.text, from: m.memory.source }))
           .join('\n')}`
       : 'COACH MEMORY\nEmpty.',

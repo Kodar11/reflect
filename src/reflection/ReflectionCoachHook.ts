@@ -40,6 +40,8 @@ export interface CoachCheck<T = unknown> {
   errors: string[];
   /** The part that fully validated; always usable. */
   value: T;
+  /** How much of the response survived (for the Coach: the actions kept). Decides which attempt's subset is kept when none validated cleanly. */
+  weight?: number;
 }
 
 export interface DailyCoachSession<T = unknown> {

@@ -129,7 +129,7 @@ describe('daily intelligence — one request, one transaction', () => {
     const schema = responseJsonSchema as { required: string[]; properties: { coach: { properties: Record<string, unknown> } } };
     expect(schema.required).toContain('coach');
     expect(Object.keys(schema.properties.coach.properties)).toEqual(['decision', 'followups', 'actions', 'noActionReason', 'question', 'uncertainty', 'memoryUpdates']);
-    expect(COACH_PROMPT_VERSION).toBe('reflect-coach-v3');
+    expect(COACH_PROMPT_VERSION).toBe('reflect-coach-v4');
   });
 
   it('explicitly supports "no useful advice today"', async () => {
@@ -222,6 +222,21 @@ describe('daily intelligence — invalid output never corrupts anything', () => 
     // No phantom commitment from the fabricated one.
     expect(h.coachRepo.actions.map((a) => a.title)).toEqual(['Decide whether the Project Y billing fix is finished or dropped']);
     expect(JSON.stringify(h.coachRepo.actions)).not.toContain('made-up');
+  });
+
+  it('when no attempt validates cleanly, the action an earlier attempt got right is not lost to a later empty one', async () => {
+    const h = harness();
+    const badMemory = { op: 'add', kind: 'open_loop', text: 'Something about Project Y was left open.', memoryRef: null, metricKeys: [], activityRefs: [], actionRefs: [] };
+    // Attempt 1: a vague action. Attempt 2: a sound action next to a memory with no evidence (so not "clean").
+    // Attempt 3: nothing usable at all.
+    h.gemini.push(modelDay(day12, { actions: [modelAction({ title: 'Stay focused' })] }));
+    h.gemini.push(modelDay(day12, { memoryUpdates: [badMemory] }));
+    h.gemini.push(modelDay(day12, { actions: [modelAction({ title: 'Be productive' })] }));
+    const result = await h.service.generate(day12, { trigger: 'scheduled' });
+    expect(result).toMatchObject({ status: 'succeeded', attempts: 3 });
+    expect(h.coachRepo.actions.map((a) => a.title)).toEqual(['Run one 45-minute Focus session on Project X before switching threads']);
+    // Only what validated: the memory without evidence is not kept along with it.
+    expect(h.coachRepo.memories).toEqual([]);
   });
 
   it('a missing or mangled coach block cannot sink a good reflection', async () => {

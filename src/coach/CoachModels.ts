@@ -23,7 +23,9 @@ import type { ReflectionEvidence } from '../reflection/ReflectionModels.js';
  *     - CoachLifecycle.ts     the action state machine
  *     - CoachMatching.ts      similarity, strategy identity, execution detection
  *     - CoachEffectiveness.ts what has worked / failed for this user
- *     - CoachOpportunities.ts where a next move could come from (signals: evidence, not decisions)
+ *     - CoachWorkState.ts     how a piece of work reads where it was left: open, underway, finished, unknown
+ *     - CoachOpportunities.ts where a next move could come from (signals: evidence, not decisions),
+ *                             each joined with what the record of earlier actions already says about it
  *     - CoachSituation.ts     where each stated priority stands across the recent days, side by side
  *     - CoachContext.ts       structured history → compact model input
  *     - CoachPrompt.ts        prompt text + response schemas
