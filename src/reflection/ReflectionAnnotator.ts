@@ -23,6 +23,14 @@ import { priorityActiveAt } from './ReflectionPriorities.js';
  *
  * Best-effort by design: if this step is unavailable, Reflection falls back
  * to the activity's Context and a conservative keyword match.
+ *
+ * Canonical ids stay backend-owned: the model may only pick a priority id
+ * from the list it was given (anything else is dropped), and thread names are
+ * normalized here. And what was decided stays decided:
+ *   - a link the USER corrected is never asked about again, nor overwritten;
+ *   - when a signature is asked about again because a new priority was
+ *     stated, only that new priority is at stake — the thread and the earlier
+ *     priority decision stand.
  */
 
 export const ANNOTATION_PROMPT_VERSION = 'reflect-threads-v1';
@@ -80,6 +88,8 @@ export function selectAnnotationItems(
     if (item.minutes < MIN_SIGNATURE_MINUTES) return false;
     const annotation = existing.get(item.signature);
     if (!annotation) return true;
+    // The user's correction is final, for every priority.
+    if (annotation.source === 'user') return false;
     return [...priorityIds].some((id) => !annotation.checkedPriorityIds.includes(id));
   });
 
@@ -230,11 +240,20 @@ export class ReflectionAnnotator {
         const decision = decisions.get(item.ref);
         if (!decision) continue;
         const previous = existing.get(item.signature);
+        if (previous?.source === 'user') continue;
+        // Asked again only because a priority was stated since: just that one is new.
+        const newlyChecked = priorityIds.filter((id) => !(previous?.checkedPriorityIds ?? []).includes(id));
+        const priorityId = !previous
+          ? decision.priorityId
+          : decision.priorityId && newlyChecked.includes(decision.priorityId)
+            ? decision.priorityId
+            : previous.priorityId;
         annotations.push({
           signature: item.signature,
-          thread: decision.thread,
-          priorityId: decision.priorityId,
+          thread: previous?.thread ?? decision.thread,
+          priorityId,
           checkedPriorityIds: [...new Set([...(previous?.checkedPriorityIds ?? []), ...priorityIds])],
+          source: 'model',
         });
       }
       repo.upsertAnnotations(annotations, this.now().toISOString());

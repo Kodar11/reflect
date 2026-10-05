@@ -20,7 +20,8 @@ import { IntelligenceTimelineSource } from '../../../src/intelligence/Intelligen
 import { describeClassification, describePattern } from '../../../src/learning/LearnedPattern';
 import { LearnedRuleService } from '../../../src/learning/LearnedRuleService';
 import { toLearningActivities } from '../../../src/learning/LearningTimeline';
-import { toReflectionActivities } from '../../../src/reflection/ReflectionActivities';
+import { createEventLocator, toReflectionActivities } from '../../../src/reflection/ReflectionActivities';
+import { ReflectionHistory } from '../../../src/reflection/ReflectionHistory';
 import { ReflectionAnnotator } from '../../../src/reflection/ReflectionAnnotator';
 import { ReflectionMetricsService } from '../../../src/reflection/ReflectionMetricsService';
 import { DEFAULT_REFLECTION_CONFIG, type TaxonomyNames } from '../../../src/reflection/ReflectionModels';
@@ -122,6 +123,7 @@ export function createRuntime(dbPath: string, gemini: IGeminiClient, clock: Simu
       focus: focusRepo,
       taxonomy,
       firstEventAt: () => events.getFirstEventStart(),
+      locateEvents: createEventLocator(events, timelineService),
     },
     reflectionRepo,
     { config: DEFAULT_REFLECTION_CONFIG, now },
@@ -155,6 +157,7 @@ export function createRuntime(dbPath: string, gemini: IGeminiClient, clock: Simu
     repo: coachRepo,
     gemini,
     reflections: reflectionRepo,
+    history: new ReflectionHistory(reflectionRepo, { metrics: reflectionMetrics, config: DEFAULT_REFLECTION_CONFIG, now }),
     metrics: reflectionMetrics,
     focus: focusRepo,
     userContext: userContextProvider,

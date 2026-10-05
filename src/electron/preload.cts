@@ -144,7 +144,10 @@ let reflectionOpenSubscribed = false;
 
 electron.contextBridge.exposeInMainWorld('reflection', {
   getReport: (period: ReflectionPeriodRequestDto) => electron.ipcRenderer.invoke('reflection:getReport', period),
-  getAvailablePeriods: () => electron.ipcRenderer.invoke('reflection:getAvailablePeriods'),
+  getAvailablePeriods: (type?: ReflectionPeriodTypeDto | null) => electron.ipcRenderer.invoke('reflection:getAvailablePeriods', { type: type ?? null }),
+  resolveEvidence: (evidence: ReflectionEvidenceRefDto) => electron.ipcRenderer.invoke('reflection:resolveEvidence', evidence),
+  getInsightBasis: (reportId: string, insightId: string) => electron.ipcRenderer.invoke('reflection:getInsightBasis', { reportId, insightId }),
+  correctLink: (correction: ReflectionLinkCorrectionDto) => electron.ipcRenderer.invoke('reflection:correctLink', correction),
   getLanding: () => electron.ipcRenderer.invoke('reflection:getLanding'),
   generate: (period: ReflectionPeriodRequestDto) => electron.ipcRenderer.invoke('reflection:generate', period),
   submitFeedback: (insightId: string, feedback: ReflectionFeedbackDto | null) =>

@@ -61,7 +61,6 @@ function insight(id: string, overrides: Partial<ReflectionInsight> = {}): Reflec
     observation: 'You spent 14h 20m on Project X across 5 days.',
     interpretation: 'It was your most consistently worked thread.',
     relevance: 'Launching Project X is the priority you stated.',
-    suggestedAction: null,
     confidence: 0.85,
     evidence: [
       { kind: 'metric', metricKey: 'thread.project-x.minutes', label: 'Time on “Project X”', value: '14h 20m' },
@@ -70,6 +69,12 @@ function insight(id: string, overrides: Partial<ReflectionInsight> = {}): Reflec
     sourceActivityIds: ['ai-1'],
     sourceMetricKeys: ['thread.project-x.minutes'],
     claimSignature: 'progress|thread.project-x.minutes',
+    identityKey: 'p:pr-1|advancing',
+    subjectKey: 'p:pr-1',
+    thread: 'Project X',
+    priorityId: 'pr-1',
+    continuity: 'new',
+    magnitude: 860,
     createdAt: at(19, '00:06'),
     ...overrides,
   };
@@ -285,9 +290,10 @@ suite('ReflectionRepository (integration, real SQLite)', () => {
     expect(repo.setFeedback('missing', 'useful', 'f4', at(19, '10:03'))).toBe(false);
 
     expect(repo.getCurrentReport('week', week42.key)!.insights.map((i) => i.feedback)).toEqual(['useful', 'inaccurate']);
+    // Each record says which claim, in which report, the feedback was given on.
     expect(repo.listFeedback(at(1))).toEqual([
-      { insightId: 'i2', insightType: 'recurring_behavior', feedbackType: 'inaccurate', createdAt: at(19, '10:02') },
-      { insightId: 'i1', insightType: 'progress', feedbackType: 'useful', createdAt: at(19, '10:00') },
+      { insightId: 'i2', insightType: 'recurring_behavior', feedbackType: 'inaccurate', createdAt: at(19, '10:02'), identityKey: 'p:pr-1|advancing', subjectKey: 'p:pr-1', title: 'Project X moved forward', reportId: 'r1', periodType: 'week', periodKey: week42.key },
+      { insightId: 'i1', insightType: 'progress', feedbackType: 'useful', createdAt: at(19, '10:00'), identityKey: 'p:pr-1|advancing', subjectKey: 'p:pr-1', title: 'Project X moved forward', reportId: 'r1', periodType: 'week', periodKey: week42.key },
     ]);
     expect(repo.listFeedback(at(19, '10:01'))).toHaveLength(1);
 
@@ -301,10 +307,13 @@ suite('ReflectionRepository (integration, real SQLite)', () => {
   it('normalizes priorities into intervals', () => {
     const options = { nowIso: at(10), confirmedAt: at(9), initialActiveFrom: at(1) };
     repo.applyPrioritySync(planPrioritySync([], ['Launching Project X', 'Finish my degree'], options), ['pr-1', 'pr-2'], at(10));
-    expect(repo.listPriorities()).toEqual([
+    expect(repo.listPriorities()).toMatchObject([
       { id: 'pr-1', text: 'Launching Project X', normalizedKey: 'launching project x', status: 'active', activeFrom: at(1), activeUntil: null, lastConfirmedAt: at(9) },
       { id: 'pr-2', text: 'Finish my degree', normalizedKey: 'finish my degree', status: 'active', activeFrom: at(1), activeUntil: null, lastConfirmedAt: at(9) },
     ]);
+    // Each is one open stretch so far, with the event that opened it.
+    expect(repo.listPriorities()[0].intervals).toEqual([{ from: at(1), until: null }]);
+    expect(repo.listPriorities()[0].history).toEqual([{ priorityId: 'pr-1', at: at(1), type: 'stated', text: 'Launching Project X', previousText: null }]);
 
     // The degree is dropped from the profile; Project X is reconfirmed.
     const later = { nowIso: at(20), confirmedAt: at(20), initialActiveFrom: at(1) };
@@ -316,6 +325,18 @@ suite('ReflectionRepository (integration, real SQLite)', () => {
     expect(repo.setPriorityStatus('pr-1', 'completed', at(22))).toMatchObject({ status: 'completed', activeUntil: at(22) });
     expect(repo.setPriorityStatus('pr-1', 'active', at(23))).toMatchObject({ status: 'active', activeUntil: null, lastConfirmedAt: at(23) });
     expect(repo.setPriorityStatus('missing', 'paused', at(23))).toBeNull();
+
+    // Taking it up again did not erase the day it was completed: two stretches, one gap.
+    const [again, dropped] = repo.listPriorities();
+    expect(again.intervals).toEqual([
+      { from: at(1), until: at(22) },
+      { from: at(23), until: null },
+    ]);
+    expect(again.history!.map((e) => e.type)).toEqual(['stated', 'completed', 'reactivated']);
+    expect(dropped.history!.map((e) => e.type)).toEqual(['stated', 'archived']);
+    // Setting the status it already has records nothing.
+    repo.setPriorityStatus('pr-1', 'active', at(24));
+    expect(repo.listPriorities()[0].history).toHaveLength(3);
   });
 
   it('caches thread / priority decisions per activity signature', () => {
@@ -331,8 +352,8 @@ suite('ReflectionRepository (integration, real SQLite)', () => {
     repo.upsertAnnotations([{ signature: 'watch videos|browsing', thread: null, priorityId: null, checkedPriorityIds: ['pr-1', 'pr-2'] }], at(12));
 
     expect(repo.getAnnotations(['implement project x sync engine|coding', 'watch videos|browsing', 'unknown'])).toEqual([
-      { signature: 'implement project x sync engine|coding', thread: 'Project X', priorityId: 'pr-1', checkedPriorityIds: ['pr-1'] },
-      { signature: 'watch videos|browsing', thread: null, priorityId: null, checkedPriorityIds: ['pr-1', 'pr-2'] },
+      { signature: 'implement project x sync engine|coding', thread: 'Project X', priorityId: 'pr-1', checkedPriorityIds: ['pr-1'], source: 'model' },
+      { signature: 'watch videos|browsing', thread: null, priorityId: null, checkedPriorityIds: ['pr-1', 'pr-2'], source: 'model' },
     ]);
     expect(repo.listThreadLabels(10)).toEqual(['Project Y', 'Project X']);
     expect(repo.getAnnotations([])).toEqual([]);
@@ -382,7 +403,7 @@ suite('Database migration v12 → v13 (reflection)', () => {
 
     const migrated = new Database(dbPath);
     const check = new BetterSqliteDB(dbPath);
-    expect(check.pragma('user_version', { simple: true })).toBe(16);
+    expect(check.pragma('user_version', { simple: true })).toBe(17);
     const tables = (check.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all() as { name: string }[]).map((t) => t.name);
     for (const t of ['reflection_reports', 'reflection_insights', 'reflection_feedback', 'reflection_priorities', 'reflection_activity_annotations']) {
       expect(tables).toContain(t);

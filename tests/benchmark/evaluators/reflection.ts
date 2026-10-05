@@ -155,6 +155,76 @@ function deterministicChecks(captured: CapturedDay, answer: EvaluationOnlyDay, c
     out.push(structural('evidence_activities_exist', 'Every cited activity exists on the timeline', problems, `${cited.length} activity reference(s), all resolved`));
   }
 
+  // ── Evidence: stable references ──
+  // An activity cited as evidence must be anchored to raw events — the block
+  // id alone stops resolving the day the timeline is regrouped — and those
+  // events must be events of the very block it names.
+  {
+    const problems: string[] = [];
+    const blocks = new Map(captured.timeline.map((b) => [b.id, new Set(b.eventIds)]));
+    let refs = 0;
+    report.insights.forEach((insight, i) => {
+      for (const e of insight.evidence) {
+        if (e.kind !== 'activity' || !e.activityId) continue;
+        const owned = blocks.get(e.activityId);
+        // A block of another day is not captured here; its ids are checked on its own day.
+        if (!owned) continue;
+        refs++;
+        if (!e.eventIds || e.eventIds.length === 0) problems.push(`insight ${i + 1}: activity ${e.activityId} is cited without the raw events behind it`);
+        else {
+          const foreign = e.eventIds.filter((id) => !owned.has(id));
+          if (foreign.length > 0) problems.push(`insight ${i + 1}: activity ${e.activityId} is cited with event(s) ${foreign.slice(0, 5).join(', ')} that it does not own`);
+        }
+      }
+    });
+    out.push(
+      report.outputSchemaVersion < 3
+        ? { id: 'evidence_stable_references', label: 'Cited activities are anchored to raw events', verdict: 'NOT_APPLICABLE', method: 'structural', confidence: 'high', detail: 'written before evidence carried event ids' }
+        : structural('evidence_stable_references', 'Cited activities are anchored to raw events', problems, `${refs} activity reference(s), all anchored to events of the block they name`),
+    );
+  }
+
+  // ── Identity: what each insight is about, and whether it was said before ──
+  {
+    const problems: string[] = [];
+    const priorityIds = new Set(captured.priorities.map((p) => p.id));
+    const states = new Map<string, number>();
+    report.insights.forEach((insight, i) => {
+      if (!insight.identityKey) problems.push(`insight ${i + 1}: no identity`);
+      if (insight.priorityId && !priorityIds.has(insight.priorityId)) problems.push(`insight ${i + 1}: linked to priority ${insight.priorityId}, which does not exist`);
+      if (insight.subjectKey?.startsWith('p:') && insight.subjectKey !== 'p:*' && !insight.subjectKey.slice(2).split('+').every((id) => priorityIds.has(id))) problems.push(`insight ${i + 1}: subject ${insight.subjectKey} names an unknown priority`);
+      states.set(insight.continuity, (states.get(insight.continuity) ?? 0) + 1);
+    });
+    const identities = report.insights.filter((x) => x.subjectKey).map((x) => `${x.type}|${x.identityKey}`);
+    for (const id of new Set(identities)) if (identities.filter((x) => x === id).length > 1) problems.push(`two insights of the same type say the same thing about the same subject (${id})`);
+    out.push(
+      report.outputSchemaVersion < 3
+        ? { id: 'insight_identity', label: 'Every insight has a backend-owned subject and continuity', verdict: 'NOT_APPLICABLE', method: 'structural', confidence: 'high', detail: 'written before insights carried an identity' }
+        : structural(
+            'insight_identity',
+            'Every insight has a backend-owned subject and continuity',
+            problems,
+            `${report.insights.filter((x) => x.subjectKey).length} of ${report.insights.length} insight(s) about a priority or project; ${[...states].map(([s, n]) => `${n} ${s}`).join(', ') || 'none'}`,
+          ),
+    );
+  }
+
+  // ── Carried work: never open once the user closed it ──
+  {
+    const problems: string[] = [];
+    const carried = report.dataSnapshot?.carried ?? [];
+    for (const item of carried) {
+      const priority = item.priorityId ? captured.priorities.find((p) => p.id === item.priorityId) : null;
+      if (item.status === 'open' && priority && priority.status !== 'active') problems.push(`"${item.title}" is carried as open although its priority is ${priority.status}`);
+      if (item.status === 'open' && item.idleTrackedDays < 1) problems.push(`"${item.title}" is carried as open although it was worked on the latest tracked day`);
+    }
+    out.push(
+      report.outputSchemaVersion < 3
+        ? { id: 'carried_work_consistent', label: 'Carried work agrees with priority state and recent activity', verdict: 'NOT_APPLICABLE', method: 'structural', confidence: 'high', detail: 'written before carried work was structured' }
+        : structural('carried_work_consistent', 'Carried work agrees with priority state and recent activity', problems, `${carried.length} carried item(s): ${carried.map((c) => `${c.title} (${c.status})`).join(', ') || 'none'}`),
+    );
+  }
+
   // ── Evidence: metrics ──
   {
     const problems: string[] = [];

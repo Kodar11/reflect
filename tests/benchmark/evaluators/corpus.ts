@@ -13,7 +13,7 @@ export function reflectionText(report: ReflectionReport | null): string {
   return join([
     report.headline,
     report.narrative,
-    ...report.insights.flatMap((i) => [i.title, i.observation, i.interpretation, i.relevance, i.suggestedAction]),
+    ...report.insights.flatMap((i) => [i.title, i.observation, i.interpretation, i.relevance]),
     report.carryForward?.text,
   ]);
 }

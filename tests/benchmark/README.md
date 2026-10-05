@@ -132,7 +132,7 @@ So "about 30 daily intelligence calls" is the `daily_reflection_coach` row. In t
 
 Strict accuracy counts only labels with a single Reflect twin; lenient accuracy uses the accept-sets; unmappable labels are excluded and counted.
 
-**Reflection** (`evaluators/reflection.ts`) — A: deterministic checks (generated, well-formed, every cited activity and metric exists, measurements agree with the raw events, no impossible numbers, no answer-key wording). B: answer-key criteria as PASS / PARTIAL / FAIL — key observations, priority alignment, uncertainty, next step.
+**Reflection** (`evaluators/reflection.ts`) — A: deterministic checks (generated, well-formed, every cited activity and metric exists, every cited activity is anchored to raw events of the block it names, every insight has a backend-owned subject and continuity, carried work agrees with priority state and recent activity, measurements agree with the raw events, no impossible numbers, no answer-key wording). B: answer-key criteria as PASS / PARTIAL / FAIL — key observations, priority alignment, uncertainty, next step.
 
 **Coach** — two layers.
 

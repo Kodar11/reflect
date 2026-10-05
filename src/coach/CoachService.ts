@@ -2,6 +2,8 @@ import { randomUUID } from 'node:crypto';
 import type { ICoachRepository } from '../database/CoachRepository.js';
 import type { IFocusRepository } from '../database/FocusRepository.js';
 import type { IReflectionRepository } from '../database/ReflectionRepository.js';
+import type { ReflectionHistory } from '../reflection/ReflectionHistory.js';
+import { carryMetrics, trajectoryMetrics } from '../reflection/ReflectionLongitudinal.js';
 import { GeminiError, type IGeminiClient } from '../intelligence/GeminiClient.js';
 import type { UserContextProvider } from '../intelligence/IntelligenceModels.js';
 import { formatIntelligenceContext } from '../profile/UserProfile.js';
@@ -115,6 +117,12 @@ export interface CoachServiceDeps {
   repo: ICoachRepository;
   gemini: IGeminiClient;
   reflections: Pick<IReflectionRepository, 'listCurrentReports'>;
+  /**
+   * Reflect's structured memory of how work moved across days. The Coach
+   * reads statuses and counts from it — never the wording of a reflection —
+   * and it is computed from the current links, so a correction applies at once.
+   */
+  history?: Pick<ReflectionHistory, 'getWorkTrajectories' | 'getCarriedWork'>;
   metrics: Pick<ReflectionMetricsService, 'loadActivities' | 'computeCore'>;
   focus: Pick<IFocusRepository, 'getSessionsByRange' | 'getSessionById' | 'getInterruptions' | 'getActiveSession'>;
   userContext: UserContextProvider;
@@ -1062,6 +1070,7 @@ export class CoachService implements ReflectionCoachHook {
     const history = messages.filter((m) => m.meta?.kind !== 'error').slice(-this.config.chatHistoryMessages);
     const userContext = this.deps.userContext.getUserContext();
     const reports = [...safe(() => reflections.listCurrentReports('day', 2), []), ...safe(() => reflections.listCurrentReports('week', 1), [])];
+    const longitudinal = await this.longitudinalLines();
 
     const sections = [
       `NOW\n${formatLocalDateTime(now)}`,
@@ -1076,6 +1085,9 @@ export class CoachService implements ReflectionCoachHook {
       recent.length > 0
         ? `RECENT DAYS (measured by Reflect)\n${recent.map((r) => `${formatDay(new Date(r.day.start))}: ${dayLine(r.metrics, active)}`).join('\n')}`
         : 'RECENT DAYS\nNo earlier days tracked.',
+      longitudinal.length > 0
+        ? `HOW THE USER'S WORK MOVED ACROSS RECENT DAYS (measured by Reflect from the current record; "closed" items were closed by the user and are not open)\n${longitudinal.join('\n')}`
+        : '',
       reports.length > 0
         ? `LATEST REFLECTIONS (what Reflect already told the user)\n${reports
             .map(
@@ -1123,6 +1135,26 @@ export class CoachService implements ReflectionCoachHook {
   }
 
   // ── helpers ────────────────────────────────────────────────────────────────
+
+  /**
+   * Trajectories and carried work as plain measured lines. Structure in,
+   * structure out: nothing here depends on how a reflection was worded.
+   */
+  private async longitudinalLines(): Promise<string[]> {
+    const history = this.deps.history;
+    if (!history) return [];
+    try {
+      const [trajectories, carried] = await Promise.all([history.getWorkTrajectories(), history.getCarriedWork()]);
+      const facts = { ...trajectoryMetrics(trajectories), ...carryMetrics(carried) };
+      return Object.values(facts)
+        .filter((m) => m.unit === 'text')
+        .map((m) => `- ${m.label}: ${m.display}`);
+    } catch (err) {
+      // Longitudinal context is an aid to the answer, never a precondition for it.
+      this.log.warn(`[COACH] Could not read how work moved across days: ${messageOf(err)}`);
+      return [];
+    }
+  }
 
   private safePriorities(): ReflectionPriority[] {
     try {

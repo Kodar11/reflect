@@ -80,6 +80,8 @@ describe('toReflectionActivities (verified timeline → reflection)', () => {
       domain: null,
       thread: null,
       priorityId: null,
+      // The raw events the block is made of: what evidence is anchored to.
+      eventIds: [1],
     });
   });
 

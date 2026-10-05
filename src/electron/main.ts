@@ -65,9 +65,10 @@ import { registerLearnedRulesIpc } from '../learning/learnedRulesIpc.js';
 import { toLearningActivities } from '../learning/LearningTimeline.js';
 import { describeClassification, describePattern } from '../learning/LearnedPattern.js';
 import { ReflectionRepository } from '../database/ReflectionRepository.js';
-import { toReflectionActivities } from '../reflection/ReflectionActivities.js';
+import { createEventLocator, toReflectionActivities } from '../reflection/ReflectionActivities.js';
 import { ReflectionAnnotator } from '../reflection/ReflectionAnnotator.js';
 import { PROFILE_CHANGE_CHANNELS, TIMELINE_CHANGE_CHANNELS, affectedRange } from '../reflection/ReflectionChanges.js';
+import { ReflectionHistory } from '../reflection/ReflectionHistory.js';
 import { ReflectionMetricsService } from '../reflection/ReflectionMetricsService.js';
 import { DEFAULT_REFLECTION_CONFIG, type TaxonomyNames } from '../reflection/ReflectionModels.js';
 import { ReflectionScheduler } from '../reflection/ReflectionScheduler.js';
@@ -715,6 +716,8 @@ if (primaryInstance) app.whenReady().then(async () => {
       firstEventAt: () => repo.getFirstEventStart(),
       // A pause is missing data, not inactivity — the reflection is told so.
       trackingPausedMs: (from, to) => backgroundRepo.pausedMsBetween(from, to) + trackingController.currentPauseMsBetween(from, to),
+      // Evidence is anchored to raw events; this finds the block that holds them now.
+      locateEvents: createEventLocator(repo, timelineService),
     },
     reflectionRepo,
     { config: DEFAULT_REFLECTION_CONFIG },
@@ -757,6 +760,8 @@ if (primaryInstance) app.whenReady().then(async () => {
     repo: coachRepo,
     gemini: geminiClient,
     reflections: reflectionRepo,
+    // Reflect's structured memory: how each body of work moved, what is still open.
+    history: new ReflectionHistory(reflectionRepo, { metrics: reflectionMetrics, config: DEFAULT_REFLECTION_CONFIG }),
     metrics: reflectionMetrics,
     focus: focusRepo,
     userContext: userContextProvider,
@@ -766,6 +771,11 @@ if (primaryInstance) app.whenReady().then(async () => {
   });
   // A Focus session that just ended is the evidence for the action it was for.
   focusService.on('summary', () => void coachService.onFocusEnded());
+  // A finished Focus session is part of what that day's reflection is written from.
+  focusService.on('summary', (ended: { startedAt?: string | null; endedAt?: string | null }) => {
+    const end = ended?.endedAt ?? new Date().toISOString();
+    reflectionService?.notifyDataChanged({ kind: 'focus', range: { start: ended?.startedAt ?? end, end } });
+  });
 
   reflectionService = new ReflectionService({
     repo: reflectionRepo,

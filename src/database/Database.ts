@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 16) return;
+    if (version >= 17) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -1412,6 +1412,110 @@ export class Database {
         `);
 
         this.db.pragma('user_version = 16');
+      })();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v16 → v17
+    //
+    // Longitudinal reflection.
+    //
+    // 1. reflection_insights says what each insight is ABOUT (a backend-owned
+    //    subject: priority and / or thread), which way it points
+    //    (identity_key) and how it relates to what was said before
+    //    (continuity). Earlier rows keep NULLs and are read through their
+    //    claim_signature.
+    //
+    // 2. reflection_activity_annotations records who decided a link. A
+    //    'user' row is a correction; the model never overwrites it.
+    //
+    // 3. reflection_priority_events is the history of every stated priority:
+    //    stated, paused, completed, reactivated, renamed, archived. The
+    //    priority row holds the current state; the events hold what it was.
+    //
+    // 4. reflection_day_facts is the day ledger: a few structured rows per
+    //    closed local day (totals, and time per thread / priority / area /
+    //    intent). A cache of derived data — always recomputable from the
+    //    verified timeline — so months and years are read from structure
+    //    instead of re-deriving every day from raw events.
+    //
+    // Purely additive. Earlier reports stay readable as they are.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 17) {
+      this.db.transaction(() => {
+        for (const [column, type] of [
+          ['identity_key', 'TEXT'],
+          ['subject_key', 'TEXT'],
+          ['thread', 'TEXT'],
+          ['priority_id', 'TEXT'],
+          ['continuity', 'TEXT'],
+          ['magnitude', 'REAL'],
+        ]) {
+          if (!tableHasColumn('reflection_insights', column)) {
+            this.db.exec(`ALTER TABLE reflection_insights ADD COLUMN ${column} ${type}`);
+          }
+        }
+        if (!tableHasColumn('reflection_activity_annotations', 'source')) {
+          this.db.exec("ALTER TABLE reflection_activity_annotations ADD COLUMN source TEXT NOT NULL DEFAULT 'model'");
+        }
+
+        this.db.exec(`
+          CREATE INDEX IF NOT EXISTS idx_reflection_insights_identity
+            ON reflection_insights (identity_key);
+
+          CREATE TABLE IF NOT EXISTS reflection_priority_events (
+            id            INTEGER PRIMARY KEY AUTOINCREMENT,
+            priority_id   TEXT NOT NULL,
+            at            DATETIME NOT NULL,
+            type          TEXT NOT NULL
+              CHECK (type IN ('stated', 'paused', 'completed', 'reactivated', 'renamed', 'archived')),
+            text          TEXT NOT NULL,
+            previous_text TEXT,
+
+            FOREIGN KEY (priority_id)
+              REFERENCES reflection_priorities (id)
+              ON DELETE CASCADE
+          );
+
+          CREATE INDEX IF NOT EXISTS idx_reflection_priority_events_priority
+            ON reflection_priority_events (priority_id, at);
+
+          -- What is known about the priorities that already exist: when each
+          -- was stated and, if it is no longer active, when that happened.
+          INSERT INTO reflection_priority_events (priority_id, at, type, text)
+            SELECT p.id, p.active_from, 'stated', p.text
+            FROM reflection_priorities p
+            WHERE NOT EXISTS (SELECT 1 FROM reflection_priority_events e WHERE e.priority_id = p.id);
+
+          INSERT INTO reflection_priority_events (priority_id, at, type, text)
+            SELECT p.id, COALESCE(p.active_until, p.updated_at), p.status, p.text
+            FROM reflection_priorities p
+            WHERE p.status IN ('paused', 'completed', 'archived')
+              AND NOT EXISTS (SELECT 1 FROM reflection_priority_events e WHERE e.priority_id = p.id AND e.type = p.status);
+
+          CREATE TABLE IF NOT EXISTS reflection_day_facts (
+            day_key     TEXT NOT NULL,
+            day_start   DATETIME NOT NULL,
+            day_end     DATETIME NOT NULL,
+            kind        TEXT NOT NULL,
+            key         TEXT NOT NULL,
+            label       TEXT,
+            minutes     REAL NOT NULL DEFAULT 0,
+            sessions    INTEGER NOT NULL DEFAULT 0,
+            priority_id TEXT,
+
+            PRIMARY KEY (day_key, kind, key)
+          ) WITHOUT ROWID;
+
+          CREATE INDEX IF NOT EXISTS idx_reflection_day_facts_start
+            ON reflection_day_facts (day_start);
+
+          CREATE INDEX IF NOT EXISTS idx_reflection_day_facts_entity
+            ON reflection_day_facts (kind, key);
+        `);
+
+        this.db.pragma('user_version = 17');
       })();
     }
   }

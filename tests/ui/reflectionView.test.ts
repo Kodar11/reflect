@@ -13,6 +13,9 @@ import {
   shortMetricLabel,
   staleMessage,
   timelineTargetFor,
+  resolveTimelineTarget,
+  evidenceWhere,
+  carryStatusLine,
 } from '../../src/ui/Reflection/reflectionView';
 import { periodContaining } from '../../src/reflection/ReflectionPeriods';
 import { REFLECTION_INSIGHT_TYPES } from '../../src/reflection/ReflectionModels';
@@ -78,7 +81,45 @@ describe('Reflection tab — evidence links', () => {
       { activityId: 'ai-12-0', period: { start: local(12, 9).toISOString(), end: local(12, 10, 20).toISOString() } },
       week42,
     );
-    expect(target).toEqual({ day: local(12, 9).toISOString(), view: 'day', activityId: 'ai-12-0' });
+    expect(target).toMatchObject({ day: local(12, 9).toISOString(), view: 'day', activityId: 'ai-12-0' });
+  });
+
+  it('carries the raw events behind an activity, so the link survives a regrouped timeline', async () => {
+    const period = { start: local(12, 9).toISOString(), end: local(12, 10, 20).toISOString() };
+    const target = timelineTargetFor({ activityId: 's-101-4', eventIds: [101, 102, 103, 104], period }, week42);
+    expect(target.evidence).toEqual({ activityId: 's-101-4', eventIds: [101, 102, 103, 104], period });
+
+    // The block that holds those events today has another id: that one is opened.
+    const resolved = await resolveTimelineTarget(target, async (evidence) => {
+      expect(evidence.eventIds).toEqual([101, 102, 103, 104]);
+      return { activityId: 'ai-new', start: local(12, 9, 5).toISOString(), end: local(12, 10).toISOString() };
+    });
+    expect(resolved).toMatchObject({ activityId: 'ai-new', day: local(12, 9, 5).toISOString(), view: 'day' });
+
+    // The lookup failing (or finding nothing) falls back to the recorded window — never to nowhere.
+    expect(await resolveTimelineTarget(target, async () => null)).toEqual(target);
+    expect(
+      await resolveTimelineTarget(target, async () => {
+        throw new Error('offline');
+      }),
+    ).toEqual(target);
+    // A metric over the whole period has nothing to resolve.
+    expect(timelineTargetFor({}, week42).evidence).toBeUndefined();
+  });
+
+  it('says which days a piece of evidence is about — unless it is the whole period', () => {
+    expect(evidenceWhere({ period: { start: local(13).toISOString(), end: local(14).toISOString() } }, week42)).toBe('Tue, Oct 13');
+    expect(evidenceWhere({ period: { start: local(13).toISOString(), end: local(16).toISOString() } }, week42)).toBe('Oct 13 – Oct 15');
+    expect(evidenceWhere({ period: { start: week42.start, end: week42.end } }, week42)).toBeNull();
+    expect(evidenceWhere({}, week42)).toBeNull();
+  });
+
+  it('describes carried work without calling closed work open', () => {
+    const lastWorked = { start: local(13).toISOString(), end: local(14).toISOString() };
+    expect(carryStatusLine({ status: 'open', idleTrackedDays: 3, lastWorked })).toBe('Still open — no work on it for 3 tracked days, last worked Tue, Oct 13.');
+    expect(carryStatusLine({ status: 'progressing', idleTrackedDays: 0, lastWorked })).toBe('Picked up again on Tue, Oct 13.');
+    expect(carryStatusLine({ status: 'completed', idleTrackedDays: 4, lastWorked })).toBe('Closed — you marked it completed.');
+    expect(carryStatusLine({ status: 'dropped', idleTrackedDays: 4, lastWorked: null })).toBe('Closed — you removed it from your priorities.');
   });
 
   it('opens a metric window in the smallest view that shows it', () => {

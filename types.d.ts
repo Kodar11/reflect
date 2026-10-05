@@ -428,6 +428,56 @@ interface ReflectionEvidenceDto {
   label: string;
   value?: number | string;
   period?: { start: string; end: string };
+  /** The raw events behind an activity — what the reference rests on. `activityId` is the block as it was when written. */
+  eventIds?: number[];
+  thread?: string;
+}
+
+/** What it takes to find a piece of evidence on the Timeline again. */
+interface ReflectionEvidenceRefDto {
+  eventIds?: number[];
+  activityId?: string;
+  period?: { start: string; end: string };
+}
+
+interface ReflectionLinkCorrectionDto {
+  evidence: ReflectionEvidenceRefDto;
+  /** `null` = not work on any stated priority; omitted = unchanged. */
+  priorityId?: string | null;
+  /** `null` = no project; omitted = unchanged. */
+  thread?: string | null;
+}
+
+/** How one activity behind an insight is linked right now. */
+interface ReflectionInsightBasisDto {
+  evidenceIndex: number;
+  title: string;
+  start: string;
+  end: string;
+  thread: string | null;
+  priority: { id: string; text: string } | null;
+  linkedBy: 'user' | 'model' | 'keyword' | null;
+}
+
+type ReflectionContinuityDto = 'new' | 'continuing' | 'strengthening' | 'weakening' | 'resolved' | 'recurred';
+
+/** Something that persisted across periods — or closed. */
+interface ReflectionCarryItemDto {
+  key: string;
+  title: string;
+  priorityId: string | null;
+  thread: string | null;
+  status: 'open' | 'progressing' | 'completed' | 'paused' | 'dropped';
+  since: string;
+  idleTrackedDays: number;
+  timesRaised: number;
+  lastWorked: { start: string; end: string } | null;
+}
+
+interface ReflectionAvailablePeriodDto {
+  period: ReflectionPeriodDto;
+  status: 'reported' | 'available' | 'thin' | 'unobserved';
+  trackedMinutes: number;
 }
 
 interface ReflectionMetricDto {
@@ -445,6 +495,10 @@ interface ReflectionInsightDto {
   relevance: string | null;
   evidence: ReflectionEvidenceDto[];
   feedback: ReflectionFeedbackDto | null;
+  /** Whether this is new or was said before — decided by Reflect, not by the model. */
+  continuity: ReflectionContinuityDto;
+  priority: { id: string; text: string } | null;
+  thread: string | null;
 }
 
 /** The coaching written with a day's reflection. Its actions are read through `window.coach`. */
@@ -465,10 +519,14 @@ interface ReflectionReportDto {
   coach: ReflectionCoachBlockDto | null;
   insights: ReflectionInsightDto[];
   carryForward: { text: string; evidence: ReflectionEvidenceDto[] } | null;
+  /** Work still unresolved from earlier periods, and what closed. */
+  carried: ReflectionCarryItemDto[];
   generatedAt: string | null;
   coveredUntil: string | null;
   isPartial: boolean;
   staleReason: string | null;
+  /** Written by an earlier version of Reflect's reasoning. */
+  outdated: boolean;
   supportingMetrics: ReflectionMetricDto[];
   notes: string[];
 }
@@ -741,7 +799,12 @@ interface Window {
   reflection: {
     /** The period's view. Never triggers a Gemini call. */
     getReport: (period: ReflectionPeriodRequestDto) => Promise<ReflectionViewDto>;
-    getAvailablePeriods: () => Promise<{ periods: ReflectionPeriodDto[]; hasHistory: boolean }>;
+    /** With a type: every period of that type since tracking began, and what was observed in it. */
+    getAvailablePeriods: (type?: ReflectionPeriodTypeDto | null) => Promise<{ periods: ReflectionPeriodDto[]; hasHistory: boolean; available: ReflectionAvailablePeriodDto[] }>;
+    /** Where the evidence is on the Timeline now; `null` when it cannot be placed. */
+    resolveEvidence: (evidence: ReflectionEvidenceRefDto) => Promise<{ activityId: string | null; start: string; end: string } | null>;
+    getInsightBasis: (reportId: string, insightId: string) => Promise<ReflectionInsightBasisDto[]>;
+    correctLink: (correction: ReflectionLinkCorrectionDto) => Promise<{ ok: boolean }>;
     /** Which day to open on: `null` = today, else an instant inside the latest day with a reflection. */
     getLanding: () => Promise<{ anchor: string | null }>;
     /** Manual "Refresh reflection" (throttled in the main process). */

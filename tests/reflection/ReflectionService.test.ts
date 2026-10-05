@@ -9,6 +9,7 @@ import {
   makeReflectionHarness,
   modelInsight,
   modelReflection,
+  NARROW_SCHEDULE,
   projectY,
   seedThreads,
   workday,
@@ -82,8 +83,8 @@ describe('ReflectionService.generate', () => {
       coveredUntil: week42.end,
       promptVersion: REFLECTION_PROMPT_VERSION,
       model: 'test-model-001',
-      inputSchemaVersion: 2,
-      outputSchemaVersion: 2,
+      inputSchemaVersion: 3,
+      outputSchemaVersion: 3,
     });
     // Observation / interpretation / evidence stay separate — not one paragraph.
     expect(report.insights[1]).toMatchObject({
@@ -464,10 +465,27 @@ describe('ReflectionService — staleness', () => {
     expect(h.repo.getCurrentReport('week', week42.key)!.needsVerification).toBe(false); // checked once, not on every visit
   });
 
-  it('only re-checks reports whose period overlaps the change', async () => {
+  it('only re-checks reports the change can reach: their own period, or the one they were compared with', async () => {
     const h = await generated();
-    h.service.notifyDataChanged({ kind: 'timeline', range: { start: iso(6), end: iso(7) } }); // the week before
+    // Three weeks earlier: nothing this report was written from or compared with.
+    h.service.notifyDataChanged({ kind: 'timeline', range: { start: iso(-9), end: iso(-8) } });
     expect(h.repo.getCurrentReport('week', week42.key)!.needsVerification).toBe(false);
+
+    // The week before IS what it was compared with ("vs the previous week").
+    h.service.notifyDataChanged({ kind: 'timeline', range: { start: iso(6), end: iso(7) } });
+    expect(h.repo.getCurrentReport('week', week42.key)!.needsVerification).toBe(true);
+    // Nothing really changed there, so the report stays fresh once checked.
+    expect((await h.service.getView('week', iso(14))).report!.status).toBe('fresh');
+  });
+
+  it('becomes stale when the period it was compared with meaningfully changed', async () => {
+    const h = await generated();
+    // The user removes most of a day from the PREVIOUS week on the Timeline.
+    for (let i = h.activities.length - 1; i >= 0; i--) {
+      if (h.activities[i].startedAt >= iso(6) && h.activities[i].startedAt < iso(8)) h.activities.splice(i, 1);
+    }
+    h.service.notifyDataChanged({ kind: 'timeline', range: { start: iso(6), end: iso(8) } });
+    expect((await h.service.getView('week', iso(14))).report).toMatchObject({ status: 'stale', staleReason: 'history_changed' });
   });
 
   it('a running period becomes stale when the priorities it was written against change', async () => {
@@ -517,24 +535,25 @@ describe('ReflectionService.pendingScheduledPeriods', () => {
 
   it('lists closed periods without a report, oldest first, within the backlog window', async () => {
     // Mon Oct 19, 09:00. Tracking began Mon Oct 5.
-    const h = harness();
+    const h = harness({ config: NARROW_SCHEDULE });
+    // In the order the periods ended: a week comes after its own days.
     expect(await keys(h)).toEqual([
+      'week:2026-W41',
       'day:2026-10-16', // Fri (Sat/Sun are closed too, and get examined once)
       'day:2026-10-17',
       'day:2026-10-18',
-      'week:2026-W41',
       'week:2026-W42',
     ]);
   });
 
   it('does not list a period that already has a report, or was found too thin', async () => {
-    const h = harness();
+    const h = harness({ config: NARROW_SCHEDULE });
     h.gemini.push(weekly(week42, h.priorityId));
     await h.service.generate(week42, { trigger: 'scheduled' });
     await h.service.generate(periodContaining('day', local(17)), { trigger: 'scheduled' }); // Saturday: nothing tracked
     await h.service.generate(periodContaining('day', local(18)), { trigger: 'scheduled' });
 
-    expect(await keys(h)).toEqual(['day:2026-10-16', 'week:2026-W41']);
+    expect(await keys(h)).toEqual(['week:2026-W41', 'day:2026-10-16']);
   });
 
   it('retries a transient failure but stops retrying output that keeps being rejected', async () => {
@@ -613,8 +632,8 @@ describe('ReflectionService — recovery', () => {
       period: week42,
       coveredUntil: week42.end,
       trigger: 'scheduled',
-      inputSchemaVersion: 2,
-      outputSchemaVersion: 2,
+      inputSchemaVersion: 3,
+      outputSchemaVersion: 3,
       promptVersion: REFLECTION_PROMPT_VERSION,
       model: 'test-model',
       nowIso: iso(18),

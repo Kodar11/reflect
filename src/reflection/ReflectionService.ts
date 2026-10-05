@@ -3,10 +3,11 @@ import type { IReflectionRepository } from '../database/ReflectionRepository.js'
 import type { IUserProfileRepository } from '../database/UserProfileRepository.js';
 import { GeminiError, type IGeminiClient } from '../intelligence/GeminiClient.js';
 import type { UserContextProvider } from '../intelligence/IntelligenceModels.js';
+import { activitySignature } from './ReflectionActivities.js';
 import type { ReflectionAnnotator } from './ReflectionAnnotator.js';
 import type { DailyCoachSession, ReflectionCoachHook } from './ReflectionCoachHook.js';
-import { assessSufficiency, findMeaningfulDifference, selectSupportingMetrics } from './ReflectionMetrics.js';
-import type { ReflectionMetricsService } from './ReflectionMetricsService.js';
+import { assessSufficiency, findMeaningfulDifference, selectSupportingMetrics, staleReasonFor } from './ReflectionMetrics.js';
+import { prioritiesFingerprint, type ReflectionMetricsService } from './ReflectionMetricsService.js';
 import {
   DEFAULT_REFLECTION_CONFIG,
   REFLECTION_FEEDBACK_TYPES,
@@ -14,7 +15,9 @@ import {
   REFLECTION_OUTPUT_SCHEMA_VERSION,
   REFLECTION_PERIOD_TYPES,
   REFLECTION_PRIORITY_STATUSES,
+  type CarryItem,
   type GenerateResult,
+  type InsightContinuity,
   type Metric,
   type MetricSet,
   type ReflectionConfig,
@@ -73,7 +76,11 @@ const MAX_ATTEMPTS = 3;
 const RETRY_DELAYS_MS = [1_000, 4_000];
 const REJECTION_CATEGORIES: ReflectionErrorCategory[] = ['malformed_output', 'validation'];
 const FEEDBACK_LOOKBACK_MS = 90 * 86_400_000;
-const RECENT_REPORTS = 4;
+const DAY_MS = 86_400_000;
+/** How many periods the "which periods can I look at?" list reaches back, per type. */
+const AVAILABILITY_LIMIT: Record<ReflectionPeriodType, number> = { day: 60, week: 26, month: 24, year: 10 };
+/** Smaller periods first, so a week is written after its days and a month after its weeks. */
+const TYPE_ORDER: Record<ReflectionPeriodType, number> = { day: 0, week: 1, month: 2, year: 3 };
 /** The reflection of the next larger period is background for the smaller one. */
 const LARGER_PERIOD: Partial<Record<ReflectionPeriodType, ReflectionPeriodType>> = { day: 'week', week: 'month', month: 'year' };
 
@@ -128,6 +135,31 @@ export interface ReflectionInsightView {
   relevance: string | null;
   evidence: ReflectionEvidence[];
   feedback: ReflectionFeedbackType | null;
+  /** New, continuing, strengthening, weakening, resolved or recurred — decided by Reflect, not the model. */
+  continuity: InsightContinuity;
+  /** The stated priority this is about, when it is about one. */
+  priority: { id: string; text: string } | null;
+  /** The project / thread this is about, when it is about one. */
+  thread: string | null;
+}
+
+export interface ReflectionAvailablePeriod {
+  period: ReflectionPeriod;
+  /** 'reported': a reflection exists · 'available': enough was observed to write one · 'thin': too little · 'unobserved': nothing recorded. */
+  status: 'reported' | 'available' | 'thin' | 'unobserved';
+  trackedMinutes: number;
+}
+
+/** How one cited activity is currently understood — what a correction would change. */
+export interface InsightBasisActivity {
+  evidenceIndex: number;
+  title: string;
+  start: string;
+  end: string;
+  thread: string | null;
+  priority: { id: string; text: string } | null;
+  /** Who decided the priority link. */
+  linkedBy: 'user' | 'model' | 'keyword' | null;
 }
 
 export interface ReflectionReportView {
@@ -140,10 +172,14 @@ export interface ReflectionReportView {
   coach: ReportCoachBlock | null;
   insights: ReflectionInsightView[];
   carryForward: { text: string; evidence: ReflectionEvidence[] } | null;
+  /** Work still unresolved from earlier periods (and what closed), as it stood when this was written. */
+  carried: CarryItem[];
   generatedAt: string | null;
   coveredUntil: string | null;
   isPartial: boolean;
   staleReason: string | null;
+  /** Written by an earlier version of Reflect's reasoning; it can be rewritten on request. */
+  outdated: boolean;
   supportingMetrics: ReflectionMetricView[];
   notes: string[];
 }
@@ -297,7 +333,7 @@ export class ReflectionService {
         hasNext: closed,
       },
       configured: this.isConfigured(),
-      report: report ? toReportView(report, period.type) : null,
+      report: report ? toReportView(report, period.type, priorities) : null,
       generation,
       live,
       sufficiency,
@@ -347,16 +383,138 @@ export class ReflectionService {
     return new Date(due > now.getTime() ? due : this.dailyReflectionTime(shiftPeriod(today, 1)));
   }
 
-  /** Periods that have a reflection, plus when tracking began. */
-  listAvailablePeriods(): { periods: ReflectionPeriod[]; hasHistory: boolean } {
+  /**
+   * Which periods can be looked at. `periods` are the ones that already have
+   * a reflection; with a `type`, `available` lists every period of that type
+   * since tracking began (newest first) with what was observed in it — so a
+   * past period that holds enough data can be reflected on when asked for,
+   * and one in which nothing was recorded is shown as unobserved, not empty.
+   */
+  async listAvailablePeriods(type?: ReflectionPeriodType | null): Promise<{ periods: ReflectionPeriod[]; hasHistory: boolean; available: ReflectionAvailablePeriod[] }> {
     try {
-      return {
-        periods: this.deps.repo.listReportedPeriods(),
-        hasHistory: this.deps.metrics.hasHistoryBefore(this.now().toISOString()),
-      };
+      const periods = this.deps.repo.listReportedPeriods();
+      const hasHistory = this.deps.metrics.hasHistoryBefore(this.now().toISOString());
+      let available: ReflectionAvailablePeriod[] = [];
+      if (type && hasHistory) {
+        const reported = new Set(periods.filter((p) => p.type === type).map((p) => p.key));
+        available = (await this.deps.metrics.availability(type, AVAILABILITY_LIMIT[type], this.syncPriorities())).map((a) => ({
+          period: a.period,
+          status: reported.has(a.period.key) ? 'reported' : a.enough ? 'available' : a.trackedMinutes < 1 ? 'unobserved' : 'thin',
+          trackedMinutes: a.trackedMinutes,
+        }));
+      }
+      return { periods, hasHistory, available };
     } catch (err) {
       this.log.error(`[REFLECTION] Could not list periods: ${messageOf(err)}`);
-      return { periods: [], hasHistory: false };
+      return { periods: [], hasHistory: false, available: [] };
+    }
+  }
+
+  // ── Evidence ───────────────────────────────────────────────────────────────
+
+  /**
+   * Where a stored piece of evidence is on the Timeline now. Evidence is
+   * anchored to raw events, so it still resolves after the blocks around
+   * those events were regrouped, re-analysed or edited.
+   */
+  async resolveEvidence(evidence: Pick<ReflectionEvidence, 'eventIds' | 'activityId' | 'period'>): Promise<{ activityId: string | null; start: string; end: string } | null> {
+    try {
+      return await this.deps.metrics.resolveEvidence(evidence);
+    } catch (err) {
+      this.log.error(`[REFLECTION] Could not resolve evidence: ${messageOf(err)}`);
+      return null;
+    }
+  }
+
+  /**
+   * "Why did Reflect say this?" — the activities an insight cites, as they
+   * are understood NOW: which project and which priority each is linked to,
+   * and who decided that link. This is what the user corrects when an
+   * insight is not accurate.
+   */
+  async getInsightBasis(reportId: string, insightId: string): Promise<InsightBasisActivity[]> {
+    try {
+      const insight = this.deps.repo.getReportById(reportId)?.insights.find((i) => i.id === insightId);
+      if (!insight) return [];
+      const priorities = this.syncPriorities();
+      const out: InsightBasisActivity[] = [];
+      for (const [evidenceIndex, evidence] of insight.evidence.entries()) {
+        if (evidence.kind !== 'activity') continue;
+        const activity = await this.currentActivity(evidence, priorities);
+        if (!activity) continue;
+        const priority = priorities.find((p) => p.id === activity.priorityId);
+        out.push({
+          evidenceIndex,
+          title: activity.title,
+          start: activity.startedAt,
+          end: activity.endedAt,
+          thread: activity.thread,
+          priority: priority ? { id: priority.id, text: priority.text } : null,
+          linkedBy: activity.priorityLinkSource ?? null,
+        });
+      }
+      return out;
+    } catch (err) {
+      this.log.error(`[REFLECTION] Could not explain insight ${insightId}: ${messageOf(err)}`);
+      return [];
+    }
+  }
+
+  /** The activity a piece of evidence points at, as the Timeline holds it now, with its links. */
+  private async currentActivity(evidence: Pick<ReflectionEvidence, 'eventIds' | 'activityId' | 'period'>, priorities: ReflectionPriority[]) {
+    const where = await this.deps.metrics.resolveEvidence(evidence);
+    if (!where?.activityId) return null;
+    const day = periodContaining('day', where.start);
+    const nextDay = shiftPeriod(periodContaining('day', new Date(Date.parse(where.end) - 1)), 1);
+    const activities = await this.deps.metrics.loadActivities(day.start, nextDay.start, prioritiesActiveDuring(priorities, day.start, nextDay.start));
+    return activities.find((a) => a.id === where.activityId) ?? null;
+  }
+
+  /**
+   * The user corrects how an activity is linked: "this was not work on that
+   * priority", "this belongs to another one", "this is a different project".
+   *
+   * The correction goes into the SAME store the annotator writes to, marked
+   * as the user's — so it applies to every activity of that kind, the model
+   * never overwrites it, and every reflection reads the corrected link.
+   * Classification (what kind of activity it was) is corrected on the
+   * Timeline, through the existing flow; Reflection consumes both.
+   */
+  async correctActivityLink(input: {
+    evidence: Pick<ReflectionEvidence, 'eventIds' | 'activityId' | 'period'>;
+    /** `null` = not work on any stated priority; omitted = leave as is. */
+    priorityId?: string | null;
+    /** `null` = no project; omitted = leave as is. */
+    thread?: string | null;
+  }): Promise<boolean> {
+    try {
+      const priorities = this.syncPriorities();
+      if (input.priorityId && !priorities.some((p) => p.id === input.priorityId)) return false;
+      const activity = await this.currentActivity(input.evidence, priorities);
+      if (!activity) return false;
+      const nowIso = this.now().toISOString();
+      const signature = activitySignature(activity);
+      const existing = this.deps.repo.getAnnotations([signature])[0];
+      const thread = input.thread === undefined ? existing?.thread ?? activity.thread : input.thread === null ? null : input.thread.replace(/\s+/g, ' ').trim().slice(0, 40) || null;
+      this.deps.repo.upsertAnnotations(
+        [
+          {
+            signature,
+            thread,
+            priorityId: input.priorityId === undefined ? activity.priorityId : input.priorityId,
+            // Final for every priority, present and future: the keyword fallback never re-links it.
+            checkedPriorityIds: priorities.map((p) => p.id),
+            source: 'user',
+          },
+        ],
+        nowIso,
+      );
+      this.notifyDataChanged({ kind: 'links' });
+      this.log.info(`[REFLECTION] Link corrected by the user for “${activity.title}”.`);
+      return true;
+    } catch (err) {
+      this.log.error(`[REFLECTION] Could not save the correction: ${messageOf(err)}`);
+      return false;
     }
   }
 
@@ -409,6 +567,10 @@ export class ReflectionService {
       });
       if (isSyncPlanEmpty(plan)) return existing;
       repo.applyPrioritySync(plan, plan.insert.map(() => `pr-${this.newId().slice(0, 8)}`), nowIso);
+      // A reworded priority can match earlier activity differently (the keyword
+      // fallback reads its wording), so the days derived under the old wording
+      // are derived again. Everything else only applies from now on.
+      if (plan.rename.length > 0) this.deps.metrics.invalidate();
       return repo.listPriorities();
     } catch (err) {
       this.log.error(`[REFLECTION] Could not sync priorities: ${messageOf(err)}`);
@@ -423,14 +585,22 @@ export class ReflectionService {
    * dropped and affected reflections are flagged for re-checking; nothing is
    * regenerated and no stored report is rewritten.
    */
-  notifyDataChanged(change: { kind: 'timeline' | 'profile'; range?: { start: string; end: string } | null }): void {
+  notifyDataChanged(change: { kind: 'timeline' | 'profile' | 'focus' | 'links'; range?: { start: string; end: string } | null }): void {
     try {
       const nowIso = this.now().toISOString();
-      this.deps.metrics.invalidate();
       if (change.kind === 'profile') {
+        // Stated priorities apply from now on; nothing a closed day was derived from moved.
+        this.deps.metrics.invalidate('memory');
         this.syncPriorities();
         this.deps.repo.flagForVerification({ start: nowIso, end: new Date(Date.parse(nowIso) + 1).toISOString() }, nowIso);
+      } else if (change.kind === 'links') {
+        // A link applies to every activity of its kind, on any day. The ledger
+        // days holding it were already dropped with the annotation itself.
+        this.deps.metrics.invalidate('memory');
+        this.deps.repo.flagForVerification(null, nowIso);
       } else {
+        // Timeline, classification or Focus data: the affected days are derived again.
+        this.deps.metrics.invalidate(change.range ?? null);
         this.deps.repo.flagForVerification(change.range ?? null, nowIso);
       }
     } catch (err) {
@@ -459,18 +629,32 @@ export class ReflectionService {
    */
   async pendingScheduledPeriods(): Promise<ReflectionPeriod[]> {
     const now = this.now();
-    const pending: ReflectionPeriod[] = [];
+    let pending: ReflectionPeriod[] = [];
     try {
       if (!this.deps.metrics.hasHistoryBefore(now.toISOString())) return [];
+      const priorities = this.syncPriorities();
+      const running: ReflectionPeriod[] = [];
 
       for (const type of REFLECTION_PERIOD_TYPES) {
         const current = periodContaining(type, now);
         for (let back = this.config.backlog[type]; back >= 1; back--) {
           const period = shiftPeriod(current, -back);
           if (!this.deps.metrics.hasHistoryBefore(period.end)) continue;
-          if (await this.needsClosedReport(period)) pending.push(period);
+          if ((await this.needsClosedReport(period, priorities)) || this.needsRewrite(period, now)) pending.push(period);
         }
+        // A week, month or year does not have to end before it can be read.
+        if (type !== 'day' && (await this.needsRunningReport(current, now, priorities))) running.push(current);
       }
+
+      // A long absence is caught up over several cycles: never more than a
+      // handful of reports per cycle, the most recent closed periods first.
+      // "So far" reports of running periods only take the room that is left.
+      const cap = this.config.maxScheduledPerCycle;
+      if (pending.length > cap) {
+        pending = [...pending].sort((a, b) => (a.end < b.end ? 1 : a.end > b.end ? -1 : TYPE_ORDER[a.type] - TYPE_ORDER[b.type])).slice(0, cap);
+      }
+      pending.push(...running.slice(0, Math.max(0, cap - pending.length)));
+      pending.sort((a, b) => (a.end < b.end ? -1 : a.end > b.end ? 1 : TYPE_ORDER[a.type] - TYPE_ORDER[b.type]));
 
       // Today's reflection: at the user's reflection time — or a little
       // earlier, once the day has visibly wound down.
@@ -507,8 +691,40 @@ export class ReflectionService {
     );
   }
 
+  /**
+   * A stale report inside the backlog window is rewritten — its period's data
+   * or links were corrected after it was written — but not more often than
+   * the cooldown allows, however many edits follow each other.
+   */
+  private needsRewrite(period: ReflectionPeriod, now: Date): boolean {
+    if (this.rejectedTooOften(period)) return false;
+    const current = this.deps.repo.getCurrentReport(period.type, period.key);
+    if (current?.status !== 'stale') return false;
+    return now.getTime() - Date.parse(current.generatedAt ?? current.createdAt) >= this.config.staleRegenerateCooldownMs;
+  }
+
+  /**
+   * Does the week / month / year that is still running need a "so far"
+   * report? Once it holds enough to reflect on — and again only when the one
+   * it has is several days old.
+   */
+  private async needsRunningReport(period: ReflectionPeriod, now: Date, priorities: ReflectionPriority[]): Promise<boolean> {
+    if (period.type === 'day' || this.rejectedTooOften(period)) return false;
+    const { repo, metrics } = this.deps;
+    // 0 (or less) turns "so far" reports off for that horizon.
+    if (!(this.config.runningRefreshDays[period.type] > 0)) return false;
+    const refreshMs = this.config.runningRefreshDays[period.type] * DAY_MS;
+    const current = repo.getCurrentReport(period.type, period.key);
+    if (current) return now.getTime() - Date.parse(current.coveredUntil ?? current.createdAt) >= refreshMs;
+    const latest = repo.getLatestAttempt(period.type, period.key);
+    // Found too thin (or failed) recently: look again when it could have changed.
+    if (latest && now.getTime() - Date.parse(latest.createdAt) < Math.min(refreshMs, DAY_MS)) return false;
+    const core = await metrics.computeCore(period, now.toISOString(), priorities);
+    return assessSufficiency(core.metrics, period.type, this.config).enough;
+  }
+
   /** Does this closed period still need its (final) report? */
-  private async needsClosedReport(period: ReflectionPeriod): Promise<boolean> {
+  private async needsClosedReport(period: ReflectionPeriod, priorities: ReflectionPriority[] = []): Promise<boolean> {
     if (this.rejectedTooOften(period)) return false;
     const { repo, metrics } = this.deps;
 
@@ -520,8 +736,7 @@ export class ReflectionService {
     // once, and only if enough happened afterwards to matter.
     const coveredUntil = examined.coveredUntil ?? period.end;
     if (Date.parse(coveredUntil) >= Date.parse(period.end)) return false;
-    const later = await metrics.loadRawActivities(coveredUntil, period.end);
-    return later.reduce((sum, a) => sum + a.durationMinutes, 0) >= this.config.finalizeMinNewMinutes;
+    return (await metrics.trackedMinutesBetween(coveredUntil, period.end, priorities)) >= this.config.finalizeMinNewMinutes;
   }
 
   // ── Generation ─────────────────────────────────────────────────────────────
@@ -565,7 +780,12 @@ export class ReflectionService {
         const latest = repo.getLatestAttempt(period.type, period.key);
         const blocked = this.refreshState(period, current, latest, true, false).reason;
         if (blocked === 'cooldown') return { status: 'skipped', reason: 'throttled', period };
-        if (blocked === 'up_to_date') return { status: 'skipped', reason: 'up_to_date', period };
+        // "Up to date" is a claim, so it is checked — against the timeline, the
+        // links, the Focus data and the priorities as they are NOW. Only a
+        // report that still describes its period is left alone.
+        if (blocked === 'up_to_date' && current && (await this.verify(current, this.syncPriorities(), true)).status === 'fresh') {
+          return { status: 'skipped', reason: 'up_to_date', period };
+        }
       }
 
       // Missing key: clear, non-fatal, and nothing is written.
@@ -602,19 +822,36 @@ export class ReflectionService {
       }
 
       const userContext = this.deps.userContext.getUserContext();
+      const userFeedback = repo.listFeedback(new Date(now.getTime() - FEEDBACK_LOOKBACK_MS).toISOString());
       const prepared = prepareReflection(dataset, {
         userContext,
         taxonomy,
         config: this.config,
         nowIso,
         previousReport: repo.getCurrentReport(period.type, previousPeriod.key),
-        recentReports: repo.listCurrentReports(period.type, RECENT_REPORTS, period.start),
-        feedback: repo.listFeedback(new Date(now.getTime() - FEEDBACK_LOOKBACK_MS).toISOString()),
+        history: repo.listInsightHistory(period.type, period.start, this.config.identityLookback[period.type]),
+        reportedPeriods: repo
+          .listReportedPeriods()
+          .filter((p) => p.type === period.type && p.start < period.start)
+          .slice(0, this.config.identityLookback[period.type]),
+        feedback: userFeedback,
         learnedPatterns: this.deps.learnedPatterns?.() ?? [],
         explicitRules: this.deps.explicitRules?.() ?? [],
         longerTermReport: this.longerTermReport(period),
       });
       const label = describePeriod(period, now);
+
+      // A claim about THIS period that the user marked "not accurate" is not
+      // made again while the evidence it rested on is what it was. Once the
+      // user (or anything upstream) corrected that evidence, it is open again.
+      const disputedIdentities = new Set<string>();
+      for (const f of userFeedback) {
+        if (f.feedbackType !== 'inaccurate' || !f.identityKey || f.periodType !== period.type || f.periodKey !== period.key || !f.reportId) continue;
+        const disputedReport = repo.getReportById(f.reportId);
+        if (disputedReport?.metricsSnapshot && !findMeaningfulDifference(disputedReport.metricsSnapshot, dataset.metrics, this.config)) {
+          disputedIdentities.add(f.identityKey);
+        }
+      }
 
       // A day is reflected on and coached in one request. The coach is an
       // enhancement of the reflection: if it cannot start, the day is still
@@ -701,7 +938,9 @@ export class ReflectionService {
             activityByRef: prepared.activityByRef,
             priorities: dataset.priorities,
             maxInsights: this.config.maxInsights[period.type],
-            recentSignatures: prepared.recentSignatures,
+            history: prepared.history,
+            disputedIdentities,
+            mutedIdentities: prepared.mutedIdentities,
             periodLabel,
           });
           // The coaching half is checked against the same evidence. Its valid
@@ -801,22 +1040,40 @@ export class ReflectionService {
    * longer describes its period is marked stale — never rewritten — and can
    * then be regenerated.
    */
-  private async verify(report: ReflectionReport, priorities: ReflectionPriority[]): Promise<ReflectionReport> {
-    if (report.status !== 'fresh' || !report.needsVerification) return report;
-    const { repo } = this.deps;
+  private async verify(report: ReflectionReport, priorities: ReflectionPriority[], force = false): Promise<ReflectionReport> {
+    if (report.status !== 'fresh' || (!force && !report.needsVerification)) return report;
+    const { repo, metrics } = this.deps;
     try {
       const now = this.now();
+      const coveredUntil = report.coveredUntil ?? report.period.end;
+      const basis = report.dataSnapshot?.basis;
       let reason: string | null = null;
 
+      // The priorities the period was read against: which ones applied during
+      // it, how they were worded, and when each applied. A change made after
+      // a closed period does not touch that period.
+      if (basis && basis.priorities !== prioritiesFingerprint(prioritiesActiveDuring(priorities, report.period.start, coveredUntil), report.period.start, coveredUntil)) {
+        reason = 'priorities_changed';
+      }
       // A period still running was written against the priorities of that moment.
-      if (!isPeriodClosed(report.period, now) && report.dataSnapshot) {
+      if (!reason && !isPeriodClosed(report.period, now) && report.dataSnapshot) {
         const before = [...report.dataSnapshot.activePriorityIds].sort().join(',');
         const after = priorities.filter((p) => p.status === 'active').map((p) => p.id).sort().join(',');
         if (before !== after) reason = 'priorities_changed';
       }
+      // Where the time went, what it is linked to, and the Focus sessions.
       if (!reason && report.metricsSnapshot && report.coveredUntil) {
-        const core = await this.deps.metrics.computeCore(report.period, report.coveredUntil, priorities);
-        if (findMeaningfulDifference(report.metricsSnapshot, core.metrics, this.config)) reason = 'activity_changed';
+        const core = await metrics.computeCore(report.period, report.coveredUntil, priorities);
+        const moved = findMeaningfulDifference(report.metricsSnapshot, core.metrics, this.config);
+        if (moved) reason = staleReasonFor(moved);
+      }
+      // What it was compared with: the previous period, as it is known now.
+      if (!reason && basis && basis.previousTrackedMinutes !== null) {
+        const previous = shiftPeriod(report.period, -1);
+        const tracked = (await metrics.computeCore(previous, previous.end, priorities)).metrics['time.tracked_minutes']?.value;
+        const before = basis.previousTrackedMinutes;
+        const after = typeof tracked === 'number' ? tracked : 0;
+        if (Math.abs(before - after) > Math.max(this.config.staleMinMinutes, this.config.staleMinRatio * Math.max(before, after))) reason = 'history_changed';
       }
 
       const nowIso = now.toISOString();
@@ -862,7 +1119,10 @@ export class ReflectionService {
     }
     if (report?.status === 'fresh') {
       const complete = report.coveredUntil !== null && Date.parse(report.coveredUntil) >= Date.parse(period.end);
-      if (complete) return block('up_to_date');
+      // Written by the current reasoning from data that still stands: nothing
+      // to rewrite. (A change upstream flags the report; it is then re-checked
+      // and, if it no longer describes its period, becomes stale.)
+      if (complete && report.promptVersion === REFLECTION_PROMPT_VERSION) return block('up_to_date');
       const refreshAt = Date.parse(report.generatedAt ?? report.createdAt) + this.config.manualRefreshCooldownMs;
       if (now.getTime() < refreshAt) return block('cooldown', new Date(refreshAt).toISOString());
     }
@@ -888,7 +1148,11 @@ function periodId(period: ReflectionPeriod): string {
   return `${period.type}:${period.key}`;
 }
 
-function toReportView(report: ReflectionReport, type: ReflectionPeriodType): ReflectionReportView {
+function toReportView(report: ReflectionReport, type: ReflectionPeriodType, priorities: ReflectionPriority[]): ReflectionReportView {
+  const priorityOf = (id: string | null) => {
+    const priority = id ? priorities.find((p) => p.id === id) : undefined;
+    return priority ? { id: priority.id, text: priority.text } : null;
+  };
   return {
     id: report.id,
     status: report.status === 'stale' ? 'stale' : 'fresh',
@@ -904,8 +1168,13 @@ function toReportView(report: ReflectionReport, type: ReflectionPeriodType): Ref
       relevance: i.relevance,
       evidence: i.evidence,
       feedback: i.feedback,
+      continuity: i.continuity,
+      priority: priorityOf(i.priorityId),
+      thread: i.thread,
     })),
     carryForward: report.carryForward ? { text: report.carryForward.text, evidence: report.carryForward.evidence } : null,
+    carried: report.dataSnapshot?.carried ?? [],
+    outdated: report.promptVersion !== REFLECTION_PROMPT_VERSION,
     generatedAt: report.generatedAt,
     coveredUntil: report.coveredUntil,
     isPartial: report.dataSnapshot?.isPartial ?? false,

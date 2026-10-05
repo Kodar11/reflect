@@ -25,6 +25,9 @@ export function insight(overrides: Partial<ReflectionInsightDto> = {}): Reflecti
       },
     ],
     feedback: null,
+    continuity: 'new',
+    priority: null,
+    thread: null,
     ...overrides,
   };
 }
@@ -65,6 +68,8 @@ export function report(overrides: Partial<ReflectionReportDto> = {}): Reflection
     coveredUntil: week42.end,
     isPartial: false,
     staleReason: null,
+    carried: [],
+    outdated: false,
     supportingMetrics: [
       { key: 'time.tracked_minutes', label: 'Total tracked time', display: '22h 40m' },
       { key: 'time.focused_minutes', label: 'Focused time (Deep Work + Focused)', display: '18h 55m' },

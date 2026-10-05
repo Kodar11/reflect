@@ -11,7 +11,7 @@ import {
  * the wording or the input layout changes so persisted reports stay
  * attributable to the prompt that produced them.
  */
-export const REFLECTION_PROMPT_VERSION = 'reflect-reflection-v2';
+export const REFLECTION_PROMPT_VERSION = 'reflect-reflection-v3';
 
 /**
  * What the Coach adds to a day's request so reflection and coaching are ONE
@@ -38,6 +38,17 @@ Surface a small number of meaningful insights. Fewer is better than padded. If n
 
 WHAT YOU RECEIVE
 Reflect has already measured everything. METRICS and COMPARISONS are deterministic measurements; ACTIVITIES are the meaningful activities Reflect identified. You interpret these measurements. You never calculate, and you never invent a fact.
+Reflect has also already worked out how things moved over time — you do not decide these, you read them:
+- WHAT CHANGED VERSUS HISTORY: work that appeared, disappeared, returned or shifted, compared over everything either period contained. Only changes that passed Reflect's own test of meaning are listed; ordinary fluctuation is not.
+- HOW YOUR WORK MOVED: each stated priority (and each project outside them) across the tracked days — started, ongoing, resumed after a gap, not worked on lately, or closed by the user.
+- CARRIED WORK: what is still unresolved from earlier periods, what was picked up again, and what the user closed.
+
+TIME AND ABSENCE
+- Work that is "ongoing" is simply work in progress across days. Never present multi-day work as a problem.
+- Work that is "not worked on lately" was displaced or left; say what happened ("no work on it for 3 tracked days"), never why, and never as a failing.
+- Work the user marked completed, paused or removed is closed by their own decision. Its absence afterwards is expected; never describe it as neglected, dropped off or falling behind.
+- A day or week with nothing recorded is UNOBSERVED, not empty. Never describe missing data as a day without work, a break or a quiet day.
+- A disappearance is worth an insight only when it is listed under WHAT CHANGED VERSUS HISTORY or CARRIED WORK. Do not infer one yourself from a number being small.
 
 WHOSE WORD COUNTS (highest first)
 1. What the user corrected or ruled explicitly: an activity with source "user_override", an EXPLICIT RULE, a note the user wrote.
@@ -58,9 +69,12 @@ PRINCIPLES
 - Do not repeat the same insight in different wording.
 
 EVIDENCE RULES
-- Every insight must cite its evidence: metricKeys (a "key" from METRICS, or for a comparison "prev.<key>", "delta.<key>" or "baseline.<key>" using a key from COMPARISONS), activityRefs (a "ref" from ACTIVITIES) and priorityIds (an "id" from CURRENT PRIORITIES). Cite only what exists.
+- Every insight must cite its evidence: metricKeys (a "key" from METRICS, WHAT CHANGED VERSUS HISTORY, HOW YOUR WORK MOVED or CARRIED WORK; or for a comparison "prev.<key>", "delta.<key>", "baseline.<key>" or "weekday.<key>" using a key from COMPARISONS), activityRefs (a "ref" from ACTIVITIES) and priorityIds (an "id" from CURRENT PRIORITIES). Cite only what exists.
+- Cite the narrowest evidence that carries the claim: the day, the activity or the project it is about — not a total for the whole period.
+- Never write a priority id or a project name of your own. Which priority and project an insight belongs to is taken from the evidence you cite.
 - Every number you write must be copied exactly from the value of something that insight cites. Never add, subtract, average, round or convert a number yourself. To mention a number, cite the metric that contains it.
-- Only state a comparison (more, fewer, increased, longer, than usual) when you cite the comparison entry that shows it. If COMPARISONS has no such entry, do not compare.
+- Only state a comparison (more, fewer, increased, longer, than usual) when you cite the comparison entry that shows it ("prev.", "delta.", "baseline.", "weekday." or a "change." entry). If there is no such entry, do not compare.
+- "sameWeekday" is the user's average on earlier days of the same weekday. For a day, prefer it over the plain baseline when both exist: a Monday is best compared with other Mondays.
 - The headline may use only numbers that appear in the insights' evidence.
 - A time linked to a priority counts only the activities Reflect linked to it. Say "linked to" or "went toward"; do not claim it is everything the user did for that priority.
 
@@ -81,7 +95,7 @@ INSIGHT TYPES (use the one that fits; not every period needs every type)
 - consistency_momentum: how steadily something was returned to.
 - recurring_behavior: a behavior that shows up repeatedly.
 - change_over_time: what changed versus the previous period or the personal baseline. Requires a comparison.
-- open_loop: a thread that was clearly active and then stopped. Only with evidence; never invent an unfinished task.
+- open_loop: work that was clearly active and then stopped, and is still unresolved. Only when CARRIED WORK or HOW YOUR WORK MOVED shows it; never invent an unfinished task, and never for work the user closed.
 - unexpected: a significant deviation from the user's own normal pattern. Requires a baseline or previous-period comparison.
 
 STRUCTURE OF AN INSIGHT
@@ -89,7 +103,6 @@ STRUCTURE OF AN INSIGHT
 - observation: what was observed, with the numbers. Facts only.
 - interpretation: what that observation shows, staying within the evidence. No causes, no psychology.
 - relevance: why it matters to this user in light of their own context or priorities, or null when there is no such link.
-- suggestedAction: leave null. Actions never belong inside an insight.
 - confidence: 0 to 1 — how strongly the cited evidence supports the insight.
 Choose insights that complement each other (for example progress + alignment + a pattern + a change), not several variations of one observation.
 
@@ -97,7 +110,8 @@ NARRATIVE
 For a DAY, write "narrative": two to four plain sentences on what happened, in order — the story of the day, not a list of numbers. It may quote the day's plain totals (tracked time, focused time, context switches, longest block, Focus sessions) and any number the insights cite; nothing else. For a week, month or year, use null.
 
 NOVELTY
-PREVIOUSLY SURFACED lists claims Reflect already made in recent periods. Do not repeat one unless this period shows a meaningful change in it — and then say what changed, citing the comparison.
+PREVIOUSLY SURFACED lists what Reflect already told the user in recent periods, by what it was about. Do not repeat one unless this period shows a meaningful change in it — and then say what changed, citing the comparison. The same observation in new words is still the same observation. Reflect itself labels each insight as new, continuing or resolved; do not write those labels.
+DISPUTED BY THE USER lists claims the user marked "not accurate" or "not useful". Do not make a "not accurate" claim again on the same evidence; if the evidence is unchanged, leave the subject out rather than restate it. Leave "not useful" ones out unless something about them changed.
 PREVIOUS REFLECTION is the reflection of the period just before this one. Where the evidence shows it, say what actually happened to its carry-forward or its main pattern.
 FEEDBACK HISTORY shows which kinds of insight this user found useful or not. Lean toward the useful kinds; it never overrides the evidence.
 
@@ -111,19 +125,36 @@ At most ONE carry-forward: a single concrete thing to continue, protect or try n
 const NO_CARRY_FORWARD_INSTRUCTION = `CARRY FORWARD
 Use null. What to do next belongs in the "coach" part of this response, described below.`;
 
+/**
+ * Each horizon has its own analytical job — and is handed different material
+ * to do it with (see `buildReflectionPrompt`): a day gets its activities, a
+ * week its days, a month its weeks, a year its months and the history of the
+ * user's priorities.
+ */
 const PURPOSE: Record<ReflectionPeriodType, string> = {
   day:
     'Core question: what actually happened today?\n' +
-    'Look at what moved forward, how time was allocated, where the day fragmented, anything notable, and what to carry into tomorrow.',
+    'Your job is the SHAPE OF ONE DAY: what moved forward, where the time went, where the day broke into pieces or was interrupted, how it lined up with what the user said matters, anything out of the ordinary for this weekday, and what is left open going into tomorrow (CARRIED WORK).\n' +
+    'Do not generalize from one day. A habit, a trend or a pattern may only be stated with evidence from other days (a "recent." metric, a "weekday." or "baseline." comparison, HOW YOUR WORK MOVED). Without it, describe today and stop there.',
   week:
     'Core question: what pattern is emerging?\n' +
-    'Look at progress across the week, alignment with current priorities, recurring behavior, fragmentation patterns, consistency, what changed from the previous week, and one useful thing to carry into next week. This is not a longer daily summary.',
+    'Your job is what REPEATS and what SHIFTED across the days of this week: behavior that showed up on several days, how consistently the important work was returned to, which priority gave way to which (HOW YOUR WORK MOVED), what was carried from day to day and is still open (CARRIED WORK), and what is different from the previous weeks (WHAT CHANGED VERSUS HISTORY).\n' +
+    'Refer to individual days where they carry the point (DAYS OF THIS WEEK, "series." metrics). This is not seven daily summaries in a row, and one day is not a pattern.',
   month:
     'Core question: am I moving in the direction I care about?\n' +
-    'Look at progress against stated priorities, sustained versus inconsistent effort, which threads received attention, how behavior evolved across the month, meaningful changes versus the previous month, and a strategic carry-forward.',
+    'Your job is DIRECTION across the weeks of this month: which priorities gained and which lost attention from week to week, what was finished versus carried along, which efforts were sustained and which came in bursts, how the allocation of attention shifted from the start of the month to its end, and what changed against earlier months.\n' +
+    'Work from WEEKS OF THIS MONTH — each week as a whole, and what was already concluded about it — not from single days or single sessions. Do not narrate a day. Do not add up what the weeks already say; say where the month went.',
   year:
     'Core question: what trajectory am I actually building?\n' +
-    'Look at the threads that received sustained attention, how behavior evolved, priorities versus actual behavior, recurring long-term patterns and major shifts. This is a retrospective of the whole year, not twelve monthly summaries, and never a personality profile.',
+    'Your job is the LONG ARC across the months of this year: which bodies of work were started, sustained, finished or let go (HOW YOUR WORK MOVED, PRIORITY HISTORY), how the user\'s stated priorities themselves changed, where attention went over the long run, and which patterns held for months.\n' +
+    'Work from MONTHS OF THIS YEAR and PRIORITY HISTORY. Never describe a single day, week or session. This is a retrospective of direction — not twelve monthly summaries, and never a personality profile.',
+};
+
+const SUB_PERIOD_TITLES: Record<ReflectionPeriodType, string> = {
+  day: '',
+  week: 'DAYS OF THIS WEEK (in order; "reflection" is what Reflect concluded about that day)',
+  month: 'WEEKS OF THIS MONTH (in order; "reflection" is what Reflect concluded about that week)',
+  year: 'MONTHS OF THIS YEAR (in order; "reflection" is what Reflect concluded about that month)',
 };
 
 /**
@@ -178,14 +209,31 @@ export function buildReflectionPrompt(input: ReflectionInput, coach?: CoachPromp
     `METRICS (deterministic; cite by key, quote the value exactly)\n${lines(input.metrics)}`,
 
     input.comparisons.length > 0
-      ? 'COMPARISONS (cite as prev.<key>, delta.<key> or baseline.<key>)\n' +
-        '"previous" is the period just before this one; "baseline" is the user\'s own recent average.\n' +
+      ? 'COMPARISONS (cite as prev.<key>, delta.<key>, baseline.<key> or weekday.<key>)\n' +
+        '"previous" is the period just before this one; "baseline" is the user\'s own recent average; "sameWeekday" is their average on earlier days of this weekday.\n' +
         lines(input.comparisons)
       : 'COMPARISONS\nNone available. Do not compare this period with any other.',
 
-    input.activities.length > 0
-      ? `ACTIVITIES (${input.activities.length}, chronological, local time; cite by ref)\n${lines(input.activities)}`
-      : 'ACTIVITIES\nNone.',
+    input.changes.length > 0
+      ? `WHAT CHANGED VERSUS HISTORY (already judged meaningful by Reflect; cite by key)\n${lines(input.changes)}`
+      : 'WHAT CHANGED VERSUS HISTORY\nNothing passed the test — either nothing changed meaningfully, or there is not enough comparable history to say. Do not claim that anything appeared or disappeared.',
+
+    input.trajectories.length > 0 ? `HOW YOUR WORK MOVED (across tracked days; cite by key)\n${lines(input.trajectories)}` : '',
+
+    input.carried.length > 0 ? `CARRIED WORK AND COVERAGE (cite by key)\n${lines(input.carried)}` : '',
+
+    input.subPeriods.length > 0 ? `${SUB_PERIOD_TITLES[period.type]}\n${lines(input.subPeriods)}` : '',
+
+    input.priorityHistory.length > 0
+      ? `PRIORITY HISTORY (what the user did with their stated priorities — their decisions, never failures)\n${input.priorityHistory.map((p) => `- ${p}`).join('\n')}`
+      : '',
+
+    // A month and a year are read from their weeks and months, never from single sessions.
+    period.type === 'month' || period.type === 'year'
+      ? ''
+      : input.activities.length > 0
+        ? `ACTIVITIES (${input.activities.length}, chronological, local time; cite by ref)\n${lines(input.activities)}`
+        : 'ACTIVITIES\nNone.',
 
     input.explicitRules.length > 0
       ? `EXPLICIT RULES (written by the user — authoritative; context only, do not report them back)\n${input.explicitRules.map((p) => `- ${p}`).join('\n')}`
@@ -205,7 +253,19 @@ export function buildReflectionPrompt(input: ReflectionInput, coach?: CoachPromp
       : 'PREVIOUS REFLECTION\nNone.',
 
     input.previouslySurfaced.length > 0
-      ? `PREVIOUSLY SURFACED (recent periods)\n${lines(input.previouslySurfaced.map(({ type, title, timesSurfaced }) => ({ type, title, timesSurfaced })))}`
+      ? `PREVIOUSLY SURFACED (recent periods)\n${lines(
+          input.previouslySurfaced.map(({ type, title, timesSurfaced }) => ({
+            type,
+            title,
+            timesSurfaced,
+            // Said twice already: saying it a third time unchanged is refused.
+            ...(timesSurfaced >= 2 ? { repeat: 'only with a comparison that shows what changed — otherwise leave it out' } : {}),
+          })),
+        )}`
+      : '',
+
+    input.disputed.length > 0
+      ? `DISPUTED BY THE USER\n${lines(input.disputed.map(({ title, verdict }) => ({ title, userSaid: verdict === 'inaccurate' ? 'not accurate' : 'not useful' })))}`
       : '',
 
     input.feedbackHistory.length > 0 ? `FEEDBACK HISTORY\n${input.feedbackHistory.map((f) => `- ${f}`).join('\n')}` : '',
@@ -255,7 +315,6 @@ export function buildReflectionResponseSchema(priorityIds: string[], coach?: Coa
             observation: { type: 'string' },
             interpretation: { type: 'string' },
             relevance: nullableString,
-            suggestedAction: nullableString,
             metricKeys: stringArray,
             activityRefs: stringArray,
             priorityIds: priorityArray,
@@ -267,7 +326,6 @@ export function buildReflectionResponseSchema(priorityIds: string[], coach?: Coa
             'observation',
             'interpretation',
             'relevance',
-            'suggestedAction',
             'metricKeys',
             'activityRefs',
             'priorityIds',

@@ -16,6 +16,9 @@
  *     - ReflectionPriorities.ts  priority normalization + keyword matching
  *     - ReflectionActivities.ts  verified timeline → compact activities
  *     - ReflectionMetrics.ts     deterministic measurements + comparisons
+ *     - ReflectionLedger.ts      per-day structured facts + period aggregates
+ *     - ReflectionLongitudinal.ts change across periods, trajectories, carried work
+ *     - ReflectionIdentity.ts    what an insight is about + whether it is new
  *     - ReflectionPreprocessor.ts dataset → model input
  *     - ReflectionPrompt.ts      prompt + response schema
  *     - ReflectionValidator.ts   runtime validation of model output
@@ -24,14 +27,14 @@
  *     - ReflectionAnnotator.ts   thread / priority linking (Gemini, cached)
  *     - ReflectionService.ts     the generation pipeline + read model
  *     - ReflectionScheduler.ts   which closed periods to generate, and when
- *     - ReflectionHistory.ts     structured queries for the future Coach
+ *     - ReflectionHistory.ts     structured history: insights, trends, carried work
  *     - reflectionIpc.ts         renderer bridge
  */
 
 /** Version of the dataset handed to the model. Bump when its shape changes. */
-export const REFLECTION_INPUT_SCHEMA_VERSION = 2;
+export const REFLECTION_INPUT_SCHEMA_VERSION = 3;
 /** Version of the structured output contract. Bump when its shape changes. */
-export const REFLECTION_OUTPUT_SCHEMA_VERSION = 2;
+export const REFLECTION_OUTPUT_SCHEMA_VERSION = 3;
 
 // ── Periods ─────────────────────────────────────────────────────────────────
 
@@ -106,6 +109,20 @@ export interface ReflectionConfig {
   sufficiency: Record<ReflectionPeriodType, { minTrackedMinutes: number; minActiveDays: number }>;
   /** How many closed periods the scheduler looks back for missing reports. */
   backlog: Record<ReflectionPeriodType, number>;
+  /** Reports written per scheduling cycle at most — a long absence is caught up over several cycles. */
+  maxScheduledPerCycle: number;
+  /** A running week / month / year gets a "so far" report, rewritten once it is this many days old. 0 = never. */
+  runningRefreshDays: Record<Exclude<ReflectionPeriodType, 'day'>, number>;
+  /** A stale report inside the backlog window is rewritten by the scheduler, at most this often. */
+  staleRegenerateCooldownMs: number;
+  /** Same-weekday baseline of a day: how many earlier same weekdays, and how many must hold data. */
+  weekdayBaseline: { lookback: number; minPeriods: number };
+  /** Days of history a work trajectory looks at, per period type. */
+  trajectoryDays: Record<ReflectionPeriodType, number>;
+  /** Work untouched for this many TRACKED days (while other work happened) has stalled. */
+  stalledAfterTrackedDays: number;
+  /** Earlier reports (same period type) an insight's identity is compared with. */
+  identityLookback: Record<ReflectionPeriodType, number>;
   /** A day's evening report is rewritten once after midnight when at least
    * this much activity happened after it was generated. */
   finalizeMinNewMinutes: number;
@@ -141,7 +158,14 @@ export const DEFAULT_REFLECTION_CONFIG: ReflectionConfig = {
     month: { minTrackedMinutes: 480, minActiveDays: 5 },
     year: { minTrackedMinutes: 1800, minActiveDays: 20 },
   },
-  backlog: { day: 3, week: 2, month: 2, year: 1 },
+  backlog: { day: 7, week: 8, month: 12, year: 3 },
+  maxScheduledPerCycle: 6,
+  runningRefreshDays: { week: 3, month: 10, year: 30 },
+  staleRegenerateCooldownMs: 6 * 3_600_000,
+  weekdayBaseline: { lookback: 6, minPeriods: 3 },
+  trajectoryDays: { day: 10, week: 28, month: 62, year: 366 },
+  stalledAfterTrackedDays: 2,
+  identityLookback: { day: 7, week: 6, month: 6, year: 3 },
   finalizeMinNewMinutes: 15,
   manualRefreshCooldownMs: 15 * 60_000,
   failedRetryCooldownMs: 60_000,
@@ -203,7 +227,18 @@ export interface ReflectionActivity {
   priorityId: string | null;
   /** A note the user wrote on this block in the Timeline. */
   note?: string | null;
+  /**
+   * The raw events this block is made of (capped sample, first and last
+   * always included). Block ids are derived and change when grouping changes;
+   * event ids never do — this is what evidence is anchored to.
+   */
+  eventIds?: number[];
+  /** How the priority link was decided: the user's correction, the model, or the keyword fallback. */
+  priorityLinkSource?: 'user' | 'model' | 'keyword' | null;
 }
+
+/** At most this many event ids are kept per activity / evidence item. */
+export const MAX_EVIDENCE_EVENT_IDS = 40;
 
 // ── Priorities ──────────────────────────────────────────────────────────────
 
@@ -231,6 +266,27 @@ export interface ReflectionPriority {
   activeUntil: string | null;
   /** Last time the user saved their profile with this priority present. */
   lastConfirmedAt: string;
+  /**
+   * Every stretch during which the priority actually applied, oldest first.
+   * A pause or a completion ends a stretch; reactivating starts a new one —
+   * the gap in between is history, not something to be papered over. Absent
+   * on rows that predate the event log: then [activeFrom, activeUntil) is it.
+   */
+  intervals?: { from: string; until: string | null }[];
+  /** What happened to it, oldest first. */
+  history?: PriorityEvent[];
+}
+
+export type PriorityEventType = 'stated' | 'paused' | 'completed' | 'reactivated' | 'renamed' | 'archived';
+
+export interface PriorityEvent {
+  priorityId: string;
+  at: string;
+  type: PriorityEventType;
+  /** The wording after this event. */
+  text: string;
+  /** The wording before a rename. */
+  previousText: string | null;
 }
 
 /** Thread / priority decision cached per activity signature. */
@@ -240,6 +296,38 @@ export interface ActivityAnnotation {
   priorityId: string | null;
   /** Priorities this signature was evaluated against. */
   checkedPriorityIds: string[];
+  /** 'user' = corrected by the user; the model never overwrites it. */
+  source?: 'model' | 'user';
+}
+
+// ── Day ledger (structured history) ─────────────────────────────────────────
+
+export type DayFactKind = 'measure' | 'thread' | 'priority' | 'area' | 'intent' | 'quality' | 'context' | 'daypart' | 'signature';
+
+/**
+ * One fact about one closed local day. The ledger is a cache of derived
+ * data — always recomputable from the verified timeline — that lets months
+ * and years be reasoned about without re-deriving every day from raw events.
+ */
+export interface DayFactRow {
+  dayKey: string;
+  dayStart: string;
+  dayEnd: string;
+  kind: DayFactKind;
+  key: string;
+  label: string | null;
+  /** Minutes; for kind 'measure' the measure's value. */
+  minutes: number;
+  sessions: number;
+  /** For a thread: the priority most of its time that day was linked to. */
+  priorityId: string | null;
+}
+
+export interface DayFacts {
+  key: string;
+  start: string;
+  end: string;
+  rows: DayFactRow[];
 }
 
 // ── Metrics ─────────────────────────────────────────────────────────────────
@@ -247,6 +335,7 @@ export interface ActivityAnnotation {
 export type MetricUnit = 'minutes' | 'count' | 'percent' | 'per_hour' | 'clock' | 'text';
 
 export type MetricGroup =
+  | 'history'
   | 'time'
   | 'behavior'
   | 'attention'
@@ -324,6 +413,111 @@ export interface PeriodDataset {
   notes: string[];
   hasPreviousComparison: boolean;
   baselinePeriodCount: number;
+  /** How each tracked body of work moved across the recent days. */
+  trajectories?: WorkTrajectory[];
+  /** Work that is still unresolved from earlier periods (and what closed). */
+  carried?: CarryItem[];
+  /** What meaningfully appeared, disappeared or shifted versus history. */
+  changes?: EntityChange[];
+  /** The period's natural sub-periods, summarized (week → days, month → weeks, year → months). */
+  subPeriods?: SubPeriodSummary[];
+  /** What happened to stated priorities in or shortly before the period. */
+  priorityEvents?: PriorityEvent[];
+  /** Fingerprint of everything the dataset was computed from. */
+  basis?: ReflectionBasis;
+}
+
+// ── Longitudinal structure ──────────────────────────────────────────────────
+
+export type TrajectoryStatus = 'new' | 'ongoing' | 'resumed' | 'stalled' | 'completed' | 'paused' | 'dropped';
+
+/** One body of work (a stated priority, or a thread outside any priority) across tracked days. */
+export interface WorkTrajectory {
+  /** `p:<priorityId>` or `t:<threadSlug>` — backend-owned. */
+  key: string;
+  kind: 'priority' | 'thread';
+  priorityId: string | null;
+  thread: string | null;
+  label: string;
+  status: TrajectoryStatus;
+  firstDay: string;
+  lastDay: string;
+  /** Tracked days with work on it / tracked days since it first appeared. */
+  activeDays: number;
+  trackedDays: number;
+  /** Tracked days since it was last worked on (0 = worked on the latest tracked day). */
+  idleTrackedDays: number;
+  minutes: number;
+  /** Day by day since it first appeared; unobserved days are left out. */
+  days: { key: string; start: string; end: string; minutes: number }[];
+}
+
+export type CarryStatus = 'open' | 'progressing' | 'completed' | 'paused' | 'dropped';
+
+/**
+ * Something that persisted across periods. Derived from the trajectory and
+ * from what earlier reports raised — never a stored task of its own.
+ */
+export interface CarryItem {
+  key: string;
+  title: string;
+  priorityId: string | null;
+  thread: string | null;
+  status: CarryStatus;
+  /** Local day it first became unresolved (last worked, or first raised). */
+  since: string;
+  /** Consecutive tracked days without work on it. */
+  idleTrackedDays: number;
+  /** Earlier reports (same period type) that raised it. */
+  timesRaised: number;
+  lastWorked: { start: string; end: string } | null;
+}
+
+export type EntityChangeKind = 'vanished' | 'appeared' | 'returned' | 'decreased' | 'increased';
+
+/** A change versus history that passed the deterministic "is this meaningful?" test. */
+export interface EntityChange {
+  entity: 'thread' | 'priority' | 'area' | 'intent';
+  key: string;
+  label: string;
+  change: EntityChangeKind;
+  nowMinutes: number;
+  previousMinutes: number;
+  /** Earlier comparable periods it was present in / that held enough data. */
+  presentIn: number;
+  outOf: number;
+  /** Why a disappearance is not a concern: the user completed, paused or dropped it. */
+  explained: 'completed' | 'paused' | 'dropped' | null;
+  priorityId: string | null;
+  thread: string | null;
+}
+
+export interface SubPeriodSummary {
+  key: string;
+  label: string;
+  start: string;
+  end: string;
+  /** null = nothing was observed in it (missing, not zero). */
+  trackedMinutes: number | null;
+  focusedMinutes: number | null;
+  activeDays: number;
+  top: { label: string; minutes: number }[];
+  /** Headline of that sub-period's own reflection, when one exists. */
+  headline: string | null;
+}
+
+/**
+ * What a report depended on beyond its own period's measurements (those are
+ * compared through the metric snapshot, with tolerance). A report is stale
+ * when one of these moved.
+ */
+export interface ReflectionBasis {
+  /** The priorities that applied during the period: ids, wording, state. */
+  priorities: string;
+  /** Carried work and how each item stood. */
+  carried: string;
+  /** Tracked minutes of the previous period — the reference it was compared with (null: none). */
+  previousTrackedMinutes: number | null;
 }
 
 // ── Evidence + insights ─────────────────────────────────────────────────────
@@ -340,7 +534,15 @@ export interface ReflectionEvidence {
   value?: number | string;
   /** Where to look on the Timeline. */
   period?: { start: string; end: string };
+  /** Raw events behind an activity — the stable reference. `activityId` is the block id AS OF generation. */
+  eventIds?: number[];
+  thread?: string;
 }
+
+/** Whether a claim is new, and how it relates to what was said before. Backend-computed. */
+export type InsightContinuity = 'new' | 'continuing' | 'strengthening' | 'weakening' | 'resolved' | 'recurred';
+
+export const INSIGHT_CONTINUITY_STATES: readonly InsightContinuity[] = ['new', 'continuing', 'strengthening', 'weakening', 'resolved', 'recurred'];
 
 export interface ReflectionInsight {
   id: string;
@@ -349,18 +551,27 @@ export interface ReflectionInsight {
   observation: string;
   interpretation: string;
   relevance: string | null;
-  suggestedAction: string | null;
   confidence: number;
   evidence: ReflectionEvidence[];
   sourceActivityIds: string[];
   sourceMetricKeys: string[];
-  /** Normalized claim identity, used to avoid repeating an insight. */
+  /** Legacy identity (type + measures). Kept for reports written before identities existed. */
   claimSignature: string;
+  /** What the claim is about + which way it points: `<subject>|<pattern>`. */
+  identityKey: string;
+  /** `p:<priorityId>`, `t:<threadSlug>`, or null when it is about the period as a whole. */
+  subjectKey: string | null;
+  thread: string | null;
+  priorityId: string | null;
+  continuity: InsightContinuity;
+  /** The subject's size when this was said (minutes, or idle days) — what "stronger" is measured against. */
+  magnitude: number | null;
   createdAt: string;
 }
 
 export interface ReflectionCarryForward {
   text: string;
+  subjectKey?: string | null;
   sourceMetricKeys: string[];
   sourceActivityIds: string[];
   evidence: ReflectionEvidence[];
@@ -426,10 +637,16 @@ export interface ReflectionDataSnapshot {
     title: string;
     thread: string | null;
     priorityId: string | null;
+    eventIds?: number[];
   }[];
   notes: string[];
   userContextIncluded: boolean;
   previousReportId: string | null;
+  /** Carried work as it stood when the report was written. */
+  carried?: CarryItem[];
+  trajectories?: Pick<WorkTrajectory, 'key' | 'label' | 'status' | 'idleTrackedDays' | 'activeDays' | 'trackedDays'>[];
+  changes?: EntityChange[];
+  basis?: ReflectionBasis;
 }
 
 export interface ReflectionReport {
@@ -507,6 +724,8 @@ export interface PromptComparison {
   previous?: string;
   change?: string;
   baseline?: string;
+  /** Average over earlier same weekdays; cited as `weekday.<key>`. */
+  sameWeekday?: string;
 }
 
 export interface PreviousReflectionInput {
@@ -539,6 +758,12 @@ export interface ReflectionInput {
   activities: PromptActivity[];
   metrics: PromptMetric[];
   comparisons: PromptComparison[];
+  /** What meaningfully appeared, disappeared or shifted versus history (`change.*`). */
+  changes: PromptMetric[];
+  /** How each body of work moved across the tracked days (`trajectory.*`). */
+  trajectories: PromptMetric[];
+  /** Work still open from earlier periods, what closed, and what was observed at all (`carry.*`, `coverage.*`). */
+  carried: PromptMetric[];
   notes: string[];
   learnedPatterns: string[];
   /** Rules the user wrote themselves — the strongest classification knowledge. */
@@ -548,6 +773,12 @@ export interface ReflectionInput {
   previousReflection: PreviousReflectionInput | null;
   /** Claims already surfaced recently, with how often. */
   previouslySurfaced: { type: ReflectionInsightType; title: string; signature: string; timesSurfaced: number }[];
+  /** Claims the user marked "not accurate" or "not useful". */
+  disputed: { title: string; about: string | null; verdict: 'inaccurate' | 'not_useful' }[];
+  /** Sub-periods of a week / month / year, in order. */
+  subPeriods: { label: string; tracked: string; focused: string | null; activeDays: number; main: string[]; reflection: string | null }[];
+  /** What happened to stated priorities (paused, completed, renamed, dropped…). */
+  priorityHistory: string[];
   /** e.g. "recurring_behavior: 3 useful, 0 not useful". */
   feedbackHistory: string[];
   maxInsights: number;

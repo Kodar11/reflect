@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight, Lightbulb } from 'lucide-react';
 import type { CoachController } from './CoachPanel';
+import type { InsightCorrectionController } from './InsightCard';
 import { ReflectionContent } from './ReflectionContent';
 import {
   PERIOD_TABS,
   anchorForOffset,
   generateResultNotice,
   navigationState,
+  resolveTimelineTarget,
   type TimelineTarget,
 } from './reflectionView';
 
@@ -50,6 +52,59 @@ export function ReflectionPage({ onViewTimeline, onStartFocus, target }: Reflect
   const requestRef = useRef(0);
   /** A specific day was asked for from outside; the default landing must not override it. */
   const targetedRef = useRef(false);
+
+  // An evidence link is followed to where its raw events are on the Timeline
+  // NOW — the block that held them when the reflection was written may have
+  // been regrouped, re-analysed or edited since.
+  const viewTimeline = useCallback(
+    (target: TimelineTarget) => {
+      const api = window.reflection;
+      if (!target.evidence || !api?.resolveEvidence) return onViewTimeline(target);
+      void resolveTimelineTarget(target, (evidence) => api.resolveEvidence(evidence)).then(onViewTimeline);
+    },
+    [onViewTimeline],
+  );
+
+  // "Not accurate": what the disputed insight rests on, as it is linked now.
+  const [basis, setBasis] = useState<Record<string, ReflectionInsightBasisDto[]>>({});
+  const [unlinked, setUnlinked] = useState<ReadonlySet<string>>(new Set());
+  const [correctionBusy, setCorrectionBusy] = useState<string | null>(null);
+  const disputedReportId = view?.report?.id ?? null;
+  const disputedIds = (view?.report?.insights ?? []).filter((i) => i.feedback === 'inaccurate').map((i) => i.id).join(',');
+  useEffect(() => {
+    const api = window.reflection;
+    if (!disputedReportId || !disputedIds || !api?.getInsightBasis) return;
+    let alive = true;
+    for (const insightId of disputedIds.split(',')) {
+      void api
+        .getInsightBasis(disputedReportId, insightId)
+        .then((rows) => alive && setBasis((known) => ({ ...known, [insightId]: rows })))
+        .catch(() => undefined);
+    }
+    return () => {
+      alive = false;
+    };
+  }, [disputedReportId, disputedIds]);
+  const correction = useMemo<InsightCorrectionController>(
+    () => ({
+      basisOf: (insightId) => basis[insightId],
+      unlinked,
+      busyKey: correctionBusy,
+      onUnlink: (insight, row) => {
+        const evidence = insight.evidence[row.evidenceIndex];
+        const key = `${insight.id}:${row.evidenceIndex}`;
+        if (!evidence) return;
+        setCorrectionBusy(key);
+        void window.reflection
+          .correctLink({ evidence: { eventIds: evidence.eventIds, activityId: evidence.activityId, period: evidence.period }, priorityId: null })
+          .then((result) => {
+            if (result.ok) setUnlinked((set) => new Set([...set, key]));
+          })
+          .finally(() => setCorrectionBusy(null));
+      },
+    }),
+    [basis, unlinked, correctionBusy],
+  );
 
   const [coachState, setCoachState] = useState<CoachStateDto | null>(null);
   const [busyActionId, setBusyActionId] = useState<string | null>(null);
@@ -368,7 +423,8 @@ export function ReflectionPage({ onViewTimeline, onStartFocus, target }: Reflect
             onRefresh={refresh}
             onRetryLoad={() => void load(true)}
             onFeedback={submitFeedback}
-            onViewTimeline={onViewTimeline}
+            onViewTimeline={viewTimeline}
+            correction={correction}
             onSetPriorityStatus={setPriorityStatus}
             coach={coach}
           />

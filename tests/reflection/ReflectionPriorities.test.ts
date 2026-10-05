@@ -44,9 +44,12 @@ describe('priority normalization', () => {
     expect(plan.insert).toEqual([]);
   });
 
-  it('re-stating an archived priority opens a NEW interval; a paused one stays paused', () => {
+  it('re-stating an archived priority opens a NEW interval on the SAME priority; a paused one stays paused', () => {
     const archived = priority('p1', 'Launch Project X', { status: 'archived', activeUntil: iso(5) });
-    expect(planPrioritySync([archived], ['Launch Project X'], options).insert).toHaveLength(1);
+    const restated = planPrioritySync([archived], ['Launch Project X'], options);
+    // Not a second priority with a new id: the same one, taken up again.
+    expect(restated.insert).toEqual([]);
+    expect(restated.reactivate).toEqual([{ id: 'p1', text: 'Launch Project X' }]);
 
     const paused = priority('p2', 'Learn Rust', { status: 'paused', activeUntil: iso(5), lastConfirmedAt: iso(9) });
     const plan = planPrioritySync([paused], ['Learn Rust'], options);

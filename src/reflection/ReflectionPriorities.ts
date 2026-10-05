@@ -1,4 +1,5 @@
-import type { ReflectionPriority } from './ReflectionModels.js';
+import type { PriorityEvent, ReflectionPriority } from './ReflectionModels.js';
+import { formatDay } from './ReflectionPeriods.js';
 
 /**
  * Priority normalization. Pure.
@@ -8,6 +9,11 @@ import type { ReflectionPriority } from './ReflectionModels.js';
  * during which the user said something mattered. Reflection only ever
  * compares behaviour against priorities that applied AT THE TIME, so a
  * priority stated months ago is never silently assumed to still be current.
+ *
+ * A priority keeps ONE id for its whole life. Pausing, completing, renaming,
+ * dropping and taking it up again are events on that id; the stretches during
+ * which it applied are its intervals. The current row says what it is now,
+ * the events say what it was — neither replaces the other.
  */
 
 /** Identity of a stated priority: case/spacing/punctuation-insensitive. */
@@ -20,6 +26,10 @@ export function priorityKey(text: string): string {
 
 export interface PrioritySyncPlan {
   insert: { text: string; normalizedKey: string; activeFrom: string; lastConfirmedAt: string }[];
+  /** A dropped priority stated again: the same id, a new interval from now. */
+  reactivate: { id: string; text: string }[];
+  /** A reworded priority: the same id, the same interval, new wording. */
+  rename: { id: string; text: string; normalizedKey: string; previousText: string }[];
   /** Rows no longer stated in the profile. */
   archiveIds: string[];
   /** Rows still stated: their `lastConfirmedAt` moves forward. */
@@ -39,7 +49,9 @@ export interface PrioritySyncOptions {
 /**
  * Reconcile the stored priority intervals with what the profile states now.
  *
- * - newly stated (or previously archived) text  → a NEW interval starts
+ * - newly stated text                           → a new priority
+ * - a dropped priority stated again             → the same id, a NEW interval
+ * - one wording replaced by a similar one       → renamed in place
  * - still stated                                → reconfirmed
  * - no longer stated                            → interval is archived
  * A priority the user paused or completed stays that way while it remains in
@@ -56,7 +68,7 @@ export function planPrioritySync(
     if (!current || p.activeFrom > current.activeFrom) latestByKey.set(p.normalizedKey, p);
   }
 
-  const plan: PrioritySyncPlan = { insert: [], archiveIds: [], confirmIds: [], confirmedAt: options.confirmedAt };
+  const plan: PrioritySyncPlan = { insert: [], reactivate: [], rename: [], archiveIds: [], confirmIds: [], confirmedAt: options.confirmedAt };
   const statedKeys = new Set<string>();
   const firstSync = existing.length === 0;
 
@@ -65,7 +77,9 @@ export function planPrioritySync(
     if (!key || statedKeys.has(key)) continue;
     statedKeys.add(key);
     const latest = latestByKey.get(key);
-    if (!latest || latest.status === 'archived') {
+    if (latest?.status === 'archived') {
+      plan.reactivate.push({ id: latest.id, text: text.trim() });
+    } else if (!latest) {
       plan.insert.push({
         text: text.trim(),
         normalizedKey: key,
@@ -80,18 +94,76 @@ export function planPrioritySync(
   for (const p of existing) {
     if (p.status !== 'archived' && !statedKeys.has(p.normalizedKey)) plan.archiveIds.push(p.id);
   }
+
+  // One wording went away and one similar wording arrived: the same priority,
+  // reworded. Anything less clear-cut stays "one dropped, one new".
+  if (!firstSync && plan.insert.length === 1 && plan.archiveIds.length === 1) {
+    const gone = existing.find((p) => p.id === plan.archiveIds[0])!;
+    const arrived = plan.insert[0];
+    if (isRewording(gone.text, arrived.text)) {
+      plan.rename.push({ id: gone.id, text: arrived.text, normalizedKey: arrived.normalizedKey, previousText: gone.text });
+      plan.insert = [];
+      plan.archiveIds = [];
+    }
+  }
   return plan;
 }
 
 export function isSyncPlanEmpty(plan: PrioritySyncPlan): boolean {
-  return plan.insert.length === 0 && plan.archiveIds.length === 0 && plan.confirmIds.length === 0;
+  return (
+    plan.insert.length === 0 &&
+    plan.archiveIds.length === 0 &&
+    plan.confirmIds.length === 0 &&
+    plan.reactivate.length === 0 &&
+    plan.rename.length === 0
+  );
+}
+
+/** The stretches during which the priority applied, oldest first. */
+export function priorityIntervals(priority: ReflectionPriority): { from: string; until: string | null }[] {
+  return priority.intervals && priority.intervals.length > 0
+    ? priority.intervals
+    : [{ from: priority.activeFrom, until: priority.activeUntil }];
+}
+
+/**
+ * Intervals from the event log: 'stated' / 'reactivated' open a stretch,
+ * 'paused' / 'completed' / 'archived' close it. A rename changes nothing.
+ */
+export function intervalsFromEvents(events: Pick<PriorityEvent, 'at' | 'type'>[]): { from: string; until: string | null }[] {
+  const out: { from: string; until: string | null }[] = [];
+  let open: { from: string; until: string | null } | null = null;
+  for (const e of [...events].sort((a, b) => (a.at < b.at ? -1 : a.at > b.at ? 1 : 0))) {
+    if (e.type === 'stated' || e.type === 'reactivated') {
+      if (!open) {
+        open = { from: e.at, until: null };
+        out.push(open);
+      }
+    } else if (e.type !== 'renamed' && open) {
+      open.until = e.at;
+      open = null;
+    }
+  }
+  return out.filter((i) => i.until === null || i.until > i.from);
 }
 
 /** Whether the priority applied at the instant `iso`. */
 export function priorityActiveAt(priority: ReflectionPriority, iso: string): boolean {
   const t = Date.parse(iso);
-  if (t < Date.parse(priority.activeFrom)) return false;
-  return priority.activeUntil === null || t < Date.parse(priority.activeUntil);
+  return priorityIntervals(priority).some((i) => t >= Date.parse(i.from) && (i.until === null || t < Date.parse(i.until)));
+}
+
+/**
+ * What the priority was at `iso`: applying, or why it was not. 'unstated'
+ * means it had not been stated yet.
+ */
+export function priorityStateAt(priority: ReflectionPriority, iso: string): 'active' | 'paused' | 'completed' | 'archived' | 'unstated' {
+  if (priorityActiveAt(priority, iso)) return 'active';
+  const before = (priority.history ?? []).filter((e) => e.at <= iso && e.type !== 'renamed' && e.type !== 'stated' && e.type !== 'reactivated');
+  const last = before[before.length - 1];
+  if (last) return last.type as 'paused' | 'completed' | 'archived';
+  if (Date.parse(iso) < Date.parse(priority.activeFrom)) return 'unstated';
+  return priority.status === 'active' ? 'unstated' : priority.status;
 }
 
 /** Priorities that applied at any point in [start, end), oldest first. */
@@ -103,11 +175,13 @@ export function prioritiesActiveDuring(
   const start = Date.parse(startIso);
   const end = Date.parse(endIso);
   return priorities
-    .filter((p) => {
-      const from = Date.parse(p.activeFrom);
-      const until = p.activeUntil === null ? Infinity : Date.parse(p.activeUntil);
-      return from < end && until > start && until > from;
-    })
+    .filter((p) =>
+      priorityIntervals(p).some((i) => {
+        const from = Date.parse(i.from);
+        const until = i.until === null ? Infinity : Date.parse(i.until);
+        return from < end && until > start && until > from;
+      }),
+    )
     .sort((a, b) => (a.activeFrom < b.activeFrom ? -1 : a.activeFrom > b.activeFrom ? 1 : a.id < b.id ? -1 : 1));
 }
 
@@ -174,4 +248,40 @@ export function matchesPriorityByKeyword(priorityText: string, haystack: string)
   // No distinctive word ("Project X"): require the whole phrase, in order.
   if (terms.corePhrase.split(' ').length < 2) return false;
   return ` ${tokens.join(' ')} `.includes(` ${terms.corePhrase} `);
+}
+
+const EVENT_WORDS: Record<PriorityEvent['type'], string> = {
+  stated: 'you stated',
+  paused: 'you paused',
+  completed: 'you marked completed',
+  reactivated: 'you took up again',
+  renamed: 'you reworded',
+  archived: 'you removed',
+};
+
+/** What happened to stated priorities, in plain words: `Fri, Oct 9 — you marked completed “Launch X”`. */
+export function describePriorityEvents(events: PriorityEvent[]): string[] {
+  return events.map((e) => {
+    const when = formatDay(new Date(e.at));
+    return e.type === 'renamed'
+      ? `${when} — ${EVENT_WORDS.renamed} “${e.previousText ?? ''}” as “${e.text}”`
+      : `${when} — ${EVENT_WORDS[e.type]} “${e.text}”`;
+  });
+}
+
+/**
+ * Is `next` a rewording of `previous` rather than a different priority?
+ * Deterministic and conservative: the same core phrase, or at least half of
+ * the identifying words in common.
+ */
+export function isRewording(previous: string, next: string): boolean {
+  const a = priorityTerms(previous);
+  const b = priorityTerms(next);
+  if (a.corePhrase && a.corePhrase === b.corePhrase) return true;
+  if (a.distinctive.length === 0 || b.distinctive.length === 0) {
+    const [short, long] = a.corePhrase.length <= b.corePhrase.length ? [a.corePhrase, b.corePhrase] : [b.corePhrase, a.corePhrase];
+    return short.split(' ').length >= 2 && ` ${long} `.includes(` ${short} `);
+  }
+  const shared = a.distinctive.filter((t) => b.distinctive.includes(t)).length;
+  return shared > 0 && shared / new Set([...a.distinctive, ...b.distinctive]).size >= 0.5;
 }

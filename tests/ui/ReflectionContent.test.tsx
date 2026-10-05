@@ -116,11 +116,15 @@ describe('Reflection page — interactions', () => {
     expect(links).toHaveLength(2);
 
     (links[1].props as { onClick: () => void }).onClick();
-    expect(onViewTimeline).toHaveBeenCalledWith({
-      day: new Date(2026, 9, 12, 9).toISOString(),
-      view: 'day',
-      activityId: 'ai-12-0',
-    });
+    // The recorded block, plus the stable reference it is looked up by when the link is followed.
+    expect(onViewTimeline).toHaveBeenCalledWith(
+      expect.objectContaining({
+        day: new Date(2026, 9, 12, 9).toISOString(),
+        view: 'day',
+        activityId: 'ai-12-0',
+        evidence: expect.objectContaining({ activityId: 'ai-12-0' }),
+      }),
+    );
     // A period-wide metric opens the reflection's own period.
     (links[0].props as { onClick: () => void }).onClick();
     expect(onViewTimeline).toHaveBeenLastCalledWith({ day: week42.start, view: 'week', activityId: null });
@@ -300,5 +304,93 @@ describe('Reflection page — states', () => {
 
   it('shows a notice after a refresh that changed nothing', () => {
     expect(text(html({ notice: 'This reflection is already up to date.' }))).toContain('This reflection is already up to date.');
+  });
+});
+
+describe('Reflection page — what an insight is about, and what persists across periods', () => {
+  const lagging = insight({
+    id: 'i-saas',
+    type: 'open_loop',
+    title: 'Your SaaS work is still open',
+    continuity: 'continuing',
+    priority: { id: 'pr-1', text: 'Launch my SaaS' },
+    thread: 'SaaS',
+    evidence: [
+      { kind: 'metric', metricKey: 'carry.p.pr-1', priorityId: 'pr-1', label: 'Carried work — “Launch my SaaS”', value: 'still open', period: { start: new Date(2026, 9, 13).toISOString(), end: new Date(2026, 9, 14).toISOString() } },
+      { kind: 'activity', activityId: 's-101-4', eventIds: [101, 102, 103, 104], label: 'Build SaaS billing page', value: '2h', period: { start: new Date(2026, 9, 13, 9).toISOString(), end: new Date(2026, 9, 13, 11).toISOString() } },
+    ],
+  });
+
+  it('says whether an insight is new or continuing, and which priority and project it belongs to', () => {
+    const read = text(renderToStaticMarkup(<InsightCard insight={lagging} period={week42} onFeedback={vi.fn()} onViewTimeline={vi.fn()} />));
+    expect(read).toContain('Open loop · Continuing');
+    expect(read).toContain('Priority: Launch my SaaS · Project: SaaS');
+    // Where each piece of evidence comes from: the day it is about, not just the week.
+    expect(read).toContain('Carried work — “Launch my SaaS” — still open · Tue, Oct 13');
+    // An ordinary new insight about no single priority shows no such line.
+    const plain = text(renderToStaticMarkup(<InsightCard insight={insight()} period={week42} onFeedback={vi.fn()} onViewTimeline={vi.fn()} />));
+    expect(plain).toContain('Progress · New');
+    expect(plain).not.toContain('Priority:');
+  });
+
+  it('an activity link carries the raw events it is anchored to', () => {
+    const onViewTimeline = vi.fn();
+    const links = findAll(<InsightCard insight={lagging} period={week42} onFeedback={vi.fn()} onViewTimeline={onViewTimeline} />, (el) => el.type === 'button' && buttonLabel(el).includes('View in timeline'));
+    (links[1].props as { onClick: () => void }).onClick();
+    expect(onViewTimeline).toHaveBeenCalledWith(expect.objectContaining({ activityId: 's-101-4', evidence: expect.objectContaining({ eventIds: [101, 102, 103, 104] }) }));
+  });
+
+  it('lists carried work — open, picked up again, closed — and leads to when it was last worked on', () => {
+    const lastWorked = { start: new Date(2026, 9, 13).toISOString(), end: new Date(2026, 9, 14).toISOString() };
+    const carried = [
+      { key: 'p:pr-1', title: 'Launch my SaaS', priorityId: 'pr-1', thread: null, status: 'open' as const, since: '2026-10-14', idleTrackedDays: 3, timesRaised: 2, lastWorked },
+      { key: 'p:pr-2', title: 'Client proposal', priorityId: 'pr-2', thread: null, status: 'completed' as const, since: '2026-10-15', idleTrackedDays: 1, timesRaised: 0, lastWorked: null },
+    ];
+    const onViewTimeline = vi.fn();
+    const tree = <ReflectionContent {...props({ view: makeView({ report: report({ carried }) }), onViewTimeline })} />;
+    const read = text(renderToStaticMarkup(tree));
+    expect(read).toContain('Across periods');
+    expect(read).toContain('Launch my SaaS — Still open — no work on it for 3 tracked days, last worked Tue, Oct 13.');
+    expect(read).toContain('Client proposal — Closed — you marked it completed.');
+
+    const link = findAll(tree, (el) => el.type === 'button' && buttonLabel(el) === 'Last worked');
+    expect(link).toHaveLength(1); // nothing to open for work that has no tracked day
+    (link[0].props as { onClick: () => void }).onClick();
+    expect(onViewTimeline).toHaveBeenCalledWith({ day: lastWorked.start, view: 'day', activityId: null });
+
+    // Nothing carried: no empty section.
+    expect(text(html())).not.toContain('Across periods');
+  });
+
+  it('"not accurate" shows what the insight rests on and lets the user unlink it from the priority', () => {
+    const wrong = { ...lagging, feedback: 'inaccurate' as const };
+    const row = { evidenceIndex: 1, title: 'Build SaaS billing page', start: '', end: '', thread: 'SaaS', priority: { id: 'pr-1', text: 'Launch my SaaS' }, linkedBy: 'model' as const };
+    const onUnlink = vi.fn();
+    const correction = { basisOf: () => [row], unlinked: new Set<string>(), busyKey: null, onUnlink };
+    const card = <InsightCard insight={wrong} period={week42} correction={correction} onFeedback={vi.fn()} onViewTimeline={vi.fn()} />;
+    expect(text(renderToStaticMarkup(card))).toContain('Build SaaS billing page · project “SaaS” · counted toward “Launch my SaaS”');
+
+    const [unlink] = findAll(card, (el) => el.type === 'button' && buttonLabel(el) === 'Not work on that priority');
+    (unlink.props as { onClick: () => void }).onClick();
+    expect(onUnlink).toHaveBeenCalledWith(wrong, row);
+
+    // Once corrected, the row says so and offers nothing further.
+    const after = <InsightCard insight={wrong} period={week42} correction={{ ...correction, unlinked: new Set(['i-saas:1']) }} onFeedback={vi.fn()} onViewTimeline={vi.fn()} />;
+    expect(text(renderToStaticMarkup(after))).toContain('no longer counted toward that priority');
+    expect(findAll(after, (el) => el.type === 'button' && buttonLabel(el) === 'Not work on that priority')).toHaveLength(0);
+    // The Timeline remains the place to correct WHAT the activity was.
+    expect(text(renderToStaticMarkup(after))).toContain('correct it in the timeline');
+  });
+
+  it('explains why a report is stale in the terms of what changed', () => {
+    for (const [reason, phrase] of [
+      ['links_changed', 'linked to — a priority or a project — was corrected'],
+      ['focus_changed', 'The Focus sessions of this period changed'],
+      ['history_changed', 'The earlier period this reflection was compared with changed'],
+      ['priorities_changed', 'Your priorities changed'],
+    ] as const) {
+      expect(text(html({ view: makeView({ report: report({ status: 'stale', staleReason: reason }), canRefresh: true }) }))).toContain(phrase);
+    }
+    expect(text(html({ view: makeView({ report: report({ outdated: true }) }) }))).toContain('written by an earlier version of Reflect');
   });
 });

@@ -90,7 +90,7 @@ describe('ReflectionAnnotator', () => {
     ]);
     expect(await annotator.annotate(raw(), [p1], TAXONOMY)).toBe(2);
     expect(repo.getAnnotations(['implement project x sync engine|coding'])).toEqual([
-      { signature: 'implement project x sync engine|coding', thread: 'Project X', priorityId: 'p1', checkedPriorityIds: ['p1'] },
+      { signature: 'implement project x sync engine|coding', thread: 'Project X', priorityId: 'p1', checkedPriorityIds: ['p1'], source: 'model' },
     ]);
     expect(repo.listThreadLabels(10).sort()).toEqual(['Project X', 'Project Y']);
 

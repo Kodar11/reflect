@@ -10,7 +10,7 @@ import {
   type CoachController,
 } from './CoachPanel';
 import { groupInsights, nextActions } from './coachView';
-import { EvidenceList, InsightCard } from './InsightCard';
+import { EvidenceList, InsightCard, type InsightCorrectionController } from './InsightCard';
 import {
   dailyReflectionTimeLabel,
   deriveScreen,
@@ -19,6 +19,7 @@ import {
   refreshLabel,
   shortMetricLabel,
   staleMessage,
+  carryStatusLine,
   timelineTargetFor,
   type TimelineTarget,
 } from './reflectionView';
@@ -37,6 +38,8 @@ export interface ReflectionContentProps {
   onSetPriorityStatus: (id: string, status: ReflectionPriorityDto['status']) => void;
   /** The Coach. Present on the day view; a day is then read as a briefing. */
   coach?: CoachController | null;
+  /** Correcting what a disputed insight rests on. */
+  correction?: InsightCorrectionController | null;
 }
 
 /**
@@ -136,6 +139,7 @@ function ReportBody({
   generating,
   onFeedback,
   onViewTimeline,
+  correction,
 }: ReflectionContentProps & { view: ReflectionViewDto; report: ReflectionReportDto; refreshButton: JSX.Element; generating: boolean }) {
   const generatedAt = formatGeneratedAt(report.generatedAt);
   const failed = view.generation.state === 'failed';
@@ -149,6 +153,12 @@ function ReportBody({
       {failed && view.generation.message && (
         <div className="reflection-banner" role="status">
           The last refresh did not complete. {view.generation.message} The reflection below is the previous one.
+        </div>
+      )}
+
+      {report.outdated && report.status !== 'stale' && (
+        <div className="reflection-banner" role="status">
+          This reflection was written by an earlier version of Reflect. You can refresh it to have it rewritten.
         </div>
       )}
 
@@ -170,6 +180,7 @@ function ReportBody({
               key={insight.id}
               insight={insight}
               period={view.period}
+              correction={correction}
               onFeedback={onFeedback}
               onViewTimeline={onViewTimeline}
             />
@@ -186,6 +197,8 @@ function ReportBody({
           </div>
         </section>
       )}
+
+      <CarriedWork report={report} onViewTimeline={onViewTimeline} />
 
       {report.supportingMetrics.length > 0 && (
         <section>
@@ -210,13 +223,47 @@ function ReportBody({
   );
 }
 
+/**
+ * What persisted across periods: work that is still unresolved, work that was
+ * picked up again, and what the user closed. Each row leads to the last time
+ * it was worked on. Nothing is shown when nothing is carried.
+ */
+export function CarriedWork({ report, onViewTimeline }: { report: Pick<ReflectionReportDto, 'carried'>; onViewTimeline: (target: TimelineTarget) => void }) {
+  const carried = report.carried ?? [];
+  if (carried.length === 0) return null;
+  return (
+    <section className="reflection-carry" data-testid="carried-work">
+      <div className="reflection-eyebrow">Across periods</div>
+      <ul className="mt-2 space-y-1.5">
+        {carried.map((item) => (
+          <li key={item.key} className="reflection-evidence-row" data-carry-status={item.status}>
+            <span className="min-w-0">
+              <span className="text-default font-medium">{item.title}</span>
+              <span className="text-muted"> — {carryStatusLine(item)}</span>
+            </span>
+            {item.lastWorked && (
+              <button
+                type="button"
+                className="reflection-link shrink-0"
+                onClick={() => onViewTimeline({ day: item.lastWorked!.start, view: 'day', activityId: null })}
+              >
+                Last worked
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 type BodyProps = ReflectionContentProps & { view: ReflectionViewDto; report: ReflectionReportDto; refreshButton: JSX.Element; generating: boolean };
 
 /**
  * A day's intelligence, read top to bottom: the reflection and the coaching
  * were written together, so they are shown as one briefing.
  */
-function DailyBody({ view, report, coach, refreshButton, generating, onFeedback, onViewTimeline }: BodyProps & { coach: CoachController }) {
+function DailyBody({ view, report, coach, refreshButton, generating, onFeedback, onViewTimeline, correction }: BodyProps & { coach: CoachController }) {
   const generatedAt = formatGeneratedAt(report.generatedAt);
   const failed = view.generation.state === 'failed';
   const groups = groupInsights(report.insights);
@@ -228,6 +275,7 @@ function DailyBody({ view, report, coach, refreshButton, generating, onFeedback,
         key={insight.id}
         insight={insight}
         period={view.period}
+        correction={correction}
         onFeedback={onFeedback}
         onViewTimeline={onViewTimeline}
         hideLabel={hideLabel}
@@ -280,6 +328,9 @@ function DailyBody({ view, report, coach, refreshButton, generating, onFeedback,
           <div className="reflection-group space-y-7 mt-3">{insightList(groups.priorities, true)}</div>
         </section>
       )}
+
+      {/* What is still open going into tomorrow, and what closed today. */}
+      <CarriedWork report={report} onViewTimeline={onViewTimeline} />
 
       {report.coach && report.coach.followups.length > 0 && (
         <section className="coach-section">

@@ -1,11 +1,17 @@
-import type {
-  IReflectionRepository,
-  NewReflectionReport,
-  ReflectionCommit,
-  ReflectionFeedbackRecord,
+import {
+  referenceReach,
+  type IReflectionRepository,
+  type InsightHistoryRow,
+  type NewReflectionReport,
+  type ReflectionCommit,
+  type ReflectionFeedbackRecord,
 } from '../../src/database/ReflectionRepository';
 import type {
   ActivityAnnotation,
+  DayFactRow,
+  DayFacts,
+  PriorityEvent,
+  PriorityEventType,
   ReflectionErrorCategory,
   ReflectionFeedbackType,
   ReflectionPeriod,
@@ -15,7 +21,7 @@ import type {
   ReflectionReport,
   ReflectionReportStatus,
 } from '../../src/reflection/ReflectionModels';
-import type { PrioritySyncPlan } from '../../src/reflection/ReflectionPriorities';
+import { intervalsFromEvents, type PrioritySyncPlan } from '../../src/reflection/ReflectionPriorities';
 
 /**
  * In-memory stand-in for `ReflectionRepository` with the same semantics:
@@ -27,6 +33,9 @@ export class FakeReflectionRepository implements IReflectionRepository {
   feedback = new Map<string, { type: ReflectionFeedbackType; createdAt: string }>();
   priorities: ReflectionPriority[] = [];
   annotations = new Map<string, ActivityAnnotation & { updatedAt: string }>();
+  priorityEvents: PriorityEvent[] = [];
+  /** The day ledger: day key → facts. */
+  dayFacts = new Map<string, DayFacts>();
   /** Set to make the next commit throw (persistence failure). */
   failNextCommit = false;
 
@@ -174,7 +183,7 @@ export class FakeReflectionRepository implements IReflectionRepository {
     let count = 0;
     for (const r of this.reports) {
       if (r.status !== 'fresh' || r.needsVerification) continue;
-      if (range && !(r.period.start < range.end && r.period.end > range.start)) continue;
+      if (range && !(r.period.start < referenceReach(range.end)[r.period.type] && r.period.end > range.start)) continue;
       r.needsVerification = true;
       count++;
     }
@@ -200,6 +209,25 @@ export class FakeReflectionRepository implements IReflectionRepository {
     return this.listCurrentReports(null, Number.MAX_SAFE_INTEGER).map((r) => r.period);
   }
 
+  listInsightHistory(type: ReflectionPeriodType, beforeStart: string, reportLimit: number): InsightHistoryRow[] {
+    return this.listCurrentReports(type, reportLimit, beforeStart).flatMap((r) =>
+      r.insights.map((i) => ({
+        period: r.period,
+        reportId: r.id,
+        insightId: i.id,
+        type: i.type,
+        title: i.title,
+        identityKey: i.identityKey ?? i.claimSignature,
+        subjectKey: i.subjectKey ?? null,
+        thread: i.thread ?? null,
+        priorityId: i.priorityId ?? null,
+        continuity: i.continuity ?? 'new',
+        magnitude: i.magnitude ?? null,
+        feedback: i.feedback,
+      })),
+    );
+  }
+
   setFeedback(insightId: string, feedback: ReflectionFeedbackType | null, _id: string, nowIso: string): boolean {
     if (!this.reports.some((r) => r.insights.some((i) => i.id === insightId))) return false;
     if (feedback === null) this.feedback.delete(insightId);
@@ -211,14 +239,36 @@ export class FakeReflectionRepository implements IReflectionRepository {
     const out: ReflectionFeedbackRecord[] = [];
     for (const [insightId, f] of this.feedback) {
       if (f.createdAt < sinceIso) continue;
-      const insight = this.reports.flatMap((r) => r.insights).find((i) => i.id === insightId);
-      if (insight) out.push({ insightId, insightType: insight.type, feedbackType: f.type, createdAt: f.createdAt });
+      const report = this.reports.find((r) => r.insights.some((i) => i.id === insightId));
+      const insight = report?.insights.find((i) => i.id === insightId);
+      if (report && insight) {
+        out.push({
+          insightId,
+          insightType: insight.type,
+          feedbackType: f.type,
+          createdAt: f.createdAt,
+          identityKey: insight.identityKey ?? insight.claimSignature,
+          subjectKey: insight.subjectKey ?? null,
+          title: insight.title,
+          reportId: report.id,
+          periodType: report.period.type,
+          periodKey: report.period.key,
+        });
+      }
     }
     return out;
   }
 
   listPriorities(): ReflectionPriority[] {
-    return structuredClone(this.priorities);
+    return structuredClone(this.priorities).map((p) => {
+      const history = this.priorityEvents.filter((e) => e.priorityId === p.id).sort((a, b) => (a.at < b.at ? -1 : a.at > b.at ? 1 : 0));
+      const intervals = intervalsFromEvents(history);
+      return intervals.length > 0 ? { ...p, intervals, history } : p;
+    });
+  }
+
+  private event(priorityId: string, type: PriorityEventType, at: string, text: string, previousText: string | null = null): void {
+    this.priorityEvents.push({ priorityId, at, type, text, previousText });
   }
 
   applyPrioritySync(plan: PrioritySyncPlan, ids: string[], nowIso: string): void {
@@ -226,8 +276,19 @@ export class FakeReflectionRepository implements IReflectionRepository {
       if (plan.archiveIds.includes(p.id) && p.status !== 'archived') {
         p.status = 'archived';
         p.activeUntil = p.activeUntil ?? nowIso;
+        this.event(p.id, 'archived', nowIso, p.text);
       }
       if (plan.confirmIds.includes(p.id)) p.lastConfirmedAt = plan.confirmedAt;
+      const again = plan.reactivate.find((r) => r.id === p.id);
+      if (again && p.status === 'archived') {
+        Object.assign(p, { status: 'active', activeUntil: null, text: again.text, lastConfirmedAt: plan.confirmedAt });
+        this.event(p.id, 'reactivated', nowIso, again.text);
+      }
+      const renamed = plan.rename.find((r) => r.id === p.id);
+      if (renamed) {
+        Object.assign(p, { text: renamed.text, normalizedKey: renamed.normalizedKey, lastConfirmedAt: plan.confirmedAt });
+        this.event(p.id, 'renamed', nowIso, renamed.text, renamed.previousText);
+      }
     }
     plan.insert.forEach((p, index) => {
       this.priorities.push({
@@ -239,31 +300,69 @@ export class FakeReflectionRepository implements IReflectionRepository {
         activeUntil: null,
         lastConfirmedAt: p.lastConfirmedAt,
       });
+      this.event(ids[index], 'stated', p.activeFrom, p.text);
     });
   }
 
   setPriorityStatus(id: string, status: ReflectionPriorityStatus, nowIso: string): ReflectionPriority | null {
     const p = this.priorities.find((x) => x.id === id);
     if (!p) return null;
-    p.status = status;
-    if (status === 'active') {
-      p.activeUntil = null;
-      p.lastConfirmedAt = nowIso;
-    } else {
-      p.activeUntil = p.activeUntil ?? nowIso;
+    if (p.status !== status) {
+      p.status = status;
+      if (status === 'active') {
+        p.activeUntil = null;
+        p.lastConfirmedAt = nowIso;
+      } else {
+        p.activeUntil = p.activeUntil ?? nowIso;
+      }
+      this.event(id, status === 'active' ? 'reactivated' : (status as PriorityEventType), nowIso, p.text);
     }
-    return structuredClone(p);
+    return this.listPriorities().find((x) => x.id === id) ?? null;
   }
 
   getAnnotations(signatures: string[]): ActivityAnnotation[] {
     return signatures
       .map((s) => this.annotations.get(s))
       .filter((a): a is ActivityAnnotation & { updatedAt: string } => a !== undefined)
-      .map(({ updatedAt: _updatedAt, ...a }) => structuredClone(a));
+      .map(({ updatedAt: _updatedAt, ...a }) => ({ ...structuredClone(a), source: a.source ?? 'model' }));
   }
 
-  upsertAnnotations(annotations: ActivityAnnotation[], nowIso: string): void {
-    for (const a of annotations) this.annotations.set(a.signature, { ...structuredClone(a), updatedAt: nowIso });
+  upsertAnnotations(annotations: ActivityAnnotation[], nowIso: string): string[] {
+    const changed: string[] = [];
+    for (const a of annotations) {
+      const previous = this.annotations.get(a.signature);
+      // USER > MODEL, like the SQL upsert.
+      if (previous?.source === 'user' && (a.source ?? 'model') !== 'user') continue;
+      if (!previous || previous.thread !== a.thread || previous.priorityId !== a.priorityId || (previous.source ?? 'model') !== (a.source ?? 'model')) {
+        changed.push(a.signature);
+      }
+      this.annotations.set(a.signature, { ...structuredClone(a), source: a.source ?? 'model', updatedAt: nowIso });
+    }
+    for (const [key, day] of this.dayFacts) {
+      if (day.rows.some((r) => r.kind === 'signature' && changed.includes(r.key))) this.dayFacts.delete(key);
+    }
+    return changed;
+  }
+
+  getDayFacts(startIso: string, endIso: string): DayFactRow[] {
+    return [...this.dayFacts.values()]
+      .filter((d) => d.start >= startIso && d.start < endIso)
+      .sort((a, b) => (a.start < b.start ? -1 : 1))
+      .flatMap((d) => structuredClone(d.rows));
+  }
+
+  putDayFacts(day: DayFacts): void {
+    this.dayFacts.set(day.key, structuredClone(day));
+  }
+
+  deleteDayFacts(range: { start: string; end: string } | null): number {
+    let count = 0;
+    for (const [key, day] of this.dayFacts) {
+      if (range && !(day.start < range.end && day.end > range.start)) continue;
+      this.dayFacts.delete(key);
+      count++;
+    }
+    return count;
   }
 
   listThreadLabels(limit: number): string[] {

@@ -53,11 +53,13 @@ describe('ReflectionHistory (Coach-facing queries)', () => {
     expect(history.getInsightHistory()).toHaveLength(4);
   });
 
-  it('finds recurring patterns by claim signature, not by wording', async () => {
-    const { history } = await setup();
+  it('finds recurring patterns by what they are about, not by wording or cited metrics', async () => {
+    const { history, priorityId } = await setup();
     expect(history.getRecurringPatterns('week')).toEqual([
       {
-        signature: 'progress|thread.project-x.minutes',
+        // Project X serves the stated priority: the pattern is about that priority, advancing.
+        signature: `p:${priorityId}|advancing`,
+        subjectKey: `p:${priorityId}`,
         type: 'progress',
         title: 'Project X moved forward',
         occurrences: 2,
@@ -65,7 +67,9 @@ describe('ReflectionHistory (Coach-facing queries)', () => {
         lastSeen: week42,
       },
       {
-        signature: 'fragmentation|daypart.afternoon.switches',
+        // Week 42 cited the comparison as well; it is still the same pattern.
+        signature: 'period|fragmentation|daypart.afternoon.switches',
+        subjectKey: null,
         type: 'fragmentation',
         title: 'Afternoons were switch heavy',
         occurrences: 2,
@@ -95,8 +99,20 @@ describe('ReflectionHistory (Coach-facing queries)', () => {
     ]);
     const insight = repo.getCurrentReport('week', week42.key)!.insights[1];
     service.submitFeedback(insight.id, 'not_useful');
+    // Feedback is tied to the claim it was given on — not only to its type.
     expect(history.getUserFeedback(iso(1))).toEqual([
-      { insightId: insight.id, insightType: 'fragmentation', feedbackType: 'not_useful', createdAt: iso(19, '09:00') },
+      {
+        insightId: insight.id,
+        insightType: 'fragmentation',
+        feedbackType: 'not_useful',
+        createdAt: iso(19, '09:00'),
+        identityKey: 'period|fragmentation|daypart.afternoon.switches',
+        subjectKey: null,
+        title: 'Afternoons were switch heavy',
+        reportId: repo.getCurrentReport('week', week42.key)!.id,
+        periodType: 'week',
+        periodKey: week42.key,
+      },
     ]);
   });
 });

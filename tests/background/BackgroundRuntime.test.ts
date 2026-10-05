@@ -17,7 +17,7 @@ import { ReflectionScheduler } from '../../src/reflection/ReflectionScheduler';
 import { HeartbeatEngine } from '../../src/tracker/HeartbeatEngine';
 import { TrackingService } from '../../src/tracker/TrackingService';
 import { WindowWatcher } from '../../src/tracker/watcher/WindowWatcher';
-import { local, makeReflectionHarness, modelReflection, seedThreads, workday } from '../reflection/helpers';
+import { NARROW_SCHEDULE, local, makeReflectionHarness, modelReflection, seedThreads, workday } from '../reflection/helpers';
 import { FakeEventRepository } from '../tracker/FakeEventRepository';
 import { FakeMainWindow, FakeSettingsRepository, fakeWidgetHost, manualTimers, silentLogger } from './helpers';
 
@@ -433,7 +433,7 @@ const day = (d: number) => periodContaining('day', local(d));
 const week = (d: number) => periodContaining('week', local(d));
 
 function reflectionRuntime(now: Date, ledger = new Set<string>(), notificationsFail = false) {
-  const h = makeReflectionHarness({ activities: [5, 6, 7, 8, 9, 12, 13, 14, 15].flatMap(workday), now });
+  const h = makeReflectionHarness({ activities: [5, 6, 7, 8, 9, 12, 13, 14, 15].flatMap(workday), now, config: NARROW_SCHEDULE });
   seedThreads(h.repo, h.activities);
 
   const shown: { title: string; body: string; click: () => void }[] = [];
@@ -497,14 +497,15 @@ describe('background runtime — reflection without a window', () => {
   it('writes the reflection and notifies with the UI closed; the click opens that report', async () => {
     const rt = reflectionRuntime(local(15, '09:00')); // Thursday morning
     const scheduler = rt.makeScheduler();
-    rt.script(day(12), day(13), day(14), week(7));
+    rt.script(week(7), day(12), day(13), day(14));
 
     const cycle = await scheduler.runCycle();
+    // In the order the periods ended.
     expect(cycle.results.filter((r) => r.status === 'succeeded').map((r) => r.period.key)).toEqual([
+      '2026-W41',
       '2026-10-12',
       '2026-10-13',
       '2026-10-14',
-      '2026-W41',
     ]);
     // Persisted — nothing waited for a renderer.
     expect(rt.h.repo.getCurrentReport('day', '2026-10-14')).not.toBeNull();
@@ -521,7 +522,7 @@ describe('background runtime — reflection without a window', () => {
   it('a missed reflection time is recovered at the next start — generated once, notified once', async () => {
     const rt = reflectionRuntime(local(15, '09:00'));
     const scheduler = rt.makeScheduler();
-    rt.script(day(12), day(13), day(14), week(7));
+    rt.script(week(7), day(12), day(13), day(14));
     await scheduler.runCycle();
     scheduler.stop();
     // The machine is switched off before Thursday's 22:00 reflection time.
@@ -552,7 +553,7 @@ describe('background runtime — reflection without a window', () => {
     const ledger = new Set<string>(['reflection-ready:2026-10-14']); // announced before the restart
     const rt = reflectionRuntime(local(15, '09:00'), ledger);
     const scheduler = rt.makeScheduler();
-    rt.script(day(12), day(13), day(14), week(7));
+    rt.script(week(7), day(12), day(13), day(14));
     await scheduler.runCycle();
     expect(rt.shown).toHaveLength(0);
   });
@@ -606,7 +607,7 @@ describe('background runtime — failure isolation', () => {
 
     const reflections = reflectionRuntime(local(15, '09:00'), new Set(), true);
     const scheduler = reflections.makeScheduler();
-    reflections.script(day(12), day(13), day(14), week(7));
+    reflections.script(week(7), day(12), day(13), day(14));
     const cycle = await scheduler.runCycle();
 
     expect(cycle.status).toBe('completed');

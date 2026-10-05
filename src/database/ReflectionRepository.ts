@@ -1,7 +1,13 @@
 import type { Database } from './Database.js';
 import type {
   ActivityAnnotation,
+  DayFactKind,
+  DayFactRow,
+  DayFacts,
+  InsightContinuity,
   MetricSet,
+  PriorityEvent,
+  PriorityEventType,
   ReflectionCarryForward,
   ReflectionDataSnapshot,
   ReflectionErrorCategory,
@@ -18,7 +24,7 @@ import type {
   ReflectionTrigger,
   ReportCoachBlock,
 } from '../reflection/ReflectionModels.js';
-import type { PrioritySyncPlan } from '../reflection/ReflectionPriorities.js';
+import { intervalsFromEvents, type PrioritySyncPlan } from '../reflection/ReflectionPriorities.js';
 
 /**
  * Storage seam for the reflection layer. The service depends on this
@@ -55,7 +61,8 @@ export interface IReflectionRepository {
   markStale(reportId: string, reason: string, nowIso: string): boolean;
   /**
    * Underlying data changed: flag fresh reports so they are re-checked when
-   * next opened. With a range, only reports whose period overlaps it.
+   * next opened. With a range, only reports whose period overlaps it — or
+   * whose PREVIOUS period does, since that is what they were compared with.
    */
   flagForVerification(range: { start: string; end: string } | null, nowIso: string): number;
   clearVerification(reportId: string): void;
@@ -63,6 +70,12 @@ export interface IReflectionRepository {
   listCurrentReports(type: ReflectionPeriodType | null, limit: number, beforeStart?: string): ReflectionReport[];
   /** Periods that have a current report, newest first. */
   listReportedPeriods(): ReflectionPeriod[];
+  /**
+   * The insights of the current reports of earlier periods of one type,
+   * newest period first, reduced to identity. One query, no report bodies —
+   * this is how "was this said before?" is answered for any horizon.
+   */
+  listInsightHistory(type: ReflectionPeriodType, beforeStart: string, reportLimit: number): InsightHistoryRow[];
 
   // Feedback
   /** Set (or with `null` clear) the feedback on an insight. False when the insight does not exist. */
@@ -71,13 +84,28 @@ export interface IReflectionRepository {
 
   // Priorities
   listPriorities(): ReflectionPriority[];
-  /** `ids[i]` is the id of `plan.insert[i]`. */
+  /** `ids[i]` is the id of `plan.insert[i]`. Every change is also written to the priority's event log. */
   applyPrioritySync(plan: PrioritySyncPlan, ids: string[], nowIso: string): void;
+  /** A real change of status is recorded as an event; setting the status it already has does nothing. */
   setPriorityStatus(id: string, status: ReflectionPriorityStatus, nowIso: string): ReflectionPriority | null;
 
   // Annotations
   getAnnotations(signatures: string[]): ActivityAnnotation[];
-  upsertAnnotations(annotations: ActivityAnnotation[], nowIso: string): void;
+  /**
+   * Store thread / priority decisions. A 'user' row is a correction and is
+   * never replaced by a 'model' one. Returns the signatures whose thread or
+   * priority actually changed; the ledger days holding them are dropped in
+   * the same transaction, so derived history can never disagree with a link.
+   */
+  upsertAnnotations(annotations: ActivityAnnotation[], nowIso: string): string[];
+
+  // Day ledger (a cache of derived facts; safe to drop at any time)
+  /** Every ledger row of the days starting in [startIso, endIso). */
+  getDayFacts(startIso: string, endIso: string): DayFactRow[];
+  /** Replace one day's rows. */
+  putDayFacts(day: DayFacts): void;
+  /** Drop the days overlapping the range — or all of them. */
+  deleteDayFacts(range: { start: string; end: string } | null): number;
   /** Thread labels already in use, most recently used first. */
   listThreadLabels(limit: number): string[];
 }
@@ -123,6 +151,28 @@ export interface ReflectionFeedbackRecord {
   insightType: ReflectionInsightType;
   feedbackType: ReflectionFeedbackType;
   createdAt: string;
+  /** What the insight was about — so feedback applies to the claim, not just its type. */
+  identityKey?: string;
+  subjectKey?: string | null;
+  title?: string;
+  reportId?: string;
+  periodType?: ReflectionPeriodType;
+  periodKey?: string;
+}
+
+export interface InsightHistoryRow {
+  period: ReflectionPeriod;
+  reportId: string;
+  insightId: string;
+  type: ReflectionInsightType;
+  title: string;
+  identityKey: string;
+  subjectKey: string | null;
+  thread: string | null;
+  priorityId: string | null;
+  continuity: InsightContinuity;
+  magnitude: number | null;
+  feedback: ReflectionFeedbackType | null;
 }
 
 /** How many failed attempts are kept per period (older ones are pruned). */
@@ -167,7 +217,6 @@ interface InsightRow {
   observation: string;
   interpretation: string;
   relevance: string | null;
-  suggested_action: string | null;
   evidence_json: string;
   source_activity_ids_json: string;
   source_metric_keys_json: string;
@@ -175,6 +224,32 @@ interface InsightRow {
   confidence: number;
   created_at: string;
   feedback_type: string | null;
+  identity_key: string | null;
+  subject_key: string | null;
+  thread: string | null;
+  priority_id: string | null;
+  continuity: string | null;
+  magnitude: number | null;
+}
+
+interface PriorityEventRow {
+  priority_id: string;
+  at: string;
+  type: string;
+  text: string;
+  previous_text: string | null;
+}
+
+interface DayFactDbRow {
+  day_key: string;
+  day_start: string;
+  day_end: string;
+  kind: string;
+  key: string;
+  label: string | null;
+  minutes: number;
+  sessions: number;
+  priority_id: string | null;
 }
 
 interface PriorityRow {
@@ -192,6 +267,7 @@ interface AnnotationRow {
   thread_label: string | null;
   priority_id: string | null;
   checked_priority_ids_json: string;
+  source: string | null;
 }
 
 function parseJson<T>(text: string | null, fallback: T): T {
@@ -242,6 +318,18 @@ export class ReflectionRepository implements IReflectionRepository {
   private readonly upsertAnnotationStmt;
   private readonly threadLabelsStmt;
 
+  private readonly insightHistoryStmt;
+  private readonly priorityEventsStmt;
+  private readonly insertPriorityEventStmt;
+  private readonly reactivatePriorityStmt;
+  private readonly renamePriorityStmt;
+  private readonly dayFactsStmt;
+  private readonly insertDayFactStmt;
+  private readonly deleteDayStmt;
+  private readonly deleteDayRangeStmt;
+  private readonly deleteAllDaysStmt;
+  private readonly deleteDaysBySignatureStmt;
+
   constructor(private readonly db: Database) {
     this.insertReportStmt = db.prepare(
       `INSERT INTO reflection_reports
@@ -282,12 +370,14 @@ export class ReflectionRepository implements IReflectionRepository {
     );
     this.insertInsightStmt = db.prepare(
       `INSERT INTO reflection_insights
-         (id, report_id, position, type, title, observation, interpretation, relevance, suggested_action,
+         (id, report_id, position, type, title, observation, interpretation, relevance,
           evidence_json, source_activity_ids_json, source_metric_keys_json, claim_signature, confidence,
+          identity_key, subject_key, thread, priority_id, continuity, magnitude,
           created_at, updated_at)
        VALUES
-         (@id, @report_id, @position, @type, @title, @observation, @interpretation, @relevance, @suggested_action,
+         (@id, @report_id, @position, @type, @title, @observation, @interpretation, @relevance,
           @evidence_json, @source_activity_ids_json, @source_metric_keys_json, @claim_signature, @confidence,
+          @identity_key, @subject_key, @thread, @priority_id, @continuity, @magnitude,
           @now, @now)`,
     );
     this.deleteFailedStmt = db.prepare(
@@ -337,7 +427,9 @@ export class ReflectionRepository implements IReflectionRepository {
     this.flagRangeStmt = db.prepare(
       `UPDATE reflection_reports SET needs_verification = 1, updated_at = @now
        WHERE status = 'fresh' AND needs_verification = 0
-         AND period_start < @end AND period_end > @start`,
+         AND period_end > @start
+         AND period_start < CASE period_type
+               WHEN 'day' THEN @end_day WHEN 'week' THEN @end_week WHEN 'month' THEN @end_month ELSE @end_year END`,
     );
     this.clearVerificationStmt = db.prepare(`UPDATE reflection_reports SET needs_verification = 0 WHERE id = ?`);
     this.listCurrentStmt = db.prepare(
@@ -371,9 +463,11 @@ export class ReflectionRepository implements IReflectionRepository {
          created_at    = excluded.created_at`,
     );
     this.listFeedbackStmt = db.prepare(
-      `SELECT f.insight_id, f.feedback_type, f.created_at, i.type
+      `SELECT f.insight_id, f.feedback_type, f.created_at, i.type, i.title, i.identity_key, i.claim_signature, i.subject_key,
+              r.id AS report_id, r.period_type, r.period_key
        FROM reflection_feedback f
        JOIN reflection_insights i ON i.id = f.insight_id
+       JOIN reflection_reports r ON r.id = i.report_id
        WHERE f.created_at >= ?
        ORDER BY f.created_at DESC, f.rowid DESC`,
     );
@@ -400,6 +494,21 @@ export class ReflectionRepository implements IReflectionRepository {
            active_until = CASE WHEN @status = 'active' THEN NULL ELSE COALESCE(active_until, @now) END,
            last_confirmed_at = CASE WHEN @status = 'active' THEN @now ELSE last_confirmed_at END,
            updated_at = @now
+       WHERE id = @id AND status != @status`,
+    );
+    this.priorityEventsStmt = db.prepare(`SELECT priority_id, at, type, text, previous_text FROM reflection_priority_events ORDER BY at ASC, id ASC`);
+    this.insertPriorityEventStmt = db.prepare(
+      `INSERT INTO reflection_priority_events (priority_id, at, type, text, previous_text)
+       VALUES (@priority_id, @at, @type, @text, @previous_text)`,
+    );
+    this.reactivatePriorityStmt = db.prepare(
+      `UPDATE reflection_priorities
+       SET status = 'active', active_until = NULL, text = @text, last_confirmed_at = @confirmed_at, updated_at = @now
+       WHERE id = @id AND status = 'archived'`,
+    );
+    this.renamePriorityStmt = db.prepare(
+      `UPDATE reflection_priorities
+       SET text = @text, normalized_key = @normalized_key, last_confirmed_at = @confirmed_at, updated_at = @now
        WHERE id = @id`,
     );
 
@@ -407,16 +516,52 @@ export class ReflectionRepository implements IReflectionRepository {
       `SELECT * FROM reflection_activity_annotations
        WHERE signature IN (SELECT value FROM json_each(@signatures))`,
     );
+    // USER > MODEL: a correction is only ever replaced by another correction.
     this.upsertAnnotationStmt = db.prepare(
       `INSERT INTO reflection_activity_annotations
-         (signature, thread_label, priority_id, checked_priority_ids_json, created_at, updated_at)
+         (signature, thread_label, priority_id, checked_priority_ids_json, source, created_at, updated_at)
        VALUES
-         (@signature, @thread_label, @priority_id, @checked_priority_ids_json, @now, @now)
+         (@signature, @thread_label, @priority_id, @checked_priority_ids_json, @source, @now, @now)
        ON CONFLICT (signature) DO UPDATE SET
          thread_label              = excluded.thread_label,
          priority_id               = excluded.priority_id,
          checked_priority_ids_json = excluded.checked_priority_ids_json,
-         updated_at                = excluded.updated_at`,
+         source                    = excluded.source,
+         updated_at                = excluded.updated_at
+       WHERE reflection_activity_annotations.source != 'user' OR excluded.source = 'user'`,
+    );
+
+    this.insightHistoryStmt = db.prepare(
+      `SELECT r.id AS report_id, r.period_type, r.period_key, r.period_start, r.period_end,
+              i.id, i.type, i.title, i.claim_signature, i.identity_key, i.subject_key, i.thread, i.priority_id,
+              i.continuity, i.magnitude, f.feedback_type
+       FROM (
+         SELECT * FROM reflection_reports
+         WHERE status IN ('fresh', 'stale') AND period_type = @period_type AND period_start < @before
+         ORDER BY period_start DESC, rowid DESC
+         LIMIT @limit
+       ) r
+       JOIN reflection_insights i ON i.report_id = r.id
+       LEFT JOIN reflection_feedback f ON f.insight_id = i.id
+       ORDER BY r.period_start DESC, i.position ASC`,
+    );
+
+    this.dayFactsStmt = db.prepare(
+      `SELECT * FROM reflection_day_facts WHERE day_start >= @start AND day_start < @end ORDER BY day_start ASC, kind ASC, key ASC`,
+    );
+    this.insertDayFactStmt = db.prepare(
+      `INSERT INTO reflection_day_facts (day_key, day_start, day_end, kind, key, label, minutes, sessions, priority_id)
+       VALUES (@day_key, @day_start, @day_end, @kind, @key, @label, @minutes, @sessions, @priority_id)`,
+    );
+    this.deleteDayStmt = db.prepare(`DELETE FROM reflection_day_facts WHERE day_key = ?`);
+    this.deleteDayRangeStmt = db.prepare(`DELETE FROM reflection_day_facts WHERE day_start < @end AND day_end > @start`);
+    this.deleteAllDaysStmt = db.prepare(`DELETE FROM reflection_day_facts`);
+    this.deleteDaysBySignatureStmt = db.prepare(
+      `DELETE FROM reflection_day_facts
+       WHERE day_key IN (
+         SELECT day_key FROM reflection_day_facts
+         WHERE kind = 'signature' AND key IN (SELECT value FROM json_each(@signatures))
+       )`,
     );
     this.threadLabelsStmt = db.prepare(
       `SELECT thread_label FROM reflection_activity_annotations
@@ -469,12 +614,17 @@ export class ReflectionRepository implements IReflectionRepository {
           observation: insight.observation,
           interpretation: insight.interpretation,
           relevance: insight.relevance,
-          suggested_action: insight.suggestedAction,
           evidence_json: JSON.stringify(insight.evidence),
           source_activity_ids_json: JSON.stringify(insight.sourceActivityIds),
           source_metric_keys_json: JSON.stringify(insight.sourceMetricKeys),
           claim_signature: insight.claimSignature,
           confidence: insight.confidence,
+          identity_key: insight.identityKey,
+          subject_key: insight.subjectKey,
+          thread: insight.thread,
+          priority_id: insight.priorityId,
+          continuity: insight.continuity,
+          magnitude: insight.magnitude,
           now,
         });
       });
@@ -530,9 +680,9 @@ export class ReflectionRepository implements IReflectionRepository {
   }
 
   flagForVerification(range: { start: string; end: string } | null, nowIso: string): number {
-    return range
-      ? this.flagRangeStmt.run({ start: range.start, end: range.end, now: nowIso }).changes
-      : this.flagAllStmt.run({ now: nowIso }).changes;
+    if (!range) return this.flagAllStmt.run({ now: nowIso }).changes;
+    const reach = referenceReach(range.end);
+    return this.flagRangeStmt.run({ start: range.start, end_day: reach.day, end_week: reach.week, end_month: reach.month, end_year: reach.year, now: nowIso }).changes;
   }
 
   clearVerification(reportId: string): void {
@@ -557,6 +707,30 @@ export class ReflectionRepository implements IReflectionRepository {
     }));
   }
 
+  listInsightHistory(type: ReflectionPeriodType, beforeStart: string, reportLimit: number): InsightHistoryRow[] {
+    const rows = this.insightHistoryStmt.all({ period_type: type, before: beforeStart, limit: reportLimit }) as (InsightRow & {
+      report_id: string;
+      period_type: string;
+      period_key: string;
+      period_start: string;
+      period_end: string;
+    })[];
+    return rows.map((r) => ({
+      period: { type: r.period_type as ReflectionPeriodType, key: r.period_key, start: r.period_start, end: r.period_end },
+      reportId: r.report_id,
+      insightId: r.id,
+      type: r.type as ReflectionInsightType,
+      title: r.title,
+      identityKey: r.identity_key ?? r.claim_signature,
+      subjectKey: r.subject_key,
+      thread: r.thread,
+      priorityId: r.priority_id,
+      continuity: (r.continuity ?? 'new') as InsightContinuity,
+      magnitude: r.magnitude,
+      feedback: r.feedback_type as ReflectionFeedbackType | null,
+    }));
+  }
+
   // --- Feedback ---
 
   setFeedback(insightId: string, feedback: ReflectionFeedbackType | null, id: string, nowIso: string): boolean {
@@ -572,25 +746,60 @@ export class ReflectionRepository implements IReflectionRepository {
       feedback_type: string;
       created_at: string;
       type: string;
+      title: string;
+      identity_key: string | null;
+      claim_signature: string;
+      subject_key: string | null;
+      report_id: string;
+      period_type: string;
+      period_key: string;
     }[];
     return rows.map((r) => ({
       insightId: r.insight_id,
       insightType: r.type as ReflectionInsightType,
       feedbackType: r.feedback_type as ReflectionFeedbackType,
       createdAt: r.created_at,
+      identityKey: r.identity_key ?? r.claim_signature,
+      subjectKey: r.subject_key,
+      title: r.title,
+      reportId: r.report_id,
+      periodType: r.period_type as ReflectionPeriodType,
+      periodKey: r.period_key,
     }));
   }
 
   // --- Priorities ---
 
   listPriorities(): ReflectionPriority[] {
-    return (this.listPrioritiesStmt.all() as PriorityRow[]).map(rowToPriority);
+    const events = new Map<string, PriorityEvent[]>();
+    for (const e of this.priorityEventsStmt.all() as PriorityEventRow[]) {
+      const list = events.get(e.priority_id) ?? [];
+      list.push({ priorityId: e.priority_id, at: e.at, type: e.type as PriorityEventType, text: e.text, previousText: e.previous_text });
+      events.set(e.priority_id, list);
+    }
+    return (this.listPrioritiesStmt.all() as PriorityRow[]).map((row) => rowToPriority(row, events.get(row.id) ?? []));
+  }
+
+  private recordPriorityEvent(id: string, type: PriorityEventType, at: string, text: string, previousText: string | null = null): void {
+    this.insertPriorityEventStmt.run({ priority_id: id, at, type, text, previous_text: previousText });
   }
 
   applyPrioritySync(plan: PrioritySyncPlan, ids: string[], nowIso: string): void {
     this.db.transaction(() => {
-      for (const id of plan.archiveIds) this.archivePriorityStmt.run({ id, now: nowIso });
+      const textOf = (id: string) => (this.priorityByIdStmt.get(id) as PriorityRow | undefined)?.text ?? '';
+      for (const id of plan.archiveIds) {
+        if (this.archivePriorityStmt.run({ id, now: nowIso }).changes > 0) this.recordPriorityEvent(id, 'archived', nowIso, textOf(id));
+      }
       for (const id of plan.confirmIds) this.confirmPriorityStmt.run({ id, confirmed_at: plan.confirmedAt, now: nowIso });
+      for (const r of plan.reactivate) {
+        if (this.reactivatePriorityStmt.run({ id: r.id, text: r.text, confirmed_at: plan.confirmedAt, now: nowIso }).changes > 0) {
+          this.recordPriorityEvent(r.id, 'reactivated', nowIso, r.text);
+        }
+      }
+      for (const r of plan.rename) {
+        this.renamePriorityStmt.run({ id: r.id, text: r.text, normalized_key: r.normalizedKey, confirmed_at: plan.confirmedAt, now: nowIso });
+        this.recordPriorityEvent(r.id, 'renamed', nowIso, r.text, r.previousText);
+      }
       plan.insert.forEach((p, index) => {
         this.insertPriorityStmt.run({
           id: ids[index],
@@ -600,14 +809,19 @@ export class ReflectionRepository implements IReflectionRepository {
           last_confirmed_at: p.lastConfirmedAt,
           now: nowIso,
         });
+        this.recordPriorityEvent(ids[index], 'stated', p.activeFrom, p.text);
       });
     });
   }
 
   setPriorityStatus(id: string, status: ReflectionPriorityStatus, nowIso: string): ReflectionPriority | null {
-    this.setPriorityStatusStmt.run({ id, status, now: nowIso });
-    const row = this.priorityByIdStmt.get(id) as PriorityRow | undefined;
-    return row ? rowToPriority(row) : null;
+    this.db.transaction(() => {
+      const before = this.priorityByIdStmt.get(id) as PriorityRow | undefined;
+      if (!before || this.setPriorityStatusStmt.run({ id, status, now: nowIso }).changes === 0) return;
+      // The stretch that just ended (or began) is history from now on.
+      this.recordPriorityEvent(id, status === 'active' ? 'reactivated' : (status as PriorityEventType), nowIso, before.text);
+    });
+    return this.listPriorities().find((p) => p.id === id) ?? null;
   }
 
   // --- Annotations ---
@@ -620,26 +834,75 @@ export class ReflectionRepository implements IReflectionRepository {
       thread: r.thread_label,
       priorityId: r.priority_id,
       checkedPriorityIds: parseJson<string[]>(r.checked_priority_ids_json, []),
+      source: r.source === 'user' ? 'user' : 'model',
     }));
   }
 
-  upsertAnnotations(annotations: ActivityAnnotation[], nowIso: string): void {
-    if (annotations.length === 0) return;
+  upsertAnnotations(annotations: ActivityAnnotation[], nowIso: string): string[] {
+    if (annotations.length === 0) return [];
+    const changed: string[] = [];
     this.db.transaction(() => {
+      const before = new Map(this.getAnnotations(annotations.map((a) => a.signature)).map((a) => [a.signature, a]));
       for (const a of annotations) {
-        this.upsertAnnotationStmt.run({
+        const written = this.upsertAnnotationStmt.run({
           signature: a.signature,
           thread_label: a.thread,
           priority_id: a.priorityId,
           checked_priority_ids_json: JSON.stringify(a.checkedPriorityIds),
+          source: a.source ?? 'model',
           now: nowIso,
+        });
+        const previous = before.get(a.signature);
+        const differs = !previous || previous.thread !== a.thread || previous.priorityId !== a.priorityId || (previous.source ?? 'model') !== (a.source ?? 'model');
+        if (written.changes > 0 && differs) changed.push(a.signature);
+      }
+      // Days derived from a link that just changed are derived again on demand.
+      if (changed.length > 0) this.deleteDaysBySignatureStmt.run({ signatures: JSON.stringify(changed) });
+    });
+    return changed;
+  }
+
+  listThreadLabels(limit: number): string[] {
+    return (this.threadLabelsStmt.all(limit) as { thread_label: string }[]).map((r) => r.thread_label);
+  }
+
+  // --- Day ledger ---
+
+  getDayFacts(startIso: string, endIso: string): DayFactRow[] {
+    return (this.dayFactsStmt.all({ start: startIso, end: endIso }) as DayFactDbRow[]).map((r) => ({
+      dayKey: r.day_key,
+      dayStart: r.day_start,
+      dayEnd: r.day_end,
+      kind: r.kind as DayFactKind,
+      key: r.key,
+      label: r.label,
+      minutes: r.minutes,
+      sessions: r.sessions,
+      priorityId: r.priority_id,
+    }));
+  }
+
+  putDayFacts(day: DayFacts): void {
+    this.db.transaction(() => {
+      this.deleteDayStmt.run(day.key);
+      for (const r of day.rows) {
+        this.insertDayFactStmt.run({
+          day_key: day.key,
+          day_start: day.start,
+          day_end: day.end,
+          kind: r.kind,
+          key: r.key,
+          label: r.label,
+          minutes: r.minutes,
+          sessions: r.sessions,
+          priority_id: r.priorityId,
         });
       }
     });
   }
 
-  listThreadLabels(limit: number): string[] {
-    return (this.threadLabelsStmt.all(limit) as { thread_label: string }[]).map((r) => r.thread_label);
+  deleteDayFacts(range: { start: string; end: string } | null): number {
+    return range ? this.deleteDayRangeStmt.run({ start: range.start, end: range.end }).changes : this.deleteAllDaysStmt.run().changes;
   }
 
   // --- mapping ---
@@ -652,12 +915,18 @@ export class ReflectionRepository implements IReflectionRepository {
       observation: i.observation,
       interpretation: i.interpretation,
       relevance: i.relevance,
-      suggestedAction: i.suggested_action,
       confidence: i.confidence,
       evidence: parseJson<ReflectionEvidence[]>(i.evidence_json, []),
       sourceActivityIds: parseJson<string[]>(i.source_activity_ids_json, []),
       sourceMetricKeys: parseJson<string[]>(i.source_metric_keys_json, []),
       claimSignature: i.claim_signature,
+      // Reports written before identities existed are read through their signature.
+      identityKey: i.identity_key ?? i.claim_signature,
+      subjectKey: i.subject_key ?? null,
+      thread: i.thread ?? null,
+      priorityId: i.priority_id ?? null,
+      continuity: (i.continuity ?? 'new') as InsightContinuity,
+      magnitude: i.magnitude ?? null,
       createdAt: i.created_at,
       feedback: i.feedback_type as ReflectionFeedbackType | null,
     }));
@@ -696,6 +965,16 @@ export class ReflectionRepository implements IReflectionRepository {
   }
 }
 
+/**
+ * How far past a change the reports reach that were COMPARED with the changed
+ * stretch: a report's reference is its previous period, so a change touches
+ * the reports of the following day / week / month / year too.
+ */
+export function referenceReach(endIso: string): Record<ReflectionPeriodType, string> {
+  const at = (days: number) => new Date(Date.parse(endIso) + days * 86_400_000).toISOString();
+  return { day: at(1), week: at(7), month: at(31), year: at(366) };
+}
+
 function reportParams(report: NewReflectionReport, status: ReflectionReportStatus) {
   return {
     id: report.id,
@@ -714,7 +993,8 @@ function reportParams(report: NewReflectionReport, status: ReflectionReportStatu
   };
 }
 
-function rowToPriority(r: PriorityRow): ReflectionPriority {
+function rowToPriority(r: PriorityRow, history: PriorityEvent[]): ReflectionPriority {
+  const intervals = intervalsFromEvents(history);
   return {
     id: r.id,
     text: r.text,
@@ -723,5 +1003,6 @@ function rowToPriority(r: PriorityRow): ReflectionPriority {
     activeFrom: r.active_from,
     activeUntil: r.active_until,
     lastConfirmedAt: r.last_confirmed_at,
+    ...(intervals.length > 0 ? { intervals, history } : {}),
   };
 }

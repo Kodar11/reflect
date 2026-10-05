@@ -40,7 +40,7 @@ function ctx(overrides: Partial<ReflectionValidationContext> = {}): ReflectionVa
     ]),
     priorities: [p1],
     maxInsights: 5,
-    recentSignatures: new Map(),
+    history: [],
     periodLabel: 'This week Oct 12 – Oct 18',
     ...overrides,
   };
@@ -109,7 +109,15 @@ describe('validateReflectionOutput — acceptance', () => {
       metricKey: 'thread.project-x.minutes',
       label: 'Time on “Project X”',
       value: '14h 20m',
+      // Which project and priority it belongs to, and where on the Timeline
+      // the work actually lies — the stretch it was done in, not the whole week.
+      thread: 'Project X',
+      priorityId: 'p1',
+      period: { start: activities[0].startedAt, end: expect.any(String) },
     });
+    expect(Date.parse(reflection.insights[0].evidence[0].period!.end)).toBeLessThan(Date.parse(period.end));
+    // What each insight is about is decided by the backend, from that evidence.
+    expect(reflection.insights[0]).toMatchObject({ subjectKey: 'p:p1', priorityId: 'p1', thread: 'Project X', identityKey: 'p:p1|advancing', continuity: 'new' });
     expect(reflection.insights[1].evidence[0]).toMatchObject({ kind: 'priority', priorityId: 'p1', value: '63%' });
     expect(reflection.insights[2].evidence.find((e) => e.kind === 'activity')).toMatchObject({
       activityId: activities[0].id,
@@ -330,25 +338,33 @@ describe('validateReflectionOutput — rejection', () => {
       modelReflection(period, {
         insights: [modelInsight({ type: 'fragmentation', title: 'Afternoons were switch heavy', metricKeys })],
       });
-    const recent = new Map([[claimSignature('fragmentation', ['daypart.afternoon.switches']), 3]]);
+    /** The same identity, said in each of the three previous weeks. */
+    const saidBefore = (identityKey: string, subjectKey: string | null = null) =>
+      [1, 2, 3].map((periodsBack) => ({
+        periodsBack,
+        periodKey: `w-${periodsBack}`,
+        identityKey,
+        subjectKey,
+        magnitude: null,
+        title: 'Said before',
+        type: 'fragmentation' as const,
+        feedback: null,
+      }));
+    const recent = saidBefore('period|fragmentation|daypart.afternoon.switches');
 
-    expect(errorsOf(fragmentation(['daypart.afternoon.switches']), ctx({ recentSignatures: recent })).join(' ')).toMatch(
+    expect(errorsOf(fragmentation(['daypart.afternoon.switches']), ctx({ history: recent })).join(' ')).toMatch(
       /already surfaced in 3 recent reports/,
     );
     // The same claim WITH a comparison that shows what changed is allowed.
     expect(
       validateReflectionOutput(
         fragmentation(['daypart.afternoon.switches', 'delta.daypart.afternoon.switches']),
-        ctx({ recentSignatures: recent }),
+        ctx({ history: recent }),
       ).ok,
     ).toBe(true);
-    // Progress may recur: new progress on the same thread is still news.
-    expect(
-      validateReflectionOutput(
-        modelReflection(period),
-        ctx({ recentSignatures: new Map([[claimSignature('progress', ['thread.project-x.minutes']), 3]]) }),
-      ).ok,
-    ).toBe(true);
+    // Progress may recur: new progress on the same priority is still news — and is labelled as continuing.
+    const again = validateReflectionOutput(modelReflection(period), ctx({ history: saidBefore('p:p1|advancing', 'p:p1') }));
+    expect(again.ok && again.reflection.insights[0].continuity).toBe('continuing');
   });
 });
 
@@ -372,31 +388,23 @@ describe('validateReflectionOutput — one grounded action', () => {
     expect(result.salvaged!.insights).toHaveLength(4);
   });
 
-  it('keeps exactly one action: insight-level actions yield to the carry-forward', () => {
-    const raw = good();
-    (raw.insights as Record<string, unknown>[])[0].suggestedAction = 'Continue Project X first thing.';
+  it('an insight carries no action of its own: the carry-forward is the one place for one', () => {
+    // An action written inside an insight (as an older contract allowed) is
+    // not part of the output: it is neither stored nor promoted.
+    const raw = modelReflection(period, {
+      insights: [{ ...modelInsight(), suggestedAction: 'Continue Project X before opening a new thread.' }],
+    });
     const result = validateReflectionOutput(raw, ctx());
     expect(result.ok).toBe(true);
     if (!result.ok) return;
-    expect(result.reflection.insights.every((i) => i.suggestedAction === null)).toBe(true);
-    expect(result.reflection.carryForward!.text).toBe('Keep a morning block for Project X before switching threads.');
+    expect(result.reflection.carryForward).toBeNull();
+    expect(JSON.stringify(result.reflection)).not.toContain('suggestedAction');
   });
 
-  it('promotes the first insight-level action when there is no carry-forward', () => {
-    const raw = modelReflection(period, {
-      insights: [
-        modelInsight({ suggestedAction: 'Continue Project X before opening a new thread.' }),
-        modelInsight({ type: 'fragmentation', title: 'Afternoons were switch heavy', metricKeys: ['behavior.switches'], suggestedAction: 'Batch the smaller threads.' }),
-      ],
-    });
+  it('says which priority or project a carry-forward is about', () => {
+    const raw = { ...good(), carryForward: { text: 'Keep a morning block for Project X.', sourceMetricKeys: ['thread.project-x.minutes'], sourceActivityRefs: [] } };
     const result = validateReflectionOutput(raw, ctx());
-    expect(result.ok).toBe(true);
-    if (!result.ok) return;
-    expect(result.reflection.carryForward).toMatchObject({
-      text: 'Continue Project X before opening a new thread.',
-      sourceMetricKeys: ['thread.project-x.minutes'],
-    });
-    expect(result.reflection.insights.map((i) => i.suggestedAction)).toEqual(['Continue Project X before opening a new thread.', null]);
+    expect(result.ok && result.reflection.carryForward).toMatchObject({ subjectKey: 'p:p1' });
   });
 });
 

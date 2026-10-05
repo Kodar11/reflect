@@ -3,6 +3,7 @@ import { CoachService } from '../../src/coach/CoachService';
 import type { FocusInterruption, FocusSession } from '../../src/focus/FocusModels';
 import { UserProfileContextProvider } from '../../src/intelligence/IntelligenceContext';
 import { ReflectionAnnotator } from '../../src/reflection/ReflectionAnnotator';
+import { ReflectionHistory } from '../../src/reflection/ReflectionHistory';
 import { ReflectionMetricsService } from '../../src/reflection/ReflectionMetricsService';
 import {
   DEFAULT_REFLECTION_CONFIG,
@@ -132,6 +133,18 @@ export function workday(day: number): ReflectionActivity[] {
   ];
 }
 
+/**
+ * The scheduling window as narrow as it once was, and no "so far" reports for
+ * running periods. For tests about ONE scheduling behaviour, so that the only
+ * periods written are the ones the test scripts a model response for. The
+ * defaults (a longer catch-up window, running-period reports, a per-cycle
+ * cap) have their own tests.
+ */
+export const NARROW_SCHEDULE: Partial<ReflectionConfig> = {
+  backlog: { day: 3, week: 2, month: 2, year: 1 },
+  runningRefreshDays: { week: 0, month: 0, year: 0 },
+};
+
 export interface ReflectionHarness {
   service: ReflectionService;
   metrics: ReflectionMetricsService;
@@ -241,6 +254,7 @@ export function makeReflectionHarness(options: HarnessOptions = {}): ReflectionH
     repo: coachRepo,
     gemini,
     reflections: repo,
+    history: new ReflectionHistory(repo, { metrics, config, now: () => now }),
     metrics,
     focus,
     userContext,
@@ -315,7 +329,7 @@ export function seedThreads(repo: FakeReflectionRepository, activities: Reflecti
 /** A model reflection with sensible defaults for `period`. */
 export function modelReflection(period: ReflectionPeriod, overrides: Record<string, unknown> = {}) {
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     periodType: period.type,
     periodStart: period.start,
     periodEnd: period.end,
@@ -333,7 +347,6 @@ export function modelInsight(overrides: Record<string, unknown> = {}) {
     observation: 'Project X received the largest share of your tracked time.',
     interpretation: 'Most of your attention this period went to one thread.',
     relevance: null,
-    suggestedAction: null,
     metricKeys: ['thread.project-x.minutes'],
     activityRefs: [],
     priorityIds: [],

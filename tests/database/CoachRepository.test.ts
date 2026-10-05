@@ -107,7 +107,7 @@ suite('CoachRepository (SQLite)', () => {
 
   it('a fresh database is at v15 with the coach tables and the daily-intelligence columns', () => {
     const raw = new BetterSqliteDB(dbPath, { readonly: true });
-    expect(raw.pragma('user_version', { simple: true })).toBe(16);
+    expect(raw.pragma('user_version', { simple: true })).toBe(17);
     const tables = (raw.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all() as { name: string }[]).map((t) => t.name);
     for (const t of ['coach_actions', 'coach_action_events', 'coach_memory', 'coach_messages', 'coach_settings']) expect(tables).toContain(t);
     const columns = (raw.prepare(`PRAGMA table_info(reflection_reports)`).all() as { name: string }[]).map((c) => c.name);
@@ -320,7 +320,7 @@ suite('CoachRepository (SQLite)', () => {
 
     db = new Database(dbPath);
     const check = new BetterSqliteDB(dbPath, { readonly: true });
-    expect(check.pragma('user_version', { simple: true })).toBe(16);
+    expect(check.pragma('user_version', { simple: true })).toBe(17);
     check.close();
 
     expect(new ReflectionRepository(db).getCurrentReport('day', day12.key)).toMatchObject({

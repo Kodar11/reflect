@@ -15,7 +15,6 @@ import {
   buildReflectionRetryFeedback,
   buildReflectionSystemInstruction,
 } from '../../src/reflection/ReflectionPrompt';
-import { claimSignature } from '../../src/reflection/ReflectionValidator';
 import { TAXONOMY, iso, local, priority, workday } from './helpers';
 
 const p1 = priority('p1', 'Launch Project X', { activeFrom: iso(1) });
@@ -66,7 +65,7 @@ function context(overrides: Partial<PreprocessContext> = {}): PreprocessContext 
     config: DEFAULT_REFLECTION_CONFIG,
     nowIso: iso(19, '00:05'),
     previousReport: null,
-    recentReports: [],
+    history: [],
     feedback: [],
     learnedPatterns: [],
     ...overrides,
@@ -91,12 +90,17 @@ function report(weeksBack: number, signature: string, title: string): Reflection
         observation: 'Afternoon switching was high.',
         interpretation: 'Afternoons were fragmented.',
         relevance: null,
-        suggestedAction: null,
         confidence: 0.8,
         evidence: [],
         sourceActivityIds: [],
         sourceMetricKeys: ['daypart.afternoon.switches'],
         claimSignature: signature,
+        identityKey: signature,
+        subjectKey: null,
+        thread: null,
+        priorityId: null,
+        continuity: 'new',
+        magnitude: null,
         createdAt: p.end,
         feedback: null,
       },
@@ -122,7 +126,7 @@ function report(weeksBack: number, signature: string, title: string): Reflection
 describe('prepareReflection', () => {
   it('builds a compact dataset: aliases, names, local times — no raw events', () => {
     const { input, activityByRef, snapshot } = prepareReflection(dataset(), context());
-    expect(input.schemaVersion).toBe(2);
+    expect(input.schemaVersion).toBe(3);
     expect(input.period).toMatchObject({ type: 'week', start: period.start, end: period.end, isPartial: false });
     expect(input.period.label).toBe('Last week (Oct 12 – Oct 18)');
 
@@ -191,12 +195,27 @@ describe('prepareReflection', () => {
   });
 
   it('carries the previous reflection and recently surfaced claims for novelty', () => {
-    const signature = claimSignature('fragmentation', ['daypart.afternoon.switches']);
-    const { input, recentSignatures, snapshot } = prepareReflection(
+    const signature = 'period|fragmentation|daypart.afternoon.switches';
+    const rows = (r: ReflectionReport) =>
+      r.insights.map((i) => ({
+        period: r.period,
+        reportId: r.id,
+        insightId: i.id,
+        type: i.type,
+        title: i.title,
+        identityKey: i.identityKey,
+        subjectKey: i.subjectKey,
+        thread: i.thread,
+        priorityId: i.priorityId,
+        continuity: i.continuity,
+        magnitude: i.magnitude,
+        feedback: null,
+      }));
+    const { input, history, snapshot } = prepareReflection(
       dataset(),
       context({
         previousReport: report(1, signature, 'Afternoons were fragmented'),
-        recentReports: [report(1, signature, 'Afternoons were fragmented'), report(2, signature, 'Afternoon switching'), report(3, 'progress|x', 'X')],
+        history: [report(1, signature, 'Afternoons were fragmented'), report(2, signature, 'Afternoon switching'), report(3, 'period|advancing|x', 'X')].flatMap(rows),
       }),
     );
     expect(input.previousReflection).toEqual({
@@ -205,7 +224,8 @@ describe('prepareReflection', () => {
       carryForward: 'Protect a morning block for Project X.',
       insights: [{ type: 'fragmentation', title: 'Afternoons were fragmented', observation: 'Afternoon switching was high.' }],
     });
-    expect(recentSignatures.get(signature)).toBe(2);
+    // What continuity is judged against: each earlier insight, with how far back it was said.
+    expect(history.filter((h) => h.identityKey === signature).map((h) => h.periodsBack)).toEqual([1, 2]);
     expect(input.previouslySurfaced[0]).toEqual({
       type: 'fragmentation',
       title: 'Afternoons were fragmented', // latest wording
@@ -271,7 +291,9 @@ describe('reflection prompt', () => {
     expect(prompt).toContain('USER CONTEXT (provided by the user about themselves)');
     expect(prompt).toContain('{"id":"p1","text":"Launch Project X","statedOn":"Oct 1","possiblyStale":false}');
     expect(prompt).toContain('{"key":"time.tracked_minutes","label":"Total tracked time","value":"13h 36m"}');
-    expect(prompt).toContain('COMPARISONS (cite as prev.<key>, delta.<key> or baseline.<key>)');
+    expect(prompt).toContain('COMPARISONS (cite as prev.<key>, delta.<key>, baseline.<key> or weekday.<key>)');
+    // Nothing was measured as a meaningful change: the model is told so, in as many words.
+    expect(prompt).toContain('WHAT CHANGED VERSUS HISTORY\nNothing passed the test');
     expect(prompt).toContain('DATA NOTES (limits of what is known)\n- Not enough history yet for a personal baseline.');
     expect(prompt).toContain('LEARNED PATTERNS');
     expect(prompt).toContain('PREVIOUS REFLECTION\nNone.');

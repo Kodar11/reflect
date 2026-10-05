@@ -1,10 +1,11 @@
 import type { VerifiedSession } from '../timeline/TimelineModels.js';
-import type {
-  ActivityAnnotation,
-  ReflectionActivity,
-  ReflectionActivitySource,
-  ReflectionPriority,
-  TaxonomyNames,
+import {
+  MAX_EVIDENCE_EVENT_IDS,
+  type ActivityAnnotation,
+  type ReflectionActivity,
+  type ReflectionActivitySource,
+  type ReflectionPriority,
+  type TaxonomyNames,
 } from './ReflectionModels.js';
 import { matchesPriorityByKeyword, priorityActiveAt, priorityKey } from './ReflectionPriorities.js';
 
@@ -33,6 +34,19 @@ function titleOf(s: VerifiedSession): string {
   if (s.source === 'user' && s.primaryTitle) return s.primaryTitle;
   const parts = [s.primaryApp, s.primaryUrl].filter(Boolean);
   return parts.length > 0 ? parts.join(' · ') : 'Untitled activity';
+}
+
+/**
+ * A bounded, deterministic sample of event ids: all of them when few, else
+ * evenly spaced with the first and last always kept. Enough to find the block
+ * that holds "these events" again after any regrouping.
+ */
+export function sampleEventIds(ids: number[], max = MAX_EVIDENCE_EVENT_IDS): number[] {
+  const sorted = [...new Set(ids)].sort((a, b) => a - b);
+  if (sorted.length <= max) return sorted;
+  const out = new Set<number>();
+  for (let i = 0; i < max; i++) out.add(sorted[Math.round((i * (sorted.length - 1)) / (max - 1))]);
+  return [...out];
 }
 
 /**
@@ -75,9 +89,42 @@ export function toReflectionActivities(
       thread: null,
       priorityId: null,
       ...(s.note?.trim() ? { note: s.note.trim().slice(0, 200) } : {}),
+      ...(s.events.length > 0 ? { eventIds: sampleEventIds(s.events.map((e) => e.id)) } : {}),
     });
   }
   return out;
+}
+
+/**
+ * How a stored evidence reference finds its block again: the timeline blocks
+ * that hold the given raw events NOW, with how many of them each holds.
+ *
+ * Blocks are derived over whole local calendar days — the windows the
+ * Timeline itself uses — so the ids returned are the ids the Timeline shows.
+ */
+export function createEventLocator(
+  events: { getByIds(ids: number[]): { startedAt: string; endedAt: string }[] },
+  timeline: { getByRange(from: string, to: string): VerifiedSession[] },
+): (eventIds: number[]) => { id: string; startedAt: string; endedAt: string; matched: number }[] {
+  return (eventIds) => {
+    const found = events.getByIds(eventIds);
+    if (found.length === 0) return [];
+    const from = new Date(Math.min(...found.map((e) => Date.parse(e.startedAt))));
+    from.setHours(0, 0, 0, 0);
+    const to = new Date(Math.max(...found.map((e) => Date.parse(e.endedAt))));
+    to.setHours(24, 0, 0, 0);
+    const wanted = new Set(eventIds);
+    return timeline
+      .getByRange(from.toISOString(), to.toISOString())
+      .filter((s) => !s.hidden)
+      .map((s) => ({
+        id: s.id,
+        startedAt: s.startedAt.toISOString(),
+        endedAt: s.endedAt.toISOString(),
+        matched: s.events.filter((e) => wanted.has(e.id)).length,
+      }))
+      .filter((b) => b.matched > 0);
+  };
 }
 
 export function sortActivities(activities: ReflectionActivity[]): ReflectionActivity[] {
@@ -101,6 +148,7 @@ export function mergeFragments(activities: ReflectionActivity[]): ReflectionActi
     if (a.startedAt < existing.startedAt) existing.startedAt = a.startedAt;
     if (a.endedAt > existing.endedAt) existing.endedAt = a.endedAt;
     existing.durationMinutes += a.durationMinutes;
+    if (a.eventIds) existing.eventIds = sampleEventIds([...(existing.eventIds ?? []), ...a.eventIds]);
   }
   return sortActivities([...byId.values()]);
 }
@@ -148,6 +196,10 @@ export function threadSlug(label: string): string {
  * priority = cached decision when the annotation evaluated that priority,
  *            otherwise a conservative keyword match; and only against
  *            priorities that applied when the activity happened.
+ *
+ * A 'user' annotation is a correction: its thread and its priority decision
+ * are final for every priority, including ones stated later — the keyword
+ * fallback never re-links what the user unlinked.
  */
 export function applyAnnotations(
   activities: ReflectionActivity[],
@@ -161,16 +213,19 @@ export function applyAnnotations(
     const thread = annotation?.thread ?? contextName;
 
     let priorityId: string | null = null;
+    let priorityLinkSource: ReflectionActivity['priorityLinkSource'] = null;
+    const byUser = annotation?.source === 'user';
     const haystack = [a.title, a.summary, contextName, thread].filter(Boolean).join(' ');
     for (const p of priorities) {
       if (!priorityActiveAt(p, a.startedAt)) continue;
-      const decided = annotation?.checkedPriorityIds.includes(p.id) ?? false;
+      const decided = byUser || (annotation?.checkedPriorityIds.includes(p.id) ?? false);
       const linked = decided ? annotation!.priorityId === p.id : matchesPriorityByKeyword(p.text, haystack);
       if (linked) {
         priorityId = p.id;
+        priorityLinkSource = byUser ? 'user' : decided ? 'model' : 'keyword';
         break;
       }
     }
-    return { ...a, thread, priorityId };
+    return { ...a, thread, priorityId, priorityLinkSource };
   });
 }

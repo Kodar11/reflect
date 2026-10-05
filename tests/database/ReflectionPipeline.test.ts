@@ -247,7 +247,7 @@ suite('Reflection pipeline (SQLite, end to end)', () => {
 
     // ── Week 41: the first week Reflect has tracked ──
     gemini.push(linking, {
-      schemaVersion: 2,
+      schemaVersion: 3,
       periodType: 'week',
       periodStart: week41.start,
       periodEnd: week41.end,
@@ -290,7 +290,7 @@ suite('Reflection pipeline (SQLite, end to end)', () => {
 
     // ── Week 42: deterministic metrics, baseline and week-over-week change ──
     gemini.push({
-      schemaVersion: 2,
+      schemaVersion: 3,
       periodType: 'week',
       periodStart: week42.start,
       periodEnd: week42.end,
@@ -454,7 +454,7 @@ suite('Reflection pipeline (SQLite, end to end)', () => {
     scheduler.start();
 
     const nothing = (period: ReturnType<typeof periodContaining>) => ({
-      schemaVersion: 2,
+      schemaVersion: 3,
       periodType: period.type,
       periodStart: period.start,
       periodEnd: period.end,
@@ -464,13 +464,17 @@ suite('Reflection pipeline (SQLite, end to end)', () => {
     });
     const linking = { items: [1, 2, 3, 4].map((n) => ({ ref: `i${n}`, thread: null, priorityId: null })) };
     const wednesday = periodContaining('day', local(14));
-    gemini.push(linking, nothing(shiftPeriod(wednesday, -1)), nothing(wednesday));
+    // The two closed days, then the week that is still running: it already
+    // holds enough to be read "so far" and does not have to end first.
+    gemini.push(linking, nothing(shiftPeriod(wednesday, -1)), nothing(wednesday), nothing(periodContaining('week', local(14))));
 
     const cycle = await scheduler.runCycle();
     expect(cycle.results.map((r) => `${r.period.key}:${r.status}`)).toEqual([
       '2026-10-13:succeeded',
       '2026-10-14:succeeded',
+      '2026-W42:succeeded',
     ]);
+    expect(app.reflectionRepo.getCurrentReport('week', '2026-W42')!.dataSnapshot!.isPartial).toBe(true);
     expect((await scheduler.runCycle()).results).toEqual([]); // nothing is regenerated
 
     // A block the user added by hand is replayed by the timeline engine into

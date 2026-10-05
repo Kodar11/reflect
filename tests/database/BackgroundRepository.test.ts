@@ -55,7 +55,7 @@ suite('BackgroundRepository (SQLite)', () => {
 
   it('a fresh database is at schema v16 with the background tables', () => {
     const raw = new BetterSqliteDB(file, { readonly: true });
-    expect(raw.pragma('user_version', { simple: true })).toBe(16);
+    expect(raw.pragma('user_version', { simple: true })).toBe(17);
     const tables = (raw.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all() as { name: string }[]).map((t) => t.name);
     expect(tables).toEqual(expect.arrayContaining(['app_settings', 'tracking_pauses', 'notification_log']));
     raw.close();
@@ -74,7 +74,7 @@ suite('BackgroundRepository (SQLite)', () => {
     expect(repo.getSettings()).toEqual(DEFAULT_APP_SETTINGS);
     expect(new EventRepository(db).getAll()).toHaveLength(1);
     const check = new BetterSqliteDB(file, { readonly: true });
-    expect(check.pragma('user_version', { simple: true })).toBe(16);
+    expect(check.pragma('user_version', { simple: true })).toBe(17);
     check.close();
   });
 

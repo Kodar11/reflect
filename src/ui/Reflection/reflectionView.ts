@@ -6,7 +6,7 @@
  * periods, where an evidence link lands on the Timeline.
  */
 import { DEFAULT_REFLECTION_CONFIG } from '../../reflection/ReflectionModels';
-import { formatClockMinutes, formatDay, shiftPeriod } from '../../reflection/ReflectionPeriods';
+import { formatClockMinutes, formatDay, formatDayShort, shiftPeriod } from '../../reflection/ReflectionPeriods';
 
 export const PERIOD_TABS: { type: ReflectionPeriodTypeDto; label: string }[] = [
   { type: 'day', label: 'Today' },
@@ -26,6 +26,16 @@ export const INSIGHT_TYPE_LABELS: Record<ReflectionInsightTypeDto, string> = {
   change_over_time: 'What changed',
   open_loop: 'Open loop',
   unexpected: 'Unexpected',
+};
+
+/** How an insight relates to what Reflect said before. Decided in the main process, never by the model. */
+export const CONTINUITY_LABELS: Record<ReflectionContinuityDto, string> = {
+  new: 'New',
+  continuing: 'Continuing',
+  strengthening: 'Growing',
+  weakening: 'Easing',
+  resolved: 'Resolved',
+  recurred: 'Back again',
 };
 
 export const FEEDBACK_OPTIONS: { value: ReflectionFeedbackDto; label: string }[] = [
@@ -80,6 +90,12 @@ export interface TimelineTarget {
   view: TimelineViewName;
   /** Timeline block to select, when the evidence is one activity. */
   activityId: string | null;
+  /**
+   * The stable reference behind `activityId`. Block ids are derived and change
+   * when the timeline is regrouped; the raw events do not — so the block is
+   * looked up again from them at the moment the link is followed.
+   */
+  evidence?: ReflectionEvidenceRefDto;
 }
 
 const HOUR_MS = 3_600_000;
@@ -90,7 +106,7 @@ const HOUR_MS = 3_600_000;
  * shows all of it.
  */
 export function timelineTargetFor(
-  evidence: Pick<ReflectionEvidenceDto, 'period' | 'activityId'> | null,
+  evidence: Pick<ReflectionEvidenceDto, 'period' | 'activityId' | 'eventIds'> | null,
   period: Pick<ReflectionPeriodDto, 'start' | 'end'>,
 ): TimelineTarget {
   const window = evidence?.period ?? { start: period.start, end: period.end };
@@ -100,7 +116,67 @@ export function timelineTargetFor(
   const sameDay = new Date(start).toDateString() === new Date(lastInstant).toDateString();
   const span = lastInstant - start;
   const view: TimelineViewName = sameDay ? 'day' : span <= 7 * 24 * HOUR_MS ? 'week' : span <= 31 * 24 * HOUR_MS ? 'month' : 'year';
-  return { day: window.start, view, activityId: evidence?.activityId ?? null };
+  const isActivity = Boolean(evidence?.activityId || evidence?.eventIds?.length);
+  return {
+    day: window.start,
+    view,
+    activityId: evidence?.activityId ?? null,
+    ...(isActivity
+      ? {
+          evidence: {
+            ...(evidence?.eventIds?.length ? { eventIds: evidence.eventIds } : {}),
+            ...(evidence?.activityId ? { activityId: evidence.activityId } : {}),
+            ...(evidence?.period ? { period: evidence.period } : {}),
+          },
+        }
+      : {}),
+  };
+}
+
+/**
+ * Follow an evidence link: ask where the evidence is on the Timeline NOW.
+ * The stored block id is only what it was when the reflection was written;
+ * if the lookup is unavailable or finds nothing, the recorded window is used.
+ */
+export async function resolveTimelineTarget(
+  target: TimelineTarget,
+  resolve: (evidence: ReflectionEvidenceRefDto) => Promise<{ activityId: string | null; start: string; end: string } | null>,
+): Promise<TimelineTarget> {
+  if (!target.evidence) return target;
+  try {
+    const found = await resolve(target.evidence);
+    if (!found) return target;
+    return { ...target, day: found.start, view: 'day', activityId: found.activityId };
+  } catch {
+    return target;
+  }
+}
+
+/** `Mon, Oct 5` or `Oct 5 – Oct 9`: the stretch a piece of evidence is about — nothing when it is the whole period. */
+export function evidenceWhere(evidence: Pick<ReflectionEvidenceDto, 'period'>, period: Pick<ReflectionPeriodDto, 'start' | 'end'>): string | null {
+  if (!evidence.period) return null;
+  const start = new Date(evidence.period.start);
+  const last = new Date(Math.max(start.getTime(), Date.parse(evidence.period.end) - 1));
+  if (Number.isNaN(start.getTime()) || Number.isNaN(last.getTime())) return null;
+  if (evidence.period.start <= period.start && evidence.period.end >= period.end) return null;
+  return start.toDateString() === last.toDateString() ? formatDay(start) : `${formatDayShort(start)} – ${formatDayShort(last)}`;
+}
+
+/** One line on where a carried item stands. */
+export function carryStatusLine(item: Pick<ReflectionCarryItemDto, 'status' | 'idleTrackedDays' | 'lastWorked'>): string {
+  const worked = item.lastWorked ? formatDay(new Date(item.lastWorked.start)) : null;
+  switch (item.status) {
+    case 'open':
+      return `Still open — no work on it for ${item.idleTrackedDays} tracked day${item.idleTrackedDays === 1 ? '' : 's'}${worked ? `, last worked ${worked}` : ''}.`;
+    case 'progressing':
+      return `Picked up again${worked ? ` on ${worked}` : ''}.`;
+    case 'completed':
+      return 'Closed — you marked it completed.';
+    case 'paused':
+      return 'Closed — you paused it.';
+    default:
+      return 'Closed — you removed it from your priorities.';
+  }
 }
 
 /** Clicking the active choice clears it; clicking another replaces it. */
@@ -117,9 +193,18 @@ export function formatGeneratedAt(iso: string | null): string | null {
 }
 
 export function staleMessage(reason: string | null): string {
-  return reason === 'priorities_changed'
-    ? 'Your priorities changed after this reflection was written.'
-    : 'The activity in this period changed after this reflection was written.';
+  switch (reason) {
+    case 'priorities_changed':
+      return 'Your priorities changed after this reflection was written.';
+    case 'links_changed':
+      return 'What some of this activity is linked to — a priority or a project — was corrected after this reflection was written.';
+    case 'focus_changed':
+      return 'The Focus sessions of this period changed after this reflection was written.';
+    case 'history_changed':
+      return 'The earlier period this reflection was compared with changed after it was written.';
+    default:
+      return 'The activity in this period changed after this reflection was written.';
+  }
 }
 
 /** The label of the generate / refresh button for this view. */

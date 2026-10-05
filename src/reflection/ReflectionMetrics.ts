@@ -475,15 +475,23 @@ export function computeMetrics(input: MetricsInput): MetricSet {
     minutes: number;
     sessions: number;
     days: Set<string>;
+    /** Where on the Timeline the thread's work lies. */
+    first?: string;
+    last?: string;
+    /** Time linked to each priority, to say which one the thread serves. */
+    byPriority: Map<string, number>;
   }
   const threads = new Map<string, ThreadStats>();
   for (const a of activities) {
     if (!a.thread) continue;
     const slug = threadSlug(a.thread);
     if (!slug) continue;
-    const entry = threads.get(slug) ?? { label: a.thread, minutes: 0, sessions: 0, days: new Set<string>() };
+    const entry = threads.get(slug) ?? { label: a.thread, minutes: 0, sessions: 0, days: new Set<string>(), byPriority: new Map<string, number>() };
     entry.minutes += a.durationMinutes;
     if (a.durationMinutes >= MEANINGFUL_ACTIVITY_MINUTES) entry.sessions++;
+    if (!entry.first || a.startedAt < entry.first) entry.first = a.startedAt;
+    if (!entry.last || a.endedAt > entry.last) entry.last = a.endedAt;
+    if (a.priorityId) entry.byPriority.set(a.priorityId, (entry.byPriority.get(a.priorityId) ?? 0) + a.durationMinutes);
     threads.set(slug, entry);
   }
   for (const s of slices) {
@@ -496,12 +504,18 @@ export function computeMetrics(input: MetricsInput): MetricSet {
   for (const label of input.forceThreads ?? []) {
     const slug = threadSlug(label);
     if (!slug) continue;
-    if (!threads.has(slug)) threads.set(slug, { label, minutes: 0, sessions: 0, days: new Set() });
+    if (!threads.has(slug)) threads.set(slug, { label, minutes: 0, sessions: 0, days: new Set(), byPriority: new Map() });
     if (!reported.includes(slug)) reported.push(slug);
   }
   for (const slug of reported) {
     const t = threads.get(slug)!;
-    const extra = { thread: t.label };
+    const mainPriority = [...t.byPriority.entries()].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1))[0];
+    const extra = {
+      thread: t.label,
+      ...(mainPriority && mainPriority[1] >= t.minutes / 2 ? { priorityId: mainPriority[0] } : {}),
+      // The stretch the work actually lies in — not the whole period.
+      ...(t.first && t.last ? { range: { start: t.first, end: t.last } } : {}),
+    };
     add(`thread.${slug}.minutes`, `Time on “${t.label}”`, t.minutes, 'minutes', 'thread', extra);
     if (tracked >= 1) add(`thread.${slug}.share`, `Share of tracked time on “${t.label}”`, share(t.minutes), 'percent', 'thread', extra);
     add(`thread.${slug}.sessions`, `Sessions on “${t.label}”`, t.sessions, 'count', 'thread', extra);
@@ -517,6 +531,14 @@ export function computeMetrics(input: MetricsInput): MetricSet {
     const extra = {
       priorityId: p.id,
       activityIds: [...own].sort((a, b) => b.durationMinutes - a.durationMinutes).slice(0, 12).map((a) => a.id),
+      ...(own.length > 0
+        ? {
+            range: {
+              start: own.reduce((min, a) => (a.startedAt < min ? a.startedAt : min), own[0].startedAt),
+              end: own.reduce((max, a) => (a.endedAt > max ? a.endedAt : max), own[0].endedAt),
+            },
+          }
+        : {}),
     };
     add(`priority.${p.id}.minutes`, `Time linked to the priority “${p.text}”`, minutes, 'minutes', 'priority', extra);
     if (tracked >= 1) {
@@ -891,12 +913,18 @@ export interface ComparisonInput {
   /** 'partial' while the current period is still running: totals of an
    * unfinished period are not compared with totals of a finished one. */
   mode: 'full' | 'partial';
+  /** Earlier days on the same weekday that hold enough data (days only). */
+  weekdayBaselines?: MetricSet[];
+  /** `Tuesday`. */
+  weekdayName?: string;
+  minWeekdayPeriods?: number;
 }
 
 /**
  * previous-period and personal-baseline values for every comparable metric.
- * Emitted as `prev.<key>`, `delta.<key>` and `baseline.<key>`. A comparison
- * that cannot be made is simply absent.
+ * Emitted as `prev.<key>`, `delta.<key>`, `baseline.<key>` and — for a day with
+ * enough earlier same weekdays — `weekday.<key>`. A comparison that cannot be
+ * made is simply absent; a baseline is never manufactured.
  */
 export function buildComparisons(input: ComparisonInput): MetricSet {
   const out: MetricSet = {};
@@ -944,6 +972,18 @@ export function buildComparisons(input: ComparisonInput): MetricSet {
         ...baseOf(metric),
       };
     }
+
+    const sameWeekday = (input.weekdayBaselines ?? []).map((set) => valueIn(set, metric.key)).filter((v): v is number => v !== null);
+    if (input.weekdayName && sameWeekday.length >= (input.minWeekdayPeriods ?? Infinity) && sameWeekday.length > 0) {
+      const mean = roundFor(sameWeekday.reduce((s, v) => s + v, 0) / sameWeekday.length, metric.unit);
+      out[`weekday.${metric.key}`] = {
+        key: `weekday.${metric.key}`,
+        label: `${metric.label} — your average over the previous ${sameWeekday.length} ${input.weekdayName}s`,
+        value: mean,
+        display: displayValue(mean, metric.unit),
+        ...baseOf(metric),
+      };
+    }
   }
   return out;
 }
@@ -951,27 +991,57 @@ export function buildComparisons(input: ComparisonInput): MetricSet {
 // ── Staleness + presentation helpers ────────────────────────────────────────
 
 const STALE_PREFIXES = ['time.tracked_minutes', 'time.area.', 'time.intent.', 'time.quality.', 'time.context.'];
+/** Which priority / project the time is attributed to, and the Focus sessions of the period. */
+const LINK_KEY = /^(priority|thread)\.[^.]+\.minutes$/;
+const FOCUS_KEYS = ['focus.session_count', 'focus.total_minutes'];
 
 /**
  * Has the underlying activity changed enough that a report written from
  * `snapshot` no longer describes it? Returns the first key that moved, or
  * `null`. Tolerant by design: small re-groupings are not a meaningful change.
+ *
+ * Looks at where the time went (tracked total and classification), at what it
+ * is attributed to (priority and thread links) and at the Focus sessions —
+ * the three things a correction upstream can move.
  */
 export function findMeaningfulDifference(
   snapshot: MetricSet,
   current: MetricSet,
   config: Pick<ReflectionConfig, 'staleMinMinutes' | 'staleMinRatio'>,
 ): string | null {
-  const keys = new Set([...Object.keys(snapshot), ...Object.keys(current)]);
-  for (const key of [...keys].sort()) {
+  const keys = [...new Set([...Object.keys(snapshot), ...Object.keys(current)])].sort();
+  const moved = (before: number, after: number) =>
+    Math.abs(before - after) > Math.max(config.staleMinMinutes, config.staleMinRatio * Math.max(before, after));
+
+  // 1. Where the time went. When this moved, that is the reason — whatever else moved with it.
+  for (const key of keys) {
     if (!STALE_PREFIXES.some((p) => key === p || (p.endsWith('.') && key.startsWith(p)))) continue;
     if (key.endsWith('.share')) continue;
+    if (moved(numberOf(snapshot[key]) ?? 0, numberOf(current[key]) ?? 0)) return key;
+  }
+  // 2. What the same time is attributed to.
+  for (const key of keys) {
+    if (!LINK_KEY.test(key)) continue;
+    // Only the largest threads are reported, so one dropping off the list is
+    // not by itself a change — unless it carried real time.
+    const before = numberOf(snapshot[key]);
+    const after = numberOf(current[key]);
+    if (key.startsWith('thread.') && (before === null || after === null) && (before ?? after ?? 0) < config.staleMinMinutes * 3) continue;
+    if (moved(before ?? 0, after ?? 0)) return key;
+  }
+  // 3. The Focus sessions of the period.
+  for (const key of FOCUS_KEYS) {
     const before = numberOf(snapshot[key]) ?? 0;
     const after = numberOf(current[key]) ?? 0;
-    const diff = Math.abs(before - after);
-    if (diff > Math.max(config.staleMinMinutes, config.staleMinRatio * Math.max(before, after))) return key;
+    if (key === 'focus.session_count' ? before !== after : moved(before, after)) return key;
   }
   return null;
+}
+
+/** What kind of change a moved metric key stands for. */
+export function staleReasonFor(key: string): 'activity_changed' | 'links_changed' | 'focus_changed' {
+  if (LINK_KEY.test(key)) return 'links_changed';
+  return FOCUS_KEYS.includes(key) ? 'focus_changed' : 'activity_changed';
 }
 
 /** The handful of numbers shown beneath a reflection, in display order. */

@@ -3,6 +3,7 @@ import {
   PATTERN_INSIGHT_TYPES,
   REFLECTION_INSIGHT_TYPES,
   REFLECTION_OUTPUT_SCHEMA_VERSION,
+  type InsightContinuity,
   type Metric,
   type MetricSet,
   type ReflectionActivity,
@@ -12,6 +13,7 @@ import {
   type ReflectionPeriod,
   type ReflectionPriority,
 } from './ReflectionModels.js';
+import { continuityOf, identityKeyOf, insightMagnitude, insightPattern, insightSubject, isCollectiveSubject, type PriorInsight } from './ReflectionIdentity.js';
 import { formatMinutes } from './ReflectionMetrics.js';
 import { formatLocalDateTime } from './ReflectionPeriods.js';
 import { priorityKey } from './ReflectionPriorities.js';
@@ -23,6 +25,11 @@ import { priorityKey } from './ReflectionPriorities.js';
  * Reflect actually supplied, every number it quotes must come from that
  * evidence, and its wording must stay descriptive: no causes, no psychology,
  * no judgment, no generic advice.
+ *
+ * What an insight is ABOUT (priority, thread), whether it was said before and
+ * how it relates to that are decided here, from the resolved evidence — the
+ * model's self-reported confidence is only a floor, never the reason an
+ * insight is believed.
  *
  * `ok` means the response is acceptable exactly as returned. Otherwise the
  * caller retries with `errors` as feedback; `salvaged` is what remains after
@@ -36,6 +43,11 @@ const DUPLICATE_TITLE_OVERLAP = 0.7;
 const REPEAT_THRESHOLD = 2;
 
 const LIMITS = { title: 120, observation: 500, interpretation: 500, relevance: 300, action: 240, headline: 240, narrative: 700 };
+
+/** What counts as evidence spanning more than the one day being reflected on. */
+const MULTI_DAY_KEY = /^(recent|weekday|baseline|prev|delta|change|trajectory|carry)\./;
+/** Insight types that describe behaviour over several days; one day cannot show them alone. */
+const MULTI_DAY_TYPES: readonly ReflectionInsightType[] = ['recurring_behavior', 'consistency_momentum'];
 
 /** Plain totals the narrative may quote directly. */
 export const NARRATIVE_METRIC_KEYS: readonly string[] = [
@@ -56,7 +68,6 @@ const insightSchema = z.object({
   observation: z.string(),
   interpretation: z.string(),
   relevance: nullableText,
-  suggestedAction: nullableText,
   metricKeys: stringList,
   activityRefs: stringList,
   priorityIds: stringList,
@@ -88,8 +99,15 @@ export interface ReflectionValidationContext {
   activityByRef: Map<string, ReflectionActivity>;
   priorities: Pick<ReflectionPriority, 'id' | 'text'>[];
   maxInsights: number;
-  /** Claim signature → number of recent reports it appeared in. */
-  recentSignatures: Map<string, number>;
+  /** Insights of the earlier reports of this period type, newest first. */
+  history?: PriorInsight[];
+  /**
+   * Identities the user marked "not accurate" on evidence that has not
+   * changed since. Saying the same thing again is refused.
+   */
+  disputedIdentities?: Set<string>;
+  /** Identities the user marked "not useful": repeated only when something about them changed. */
+  mutedIdentities?: Set<string>;
   /** Text whose numbers may always be quoted (the period's own label). */
   periodLabel: string;
 }
@@ -100,12 +118,17 @@ export interface ValidatedInsight {
   observation: string;
   interpretation: string;
   relevance: string | null;
-  suggestedAction: string | null;
   confidence: number;
   sourceMetricKeys: string[];
   sourceActivityIds: string[];
   evidence: ReflectionEvidence[];
   claimSignature: string;
+  identityKey: string;
+  subjectKey: string | null;
+  thread: string | null;
+  priorityId: string | null;
+  continuity: InsightContinuity;
+  magnitude: number | null;
 }
 
 export interface ValidatedReflection {
@@ -264,7 +287,7 @@ export function unsupportedNumbers(text: string, allowed: Set<string>): string[]
 
 // ── Claim identity ──────────────────────────────────────────────────────────
 
-const COMPARISON_PREFIX = /^(prev|delta|baseline)\./;
+const COMPARISON_PREFIX = /^(prev|delta|baseline|weekday|change)\./;
 
 export function isComparisonKey(key: string): boolean {
   return COMPARISON_PREFIX.test(key);
@@ -356,6 +379,7 @@ export function createEvidenceToolkit(ctx: EvidenceContext): EvidenceToolkit {
         kind: isComparisonKey(m.key) ? 'comparison' : m.key.startsWith('priority.') ? 'priority' : 'metric',
         metricKey: m.key,
         ...(m.priorityId ? { priorityId: m.priorityId } : {}),
+        ...(m.thread ? { thread: m.thread } : {}),
         label: m.label,
         value: m.display,
         ...(m.range ? { period: m.range } : {}),
@@ -363,13 +387,18 @@ export function createEvidenceToolkit(ctx: EvidenceContext): EvidenceToolkit {
       for (const a of activities) {
         evidence.push({
           kind: 'activity',
+          // The block id as of now; the events are what the reference rests on.
           activityId: a.id,
+          ...(a.eventIds && a.eventIds.length > 0 ? { eventIds: a.eventIds } : {}),
+          ...(a.priorityId ? { priorityId: a.priorityId } : {}),
+          ...(a.thread ? { thread: a.thread } : {}),
           label: a.title,
           value: `${formatMinutes(a.durationMinutes)} · ${formatLocalDateTime(a.startedAt)}`,
           period: { start: a.startedAt, end: a.endedAt },
         });
       }
-      const covered = new Set(evidence.map((e) => e.priorityId).filter(Boolean));
+      // A priority the model cited is named on its own unless a priority measurement already names it.
+      const covered = new Set(evidence.filter((e) => e.kind === 'priority').map((e) => e.priorityId));
       for (const id of citedPriorityIds) {
         if (covered.has(id)) continue;
         const priority = ctx.priorities.find((p) => p.id === id);
@@ -426,7 +455,6 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     const observation = clean(draft.observation, LIMITS.observation);
     const interpretation = clean(draft.interpretation, LIMITS.interpretation);
     const relevance = draft.relevance ? clean(draft.relevance, LIMITS.relevance) || null : null;
-    let suggestedAction = draft.suggestedAction ? clean(draft.suggestedAction, LIMITS.action) || null : null;
 
     if (title.length < 4) problems.push(`${label}: title is empty`);
     if (observation.length < 15) problems.push(`${label}: observation is empty or meaningless`);
@@ -443,10 +471,15 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
 
     const hasComparison = metrics.some((m) => isComparisonKey(m.key));
     if ((type === 'change_over_time' || type === 'unexpected') && !hasComparison) {
-      problems.push(`${label}: a ${type} insight must cite a comparison (prev.*, delta.* or baseline.*)`);
+      problems.push(`${label}: a ${type} insight must cite a comparison (prev.*, delta.*, baseline.*, weekday.* or change.*)`);
     }
-    if (type === 'priority_alignment' && !metrics.some((m) => m.priorityId) && citedPriorities.length === 0) {
+    // A project that happens to serve a priority is not, by itself, evidence about the priority.
+    if (type === 'priority_alignment' && !metrics.some((m) => m.priorityId && !/(^|\.)thread\./.test(m.key)) && citedPriorities.length === 0) {
       problems.push(`${label}: a priority_alignment insight must cite a priority metric`);
+    }
+    // One day cannot show a habit. Such a claim needs evidence from other days.
+    if (ctx.period.type === 'day' && MULTI_DAY_TYPES.includes(type) && !metrics.some((m) => MULTI_DAY_KEY.test(m.key))) {
+      problems.push(`${label}: a ${type} insight about a single day must cite evidence from other days (recent.*, weekday.*, baseline.*, trajectory.* or carry.*)`);
     }
 
     const claim = `${title} ${observation} ${interpretation}`;
@@ -467,23 +500,27 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
       problems.push(`${label}: number(s) ${bad.map((n) => `"${n}"`).join(', ')} not found in its cited evidence`);
     }
 
-    if (suggestedAction) {
-      const advice =
-        findPattern(suggestedAction, GENERIC_ADVICE_PATTERNS) ??
-        findPattern(suggestedAction, JUDGMENT_PATTERNS) ??
-        findPattern(suggestedAction, PSYCHOLOGY_PATTERNS);
-      if (advice || unsupportedNumbers(suggestedAction, allowed).length > 0) {
-        errors.push(`${label}: suggestedAction is not grounded in the cited evidence${advice ? ` (${advice})` : ''}`);
-        suggestedAction = null;
-      }
-    }
-
     const metricKeys = metrics.map((m) => m.key);
     const signature = claimSignature(type, metricKeys);
-    const timesSurfaced = ctx.recentSignatures.get(signature) ?? 0;
-    if (timesSurfaced >= REPEAT_THRESHOLD && PATTERN_INSIGHT_TYPES.includes(type) && !hasComparison) {
+
+    // What the claim is about and how it relates to what was said before —
+    // decided from the resolved evidence, never from the model's wording.
+    const subject = insightSubject(metrics, activities, citedPriorities.filter((id) => priorityIds.has(id)));
+    const pattern = insightPattern(type, metrics, subject);
+    const identityKey = identityKeyOf(subject, pattern, metricKeys);
+    const magnitude = insightMagnitude(subject, pattern, ctx.metrics);
+    const continuity = continuityOf({ identityKey, subjectKey: subject.subjectKey, pattern, magnitude }, ctx.history ?? []);
+
+    if (ctx.disputedIdentities?.has(identityKey)) {
+      problems.push(`${label}: you marked this same claim "not accurate" and the evidence behind it has not changed — leave it out`);
+    }
+    // What must not simply be said again: a standing pattern, work that is
+    // lagging, and the general "your time went across your priorities" — new
+    // progress on one body of work is still news and may recur.
+    const repeatsItself = continuity.state === 'continuing' && continuity.timesBefore >= REPEAT_THRESHOLD;
+    if (repeatsItself && (PATTERN_INSIGHT_TYPES.includes(type) || pattern === 'lagging' || isCollectiveSubject(subject.subjectKey)) && !hasComparison) {
       problems.push(
-        `${label}: this pattern was already surfaced in ${timesSurfaced} recent reports; repeat it only with a comparison showing what changed`,
+        `${label}: this pattern was already surfaced in ${continuity.timesBefore} recent reports and has not changed; repeat it only with a comparison showing what changed`,
       );
     }
 
@@ -492,6 +529,8 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
       return;
     }
     if (draft.confidence < MIN_CONFIDENCE) return; // weakly supported: quietly left out
+    // "Not useful" is the user's call: the same thing is not said again while nothing about it moved.
+    if (ctx.mutedIdentities?.has(identityKey) && (continuity.state === 'continuing' || continuity.state === 'recurred' || continuity.state === 'new')) return;
 
     valid.push({
       type,
@@ -499,12 +538,17 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
       observation,
       interpretation,
       relevance,
-      suggestedAction,
       confidence: draft.confidence,
       sourceMetricKeys: metricKeys,
       sourceActivityIds: activities.map((a) => a.id),
       evidence: toEvidence(metrics, activities, citedPriorities),
       claimSignature: signature,
+      identityKey,
+      subjectKey: subject.subjectKey,
+      thread: subject.thread,
+      priorityId: subject.priorityId,
+      continuity: continuity.state,
+      magnitude,
       allowed,
       keySet: new Set(metricKeys.map((k) => k.replace(COMPARISON_PREFIX, ''))),
     });
@@ -515,6 +559,8 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
   for (const insight of valid) {
     const twin = unique.findIndex(
       (other) =>
+        // The same subject pointing the same way is one insight, however it is worded.
+        (insight.subjectKey !== null && other.identityKey === insight.identityKey && (other.type === insight.type || insight.identityKey.endsWith('|lagging'))) ||
         (other.type === insight.type && jaccard(other.keySet, insight.keySet) >= DUPLICATE_EVIDENCE_OVERLAP) ||
         jaccard(titleTokens(other.title), titleTokens(insight.title)) >= DUPLICATE_TITLE_OVERLAP,
     );
@@ -554,22 +600,12 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     else {
       carryForward = {
         text,
+        subjectKey: insightSubject(metrics, activities, []).subjectKey,
         sourceMetricKeys: metrics.map((m) => m.key),
         sourceActivityIds: activities.map((a) => a.id),
         evidence: toEvidence(metrics, activities, []),
       };
     }
-  }
-  // One action per reflection: the carry-forward. Without one, the first
-  // insight-level action is promoted; every other action is dropped.
-  const promoted = carryForward ? null : selected.find((i) => i.suggestedAction) ?? null;
-  if (promoted) {
-    carryForward = {
-      text: promoted.suggestedAction!,
-      sourceMetricKeys: promoted.sourceMetricKeys,
-      sourceActivityIds: promoted.sourceActivityIds,
-      evidence: promoted.evidence,
-    };
   }
 
   // ── Headline ──
@@ -614,7 +650,7 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     narrative,
     insights: selected.map((full) => {
       const { allowed: _allowed, keySet: _keySet, ...insight } = full;
-      return { ...insight, suggestedAction: full === promoted ? full.suggestedAction : null };
+      return insight;
     }),
     carryForward,
   };

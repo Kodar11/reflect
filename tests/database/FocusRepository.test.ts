@@ -90,7 +90,7 @@ suite('Focus persistence (SQLite)', () => {
 
   it('a fresh database is at the current schema version with the Focus V2 columns and a default profile', () => {
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(16);
+    expect(raw.pragma('user_version', { simple: true })).toBe(17);
     expect(columns(raw, 'focus_sessions')).toEqual(expect.arrayContaining(['end_reason', 'end_note', 'blocking_config']));
     expect(columns(raw, 'focus_preferences')).toEqual(['id', 'data', 'updated_at']);
     raw.close();
@@ -124,7 +124,7 @@ suite('Focus persistence (SQLite)', () => {
     repo = new FocusRepository(db);
 
     const check = new BetterSqliteDB(dbPath);
-    expect(check.pragma('user_version', { simple: true })).toBe(16);
+    expect(check.pragma('user_version', { simple: true })).toBe(17);
     expect(check.pragma('foreign_key_check')).toEqual([]);
     check.close();
 

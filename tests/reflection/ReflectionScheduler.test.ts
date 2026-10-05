@@ -5,7 +5,7 @@ import { GeminiError } from '../../src/intelligence/GeminiClient';
 import type { GenerateResult, ReflectionPeriod } from '../../src/reflection/ReflectionModels';
 import { periodContaining } from '../../src/reflection/ReflectionPeriods';
 import { ReflectionScheduler } from '../../src/reflection/ReflectionScheduler';
-import { local, makeReflectionHarness, modelReflection, seedThreads, workday } from './helpers';
+import { NARROW_SCHEDULE, local, makeReflectionHarness, modelReflection, seedThreads, workday } from './helpers';
 
 const day = (d: number) => periodContaining('day', local(d));
 const week = (d: number) => periodContaining('week', local(d));
@@ -146,7 +146,7 @@ describe('ReflectionScheduler + ReflectionService', () => {
   const TWO_WEEKS = [5, 6, 7, 8, 9, 12, 13, 14, 15, 16];
 
   function setup(now = local(19, '09:00'), days = TWO_WEEKS) {
-    const h = makeReflectionHarness({ activities: days.flatMap(workday), now });
+    const h = makeReflectionHarness({ activities: days.flatMap(workday), now, config: NARROW_SCHEDULE });
     seedThreads(h.repo, h.activities);
     const scheduler = new ReflectionScheduler(h.service);
     scheduler.start();
@@ -158,14 +158,16 @@ describe('ReflectionScheduler + ReflectionService', () => {
   it('on startup, generates the backlog of closed periods — each exactly once', async () => {
     const h = setup();
     // Sat/Sun hold no activity: they are examined, found empty, and not asked about again.
-    h.script(day(16), week(7), week(14));
+    // Written in the order the periods ended — a week after its days, and
+    // every report after the ones it can look back on.
+    h.script(week(7), day(16), week(14));
 
     const first = await h.scheduler.runCycle();
     expect(first.results.map((r) => `${r.period.type}:${r.period.key}:${r.status}`)).toEqual([
+      'week:2026-W41:succeeded',
       'day:2026-10-16:succeeded',
       'day:2026-10-17:skipped',
       'day:2026-10-18:skipped',
-      'week:2026-W41:succeeded',
       'week:2026-W42:succeeded',
     ]);
     expect(h.gemini.requests).toHaveLength(3);
@@ -179,7 +181,7 @@ describe('ReflectionScheduler + ReflectionService', () => {
 
   it('generates the closed day, week and month when each closes', async () => {
     const h = setup(local(16, '23:30')); // Friday night: nothing has closed since Thursday
-    h.script(day(13), day(14), day(15), week(7), day(16));
+    h.script(week(7), day(13), day(14), day(15), day(16));
     await h.scheduler.runCycle(); // backlog (Tue–Thu, last week) + tonight's reflection of Friday
     expect(h.repo.getCurrentReport('day', '2026-10-16')).not.toBeNull();
     const calls = h.gemini.requests.length;
@@ -223,7 +225,7 @@ describe('ReflectionScheduler + ReflectionService', () => {
     expect(failed).toMatchObject({ status: 'stopped', reason: 'network' });
     expect(h.repo.listCurrentReports(null, 10)).toEqual([]);
 
-    h.script(day(16), week(7), week(14));
+    h.script(week(7), day(16), week(14));
     const retried = await h.scheduler.runCycle();
     expect(retried.status).toBe('completed');
     expect(h.repo.listCurrentReports(null, 10)).toHaveLength(3);
