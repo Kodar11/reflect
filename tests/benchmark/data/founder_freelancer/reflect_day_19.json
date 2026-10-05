@@ -449,6 +449,20 @@
       "Do not add broad features simply because some beta requests may exist.",
       "Do not assume the client change is accepted solely because staging and tests passed.",
       "Do not overreact to the short unrelated YouTube break on a lighter Saturday."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The product has moved from fixing an onboarding issue to collecting behavioral evidence, so a focused review can determine what should be addressed next.",
+      "priority": "Ship the SaaS MVP",
+      "type": "start_focus"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 205 min on Own SaaS; its answer key rates that priority \"meaningful progress through beta review and next-step definition\".",
+      "reason_code": null
+    }
   }
 }

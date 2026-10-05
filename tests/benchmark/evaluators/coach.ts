@@ -2,7 +2,8 @@ import type { CoachAction } from '../../../src/coach/CoachModels';
 import { DEFAULT_COACH_CONFIG } from '../../../src/coach/CoachModels';
 import type { CapturedDay } from '../runner/capture';
 import type { SemanticConfig } from '../runner/config';
-import type { DatasetExpectedAction, EvaluationOnlyDay } from '../runner/dataset';
+import type { EvaluationOnlyDay } from '../runner/dataset';
+import { ACTION_TYPE_MAPPING, KNOWN_TARGETS, assessCoach, matchExpected, opportunityOf, targetMatches, type CoachAssessment } from './coachDimensions';
 import { actionText, coachText, reflectionText, streamOfAction } from './corpus';
 import {
   GENERIC_ADVICE,
@@ -33,23 +34,15 @@ import {
  * carry the sentences they rest on.
  */
 
-/** Answer-key action types → Reflect's `CoachActionType`s that mean the same / are a reasonable form of it. */
-export const ACTION_TYPE_MAPPING: Record<string, { exact: string[]; compatible: string[] }> = {
-  protect_priority: { exact: ['protect_priority'], compatible: ['focus_session', 'change_timing', 'reduce_fragmentation'] },
-  start_focus: { exact: ['focus_session'], compatible: ['protect_priority', 'reduce_fragmentation'] },
-  complete_open_loop: { exact: ['close_open_loop'], compatible: ['focus_session', 'protect_priority'] },
-  continue_successful_behavior: { exact: ['continue_behavior'], compatible: [] },
-  clarify_priority: { exact: ['clarify_priority'], compatible: [] },
-  experiment: { exact: ['experiment'], compatible: ['change_approach'] },
-};
-
-export const KNOWN_TARGETS = ['Own SaaS', 'Freelance'];
+export { ACTION_TYPE_MAPPING, KNOWN_TARGETS };
 
 export interface CoachEvaluationContext {
   semantic: SemanticConfig;
   knownBlockIds: Set<string>;
   /** Whether any earlier day produced a report. */
   hasHistory: boolean;
+  /** When the previous day was captured (null on the first day). */
+  previousProcessedAt?: string | null;
   /** Dataset ids of the day's YouTube / video events that the ground truth labels as work. */
   workVideoEventIds: number[];
   /** Dataset event id → the Reflect classification of the block that owns it. */
@@ -59,6 +52,8 @@ export interface CoachEvaluationContext {
 export interface CoachEvaluation {
   actionCount: number;
   criteria: Criterion[];
+  /** Opportunity, per-action quality, follow-through and adaptation — see `coachDimensions.ts`. */
+  assessment: CoachAssessment;
 }
 
 const worst = (verdicts: Verdict[]): Verdict =>
@@ -67,15 +62,6 @@ const worst = (verdicts: Verdict[]): Verdict =>
 function shareVerdict(ok: number, total: number): Verdict {
   if (total === 0) return 'NOT_APPLICABLE';
   return ok === total ? 'PASS' : ok > 0 ? 'PARTIAL' : 'FAIL';
-}
-
-/** How well one actual action answers one expected action. */
-function matchExpected(expected: DatasetExpectedAction, action: CoachAction, priorities: { id: string; text: string }[]) {
-  const mapping = ACTION_TYPE_MAPPING[expected.action_type];
-  const type = mapping?.exact.includes(action.actionType) ? 'exact' : mapping?.compatible.includes(action.actionType) ? 'compatible' : 'different';
-  const target = expected.target !== null && streamOfAction(action, priorities) === expected.target;
-  const wording = coverage(`${expected.title}. ${expected.reason}`, actionText(action)).score;
-  return { type, target, wording, rank: (target ? 2 : 0) + (type === 'exact' ? 2 : type === 'compatible' ? 1 : 0) + wording };
 }
 
 // ── "Things not to do" ──────────────────────────────────────────────────────
@@ -162,6 +148,8 @@ export function evaluateCoach(captured: CapturedDay, answer: EvaluationOnlyDay, 
   const all = `${reflectionText(report)}\n${coach}`;
   const metricKeys = new Set(Object.keys(report?.metricsSnapshot ?? {}));
   const criteria: Criterion[] = [];
+  const opportunity = opportunityOf(expected);
+  const assessment = assessCoach(captured, answer, { semantic: ctx.semantic, knownBlockIds: ctx.knownBlockIds, previousProcessedAt: ctx.previousProcessedAt ?? null });
 
   const labels = {
     c1: '1. Recognised the important issue',
@@ -185,6 +173,7 @@ export function evaluateCoach(captured: CapturedDay, answer: EvaluationOnlyDay, 
   if (!report) {
     return {
       actionCount: 0,
+      assessment,
       criteria: Object.entries(labels).map(([id, label]): Criterion => {
         const missed = id === 'c1' && expected.primary_action !== null;
         return {
@@ -259,7 +248,9 @@ export function evaluateCoach(captured: CapturedDay, answer: EvaluationOnlyDay, 
 
   // ── 3. Aligned with priorities ──
   {
-    const aligned = actions.filter((a) => a.priorityId !== null || a.targetKey?.startsWith('p:') || streamOfAction(a, captured.priorities) !== null);
+    const aligned = actions.filter(
+      (a) => a.priorityId !== null || a.targetKey?.startsWith('p:') || streamOfAction(a, captured.priorities) !== null || targetMatches(opportunity.priority, a, captured.priorities),
+    );
     criteria.push({
       id: 'coach_c3',
       label: labels.c3,
@@ -435,16 +426,16 @@ export function evaluateCoach(captured: CapturedDay, answer: EvaluationOnlyDay, 
   criteria.push({
     id: 'coach_c13',
     label: labels.c13,
-    verdict: expected.primary_action !== null ? 'NOT_APPLICABLE' : actions.length === 0 ? 'PASS' : 'FAIL',
+    verdict: opportunity.strength !== 'none' ? 'NOT_APPLICABLE' : actions.length === 0 ? 'PASS' : 'FAIL',
     method: 'structural',
     confidence: 'high',
     detail:
-      expected.primary_action !== null
-        ? 'the answer key expects an action on this day'
+      opportunity.strength !== 'none'
+        ? `the answer key sees a ${opportunity.strength} opportunity for an action on this day`
         : actions.length === 0
           ? `no action was recommended${block?.noActionReason ? ` ("${block.noActionReason}")` : ''}`
           : `${actions.length} action(s) were recommended although none was called for`,
   });
 
-  return { actionCount: actions.length, criteria };
+  return { actionCount: actions.length, criteria, assessment };
 }

@@ -582,6 +582,20 @@
       "Do not claim that offline time was wasted.",
       "Do not infer motivation, stress, or psychological state.",
       "Do not claim the client issue was avoidable."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "Client work unexpectedly consumed a significant portion of the planned product time.",
+      "priority": "Ship the SaaS MVP",
+      "type": "protect_priority"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "The next day shows 94 min on Own SaaS; its answer key rates that priority \"some progress\".",
+      "reason_code": null
+    }
   }
 }

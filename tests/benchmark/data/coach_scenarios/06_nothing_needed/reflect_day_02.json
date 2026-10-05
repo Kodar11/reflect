@@ -1,0 +1,279 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-11-03",
+    "day_type": "06_nothing_needed__probe",
+    "circumstances": [
+      "Everything reached a stopping point, nothing was displaced → null is correct."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:00",
+      "last_seen": "20:45",
+      "approx_active_hours": 4.1,
+      "longest_unobserved_gap_minutes": 210
+    }
+  },
+  "raw_events": [
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:00:00+05:30",
+      "ended_at": "2026-11-03T10:15:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest — 7 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:15:00+05:30",
+      "ended_at": "2026-11-03T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Assignment 3: Query Optimization — Submitted — Course LMS",
+      "url": "https://lms.university.example/courses/db/assignments/3",
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:30:00+05:30",
+      "ended_at": "2026-11-03T10:35:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest — 7 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:00:00+05:30",
+      "ended_at": "2026-11-03T11:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Graph Algorithms — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:20:00+05:30",
+      "ended_at": "2026-11-03T11:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Graph Algorithms — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:40:00+05:30",
+      "ended_at": "2026-11-03T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Graph Algorithms.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T12:00:00+05:30",
+      "ended_at": "2026-11-03T12:15:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Graph Algorithms — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T15:00:00+05:30",
+      "ended_at": "2026-11-03T15:30:00+05:30",
+      "app": "Hades",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T15:30:00+05:30",
+      "ended_at": "2026-11-03T16:00:00+05:30",
+      "app": "Hades",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T16:00:00+05:30",
+      "ended_at": "2026-11-03T16:30:00+05:30",
+      "app": "Hades",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 18,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T20:00:00+05:30",
+      "ended_at": "2026-11-03T20:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Best speedruns of the year - YouTube",
+      "url": "https://www.youtube.com/watch?v=speedruns",
+      "payload": null
+    },
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T20:30:00+05:30",
+      "ended_at": "2026-11-03T20:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Best speedruns of the year - YouTube",
+      "url": "https://www.youtube.com/watch?v=speedruns",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "10:00",
+        "ended_at": "10:35",
+        "title": "Submitting Assignment 3",
+        "summary": "Ran the full test suite (all passing), exported the report and submitted Assignment 3 on the course site.",
+        "event_ids": [
+          8,
+          9,
+          10
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "11:00",
+        "ended_at": "12:15",
+        "title": "Completed Graph Algorithms practice set",
+        "summary": "Finished every problem in the Graph Algorithms practice set and checked the answers.",
+        "event_ids": [
+          11,
+          12,
+          13,
+          14
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-03",
+        "started_at": "15:00",
+        "ended_at": "16:30",
+        "title": "Playing a game",
+        "summary": "Played a game in the evening.",
+        "event_ids": [
+          15,
+          16,
+          17
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-04",
+        "started_at": "20:00",
+        "ended_at": "20:45",
+        "title": "Watching videos",
+        "summary": "Watched entertainment videos.",
+        "event_ids": [
+          18,
+          19
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Submitting Assignment 3",
+      "Completed Graph Algorithms practice set",
+      "Playing a game",
+      "Watching videos"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "No next step is needed today."
+  },
+  "expected_coach_outcome": {
+    "primary_action": null,
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not treat the afternoon and evening of leisure as something to reduce."
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "The assignment was submitted, the practice set was completed, and the rest of the day was leisure: nothing is open and nothing was displaced.",
+      "priority": null,
+      "type": null
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "06_nothing_needed",
+      "title": "Nothing needed",
+      "tests": "Everything reached a stopping point, nothing was displaced → null is correct.",
+      "probe": true
+    }
+  }
+}

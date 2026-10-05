@@ -555,6 +555,20 @@
       "Do not treat analytics inspection as proof of business success or product-market fit.",
       "Do not criticize the short YouTube break as inherently harmful.",
       "Do not assume the client handoff means the entire freelance engagement is complete."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The dashboard now has sustained implementation momentum and a new launch-preparation thread, making a concrete readiness milestone the most useful continuation.",
+      "priority": "Ship the SaaS MVP",
+      "type": "start_focus"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 339 min on Own SaaS; its answer key rates that priority \"strong progress / dashboard milestone and launch preparation\".",
+      "reason_code": null
+    }
   }
 }

@@ -597,6 +597,20 @@
       "Do not assume the technical YouTube session was a distraction.",
       "Do not infer the content or outcome of the prospective client's reply from the Gmail window title alone.",
       "Do not infer motivation, stress, or emotional state from the fragmented schedule."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "A potential freelance opportunity is active, the reply has been reviewed, and a follow-up response remains visibly unfinished.",
+      "priority": "Generate new freelance leads",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 86 min on Freelance; its answer key rates that priority \"strong progress because a prospect advanced to a discovery call and revised proposal\".",
+      "reason_code": null
+    }
   }
 }

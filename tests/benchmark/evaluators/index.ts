@@ -10,6 +10,7 @@ import {
   type PredictedLabels,
 } from './classification';
 import { ACTION_TYPE_MAPPING, KNOWN_TARGETS, evaluateCoach, type CoachEvaluation } from './coach';
+import { summarizeCoachDimensions, type ActionStateRecord, type CoachDimensionSummary } from './coachDimensions';
 import { evaluateReflection, progressLevel, type ReflectionEvaluation } from './reflection';
 import { evaluateSegmentation, segmentFromEvents, type Segment, type SegmentationMetrics, type SegmentationResult, type TimedEvent } from './segmentation';
 import { NULL_LABEL, TAXONOMY_MAPPING, resolveMapping, type DatasetDimension } from './taxonomyMapping';
@@ -22,7 +23,7 @@ import type { Criterion, Verdict } from './text';
  */
 
 /** Bump when a metric's definition changes, so old and new results are not compared blindly. */
-export const EVALUATOR_VERSION = 'reflect-benchmark-eval-v1';
+export const EVALUATOR_VERSION = 'reflect-benchmark-eval-v2';
 
 export interface TrackEvaluation {
   segmentation: SegmentationResult;
@@ -49,6 +50,8 @@ export interface DayEvaluationContext {
   /** Ids of every timeline block shown up to and including this day. */
   knownBlockIds: Set<string>;
   hasHistory: boolean;
+  /** When the previous day was captured (null on the first day). */
+  previousProcessedAt?: string | null;
   findLeaks: (text: string) => string[];
 }
 
@@ -143,6 +146,7 @@ export function evaluateDay(captured: CapturedDay, answer: EvaluationOnlyDay, ct
       semantic: ctx.config.semantic,
       knownBlockIds: ctx.knownBlockIds,
       hasHistory: ctx.hasHistory,
+      previousProcessedAt: ctx.previousProcessedAt ?? null,
       workVideoEventIds,
       predictedByEvent,
     }),
@@ -165,7 +169,7 @@ export function checkAnswerKeyVocabulary(evaluation: EvaluationOnly): { errors: 
     for (const activity of day.groundTruth.activities) {
       for (const dimension of ['context', 'area', 'intent', 'quality'] as const) {
         const label = activity[dimension] ?? NULL_LABEL;
-        if (!(label in TAXONOMY_MAPPING[dimension].labels)) {
+        if (!(label in TAXONOMY_MAPPING[dimension].labels) && !(dimension === 'area' && evaluation.priorities.includes(label))) {
           errors.push(`${at} ${activity.id}: ${dimension} "${label}" has no entry in evaluators/taxonomyMapping.ts`);
         }
       }
@@ -173,8 +177,12 @@ export function checkAnswerKeyVocabulary(evaluation: EvaluationOnly): { errors: 
     for (const [slot, action] of [['primary_action', day.expectedCoachOutcome.primary_action], ['secondary_action', day.expectedCoachOutcome.secondary_action]] as const) {
       if (!action) continue;
       if (!(action.action_type in ACTION_TYPE_MAPPING)) errors.push(`${at} ${slot}: action_type "${action.action_type}" has no entry in evaluators/coach.ts ACTION_TYPE_MAPPING`);
-      if (action.target !== null && !KNOWN_TARGETS.includes(action.target)) errors.push(`${at} ${slot}: target "${action.target}" is not one of ${KNOWN_TARGETS.join(', ')}`);
+      if (action.target !== null && !KNOWN_TARGETS.includes(action.target) && !evaluation.priorities.includes(action.target)) {
+        errors.push(`${at} ${slot}: target "${action.target}" is neither a known work stream (${KNOWN_TARGETS.join(', ')}) nor one of the persona's priorities`);
+      }
     }
+    const opportunity = day.expectedCoachOutcome.action_opportunity;
+    if (opportunity?.type && !(opportunity.type in ACTION_TYPE_MAPPING)) errors.push(`${at} action_opportunity: type "${opportunity.type}" has no entry in ACTION_TYPE_MAPPING`);
     for (const entry of day.expectedReflection.priority_alignment) {
       if (progressLevel(entry.assessment) === null) warnings.push(`${at}: priority assessment "${entry.assessment}" is not recognised and will not be scored`);
     }
@@ -295,11 +303,13 @@ export interface BenchmarkSummary {
     actionsPerDay: Record<string, number>;
     criteria: Record<string, VerdictCounts & { label: string; method: string; confidence: string }>;
     overall: VerdictCounts;
+    /** Recommendation quality, follow-through, outcome and adaptation — each on its own. */
+    dimensions: CoachDimensionSummary;
   };
   mappingIssues: string[];
 }
 
-export function summarize(days: DayEvaluation[]): BenchmarkSummary {
+export function summarize(days: DayEvaluation[], finalActionStates: ActionStateRecord[] = []): BenchmarkSummary {
   const reflectContextMs: Record<string, number> = {};
   for (const day of days) for (const [name, ms] of Object.entries(day.reflectContextMs)) reflectContextMs[name] = (reflectContextMs[name] ?? 0) + ms;
   const actionsPerDay: Record<string, number> = {};
@@ -338,6 +348,10 @@ export function summarize(days: DayEvaluation[]): BenchmarkSummary {
       actionsPerDay,
       criteria: countByGroup(coach),
       overall: countVerdicts(coach.map((c) => c.verdict)),
+      dimensions: summarizeCoachDimensions(
+        days.map((d) => d.coach.assessment),
+        finalActionStates,
+      ),
     },
     mappingIssues: [...new Set(days.flatMap((d) => d.mappingIssues))],
   };

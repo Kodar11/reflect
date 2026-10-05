@@ -504,6 +504,20 @@
       "Do not assume the client issue was fully resolved just because staging verification occurred.",
       "Do not treat the brief freelance follow-up as evidence that the prospect will convert.",
       "Do not recommend extending the workday further merely because SaaS time was reduced."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The client issue legitimately dominated today, while the SaaS authentication work was only revisited briefly at the end of the day.",
+      "priority": "Ship the SaaS MVP",
+      "type": "protect_priority"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 378 min on Own SaaS; its answer key rates that priority \"strong progress\".",
+      "reason_code": null
+    }
   }
 }

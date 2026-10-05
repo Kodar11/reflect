@@ -165,7 +165,7 @@ describe('validateDailyCoach — nothing is trusted', () => {
     expect(rejected({ actionType: 'work_harder' })).toContain('unsupported action type');
     expect(rejected({ focusMinutes: null })).toContain('a focus_session needs focusMinutes');
     expect(rejected({ focusMinutes: 600, title: 'Run a 600-minute Focus session on Project X' })).toContain('focusMinutes must be a whole number');
-    expect(rejected({ title: 'Do it' })).toContain('title is empty or too vague');
+    expect(rejected({ title: 'Do it' })).toContain('title is too vague to act on');
     expect(rejected({ rationale: 'Because.' })).toContain('rationale is missing');
   });
 
@@ -245,8 +245,12 @@ describe('validateDailyCoach — what the record already says', () => {
     expect(daily(modelCoach(), context({ actions: [notDone(9)] })).ok).toBe(true);
   });
 
-  it('prefers what has worked: a proven strategy passes untouched', () => {
-    expect(daily(modelCoach(), context({ actions: [worked(7), worked(9)] })).ok).toBe(true);
+  it('prefers what has worked: a proven strategy passes — aimed at what is open now, not as the same sentence', () => {
+    const proven = context({ actions: [worked(7), worked(9)] });
+    const next = modelCoach({ actions: [modelAction({ title: 'Run one 45-minute Focus session on the Project X conflict-resolution tests' })] });
+    expect(daily(next, proven).ok).toBe(true);
+    // Word for word what the user did two days ago: refused.
+    expect(daily(modelCoach(), proven).errors[0]).toContain('the user already carried out');
   });
 });
 

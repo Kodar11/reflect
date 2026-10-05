@@ -569,6 +569,20 @@
       "Do not assume the first dashboard issue was the only beta issue.",
       "Do not classify the short unrelated YouTube session as a launch failure.",
       "Do not add a broad new SaaS feature before using the beta feedback to identify what actually needs improvement."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "Carrying on is the useful move: The first beta rollout produced an actionable feedback-to-fix loop, which is currently more valuable than adding unrelated product scope.",
+      "priority": "Ship the SaaS MVP",
+      "type": "continue_successful_behavior"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 419 min on Own SaaS; its answer key rates that priority \"very strong progress / feedback-driven iteration\".",
+      "reason_code": null
+    }
   }
 }

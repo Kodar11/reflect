@@ -499,6 +499,20 @@
       "Do not conclude that the SaaS authentication work is finished solely because testing and the roadmap were updated.",
       "Do not criticize the short YouTube break as inherently harmful.",
       "Do not recommend dropping the new client project merely to protect SaaS time; the appropriate tradeoff is protected scheduling."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The founder successfully returned to the SaaS after closing a client issue and starting a new project, making continuity important before client work expands.",
+      "priority": "Ship the SaaS MVP",
+      "type": "protect_priority"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 331 min on Own SaaS; its answer key rates that priority \"strong progress / authentication thread closed and dashboard started\".",
+      "reason_code": null
+    }
   }
 }

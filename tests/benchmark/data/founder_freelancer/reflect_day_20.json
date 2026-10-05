@@ -374,6 +374,20 @@
       "Do not classify the YouTube tutorial as distraction solely because it occurred in the evening.",
       "Do not infer that no lead activity means the user made no progress elsewhere offline.",
       "Do not expand the SaaS roadmap broadly before deciding what the current beta evidence actually supports."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The SaaS has moved beyond basic rollout mechanics, and the current evidence is most useful when converted into one focused activation hypothesis.",
+      "priority": "Ship the SaaS MVP",
+      "type": "experiment"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 383 min on Own SaaS; its answer key rates that priority \"very strong progress / concrete activation experiment executed\".",
+      "reason_code": null
+    }
   }
 }

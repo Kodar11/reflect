@@ -493,6 +493,20 @@
       "Do not assume the revised project scope is settled merely because a document was updated.",
       "Do not interpret the short lead-maintenance session as a major acquisition result.",
       "Do not recommend dropping the client project simply because it displaced some planned SaaS time."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "A requirement changed during implementation, so confirming the revised scope and next deliverable can prevent further rework.",
+      "priority": "Complete existing client work",
+      "type": "clarify_priority"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "The next day shows 137 min on Freelance; its answer key rates that priority \"small but concrete progress\".",
+      "reason_code": null
+    }
   }
 }

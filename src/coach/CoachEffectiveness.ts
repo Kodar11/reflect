@@ -16,6 +16,13 @@ export type ActionSignal = 'success' | 'partial_success' | 'failure' | 'neutral'
 /** Reasons that say "not needed", not "did not work". */
 const NEUTRAL_REJECTIONS: readonly CoachReasonCode[] = ['already_doing'];
 
+/**
+ * Reasons for not carrying an action out that say nothing about the action:
+ * something outside the user's control took the time. Not following a
+ * recommendation is never, by itself, proof that it was a bad one.
+ */
+const NEUTRAL_NOT_DONE: readonly CoachReasonCode[] = ['external_constraint'];
+
 /** How one action counts toward learning. */
 export function signalOf(action: CoachAction): ActionSignal {
   switch (action.status) {
@@ -35,7 +42,7 @@ export function signalOf(action: CoachAction): ActionSignal {
   if (action.outcome === 'worked') return 'success';
   if (action.outcome === 'partly_worked') return 'partial_success';
   if (action.outcome === 'did_not_work' || action.outcome === 'not_applicable') return 'failure';
-  if (action.execution === 'not_done') return 'failure';
+  if (action.execution === 'not_done') return action.reasonCode && NEUTRAL_NOT_DONE.includes(action.reasonCode) ? 'neutral' : 'failure';
   // Its window passed, nothing was seen, and the user never said otherwise.
   if (action.execution === null && action.observation?.kind === 'not_observed' && action.observation.final) return 'failure';
   // Carried out, but nobody said whether it helped: not evidence either way.
@@ -236,8 +243,8 @@ export function effectivenessLines(
 ): string[] {
   const lines: string[] = [];
   for (const record of summary.byTarget) {
-    // A single undecided suggestion says nothing yet.
-    if (record.successes + record.failures === 0) continue;
+    // A single undecided suggestion says nothing yet — but one the user keeps not answering does.
+    if (record.successes + record.failures === 0 && record.ignored < 2) continue;
     const target = targetLabel(record.targetKey);
     const helped = record.worked + record.partlyWorked;
     const parts = [
@@ -252,12 +259,21 @@ export function effectivenessLines(
     if (record.notApplicable > 0) parts.push(`not applicable ${record.notApplicable}`);
     const reasons = describeReasons(record.reasons);
     const verdict = verdictOf(record, config);
+    if (record.ignored > 0) parts.push(`never decided ${record.ignored}`);
     const conclusion =
       verdict === 'working'
         ? 'WORKS for this user — a good candidate to reuse.'
         : verdict === 'not_working'
           ? 'NOT WORKING — do not suggest it again in this form.'
-          : 'Not enough evidence yet.';
+          : record.didNotWork > 0
+            ? 'The user said it DID NOT HELP — do not offer it again unchanged; change the time, the size or the type, or leave this target alone.'
+            : record.worked > 0 && record.failures === 0
+              ? 'HELPED when it was tried — reasonable to reuse when the situation is similar.'
+              : record.partlyWorked > 0 && record.failures === 0
+                ? 'PARTLY HELPED — keep the idea and refine one thing (size, timing or scope) rather than repeating or dropping it.'
+                : record.successes + record.failures === 0
+                  ? 'Offered more than once and never taken up — do not send the same thing again.'
+                  : 'Not enough evidence yet.';
     lines.push(
       `${describeStrategy(record.strategyKey)}${target ? ` → “${target}”` : ''}: ${parts.join(', ')}${reasons ? `; reasons given: ${reasons}` : ''}. ${conclusion}`,
     );

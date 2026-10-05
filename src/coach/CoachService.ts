@@ -29,6 +29,7 @@ import { addNumbersFrom, clean } from '../reflection/ReflectionValidator.js';
 import { buildCoachContext, renderActionLine, type ActionRef, type CoachContext } from './CoachContext.js';
 import { REASON_LABELS, effectivenessLines, learnedStatements } from './CoachEffectiveness.js';
 import { CoachTransitionError, applyTransition, isTerminal, type CoachTransition } from './CoachLifecycle.js';
+import { detectOpportunities, type CoachOpportunity } from './CoachOpportunities.js';
 import {
   observationWindow,
   observeAction,
@@ -209,10 +210,30 @@ export class CoachService implements ReflectionCoachHook {
     // What happened to earlier commitments is settled first, from Reflect's own data.
     await this.observe(now);
 
-    const context = this.buildContext(now, period, dataset.priorities, threadsOf(dataset.activities), input.replacesReportId);
+    // Where a next move could come from, measured before the model is asked.
+    let opportunities: CoachOpportunity[] = [];
+    try {
+      opportunities = detectOpportunities({
+        lastKnown: await this.lastKnownWork(dataset),
+        activities: dataset.activities,
+        metrics: dataset.metrics,
+        priorities: dataset.priorities,
+        memories: this.deps.repo.listMemories().filter((m) => m.status === 'active'),
+        openLoopsSince: new Date(now.getTime() - this.config.openLoopSignalMs).toISOString(),
+      });
+    } catch (err) {
+      // Signals are an aid to the decision, never a precondition for it.
+      this.log.error(`[COACH] Could not derive next-move signals: ${messageOf(err)}`);
+    }
+    const context = this.buildContext(now, period, dataset.priorities, threadsOf(dataset.activities), input.replacesReportId, {
+      opportunities,
+      activityRefOf: (id) => input.activityRefs?.get(id) ?? null,
+    });
     this.log.info(
       `[COACH] Daily context: ${context.followups.length} action(s) to follow up, ${context.open.length} open, ` +
-        `${context.rejected.length} rejected, ${context.escalations.length} escalation(s), ${context.memories.length} memory item(s).`,
+        `${context.rejected.length} rejected, ${context.ignored.length} never decided, ${context.failedRecently.length} reported as not working, ` +
+        `${context.escalations.length} escalation(s), ${context.memories.length} memory item(s), ` +
+        `${opportunities.length} next-move signal(s)${opportunities.length ? ` (${opportunities.map((o) => `${o.kind}:${o.strength}`).join(', ')})` : ''}.`,
     );
 
     return {
@@ -220,6 +241,12 @@ export class CoachService implements ReflectionCoachHook {
       validate: (raw, evidence): CoachCheck<ValidatedCoach> => {
         try {
           const result = validateDailyCoach({ raw, context, evidence });
+          this.log.info(
+            `[COACH] Decision: ${result.decision ? `${result.decision.verdict}${result.decision.candidate ? ` — candidate “${result.decision.candidate}”` : ''}` : 'not stated'}; ` +
+              `${result.proposed} action(s) proposed, ${result.coach.actions.length} kept` +
+              (result.errors.length ? `; problems: ${result.errors.slice(0, 3).join('; ')}` : '') +
+              (result.coach.actions.length === 0 && result.coach.noActionReason ? `; reason given: ${result.coach.noActionReason}` : ''),
+          );
           return { ok: result.ok, errors: result.errors, value: result.coach };
         } catch (err) {
           // A coach block that cannot even be checked is treated as absent.
@@ -231,12 +258,37 @@ export class CoachService implements ReflectionCoachHook {
     };
   }
 
+  /**
+   * For every priority that had no work today: the last activity linked to it
+   * on its most recent earlier day — whether it was left mid-way or finished.
+   */
+  private async lastKnownWork(dataset: DailyCoachInput['dataset']): Promise<Record<string, { title: string; summary: string | null; dayLabel: string }>> {
+    const out: Record<string, { title: string; summary: string | null; dayLabel: string }> = {};
+    for (const p of dataset.priorities) {
+      if (dataset.activities.some((a) => a.priorityId === p.id && a.durationMinutes >= MEANINGFUL_ACTIVITY_MINUTES)) continue;
+      const lastDay = dataset.metrics[`recent.priority.${p.id}.last_day`];
+      if (!lastDay?.range) continue;
+      try {
+        const earlier = await this.deps.metrics.loadActivities(lastDay.range.start, lastDay.range.end, dataset.priorities);
+        const last = earlier
+          .filter((a) => a.priorityId === p.id && a.durationMinutes >= MEANINGFUL_ACTIVITY_MINUTES)
+          .sort((a, b) => (a.endedAt < b.endedAt ? -1 : 1))
+          .pop();
+        if (last) out[p.id] = { title: last.title, summary: last.summary, dayLabel: lastDay.display };
+      } catch {
+        // An earlier day that cannot be loaded simply adds nothing.
+      }
+    }
+    return out;
+  }
+
   private buildContext(
     now: Date,
     reportDay: ReflectionPeriod,
     priorities: Pick<ReflectionPriority, 'id' | 'text'>[],
     threads: string[],
     supersededReportId: string | null = null,
+    daily: { opportunities: CoachOpportunity[]; activityRefOf: (activityId: string) => string | null } | null = null,
   ): CoachContext {
     const { repo } = this.deps;
     const actions = repo.listActions(new Date(now.getTime() - this.config.effectivenessLookbackMs).toISOString());
@@ -251,6 +303,7 @@ export class CoachService implements ReflectionCoachHook {
       knownThreads,
       config: this.config,
       supersededReportId,
+      ...(daily ?? {}),
     });
   }
 

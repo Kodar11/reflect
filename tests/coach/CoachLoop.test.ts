@@ -110,7 +110,8 @@ describe('the coach loop — a recommendation that works', () => {
     h.gemini.push(
       modelDay(day(13), {
         followups: [{ actionRef: 'k1', note: 'The Focus session ran 45m of the 45m planned, with 1 interruption, and you said it worked.', learned: 'A morning block on Project X is realistic for you.' }],
-        actions: [modelAction({ actionType: 'continue_behavior', metricKeys: [], actionRefs: ['k1'], rationale: 'The morning block on Project X happened as planned and you said it helped.' })],
+        // The approach that worked is reused — on what is open now, not as the same sentence again.
+        actions: [modelAction({ title: 'Keep tomorrow morning for the Project X conflict-resolution tests', actionType: 'continue_behavior', metricKeys: [], actionRefs: ['k1'], rationale: 'The morning block on Project X happened as planned and you said it helped.' })],
       }),
     );
     expect(await h.service.generate(day(13), { trigger: 'scheduled' })).toMatchObject({ status: 'succeeded', attempts: 1 });
@@ -248,7 +249,7 @@ describe('the coach loop — a recommendation that keeps not happening', () => {
     // ── Thu: the adapted version does not happen either.
     h.setNow(local(15, '22:01'));
     await h.coach.observe();
-    h.coach.reportExecution(a3, 'not_done', { reasonCode: 'external_constraint' });
+    h.coach.reportExecution(a3, 'not_done', { reasonCode: 'too_difficult' });
 
     // ── Thu evening: three attempts, none worked. The Coach stops advising and asks —
     //    even though the model tried to advise again and forgot to ask.

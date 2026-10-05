@@ -1,4 +1,6 @@
+import type { CoachAction } from '../../../src/coach/CoachModels';
 import type { ClassificationScores, DimensionScore } from '../evaluators/classification';
+import type { CoachDimensionSummary, Ratio } from '../evaluators/coachDimensions';
 import type { BenchmarkSummary, DayEvaluation, SegmentationSummary, VerdictCounts } from '../evaluators/index';
 import type { Criterion } from '../evaluators/text';
 import type { CapturedDay } from './capture';
@@ -162,6 +164,7 @@ export function renderReport({ manifest, summary, days }: ReportInput): string {
     '',
     table(['Criterion', 'PASS', 'PARTIAL', 'FAIL', 'N/A', 'Score', 'Method', 'Id'], verdictRows(summary.coach.criteria)),
     '',
+    ...coachDimensionLines(summary.coach.dimensions),
   );
 
   lines.push('## Per day', '');
@@ -265,6 +268,106 @@ export function renderReviewPacket(days: { evaluation: DayEvaluation; captured: 
     if (report?.coach?.question) lines.push(`- Question: ${report.coach.question.text}`);
     for (const memory of captured.coach.memoriesAdded) lines.push(`- Memory (${memory.kind}): ${memory.text}`);
     lines.push('', '**Verdicts**', '', ...verdictList(evaluation.coach.criteria), '');
+  }
+  return lines.join('\n');
+}
+
+// ── Coach dimensions ────────────────────────────────────────────────────────
+
+const frac = (r: Ratio) => (r.value === null ? 'n/a (nothing applied)' : `${pct(r.value, 0)} (${Number.isInteger(r.numerator) ? r.numerator : r.numerator.toFixed(1)} / ${r.denominator})`);
+
+/** One row per dimension: `[name, value, what it means]`. Shared by the report and the before/after comparison. */
+export function coachDimensionRows(d: CoachDimensionSummary): [string, string, string][] {
+  const l = d.lifecycle;
+  return [
+    ['Days evaluated', String(d.daysEvaluated), ''],
+    ['Days with an expected action (strong opportunity)', String(d.daysExpectedAction), 'silence is a miss'],
+    ['Days where an action is optional (moderate)', String(d.daysOptionalAction), 'action and silence are both fine'],
+    ['Days with an expected null (no opportunity)', String(d.daysExpectedNull), 'any action is unnecessary'],
+    ['Actions generated', `${d.actionsGenerated} on ${d.daysWithActions} day(s)`, 'reported, never rewarded'],
+    ['**Recommendation — opportunity recall**', frac(d.opportunityRecall), 'strong days answered (correct = 1, partial = ½)'],
+    ['Recommendation — opportunity detection', frac(d.opportunityDetection), 'strong days on which anything was recommended'],
+    ['**Recommendation — action precision**', frac(d.actionPrecision), 'actions that were justified'],
+    ['Recommendation — alignment', frac(d.actionAlignment), 'tied to a stated priority / open thread'],
+    ['Recommendation — specificity', frac(d.actionSpecificity), 'what, on what, when — executable'],
+    ['Recommendation — evidence grounding', frac(d.evidenceGrounding), 'cited evidence exists'],
+    ['Recommendation — feasibility', frac(d.feasibility), 'one sitting, window still ahead'],
+    ['Recommendation — not generic', frac(d.nonGeneric), ''],
+    ['Recommendation — not a repeat', frac(d.notRepeated), 'does not restate an action of the previous three days'],
+    ['**Recommendation — appropriate null**', frac(d.appropriateNull), 'no-opportunity days left alone'],
+    ['Adherence — decisions recorded', `accepted ${l.accepted}, rejected ${l.rejected}, deferred ${l.deferred}, undecided ${l.undecided} (of ${l.suggested})`, 'what the user chose — not a quality score'],
+    ['**Adherence — execution tracking coverage**', frac(d.executionTracking), 'accepted actions past their window with a known execution'],
+    ['Adherence — established by Reflect itself', frac(d.executionObserved), 'observed from tracked activity before anyone said so'],
+    ['Adherence — execution', `done ${l.done}, partial ${l.partial}, not done ${l.notDone}, unknown ${l.executionUnknown}`, ''],
+    ['**Outcome — outcome tracking coverage**', frac(d.outcomeTracking), 'carried-out actions with a recorded outcome'],
+    ['Outcome — as stated', `worked ${l.worked}, partly ${l.partlyWorked}, did not work ${l.didNotWork}, n/a ${l.notApplicable}`, 'the user\'s word — no causality is claimed'],
+    ['**Adaptation — checks passed**', `${d.adaptation.passed} / ${d.adaptation.checks}`, Object.entries(d.adaptation.byKind).map(([k, v]) => `${k} ${v.passed}/${v.checks}`).join(', ') || 'no settled action preceded a coaching day'],
+  ];
+}
+
+function coachDimensionLines(d: CoachDimensionSummary): string[] {
+  return [
+    '**Coach, by dimension** — recommendation quality, adherence, outcome and adaptation are separate questions and are never combined.',
+    '',
+    table(['Dimension', 'Value', 'Meaning'], coachDimensionRows(d).map(([a, b, c]) => [a, cell(b), cell(c)])),
+    '',
+    `Verdicts per day: ${Object.entries(d.verdicts).filter(([, n]) => n > 0).map(([v, n]) => `${v} ${n}`).join(', ')}. Every day is laid out in \`coach_review.md\`.`,
+    '',
+  ];
+}
+
+/**
+ * For every day: what would have been useful, what the Coach recommended, the
+ * verdict and why — then what the user did with it and what the Coach did next.
+ */
+export function renderCoachReview(
+  days: { evaluation: DayEvaluation; captured: CapturedDay; answer: EvaluationOnlyDay }[],
+  summary: BenchmarkSummary,
+  finalActions: CoachAction[] = [],
+): string {
+  const lines: string[] = ['# Coach review', '', 'Ground truth next to what the Coach did, day by day. Aggregates cannot tell whether the Coach feels intelligent; this can.', ''];
+  lines.push(table(['Dimension', 'Value', 'Meaning'], coachDimensionRows(summary.coach.dimensions).map(([a, b, c]) => [a, cell(b), cell(c)])), '');
+
+  const finalById = new Map(finalActions.map((a) => [a.id, a]));
+  const lastSeen = new Map<string, CoachAction>();
+  for (const { captured } of days) for (const a of [...captured.coach.earlierActions, ...captured.coach.actions]) lastSeen.set(a.id, a);
+
+  for (const { evaluation, captured, answer } of days) {
+    const a = evaluation.coach.assessment;
+    lines.push(`## Day ${answer.dayNumber} — ${answer.date} · opportunity: ${a.opportunity.strength}`, '');
+    lines.push(`**GROUND TRUTH** — ${a.expectedPrimary ?? 'no action is useful today'}${a.expectedSecondary ? `  \n_also:_ ${a.expectedSecondary}` : ''}`, '');
+    lines.push(
+      `**REFLECT COACH** — ${a.actual.length > 0 ? a.actual.map((t) => cell(t)).join('  \n') : `no action${a.noActionReason ? ` ("${a.noActionReason}")` : ''}`}`,
+      '',
+      `**VERDICT** — ${a.verdict.replace(/_/g, ' ')}`,
+      '',
+      `**WHY** — ${a.why}`,
+      '',
+    );
+    for (const action of a.actions) {
+      const flags = [
+        action.justified ? 'justified' : 'NOT justified',
+        action.grounded ? 'grounded' : 'not grounded',
+        action.aligned ? 'aligned' : 'not aligned',
+        action.specific ? 'specific' : 'not specific',
+        action.feasible ? 'feasible' : 'not feasible',
+        ...(action.generic ? ['generic'] : []),
+        ...(action.prohibited ? ['prohibited'] : []),
+        ...(action.repeated ? ['REPEAT'] : []),
+      ];
+      lines.push(`- "${cell(action.title)}" — ${flags.join(' · ')}${action.notes.length ? ` — ${cell(action.notes.join('; '))}` : ''}`);
+      const state = finalById.get(action.actionId) ?? lastSeen.get(action.actionId);
+      if (state) {
+        const decision = state.status === 'rejected' ? `rejected${state.reasonCode ? ` (${state.reasonCode})` : ''}` : state.acceptedAt ? 'accepted' : state.snoozeCount > 0 ? 'deferred' : state.status === 'expired' ? 'never decided' : 'not decided yet';
+        const execution = state.execution ? `${state.execution} (${state.executionSource === 'user' ? 'the user said so' : 'observed by Reflect'})` : state.observation ? state.observation.kind.replace(/_/g, ' ') : '—';
+        lines.push(`  - _Action → decision → execution → outcome:_ ${decision} → ${execution} → ${state.outcome ?? '—'}${state.observation?.facts.length ? `  \n    observed: ${cell(state.observation.facts.join(' '))}` : ''}`);
+      }
+    }
+    for (const followup of captured.reflection.report?.coach?.followups ?? []) lines.push(`- Follow-up on "${cell(followup.title)}": ${cell(followup.note)}${followup.learned ? ` _Learned:_ ${cell(followup.learned)}` : ''}`);
+    for (const check of a.adaptation) lines.push(`- **Adaptation (${check.kind.replace(/_/g, ' ')}) — ${check.pass ? 'PASS' : 'FAIL'}**: ${check.behaviour}. ${cell(check.detail)}`);
+    if (captured.reflection.report?.coach?.question) lines.push(`- Question asked: ${cell(captured.reflection.report.coach.question.text)}`);
+    for (const memory of captured.coach.memoriesAdded) lines.push(`- Remembered (${memory.kind}): ${cell(memory.text)}`);
+    lines.push('');
   }
   return lines.join('\n');
 }

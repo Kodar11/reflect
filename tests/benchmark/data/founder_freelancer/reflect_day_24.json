@@ -564,6 +564,20 @@
       "Do not keep changing the prospect scope indefinitely without asking for a decision.",
       "Do not overreact to the brief unrelated YouTube session.",
       "Do not infer what happened during the offline periods."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The freelance prospect has already received multiple rounds of scope and estimate refinement, so the next useful action is to seek a concrete decision rather than continue open-ended revision.",
+      "priority": "Generate new freelance leads",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "The next day shows 337 min on Freelance; its answer key rates that priority \"meaningful maintenance plus new inquiry\".",
+      "reason_code": null
+    }
   }
 }

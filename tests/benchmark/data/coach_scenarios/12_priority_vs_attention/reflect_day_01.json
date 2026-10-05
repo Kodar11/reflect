@@ -1,0 +1,205 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 1,
+    "date": "2026-11-02",
+    "day_type": "12_priority_vs_attention",
+    "circumstances": [
+      "A stated priority gets nothing for days while a hobby gets hours → name the mismatch without moralizing."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:00",
+      "last_seen": "15:00",
+      "approx_active_hours": 2.5,
+      "longest_unobserved_gap_minutes": 150
+    }
+  },
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:00:00+05:30",
+      "ended_at": "2026-11-02T10:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Dynamic Programming — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:20:00+05:30",
+      "ended_at": "2026-11-02T10:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Dynamic Programming — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:40:00+05:30",
+      "ended_at": "2026-11-02T11:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Dynamic Programming.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:00:00+05:30",
+      "ended_at": "2026-11-02T11:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Dynamic Programming — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:20:00+05:30",
+      "ended_at": "2026-11-02T11:30:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Dynamic Programming — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:00:00+05:30",
+      "ended_at": "2026-11-02T14:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "indexing.sql — db-assignment-3 — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:20:00+05:30",
+      "ended_at": "2026-11-02T14:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PostgreSQL: Documentation: 11. Indexes",
+      "url": "https://www.postgresql.org/docs/current/indexes.html",
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:40:00+05:30",
+      "ended_at": "2026-11-02T15:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Assignment 3 report — indexing (DRAFT) — Google Docs",
+      "url": "https://docs.google.com/document/d/a3report",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "10:00",
+        "ended_at": "11:30",
+        "title": "Completed Dynamic Programming practice set",
+        "summary": "Finished every problem in the Dynamic Programming practice set and checked the answers.",
+        "event_ids": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "14:00",
+        "ended_at": "15:00",
+        "title": "Drafting the indexing section",
+        "summary": "Wrote and revised the indexing section of the database assignment; it was still a draft when the block ended.",
+        "event_ids": [
+          6,
+          7,
+          8
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Completed Dynamic Programming practice set",
+      "Drafting the indexing section"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Prepare for the algorithms midterm"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Prepare for the algorithms midterm",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Prepare for the algorithms midterm"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Prepare for the algorithms midterm",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "12_priority_vs_attention",
+      "title": "Stated priority vs observed attention",
+      "tests": "A stated priority gets nothing for days while a hobby gets hours → name the mismatch without moralizing.",
+      "probe": false
+    }
+  }
+}

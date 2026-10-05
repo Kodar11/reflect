@@ -1,0 +1,923 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 4,
+    "date": "2026-11-05",
+    "day_type": "05_fragmented_day__probe",
+    "circumstances": [
+      "Switching far above this user's own norm → reduce_fragmentation or a scheduling action."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:00",
+      "last_seen": "15:23",
+      "approx_active_hours": 5.5,
+      "longest_unobserved_gap_minutes": 55
+    }
+  },
+  "raw_events": [
+    {
+      "id": 42,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:00:00+05:30",
+      "ended_at": "2026-11-05T09:10:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 43,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:10:00+05:30",
+      "ended_at": "2026-11-05T09:22:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 44,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:22:00+05:30",
+      "ended_at": "2026-11-05T09:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Inbox (14) — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "payload": null
+    },
+    {
+      "id": 45,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:30:00+05:30",
+      "ended_at": "2026-11-05T09:41:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 46,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:41:00+05:30",
+      "ended_at": "2026-11-05T09:51:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 47,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:51:00+05:30",
+      "ended_at": "2026-11-05T10:03:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 48,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:03:00+05:30",
+      "ended_at": "2026-11-05T10:11:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Inbox (14) — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "payload": null
+    },
+    {
+      "id": 49,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:11:00+05:30",
+      "ended_at": "2026-11-05T10:22:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 50,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:22:00+05:30",
+      "ended_at": "2026-11-05T10:32:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 51,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:32:00+05:30",
+      "ended_at": "2026-11-05T10:44:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 52,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:44:00+05:30",
+      "ended_at": "2026-11-05T10:52:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Inbox (14) — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "payload": null
+    },
+    {
+      "id": 53,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:52:00+05:30",
+      "ended_at": "2026-11-05T11:03:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 54,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:03:00+05:30",
+      "ended_at": "2026-11-05T11:13:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 55,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:13:00+05:30",
+      "ended_at": "2026-11-05T11:25:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 56,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:25:00+05:30",
+      "ended_at": "2026-11-05T11:33:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Inbox (14) — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "payload": null
+    },
+    {
+      "id": 57,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:33:00+05:30",
+      "ended_at": "2026-11-05T11:44:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 58,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T12:39:00+05:30",
+      "ended_at": "2026-11-05T12:49:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 59,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T12:49:00+05:30",
+      "ended_at": "2026-11-05T13:01:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 60,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:01:00+05:30",
+      "ended_at": "2026-11-05T13:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Inbox (14) — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "payload": null
+    },
+    {
+      "id": 61,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:09:00+05:30",
+      "ended_at": "2026-11-05T13:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 62,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:20:00+05:30",
+      "ended_at": "2026-11-05T13:30:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 63,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:30:00+05:30",
+      "ended_at": "2026-11-05T13:42:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 64,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:42:00+05:30",
+      "ended_at": "2026-11-05T13:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Inbox (14) — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "payload": null
+    },
+    {
+      "id": 65,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:50:00+05:30",
+      "ended_at": "2026-11-05T14:01:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 66,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:01:00+05:30",
+      "ended_at": "2026-11-05T14:11:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 67,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:11:00+05:30",
+      "ended_at": "2026-11-05T14:23:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 68,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:23:00+05:30",
+      "ended_at": "2026-11-05T14:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Inbox (14) — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "payload": null
+    },
+    {
+      "id": 69,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:31:00+05:30",
+      "ended_at": "2026-11-05T14:42:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 70,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:42:00+05:30",
+      "ended_at": "2026-11-05T14:52:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 71,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:52:00+05:30",
+      "ended_at": "2026-11-05T15:04:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 72,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T15:04:00+05:30",
+      "ended_at": "2026-11-05T15:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Inbox (14) — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "payload": null
+    },
+    {
+      "id": 73,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T15:12:00+05:30",
+      "ended_at": "2026-11-05T15:23:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-04-01",
+        "started_at": "09:00",
+        "ended_at": "09:10",
+        "title": "Replying in the client support channel",
+        "summary": "Answered client messages.",
+        "event_ids": [
+          42
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-02",
+        "started_at": "09:10",
+        "ended_at": "09:22",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Picked up the recurring-invoices code briefly before being pulled away.",
+        "event_ids": [
+          43
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-03",
+        "started_at": "09:22",
+        "ended_at": "09:30",
+        "title": "Checking email",
+        "summary": "Read and triaged email.",
+        "event_ids": [
+          44
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-04",
+        "started_at": "09:30",
+        "ended_at": "09:41",
+        "title": "Short stretch on the client audit report",
+        "summary": "Touched the audit report code briefly.",
+        "event_ids": [
+          45
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-05",
+        "started_at": "09:41",
+        "ended_at": "09:51",
+        "title": "Replying in the client support channel",
+        "summary": "Answered client messages.",
+        "event_ids": [
+          46
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-06",
+        "started_at": "09:51",
+        "ended_at": "10:03",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Picked up the recurring-invoices code briefly before being pulled away.",
+        "event_ids": [
+          47
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-07",
+        "started_at": "10:03",
+        "ended_at": "10:11",
+        "title": "Checking email",
+        "summary": "Read and triaged email.",
+        "event_ids": [
+          48
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-08",
+        "started_at": "10:11",
+        "ended_at": "10:22",
+        "title": "Short stretch on the client audit report",
+        "summary": "Touched the audit report code briefly.",
+        "event_ids": [
+          49
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-09",
+        "started_at": "10:22",
+        "ended_at": "10:32",
+        "title": "Replying in the client support channel",
+        "summary": "Answered client messages.",
+        "event_ids": [
+          50
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-10",
+        "started_at": "10:32",
+        "ended_at": "10:44",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Picked up the recurring-invoices code briefly before being pulled away.",
+        "event_ids": [
+          51
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-11",
+        "started_at": "10:44",
+        "ended_at": "10:52",
+        "title": "Checking email",
+        "summary": "Read and triaged email.",
+        "event_ids": [
+          52
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-12",
+        "started_at": "10:52",
+        "ended_at": "11:03",
+        "title": "Short stretch on the client audit report",
+        "summary": "Touched the audit report code briefly.",
+        "event_ids": [
+          53
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-13",
+        "started_at": "11:03",
+        "ended_at": "11:13",
+        "title": "Replying in the client support channel",
+        "summary": "Answered client messages.",
+        "event_ids": [
+          54
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-14",
+        "started_at": "11:13",
+        "ended_at": "11:25",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Picked up the recurring-invoices code briefly before being pulled away.",
+        "event_ids": [
+          55
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-15",
+        "started_at": "11:25",
+        "ended_at": "11:33",
+        "title": "Checking email",
+        "summary": "Read and triaged email.",
+        "event_ids": [
+          56
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-16",
+        "started_at": "11:33",
+        "ended_at": "11:44",
+        "title": "Short stretch on the client audit report",
+        "summary": "Touched the audit report code briefly.",
+        "event_ids": [
+          57
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-17",
+        "started_at": "12:39",
+        "ended_at": "12:49",
+        "title": "Replying in the client support channel",
+        "summary": "Answered client messages.",
+        "event_ids": [
+          58
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-18",
+        "started_at": "12:49",
+        "ended_at": "13:01",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Picked up the recurring-invoices code briefly before being pulled away.",
+        "event_ids": [
+          59
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-19",
+        "started_at": "13:01",
+        "ended_at": "13:09",
+        "title": "Checking email",
+        "summary": "Read and triaged email.",
+        "event_ids": [
+          60
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-20",
+        "started_at": "13:09",
+        "ended_at": "13:20",
+        "title": "Short stretch on the client audit report",
+        "summary": "Touched the audit report code briefly.",
+        "event_ids": [
+          61
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-21",
+        "started_at": "13:20",
+        "ended_at": "13:30",
+        "title": "Replying in the client support channel",
+        "summary": "Answered client messages.",
+        "event_ids": [
+          62
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-22",
+        "started_at": "13:30",
+        "ended_at": "13:42",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Picked up the recurring-invoices code briefly before being pulled away.",
+        "event_ids": [
+          63
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-23",
+        "started_at": "13:42",
+        "ended_at": "13:50",
+        "title": "Checking email",
+        "summary": "Read and triaged email.",
+        "event_ids": [
+          64
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-24",
+        "started_at": "13:50",
+        "ended_at": "14:01",
+        "title": "Short stretch on the client audit report",
+        "summary": "Touched the audit report code briefly.",
+        "event_ids": [
+          65
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-25",
+        "started_at": "14:01",
+        "ended_at": "14:11",
+        "title": "Replying in the client support channel",
+        "summary": "Answered client messages.",
+        "event_ids": [
+          66
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-26",
+        "started_at": "14:11",
+        "ended_at": "14:23",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Picked up the recurring-invoices code briefly before being pulled away.",
+        "event_ids": [
+          67
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-27",
+        "started_at": "14:23",
+        "ended_at": "14:31",
+        "title": "Checking email",
+        "summary": "Read and triaged email.",
+        "event_ids": [
+          68
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-28",
+        "started_at": "14:31",
+        "ended_at": "14:42",
+        "title": "Short stretch on the client audit report",
+        "summary": "Touched the audit report code briefly.",
+        "event_ids": [
+          69
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-29",
+        "started_at": "14:42",
+        "ended_at": "14:52",
+        "title": "Replying in the client support channel",
+        "summary": "Answered client messages.",
+        "event_ids": [
+          70
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-30",
+        "started_at": "14:52",
+        "ended_at": "15:04",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Picked up the recurring-invoices code briefly before being pulled away.",
+        "event_ids": [
+          71
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-31",
+        "started_at": "15:04",
+        "ended_at": "15:12",
+        "title": "Checking email",
+        "summary": "Read and triaged email.",
+        "event_ids": [
+          72
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-32",
+        "started_at": "15:12",
+        "ended_at": "15:23",
+        "title": "Short stretch on the client audit report",
+        "summary": "Touched the audit report code briefly.",
+        "event_ids": [
+          73
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Replying in the client support channel",
+      "Short stretch on recurring invoices",
+      "Checking email",
+      "Short stretch on the client audit report"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Keep one uninterrupted block for recurring invoices before opening Slack and email"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Keep one uninterrupted block for recurring invoices before opening Slack and email",
+      "action_type": "reduce_fragmentation",
+      "reason": "The day broke into ten-minute pieces between chat, email and two codebases; earlier days held long blocks.",
+      "suggested_focus_minutes": 90,
+      "target": null
+    },
+    "secondary_action": {
+      "title": "Protect a block for the invoicing SaaS",
+      "action_type": "protect_priority",
+      "reason": "Recurring invoices only advanced in short pieces today.",
+      "suggested_focus_minutes": 90,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "things_not_to_do": [
+      "Do not describe the day as unproductive or wasted."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The day broke into ten-minute pieces between chat, email and two codebases; earlier days held long blocks.",
+      "priority": null,
+      "type": "reduce_fragmentation"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "05_fragmented_day",
+      "title": "Fragmented day with an actionable pattern",
+      "tests": "Switching far above this user's own norm → reduce_fragmentation or a scheduling action.",
+      "probe": true
+    }
+  }
+}

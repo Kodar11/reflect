@@ -39,6 +39,10 @@ export interface RunManifest {
   dataset: {
     path: string;
     version: string;
+    /** Hash of the observable half only (persona + raw events). Absent on runs made before it existed. */
+    inputVersion?: string;
+    /** The answer key the stored evaluation was scored against, when it was re-scored after the run. */
+    answerKeyVersion?: string;
     files: number;
     persona: Pick<DatasetPersona, 'id' | 'type'>;
     utcOffset: string;

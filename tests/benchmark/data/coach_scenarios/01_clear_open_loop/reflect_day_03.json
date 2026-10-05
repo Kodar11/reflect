@@ -1,0 +1,259 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-11-04",
+    "day_type": "01_clear_open_loop",
+    "circumstances": [
+      "A task was started and visibly left mid-way → an action should be generated."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:30",
+      "last_seen": "20:40",
+      "approx_active_hours": 3,
+      "longest_unobserved_gap_minutes": 290
+    }
+  },
+  "raw_events": [
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:30:00+05:30",
+      "ended_at": "2026-11-04T09:50:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest tests/test_indexes.py — 1 failed, 6 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 20,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:50:00+05:30",
+      "ended_at": "2026-11-04T10:10:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "test_indexes.py — db-assignment-3 — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 21,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:15:00+05:30",
+      "ended_at": "2026-11-04T10:30:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest — 7 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 22,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:30:00+05:30",
+      "ended_at": "2026-11-04T10:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Assignment 3: Query Optimization — Submitted — Course LMS",
+      "url": "https://lms.university.example/courses/db/assignments/3",
+      "payload": null
+    },
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:00:00+05:30",
+      "ended_at": "2026-11-04T14:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Greedy Algorithms — 4 of 9 solved — In progress — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:20:00+05:30",
+      "ended_at": "2026-11-04T14:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Greedy Algorithms — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:40:00+05:30",
+      "ended_at": "2026-11-04T15:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Greedy Algorithms.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:00:00+05:30",
+      "ended_at": "2026-11-04T15:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Greedy Algorithms — 4 of 9 solved — In progress — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T20:00:00+05:30",
+      "ended_at": "2026-11-04T20:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Best speedruns of the year - YouTube",
+      "url": "https://www.youtube.com/watch?v=speedruns",
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T20:30:00+05:30",
+      "ended_at": "2026-11-04T20:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Best speedruns of the year - YouTube",
+      "url": "https://www.youtube.com/watch?v=speedruns",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "09:30",
+        "ended_at": "10:10",
+        "title": "Debugging the failing index test",
+        "summary": "Ran the assignment test suite repeatedly; the composite-index test was still failing at the end.",
+        "event_ids": [
+          19,
+          20
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "10:15",
+        "ended_at": "10:45",
+        "title": "Submitting Assignment 3",
+        "summary": "Ran the full test suite (all passing), exported the report and submitted Assignment 3 on the course site.",
+        "event_ids": [
+          21,
+          22
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-03",
+        "started_at": "14:00",
+        "ended_at": "15:10",
+        "title": "Greedy Algorithms practice set, part-way",
+        "summary": "Worked through part of the Greedy Algorithms practice set; several problems were still unattempted.",
+        "event_ids": [
+          23,
+          24,
+          25,
+          26
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-04",
+        "started_at": "20:00",
+        "ended_at": "20:40",
+        "title": "Watching videos",
+        "summary": "Watched entertainment videos.",
+        "event_ids": [
+          27,
+          28
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Debugging the failing index test",
+      "Submitting Assignment 3",
+      "Greedy Algorithms practice set, part-way",
+      "Watching videos"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Prepare for the algorithms midterm"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Prepare for the algorithms midterm",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Prepare for the algorithms midterm"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Prepare for the algorithms midterm",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "01_clear_open_loop",
+      "title": "Clear open loop",
+      "tests": "A task was started and visibly left mid-way → an action should be generated.",
+      "probe": false
+    }
+  }
+}

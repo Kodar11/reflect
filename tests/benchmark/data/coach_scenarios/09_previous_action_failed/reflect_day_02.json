@@ -1,0 +1,296 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-11-03",
+    "day_type": "09_previous_action_failed",
+    "circumstances": [
+      "The user did what was suggested and said it did not work → the strategy must change, not repeat."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:00",
+      "last_seen": "15:30",
+      "approx_active_hours": 4.8,
+      "longest_unobserved_gap_minutes": 100
+    }
+  },
+  "raw_events": [
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:00:00+05:30",
+      "ended_at": "2026-11-03T09:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:20:00+05:30",
+      "ended_at": "2026-11-03T09:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:40:00+05:30",
+      "ended_at": "2026-11-03T10:00:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:00:00+05:30",
+      "ended_at": "2026-11-03T10:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 18,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:20:00+05:30",
+      "ended_at": "2026-11-03T10:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:40:00+05:30",
+      "ended_at": "2026-11-03T11:00:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 20,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:00:00+05:30",
+      "ended_at": "2026-11-03T11:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 21,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:20:00+05:30",
+      "ended_at": "2026-11-03T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 22,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:40:00+05:30",
+      "ended_at": "2026-11-03T11:50:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T13:30:00+05:30",
+      "ended_at": "2026-11-03T13:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T13:50:00+05:30",
+      "ended_at": "2026-11-03T14:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:10:00+05:30",
+      "ended_at": "2026-11-03T14:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:30:00+05:30",
+      "ended_at": "2026-11-03T14:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:50:00+05:30",
+      "ended_at": "2026-11-03T15:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T15:10:00+05:30",
+      "ended_at": "2026-11-03T15:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "09:00",
+        "ended_at": "11:50",
+        "title": "Client work: the audit report",
+        "summary": "Worked on the audit report for the client portal and checked it on staging.",
+        "event_ids": [
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "13:30",
+        "ended_at": "15:30",
+        "title": "Delivering the audit report",
+        "summary": "Finished the audit report, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          23,
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Client work: the audit report",
+      "Delivering the audit report"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Protect a block for the invoicing SaaS"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Protect a block for the invoicing SaaS",
+      "action_type": "protect_priority",
+      "reason": "The product got no time today while recurring invoices is unfinished.",
+      "suggested_focus_minutes": 90,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The product got no time today while recurring invoices is unfinished.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "protect_priority"
+    },
+    "execution_scenario": {
+      "reason_code": "bad_timing",
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "did_not_work",
+      "reason": "The block was attempted but kept being broken up by client messages."
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "09_previous_action_failed",
+      "title": "Previous action failed",
+      "tests": "The user did what was suggested and said it did not work → the strategy must change, not repeat.",
+      "probe": false
+    }
+  }
+}

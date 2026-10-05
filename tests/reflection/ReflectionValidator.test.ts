@@ -200,7 +200,15 @@ describe('validateReflectionOutput — rejection', () => {
     const raw = { ...good(), headline: 'Your productivity improved by 82 points this week.' };
     const result = validateReflectionOutput(raw, ctx());
     expect(result.ok === false && result.errors.join(' ')).toMatch(/headline: number\(s\) "82"/);
-    expect(result.ok === false && result.salvaged).toBeNull();
+    // Still rejected (a retry is asked for) — but if none comes, the day is not lost over it:
+    // what is kept carries the title of its strongest validated insight, never the bad number.
+    const salvaged = result.ok === false ? result.salvaged : null;
+    expect(salvaged).not.toBeNull();
+    expect(salvaged!.headline).toBe(salvaged!.insights[0].title);
+    expect(salvaged!.headline).not.toContain('82');
+    // With no validated insight to fall back on, there is nothing to keep.
+    const empty = validateReflectionOutput({ ...good(), headline: 'Your productivity improved by 82 points this week.', insights: [] }, ctx());
+    expect(empty.ok === false && empty.salvaged).toBeNull();
   });
 
   it('rejects causal language', () => {

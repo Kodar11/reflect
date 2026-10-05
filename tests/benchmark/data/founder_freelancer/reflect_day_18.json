@@ -530,6 +530,20 @@
       "Do not interpret proposal refinement as evidence of a new client conversion.",
       "Do not overreact to the short unrelated YouTube break.",
       "Do not infer tester satisfaction or frustration from message volume alone."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The current product loop is centered on a real beta issue that has been changed and re-tested but still needs validation from actual tester behavior.",
+      "priority": "Ship the SaaS MVP",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 305 min on Own SaaS; its answer key rates that priority \"strong progress / moved into measuring beta usage\".",
+      "reason_code": null
+    }
   }
 }

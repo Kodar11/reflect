@@ -1,0 +1,301 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-11-04",
+    "day_type": "02_priority_repeatedly_displaced",
+    "circumstances": [
+      "A stated priority gets no time for several days running → an action should be generated."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:00",
+      "last_seen": "15:50",
+      "approx_active_hours": 5.3,
+      "longest_unobserved_gap_minutes": 90
+    }
+  },
+  "raw_events": [
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:00:00+05:30",
+      "ended_at": "2026-11-04T09:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report-filters.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 31,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:20:00+05:30",
+      "ended_at": "2026-11-04T09:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 32,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:40:00+05:30",
+      "ended_at": "2026-11-04T10:00:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 33,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:00:00+05:30",
+      "ended_at": "2026-11-04T10:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report-filters.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 34,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:20:00+05:30",
+      "ended_at": "2026-11-04T10:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 35,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:40:00+05:30",
+      "ended_at": "2026-11-04T11:00:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 36,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:00:00+05:30",
+      "ended_at": "2026-11-04T11:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report-filters.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 37,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:20:00+05:30",
+      "ended_at": "2026-11-04T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 38,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:40:00+05:30",
+      "ended_at": "2026-11-04T12:00:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 39,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T13:30:00+05:30",
+      "ended_at": "2026-11-04T13:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 40,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T13:50:00+05:30",
+      "ended_at": "2026-11-04T14:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 41,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:10:00+05:30",
+      "ended_at": "2026-11-04T14:30:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 42,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:30:00+05:30",
+      "ended_at": "2026-11-04T14:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 43,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:50:00+05:30",
+      "ended_at": "2026-11-04T15:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 44,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:10:00+05:30",
+      "ended_at": "2026-11-04T15:30:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 45,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:30:00+05:30",
+      "ended_at": "2026-11-04T15:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "09:00",
+        "ended_at": "12:00",
+        "title": "Client work: the audit report filters",
+        "summary": "Worked on the audit report filters for the client portal and checked it on staging.",
+        "event_ids": [
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "13:30",
+        "ended_at": "15:50",
+        "title": "Client work: the role permissions screen",
+        "summary": "Worked on the role permissions screen for the client portal and checked it on staging.",
+        "event_ids": [
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Client work: the audit report filters",
+      "Client work: the role permissions screen"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Protect a block for the invoicing SaaS"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Protect a block for the invoicing SaaS",
+      "action_type": "protect_priority",
+      "reason": "The product priority has had no time for two days while client work filled both.",
+      "suggested_focus_minutes": 90,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The product priority has had no time for two days while client work filled both.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "protect_priority"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "02_priority_repeatedly_displaced",
+      "title": "Priority repeatedly displaced",
+      "tests": "A stated priority gets no time for several days running → an action should be generated.",
+      "probe": false
+    }
+  }
+}

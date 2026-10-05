@@ -448,6 +448,20 @@
       "Do not treat the short LinkedIn session as a major acquisition effort.",
       "Do not classify the dashboard UX tutorial as unrelated entertainment.",
       "Do not infer anything about the unobserved weekend periods."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The client work was pushed forward substantially because of the deadline, and the remaining useful step is to confirm the deliverable is accepted and clearly closed.",
+      "priority": "Complete existing client work",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 181 min on Freelance; its answer key rates that priority \"strong progress / current deadline thread effectively handed off\".",
+      "reason_code": null
+    }
   }
 }

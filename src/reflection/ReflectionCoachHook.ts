@@ -29,6 +29,8 @@ export interface DailyCoachInput {
   dataset: PeriodDataset;
   /** The report this generation will replace, if the day already has one. */
   replacesReportId: string | null;
+  /** Activity id → the alias ("a7") that activity carries in this day's prompt. */
+  activityRefs?: Map<string, string>;
 }
 
 export interface CoachCheck<T = unknown> {

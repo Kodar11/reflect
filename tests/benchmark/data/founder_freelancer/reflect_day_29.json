@@ -567,6 +567,20 @@
       "Do not start another SaaS experiment before collecting evidence from the current one.",
       "Do not treat LinkedIn activity as a successful lead acquisition by itself.",
       "Do not overreact to the isolated YouTube break or infer anything about the offline periods."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The client feedback has already been translated into an implementation and staging verification, so the clearest next move is to confirm the deliverable rather than keep expanding the change.",
+      "priority": "Complete existing client work",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 334 min on Freelance; its answer key rates that priority \"completed current deliverable / closeout initiated\".",
+      "reason_code": null
+    }
   }
 }

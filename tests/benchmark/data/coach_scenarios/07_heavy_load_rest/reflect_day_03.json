@@ -1,0 +1,532 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-11-04",
+    "day_type": "07_heavy_load_rest",
+    "circumstances": [
+      "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required."
+    ],
+    "laptop_usage": {
+      "first_seen": "07:30",
+      "last_seen": "20:10",
+      "approx_active_hours": 10.8,
+      "longest_unobserved_gap_minutes": 65
+    }
+  },
+  "raw_events": [
+    {
+      "id": 69,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T07:30:00+05:30",
+      "ended_at": "2026-11-04T07:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "payment-reminders.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 70,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T07:50:00+05:30",
+      "ended_at": "2026-11-04T08:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: payment reminders by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 71,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T08:10:00+05:30",
+      "ended_at": "2026-11-04T08:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 72,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T08:30:00+05:30",
+      "ended_at": "2026-11-04T08:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "payment-reminders.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 73,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T08:50:00+05:30",
+      "ended_at": "2026-11-04T09:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: payment reminders by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 74,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:10:00+05:30",
+      "ended_at": "2026-11-04T09:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 75,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:30:00+05:30",
+      "ended_at": "2026-11-04T09:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "payment-reminders.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 76,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:50:00+05:30",
+      "ended_at": "2026-11-04T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: payment reminders by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 77,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:10:00+05:30",
+      "ended_at": "2026-11-04T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 78,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:30:00+05:30",
+      "ended_at": "2026-11-04T10:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "payment-reminders.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 79,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:50:00+05:30",
+      "ended_at": "2026-11-04T11:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: payment reminders by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 80,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:10:00+05:30",
+      "ended_at": "2026-11-04T11:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 81,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:30:00+05:30",
+      "ended_at": "2026-11-04T11:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "payment-reminders.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 82,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:50:00+05:30",
+      "ended_at": "2026-11-04T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: payment reminders by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 83,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T12:45:00+05:30",
+      "ended_at": "2026-11-04T13:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report-filters.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 84,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T13:05:00+05:30",
+      "ended_at": "2026-11-04T13:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 85,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T13:25:00+05:30",
+      "ended_at": "2026-11-04T13:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 86,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T13:45:00+05:30",
+      "ended_at": "2026-11-04T14:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report-filters.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 87,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:05:00+05:30",
+      "ended_at": "2026-11-04T14:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 88,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:25:00+05:30",
+      "ended_at": "2026-11-04T14:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 89,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:45:00+05:30",
+      "ended_at": "2026-11-04T15:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report-filters.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 90,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:05:00+05:30",
+      "ended_at": "2026-11-04T15:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 91,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:25:00+05:30",
+      "ended_at": "2026-11-04T15:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 92,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:45:00+05:30",
+      "ended_at": "2026-11-04T16:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report-filters.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 93,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T16:05:00+05:30",
+      "ended_at": "2026-11-04T16:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 94,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T16:25:00+05:30",
+      "ended_at": "2026-11-04T16:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 95,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T16:45:00+05:30",
+      "ended_at": "2026-11-04T16:55:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report-filters.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 96,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T18:00:00+05:30",
+      "ended_at": "2026-11-04T18:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "payment-reminders-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 97,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T18:20:00+05:30",
+      "ended_at": "2026-11-04T18:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: payment reminders polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 98,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T18:40:00+05:30",
+      "ended_at": "2026-11-04T19:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 99,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T19:00:00+05:30",
+      "ended_at": "2026-11-04T19:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "payment-reminders-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 100,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T19:20:00+05:30",
+      "ended_at": "2026-11-04T19:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: payment reminders polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 101,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T19:40:00+05:30",
+      "ended_at": "2026-11-04T20:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 102,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T20:00:00+05:30",
+      "ended_at": "2026-11-04T20:10:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "payment-reminders-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "07:30",
+        "ended_at": "12:00",
+        "title": "Shipping payment reminders",
+        "summary": "Completed payment reminders, merged the pull request and deployed it to production.",
+        "event_ids": [
+          69,
+          70,
+          71,
+          72,
+          73,
+          74,
+          75,
+          76,
+          77,
+          78,
+          79,
+          80,
+          81,
+          82
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "12:45",
+        "ended_at": "16:55",
+        "title": "Delivering the audit report filters",
+        "summary": "Finished the audit report filters, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          83,
+          84,
+          85,
+          86,
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-03",
+        "started_at": "18:00",
+        "ended_at": "20:10",
+        "title": "Shipping payment reminders polish",
+        "summary": "Completed payment reminders polish, merged the pull request and deployed it to production.",
+        "event_ids": [
+          96,
+          97,
+          98,
+          99,
+          100,
+          101,
+          102
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Shipping payment reminders",
+      "Delivering the audit report filters",
+      "Shipping payment reminders polish"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Ship the invoicing SaaS beta"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Ship the invoicing SaaS beta",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "07_heavy_load_rest",
+      "title": "Heavy load — rest may be supported",
+      "tests": "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required.",
+      "probe": false
+    }
+  }
+}

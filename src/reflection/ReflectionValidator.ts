@@ -581,8 +581,13 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
   const headlineNumbers = new Set(globalNumbers);
   for (const insight of selected) for (const n of insight.allowed) headlineNumbers.add(n);
   const badHeadline = unsupportedNumbers(headline, headlineNumbers);
+  // An unsupported number in the headline is asked to be corrected like any
+  // other problem. When no correction comes, the salvaged reflection carries
+  // the title of its strongest validated insight instead — losing the whole
+  // day (and the coaching written with it) over one number helps nobody.
+  const fallbackHeadline = badHeadline.length > 0 && selected.length > 0 ? selected[0].title : null;
   if (badHeadline.length > 0) {
-    fatal.push(`headline: number(s) ${badHeadline.map((n) => `"${n}"`).join(', ')} not found in the insights' evidence`);
+    (fallbackHeadline ? errors : fatal).push(`headline: number(s) ${badHeadline.map((n) => `"${n}"`).join(', ')} not found in the insights' evidence`);
   }
 
   // ── Narrative: "what happened", bound by the same rules as the headline ──
@@ -605,7 +610,7 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
   }
 
   const reflection: ValidatedReflection = {
-    headline,
+    headline: fallbackHeadline ?? headline,
     narrative,
     insights: selected.map((full) => {
       const { allowed: _allowed, keySet: _keySet, ...insight } = full;

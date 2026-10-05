@@ -1,0 +1,277 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 1,
+    "date": "2026-11-02",
+    "day_type": "05_fragmented_day",
+    "circumstances": [
+      "Switching far above this user's own norm → reduce_fragmentation or a scheduling action."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:00",
+      "last_seen": "15:20",
+      "approx_active_hours": 4.3,
+      "longest_unobserved_gap_minutes": 120
+    }
+  },
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:00:00+05:30",
+      "ended_at": "2026-11-02T09:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:20:00+05:30",
+      "ended_at": "2026-11-02T09:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:40:00+05:30",
+      "ended_at": "2026-11-02T10:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:00:00+05:30",
+      "ended_at": "2026-11-02T10:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:20:00+05:30",
+      "ended_at": "2026-11-02T10:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:40:00+05:30",
+      "ended_at": "2026-11-02T11:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:00:00+05:30",
+      "ended_at": "2026-11-02T11:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:20:00+05:30",
+      "ended_at": "2026-11-02T11:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T13:30:00+05:30",
+      "ended_at": "2026-11-02T13:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-CSV-export.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T13:50:00+05:30",
+      "ended_at": "2026-11-02T14:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:10:00+05:30",
+      "ended_at": "2026-11-02T14:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:30:00+05:30",
+      "ended_at": "2026-11-02T14:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-CSV-export.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:50:00+05:30",
+      "ended_at": "2026-11-02T15:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T15:10:00+05:30",
+      "ended_at": "2026-11-02T15:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "09:00",
+        "ended_at": "11:30",
+        "title": "Shipping invoice templates",
+        "summary": "Completed invoice templates, merged the pull request and deployed it to production.",
+        "event_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "13:30",
+        "ended_at": "15:20",
+        "title": "Delivering the CSV export",
+        "summary": "Finished the CSV export, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Shipping invoice templates",
+      "Delivering the CSV export"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Ship the invoicing SaaS beta"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Ship the invoicing SaaS beta",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "05_fragmented_day",
+      "title": "Fragmented day with an actionable pattern",
+      "tests": "Switching far above this user's own norm → reduce_fragmentation or a scheduling action.",
+      "probe": false
+    }
+  }
+}

@@ -106,17 +106,21 @@ describe('daily intelligence — one request, one transaction', () => {
     const { prompt, systemInstruction, responseJsonSchema } = h.gemini.requests[0];
     expect(systemInstruction).toContain('You are Reflect, a personal activity reflection system.');
     expect(systemInstruction).toContain('THE COACH');
-    expect(systemInstruction).toContain('"No useful advice today" is a complete and good answer');
+    // The policy: "nothing went wrong" is not "there is no useful next move" — and no quota either way.
+    expect(systemInstruction).toContain('"Nothing went wrong today" and "there is no useful next move" are not the same statement.');
+    expect(systemInstruction).toContain('Never produce an action to fill a quota. Never produce none merely because the day was generally fine.');
     expect(systemInstruction).toContain('WHOSE WORD COUNTS');
     // The single carry-forward gives way to tracked actions.
     expect(systemInstruction).toContain('Use null. What to do next belongs in the "coach" part');
 
     expect(prompt).toContain('COACH CONTEXT');
     expect(prompt).toContain('PREVIOUS ACTIONS\nNone to follow up.');
-    expect(prompt).toContain('WHAT HAS AND HAS NOT WORKED FOR THIS USER\nNo outcomes yet. Start small.');
+    expect(prompt).toContain('WHAT HAS AND HAS NOT WORKED FOR THIS USER\nNo outcomes recorded yet.');
+    expect(prompt).toContain('NEXT-MOVE SIGNALS');
     expect(prompt).toContain('COACH MEMORY\nEmpty.');
-    expect(prompt).toContain('At most 2 actions; zero is a good answer');
-    expect(prompt).toContain('The day is still running: "today" means what is left of it.');
+    expect(prompt).toContain('At most 2 actions. Zero is right when no concrete next move is supported — not merely because the day went well.');
+    // Written at 22:05: the end-of-day reflection plans tomorrow, and "still in progress" is no reason for silence.
+    expect(prompt).toContain('This is the end-of-day reflection: little of the day is left, so the next move is normally for "tomorrow".');
     // Today in detail; earlier days as citable, deterministic measurements.
     expect(prompt).toContain('{"key":"recent.2026-10-09.tracked_minutes","label":"Tracked time — Fri, Oct 9","value":"4h 32m"}');
     expect(prompt).toContain(`"key":"recent.priority.${h.priorityId}.active_days"`);
@@ -124,8 +128,8 @@ describe('daily intelligence — one request, one transaction', () => {
 
     const schema = responseJsonSchema as { required: string[]; properties: { coach: { properties: Record<string, unknown> } } };
     expect(schema.required).toContain('coach');
-    expect(Object.keys(schema.properties.coach.properties)).toEqual(['followups', 'actions', 'noActionReason', 'question', 'uncertainty', 'memoryUpdates']);
-    expect(COACH_PROMPT_VERSION).toBe('reflect-coach-v1');
+    expect(Object.keys(schema.properties.coach.properties)).toEqual(['decision', 'followups', 'actions', 'noActionReason', 'question', 'uncertainty', 'memoryUpdates']);
+    expect(COACH_PROMPT_VERSION).toBe('reflect-coach-v2');
   });
 
   it('explicitly supports "no useful advice today"', async () => {

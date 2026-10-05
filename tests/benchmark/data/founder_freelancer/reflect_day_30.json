@@ -532,6 +532,13 @@
       "Do not treat the discovery call or estimate as a won freelance project.",
       "Do not dismiss the PostHog YouTube session as entertainment without considering its direct connection to the analytics task.",
       "Do not infer anything about the offline periods."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "Carrying on is the useful move: The product work moved from feedback to a measured refinement without broadening scope, so the most useful next step is to observe the resulting signal before making another change.",
+      "priority": "Ship the SaaS MVP",
+      "type": "continue_successful_behavior"
+    }
   }
 }

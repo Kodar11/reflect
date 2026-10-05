@@ -1,0 +1,244 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-11-03",
+    "day_type": "08_success_then_continuation__probe",
+    "circumstances": [
+      "An action was accepted, carried out and reported as having worked → is continuing with the same approach appropriate next?"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:30",
+      "last_seen": "14:50",
+      "approx_active_hours": 3,
+      "longest_unobserved_gap_minutes": 120
+    }
+  },
+  "raw_events": [
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:30:00+05:30",
+      "ended_at": "2026-11-03T09:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "indexing.sql — db-assignment-3 — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:50:00+05:30",
+      "ended_at": "2026-11-03T10:10:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest tests/test_indexes.py — 7 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:10:00+05:30",
+      "ended_at": "2026-11-03T10:30:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "indexing.sql — db-assignment-3 — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:30:00+05:30",
+      "ended_at": "2026-11-03T10:40:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest tests/test_indexes.py — 7 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:00:00+05:30",
+      "ended_at": "2026-11-03T11:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "transactions.sql — db-assignment-3 — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:20:00+05:30",
+      "ended_at": "2026-11-03T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PostgreSQL: Documentation: 11. Indexes",
+      "url": "https://www.postgresql.org/docs/current/indexes.html",
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:40:00+05:30",
+      "ended_at": "2026-11-03T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Assignment 3 report — transactions (DRAFT) — Google Docs",
+      "url": "https://docs.google.com/document/d/a3report",
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:00:00+05:30",
+      "ended_at": "2026-11-03T14:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Graph Algorithms — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 18,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:20:00+05:30",
+      "ended_at": "2026-11-03T14:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Graph Algorithms — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:40:00+05:30",
+      "ended_at": "2026-11-03T14:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Graph Algorithms.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "09:30",
+        "ended_at": "10:40",
+        "title": "Finishing the indexing section",
+        "summary": "Fixed the failing test and completed the indexing section; all tests passed.",
+        "event_ids": [
+          10,
+          11,
+          12,
+          13
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "11:00",
+        "ended_at": "12:00",
+        "title": "Drafting the transactions section",
+        "summary": "Wrote and revised the transactions section of the database assignment; it was still a draft when the block ended.",
+        "event_ids": [
+          14,
+          15,
+          16
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-03",
+        "started_at": "14:00",
+        "ended_at": "14:50",
+        "title": "Completed Graph Algorithms practice set",
+        "summary": "Finished every problem in the Graph Algorithms practice set and checked the answers.",
+        "event_ids": [
+          17,
+          18,
+          19
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Finishing the indexing section",
+      "Drafting the transactions section",
+      "Completed Graph Algorithms practice set"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Finish the transactions section in tomorrow morning's block"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the transactions section in tomorrow morning's block",
+      "action_type": "start_focus",
+      "reason": "Yesterday's focused finish worked, and the next section was started and left as a draft.",
+      "suggested_focus_minutes": 60,
+      "target": "Finish the database systems assignment"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "Yesterday's focused finish worked, and the next section was started and left as a draft.",
+      "priority": "Finish the database systems assignment",
+      "type": "start_focus"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "08_success_then_continuation",
+      "title": "Accepted, done, worked",
+      "tests": "An action was accepted, carried out and reported as having worked → is continuing with the same approach appropriate next?",
+      "probe": true
+    }
+  }
+}

@@ -1,0 +1,532 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 4,
+    "date": "2026-11-05",
+    "day_type": "07_heavy_load_rest",
+    "circumstances": [
+      "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required."
+    ],
+    "laptop_usage": {
+      "first_seen": "07:30",
+      "last_seen": "20:10",
+      "approx_active_hours": 10.8,
+      "longest_unobserved_gap_minutes": 65
+    }
+  },
+  "raw_events": [
+    {
+      "id": 103,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T07:30:00+05:30",
+      "ended_at": "2026-11-05T07:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "client-portal-links.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 104,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T07:50:00+05:30",
+      "ended_at": "2026-11-05T08:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: client portal links by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 105,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T08:10:00+05:30",
+      "ended_at": "2026-11-05T08:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 106,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T08:30:00+05:30",
+      "ended_at": "2026-11-05T08:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "client-portal-links.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 107,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T08:50:00+05:30",
+      "ended_at": "2026-11-05T09:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: client portal links by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 108,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:10:00+05:30",
+      "ended_at": "2026-11-05T09:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 109,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:30:00+05:30",
+      "ended_at": "2026-11-05T09:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "client-portal-links.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 110,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:50:00+05:30",
+      "ended_at": "2026-11-05T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: client portal links by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 111,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:10:00+05:30",
+      "ended_at": "2026-11-05T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 112,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:30:00+05:30",
+      "ended_at": "2026-11-05T10:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "client-portal-links.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 113,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:50:00+05:30",
+      "ended_at": "2026-11-05T11:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: client portal links by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 114,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:10:00+05:30",
+      "ended_at": "2026-11-05T11:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 115,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:30:00+05:30",
+      "ended_at": "2026-11-05T11:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "client-portal-links.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 116,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:50:00+05:30",
+      "ended_at": "2026-11-05T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: client portal links by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 117,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T12:45:00+05:30",
+      "ended_at": "2026-11-05T13:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 118,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:05:00+05:30",
+      "ended_at": "2026-11-05T13:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 119,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:25:00+05:30",
+      "ended_at": "2026-11-05T13:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 120,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:45:00+05:30",
+      "ended_at": "2026-11-05T14:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 121,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:05:00+05:30",
+      "ended_at": "2026-11-05T14:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 122,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:25:00+05:30",
+      "ended_at": "2026-11-05T14:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 123,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:45:00+05:30",
+      "ended_at": "2026-11-05T15:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 124,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T15:05:00+05:30",
+      "ended_at": "2026-11-05T15:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 125,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T15:25:00+05:30",
+      "ended_at": "2026-11-05T15:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 126,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T15:45:00+05:30",
+      "ended_at": "2026-11-05T16:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 127,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T16:05:00+05:30",
+      "ended_at": "2026-11-05T16:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 128,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T16:25:00+05:30",
+      "ended_at": "2026-11-05T16:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 129,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T16:45:00+05:30",
+      "ended_at": "2026-11-05T16:55:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 130,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T18:00:00+05:30",
+      "ended_at": "2026-11-05T18:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "client-portal-links-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 131,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T18:20:00+05:30",
+      "ended_at": "2026-11-05T18:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: client portal links polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 132,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T18:40:00+05:30",
+      "ended_at": "2026-11-05T19:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 133,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T19:00:00+05:30",
+      "ended_at": "2026-11-05T19:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "client-portal-links-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 134,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T19:20:00+05:30",
+      "ended_at": "2026-11-05T19:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: client portal links polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 135,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T19:40:00+05:30",
+      "ended_at": "2026-11-05T20:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 136,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T20:00:00+05:30",
+      "ended_at": "2026-11-05T20:10:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "client-portal-links-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-04-01",
+        "started_at": "07:30",
+        "ended_at": "12:00",
+        "title": "Shipping client portal links",
+        "summary": "Completed client portal links, merged the pull request and deployed it to production.",
+        "event_ids": [
+          103,
+          104,
+          105,
+          106,
+          107,
+          108,
+          109,
+          110,
+          111,
+          112,
+          113,
+          114,
+          115,
+          116
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-02",
+        "started_at": "12:45",
+        "ended_at": "16:55",
+        "title": "Delivering the role permissions screen",
+        "summary": "Finished the role permissions screen, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          117,
+          118,
+          119,
+          120,
+          121,
+          122,
+          123,
+          124,
+          125,
+          126,
+          127,
+          128,
+          129
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-03",
+        "started_at": "18:00",
+        "ended_at": "20:10",
+        "title": "Shipping client portal links polish",
+        "summary": "Completed client portal links polish, merged the pull request and deployed it to production.",
+        "event_ids": [
+          130,
+          131,
+          132,
+          133,
+          134,
+          135,
+          136
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Shipping client portal links",
+      "Delivering the role permissions screen",
+      "Shipping client portal links polish"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Ship the invoicing SaaS beta"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Ship the invoicing SaaS beta",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "07_heavy_load_rest",
+      "title": "Heavy load — rest may be supported",
+      "tests": "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required.",
+      "probe": false
+    }
+  }
+}

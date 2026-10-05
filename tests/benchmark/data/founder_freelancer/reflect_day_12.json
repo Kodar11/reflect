@@ -371,6 +371,20 @@
       "Do not classify the dashboard UX tutorial as unrelated entertainment.",
       "Do not overstate the impact of the brief LinkedIn/proposal session.",
       "Do not infer that low laptop usage on a Saturday indicates poor productivity."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The dashboard received the strongest focused work of the day and already has implementation plus roadmap continuity.",
+      "priority": "Ship the SaaS MVP",
+      "type": "start_focus"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 172 min on Own SaaS; its answer key rates that priority \"meaningful progress\".",
+      "reason_code": null
+    }
   }
 }

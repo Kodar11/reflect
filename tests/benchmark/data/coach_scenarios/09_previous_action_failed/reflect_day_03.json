@@ -1,0 +1,399 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-11-04",
+    "day_type": "09_previous_action_failed__probe",
+    "circumstances": [
+      "The user did what was suggested and said it did not work → the strategy must change, not repeat."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:00",
+      "last_seen": "15:40",
+      "approx_active_hours": 5.4,
+      "longest_unobserved_gap_minutes": 60
+    }
+  },
+  "raw_events": [
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:00:00+05:30",
+      "ended_at": "2026-11-04T09:15:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:15:00+05:30",
+      "ended_at": "2026-11-04T09:27:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 31,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:27:00+05:30",
+      "ended_at": "2026-11-04T09:41:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 32,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:41:00+05:30",
+      "ended_at": "2026-11-04T09:56:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 33,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:56:00+05:30",
+      "ended_at": "2026-11-04T10:12:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "recurring-invoices.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 34,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:30:00+05:30",
+      "ended_at": "2026-11-04T10:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 35,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:50:00+05:30",
+      "ended_at": "2026-11-04T11:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 36,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:10:00+05:30",
+      "ended_at": "2026-11-04T11:30:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 37,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:30:00+05:30",
+      "ended_at": "2026-11-04T11:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 38,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:50:00+05:30",
+      "ended_at": "2026-11-04T12:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 39,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T12:10:00+05:30",
+      "ended_at": "2026-11-04T12:30:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 40,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T12:30:00+05:30",
+      "ended_at": "2026-11-04T12:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 41,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T12:50:00+05:30",
+      "ended_at": "2026-11-04T13:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 42,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:00:00+05:30",
+      "ended_at": "2026-11-04T14:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 43,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:20:00+05:30",
+      "ended_at": "2026-11-04T14:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 44,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:40:00+05:30",
+      "ended_at": "2026-11-04T15:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 45,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:00:00+05:30",
+      "ended_at": "2026-11-04T15:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 46,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:20:00+05:30",
+      "ended_at": "2026-11-04T15:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "09:00",
+        "ended_at": "09:15",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Started on recurring invoices before a client message arrived.",
+        "event_ids": [
+          29
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "09:15",
+        "ended_at": "09:27",
+        "title": "Replying in the client support channel",
+        "summary": "Answered a client question.",
+        "event_ids": [
+          30
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-03-03",
+        "started_at": "09:27",
+        "ended_at": "09:41",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Returned to recurring invoices briefly.",
+        "event_ids": [
+          31
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-04",
+        "started_at": "09:41",
+        "ended_at": "09:56",
+        "title": "Replying in the client support channel",
+        "summary": "Answered another client question.",
+        "event_ids": [
+          32
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-03-05",
+        "started_at": "09:56",
+        "ended_at": "10:12",
+        "title": "Short stretch on recurring invoices",
+        "summary": "Returned to recurring invoices briefly; it was still unfinished.",
+        "event_ids": [
+          33
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-06",
+        "started_at": "10:30",
+        "ended_at": "13:00",
+        "title": "Client work: the role permissions screen",
+        "summary": "Worked on the role permissions screen for the client portal and checked it on staging.",
+        "event_ids": [
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-07",
+        "started_at": "14:00",
+        "ended_at": "15:40",
+        "title": "Delivering the role permissions screen",
+        "summary": "Finished the role permissions screen, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          42,
+          43,
+          44,
+          45,
+          46
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Short stretch on recurring invoices",
+      "Replying in the client support channel",
+      "Client work: the role permissions screen",
+      "Delivering the role permissions screen"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Give recurring invoices one block at a different time, with the client channel closed"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Give recurring invoices one block at a different time, with the client channel closed",
+      "action_type": "schedule_change",
+      "reason": "The morning product block was tried and kept breaking up; the same block again would repeat what did not work.",
+      "suggested_focus_minutes": 60,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not recommend the same morning block again unchanged."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The morning product block was tried and kept breaking up; the same block again would repeat what did not work.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "schedule_change"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "09_previous_action_failed",
+      "title": "Previous action failed",
+      "tests": "The user did what was suggested and said it did not work → the strategy must change, not repeat.",
+      "probe": true
+    }
+  }
+}

@@ -1,0 +1,279 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 4,
+    "date": "2026-11-05",
+    "day_type": "02_priority_repeatedly_displaced__probe",
+    "circumstances": [
+      "A stated priority gets no time for several days running → an action should be generated."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:00",
+      "last_seen": "15:30",
+      "approx_active_hours": 4.7,
+      "longest_unobserved_gap_minutes": 110
+    }
+  },
+  "raw_events": [
+    {
+      "id": 46,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:00:00+05:30",
+      "ended_at": "2026-11-05T09:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 47,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:20:00+05:30",
+      "ended_at": "2026-11-05T09:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 48,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T09:40:00+05:30",
+      "ended_at": "2026-11-05T10:00:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 49,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:00:00+05:30",
+      "ended_at": "2026-11-05T10:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 50,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:20:00+05:30",
+      "ended_at": "2026-11-05T10:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 51,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:40:00+05:30",
+      "ended_at": "2026-11-05T11:00:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #portal-support — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 52,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:00:00+05:30",
+      "ended_at": "2026-11-05T11:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 53,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:20:00+05:30",
+      "ended_at": "2026-11-05T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Acme Portal (staging)",
+      "url": "https://staging.acme-portal.example/reports",
+      "payload": null
+    },
+    {
+      "id": 54,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:30:00+05:30",
+      "ended_at": "2026-11-05T13:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 55,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:50:00+05:30",
+      "ended_at": "2026-11-05T14:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 56,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:10:00+05:30",
+      "ended_at": "2026-11-05T14:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 57,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:30:00+05:30",
+      "ended_at": "2026-11-05T14:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-role-permissions-screen.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 58,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:50:00+05:30",
+      "ended_at": "2026-11-05T15:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 59,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T15:10:00+05:30",
+      "ended_at": "2026-11-05T15:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-04-01",
+        "started_at": "09:00",
+        "ended_at": "11:40",
+        "title": "Client work: the role permissions screen",
+        "summary": "Worked on the role permissions screen for the client portal and checked it on staging.",
+        "event_ids": [
+          46,
+          47,
+          48,
+          49,
+          50,
+          51,
+          52,
+          53
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-02",
+        "started_at": "13:30",
+        "ended_at": "15:30",
+        "title": "Delivering the role permissions screen",
+        "summary": "Finished the role permissions screen, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          54,
+          55,
+          56,
+          57,
+          58,
+          59
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Client work: the role permissions screen",
+      "Delivering the role permissions screen"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Protect a block for the invoicing SaaS before client work starts"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Protect a block for the invoicing SaaS before client work starts",
+      "action_type": "protect_priority",
+      "reason": "The product priority has now had no time for three days running; recurring invoices was left unfinished.",
+      "suggested_focus_minutes": 90,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not recommend extending the workday to make up for the missing product time."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The product priority has now had no time for three days running; recurring invoices was left unfinished.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "protect_priority"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "02_priority_repeatedly_displaced",
+      "title": "Priority repeatedly displaced",
+      "tests": "A stated priority gets no time for several days running → an action should be generated.",
+      "probe": true
+    }
+  }
+}

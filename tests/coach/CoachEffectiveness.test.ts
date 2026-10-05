@@ -149,11 +149,20 @@ describe('learning: repeated evidence, not one data point', () => {
     expect(effectivenessLines(working, label, CONFIG)).toEqual([
       'a Focus session (up to an hour) in the morning → “Project X”: suggested 2, accepted 2, carried out 2, helped 2. WORKS for this user — a good candidate to reuse.',
     ]);
-    const failing = summarizeEffectiveness([notDone(12), notDone(13, { reasonCode: 'external_constraint' })], NOW, CONFIG);
+    const failing = summarizeEffectiveness([notDone(12), notDone(13, { reasonCode: 'too_difficult' })], NOW, CONFIG);
     expect(effectivenessLines(failing, label, CONFIG)[0]).toBe(
       'a Focus session (up to an hour) in the morning → “Project X”: suggested 2, accepted 2, carried out 0, helped 0, did not happen 2; ' +
-        'reasons given: bad timing, an external constraint. NOT WORKING — do not suggest it again in this form.',
+        'reasons given: bad timing, too difficult. NOT WORKING — do not suggest it again in this form.',
     );
+    // Something outside the user's control took the day: that is no evidence against the strategy.
+    const interrupted = summarizeEffectiveness([notDone(12), notDone(13, { reasonCode: 'external_constraint' })], NOW, CONFIG);
+    expect(signalOf(notDone(13, { reasonCode: 'external_constraint' }))).toBe('neutral');
+    expect(interrupted.byTarget[0]).toMatchObject({ failures: 1, notCarriedOut: 2 });
+    expect(isBlocked(interrupted, { strategyKey: interrupted.byTarget[0].strategyKey, targetKey: interrupted.byTarget[0].targetKey }, CONFIG)).toBeNull();
+    // One outcome is already something to learn from — in words that say how much it is worth.
+    expect(effectivenessLines(summarizeEffectiveness([worked(5)], NOW, CONFIG), label, CONFIG)[0]).toContain('HELPED when it was tried — reasonable to reuse when the situation is similar.');
+    expect(effectivenessLines(summarizeEffectiveness([worked(5, { outcome: 'partly_worked' })], NOW, CONFIG), label, CONFIG)[0]).toContain('PARTLY HELPED — keep the idea and refine one thing');
+    expect(effectivenessLines(summarizeEffectiveness([worked(5, { outcome: 'did_not_work' })], NOW, CONFIG), label, CONFIG)[0]).toContain('The user said it DID NOT HELP — do not offer it again unchanged');
     // Nothing decided yet → nothing to say.
     expect(effectivenessLines(summarizeEffectiveness([coachAction()], NOW, CONFIG), label, CONFIG)).toEqual([]);
     expect(describeReasons({ bad_timing: 2, other: 1 })).toBe('bad timing ×2, another reason');

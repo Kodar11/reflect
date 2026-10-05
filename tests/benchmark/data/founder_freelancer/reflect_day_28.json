@@ -572,6 +572,20 @@
       "Do not treat the staging verification as proof of final client acceptance.",
       "Do not classify the technical YouTube session as unrelated entertainment solely from the app name.",
       "Do not start another broad SaaS feature while the current onboarding change is still gathering evidence."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The external access blocker has cleared and the work has already reached integration tests and staging verification, making final delivery the clearest near-term freelance milestone.",
+      "priority": "Complete existing client work",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 349 min on Freelance; its answer key rates that priority \"strong progress / deliverable actively iterated\".",
+      "reason_code": null
+    }
   }
 }

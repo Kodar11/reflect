@@ -33,6 +33,12 @@ export interface DayProcessingOptions {
   cycleRetries: number;
   cycleRetryDelayMs: number;
   log: (message: string) => void;
+  /**
+   * Runs after the day's activity has been reconstructed and before its
+   * reflection is written — the part of the day in which a user answers what
+   * the Coach panel is asking them. Opaque to this module.
+   */
+  beforeReflection?: () => Promise<void>;
 }
 
 export interface DayProcessing {
@@ -163,6 +169,8 @@ export async function processDay(runtime: BenchmarkRuntime, clock: SimulatedCloc
     infrastructureFailure: intelligence.failure ? `intelligence: ${intelligence.failure}` : null,
   };
   if (result.infrastructureFailure) return result;
+
+  await options.beforeReflection?.();
 
   // ── Reflection + Coach: what main.ts runs right behind every intelligence cycle ──
   const reflection = await withTicks(() => runtime.reflectionScheduler.runCycle(), options, 'Reflection cycle');

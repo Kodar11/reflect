@@ -371,6 +371,20 @@
       "Do not assume that a sent proposal means the freelance opportunity will convert to paid work.",
       "Do not infer production correctness solely from the local test run and code review evidence.",
       "Do not recommend filling the remaining weekend with additional screen time merely because laptop usage was low."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The prospect progressed from a reply to a discovery call and revised proposal, creating a concrete next communication point.",
+      "priority": "Generate new freelance leads",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "The next day shows 369 min on Freelance; its answer key rates that priority \"some progress; brief follow-up maintained the active prospect thread\".",
+      "reason_code": null
+    }
   }
 }

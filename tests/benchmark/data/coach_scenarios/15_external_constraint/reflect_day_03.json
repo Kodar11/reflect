@@ -1,0 +1,375 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-11-04",
+    "day_type": "15_external_constraint__probe",
+    "circumstances": [
+      "An accepted action could not be carried out because an outage took the day → adapt, do not blame."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:30",
+      "last_seen": "16:50",
+      "approx_active_hours": 7.3,
+      "longest_unobserved_gap_minutes": 60
+    }
+  },
+  "raw_events": [
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T08:30:00+05:30",
+      "ended_at": "2026-11-04T08:50:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #incident-portal-down — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T08:50:00+05:30",
+      "ended_at": "2026-11-04T09:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Incident: Portal unavailable — Acme Status",
+      "url": "https://status.acme-portal.example/incidents/1042",
+      "payload": null
+    },
+    {
+      "id": 31,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:10:00+05:30",
+      "ended_at": "2026-11-04T09:30:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "db-pool.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 32,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:30:00+05:30",
+      "ended_at": "2026-11-04T09:50:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "kubectl logs portal-api — acme-prod",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 33,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:50:00+05:30",
+      "ended_at": "2026-11-04T10:10:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #incident-portal-down — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 34,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:10:00+05:30",
+      "ended_at": "2026-11-04T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Incident: Portal unavailable — Acme Status",
+      "url": "https://status.acme-portal.example/incidents/1042",
+      "payload": null
+    },
+    {
+      "id": 35,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:30:00+05:30",
+      "ended_at": "2026-11-04T10:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "db-pool.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 36,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:50:00+05:30",
+      "ended_at": "2026-11-04T11:10:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "kubectl logs portal-api — acme-prod",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 37,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:10:00+05:30",
+      "ended_at": "2026-11-04T11:30:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #incident-portal-down — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 38,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:30:00+05:30",
+      "ended_at": "2026-11-04T11:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Incident: Portal unavailable — Acme Status",
+      "url": "https://status.acme-portal.example/incidents/1042",
+      "payload": null
+    },
+    {
+      "id": 39,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:50:00+05:30",
+      "ended_at": "2026-11-04T12:10:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "db-pool.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 40,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T12:10:00+05:30",
+      "ended_at": "2026-11-04T12:30:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "kubectl logs portal-api — acme-prod",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 41,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T13:30:00+05:30",
+      "ended_at": "2026-11-04T13:50:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #incident-portal-down — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 42,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T13:50:00+05:30",
+      "ended_at": "2026-11-04T14:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Incident: Portal unavailable — Acme Status",
+      "url": "https://status.acme-portal.example/incidents/1042",
+      "payload": null
+    },
+    {
+      "id": 43,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:10:00+05:30",
+      "ended_at": "2026-11-04T14:30:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "db-pool.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 44,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:30:00+05:30",
+      "ended_at": "2026-11-04T14:50:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "kubectl logs portal-api — acme-prod",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 45,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T14:50:00+05:30",
+      "ended_at": "2026-11-04T15:10:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #incident-portal-down — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 46,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:10:00+05:30",
+      "ended_at": "2026-11-04T15:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Incident: Portal unavailable — Acme Status",
+      "url": "https://status.acme-portal.example/incidents/1042",
+      "payload": null
+    },
+    {
+      "id": 47,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:30:00+05:30",
+      "ended_at": "2026-11-04T15:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "db-pool.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 48,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T15:50:00+05:30",
+      "ended_at": "2026-11-04T16:10:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "kubectl logs portal-api — acme-prod",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 49,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T16:10:00+05:30",
+      "ended_at": "2026-11-04T16:30:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Acme — #incident-portal-down — Slack",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 50,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T16:30:00+05:30",
+      "ended_at": "2026-11-04T16:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Incident: Portal unavailable — Acme Status",
+      "url": "https://status.acme-portal.example/incidents/1042",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "08:30",
+        "ended_at": "12:30",
+        "title": "Client production outage",
+        "summary": "The client portal was down; investigated, patched and monitored it for most of the day.",
+        "event_ids": [
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39,
+          40
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Manage",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "13:30",
+        "ended_at": "16:50",
+        "title": "Client production outage",
+        "summary": "The client portal was down; investigated, patched and monitored it for most of the day.",
+        "event_ids": [
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Manage",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Client production outage"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Return to recurring invoices once the incident is closed"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Return to recurring invoices once the incident is closed",
+      "action_type": "protect_priority",
+      "reason": "The planned product block could not happen: a client outage took the day. The product work is still where it was left.",
+      "suggested_focus_minutes": 60,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not describe the missed product block as a failure to follow through.",
+      "Do not recommend adding product work on top of the outage day."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The planned product block could not happen: a client outage took the day. The product work is still where it was left.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "protect_priority"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "15_external_constraint",
+      "title": "External constraint",
+      "tests": "An accepted action could not be carried out because an outage took the day → adapt, do not blame.",
+      "probe": true
+    }
+  }
+}

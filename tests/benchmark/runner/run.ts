@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { GeminiClient } from '../../../src/intelligence/GeminiClient';
+import { stateOf } from '../evaluators/coachDimensions';
 import { EVALUATOR_VERSION, checkAnswerKeyVocabulary, evaluateDay, summarize, type BenchmarkSummary, type DayEvaluation } from '../evaluators/index';
 import { buildLeakDetector, scanDatabaseForLeaks } from '../evaluators/leakage';
 import { captureDay, captureTaxonomy, type CapturedDay } from './capture';
@@ -13,8 +14,9 @@ import { applyActionPolicy, processDay, type DayProcessing } from './day';
 import { PRODUCTION_WATCHER, initializeProfile, type IngestionMapping } from './ingest';
 import { RANDOMNESS_NOTE, describeEnvironment, describeVersions, type RunManifest } from './manifest';
 import { MeteredGemini, summarizeCalls, type GeminiCallRecord } from './meteredGemini';
-import { renderReport, renderReviewPacket } from './report';
+import { renderCoachReview, renderReport, renderReviewPacket } from './report';
 import { createRuntime } from './runtime';
+import { decideOnDay, followThrough, type FollowThroughRecord, type PendingFollowThrough } from './simulatedUser';
 
 /**
  * The benchmark, end to end:
@@ -130,6 +132,9 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
   const processed: { processing: DayProcessing; captured: CapturedDay; evaluation: DayEvaluation; answer: EvaluationOnlyDay; calls: GeminiCallRecord[] }[] = [];
   const knownBlockIds = new Set<string>();
   let abortReason: string | null = null;
+  // The simulated user's open commitments, and what became of each.
+  let pendingFollowThrough: PendingFollowThrough[] = [];
+  const followThroughLog: FollowThroughRecord[] = [];
 
   try {
     for (let index = 0; index < dayCount; index++) {
@@ -145,6 +150,19 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
         cycleRetries: config.cycleRetries,
         cycleRetryDelayMs: config.cycleRetryDelayMs,
         log: say,
+        beforeReflection: async () => {
+          // Yesterday's accepted action: Reflect looks for it, then the user says what it could not see.
+          for (const pending of pendingFollowThrough) {
+            const record = await followThrough(runtime, pending);
+            if (!record) continue;
+            followThroughLog.push(record);
+            say(
+              `day ${String(day.dayNumber).padStart(2, '0')}: follow-through on "${record.title}" — Reflect saw ${record.observedBefore.kind ?? 'nothing yet'}` +
+                `${record.statedExecution ? `, user said ${record.statedExecution}` : ''}${record.statedOutcome ? `, outcome ${record.statedOutcome}` : ''}`,
+            );
+          }
+          pendingFollowThrough = [];
+        },
       });
       const captured = await captureDay(runtime, processing);
       const calls = gemini.callsFor(day.dayNumber);
@@ -161,6 +179,7 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
         taxonomy,
         knownBlockIds,
         hasHistory: processed.some((p) => p.captured.reflection.report !== null),
+        previousProcessedAt: processed[processed.length - 1]?.captured.processedAt ?? null,
         findLeaks: detector.findLeaks,
       });
       processed.push({ processing, captured, evaluation: dayEvaluation, answer, calls });
@@ -184,11 +203,16 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
       if (abortReason) break;
 
       // ── The simulated user's decision on today's suggestions (none by default) ──
-      await applyActionPolicy(
-        runtime,
-        config.actionPolicy,
-        captured.coach.actions.filter((a) => a.status === 'suggested').map((a) => a.id),
-      );
+      if (config.actionPolicy === 'scenario') {
+        const pending = await decideOnDay(runtime, day.dayNumber, captured.coach.actions, answer, captured.priorities);
+        if (pending) pendingFollowThrough.push(pending);
+      } else {
+        await applyActionPolicy(
+          runtime,
+          config.actionPolicy,
+          captured.coach.actions.filter((a) => a.status === 'suggested').map((a) => a.id),
+        );
+      }
     }
   } catch (err) {
     abortReason = `internal error: ${err instanceof Error ? err.stack ?? err.message : String(err)}`;
@@ -212,6 +236,8 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
   const insufficient = count(`SELECT COUNT(*) AS n FROM reflection_reports WHERE status = 'insufficient_data'`);
   const schemaVersion = (runtime.db.prepare('PRAGMA user_version').get() as { user_version?: number } | undefined)?.user_version ?? null;
   const databaseScan = scanDatabaseForLeaks(runtime.db, detector);
+  // Every coach action as the run leaves it: the closing state of each lifecycle.
+  const finalActions = runtime.coachRepo.listActions(new Date(0).toISOString());
   if (!abortReason && databaseScan.leaks.length > 0) abortReason = `answer-key wording was found in the benchmark database: ${databaseScan.leaks[0].table}.${databaseScan.leaks[0].column}`;
 
   runtime.close();
@@ -239,6 +265,7 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
     dataset: {
       path: path.relative(REPO_ROOT, dataset.dir).replace(/\\/g, '/'),
       version: dataset.version,
+      inputVersion: dataset.inputVersion,
       files: dataset.files.length,
       persona: { id: input.persona.id, type: input.persona.type },
       utcOffset: input.utcOffset,
@@ -270,7 +297,12 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
     database: { kept: config.keepDb, path: keptDatabase ? path.relative(REPO_ROOT, keptDatabase).replace(/\\/g, '/') : null },
   };
 
-  const summary = summarize(processed.map((p) => p.evaluation));
+  const summary = summarize(
+    processed.map((p) => p.evaluation),
+    finalActions.map(stateOf),
+  );
+  writeJson(path.join(latestDir, 'coach_final.json'), finalActions);
+  writeJson(path.join(latestDir, 'follow_through.json'), followThroughLog);
   writeJson(path.join(latestDir, 'manifest.json'), manifest);
   writeJson(path.join(latestDir, 'summary.json'), summary);
   writeJson(path.join(latestDir, 'gemini_calls.json'), gemini.calls);
@@ -278,7 +310,9 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
     path.join(latestDir, 'report.md'),
     renderReport({ manifest, summary, days: processed.map((p) => ({ evaluation: p.evaluation, captured: p.captured, geminiCalls: p.calls.length })) }),
   );
-  fs.writeFileSync(path.join(latestDir, 'review.md'), renderReviewPacket(processed.map((p) => ({ evaluation: p.evaluation, captured: p.captured, answer: p.answer }))));
+  const reviewed = processed.map((p) => ({ evaluation: p.evaluation, captured: p.captured, answer: p.answer }));
+  fs.writeFileSync(path.join(latestDir, 'review.md'), renderReviewPacket(reviewed));
+  fs.writeFileSync(path.join(latestDir, 'coach_review.md'), renderCoachReview(reviewed, summary, finalActions));
   say(
     `${manifest.status}: ${processed.length} day(s), ${usage.totalCalls} Gemini request(s) ` +
       `(${Object.entries(usage.byStage).map(([stage, s]) => `${stage} ${s.calls}`).join(', ')}), ${manifest.totals.retries} retry(ies), ${usage.failed} failed`,

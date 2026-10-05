@@ -10,8 +10,9 @@ import {
   type Escalation,
 } from './CoachEffectiveness.js';
 import { isTerminal } from './CoachLifecycle.js';
-import { describeTarget } from './CoachMatching.js';
+import { describeStrategy, describeTarget } from './CoachMatching.js';
 import type { CoachAction, CoachConfig, CoachMemory, CoachMessage } from './CoachModels.js';
+import { renderOpportunities, type CoachOpportunity } from './CoachOpportunities.js';
 
 /**
  * Structured history → what the model is shown. Pure.
@@ -44,6 +45,8 @@ export interface CoachContext {
   reportDay: ReflectionPeriod;
   /** "today" is only a valid target while that day is still running. */
   allowToday: boolean;
+  /** Little of the day is left: this is the end-of-day reflection, and the next move is for tomorrow. */
+  endOfDay: boolean;
   maxActions: number;
   /** Earlier actions worth saying something about, most relevant first. */
   followups: ActionRef[];
@@ -51,6 +54,16 @@ export interface CoachContext {
   open: CoachAction[];
   /** Explicitly turned down recently. */
   rejected: CoachAction[];
+  /** Suggested in the last few days and never decided on. */
+  ignored: CoachAction[];
+  /** The user said these did not work, recently. One such statement is enough not to repeat it unchanged. */
+  failedRecently: CoachAction[];
+  /** Carried out in the last few days. Reusing the approach is fine; re-sending the same sentence is not. */
+  doneRecently: CoachAction[];
+  /** Where a next move could come from today — measured signals, not decisions. */
+  opportunities: CoachOpportunity[];
+  /** Activity id → the alias it carries in the day's prompt. */
+  activityRefOf: (activityId: string) => string | null;
   effectiveness: EffectivenessSummary;
   escalations: EscalationContext[];
   memories: MemoryRef[];
@@ -73,6 +86,9 @@ export interface CoachContextInput {
   config: CoachConfig;
   /** Actions of the report being replaced: they are about to be withdrawn. */
   supersededReportId?: string | null;
+  /** The day's measured next-move signals (daily pass only). */
+  opportunities?: CoachOpportunity[];
+  activityRefOf?: (activityId: string) => string | null;
 }
 
 /** Human name of a target key (`p:<priority id>` / `t:<thread slug>`). */
@@ -149,11 +165,19 @@ export function buildCoachContext(input: CoachContextInput): CoachContext {
   const { resets, pending } = escalationResets(input.messages);
   const targetLabel = targetLabeller(input.priorities, actions, input.knownThreads);
   const rejectedSince = new Date(now.getTime() - config.rejectionMemoryMs).toISOString();
+  const ignoredSince = new Date(now.getTime() - config.ignoredMemoryMs).toISOString();
+  const failedSince = new Date(now.getTime() - config.recentFailureMs).toISOString();
 
   return {
     now,
     reportDay,
     allowToday: now.getTime() < Date.parse(reportDay.end),
+    endOfDay: Date.parse(reportDay.end) - now.getTime() <= config.endOfDayMs,
+    ignored: actions.filter((a) => a.status === 'expired' && a.acceptedAt === null && (a.closedAt ?? a.updatedAt) >= ignoredSince),
+    failedRecently: actions.filter((a) => a.outcome === 'did_not_work' && (a.outcomeAt ?? a.updatedAt) >= failedSince),
+    doneRecently: actions.filter((a) => (a.execution === 'done' || a.execution === 'partial') && (a.executedAt ?? a.closedAt ?? a.updatedAt) >= ignoredSince),
+    opportunities: input.opportunities ?? [],
+    activityRefOf: input.activityRefOf ?? (() => null),
     maxActions: config.maxActionsPerDay,
     followups: selectFollowups(actions, reportDay, config.maxFollowups).map((action, index) => ({ ref: `k${index + 1}`, action })),
     open: actions.filter((a) => !isTerminal(a.status)),
@@ -239,6 +263,10 @@ export function renderActionLine(ref: string, action: CoachAction, now: Date): s
   });
 }
 
+function describeStrategyOf(action: CoachAction): string {
+  return describeStrategy(action.strategyKey);
+}
+
 /** The coaching half of the daily request's user turn. */
 export function renderCoachSection(ctx: CoachContext): string {
   const sections: string[] = ['COACH CONTEXT (everything below is Reflect\'s own structured record — not a guess)'];
@@ -260,11 +288,29 @@ export function renderCoachSection(ctx: CoachContext): string {
     );
   }
 
+  if (ctx.ignored.length > 0) {
+    sections.push(
+      `SUGGESTED IN THE LAST FEW DAYS, NEVER DECIDED (the user saw these and did not answer; do not send the same thing again — offer it only if today's evidence makes it clearly more relevant, and then make it smaller or more specific)\n${ctx.ignored
+        .slice(0, 6)
+        .map((a) => `- ${a.title}${ctx.targetLabel(a.targetKey) ? ` → “${ctx.targetLabel(a.targetKey)}”` : ''} (${describeStrategyOf(a)})`)
+        .join('\n')}`,
+    );
+  }
+
+  if (ctx.doneRecently.length > 0) {
+    sections.push(
+      `CARRIED OUT IN THE LAST FEW DAYS (the user already did these. The same approach may be right again — but never the same sentence: a new action must name what is specifically open NOW, e.g. which proposal, which section, which test)\n${ctx.doneRecently
+        .slice(0, 6)
+        .map((a) => `- ${a.title}${ctx.targetLabel(a.targetKey) ? ` → “${ctx.targetLabel(a.targetKey)}”` : ''}`)
+        .join('\n')}`,
+    );
+  }
+
   const lines = effectivenessLines(ctx.effectiveness, ctx.targetLabel, ctx.config);
   sections.push(
     lines.length > 0
       ? `WHAT HAS AND HAS NOT WORKED FOR THIS USER (counted by Reflect from real outcomes)\n${lines.map((l) => `- ${l}`).join('\n')}`
-      : 'WHAT HAS AND HAS NOT WORKED FOR THIS USER\nNo outcomes yet. Start small.',
+      : 'WHAT HAS AND HAS NOT WORKED FOR THIS USER\nNo outcomes recorded yet. With nothing to learn from, prefer one small, concrete action over an ambitious one.',
   );
 
   if (ctx.rejected.length > 0) {
@@ -296,11 +342,15 @@ export function renderCoachSection(ctx: CoachContext): string {
       : 'COACH MEMORY\nEmpty.',
   );
 
+  sections.push(renderOpportunities(ctx.opportunities, ctx.activityRefOf));
+
   sections.push(
-    `COACH LIMITS\nAt most ${ctx.maxActions} action${ctx.maxActions === 1 ? '' : 's'}; zero is a good answer when nothing needs changing. ` +
-      (ctx.allowToday
-        ? 'The day is still running: "today" means what is left of it.'
-        : 'This day is over: use "tomorrow" (the day after it) or "this_week"; "today" is not available.'),
+    `COACH LIMITS\nAt most ${ctx.maxActions} action${ctx.maxActions === 1 ? '' : 's'}. Zero is right when no concrete next move is supported — not merely because the day went well. ` +
+      (!ctx.allowToday
+        ? 'This day is over: use "tomorrow" (the day after it) or "this_week"; "today" is not available.'
+        : ctx.endOfDay
+          ? 'This is the end-of-day reflection: little of the day is left, so the next move is normally for "tomorrow". That the day is "still in progress" is not a reason to recommend nothing.'
+          : 'The day is still running: "today" means what is left of it.'),
   );
 
   return sections.join('\n\n');

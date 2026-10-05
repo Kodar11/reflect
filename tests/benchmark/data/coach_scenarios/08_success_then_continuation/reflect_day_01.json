@@ -1,0 +1,239 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 1,
+    "date": "2026-11-02",
+    "day_type": "08_success_then_continuation",
+    "circumstances": [
+      "An action was accepted, carried out and reported as having worked → is continuing with the same approach appropriate next?"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:30",
+      "last_seen": "14:45",
+      "approx_active_hours": 2.7,
+      "longest_unobserved_gap_minutes": 140
+    }
+  },
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:30:00+05:30",
+      "ended_at": "2026-11-02T09:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "indexing.sql — db-assignment-3 — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:50:00+05:30",
+      "ended_at": "2026-11-02T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PostgreSQL: Documentation: 11. Indexes",
+      "url": "https://www.postgresql.org/docs/current/indexes.html",
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:10:00+05:30",
+      "ended_at": "2026-11-02T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Assignment 3 report — indexing (DRAFT) — Google Docs",
+      "url": "https://docs.google.com/document/d/a3report",
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:30:00+05:30",
+      "ended_at": "2026-11-02T10:45:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "indexing.sql — db-assignment-3 — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:00:00+05:30",
+      "ended_at": "2026-11-02T11:20:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest tests/test_indexes.py — 1 failed, 6 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:20:00+05:30",
+      "ended_at": "2026-11-02T11:40:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "test_indexes.py — db-assignment-3 — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:00:00+05:30",
+      "ended_at": "2026-11-02T14:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Dynamic Programming — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:20:00+05:30",
+      "ended_at": "2026-11-02T14:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Dynamic Programming — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:40:00+05:30",
+      "ended_at": "2026-11-02T14:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Dynamic Programming.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "09:30",
+        "ended_at": "10:45",
+        "title": "Drafting the indexing section",
+        "summary": "Wrote and revised the indexing section of the database assignment; it was still a draft when the block ended.",
+        "event_ids": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "11:00",
+        "ended_at": "11:40",
+        "title": "Debugging the failing index test",
+        "summary": "Ran the assignment test suite repeatedly; the composite-index test was still failing at the end.",
+        "event_ids": [
+          5,
+          6
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-03",
+        "started_at": "14:00",
+        "ended_at": "14:45",
+        "title": "Completed Dynamic Programming practice set",
+        "summary": "Finished every problem in the Dynamic Programming practice set and checked the answers.",
+        "event_ids": [
+          7,
+          8,
+          9
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Drafting the indexing section",
+      "Debugging the failing index test",
+      "Completed Dynamic Programming practice set"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Finish the indexing section and fix the failing index test"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the indexing section and fix the failing index test",
+      "action_type": "complete_open_loop",
+      "reason": "The indexing section and its test were left unfinished.",
+      "suggested_focus_minutes": 60,
+      "target": "Finish the database systems assignment"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The indexing section and its test were left unfinished.",
+      "priority": "Finish the database systems assignment",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "reason_code": null,
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next morning the section is finished in one block."
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "08_success_then_continuation",
+      "title": "Accepted, done, worked",
+      "tests": "An action was accepted, carried out and reported as having worked → is continuing with the same approach appropriate next?",
+      "probe": false
+    }
+  }
+}

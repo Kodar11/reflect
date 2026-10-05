@@ -1,0 +1,535 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 5,
+    "date": "2026-11-06",
+    "day_type": "07_heavy_load_rest__probe",
+    "circumstances": [
+      "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required."
+    ],
+    "laptop_usage": {
+      "first_seen": "07:30",
+      "last_seen": "20:10",
+      "approx_active_hours": 10.8,
+      "longest_unobserved_gap_minutes": 65
+    }
+  },
+  "raw_events": [
+    {
+      "id": 137,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T07:30:00+05:30",
+      "ended_at": "2026-11-06T07:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "multi-currency-totals.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 138,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T07:50:00+05:30",
+      "ended_at": "2026-11-06T08:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: multi-currency totals by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 139,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T08:10:00+05:30",
+      "ended_at": "2026-11-06T08:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 140,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T08:30:00+05:30",
+      "ended_at": "2026-11-06T08:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "multi-currency-totals.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 141,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T08:50:00+05:30",
+      "ended_at": "2026-11-06T09:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: multi-currency totals by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 142,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T09:10:00+05:30",
+      "ended_at": "2026-11-06T09:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 143,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T09:30:00+05:30",
+      "ended_at": "2026-11-06T09:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "multi-currency-totals.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 144,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T09:50:00+05:30",
+      "ended_at": "2026-11-06T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: multi-currency totals by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 145,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T10:10:00+05:30",
+      "ended_at": "2026-11-06T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 146,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T10:30:00+05:30",
+      "ended_at": "2026-11-06T10:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "multi-currency-totals.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 147,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T10:50:00+05:30",
+      "ended_at": "2026-11-06T11:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: multi-currency totals by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 148,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T11:10:00+05:30",
+      "ended_at": "2026-11-06T11:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 149,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T11:30:00+05:30",
+      "ended_at": "2026-11-06T11:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "multi-currency-totals.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 150,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T11:50:00+05:30",
+      "ended_at": "2026-11-06T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: multi-currency totals by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 151,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T12:45:00+05:30",
+      "ended_at": "2026-11-06T13:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-usage-dashboard.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 152,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T13:05:00+05:30",
+      "ended_at": "2026-11-06T13:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 153,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T13:25:00+05:30",
+      "ended_at": "2026-11-06T13:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 154,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T13:45:00+05:30",
+      "ended_at": "2026-11-06T14:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-usage-dashboard.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 155,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T14:05:00+05:30",
+      "ended_at": "2026-11-06T14:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 156,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T14:25:00+05:30",
+      "ended_at": "2026-11-06T14:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 157,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T14:45:00+05:30",
+      "ended_at": "2026-11-06T15:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-usage-dashboard.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 158,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T15:05:00+05:30",
+      "ended_at": "2026-11-06T15:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 159,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T15:25:00+05:30",
+      "ended_at": "2026-11-06T15:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 160,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T15:45:00+05:30",
+      "ended_at": "2026-11-06T16:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-usage-dashboard.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 161,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T16:05:00+05:30",
+      "ended_at": "2026-11-06T16:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 162,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T16:25:00+05:30",
+      "ended_at": "2026-11-06T16:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 163,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T16:45:00+05:30",
+      "ended_at": "2026-11-06T16:55:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-usage-dashboard.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 164,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T18:00:00+05:30",
+      "ended_at": "2026-11-06T18:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "multi-currency-totals-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 165,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T18:20:00+05:30",
+      "ended_at": "2026-11-06T18:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: multi-currency totals polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 166,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T18:40:00+05:30",
+      "ended_at": "2026-11-06T19:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 167,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T19:00:00+05:30",
+      "ended_at": "2026-11-06T19:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "multi-currency-totals-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 168,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T19:20:00+05:30",
+      "ended_at": "2026-11-06T19:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: multi-currency totals polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 169,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T19:40:00+05:30",
+      "ended_at": "2026-11-06T20:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 170,
+      "watcher": "desktop",
+      "started_at": "2026-11-06T20:00:00+05:30",
+      "ended_at": "2026-11-06T20:10:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "multi-currency-totals-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-05-01",
+        "started_at": "07:30",
+        "ended_at": "12:00",
+        "title": "Shipping multi-currency totals",
+        "summary": "Completed multi-currency totals, merged the pull request and deployed it to production.",
+        "event_ids": [
+          137,
+          138,
+          139,
+          140,
+          141,
+          142,
+          143,
+          144,
+          145,
+          146,
+          147,
+          148,
+          149,
+          150
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-02",
+        "started_at": "12:45",
+        "ended_at": "16:55",
+        "title": "Delivering the usage dashboard",
+        "summary": "Finished the usage dashboard, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          151,
+          152,
+          153,
+          154,
+          155,
+          156,
+          157,
+          158,
+          159,
+          160,
+          161,
+          162,
+          163
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-03",
+        "started_at": "18:00",
+        "ended_at": "20:10",
+        "title": "Shipping multi-currency totals polish",
+        "summary": "Completed multi-currency totals polish, merged the pull request and deployed it to production.",
+        "event_ids": [
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Shipping multi-currency totals",
+      "Delivering the usage dashboard",
+      "Shipping multi-currency totals polish"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Plan a lighter day or a deliberate stop"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Plan a lighter day or a deliberate stop",
+      "action_type": "deliberate_rest",
+      "reason": "Five consecutive days of well over ten tracked hours, each ending with work shipped: nothing is open, and the load itself is the notable fact.",
+      "suggested_focus_minutes": null,
+      "target": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not infer tiredness, stress or burnout from the long days.",
+      "Do not recommend working more."
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "Rest is supported by the record of long days; saying nothing is equally acceptable.",
+      "priority": null,
+      "type": "deliberate_rest"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "07_heavy_load_rest",
+      "title": "Heavy load — rest may be supported",
+      "tests": "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required.",
+      "probe": true
+    }
+  }
+}

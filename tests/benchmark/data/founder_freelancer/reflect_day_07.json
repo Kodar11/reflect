@@ -535,6 +535,20 @@
       "Do not infer that the analytics review produced a successful product decision.",
       "Do not assume the weekend client issue was fully resolved from a status check alone.",
       "Do not recommend abandoning the SaaS onboarding thread simply because it ended with a bug investigation."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The strongest product thread progressed across research, implementation, build, and verification but ended with a small API issue still under investigation.",
+      "priority": "Ship the SaaS MVP",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "The next day shows 66 min on Own SaaS; its answer key rates that priority \"some progress\".",
+      "reason_code": null
+    }
   }
 }

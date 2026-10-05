@@ -573,6 +573,20 @@
       "Do not start another broad SaaS experiment before there is more comparable beta data.",
       "Do not interpret the short YouTube break as evidence of a larger distraction pattern.",
       "Do not infer that the offline gaps were unproductive."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "Carrying on is the useful move: The experiment has now been reviewed and a small related refinement made; gathering another comparable signal is more useful than immediately changing the hypothesis again.",
+      "priority": "Ship the SaaS MVP",
+      "type": "protect_priority"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "The next day shows 134 min on Own SaaS; its answer key rates that priority \"some meaningful progress, but secondary today\".",
+      "reason_code": null
+    }
   }
 }

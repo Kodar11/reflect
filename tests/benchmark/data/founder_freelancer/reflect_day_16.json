@@ -567,6 +567,20 @@
       "Do not interpret the Loom walkthrough as proof that the demo was successful with users.",
       "Do not criticize the offline periods as missing work.",
       "Do not recommend adding another broad product feature before the existing beta-release gate is resolved."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The SaaS has moved through implementation, deployment, staging, launch preparation, and demo creation; the next useful step is to close the remaining release-readiness checklist rather than expand scope.",
+      "priority": "Ship the SaaS MVP",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 399 min on Own SaaS; its answer key rates that priority \"very strong progress / moved into real beta testing\".",
+      "reason_code": null
+    }
   }
 }

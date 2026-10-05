@@ -552,6 +552,20 @@
       "Do not immediately launch a second major SaaS experiment without evidence from the first one.",
       "Do not overreact to the isolated YouTube break.",
       "Do not infer offline activity from the gaps in desktop tracking."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "Carrying on is the useful move: The product has a concrete experiment in motion, so collecting evidence before adding another major change is more useful than immediately expanding scope.",
+      "priority": "Ship the SaaS MVP",
+      "type": "protect_priority"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 412 min on Own SaaS; its answer key rates that priority \"strong progress / evidence-driven iteration\".",
+      "reason_code": null
+    }
   }
 }

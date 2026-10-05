@@ -1,0 +1,532 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 1,
+    "date": "2026-11-02",
+    "day_type": "07_heavy_load_rest",
+    "circumstances": [
+      "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required."
+    ],
+    "laptop_usage": {
+      "first_seen": "07:30",
+      "last_seen": "20:10",
+      "approx_active_hours": 10.8,
+      "longest_unobserved_gap_minutes": 65
+    }
+  },
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T07:30:00+05:30",
+      "ended_at": "2026-11-02T07:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T07:50:00+05:30",
+      "ended_at": "2026-11-02T08:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T08:10:00+05:30",
+      "ended_at": "2026-11-02T08:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T08:30:00+05:30",
+      "ended_at": "2026-11-02T08:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T08:50:00+05:30",
+      "ended_at": "2026-11-02T09:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:10:00+05:30",
+      "ended_at": "2026-11-02T09:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:30:00+05:30",
+      "ended_at": "2026-11-02T09:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:50:00+05:30",
+      "ended_at": "2026-11-02T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:10:00+05:30",
+      "ended_at": "2026-11-02T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:30:00+05:30",
+      "ended_at": "2026-11-02T10:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:50:00+05:30",
+      "ended_at": "2026-11-02T11:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:10:00+05:30",
+      "ended_at": "2026-11-02T11:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:30:00+05:30",
+      "ended_at": "2026-11-02T11:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:50:00+05:30",
+      "ended_at": "2026-11-02T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T12:45:00+05:30",
+      "ended_at": "2026-11-02T13:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-CSV-export.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T13:05:00+05:30",
+      "ended_at": "2026-11-02T13:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T13:25:00+05:30",
+      "ended_at": "2026-11-02T13:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 18,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T13:45:00+05:30",
+      "ended_at": "2026-11-02T14:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-CSV-export.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:05:00+05:30",
+      "ended_at": "2026-11-02T14:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 20,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:25:00+05:30",
+      "ended_at": "2026-11-02T14:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 21,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T14:45:00+05:30",
+      "ended_at": "2026-11-02T15:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-CSV-export.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 22,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T15:05:00+05:30",
+      "ended_at": "2026-11-02T15:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T15:25:00+05:30",
+      "ended_at": "2026-11-02T15:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T15:45:00+05:30",
+      "ended_at": "2026-11-02T16:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-CSV-export.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T16:05:00+05:30",
+      "ended_at": "2026-11-02T16:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T16:25:00+05:30",
+      "ended_at": "2026-11-02T16:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T16:45:00+05:30",
+      "ended_at": "2026-11-02T16:55:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-CSV-export.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T18:00:00+05:30",
+      "ended_at": "2026-11-02T18:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T18:20:00+05:30",
+      "ended_at": "2026-11-02T18:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T18:40:00+05:30",
+      "ended_at": "2026-11-02T19:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 31,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T19:00:00+05:30",
+      "ended_at": "2026-11-02T19:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 32,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T19:20:00+05:30",
+      "ended_at": "2026-11-02T19:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: invoice templates polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 33,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T19:40:00+05:30",
+      "ended_at": "2026-11-02T20:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 34,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T20:00:00+05:30",
+      "ended_at": "2026-11-02T20:10:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "invoice-templates-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "07:30",
+        "ended_at": "12:00",
+        "title": "Shipping invoice templates",
+        "summary": "Completed invoice templates, merged the pull request and deployed it to production.",
+        "event_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "12:45",
+        "ended_at": "16:55",
+        "title": "Delivering the CSV export",
+        "summary": "Finished the CSV export, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-03",
+        "started_at": "18:00",
+        "ended_at": "20:10",
+        "title": "Shipping invoice templates polish",
+        "summary": "Completed invoice templates polish, merged the pull request and deployed it to production.",
+        "event_ids": [
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Shipping invoice templates",
+      "Delivering the CSV export",
+      "Shipping invoice templates polish"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Ship the invoicing SaaS beta"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Ship the invoicing SaaS beta",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "07_heavy_load_rest",
+      "title": "Heavy load — rest may be supported",
+      "tests": "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required.",
+      "probe": false
+    }
+  }
+}

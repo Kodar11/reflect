@@ -13,17 +13,19 @@ import {
 import { renderActionLine, type CoachContext } from './CoachContext.js';
 import { describeReasons, isBlocked } from './CoachEffectiveness.js';
 import { canTransition } from './CoachLifecycle.js';
-import { describeStrategy, isSameSuggestion, jaccard, resolveTarget, strategyKeyOf, targetKeyOf, tokensOf } from './CoachMatching.js';
+import { describeStrategy, isSameSuggestion, jaccard, resolveTarget, strategyKeyOf, targetKeyOf, titleSimilarity, tokensOf } from './CoachMatching.js';
 import {
   CHAT_MEMORY_KINDS,
   COACH_ACTION_TYPES,
   COACH_DAYPARTS,
   COACH_LIMITS,
   COACH_REASON_CODES,
+  COACH_VERDICTS,
   COACH_WHEN,
   DAILY_MEMORY_KINDS,
   MAX_FOCUS_MINUTES,
   MIN_FOCUS_MINUTES,
+  TARGETED_ACTION_TYPES,
   type CoachAction,
   type CoachActionType,
   type CoachDaypart,
@@ -31,6 +33,7 @@ import {
   type CoachMemoryKind,
   type CoachOutcome,
   type CoachReasonCode,
+  type CoachVerdict,
   type CoachWhen,
 } from './CoachModels.js';
 
@@ -90,7 +93,14 @@ const actionDraftSchema = z.object({
 
 type ActionDraft = z.infer<typeof actionDraftSchema>;
 
+/** The reasoning the model writes before its actions. Tolerated when absent; only `verdict` and `candidate` are read. */
+const decisionSchema = z
+  .object({ candidate: z.string().optional(), verdict: z.string().optional() })
+  .passthrough()
+  .nullish();
+
 const dailySchema = z.object({
+  decision: decisionSchema,
   followups: list(z.object({ actionRef: z.string(), note: z.string(), learned: nullableText })),
   actions: list(actionDraftSchema),
   noActionReason: nullableText,
@@ -164,6 +174,10 @@ export interface CoachValidation {
   errors: string[];
   /** The part that fully validated — always usable. */
   coach: ValidatedCoach;
+  /** What the model concluded before writing actions, when it said. For the log; never stored or shown. */
+  decision: { verdict: CoachVerdict; candidate: string | null } | null;
+  /** How many actions the model proposed, before any was checked. */
+  proposed: number;
 }
 
 export function emptyCoach(): ValidatedCoach {
@@ -205,7 +219,9 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
   const title = clean(draft.title, COACH_LIMITS.title);
   const description = draft.description ? clean(draft.description, COACH_LIMITS.description) || null : null;
   const rationale = clean(draft.rationale, COACH_LIMITS.rationale);
-  if (title.length < 8) problems.push(`${label}: title is empty or too vague`);
+  if (title.length < 8 || isVagueTitle(title)) {
+    problems.push(`${label}: title is too vague to act on — name the concrete thing to do and what it is on`);
+  }
   if (rationale.length < 15) problems.push(`${label}: rationale is missing — say which evidence makes this worth doing`);
 
   let focusMinutes: number | null = null;
@@ -229,6 +245,11 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
   const focusTask = focusMinutes
     ? clean(draft.focusTask ?? '', 100) || thread || context.priorities.find((p) => p.id === priorityId)?.text || null
     : null;
+
+  // An action aimed at nothing in particular cannot be acted on, observed or learned from.
+  if ((TARGETED_ACTION_TYPES as readonly string[]).includes(actionType) && priorityId === null && thread === null && !clean(draft.focusTask ?? '', 100)) {
+    problems.push(`${label}: a ${actionType} action must say what it is aimed at — set priorityId, an exact thread name from ACTIVITIES, or focusTask`);
+  }
 
   // ── Evidence ──
   const cited = env.evidence
@@ -283,6 +304,41 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
     if (rejected) {
       return { action: null, problems: [`${label}: the user rejected this (“${rejected.title}”); it must not come back in any wording`] };
     }
+    // The user's own word that it did not help is enough, once, not to offer the very same thing again.
+    const failed = context.failedRecently.find((a) => a.strategyKey === candidate.strategyKey && a.targetKey === candidate.targetKey);
+    if (failed) {
+      return {
+        action: null,
+        problems: [
+          `${label}: the user said “${failed.title}” did not work${failed.reasonCode ? ` (${describeReasons({ [failed.reasonCode]: 1 })})` : ''}; ` +
+            `this is the same ${describeStrategy(candidate.strategyKey)} for the same target — change the time of day, the size or the type, or leave it`,
+        ],
+      };
+    }
+    // "The timing was wrong" is about the time of day: a different kind of action at the same time repeats the failure.
+    const mistimed = context.failedRecently.find((a) => a.reasonCode === 'bad_timing' && a.targetKey !== null && a.targetKey === candidate.targetKey && a.daypart !== 'any' && a.daypart === daypart);
+    if (mistimed) {
+      return {
+        action: null,
+        problems: [`${label}: the user said “${mistimed.title}” did not work because of bad timing; this is again in the ${daypart} — choose a different time of day, or leave it`],
+      };
+    }
+    // Already done: the approach may be reused, the sentence may not. A repeat has to say what is newly open.
+    const done = context.doneRecently.find((a) => a.targetKey === candidate.targetKey && titleSimilarity(a.title, candidate.title) >= context.config.duplicateTitleOverlap);
+    if (done) {
+      return {
+        action: null,
+        problems: [`${label}: the user already carried out “${done.title}” in the last few days; if something is open again, name what specifically (which item, which part) — or leave it`],
+      };
+    }
+    // Sent before and never answered: the same thing again, the same way, is noise.
+    const ignored = context.ignored.find((a) => a.strategyKey === candidate.strategyKey && a.targetKey === candidate.targetKey && isSameSuggestion(a, candidate, context.config.duplicateTitleOverlap) && titleSimilarity(a.title, candidate.title) >= context.config.duplicateTitleOverlap);
+    if (ignored) {
+      return {
+        action: null,
+        problems: [`${label}: “${ignored.title}” was suggested recently and never taken up; do not send the same thing again — make it more specific or smaller, or leave it`],
+      };
+    }
     const escalation = candidate.targetKey ? context.escalations.find((e) => e.targetKey === candidate.targetKey) : undefined;
     if (escalation) {
       return {
@@ -329,6 +385,28 @@ function checkActionDraft(draft: ActionDraft, label: string, env: DraftEnvironme
   };
 }
 
+const VAGUE_OPENERS = /^(focus|work|study|be|stay|keep|try|improve|manage|do|get|continue|make)\b/i;
+const FILLER = new Set(['more', 'better', 'harder', 'on', 'your', 'my', 'the', 'a', 'an', 'to', 'up', 'it', 'going', 'goals', 'goal', 'work', 'working', 'things', 'tasks', 'task', 'time', 'consistent', 'focused', 'productive', 'priorities', 'progress', 'making', 'good']);
+
+/**
+ * "Study more." "Focus better." "Work on your goals." "Be more consistent." —
+ * an opening verb with nothing concrete after it.
+ */
+export function isVagueTitle(title: string): boolean {
+  const words = title.toLowerCase().replace(/[^a-z0-9\s-]/g, ' ').split(/\s+/).filter(Boolean);
+  if (words.length === 0) return true;
+  if (!VAGUE_OPENERS.test(title.trim())) return false;
+  return words.slice(1).filter((w) => !FILLER.has(w)).length === 0;
+}
+
+/** Share of `of`'s tokens that also appear in `within`. */
+function containment(within: Set<string>, of: Set<string>): number {
+  if (of.size === 0) return 0;
+  let shared = 0;
+  for (const t of of) if (within.has(t)) shared++;
+  return shared / of.size;
+}
+
 function isDuplicateMemory(text: string, existing: { text: string; normalizedKey: string }[]): boolean {
   const key = priorityKey(text);
   const tokens = tokensOf(text);
@@ -352,10 +430,24 @@ export function validateDailyCoach(input: DailyCoachValidationInput): CoachValid
       ok: false,
       errors: parsed.error.issues.slice(0, 8).map((i) => `coach: ${i.path.join('.') || '(root)'} — ${i.message}`),
       coach: withEscalationFallback(coach, context),
+      decision: null,
+      proposed: 0,
     };
   }
   const output = parsed.data;
   const errors: string[] = [];
+  const verdict = output.decision?.verdict;
+  const decision: CoachValidation['decision'] =
+    verdict && (COACH_VERDICTS as readonly string[]).includes(verdict)
+      ? { verdict: verdict as CoachVerdict, candidate: clean(output.decision?.candidate ?? '', 160) || null }
+      : null;
+  // The model's own conclusion and its output must agree. This never asks for
+  // an action the model did not itself judge to be worth making.
+  if (decision?.verdict === 'act' && output.actions.length === 0) {
+    errors.push(
+      `decision: the verdict is "act"${decision.candidate ? ` (candidate: “${decision.candidate}”)` : ''} but no action was returned — write that action, or set the verdict to "no_useful_move" and give the reason in noActionReason`,
+    );
+  }
   const actionRefs = new Map(context.followups.map((f) => [f.ref, f.action]));
 
   // ── Follow-ups: what the record supports, nothing more ──
@@ -484,10 +576,12 @@ export function validateDailyCoach(input: DailyCoachValidationInput): CoachValid
       return;
     }
     if (isDuplicateMemory(text, [...existing, ...coach.memoryAdds.map((m) => ({ text: m.text, normalizedKey: priorityKey(m.text) }))])) return;
+    // An open loop that today's action already covers is tracked by that action, not remembered twice.
+    if (draft.kind === 'open_loop' && coach.actions.some((a) => containment(tokensOf(`${a.title} ${a.focusTask ?? ''}`), tokensOf(text)) >= 0.6)) return;
     coach.memoryAdds.push({ kind: draft.kind as CoachMemoryKind, text, targetKey: citedActions[0]?.targetKey ?? null });
   });
 
-  return { ok: errors.length === 0, errors, coach: withEscalationFallback(coach, context) };
+  return { ok: errors.length === 0, errors, coach: withEscalationFallback(coach, context), decision, proposed: output.actions.length };
 }
 
 /**

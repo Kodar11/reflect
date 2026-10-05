@@ -497,6 +497,20 @@
       "Do not assume the client payment bug was fully resolved from the available evidence.",
       "Do not criticize the short YouTube break as inherently harmful.",
       "Do not infer that reduced SaaS time means the product priority was abandoned."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The strongest new opportunity advanced through a discovery call and notes, but the next communication step is not visible in the captured activity.",
+      "priority": "Generate new freelance leads",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 258 min on Freelance; its answer key rates that priority \"strong progress because a lead became an active project\".",
+      "reason_code": null
+    }
   }
 }

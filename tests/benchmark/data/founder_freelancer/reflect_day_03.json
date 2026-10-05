@@ -572,6 +572,20 @@
       "Do not overreact to the short YouTube break.",
       "Do not assume every hour of the day was spent working because laptop usage was high.",
       "Do not infer that the user should work even longer simply because this was a high-output day."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "Carrying on is the useful move: The SaaS received sustained attention across implementation, design, testing, and debugging, making continuation more valuable than changing direction.",
+      "priority": "Ship the SaaS MVP",
+      "type": "continue_successful_behavior"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "The next day shows 110 min on Own SaaS; its answer key rates that priority \"some progress\".",
+      "reason_code": null
+    }
   }
 }

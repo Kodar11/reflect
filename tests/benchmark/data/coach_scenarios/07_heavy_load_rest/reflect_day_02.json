@@ -1,0 +1,532 @@
+{
+  "persona": {
+    "id": "solo_founder_02",
+    "type": "founder",
+    "role": "Solo founder building a small invoicing SaaS alongside one retainer client",
+    "current_work": [
+      "Building an invoicing SaaS",
+      "One retainer client portal"
+    ],
+    "priorities": [
+      "Ship the invoicing SaaS beta",
+      "Deliver the retainer client work"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-11-03",
+    "day_type": "07_heavy_load_rest",
+    "circumstances": [
+      "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required."
+    ],
+    "laptop_usage": {
+      "first_seen": "07:30",
+      "last_seen": "20:10",
+      "approx_active_hours": 10.8,
+      "longest_unobserved_gap_minutes": 65
+    }
+  },
+  "raw_events": [
+    {
+      "id": 35,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T07:30:00+05:30",
+      "ended_at": "2026-11-03T07:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "tax-settings.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 36,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T07:50:00+05:30",
+      "ended_at": "2026-11-03T08:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: tax settings by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 37,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T08:10:00+05:30",
+      "ended_at": "2026-11-03T08:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 38,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T08:30:00+05:30",
+      "ended_at": "2026-11-03T08:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "tax-settings.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 39,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T08:50:00+05:30",
+      "ended_at": "2026-11-03T09:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: tax settings by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 40,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:10:00+05:30",
+      "ended_at": "2026-11-03T09:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 41,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:30:00+05:30",
+      "ended_at": "2026-11-03T09:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "tax-settings.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 42,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:50:00+05:30",
+      "ended_at": "2026-11-03T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: tax settings by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 43,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:10:00+05:30",
+      "ended_at": "2026-11-03T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 44,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:30:00+05:30",
+      "ended_at": "2026-11-03T10:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "tax-settings.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 45,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:50:00+05:30",
+      "ended_at": "2026-11-03T11:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: tax settings by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 46,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:10:00+05:30",
+      "ended_at": "2026-11-03T11:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 47,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:30:00+05:30",
+      "ended_at": "2026-11-03T11:50:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "tax-settings.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 48,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:50:00+05:30",
+      "ended_at": "2026-11-03T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: tax settings by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 49,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T12:45:00+05:30",
+      "ended_at": "2026-11-03T13:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 50,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T13:05:00+05:30",
+      "ended_at": "2026-11-03T13:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 51,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T13:25:00+05:30",
+      "ended_at": "2026-11-03T13:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 52,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T13:45:00+05:30",
+      "ended_at": "2026-11-03T14:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 53,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:05:00+05:30",
+      "ended_at": "2026-11-03T14:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 54,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:25:00+05:30",
+      "ended_at": "2026-11-03T14:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 55,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T14:45:00+05:30",
+      "ended_at": "2026-11-03T15:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 56,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T15:05:00+05:30",
+      "ended_at": "2026-11-03T15:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 57,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T15:25:00+05:30",
+      "ended_at": "2026-11-03T15:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 58,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T15:45:00+05:30",
+      "ended_at": "2026-11-03T16:05:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 59,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T16:05:00+05:30",
+      "ended_at": "2026-11-03T16:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployed to production — acme-portal — Render",
+      "url": "https://dashboard.render.com/acme-portal",
+      "payload": null
+    },
+    {
+      "id": 60,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T16:25:00+05:30",
+      "ended_at": "2026-11-03T16:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent: Weekly update — Acme portal — Gmail",
+      "url": "https://mail.google.com/mail/u/0/#sent",
+      "payload": null
+    },
+    {
+      "id": 61,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T16:45:00+05:30",
+      "ended_at": "2026-11-03T16:55:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "the-audit-report.ts — acme-portal — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 62,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T18:00:00+05:30",
+      "ended_at": "2026-11-03T18:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "tax-settings-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 63,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T18:20:00+05:30",
+      "ended_at": "2026-11-03T18:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: tax settings polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 64,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T18:40:00+05:30",
+      "ended_at": "2026-11-03T19:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 65,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T19:00:00+05:30",
+      "ended_at": "2026-11-03T19:20:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "tax-settings-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 66,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T19:20:00+05:30",
+      "ended_at": "2026-11-03T19:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Merged: tax settings polish by founder · Pull Request #41 · invoicely",
+      "url": "https://github.com/founder/invoicely/pull/41",
+      "payload": null
+    },
+    {
+      "id": 67,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T19:40:00+05:30",
+      "ended_at": "2026-11-03T20:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Deployment completed — invoicely — Vercel",
+      "url": "https://vercel.com/founder/invoicely/deployments",
+      "payload": null
+    },
+    {
+      "id": 68,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T20:00:00+05:30",
+      "ended_at": "2026-11-03T20:10:00+05:30",
+      "app": "Code",
+      "browser": null,
+      "title": "tax-settings-polish.tsx — invoicely — Visual Studio Code",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "07:30",
+        "ended_at": "12:00",
+        "title": "Shipping tax settings",
+        "summary": "Completed tax settings, merged the pull request and deployed it to production.",
+        "event_ids": [
+          35,
+          36,
+          37,
+          38,
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "12:45",
+        "ended_at": "16:55",
+        "title": "Delivering the audit report",
+        "summary": "Finished the audit report, deployed it to the client portal and sent the weekly update.",
+        "event_ids": [
+          49,
+          50,
+          51,
+          52,
+          53,
+          54,
+          55,
+          56,
+          57,
+          58,
+          59,
+          60,
+          61
+        ],
+        "context": "Work",
+        "area": "Deliver the retainer client work",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-03",
+        "started_at": "18:00",
+        "ended_at": "20:10",
+        "title": "Shipping tax settings polish",
+        "summary": "Completed tax settings polish, merged the pull request and deployed it to production.",
+        "event_ids": [
+          62,
+          63,
+          64,
+          65,
+          66,
+          67,
+          68
+        ],
+        "context": "Work",
+        "area": "Ship the invoicing SaaS beta",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Shipping tax settings",
+      "Delivering the audit report",
+      "Shipping tax settings polish"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the invoicing SaaS beta",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Deliver the retainer client work",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Ship the invoicing SaaS beta"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Ship the invoicing SaaS beta",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Ship the invoicing SaaS beta"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Ship the invoicing SaaS beta",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "07_heavy_load_rest",
+      "title": "Heavy load — rest may be supported",
+      "tests": "Five ten-hour days in a row, each ending at a stopping point → deliberate rest may be appropriate; it is never required.",
+      "probe": false
+    }
+  }
+}

@@ -542,6 +542,20 @@
       "Do not keep revising the SaaS onboarding without collecting another behavioral signal.",
       "Do not treat the new inquiry as an additional active client.",
       "Do not overreact to the short unrelated YouTube break."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The new engagement has moved beyond negotiation and into setup, so converting the kickoff into one concrete deliverable will prevent setup work from expanding indefinitely.",
+      "priority": "Complete existing client work",
+      "type": "start_focus"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 296 min on Freelance; its answer key rates that priority \"strong progress / acceptance reached on the older project\".",
+      "reason_code": null
+    }
   }
 }

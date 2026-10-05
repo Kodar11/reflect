@@ -542,6 +542,20 @@
       "Do not keep refining the proposal indefinitely without seeking a concrete decision from the prospect.",
       "Do not infer anything about offline activity from the gaps in desktop tracking.",
       "Do not overreact to the short unrelated YouTube break."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The prospect has progressed through scope, estimate, and follow-up conversation, so the clearest immediate step is to obtain a decision or send the final concrete next step.",
+      "priority": "Generate new freelance leads",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 410 min on Freelance; its answer key rates that priority \"strong progress / active prospect advanced\".",
+      "reason_code": null
+    }
   }
 }

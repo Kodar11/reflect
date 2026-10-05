@@ -1,0 +1,205 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "Independent researcher and writer",
+    "current_work": [
+      "A grant application for a field study",
+      "A weekly newsletter"
+    ],
+    "priorities": [
+      "Finish the grant application",
+      "Publish the weekly newsletter"
+    ]
+  },
+  "day": {
+    "day_number": 1,
+    "date": "2026-11-02",
+    "day_type": "11_same_app_different_goal",
+    "circumstances": [
+      "Two priorities live in the same app; one was finished and one left mid-way → the action must follow the meaning, not the app."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:30",
+      "last_seen": "12:30",
+      "approx_active_hours": 2.5,
+      "longest_unobserved_gap_minutes": 30
+    }
+  },
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:30:00+05:30",
+      "ended_at": "2026-11-02T09:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #48 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T09:50:00+05:30",
+      "ended_at": "2026-11-02T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #48 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:10:00+05:30",
+      "ended_at": "2026-11-02T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #48 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:00:00+05:30",
+      "ended_at": "2026-11-02T11:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — project description (draft, 3 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:20:00+05:30",
+      "ended_at": "2026-11-02T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Field Study Fund — Application guidelines",
+      "url": "https://fund.example.org/guidelines",
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:40:00+05:30",
+      "ended_at": "2026-11-02T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — project description (draft, 3 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T12:00:00+05:30",
+      "ended_at": "2026-11-02T12:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Field Study Fund — Application guidelines",
+      "url": "https://fund.example.org/guidelines",
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T12:20:00+05:30",
+      "ended_at": "2026-11-02T12:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — project description (draft, 3 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "09:30",
+        "ended_at": "10:30",
+        "title": "Drafting newsletter 48",
+        "summary": "Wrote the draft of newsletter issue 48.",
+        "event_ids": [
+          1,
+          2,
+          3
+        ],
+        "context": "Work",
+        "area": "Publish the weekly newsletter",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "11:00",
+        "ended_at": "12:30",
+        "title": "Drafting grant project description",
+        "summary": "Wrote part of the project description; it still had open comments and unfinished paragraphs.",
+        "event_ids": [
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "context": "Work",
+        "area": "Finish the grant application",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Drafting newsletter 48",
+      "Drafting grant project description"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the grant application",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Publish the weekly newsletter",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Finish the grant application"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Finish the grant application",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Finish the grant application"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Finish the grant application",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "11_same_app_different_goal",
+      "title": "Same application, different goal",
+      "tests": "Two priorities live in the same app; one was finished and one left mid-way → the action must follow the meaning, not the app.",
+      "probe": false
+    }
+  }
+}

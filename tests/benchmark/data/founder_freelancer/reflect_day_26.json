@@ -440,6 +440,20 @@
       "Do not treat the new client's authentication work as finished because tests passed.",
       "Do not add a major SaaS feature while the beta remains in an evidence-gathering phase.",
       "Do not infer anything about the long offline periods beyond the stated unobserved status."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The new client has moved into real implementation and testing, making completion of the initial authentication slice the clearest near-term freelance milestone.",
+      "priority": "Complete existing client work",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 174 min on Freelance; its answer key rates that priority \"strong progress on the new client's first deliverable\".",
+      "reason_code": null
+    }
   }
 }

@@ -68,6 +68,47 @@ export interface DatasetExpectedAction {
   target: string | null;
 }
 
+/**
+ * Whether the day holds a next move worth recommending — the ground truth for
+ * "should the Coach have said anything at all?".
+ *
+ *   strong    a useful next action clearly exists; staying silent is a miss
+ *   moderate  an action may reasonably be offered; silence is equally fine
+ *   none      nothing is worth recommending; any action is unnecessary
+ */
+export const OPPORTUNITY_STRENGTHS = ['strong', 'moderate', 'none'] as const;
+export type OpportunityStrength = (typeof OPPORTUNITY_STRENGTHS)[number];
+
+export interface DatasetActionOpportunity {
+  /** True exactly when `strength` is "strong". */
+  should_exist: boolean;
+  strength: OpportunityStrength;
+  reason: string;
+  /** The stated priority (or work stream) the opportunity concerns, when it concerns one. */
+  priority: string | null;
+  /** The kind of action that would fit, in the answer key's own vocabulary. */
+  type: string | null;
+}
+
+export const SCENARIO_DECISIONS = ['accepted', 'rejected', 'deferred', 'not_applicable'] as const;
+export const SCENARIO_EXECUTIONS = ['done', 'partial', 'not_done', 'not_applicable'] as const;
+export const SCENARIO_OUTCOMES = ['worked', 'partly_worked', 'did_not_work', 'not_applicable'] as const;
+
+/**
+ * What the simulated user does with the day's recommendation, and what then
+ * happened. Three separate facts: deciding, doing, and whether it helped.
+ * None of them says the recommendation was right or wrong.
+ */
+export interface DatasetExecutionScenario {
+  user_decision: (typeof SCENARIO_DECISIONS)[number];
+  execution: (typeof SCENARIO_EXECUTIONS)[number];
+  outcome: (typeof SCENARIO_OUTCOMES)[number];
+  /** Why, in words — evaluation metadata; never sent to Reflect. */
+  reason: string;
+  /** The reason the user would pick from Reflect's own list, when they give one. */
+  reason_code?: string | null;
+}
+
 export interface DatasetDayFile {
   persona: DatasetPersona;
   day: {
@@ -98,6 +139,10 @@ export interface DatasetDayFile {
     primary_action: DatasetExpectedAction | null;
     secondary_action: DatasetExpectedAction | null;
     things_not_to_do: string[];
+    /** Optional. Absent: "strong" when a primary action is expected, otherwise "none". */
+    action_opportunity?: DatasetActionOpportunity;
+    /** Optional. Absent: the simulated user never answers. */
+    execution_scenario?: DatasetExecutionScenario;
   };
   /** Optional; evaluation-only when present. */
   evaluation_objectives?: unknown;
@@ -156,6 +201,8 @@ export interface EvaluationOnly {
 
 export interface LoadedDataset {
   dir: string;
+  /** `sha256:<16 hex>` over the observable half only (persona + raw events). An answer-key edit leaves it unchanged. */
+  inputVersion: string;
   /** `sha256:<16 hex>` over every file's name and bytes, in order. */
   version: string;
   files: { name: string; sha256: string }[];
@@ -550,6 +597,33 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
         }
       }
       if (!isStringArray(coach.things_not_to_do)) err('expected_coach_field', 'expected_coach_outcome.things_not_to_do', 'Expected string[]');
+
+      if ('action_opportunity' in coach) {
+        const o = coach.action_opportunity;
+        const where = 'expected_coach_outcome.action_opportunity';
+        if (!isObject(o) || typeof o.should_exist !== 'boolean' || !isString(o.reason) || !nullableString(o.priority) || !nullableString(o.type)) {
+          err('action_opportunity_shape', where, 'Expected { should_exist, strength, reason, priority, type }');
+        } else if (!(OPPORTUNITY_STRENGTHS as readonly unknown[]).includes(o.strength)) {
+          err('action_opportunity_strength', `${where}.strength`, `Expected one of ${OPPORTUNITY_STRENGTHS.join(' | ')}`);
+        } else {
+          if (o.should_exist !== (o.strength === 'strong')) err('action_opportunity_conflict', where, 'should_exist must be true exactly when strength is "strong"');
+          if (o.strength !== 'none' && coach.primary_action === null) err('action_opportunity_conflict', where, `strength "${o.strength}" needs a primary_action describing the useful action`);
+          if (o.strength === 'none' && coach.primary_action !== null) err('action_opportunity_conflict', where, 'strength "none" contradicts a non-null primary_action');
+        }
+      }
+      if ('execution_scenario' in coach) {
+        const x = coach.execution_scenario;
+        const where = 'expected_coach_outcome.execution_scenario';
+        if (!isObject(x) || !isString(x.reason)) {
+          err('execution_scenario_shape', where, 'Expected { user_decision, execution, outcome, reason }');
+        } else {
+          if (!(SCENARIO_DECISIONS as readonly unknown[]).includes(x.user_decision)) err('execution_scenario_field', `${where}.user_decision`, `Expected one of ${SCENARIO_DECISIONS.join(' | ')}`);
+          if (!(SCENARIO_EXECUTIONS as readonly unknown[]).includes(x.execution)) err('execution_scenario_field', `${where}.execution`, `Expected one of ${SCENARIO_EXECUTIONS.join(' | ')}`);
+          if (!(SCENARIO_OUTCOMES as readonly unknown[]).includes(x.outcome)) err('execution_scenario_field', `${where}.outcome`, `Expected one of ${SCENARIO_OUTCOMES.join(' | ')}`);
+          if (x.user_decision !== 'accepted' && x.execution !== 'not_applicable') err('execution_scenario_conflict', where, 'Only an accepted action can be carried out; use execution "not_applicable"');
+          if (x.execution !== 'done' && x.execution !== 'partial' && x.outcome !== 'not_applicable') err('execution_scenario_conflict', where, 'Only an action that was carried out has an outcome; use outcome "not_applicable"');
+        }
+      }
     }
 
     if (date && lastEvent) {
@@ -589,9 +663,23 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
     },
     dataset:
       errors.length === 0
-        ? { dir, version: `sha256:${version.digest('hex').slice(0, 16)}`, files: fileHashes, days: ordered.map((p) => p.data) }
+        ? {
+            dir,
+            version: `sha256:${version.digest('hex').slice(0, 16)}`,
+            inputVersion: inputVersionOf(ordered.map((p) => p.data)),
+            files: fileHashes,
+            days: ordered.map((p) => p.data),
+          }
         : null,
   };
+}
+
+/** Hash of everything Reflect is given: the persona and every raw event. */
+export function inputVersionOf(days: DatasetDayFile[]): string {
+  const hash = createHash('sha256');
+  hash.update(JSON.stringify(days[0]?.persona ?? null));
+  for (const day of days) hash.update(JSON.stringify([day.day.day_number, day.day.date, day.raw_events]));
+  return `sha256:${hash.digest('hex').slice(0, 16)}`;
 }
 
 /** Load the dataset or fail loudly with every validation error. */

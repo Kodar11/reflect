@@ -1,0 +1,241 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-11-04",
+    "day_type": "03_momentum_worth_protecting__probe",
+    "circumstances": [
+      "Sustained daily progress on one priority → a continuation / protection action should be possible, never required."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:30",
+      "last_seen": "20:45",
+      "approx_active_hours": 3.8,
+      "longest_unobserved_gap_minutes": 450
+    }
+  },
+  "raw_events": [
+    {
+      "id": 22,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:30:00+05:30",
+      "ended_at": "2026-11-04T09:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Network Flow — 4 of 9 solved — In progress — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T09:50:00+05:30",
+      "ended_at": "2026-11-04T10:10:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Network Flow — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:10:00+05:30",
+      "ended_at": "2026-11-04T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Network Flow.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:30:00+05:30",
+      "ended_at": "2026-11-04T10:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Network Flow — 4 of 9 solved — In progress — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T10:50:00+05:30",
+      "ended_at": "2026-11-04T11:10:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Network Flow — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:10:00+05:30",
+      "ended_at": "2026-11-04T11:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Network Flow.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:30:00+05:30",
+      "ended_at": "2026-11-04T11:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Network Flow — 4 of 9 solved — In progress — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T11:50:00+05:30",
+      "ended_at": "2026-11-04T12:10:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Network Flow — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T12:10:00+05:30",
+      "ended_at": "2026-11-04T12:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Network Flow.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 31,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T20:00:00+05:30",
+      "ended_at": "2026-11-04T20:30:00+05:30",
+      "app": "Hades",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 32,
+      "watcher": "desktop",
+      "started_at": "2026-11-04T20:30:00+05:30",
+      "ended_at": "2026-11-04T20:45:00+05:30",
+      "app": "Hades",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "09:30",
+        "ended_at": "12:30",
+        "title": "Network Flow practice set, part-way",
+        "summary": "Worked through part of the Network Flow practice set; several problems were still unattempted.",
+        "event_ids": [
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "20:00",
+        "ended_at": "20:45",
+        "title": "Playing a game",
+        "summary": "Played a game in the evening.",
+        "event_ids": [
+          31,
+          32
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Network Flow practice set, part-way",
+      "Playing a game"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "strong progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Finish the Network Flow practice set in tomorrow morning's study block"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the Network Flow practice set in tomorrow morning's study block",
+      "action_type": "start_focus",
+      "reason": "Three days of long morning study blocks, and today's practice set was left part-way through.",
+      "suggested_focus_minutes": 90,
+      "target": "Prepare for the algorithms midterm"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "Steady momentum with one set part-way through: continuing is useful to say and fine to leave unsaid.",
+      "priority": "Prepare for the algorithms midterm",
+      "type": "start_focus"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "03_momentum_worth_protecting",
+      "title": "Momentum worth protecting",
+      "tests": "Sustained daily progress on one priority → a continuation / protection action should be possible, never required.",
+      "probe": true
+    }
+  }
+}

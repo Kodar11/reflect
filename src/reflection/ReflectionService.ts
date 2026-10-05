@@ -628,6 +628,7 @@ export class ReflectionService {
             now,
             dataset,
             replacesReportId: repo.getCurrentReport(period.type, period.key)?.id ?? null,
+            activityRefs: new Map([...prepared.activityByRef].map(([ref, activity]) => [activity.id, ref])),
           });
         } catch (err) {
           this.log.warn(`[REFLECTION] Coach unavailable for ${period.key}; reflecting without it: ${messageOf(err)}`);
@@ -659,6 +660,11 @@ export class ReflectionService {
       let salvage: Accepted | null = null;
       let lastError: { category: ReflectionErrorCategory; message: string } = { category: 'internal', message: 'No attempt was made' };
       let feedback: string[] | null = null;
+      // The coaching half of the first response in which it validated cleanly.
+      // A retry is asked for because of the reflection ("drop any claim you
+      // cannot support"); it must not also re-roll, or talk the model out of,
+      // a coaching decision that had nothing wrong with it.
+      let settledCoach: { value: unknown } | null = null;
 
       while (attempts < MAX_ATTEMPTS && !accepted) {
         if (attempts > 0) {
@@ -698,15 +704,18 @@ export class ReflectionService {
           // The coaching half is checked against the same evidence. Its valid
           // subset is always usable, so it can never sink a good reflection.
           const coachCheck = coach ? coach.validate((rawOutput as { coach?: unknown } | null)?.coach, evidence) : null;
-          const problems = [...(validation.ok ? [] : validation.errors), ...(coachCheck && !coachCheck.ok ? coachCheck.errors : [])];
+          if (coachCheck?.ok && !settledCoach) settledCoach = { value: coachCheck.value };
+          const coachProblems = settledCoach || !coachCheck || coachCheck.ok ? [] : coachCheck.errors;
+          const coachValue = settledCoach ? settledCoach.value : coachCheck?.value ?? null;
+          const problems = [...(validation.ok ? [] : validation.errors), ...coachProblems];
           const reflection = validation.ok ? validation.reflection : validation.salvaged;
           if (problems.length === 0 && reflection) {
-            accepted = { reflection, coach: coachCheck?.value ?? null, model: response.modelVersion };
+            accepted = { reflection, coach: coachValue, model: response.modelVersion };
             break;
           }
           lastError = { category: 'validation', message: problems.slice(0, 5).join('; ') };
           feedback = problems;
-          if (reflection) salvage = { reflection, coach: coachCheck?.value ?? null, model: response.modelVersion };
+          if (reflection) salvage = { reflection, coach: coachValue, model: response.modelVersion };
           this.log.warn(`[REFLECTION] Validation failed: ${problems.length} problem(s). ${lastError.message}`);
         } catch (err) {
           if (!(err instanceof GeminiError)) throw err;

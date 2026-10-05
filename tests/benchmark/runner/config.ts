@@ -12,7 +12,7 @@ export const BENCHMARK_ROOT = path.resolve(path.dirname(fileURLToPath(import.met
 export const REPO_ROOT = path.resolve(BENCHMARK_ROOT, '..', '..');
 
 export type IntelligenceWindowMode = 'hour' | 'day';
-export type ActionPolicy = 'none' | 'accept_all';
+export type ActionPolicy = 'none' | 'accept_all' | 'scenario';
 export type UrlMode = 'domain' | 'raw';
 
 export interface MatchingConfig {
@@ -63,6 +63,8 @@ export interface BenchmarkConfig {
    * What the simulated user does with a recommendation.
    *   none        never answers (the dataset contains no user decisions) — suggestions expire
    *   accept_all  accepts every suggestion a few minutes after the report
+   *   scenario    answers as the day's `execution_scenario` says: decides that evening, and the next
+   *               day says whether it happened and whether it helped (see `runner/simulatedUser.ts`)
    */
   actionPolicy: ActionPolicy;
 
@@ -115,7 +117,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): BenchmarkConfi
     timezone: env.REFLECT_BENCH_TZ?.trim() || 'Asia/Kolkata',
     intelligenceWindow: oneOf(env.REFLECT_BENCH_INTELLIGENCE_WINDOW, ['hour', 'day'] as const, 'hour', 'REFLECT_BENCH_INTELLIGENCE_WINDOW'),
     urlMode: oneOf(env.REFLECT_BENCH_URL_MODE, ['domain', 'raw'] as const, 'domain', 'REFLECT_BENCH_URL_MODE'),
-    actionPolicy: oneOf(env.REFLECT_BENCH_ACTION_POLICY, ['none', 'accept_all'] as const, 'none', 'REFLECT_BENCH_ACTION_POLICY'),
+    actionPolicy: oneOf(env.REFLECT_BENCH_ACTION_POLICY, ['none', 'accept_all', 'scenario'] as const, 'none', 'REFLECT_BENCH_ACTION_POLICY'),
     matching: {
       iouThreshold: numberFrom(env.REFLECT_BENCH_IOU, DEFAULT_MATCHING.iouThreshold, 'REFLECT_BENCH_IOU'),
       boundaryToleranceMs: numberFrom(env.REFLECT_BENCH_BOUNDARY_TOLERANCE_MS, DEFAULT_MATCHING.boundaryToleranceMs, 'REFLECT_BENCH_BOUNDARY_TOLERANCE_MS'),

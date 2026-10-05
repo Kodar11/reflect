@@ -23,6 +23,7 @@ import type { ReflectionEvidence } from '../reflection/ReflectionModels.js';
  *     - CoachLifecycle.ts     the action state machine
  *     - CoachMatching.ts      similarity, strategy identity, execution detection
  *     - CoachEffectiveness.ts what has worked / failed for this user
+ *     - CoachOpportunities.ts where a next move could come from (signals, not decisions)
  *     - CoachContext.ts       structured history → compact model input
  *     - CoachPrompt.ts        prompt text + response schemas
  *     - CoachValidator.ts     runtime validation of model output
@@ -52,6 +53,25 @@ export type CoachActionType = (typeof COACH_ACTION_TYPES)[number];
 
 export const COACH_DAYPARTS = ['morning', 'afternoon', 'evening', 'night', 'any'] as const;
 export type CoachDaypart = (typeof COACH_DAYPARTS)[number];
+
+/** What the Coach concluded about the day: a concrete next move exists, or none is supported. */
+export const COACH_VERDICTS = ['act', 'no_useful_move'] as const;
+export type CoachVerdict = (typeof COACH_VERDICTS)[number];
+
+/**
+ * Action types that only mean something when aimed at a particular priority,
+ * thread or task. The rest (rest, reduce_fragmentation, change_timing,
+ * avoid_pattern, experiment) can legitimately be about the day as a whole.
+ */
+export const TARGETED_ACTION_TYPES: readonly CoachActionType[] = [
+  'continue_behavior',
+  'focus_session',
+  'protect_priority',
+  'close_open_loop',
+  'change_approach',
+  'clarify_priority',
+  'drop',
+];
 
 export const COACH_WHEN = ['today', 'tomorrow', 'this_week'] as const;
 export type CoachWhen = (typeof COACH_WHEN)[number];
@@ -337,6 +357,14 @@ export interface CoachConfig {
   escalateAfterFailures: number;
   /** A rejected suggestion is not repeated for this long. */
   rejectionMemoryMs: number;
+  /** A suggestion the user never decided on is remembered this long, so it is not re-sent every day. */
+  ignoredMemoryMs: number;
+  /** An action the user said did not work is not offered again in the same form for this long. */
+  recentFailureMs: number;
+  /** With less than this left of the day, the reflection is the end-of-day one: the next move is for tomorrow. */
+  endOfDayMs: number;
+  /** An open loop recorded in memory is raised as a next-move signal for this long. */
+  openLoopSignalMs: number;
   duplicateTitleOverlap: number;
   maxFollowups: number;
   maxMemoryUpdates: number;
@@ -361,6 +389,10 @@ export const DEFAULT_COACH_CONFIG: CoachConfig = {
   blockAfterFailures: 2,
   escalateAfterFailures: 3,
   rejectionMemoryMs: 30 * DAY_MS,
+  ignoredMemoryMs: 3 * DAY_MS,
+  recentFailureMs: 14 * DAY_MS,
+  endOfDayMs: 5 * 3_600_000,
+  openLoopSignalMs: 7 * DAY_MS,
   duplicateTitleOverlap: 0.6,
   maxFollowups: 6,
   maxMemoryUpdates: 3,

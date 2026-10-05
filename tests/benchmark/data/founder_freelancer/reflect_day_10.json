@@ -538,6 +538,20 @@
       "Do not call the new client setup a distraction from the SaaS; it directly advances an active priority.",
       "Do not criticize the short YouTube break or infer that it harmed the later work.",
       "Do not assume the client project scope is fixed solely from the available desktop activity."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The authentication thread has reached a reasonable stopping point and the new dashboard work already has concrete design and implementation momentum.",
+      "priority": "Ship the SaaS MVP",
+      "type": "start_focus"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 119 min on Own SaaS; its answer key rates that priority \"meaningful progress\".",
+      "reason_code": null
+    }
   }
 }

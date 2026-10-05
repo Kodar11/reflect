@@ -519,6 +519,20 @@
       "Do not treat the morning client handoff as permanent closure after the later scope adjustment.",
       "Do not criticize the offline gaps as lost work time.",
       "Do not infer that limited lead-generation activity means the freelance pipeline is inactive."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The SaaS dashboard is already the dominant thread and has reached a meaningful implementation checkpoint, so completing the remaining milestone is a clearer next step than starting another broad feature.",
+      "priority": "Ship the SaaS MVP",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 509 min on Own SaaS; its answer key rates that priority \"very strong progress / approaching beta-ready state\".",
+      "reason_code": null
+    }
   }
 }

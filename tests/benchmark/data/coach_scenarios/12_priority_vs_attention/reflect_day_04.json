@@ -1,0 +1,280 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 4,
+    "date": "2026-11-05",
+    "day_type": "12_priority_vs_attention__probe",
+    "circumstances": [
+      "A stated priority gets nothing for days while a hobby gets hours → name the mismatch without moralizing."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:00",
+      "last_seen": "21:00",
+      "approx_active_hours": 4.7,
+      "longest_unobserved_gap_minutes": 380
+    }
+  },
+  "raw_events": [
+    {
+      "id": 39,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:00:00+05:30",
+      "ended_at": "2026-11-05T10:20:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "tile_shader.gdshader — cavern-mod — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 40,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:20:00+05:30",
+      "ended_at": "2026-11-05T10:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Shaders — Godot Engine documentation",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/shaders/",
+      "payload": null
+    },
+    {
+      "id": 41,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T10:40:00+05:30",
+      "ended_at": "2026-11-05T11:00:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "cavern-mod (DEBUG) — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 42,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:00:00+05:30",
+      "ended_at": "2026-11-05T11:20:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "tile_shader.gdshader — cavern-mod — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 43,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:20:00+05:30",
+      "ended_at": "2026-11-05T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Shaders — Godot Engine documentation",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/shaders/",
+      "payload": null
+    },
+    {
+      "id": 44,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T11:40:00+05:30",
+      "ended_at": "2026-11-05T12:00:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "cavern-mod (DEBUG) — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 45,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T12:00:00+05:30",
+      "ended_at": "2026-11-05T12:20:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "tile_shader.gdshader — cavern-mod — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 46,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T12:20:00+05:30",
+      "ended_at": "2026-11-05T12:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Shaders — Godot Engine documentation",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/shaders/",
+      "payload": null
+    },
+    {
+      "id": 47,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T12:40:00+05:30",
+      "ended_at": "2026-11-05T13:00:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "cavern-mod (DEBUG) — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 48,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:00:00+05:30",
+      "ended_at": "2026-11-05T13:20:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "tile_shader.gdshader — cavern-mod — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 49,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:20:00+05:30",
+      "ended_at": "2026-11-05T13:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Shaders — Godot Engine documentation",
+      "url": "https://docs.godotengine.org/en/stable/tutorials/shaders/",
+      "payload": null
+    },
+    {
+      "id": 50,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T13:40:00+05:30",
+      "ended_at": "2026-11-05T14:00:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "cavern-mod (DEBUG) — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 51,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T14:00:00+05:30",
+      "ended_at": "2026-11-05T14:10:00+05:30",
+      "app": "Godot",
+      "browser": null,
+      "title": "tile_shader.gdshader — cavern-mod — Godot Engine",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 52,
+      "watcher": "desktop",
+      "started_at": "2026-11-05T20:30:00+05:30",
+      "ended_at": "2026-11-05T21:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Best speedruns of the year - YouTube",
+      "url": "https://www.youtube.com/watch?v=speedruns",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-04-01",
+        "started_at": "10:00",
+        "ended_at": "14:10",
+        "title": "Hobby game mod",
+        "summary": "Built and tested a hobby mod for a game — a personal side project, not coursework.",
+        "event_ids": [
+          39,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          48,
+          49,
+          50,
+          51
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-02",
+        "started_at": "20:30",
+        "ended_at": "21:00",
+        "title": "Watching videos",
+        "summary": "Watched entertainment videos.",
+        "event_ids": [
+          52
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Hobby game mod",
+      "Watching videos"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "no substantial progress observed today"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "no substantial progress observed today"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Settle whether midterm preparation is still current, or protect one study block for it"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Settle whether midterm preparation is still current, or protect one study block for it",
+      "action_type": "clarify_priority",
+      "reason": "Three days running with no midterm preparation; the tracked time went to a hobby project. Only the user can say which is right.",
+      "suggested_focus_minutes": 60,
+      "target": "Prepare for the algorithms midterm"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not criticize the time spent on the hobby project.",
+      "Do not describe the hobby project as a distraction or as wasted time."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "Three days running with no midterm preparation; the tracked time went to a hobby project. Only the user can say which is right.",
+      "priority": "Prepare for the algorithms midterm",
+      "type": "clarify_priority"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "12_priority_vs_attention",
+      "title": "Stated priority vs observed attention",
+      "tests": "A stated priority gets nothing for days while a hobby gets hours → name the mismatch without moralizing.",
+      "probe": true
+    }
+  }
+}

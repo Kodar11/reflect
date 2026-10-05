@@ -7,11 +7,15 @@ Runs a 30-day simulated user through the **real** Reflect pipeline and the **rea
 ```
 tests/benchmark/
 ├── data/founder_freelancer/reflect_day_01.json … reflect_day_30.json
+├── data/coach_scenarios/<scenario>/reflect_day_NN.json   fifteen small Coach scenarios (+ generate.mjs)
+├── data/annotate_coach.mjs   derives the coach answer-key annotations of the 30-day set
 ├── runner/            what talks to Reflect (sees raw events only)
+├── runner/simulatedUser.ts   the user's decisions on recommendations (the one runner file that reads the answer key)
 ├── evaluators/        what scores Reflect (the only place the answer key is read)
 ├── dataset.test.ts    dataset validation — runs with the ordinary suite
 ├── evaluators.test.ts evaluator unit tests — runs with the ordinary suite
 ├── benchmark.test.ts  the end-to-end run — only with REFLECT_BENCHMARK=1
+├── coachScenarios.test.ts   scenario validation (always) + the live scenario run (REFLECT_COACH_SCENARIOS=1)
 ├── cli.mjs            launcher
 └── results/latest/ , results/archived/<run id>/
 ```
@@ -41,6 +45,18 @@ npm run benchmark -- --reevaluate
 ```
 
 Re-scores the stored run in `results/latest` with the current evaluators and thresholds (for example `--reevaluate --iou 0.3`). It reads the captured output only — no database, no Gemini — so a change to how things are measured is applied to the same model output instead of to a new, differently-random run.
+
+```bash
+npm run benchmark -- --action-policy scenario
+```
+
+The same thirty days with the **simulated user** answering each recommendation as the day's `execution_scenario` says — the run that exercises the whole Coach loop (decide → execute → outcome → adapt).
+
+```bash
+npm run benchmark -- --coach-scenarios
+```
+
+The fifteen Coach scenarios instead of the 30-day set: each on its own database, through the same pipeline, with the simulated user. Results go to `results/coach_scenarios/summary.md` (`--scenario <text>` runs a subset).
 
 `npm run benchmark -- --help` lists every option. The launcher starts vitest under Electron's Node (the runtime the SQLite binding is built for, as `npm run test:db` does) in the simulated user's timezone.
 
@@ -110,7 +126,40 @@ Strict accuracy counts only labels with a single Reflect twin; lenient accuracy 
 
 **Reflection** (`evaluators/reflection.ts`) — A: deterministic checks (generated, well-formed, every cited activity and metric exists, measurements agree with the raw events, no impossible numbers, no answer-key wording). B: answer-key criteria as PASS / PARTIAL / FAIL — key observations, priority alignment, uncertainty, next step.
 
-**Coach** (`evaluators/coach.ts`) — thirteen criteria as PASS / PARTIAL / FAIL / NOT_APPLICABLE.
+**Coach** — two layers.
+
+`evaluators/coach.ts`: thirteen criteria as PASS / PARTIAL / FAIL / NOT_APPLICABLE. They mostly ask "did the Coach avoid doing something wrong?" — and a Coach that never says anything passes most of them, which is exactly how thirty days with zero actions once scored 70%.
+
+`evaluators/coachDimensions.ts`: the other half, kept as separate numbers that are never merged:
+
+| Question | Dimensions |
+| --- | --- |
+| Was the recommendation right? | opportunity recall · opportunity detection · action precision · alignment · specificity · evidence grounding · feasibility · not generic · appropriate null |
+| Did the user follow it? | decisions recorded · execution tracking coverage · share established by Reflect's own observation |
+| Did it help? | outcome tracking coverage · outcomes as stated |
+| Did the Coach adapt? | rejected not repeated · failed not repeated · worked reused · partly-worked refined · external constraint not penalised |
+
+Nothing rewards volume: an action on a day with no opportunity is `unnecessary` and lowers precision and appropriate-null, exactly as silence on a strong day lowers recall. `coach_review.md` lays every day out as GROUND TRUTH → REFLECT COACH → VERDICT → WHY, followed by action → decision → execution → outcome → what the Coach did next.
+
+### Coach answer key
+
+`expected_coach_outcome` keeps `primary_action`, `secondary_action` and `things_not_to_do`, and may add:
+
+```json
+"action_opportunity": { "should_exist": true, "strength": "strong", "reason": "…", "priority": "…", "type": "complete_open_loop" },
+"execution_scenario": { "user_decision": "accepted", "execution": "done", "outcome": "worked", "reason": "…", "reason_code": null }
+```
+
+- `strength`: `strong` (silence is a miss) · `moderate` (an action and silence are both fine) · `none` (any action is unnecessary). Absent: `strong` when a primary action is expected, otherwise `none`.
+- `execution_scenario` is what the simulated user does: `accepted | rejected | deferred | not_applicable`, then `done | partial | not_done`, then `worked | partly_worked | did_not_work`. Not following an action never marks the recommendation as wrong, and an outcome is what was observed afterwards — no causality is claimed.
+
+Both live only in the answer key. `splitDataset` does not copy them into `ReflectInput`, raw events are unchanged, and the dataset's `inputVersion` (a hash of persona + raw events) lets a stored run be re-scored after the answer key gains annotations.
+
+For the 30-day set the two annotations are derived by `data/annotate_coach.mjs` from what the key already states (the expected actions, and the next day's ground-truth activities and priority assessments). That set has 24 strong and 6 moderate days and **no** null day — a founder with three active priorities always has a next move — so appropriate-null, rejection, failure and external-constraint handling are measured by the scenario set.
+
+### Coach scenario set
+
+`data/coach_scenarios/` holds fifteen 2–5 day datasets, one question each, across three personas (student, founder, writer): clear open loop · priority repeatedly displaced · momentum worth protecting · approaching deadline · fragmented day · nothing needed · heavy load / rest · accepted-done-worked · previous action failed · previous action rejected · same app, different goal · stated priority vs attention · already on track · ambiguous evidence · external constraint. Each has exactly one **probe day**; the days before it are ordinary history (`moderate`). A scenario passes when its probe day is answered correctly and every adaptation check holds. Regenerate with `node tests/benchmark/data/coach_scenarios/generate.mjs`.
 
 ### Two kinds of verdict
 
@@ -130,6 +179,6 @@ The harness itself is deterministic: no randomness, fixed ordering, deterministi
 | Flag | Default | Alternative |
 | --- | --- | --- |
 | `--intelligence-window` | `hour` — production cadence | `day` — one whole-day request; cheaper, but not how the app runs |
-| `--action-policy` | `none` — the dataset contains no user decisions, so suggestions expire | `accept_all` — every suggestion is accepted, exercising follow-through and observation |
+| `--action-policy` | `none` — the user never answers, so suggestions expire | `scenario` — the simulated user answers as the day's `execution_scenario` says · `accept_all` — every suggestion is accepted |
 | `--url-mode` | `domain` — what the tracker stores | `raw` |
 | `--iou`, `--boundary-tolerance-ms`, `--min-overlap-ms` | 0.5, 60 s, 60 s | |

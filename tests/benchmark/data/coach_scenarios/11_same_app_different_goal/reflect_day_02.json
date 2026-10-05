@@ -1,0 +1,234 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "Independent researcher and writer",
+    "current_work": [
+      "A grant application for a field study",
+      "A weekly newsletter"
+    ],
+    "priorities": [
+      "Finish the grant application",
+      "Publish the weekly newsletter"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-11-03",
+    "day_type": "11_same_app_different_goal__probe",
+    "circumstances": [
+      "Two priorities live in the same app; one was finished and one left mid-way → the action must follow the meaning, not the app."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:30",
+      "last_seen": "12:40",
+      "approx_active_hours": 2.7,
+      "longest_unobserved_gap_minutes": 30
+    }
+  },
+  "raw_events": [
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:30:00+05:30",
+      "ended_at": "2026-11-03T09:50:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #48 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T09:50:00+05:30",
+      "ended_at": "2026-11-03T10:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #48 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:10:00+05:30",
+      "ended_at": "2026-11-03T10:15:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #48 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T10:15:00+05:30",
+      "ended_at": "2026-11-03T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Newsletter #48 draft — Google Docs",
+      "url": "https://docs.google.com/document/d/newsletter",
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:00:00+05:30",
+      "ended_at": "2026-11-03T11:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — budget justification (draft, 3 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:20:00+05:30",
+      "ended_at": "2026-11-03T11:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Field Study Fund — Application guidelines",
+      "url": "https://fund.example.org/guidelines",
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T11:40:00+05:30",
+      "ended_at": "2026-11-03T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — budget justification (draft, 3 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T12:00:00+05:30",
+      "ended_at": "2026-11-03T12:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Field Study Fund — Application guidelines",
+      "url": "https://fund.example.org/guidelines",
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-11-03T12:20:00+05:30",
+      "ended_at": "2026-11-03T12:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Grant application — budget justification (draft, 3 open comments) — Google Docs",
+      "url": "https://docs.google.com/document/d/grant",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "09:30",
+        "ended_at": "10:15",
+        "title": "Drafting newsletter 48",
+        "summary": "Wrote the draft of newsletter issue 48.",
+        "event_ids": [
+          9,
+          10,
+          11
+        ],
+        "context": "Work",
+        "area": "Publish the weekly newsletter",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "10:15",
+        "ended_at": "10:30",
+        "title": "Publishing newsletter 48",
+        "summary": "Finalised issue 48 and published it to subscribers.",
+        "event_ids": [
+          12
+        ],
+        "context": "Work",
+        "area": "Publish the weekly newsletter",
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-03",
+        "started_at": "11:00",
+        "ended_at": "12:40",
+        "title": "Drafting grant budget justification",
+        "summary": "Wrote part of the budget justification; it still had open comments and unfinished paragraphs.",
+        "event_ids": [
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "context": "Work",
+        "area": "Finish the grant application",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Drafting newsletter 48",
+      "Publishing newsletter 48",
+      "Drafting grant budget justification"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the grant application",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Publish the weekly newsletter",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Finish the budget justification of the grant application"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the budget justification of the grant application",
+      "action_type": "complete_open_loop",
+      "reason": "The newsletter was published; the budget justification was drafted and left unfinished.",
+      "suggested_focus_minutes": 60,
+      "target": "Finish the grant application"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not recommend more work on the newsletter issue that was already published."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The newsletter was published; the budget justification was drafted and left unfinished.",
+      "priority": "Finish the grant application",
+      "type": "complete_open_loop"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "11_same_app_different_goal",
+      "title": "Same application, different goal",
+      "tests": "Two priorities live in the same app; one was finished and one left mid-way → the action must follow the meaning, not the app.",
+      "probe": true
+    }
+  }
+}

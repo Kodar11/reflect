@@ -1,0 +1,193 @@
+{
+  "persona": {
+    "id": "cs_student_01",
+    "type": "student",
+    "role": "Third-year computer science student",
+    "current_work": [
+      "Database systems course",
+      "Algorithms course"
+    ],
+    "priorities": [
+      "Finish the database systems assignment",
+      "Prepare for the algorithms midterm"
+    ]
+  },
+  "day": {
+    "day_number": 1,
+    "date": "2026-11-02",
+    "day_type": "14_ambiguous_evidence",
+    "circumstances": [
+      "A short day of activity that cannot be interpreted → uncertainty, not a confident action."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:00",
+      "last_seen": "12:10",
+      "approx_active_hours": 1.8,
+      "longest_unobserved_gap_minutes": 25
+    }
+  },
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:00:00+05:30",
+      "ended_at": "2026-11-02T10:15:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest — 7 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:15:00+05:30",
+      "ended_at": "2026-11-02T10:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Assignment 3: Query Optimization — Submitted — Course LMS",
+      "url": "https://lms.university.example/courses/db/assignments/3",
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T10:30:00+05:30",
+      "ended_at": "2026-11-02T10:35:00+05:30",
+      "app": "WindowsTerminal",
+      "browser": null,
+      "title": "pytest — 7 passed — db-assignment-3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:00:00+05:30",
+      "ended_at": "2026-11-02T11:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Dynamic Programming — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:20:00+05:30",
+      "ended_at": "2026-11-02T11:40:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Algorithms midterm notes — Dynamic Programming — Obsidian",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T11:40:00+05:30",
+      "ended_at": "2026-11-02T12:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Lecture — Dynamic Programming.pdf",
+      "url": "https://lms.university.example/courses/algo/lectures",
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-11-02T12:00:00+05:30",
+      "ended_at": "2026-11-02T12:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Practice Set — Dynamic Programming — 9 of 9 solved — Completed — Algorithms",
+      "url": "https://lms.university.example/courses/algo/practice",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "10:00",
+        "ended_at": "10:35",
+        "title": "Submitting Assignment 3",
+        "summary": "Ran the full test suite (all passing), exported the report and submitted Assignment 3 on the course site.",
+        "event_ids": [
+          1,
+          2,
+          3
+        ],
+        "context": "Work",
+        "area": "Finish the database systems assignment",
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "11:00",
+        "ended_at": "12:10",
+        "title": "Completed Dynamic Programming practice set",
+        "summary": "Finished every problem in the Dynamic Programming practice set and checked the answers.",
+        "event_ids": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "context": "Work",
+        "area": "Prepare for the algorithms midterm",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "day",
+    "key_observations": [
+      "Submitting Assignment 3",
+      "Completed Dynamic Programming practice set"
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Finish the database systems assignment",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Prepare for the algorithms midterm",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [],
+    "possible_next_step": "Carry on with: Prepare for the algorithms midterm"
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Carry on with: Prepare for the algorithms midterm",
+      "action_type": "continue_successful_behavior",
+      "reason": "Work is moving normally; continuing it is the natural step and needs no intervention.",
+      "suggested_focus_minutes": null,
+      "target": "Prepare for the algorithms midterm"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "An ordinary day inside the scenario: an action is optional.",
+      "priority": "Prepare for the algorithms midterm",
+      "type": "continue_successful_behavior"
+    }
+  },
+  "evaluation_objectives": {
+    "coach_scenario": {
+      "id": "14_ambiguous_evidence",
+      "title": "Ambiguous evidence",
+      "tests": "A short day of activity that cannot be interpreted → uncertainty, not a confident action.",
+      "probe": false
+    }
+  }
+}

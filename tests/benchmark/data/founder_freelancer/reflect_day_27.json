@@ -418,6 +418,20 @@
       "Do not make another broad SaaS feature change before selecting a specific beta-supported problem.",
       "Do not infer that the quieter Sunday meant no offline work or personal activity.",
       "Do not interpret the analytics review as proof of improved activation."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The authentication work has already passed through implementation, testing, and staging verification, so the next useful step is to close the first deliverable.",
+      "priority": "Complete existing client work",
+      "type": "complete_open_loop"
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "The next day shows 387 min on Freelance; its answer key rates that priority \"strong progress with a temporary external dependency\".",
+      "reason_code": null
+    }
   }
 }

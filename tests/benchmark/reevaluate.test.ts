@@ -12,7 +12,7 @@ import { reevaluate } from './runner/reevaluate';
  */
 describe.skipIf(process.env.REFLECT_BENCH_REEVALUATE !== '1')('re-evaluate the stored benchmark run', () => {
   it('rewrites the evaluation, summary, report and review packet', () => {
-    const result = reevaluate(loadConfig());
+    const result = reevaluate(loadConfig(), process.env.REFLECT_BENCH_RUN_DIR ? path.resolve(process.env.REFLECT_BENCH_RUN_DIR) : undefined);
     console.log(`[benchmark] re-evaluated ${result.runId}: ${result.days} day(s) → ${path.join(result.resultsDir, 'report.md')}`);
     expect(result.days).toBeGreaterThan(0);
     expect(result.summary.daysEvaluated).toBe(result.days);

@@ -3,6 +3,7 @@ import type { CoachAction } from '../../src/coach/CoachModels';
 import type { Metric, ReflectionReport } from '../../src/reflection/ReflectionModels';
 import { scoreClassification, type ClassificationSample, type PredictedLabels } from './evaluators/classification';
 import { evaluateCoach } from './evaluators/coach';
+import { assessCoach, opportunityOf, stateOf, summarizeCoachDimensions } from './evaluators/coachDimensions';
 import { countVerdicts, evaluateDay, summarize } from './evaluators/index';
 import { intersectionLength, normalize, temporalIou, totalLength } from './evaluators/intervals';
 import { buildLeakDetector } from './evaluators/leakage';
@@ -656,5 +657,169 @@ describe('answer-key leak detector', () => {
   it('stays silent on ordinary prompts and on wording Reflect legitimately has', () => {
     expect(detector.findLeaks('You implemented billing and tested it. Then you researched the API.')).toEqual([]);
     expect(detector.findLeaks('ABOUT THE USER: Solo founder and freelance software developer who builds a SaaS product')).toEqual([]);
+  });
+});
+
+// ── Coach, by dimension ─────────────────────────────────────────────────────
+
+describe('coach dimensions — opportunity, precision, null, follow-through, adaptation', () => {
+  const dimCtx = { semantic: SEMANTIC, knownBlockIds: new Set(['b1', 'b2']), previousProcessedAt: iso(0) };
+  const withOpportunity = (strength: 'strong' | 'moderate' | 'none', over: Partial<EvaluationOnlyDay['expectedCoachOutcome']> = {}): EvaluationOnlyDay => ({
+    ...ANSWER,
+    expectedCoachOutcome: {
+      ...ANSWER.expectedCoachOutcome,
+      ...(strength === 'none' ? { primary_action: null } : {}),
+      action_opportunity: { should_exist: strength === 'strong', strength, reason: 'test', priority: strength === 'none' ? null : 'Ship the SaaS MVP', type: strength === 'none' ? null : 'protect_priority' },
+      ...over,
+    },
+  });
+  const assess = (capturedDay: CapturedDay, answer: EvaluationOnlyDay = withOpportunity('strong')) => assessCoach(capturedDay, answer, dimCtx);
+  /** An action as it stood after the simulated user answered. */
+  const settled = (over: Partial<CoachAction>) =>
+    action({ id: 'earlier', status: 'closed', acceptedAt: iso(790), execution: 'done', executionSource: 'observed', closedAt: iso(900), outcomeAt: iso(900), updatedAt: iso(900), ...over });
+
+  it('opportunity detection: silence on a strong day is a miss; on a moderate day it is fine; on a null day it is right', () => {
+    const silent = captured({ actions: [] });
+    expect(assess(silent, withOpportunity('strong'))).toMatchObject({ verdict: 'missed', opportunity: { strength: 'strong' } });
+    expect(assess(silent, withOpportunity('moderate')).verdict).toBe('acceptable_null');
+    expect(assess(silent, withOpportunity('none')).verdict).toBe('correct_null');
+    expect(assess(captured({ report: null, actions: [] }), withOpportunity('strong')).verdict).toBe('no_report');
+    // An answer key written before the annotation existed: a primary action means "strong".
+    expect(opportunityOf(ANSWER.expectedCoachOutcome)).toMatchObject({ strength: 'strong', should_exist: true });
+    expect(opportunityOf({ ...ANSWER.expectedCoachOutcome, primary_action: null })).toMatchObject({ strength: 'none', should_exist: false });
+  });
+
+  it('a grounded, aligned, specific action aimed at the expected target is correct — and justified', () => {
+    const day = assess(captured());
+    expect(day.verdict).toBe('correct');
+    expect(day.actions[0]).toMatchObject({ matches: 'primary', typeFit: 'exact', grounded: true, aligned: true, specific: true, feasible: true, generic: false, prohibited: false, justified: true, notes: [] });
+  });
+
+  it('an action is never rewarded for existing: on a null day it is unnecessary, and it counts against precision', () => {
+    const day = assess(captured(), withOpportunity('none'));
+    expect(day.verdict).toBe('unnecessary');
+    expect(day.actions[0]).toMatchObject({ justified: false });
+    expect(day.actions[0].notes).toContain('the day held no opportunity worth an action');
+  });
+
+  it('penalises unsupported, generic, misaimed and oversized actions — each for its own reason', () => {
+    const unsupported = assess(captured({ actions: [action({ sourceMetricKeys: ['thread.made-up.minutes'], sourceActivityIds: [] })] })).actions[0];
+    expect(unsupported).toMatchObject({ grounded: false, justified: false });
+    const generic = assess(captured({ actions: [action({ title: 'Stay focused tomorrow', description: 'Avoid distractions and manage your time.', priorityId: null, thread: null, targetKey: null, focusTask: null, focusMinutes: null, daypart: 'any', sourceMetricKeys: [], sourceActivityIds: [] })] }));
+    expect(generic.actions[0]).toMatchObject({ generic: true, specific: false, grounded: false, justified: false });
+    expect(generic.verdict).toBe('wrong');
+    // Aimed at the other work stream: well-formed, but not what the day called for.
+    const misaimed = assess(captured({ actions: [action({ title: 'Send the revised proposal to the prospect tomorrow morning', rationale: 'The proposal was revised and not sent.', priorityId: 'pr-leads', thread: 'Leads', targetKey: 'p:pr-leads', focusTask: 'Proposal' })] }));
+    expect(misaimed.actions[0]).toMatchObject({ matches: null, grounded: true, justified: false });
+    expect(misaimed.verdict).toBe('wrong');
+    const oversized = assess(captured({ actions: [action({ focusMinutes: 180 })] })).actions[0];
+    expect(oversized).toMatchObject({ feasible: false });
+    expect(oversized.notes.join(' ')).toContain('more than one sitting');
+    const prohibited = assess(captured({ actions: [action({ title: 'Extend the workday tonight to recover the SaaS billing time', rationale: 'SaaS time was reduced by client work.' })] }), withOpportunity('strong', { things_not_to_do: ['Do not recommend extending the workday to recover SaaS time.'] })).actions[0];
+    expect(prohibited).toMatchObject({ prohibited: true, justified: false });
+  });
+
+  it('saying the same thing again is not a new recommendation, whatever became of the first one', () => {
+    const yesterday = action({ id: 'earlier', status: 'closed', execution: 'done', outcome: 'worked', createdAt: iso(780 - 24 * 60) });
+    const again = assess(captured({ earlierActions: [yesterday], actions: [action({ id: 'today' })] })).actions[0];
+    expect(again).toMatchObject({ repeated: true, justified: false });
+    expect(again.notes.join(' ')).toContain('says the same thing as');
+    // A different, more specific sentence for the same target is not a repeat; nor is one from long ago.
+    expect(assess(captured({ earlierActions: [yesterday], actions: [action({ id: 'today', title: 'Finish the Stripe webhook retry handling in the SaaS billing work' })] })).actions[0].repeated).toBe(false);
+    expect(assess(captured({ earlierActions: [{ ...yesterday, createdAt: iso(780 - 10 * 24 * 60) }], actions: [action({ id: 'today' })] })).actions[0].repeated).toBe(false);
+  });
+
+  it('a day-wide expected action (rest, fewer switches) is answered by the right kind of action, not by a target', () => {
+    const answer = withOpportunity('strong', { primary_action: { title: 'Keep one uninterrupted block', action_type: 'reduce_fragmentation', reason: 'The day broke into short pieces.', suggested_focus_minutes: 90, target: null } });
+    expect(assess(captured({ actions: [action({ actionType: 'reduce_fragmentation', strategyKey: 'reduce_fragmentation|morning|long' })] }), answer).verdict).toBe('correct');
+    expect(assess(captured({ actions: [action({ actionType: 'rest', strategyKey: 'rest|any|none', focusMinutes: null })] }), answer).actions[0].matches).toBeNull();
+  });
+
+  it('precision, recall and appropriate-null are separate numbers', () => {
+    const days = [
+      assess(captured(), withOpportunity('strong')), // correct
+      assess(captured({ actions: [] }), withOpportunity('strong')), // missed
+      assess(captured({ actions: [] }), withOpportunity('none')), // correct null
+      assess(captured(), withOpportunity('none')), // unnecessary
+      assess(captured({ actions: [] }), withOpportunity('moderate')), // acceptable null
+    ];
+    const summary = summarizeCoachDimensions(days);
+    expect(summary).toMatchObject({ daysEvaluated: 5, daysExpectedAction: 2, daysOptionalAction: 1, daysExpectedNull: 2, actionsGenerated: 2, daysWithActions: 2 });
+    expect(summary.opportunityRecall).toEqual({ value: 0.5, numerator: 1, denominator: 2 });
+    expect(summary.actionPrecision).toEqual({ value: 0.5, numerator: 1, denominator: 2 });
+    expect(summary.appropriateNull).toEqual({ value: 0.5, numerator: 1, denominator: 2 });
+    expect(summary.verdicts).toMatchObject({ correct: 1, missed: 1, correct_null: 1, unnecessary: 1, acceptable_null: 1 });
+    // A Coach that acts every day gets full recall and pays for it in precision and appropriate-null.
+    const always = summarizeCoachDimensions([assess(captured(), withOpportunity('strong')), assess(captured(), withOpportunity('none')), assess(captured(), withOpportunity('none'))]);
+    expect(always.opportunityRecall.value).toBe(1);
+    expect(always.actionPrecision.value).toBeCloseTo(1 / 3);
+    expect(always.appropriateNull.value).toBe(0);
+    // …and one that never acts gets the nulls right and none of the opportunities.
+    const never = summarizeCoachDimensions([assess(captured({ actions: [] }), withOpportunity('strong')), assess(captured({ actions: [] }), withOpportunity('none'))]);
+    expect(never).toMatchObject({ opportunityRecall: { value: 0 }, actionPrecision: { value: null }, appropriateNull: { value: 1 } });
+  });
+
+  it('execution and outcome are tracked apart from each other and from recommendation quality', () => {
+    const states = [
+      settled({ id: 'a', outcome: 'worked' }), // followed, observed by Reflect, helped
+      settled({ id: 'b', executionSource: 'user', outcome: 'did_not_work' }), // followed, said so, did not help
+      settled({ id: 'c', execution: 'not_done', executionSource: 'user', reasonCode: 'external_constraint', outcomeAt: null }), // not followed
+      settled({ id: 'd', status: 'review', outcome: null, outcomeAt: null, closedAt: null }), // done, nobody said whether it helped
+      settled({ id: 'e', status: 'review', execution: null, executionSource: null, outcomeAt: null, closedAt: null }), // window passed, nothing known
+      action({ id: 'f', status: 'rejected', rejectedAt: iso(800), reasonCode: 'not_relevant' }),
+      action({ id: 'g', status: 'expired' }),
+    ].map(stateOf);
+    const summary = summarizeCoachDimensions([assess(captured())], states);
+    expect(summary.lifecycle).toMatchObject({ accepted: 5, rejected: 1, undecided: 2, done: 3, notDone: 1, executionUnknown: 1, observedByReflect: 2, statedByUser: 2, worked: 1, didNotWork: 1 });
+    expect(summary.executionTracking).toEqual({ value: 0.8, numerator: 4, denominator: 5 });
+    expect(summary.outcomeTracking).toEqual({ value: 2 / 3, numerator: 2, denominator: 3 });
+    // None of this touched the recommendation scores.
+    expect(summary.actionPrecision.value).toBe(1);
+  });
+
+  it('adaptation: a rejected suggestion that comes back fails; one left alone passes', () => {
+    const rejected = action({ id: 'earlier', status: 'rejected', rejectedAt: iso(790), closedAt: iso(790), reasonCode: 'not_relevant' });
+    const back = assess(captured({ earlierActions: [rejected], actions: [action({ id: 'today', title: 'Keep a morning block for the SaaS billing work' })] }));
+    expect(back.adaptation).toMatchObject([{ kind: 'rejected_not_repeated', pass: false, behaviour: 'repeated' }]);
+    const left = assess(captured({ earlierActions: [rejected], actions: [] }));
+    expect(left.adaptation).toMatchObject([{ kind: 'rejected_not_repeated', pass: true, behaviour: 'did not bring it back' }]);
+  });
+
+  it('adaptation: after "did not work", the same strategy fails; a changed one or none passes', () => {
+    const failed = settled({ outcome: 'did_not_work' });
+    const unchanged = assess(captured({ earlierActions: [failed], actions: [action({ id: 'today' })] }));
+    expect(unchanged.adaptation).toMatchObject([{ kind: 'failed_not_repeated', pass: false, behaviour: 'repeated unchanged' }]);
+    const changed = assess(captured({ earlierActions: [failed], actions: [action({ id: 'today', daypart: 'evening', focusMinutes: 30, strategyKey: 'protect_priority|evening|short', title: 'Give the SaaS billing work 30 minutes this evening' })] }));
+    expect(changed.adaptation).toMatchObject([{ kind: 'failed_not_repeated', pass: true, behaviour: 'changed the strategy' }]);
+    expect(assess(captured({ earlierActions: [failed], actions: [] })).adaptation).toMatchObject([{ pass: true, behaviour: 'backed off' }]);
+    // "Bad timing": a different kind of action in the same part of the day is not an adaptation.
+    const mistimed = settled({ outcome: 'did_not_work', reasonCode: 'bad_timing' });
+    const sameSlot = assess(captured({ earlierActions: [mistimed], actions: [action({ id: 'today', actionType: 'focus_session', strategyKey: 'focus_session|morning|long' })] }));
+    expect(sameSlot.adaptation).toMatchObject([{ kind: 'failed_not_repeated', pass: false, behaviour: 'kept the timing that failed' }]);
+  });
+
+  it('adaptation: what worked is reused, what partly worked is refined, and an external interruption is not held against anyone', () => {
+    const reused = assess(captured({ earlierActions: [settled({ outcome: 'worked' })], actions: [action({ id: 'today', title: 'Protect the first block tomorrow for the SaaS invoice export' })] }));
+    expect(reused.adaptation).toMatchObject([{ kind: 'worked_reused', pass: true, behaviour: 'reused what worked' }]);
+    const repeated = assess(captured({ earlierActions: [settled({ outcome: 'partly_worked' })], actions: [action({ id: 'today' })] }));
+    expect(repeated.adaptation).toMatchObject([{ kind: 'partly_refined', pass: false, behaviour: 'repeated unchanged' }]);
+    const refined = assess(captured({ earlierActions: [settled({ outcome: 'partly_worked' })], actions: [action({ id: 'today', focusMinutes: 45, strategyKey: 'protect_priority|morning|medium' })] }));
+    expect(refined.adaptation).toMatchObject([{ kind: 'partly_refined', pass: true, behaviour: 'refined it' }]);
+    const interrupted = settled({ execution: 'not_done', executionSource: 'user', reasonCode: 'external_constraint', outcomeAt: null });
+    expect(assess(captured({ earlierActions: [interrupted], actions: [action({ id: 'today' })] })).adaptation).toMatchObject([{ kind: 'external_not_penalised', pass: true, behaviour: 're-offered the next step' }]);
+    // Something settled before the previous day's capture is old news, not an adaptation test.
+    expect(assessCoach(captured({ earlierActions: [settled({ outcome: 'worked' })] }), withOpportunity('strong'), { ...dimCtx, previousProcessedAt: iso(2000) }).adaptation).toEqual([]);
+    const summary = summarizeCoachDimensions([reused, repeated, refined]);
+    expect(summary.adaptation).toMatchObject({ checks: 3, passed: 2, byKind: { worked_reused: { checks: 1, passed: 1 }, partly_refined: { checks: 2, passed: 1 } } });
+  });
+
+  it('the summary carries the dimensions next to the thirteen criteria, without merging them', () => {
+    const evaluation = evaluateCoach(captured(), withOpportunity('strong'), coachCtx);
+    expect(evaluation.assessment.verdict).toBe('correct');
+    expect(evaluation.criteria).toHaveLength(13);
+    // "Did not force an action" now reads the opportunity, not the mere presence of an expected action.
+    expect(verdictOf(evaluateCoach(captured(), withOpportunity('none'), coachCtx).criteria, 'coach_c13')).toBe('FAIL');
+    expect(verdictOf(evaluateCoach(captured({ actions: [] }), withOpportunity('none'), coachCtx).criteria, 'coach_c13')).toBe('PASS');
+    expect(verdictOf(evaluateCoach(captured(), withOpportunity('moderate'), coachCtx).criteria, 'coach_c13')).toBe('NOT_APPLICABLE');
   });
 });
