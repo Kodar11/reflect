@@ -1,0 +1,490 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 28,
+    "date": "2026-09-28",
+    "day_type": "audit_integration_testing_and_review_preparation_day",
+    "circumstances": [
+      "PLAT-531 has working audit generation across the main administrative write paths but still needs representative end-to-end validation.",
+      "The engineer focuses on integration coverage and the remaining audit read/query contract.",
+      "A teammate review is handled during the day without displacing the main task.",
+      "Account export remains closed and no new evidence reopens the older platform issues."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:04",
+      "last_seen": "18:33",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 77
+    }
+  },
+  "raw_events": [
+    {
+      "id": 639,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T09:04:00+05:30",
+      "ended_at": "2026-09-28T09:28:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-531 — Admin action audit trail",
+      "url": "https://jira.company.local/browse/PLAT-531",
+      "payload": {
+        "issue": "PLAT-531",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 640,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T09:28:00+05:30",
+      "ended_at": "2026-09-28T09:52:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "workspaceAdminController.test.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "workspaceAdminController.test.ts",
+          "billingAdminController.test.ts"
+        ]
+      }
+    },
+    {
+      "id": 641,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T09:52:00+05:30",
+      "ended_at": "2026-09-28T10:16:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- workspaceAdminController.test.ts billingAdminController.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- workspaceAdminController.test.ts billingAdminController.test.ts"
+      }
+    },
+    {
+      "id": 642,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T10:16:00+05:30",
+      "ended_at": "2026-09-28T10:40:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAudit.integration.test.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAudit.integration.test.ts",
+          "adminAuditService.ts"
+        ]
+      }
+    },
+    {
+      "id": 643,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T10:40:00+05:30",
+      "ended_at": "2026-09-28T11:04:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- adminAudit.integration.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- adminAudit.integration.test.ts"
+      }
+    },
+    {
+      "id": 644,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T11:04:00+05:30",
+      "ended_at": "2026-09-28T11:28:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAuditController.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAuditController.ts",
+          "adminAuditService.ts"
+        ]
+      }
+    },
+    {
+      "id": 645,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T11:28:00+05:30",
+      "ended_at": "2026-09-28T11:52:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PLAT-531 — Admin action audit trail",
+      "url": "https://jira.company.local/browse/PLAT-531",
+      "payload": {
+        "issue": "PLAT-531",
+        "view": "comments"
+      }
+    },
+    {
+      "id": 646,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T11:52:00+05:30",
+      "ended_at": "2026-09-28T12:16:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 647,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T12:16:00+05:30",
+      "ended_at": "2026-09-28T12:40:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- adminAudit",
+      "url": null,
+      "payload": {
+        "command": "npm test -- adminAudit"
+      }
+    },
+    {
+      "id": 648,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T13:57:00+05:30",
+      "ended_at": "2026-09-28T14:21:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #899 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/899",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 899
+      }
+    },
+    {
+      "id": 649,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T14:21:00+05:30",
+      "ended_at": "2026-09-28T14:45:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAuditQueryService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAuditQueryService.ts",
+          "adminAuditRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 650,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T14:45:00+05:30",
+      "ended_at": "2026-09-28T15:09:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAuditController.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAuditController.ts",
+          "adminAuditQueryService.ts"
+        ]
+      }
+    },
+    {
+      "id": 651,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T15:09:00+05:30",
+      "ended_at": "2026-09-28T15:33:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- adminAuditQueryService.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- adminAuditQueryService.test.ts"
+      }
+    },
+    {
+      "id": 652,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T15:33:00+05:30",
+      "ended_at": "2026-09-28T15:57:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#qa-platform",
+      "url": null,
+      "payload": {
+        "channel": "#qa-platform"
+      }
+    },
+    {
+      "id": 653,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T15:57:00+05:30",
+      "ended_at": "2026-09-28T16:21:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #901 — Files changed",
+      "url": "https://github.com/company/platform-api/pull/901/files",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 901
+      }
+    },
+    {
+      "id": 654,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T16:21:00+05:30",
+      "ended_at": "2026-09-28T16:45:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAuditQueryService.test.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAuditQueryService.test.ts",
+          "adminAuditRepository.test.ts"
+        ]
+      }
+    },
+    {
+      "id": 655,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T16:45:00+05:30",
+      "ended_at": "2026-09-28T17:09:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- adminAuditQueryService.test.ts adminAuditRepository.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- adminAuditQueryService.test.ts adminAuditRepository.test.ts"
+      }
+    },
+    {
+      "id": 656,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T17:09:00+05:30",
+      "ended_at": "2026-09-28T17:33:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-531 — Admin action audit trail",
+      "url": "https://jira.company.local/browse/PLAT-531",
+      "payload": {
+        "issue": "PLAT-531",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 657,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T17:33:00+05:30",
+      "ended_at": "2026-09-28T17:57:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "platform-api — 5xx rate",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "platform-api",
+        "metric": "5xx rate",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 658,
+      "watcher": "window_activity",
+      "started_at": "2026-09-28T17:57:00+05:30",
+      "ended_at": "2026-09-28T18:33:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-28-01",
+        "started_at": "09:04",
+        "ended_at": "12:40",
+        "title": "Audit integration coverage",
+        "summary": "Added representative request-to-database integration coverage for workspace and billing administrative actions and reran the focused audit test suite.",
+        "event_ids": [
+          639,
+          640,
+          641,
+          642,
+          643,
+          644,
+          645,
+          646,
+          647
+        ],
+        "context": "The main write paths were implemented and needed composition-level validation before review.",
+        "area": "admin_audit",
+        "intent": "validate",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-02",
+        "started_at": "13:57",
+        "ended_at": "15:57",
+        "title": "Implement audit query surface",
+        "summary": "Reviewed a teammate pull request, then implemented an initial administrative audit query service and controller with focused tests and QA discussion.",
+        "event_ids": [
+          648,
+          649,
+          650,
+          651,
+          652
+        ],
+        "context": "The read surface was still underspecified, so the implementation remained intentionally narrow around the agreed administrative use case.",
+        "area": "admin_audit",
+        "intent": "implement",
+        "quality": "useful",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-03",
+        "started_at": "15:57",
+        "ended_at": "17:33",
+        "title": "Query test hardening and task update",
+        "summary": "Reviewed another pull request, expanded query and repository tests, and updated PLAT-531 with the current implementation and remaining questions.",
+        "event_ids": [
+          653,
+          654,
+          655,
+          656
+        ],
+        "context": "The audit feature was moving toward review readiness but still had contract details to settle around filtering and pagination.",
+        "area": "engineering_delivery",
+        "intent": "refine",
+        "quality": "strong",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-28-04",
+        "started_at": "17:33",
+        "ended_at": "18:33",
+        "title": "Routine platform health check",
+        "summary": "Checked the platform 5xx rate and coordinated the next implementation and review step.",
+        "event_ids": [
+          657,
+          658
+        ],
+        "context": "No new operational issue was indicated by the routine health check.",
+        "area": "platform_operations",
+        "intent": "monitor",
+        "quality": "appropriate",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:40",
+        "ended_at": "13:57",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "PLAT-531 now has representative integration coverage for the main administrative write paths.",
+      "An initial audit query surface was added so the feature is not limited to event generation.",
+      "The query implementation remains intentionally narrow, with filtering and pagination semantics still needing confirmation.",
+      "The feature is approaching review readiness but is not yet safe to call complete."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Implement and validate PLAT-531",
+        "assessment": "approaching_review_ready",
+        "evidence": [
+          640,
+          641,
+          642,
+          643,
+          644,
+          647,
+          649,
+          650,
+          651,
+          654,
+          655,
+          656
+        ]
+      },
+      {
+        "priority": "Maintain team review responsibilities",
+        "assessment": "completed_secondary_responsibility",
+        "evidence": [
+          648,
+          653
+        ]
+      },
+      {
+        "priority": "Maintain platform stability",
+        "assessment": "stable",
+        "evidence": [
+          657
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "The desired filtering and pagination behavior for audit queries is not fully settled.",
+      "Integration tests cover representative actions but not every administrative mutation.",
+      "The read surface has not yet been reviewed by all stakeholders."
+    ],
+    "possible_next_step": "Clarify the audit query contract, then finish representative end-to-end coverage and open PLAT-531 for focused review."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Audit query filtering and pagination contract",
+      "action_type": "clarify_priority",
+      "target": "Audit query filtering and pagination contract",
+      "reason": "The core write path is validated, and the main remaining ambiguity is in the read surface. Settling it now prevents unnecessary rework.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "PLAT-531 review preparation",
+      "action_type": "complete_open_loop",
+      "target": "PLAT-531 review preparation",
+      "reason": "Once the query contract is confirmed, the implementation is close enough to consolidate tests and request review.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not add broad audit analytics or reporting before the basic query contract is stable.",
+      "Do not claim complete administrative coverage from representative integration tests alone.",
+      "Do not reopen account export or older platform issues without new evidence.",
+      "Do not continue implementation indefinitely without requesting stakeholder review."
+    ]
+  }
+}

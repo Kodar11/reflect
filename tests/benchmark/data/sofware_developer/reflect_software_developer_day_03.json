@@ -1,0 +1,732 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    },
+    "current_work": [
+      "Finishing the workspace-level billing settings API",
+      "Investigating the intermittent webhook processing issue",
+      "Supporting the team's ongoing pull request reviews"
+    ],
+    "priorities": [
+      "Ship the billing settings API change",
+      "Determine the root cause of the webhook processing issue",
+      "Keep important team pull requests moving"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-09-03",
+    "day_type": "billing_review_and_workspace_regression_day",
+    "circumstances": [
+      "The billing settings change was finished and moved into review",
+      "A new ticket reported slower workspace API responses and was assigned to the developer",
+      "Most of the day went to locating a slow workspace repository query and making a first change",
+      "The query change was only exercised locally and still needed verification elsewhere",
+      "The webhook investigation stayed blocked on infrastructure information that did not arrive",
+      "A teammate's pull request needed review in the afternoon",
+      "First review comments on the billing pull request arrived late in the day"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:11",
+      "last_seen": "18:29",
+      "approx_active_hours": 8.1,
+      "longest_unobserved_gap_minutes": 73
+    }
+  },
+  "raw_events": [
+    {
+      "id": 67,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:11:00+05:30",
+      "ended_at": "2026-09-03T09:22:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-482 — workspace API latency",
+      "url": "https://jira.company.local/browse/PLAT-482",
+      "payload": null
+    },
+    {
+      "id": 68,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:22:00+05:30",
+      "ended_at": "2026-09-03T09:31:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "core-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 69,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:31:00+05:30",
+      "ended_at": "2026-09-03T09:44:00+05:30",
+      "app": "Google Meet",
+      "browser": "Chrome",
+      "title": "Core Platform standup",
+      "url": "https://meet.google.com/abc-defg-hij",
+      "payload": null
+    },
+    {
+      "id": 70,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:44:00+05:30",
+      "ended_at": "2026-09-03T09:58:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GitHub Actions",
+      "url": "https://github.com/acme/platform-api/actions",
+      "payload": null
+    },
+    {
+      "id": 71,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:58:00+05:30",
+      "ended_at": "2026-09-03T10:19:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — billingController.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 72,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:19:00+05:30",
+      "ended_at": "2026-09-03T10:31:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "pnpm test --filter billing",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 73,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:31:00+05:30",
+      "ended_at": "2026-09-03T10:44:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #851",
+      "url": "https://github.com/acme/platform-api/pull/851",
+      "payload": null
+    },
+    {
+      "id": 74,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:44:00+05:30",
+      "ended_at": "2026-09-03T10:52:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "backend-reviews",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 75,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:52:00+05:30",
+      "ended_at": "2026-09-03T11:09:00+05:30",
+      "app": "Datadog",
+      "browser": "Chrome",
+      "title": "workspace-api — p95 latency",
+      "url": "https://app.datadoghq.com/dashboard/wsp456",
+      "payload": null
+    },
+    {
+      "id": 76,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T11:09:00+05:30",
+      "ended_at": "2026-09-03T11:21:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "workspace-api",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 77,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T11:21:00+05:30",
+      "ended_at": "2026-09-03T11:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — workspaceRepository.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 78,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T11:46:00+05:30",
+      "ended_at": "2026-09-03T12:03:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "psql platform_local",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 79,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T12:03:00+05:30",
+      "ended_at": "2026-09-03T12:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PostgreSQL: Documentation — Using EXPLAIN",
+      "url": "https://www.postgresql.org/docs/current/using-explain.html",
+      "payload": null
+    },
+    {
+      "id": 80,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T12:17:00+05:30",
+      "ended_at": "2026-09-03T12:39:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — workspaceRepository.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 81,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T12:39:00+05:30",
+      "ended_at": "2026-09-03T12:48:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "pnpm test --filter workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 82,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T14:01:00+05:30",
+      "ended_at": "2026-09-03T14:13:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "infra-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 83,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T14:13:00+05:30",
+      "ended_at": "2026-09-03T14:36:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #853",
+      "url": "https://github.com/acme/platform-api/pull/853",
+      "payload": null
+    },
+    {
+      "id": 84,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T14:36:00+05:30",
+      "ended_at": "2026-09-03T14:47:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "backend-reviews",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 85,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T14:47:00+05:30",
+      "ended_at": "2026-09-03T15:12:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — workspaceRepository.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 86,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:12:00+05:30",
+      "ended_at": "2026-09-03T15:29:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "psql platform_local",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 87,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:29:00+05:30",
+      "ended_at": "2026-09-03T15:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — workspaceRepository.test.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 88,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:48:00+05:30",
+      "ended_at": "2026-09-03T15:59:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "pnpm test --filter workspace",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 89,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:59:00+05:30",
+      "ended_at": "2026-09-03T16:14:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #851",
+      "url": "https://github.com/acme/platform-api/pull/851",
+      "payload": null
+    },
+    {
+      "id": 90,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T16:14:00+05:30",
+      "ended_at": "2026-09-03T16:38:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — billingSettings.test.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 91,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T16:38:00+05:30",
+      "ended_at": "2026-09-03T16:49:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "pnpm test --filter billing",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 92,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T16:49:00+05:30",
+      "ended_at": "2026-09-03T17:06:00+05:30",
+      "app": "Datadog",
+      "browser": "Chrome",
+      "title": "Webhook worker metrics",
+      "url": "https://app.datadoghq.com/dashboard/abc123",
+      "payload": null
+    },
+    {
+      "id": 93,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:06:00+05:30",
+      "ended_at": "2026-09-03T17:18:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "infra-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 94,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:18:00+05:30",
+      "ended_at": "2026-09-03T17:41:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #856",
+      "url": "https://github.com/acme/platform-api/pull/856",
+      "payload": null
+    },
+    {
+      "id": 95,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:41:00+05:30",
+      "ended_at": "2026-09-03T17:54:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-482 — workspace API latency",
+      "url": "https://jira.company.local/browse/PLAT-482",
+      "payload": null
+    },
+    {
+      "id": 96,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:54:00+05:30",
+      "ended_at": "2026-09-03T18:07:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "core-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 97,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T18:07:00+05:30",
+      "ended_at": "2026-09-03T18:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GitHub Actions",
+      "url": "https://github.com/acme/platform-api/actions",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "09:11",
+        "ended_at": "09:22",
+        "title": "Reading the new workspace latency ticket",
+        "summary": "Opened a newly assigned ticket about slower workspace API responses and read the reported symptoms.",
+        "event_ids": [
+          67
+        ],
+        "context": "Work",
+        "area": "Workspace Performance",
+        "intent": "Investigate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "09:22",
+        "ended_at": "09:44",
+        "title": "Standup and team coordination",
+        "summary": "Caught up on the platform channel and joined the daily standup.",
+        "event_ids": [
+          68,
+          69
+        ],
+        "context": "Work",
+        "area": "Team Communication",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-03-03",
+        "started_at": "09:44",
+        "ended_at": "09:58",
+        "title": "Confirming billing CI status",
+        "summary": "Checked the automated runs to see whether the previous day's billing changes had cleared.",
+        "event_ids": [
+          70
+        ],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Verify",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-04",
+        "started_at": "09:58",
+        "ended_at": "10:31",
+        "title": "Final billing cleanup and tests",
+        "summary": "Made the remaining small changes to the billing controller and ran the billing test suite locally.",
+        "event_ids": [
+          71,
+          72
+        ],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-05",
+        "started_at": "10:31",
+        "ended_at": "10:52",
+        "title": "Opening the billing pull request for review",
+        "summary": "Updated the billing pull request and asked the team for review.",
+        "event_ids": [
+          73,
+          74
+        ],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-06",
+        "started_at": "10:52",
+        "ended_at": "11:21",
+        "title": "Inspecting workspace latency evidence",
+        "summary": "Looked at the workspace API latency dashboard and discussed the reported slowdown in the workspace channel.",
+        "event_ids": [
+          75,
+          76
+        ],
+        "context": "Work",
+        "area": "Workspace Performance",
+        "intent": "Investigate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-07",
+        "started_at": "11:21",
+        "ended_at": "12:17",
+        "title": "Tracing the slow workspace query",
+        "summary": "Read the workspace repository code, examined the query against a local database, and consulted the EXPLAIN documentation.",
+        "event_ids": [
+          77,
+          78,
+          79
+        ],
+        "context": "Work",
+        "area": "Workspace Performance",
+        "intent": "Investigate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-08",
+        "started_at": "12:17",
+        "ended_at": "12:48",
+        "title": "First query change and test run",
+        "summary": "Changed the workspace repository query and ran the workspace tests.",
+        "event_ids": [
+          80,
+          81
+        ],
+        "context": "Work",
+        "area": "Workspace Performance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-09",
+        "started_at": "14:01",
+        "ended_at": "14:13",
+        "title": "Webhook infrastructure follow-up",
+        "summary": "Checked the infrastructure channel for the worker and queue information requested the day before.",
+        "event_ids": [
+          82
+        ],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Communicate",
+        "quality": "Blocked",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-10",
+        "started_at": "14:13",
+        "ended_at": "14:47",
+        "title": "Reviewing a teammate pull request",
+        "summary": "Reviewed a teammate's pull request and followed up in the review channel.",
+        "event_ids": [
+          83,
+          84
+        ],
+        "context": "Work",
+        "area": "Code Review",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-03-11",
+        "started_at": "14:47",
+        "ended_at": "15:29",
+        "title": "Refining the workspace query",
+        "summary": "Returned to the repository query and compared its behaviour again on the local database.",
+        "event_ids": [
+          85,
+          86
+        ],
+        "context": "Work",
+        "area": "Workspace Performance",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-12",
+        "started_at": "15:29",
+        "ended_at": "15:59",
+        "title": "Regression test for the query change",
+        "summary": "Added a targeted repository test for the changed query and ran the workspace tests.",
+        "event_ids": [
+          87,
+          88
+        ],
+        "context": "Work",
+        "area": "Workspace Performance",
+        "intent": "Test",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-13",
+        "started_at": "15:59",
+        "ended_at": "16:49",
+        "title": "Responding to first billing review comments",
+        "summary": "Read the first review comments on the billing pull request, adjusted the billing tests, and re-ran them.",
+        "event_ids": [
+          89,
+          90,
+          91
+        ],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-14",
+        "started_at": "16:49",
+        "ended_at": "17:18",
+        "title": "Rechecking webhook worker metrics",
+        "summary": "Looked at the webhook worker dashboard again and followed up with infrastructure; the requested information had not arrived.",
+        "event_ids": [
+          92,
+          93
+        ],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Investigate",
+        "quality": "Blocked",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-15",
+        "started_at": "17:18",
+        "ended_at": "17:41",
+        "title": "Opening the workspace query pull request",
+        "summary": "Opened a pull request for the workspace query change.",
+        "event_ids": [
+          94
+        ],
+        "context": "Work",
+        "area": "Workspace Performance",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-16",
+        "started_at": "17:41",
+        "ended_at": "18:07",
+        "title": "Ticket and team status update",
+        "summary": "Recorded the state of the latency investigation on the ticket and updated the platform channel.",
+        "event_ids": [
+          95,
+          96
+        ],
+        "context": "Work",
+        "area": "Team Communication",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-03-17",
+        "started_at": "18:07",
+        "ended_at": "18:29",
+        "title": "Checking CI for both changes",
+        "summary": "Watched the automated runs for the billing and workspace changes at the end of the day.",
+        "event_ids": [
+          97
+        ],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Verify",
+        "quality": "Waiting",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:48",
+        "ended_at": "14:01",
+        "reason": "Lunch and offline personal activity"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The billing settings work reached review today: the remaining cleanup was finished, the pull request was opened for review, and the first comments were addressed.",
+      "A new workspace API latency issue took the largest share of the day and moved from a ticket to a located query and a first code change with a regression test.",
+      "The workspace query change has only local evidence behind it; nothing observed shows it improves the latency users reported.",
+      "The webhook investigation did not advance: it was checked twice and remained dependent on infrastructure information.",
+      "Code review stayed a contained secondary responsibility with one review pass.",
+      "Attention moved between four engineering work streams, mostly because new work arrived rather than because of unrelated activity."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the billing settings API change",
+        "assessment": "strong progress, now in review and still open"
+      },
+      {
+        "priority": "Determine the root cause of the webhook processing issue",
+        "assessment": "limited progress, still blocked on infrastructure information"
+      },
+      {
+        "priority": "Keep important team pull requests moving",
+        "assessment": "meaningfully progressed"
+      }
+    ],
+    "important_uncertainty": [
+      "The local database runs do not establish that the query change resolves the latency seen in production.",
+      "Whether the billing pull request needs another round of changes is not visible by the end of the day.",
+      "The cause of the webhook failures is still unknown, and the infrastructure reply may arrive outside the observed window.",
+      "The offline lunch period is completely unobserved."
+    ],
+    "possible_next_step": "Close the remaining billing review comments, then check the workspace query change against staging and recent latency data before treating the regression as addressed."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the billing review loop",
+      "action_type": "complete_open_loop",
+      "reason": "The billing change is in review after three days of work and only a small round of reviewer feedback stands between it and merge.",
+      "suggested_focus_minutes": 45,
+      "target": "Billing API"
+    },
+    "secondary_action": {
+      "title": "Verify the workspace query change beyond local runs",
+      "action_type": "experiment",
+      "reason": "The query change has a regression test but only local evidence; one check against staging and recent latency data would show whether it addresses the reported slowdown.",
+      "suggested_focus_minutes": 45,
+      "target": "Workspace API latency"
+    },
+    "things_not_to_do": [
+      "Do not describe the workspace latency issue as fixed.",
+      "Do not treat the time spent on the new latency ticket as a distraction from billing; it was newly assigned work.",
+      "Do not describe the webhook issue as neglected; it is waiting on infrastructure information.",
+      "Do not assume the billing pull request is approved because review comments were addressed.",
+      "Do not recommend dropping code review or team communication.",
+      "Do not treat reading documentation as distraction.",
+      "Do not treat the lunch gap as unproductive time.",
+      "Do not infer stress or frustration from the number of work streams."
+    ]
+  }
+}

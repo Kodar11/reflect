@@ -1,0 +1,469 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Finishing Data Structures Problem Set 4",
+      "Preparing for an upcoming Data Structures internal assessment",
+      "Maintaining the semester project"
+    ],
+    "priorities": [
+      "Close the Data Structures problem set",
+      "Begin focused preparation for the upcoming Data Structures assessment",
+      "Keep the semester project stable while assessment work becomes more important"
+    ]
+  },
+  "day": {
+    "day_number": 21,
+    "date": "2026-09-21",
+    "day_type": "monday_dsa_submission_and_assessment_prep",
+    "circumstances": [
+      "Monday included several college classes, leaving a long period away from the laptop.",
+      "The Data Structures problem set moved from the graph section into final write-up, local verification, and submission.",
+      "The internal assessment schedule checked on Sunday made the upcoming Data Structures assessment more concrete, so the student began reviewing graph traversal and heap topics after the submission.",
+      "The semester project was only checked briefly for teammate updates rather than developed further.",
+      "The evening was mostly personal time, followed by a short return to assessment notes."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:08",
+      "last_seen": "21:18",
+      "approx_active_hours": 6.5,
+      "longest_unobserved_gap_minutes": 191
+    }
+  },
+  "raw_events": [
+    {
+      "id": 377,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T08:08:00+05:30",
+      "ended_at": "2026-09-21T08:21:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 378,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T08:21:00+05:30",
+      "ended_at": "2026-09-21T08:36:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Problem Set 4",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 379,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T11:47:00+05:30",
+      "ended_at": "2026-09-21T12:06:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 380,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T12:06:00+05:30",
+      "ended_at": "2026-09-21T12:24:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "ds-problem-set-4 — graph.cpp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 381,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T12:24:00+05:30",
+      "ended_at": "2026-09-21T12:38:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "g++ graph.cpp && ./a.exe",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 382,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T12:38:00+05:30",
+      "ended_at": "2026-09-21T12:55:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 383,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T12:55:00+05:30",
+      "ended_at": "2026-09-21T13:07:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Problem Set 4",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 384,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T13:07:00+05:30",
+      "ended_at": "2026-09-21T13:18:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 385,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T15:54:00+05:30",
+      "ended_at": "2026-09-21T16:09:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 386,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T16:09:00+05:30",
+      "ended_at": "2026-09-21T16:31:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 387,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T16:31:00+05:30",
+      "ended_at": "2026-09-21T16:45:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "BFS DFS complexity comparison",
+      "url": "https://www.google.com/search?q=BFS+DFS+complexity+comparison",
+      "payload": null
+    },
+    {
+      "id": 388,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T16:45:00+05:30",
+      "ended_at": "2026-09-21T17:13:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 389,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T17:13:00+05:30",
+      "ended_at": "2026-09-21T17:26:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "BFS vs DFS explained with examples",
+      "url": "https://www.youtube.com/watch?v=example19",
+      "payload": null
+    },
+    {
+      "id": 390,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T17:26:00+05:30",
+      "ended_at": "2026-09-21T17:55:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 391,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T17:55:00+05:30",
+      "ended_at": "2026-09-21T18:08:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 392,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T18:08:00+05:30",
+      "ended_at": "2026-09-21T18:32:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 393,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T18:32:00+05:30",
+      "ended_at": "2026-09-21T18:45:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 394,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T18:45:00+05:30",
+      "ended_at": "2026-09-21T18:59:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Issues",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 395,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T18:59:00+05:30",
+      "ended_at": "2026-09-21T19:28:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 396,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T19:28:00+05:30",
+      "ended_at": "2026-09-21T19:46:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 397,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T20:39:00+05:30",
+      "ended_at": "2026-09-21T20:52:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 398,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T20:52:00+05:30",
+      "ended_at": "2026-09-21T21:04:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 399,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T21:04:00+05:30",
+      "ended_at": "2026-09-21T21:18:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-21-01",
+        "started_at": "08:08",
+        "ended_at": "08:36",
+        "title": "Morning academic check",
+        "summary": "Checked email and the Data Structures problem-set page before the college day.",
+        "event_ids": [
+          377,
+          378
+        ],
+        "context": "Routine Monday review after the graph work on the weekend.",
+        "area": "coursework",
+        "intent": "Review current coursework status and requirements.",
+        "quality": "routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-02",
+        "started_at": "11:47",
+        "ended_at": "13:18",
+        "title": "Data Structures problem-set finalization and submission",
+        "summary": "Rechecked the graph solution, ran it locally, returned to the written notes, opened the Classroom submission page, and checked email afterward.",
+        "event_ids": [
+          379,
+          380,
+          381,
+          382,
+          383,
+          384
+        ],
+        "context": "The problem set had accumulated heap and graph work over Days 18–20.",
+        "area": "coursework",
+        "intent": "Complete the remaining write-up and submit Problem Set 4.",
+        "quality": "completion-focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-03",
+        "started_at": "13:18",
+        "ended_at": "15:54",
+        "title": "Offline classes and campus activity",
+        "summary": "Attended classes and handled campus activities away from the laptop.",
+        "event_ids": [],
+        "context": "The laptop was inactive during this period.",
+        "area": "coursework",
+        "intent": "Attend scheduled classes and campus responsibilities.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-21-04",
+        "started_at": "15:54",
+        "ended_at": "18:32",
+        "title": "Data Structures assessment preparation",
+        "summary": "Opened the upcoming assessment information, reviewed heap and graph notes, checked BFS/DFS complexity, watched a targeted explanation, and returned to the notes after a short WhatsApp interruption.",
+        "event_ids": [
+          385,
+          386,
+          387,
+          388,
+          389,
+          390,
+          391,
+          392
+        ],
+        "context": "The internal assessment schedule seen on Sunday made Data Structures the next concrete preparation target.",
+        "area": "coursework",
+        "intent": "Review heap and graph concepts for the upcoming Data Structures assessment.",
+        "quality": "focused study with one short interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-05",
+        "started_at": "18:32",
+        "ended_at": "18:59",
+        "title": "Semester project status check",
+        "summary": "Checked the project discussion and issue tracker for new requests but did not start implementation.",
+        "event_ids": [
+          393,
+          394
+        ],
+        "context": "Coursework and assessment preparation were taking precedence over project work.",
+        "area": "semester_project",
+        "intent": "Check whether a new project issue requires immediate action.",
+        "quality": "brief coordination",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-06",
+        "started_at": "18:59",
+        "ended_at": "19:46",
+        "title": "Evening gaming and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          395,
+          396
+        ],
+        "context": "Ordinary evening leisure after coursework.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-07",
+        "started_at": "20:39",
+        "ended_at": "21:18",
+        "title": "Data Structures assessment review",
+        "summary": "Returned to the Data Structures notes and assessment page for a short final review before ending the day.",
+        "event_ids": [
+          397,
+          398,
+          399
+        ],
+        "context": "The assessment had become an active near-term priority after the weekend schedule check.",
+        "area": "coursework",
+        "intent": "Review the current assessment scope and note what to continue tomorrow.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:18",
+        "ended_at": "15:54",
+        "reason": "College classes and campus activity away from the laptop"
+      },
+      {
+        "started_at": "19:46",
+        "ended_at": "20:39",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Data Structures problem set progressed from weekend graph work into final verification and submission, closing a multi-day coursework thread.",
+      "The assessment schedule checked on Sunday immediately influenced the next visible academic thread: heap and graph revision became the main afternoon study activity.",
+      "The assessment block used notes, web search, and a targeted YouTube explanation as parts of the same study activity, with one short messaging interruption before returning to the notes.",
+      "The semester project was only monitored briefly, while substantial class and campus time remained outside laptop observation.",
+      "The Data Structures assessment was revisited again at night, suggesting it remains the clearest near-term academic priority."
+    ],
+    "priority_alignment": [
+      "The long-running Data Structures problem set was closed before shifting attention to the newly relevant assessment.",
+      "Assessment preparation received the largest fresh study block after the submission.",
+      "The semester project was checked for urgent issues without displacing assessment preparation."
+    ],
+    "important_uncertainty": [
+      "Opening the Problem Set 4 submission page suggests submission handling but does not independently prove acceptance or grading.",
+      "The assessment page and notes show preparation, but do not establish the exact weight or difficulty of the upcoming assessment.",
+      "The heap and graph revision events do not prove mastery of all assessment topics.",
+      "The offline class period is not represented in the laptop timeline."
+    ],
+    "possible_next_step": "Continue the Data Structures assessment review with the next weak or unreviewed topic, using the existing heap and graph notes as the starting point."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Continue Data Structures assessment review",
+      "action_type": "continue_successful_behavior",
+      "reason": "The student completed the prior problem set and began a focused assessment-preparation cycle using existing notes and targeted references.",
+      "suggested_focus_minutes": 45,
+      "target": "Data Structures Internal Assessment"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume Problem Set 4 was accepted or graded merely because the submission page was opened.",
+      "Do not treat the search and YouTube tutorial as separate distractions when they were embedded in the same assessment-preparation session.",
+      "Do not infer mastery from reviewing heap and graph notes.",
+      "Do not treat the long offline class period as unproductive or empty.",
+      "Do not criticize the evening gaming and social period as inherently problematic."
+    ]
+  }
+}

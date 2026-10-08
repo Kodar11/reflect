@@ -192,8 +192,24 @@ export function formatGeneratedAt(iso: string | null): string | null {
   return `${formatDay(d)}, ${formatClockMinutes(d.getHours() * 60 + d.getMinutes())}`;
 }
 
+/** A report written from an event the user has since hidden or deleted. */
+const EVENTS_REMOVED = 'events_removed';
+
+/**
+ * What a stale report still is. One that lost an event the user removed no
+ * longer describes "what Reflect saw": the parts written from that event
+ * have been taken out of it.
+ */
+export function staleNote(reason: string | null): string {
+  return reason === EVENTS_REMOVED
+    ? 'What was written from it has been removed, and the reflection will be rewritten.'
+    : 'It still describes what Reflect saw at the time.';
+}
+
 export function staleMessage(reason: string | null): string {
   switch (reason) {
+    case EVENTS_REMOVED:
+      return 'An event this reflection was written from was hidden or deleted.';
     case 'priorities_changed':
       return 'Your priorities changed after this reflection was written.';
     case 'links_changed':

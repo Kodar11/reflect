@@ -1,0 +1,472 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Keeping up with current semester coursework",
+      "Preparing for an Operating Systems quiz",
+      "Working with classmates on a semester project"
+    ],
+    "priorities": [
+      "Prepare for the upcoming Operating Systems quiz",
+      "Keep up with current coursework",
+      "Make progress on the semester group project"
+    ]
+  },
+  "day": {
+    "day_number": 4,
+    "date": "2026-09-04",
+    "day_type": "os_revision_and_project_implementation_day",
+    "circumstances": [
+      "Morning classes remained mostly outside laptop observation.",
+      "Operating Systems became the clearest priority, with both a midday revision block and an evening practice session.",
+      "The semester project moved from team communication into another parser implementation pass with documentation lookup and a follow-up task review.",
+      "Some academic revision also happened offline on paper, which Reflect could not capture.",
+      "The evening included ordinary gaming and social communication before the student returned to quiz preparation."
+    ],
+    "laptop_usage": {
+      "first_seen": "07:58",
+      "last_seen": "21:27",
+      "approx_active_hours": 7.8,
+      "longest_unobserved_gap_minutes": 175
+    }
+  },
+  "raw_events": [
+    {
+      "id": 63,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T07:58:00+05:30",
+      "ended_at": "2026-09-04T08:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "College portal — timetable",
+      "url": "https://portal.example.edu/",
+      "payload": null
+    },
+    {
+      "id": 64,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T08:17:00+05:30",
+      "ended_at": "2026-09-04T08:31:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 65,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T11:26:00+05:30",
+      "ended_at": "2026-09-04T11:48:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "OS quiz revision",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 66,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T11:48:00+05:30",
+      "ended_at": "2026-09-04T12:19:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Operating Systems — deadlocks lecture",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 67,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T12:19:00+05:30",
+      "ended_at": "2026-09-04T12:37:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "OS quiz revision",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 68,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T12:37:00+05:30",
+      "ended_at": "2026-09-04T12:49:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 69,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T12:49:00+05:30",
+      "ended_at": "2026-09-04T13:21:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "OS quiz revision",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 70,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T13:21:00+05:30",
+      "ended_at": "2026-09-04T13:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Moodle — Operating Systems quiz",
+      "url": "https://moodle.example.edu/mod/quiz/view.php?id=2194",
+      "payload": null
+    },
+    {
+      "id": 71,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T14:32:00+05:30",
+      "ended_at": "2026-09-04T14:51:00+05:30",
+      "app": "Discord",
+      "browser": null,
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 72,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T14:51:00+05:30",
+      "ended_at": "2026-09-04T15:18:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project — pull requests",
+      "url": "https://github.com/.../pulls",
+      "payload": null
+    },
+    {
+      "id": 73,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T15:18:00+05:30",
+      "ended_at": "2026-09-04T15:44:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — parser.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 74,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T15:44:00+05:30",
+      "ended_at": "2026-09-04T16:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Python argparse documentation",
+      "url": "https://docs.python.org/3/library/argparse.html",
+      "payload": null
+    },
+    {
+      "id": 75,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T16:03:00+05:30",
+      "ended_at": "2026-09-04T16:32:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — parser.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 76,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T16:32:00+05:30",
+      "ended_at": "2026-09-04T16:47:00+05:30",
+      "app": "Discord",
+      "browser": null,
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 77,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T17:39:00+05:30",
+      "ended_at": "2026-09-04T17:56:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Campus festival clips",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 78,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T17:56:00+05:30",
+      "ended_at": "2026-09-04T18:18:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 79,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T18:18:00+05:30",
+      "ended_at": "2026-09-04T18:36:00+05:30",
+      "app": "Discord",
+      "browser": null,
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 80,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T19:21:00+05:30",
+      "ended_at": "2026-09-04T19:43:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GeeksforGeeks — deadlock problems",
+      "url": "https://www.geeksforgeeks.org/",
+      "payload": null
+    },
+    {
+      "id": 81,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T19:43:00+05:30",
+      "ended_at": "2026-09-04T20:06:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "OS quiz practice questions",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 82,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T20:06:00+05:30",
+      "ended_at": "2026-09-04T20:27:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "OS quiz weak topics",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 83,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T20:27:00+05:30",
+      "ended_at": "2026-09-04T20:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Moodle — Operating Systems quiz",
+      "url": "https://moodle.example.edu/mod/quiz/view.php?id=2194",
+      "payload": null
+    },
+    {
+      "id": 84,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T21:09:00+05:30",
+      "ended_at": "2026-09-04T21:27:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Semester project tasks",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-04-01",
+        "started_at": "07:58",
+        "ended_at": "08:31",
+        "title": "Morning academic check",
+        "summary": "Reviewed the college timetable and course communication before classes.",
+        "event_ids": [
+          63,
+          64
+        ],
+        "context": "Academic",
+        "area": "Planning",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-02",
+        "started_at": "11:26",
+        "ended_at": "13:47",
+        "title": "Operating Systems quiz revision",
+        "summary": "Reviewed OS notes, watched a deadlock lecture, returned to notes, briefly responded to a classmate, and checked the quiz page and scope.",
+        "event_ids": [
+          65,
+          66,
+          67,
+          68,
+          69,
+          70
+        ],
+        "context": "Academic",
+        "area": "Operating Systems",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-03",
+        "started_at": "14:32",
+        "ended_at": "16:47",
+        "title": "Semester project parser work",
+        "summary": "Reviewed project communication and pull requests, worked on the parser, checked the Python documentation for an implementation detail, and returned to the code before clarifying the change with teammates.",
+        "event_ids": [
+          71,
+          72,
+          73,
+          74,
+          75,
+          76
+        ],
+        "context": "Academic",
+        "area": "Semester Project",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-04",
+        "started_at": "17:39",
+        "ended_at": "18:36",
+        "title": "Leisure and social time",
+        "summary": "Watched campus-related videos, played a game, and chatted with friends.",
+        "event_ids": [
+          77,
+          78,
+          79
+        ],
+        "context": "Personal",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-05",
+        "started_at": "19:21",
+        "ended_at": "20:44",
+        "title": "Operating Systems practice review",
+        "summary": "Worked through deadlock problems, drafted practice answers, reviewed weak topics, and checked the quiz page again.",
+        "event_ids": [
+          80,
+          81,
+          82,
+          83
+        ],
+        "context": "Academic",
+        "area": "Operating Systems",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-06",
+        "started_at": "21:09",
+        "ended_at": "21:27",
+        "title": "Semester project task review",
+        "summary": "Updated the project task list after the afternoon implementation and teammate clarification.",
+        "event_ids": [
+          84
+        ],
+        "context": "Academic",
+        "area": "Semester Project",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:31",
+        "ended_at": "11:26",
+        "reason": "Classes / campus activity"
+      },
+      {
+        "started_at": "13:47",
+        "ended_at": "14:32",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:47",
+        "ended_at": "17:39",
+        "reason": "Library reading / walk / offline activity"
+      },
+      {
+        "started_at": "18:36",
+        "ended_at": "19:21",
+        "reason": "Dinner / offline"
+      },
+      {
+        "started_at": "20:44",
+        "ended_at": "21:09",
+        "reason": "Paper revision / offline study"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Operating Systems preparation received the most focused attention and was revisited twice, with a later practice session centered on previously identified weak topics.",
+      "The semester project progressed through implementation rather than only communication; the parser work also included a targeted documentation lookup and teammate clarification.",
+      "A meaningful portion of study was offline, so the laptop record understates the total amount of OS preparation.",
+      "Leisure and social time were present between academic blocks, followed by a return to the upcoming quiz."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Prepare for the upcoming Operating Systems quiz",
+        "assessment": "strong progress / still open"
+      },
+      {
+        "priority": "Keep up with current coursework",
+        "assessment": "some progress / substantial class time unobserved"
+      },
+      {
+        "priority": "Make progress on the semester group project",
+        "assessment": "meaningful progress"
+      }
+    ],
+    "important_uncertainty": [
+      "Paper revision between 20:44 and 21:09 is unobserved, so Reflect cannot know exactly what was studied.",
+      "The quiz page and practice notes show preparation activity but do not establish mastery of the material.",
+      "The parser change was developed and discussed, but the events do not establish that the group has fully accepted the implementation."
+    ],
+    "possible_next_step": "Use the remaining OS revision time to target the weak topics once more, then leave the project parser change ready for the next group review."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Target the remaining OS weak topics",
+      "action_type": "start_focus",
+      "reason": "The student returned to weak-topic notes and practice questions late in the day, making targeted revision more useful than restarting the whole syllabus.",
+      "suggested_focus_minutes": 45,
+      "target": "Operating Systems"
+    },
+    "secondary_action": {
+      "title": "Prepare the parser change for group review",
+      "action_type": "complete_open_loop",
+      "reason": "The project implementation reached a natural checkpoint after documentation and teammate clarification, leaving a clear review-ready state to finish.",
+      "suggested_focus_minutes": 30,
+      "target": "Semester Project"
+    },
+    "things_not_to_do": [
+      "Do not treat the unobserved class and paper-study periods as inactive time.",
+      "Do not assume repeated OS revision means the student has mastered the weak topics.",
+      "Do not treat the project chat interruption as a separate distraction when it directly supported the implementation.",
+      "Do not criticize the gaming or social block simply because the quiz is approaching.",
+      "Do not assume the parser implementation is finalized before group review."
+    ]
+  }
+}

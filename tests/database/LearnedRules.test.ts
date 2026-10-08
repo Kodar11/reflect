@@ -118,7 +118,7 @@ suite('Learned patterns — migration to v12', () => {
     new Database(dbPath).close();
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(17);
+    expect(raw.pragma('user_version', { simple: true })).toBe(18);
     expect(tableColumns(raw, 'tracking_rules')).toEqual([
       'id', 'activity_id', 'conditions', 'enabled', 'priority', 'area_id', 'intent_id', 'quality_id',
       'source', 'learned_from_candidate_id', 'learned_confirmed_at', 'user_modified_at', 'created_at', 'updated_at',
@@ -144,7 +144,7 @@ suite('Learned patterns — migration to v12', () => {
     const db = new Database(dbPath);
 
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(17);
+    expect(raw.pragma('user_version', { simple: true })).toBe(18);
     expect(
       raw.prepare('SELECT id, activity_id, enabled, priority, area_id, source FROM tracking_rules ORDER BY id').all(),
     ).toEqual([

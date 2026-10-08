@@ -38,6 +38,8 @@ import { TimelineService } from '../timeline/TimelineService.js';
 import { registerTimelineIpc } from '../timeline/timelineIpc.js';
 import { ExportService } from '../service/ExportService.js';
 import { registerExportIpc } from './exportIpc.js';
+import { EventVisibilityService } from '../service/EventVisibilityService.js';
+import { registerEventVisibilityIpc } from './eventVisibilityIpc.js';
 import { ActivityRuleRepository } from '../database/ActivityRuleRepository.js';
 import { FocusRepository } from '../database/FocusRepository.js';
 import { FocusService } from '../focus/FocusService.js';
@@ -65,7 +67,7 @@ import { registerLearnedRulesIpc } from '../learning/learnedRulesIpc.js';
 import { toLearningActivities } from '../learning/LearningTimeline.js';
 import { describeClassification, describePattern } from '../learning/LearnedPattern.js';
 import { ReflectionRepository } from '../database/ReflectionRepository.js';
-import { createEventLocator, toReflectionActivities } from '../reflection/ReflectionActivities.js';
+import { createBlockDescriber, createEventLocator, toReflectionActivities } from '../reflection/ReflectionActivities.js';
 import { ReflectionAnnotator } from '../reflection/ReflectionAnnotator.js';
 import { PROFILE_CHANGE_CHANNELS, TIMELINE_CHANGE_CHANNELS, affectedRange } from '../reflection/ReflectionChanges.js';
 import { ReflectionHistory } from '../reflection/ReflectionHistory.js';
@@ -866,7 +868,51 @@ if (primaryInstance) app.whenReady().then(async () => {
     `[APP] Intelligence service ready (Gemini ${intelligenceService.isConfigured() ? 'configured' : 'not configured — GEMINI_API_KEY missing'}).`,
   );
 
+  // --- Construct the event visibility layer (hide / restore / delete) ---
+  // The user decides what stays captured. `repo` is handed over here in its
+  // internal role — the only place hidden events can be seen or changed;
+  // every other layer above holds it as the visible-only IEventRepository.
+  const eventVisibility = new EventVisibilityService({
+    transaction: (fn) => database!.transaction(fn),
+    events: repo,
+    intelligence: intelligenceRepo,
+    reflections: reflectionRepo,
+    coach: coachService,
+    blocksHolding: createBlockDescriber(repo, timelineService),
+    onRangeChanged: (range) =>
+      reflectionService?.notifyDataChanged({
+        kind: 'timeline',
+        range: { start: range.start, end: new Date(Date.parse(range.end) + 1).toISOString() },
+      }),
+    // Only what rested on the event is rebuilt: the analyses that covered its
+    // activity, then the reflections that went stale.
+    rebuild: async (windows) => {
+      let analysed = false;
+      for (const window of windows) {
+        const result = await intelligenceService.analyzeWindow(window.start, window.end);
+        if (result.status !== 'succeeded') continue;
+        analysed = true;
+        // The window may lie further back than the stretch `onAnalyzed` covers.
+        reflectionService?.notifyDataChanged({ kind: 'timeline', range: window });
+      }
+      if (analysed) onAnalyzed();
+      await reflectionScheduler?.runCycle();
+      await coachService.observe();
+    },
+    onChanged: () => {
+      timelineIpc.notifyTimelineChanged();
+      reflectionIpc.notifyReflectionChanged();
+      notifyCoachChanged();
+      statusService.refresh();
+    },
+    logger,
+  });
+  registerEventVisibilityIpc(eventVisibility, ipcMainHandle);
+  logger.info('[APP] Event visibility service ready.');
+
   // --- Construct the export layer (Stage 3.8) ---
+  // Exports go through the same visible-only reads as the UI: a hidden event
+  // is never written to a file.
   const exportService = new ExportService(timelineService, repo, sessionService);
   registerExportIpc(exportService, ipcMainHandle);
   logger.info('[APP] Export service ready.');

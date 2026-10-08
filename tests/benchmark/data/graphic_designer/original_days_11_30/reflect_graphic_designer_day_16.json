@@ -1,0 +1,290 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Northstar Coffee portfolio case study",
+      "New small brand identity brief",
+      "Social media campaign assets for an existing client"
+    ],
+    "priorities": [
+      "Complete the new brand identity brief",
+      "Finish the Northstar Coffee portfolio case study",
+      "Deliver recurring social campaign work",
+      "Maintain client communication and relationships"
+    ]
+  },
+  "day": {
+    "date": "2026-09-16",
+    "day_number": 16,
+    "day_type": "client_revision_and_delivery_preparation_day"
+  },
+  "raw_events": [
+    {
+      "event_id": 394,
+      "start_time": "2026-09-16T09:08:00+05:30",
+      "end_time": "2026-09-16T09:24:00+05:30",
+      "application": "Gmail",
+      "window_title": "Client feedback",
+      "description": "read client comments on the identity application package; two mockups were approved and one needed a simpler treatment",
+      "event_type": "client_communication"
+    },
+    {
+      "event_id": 395,
+      "start_time": "2026-09-16T09:25:00+05:30",
+      "end_time": "2026-09-16T09:47:00+05:30",
+      "application": "Notion",
+      "window_title": "New Brand Identity",
+      "description": "updated the identity checklist with the requested revision and remaining delivery items",
+      "event_type": "work_planning"
+    },
+    {
+      "event_id": 396,
+      "start_time": "2026-09-16T09:48:00+05:30",
+      "end_time": "2026-09-16T10:36:00+05:30",
+      "application": "Adobe Illustrator",
+      "window_title": "New Brand Identity",
+      "description": "simplified the requested application treatment and adjusted logo spacing across the presentation variants",
+      "event_type": "design_execution"
+    },
+    {
+      "event_id": 397,
+      "start_time": "2026-09-16T10:37:00+05:30",
+      "end_time": "2026-09-16T11:18:00+05:30",
+      "application": "Figma",
+      "window_title": "New Brand Identity",
+      "description": "checked typography hierarchy, color usage, and logo clear-space examples across the review board",
+      "event_type": "design_execution"
+    },
+    {
+      "event_id": 398,
+      "start_time": "2026-09-16T11:19:00+05:30",
+      "end_time": "2026-09-16T11:43:00+05:30",
+      "application": "Google Fonts",
+      "window_title": "Brand Typography Research",
+      "description": "compared a few secondary typefaces against the selected brand typeface before choosing one for the presentation",
+      "event_type": "reference_research"
+    },
+    {
+      "event_id": 399,
+      "start_time": "2026-09-16T11:44:00+05:30",
+      "end_time": "2026-09-16T12:31:00+05:30",
+      "application": "Adobe Illustrator",
+      "window_title": "New Brand Identity",
+      "description": "built the revised application mockup and exported an updated client review board",
+      "event_type": "design_execution"
+    },
+    {
+      "event_id": 400,
+      "start_time": "2026-09-16T12:32:00+05:30",
+      "end_time": "2026-09-16T12:49:00+05:30",
+      "application": "Gmail",
+      "window_title": "Client feedback",
+      "description": "sent the revised application board and a short list of remaining delivery items to the client",
+      "event_type": "client_communication"
+    },
+    {
+      "event_id": 401,
+      "start_time": "2026-09-16T12:49:00+05:30",
+      "end_time": "2026-09-16T14:05:00+05:30",
+      "application": null,
+      "window_title": "Offline period",
+      "description": "No desktop activity observed during this period",
+      "event_type": "offline"
+    },
+    {
+      "event_id": 402,
+      "start_time": "2026-09-16T14:06:00+05:30",
+      "end_time": "2026-09-16T14:31:00+05:30",
+      "application": "Gmail",
+      "window_title": "Social campaign",
+      "description": "read a small batch of requested changes to the recurring social campaign",
+      "event_type": "client_communication"
+    },
+    {
+      "event_id": 403,
+      "start_time": "2026-09-16T14:32:00+05:30",
+      "end_time": "2026-09-16T15:21:00+05:30",
+      "application": "Figma",
+      "window_title": "Social Campaign",
+      "description": "updated three social assets to match the latest copy and image requests",
+      "event_type": "design_execution"
+    },
+    {
+      "event_id": 404,
+      "start_time": "2026-09-16T15:22:00+05:30",
+      "end_time": "2026-09-16T15:44:00+05:30",
+      "application": "Slack",
+      "window_title": "Client communication",
+      "description": "answered a question about delivery timing and clarified which social assets were ready for review",
+      "event_type": "client_communication"
+    },
+    {
+      "event_id": 405,
+      "start_time": "2026-09-16T15:45:00+05:30",
+      "end_time": "2026-09-16T16:28:00+05:30",
+      "application": "Figma",
+      "window_title": "Northstar Portfolio Case Study",
+      "description": "reworked the project overview and added a concise explanation of the identity challenge",
+      "event_type": "portfolio_work"
+    },
+    {
+      "event_id": 406,
+      "start_time": "2026-09-16T16:29:00+05:30",
+      "end_time": "2026-09-16T17:16:00+05:30",
+      "application": "Figma",
+      "window_title": "Northstar Portfolio Case Study",
+      "description": "refined process-page layout, selected supporting process images, and adjusted captions",
+      "event_type": "portfolio_work"
+    },
+    {
+      "event_id": 407,
+      "start_time": "2026-09-16T17:17:00+05:30",
+      "end_time": "2026-09-16T17:34:00+05:30",
+      "application": "Pinterest",
+      "window_title": "Portfolio references",
+      "description": "looked through branding case-study layouts and editorial presentation references",
+      "event_type": "reference_browsing"
+    },
+    {
+      "event_id": 408,
+      "start_time": "2026-09-16T17:35:00+05:30",
+      "end_time": "2026-09-16T18:04:00+05:30",
+      "application": "Figma",
+      "window_title": "Northstar Portfolio Case Study",
+      "description": "applied some layout ideas from the reference session to the case-study process section",
+      "event_type": "portfolio_work"
+    },
+    {
+      "event_id": 409,
+      "start_time": "2026-09-16T18:05:00+05:30",
+      "end_time": "2026-09-16T18:46:00+05:30",
+      "application": null,
+      "window_title": "Offline period",
+      "description": "No desktop activity observed during this period",
+      "event_type": "offline"
+    },
+    {
+      "event_id": 410,
+      "start_time": "2026-09-16T18:47:00+05:30",
+      "end_time": "2026-09-16T19:09:00+05:30",
+      "application": "YouTube",
+      "window_title": "Design presentation videos",
+      "description": "watched videos about presenting brand identity work to clients; connection to the active project is unclear",
+      "event_type": "video_browsing"
+    },
+    {
+      "event_id": 411,
+      "start_time": "2026-09-16T19:10:00+05:30",
+      "end_time": "2026-09-16T19:52:00+05:30",
+      "application": "Figma",
+      "window_title": "New Brand Identity",
+      "description": "assembled the final presentation sequence and checked consistency across the identity slides",
+      "event_type": "design_execution"
+    },
+    {
+      "event_id": 412,
+      "start_time": "2026-09-16T19:53:00+05:30",
+      "end_time": "2026-09-16T20:17:00+05:30",
+      "application": "Adobe Acrobat",
+      "window_title": "New Brand Identity",
+      "description": "reviewed the exported presentation PDF for alignment, missing pages, and export issues",
+      "event_type": "quality_check"
+    },
+    {
+      "event_id": 413,
+      "start_time": "2026-09-16T20:18:00+05:30",
+      "end_time": "2026-09-16T20:32:00+05:30",
+      "application": "Gmail",
+      "window_title": "Client communication",
+      "description": "received a short client reply confirming the revised application direction was acceptable",
+      "event_type": "client_communication"
+    },
+    {
+      "event_id": 414,
+      "start_time": "2026-09-16T20:33:00+05:30",
+      "end_time": "2026-09-16T21:05:00+05:30",
+      "application": "Google Drive",
+      "window_title": "New Brand Identity Handoff",
+      "description": "created a clean delivery folder structure and grouped approved logo, color, and typography files",
+      "event_type": "file_organization"
+    },
+    {
+      "event_id": 415,
+      "start_time": "2026-09-16T21:06:00+05:30",
+      "end_time": "2026-09-16T21:31:00+05:30",
+      "application": "Figma",
+      "window_title": "Northstar Portfolio Case Study",
+      "description": "made final spacing and image-crop adjustments to the case-study pages, but did not publish the case study",
+      "event_type": "portfolio_work"
+    },
+    {
+      "event_id": 416,
+      "start_time": "2026-09-16T21:32:00+05:30",
+      "end_time": "2026-09-16T21:46:00+05:30",
+      "application": "Notion",
+      "window_title": "Work log",
+      "description": "recorded remaining delivery and portfolio tasks for the next workday",
+      "event_type": "work_planning"
+    }
+  ],
+  "ground_truth": {
+    "completed": [
+      {
+        "event_id": 413,
+        "task": "new_brand_identity_client_revision",
+        "evidence": "client reply confirmed the revised application direction was acceptable"
+      },
+      {
+        "event_id": 414,
+        "task": "new_brand_identity_handoff_preparation",
+        "evidence": "organized approved logo, color, and typography files into a delivery folder"
+      }
+    ],
+    "in_progress": [
+      {
+        "event_id": 415,
+        "task": "northstar_portfolio_case_study",
+        "evidence": "made final layout and image-crop adjustments, but the case study was not published"
+      }
+    ],
+    "partial": [
+      {
+        "event_id": 403,
+        "task": "social_campaign",
+        "evidence": "updated three requested social assets and clarified their review status"
+      }
+    ],
+    "uncertain": [
+      {
+        "event_id": 398,
+        "task": "brand_typography_research",
+        "evidence": "compared secondary typefaces and selected one for the presentation, but the long-term value of the exploration is not directly observable"
+      }
+    ],
+    "ambiguous": [
+      {
+        "event_id": 410,
+        "task": "design_presentation_learning",
+        "evidence": "watched client-presentation videos, but the observable events do not establish whether the session directly supported the active project"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "summary": "The new brand identity moved through its last requested revision and into delivery preparation, with the client confirming that the revised application direction was acceptable. The Northstar Coffee portfolio case study received a substantial afternoon block and another evening refinement block, but publication is not demonstrated. Recurring social work was handled in a contained production window. Reference browsing was followed by related portfolio execution, while the YouTube session remains ambiguous. Offline periods provide no observable evidence.",
+    "key_observations": [
+      "The new brand identity progressed from revision into concrete handoff preparation after client confirmation.",
+      "Northstar Coffee portfolio work received sustained execution across overview, process layout, and final refinement, but completion or publication is not demonstrated.",
+      "The recurring social campaign was addressed without displacing the main identity work for the whole day.",
+      "The typography reference session was followed by related identity presentation work, so it should not automatically be treated as distraction.",
+      "The YouTube session cannot be reliably classified as productive or distracting from observable evidence alone.",
+      "Offline periods should remain unknown rather than being interpreted as inactivity, rest, or lost time."
+    ]
+  },
+  "expected_coach_outcome": {
+    "should_coach": true,
+    "message": "The new identity is effectively through the requested revision and into delivery preparation. Prioritize completing the handoff cleanly rather than reopening approved design decisions. The Northstar case study is also at a finishing stage, so give it a bounded finalization block and publish or explicitly mark the remaining work instead of continuing open-ended refinement.",
+    "priority": "complete_identity_handoff_and_finalize_portfolio"
+  }
+}

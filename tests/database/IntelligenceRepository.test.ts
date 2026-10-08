@@ -87,7 +87,7 @@ suite('IntelligenceRepository (SQLite)', () => {
 
   it('migration v10 creates the intelligence tables, indexes and rule source', () => {
     const raw = new BetterSqliteDB(dbPath);
-    expect(raw.pragma('user_version', { simple: true })).toBe(17);
+    expect(raw.pragma('user_version', { simple: true })).toBe(18);
     const names = (raw.prepare("SELECT name FROM sqlite_master WHERE name LIKE '%intelligence%'").all() as { name: string }[]).map((r) => r.name);
     expect(names).toEqual(
       expect.arrayContaining([
@@ -101,9 +101,9 @@ suite('IntelligenceRepository (SQLite)', () => {
         'idx_intelligence_activity_events_event_id',
       ]),
     );
-    // The events table gained no AI columns.
+    // The events table gained no AI columns (hidden_at is the user's own visibility switch, v18).
     const eventCols = (raw.prepare('PRAGMA table_info(events)').all() as { name: string }[]).map((c) => c.name);
-    expect(eventCols).toEqual(['id', 'watcher', 'started_at', 'ended_at', 'app', 'browser', 'title', 'url', 'payload', 'created_at']);
+    expect(eventCols).toEqual(['id', 'watcher', 'started_at', 'ended_at', 'app', 'browser', 'title', 'url', 'payload', 'created_at', 'hidden_at']);
     raw.close();
   });
 

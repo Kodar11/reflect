@@ -1,0 +1,633 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life"
+  },
+  "day": {
+    "day_number": 19,
+    "date": "2026-09-19",
+    "day_type": "recording_and_rough_edit",
+    "circumstances": [
+      "The creator moved the partial-index follow-up from script into recording.",
+      "The first take was reviewed and followed by a second take, adding a realistic quality-control loop rather than a single uninterrupted recording block.",
+      "The afternoon moved into a first rough edit, with one short presentation reference search inside the editing session.",
+      "A sponsor clarification and follow-up consumed two small commercial work blocks but did not displace the main recording/editing project.",
+      "Thumbnail exploration started before the rough edit was finished, creating a mild parallel-work tension."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:22",
+      "last_seen": "22:38",
+      "approx_active_hours": 9.2,
+      "longest_unobserved_gap_minutes": 74
+    }
+  },
+  "raw_events": [
+    {
+      "id": 426,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T09:22:00+05:30",
+      "ended_at": "2026-09-19T09:37:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 427,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T09:37:00+05:30",
+      "ended_at": "2026-09-19T09:52:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — PostgreSQL Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 428,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T09:52:00+05:30",
+      "ended_at": "2026-09-19T10:14:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Partial Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 429,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T10:14:00+05:30",
+      "ended_at": "2026-09-19T10:31:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Sponsor Short — Database Tool",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 430,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T10:31:00+05:30",
+      "ended_at": "2026-09-19T10:48:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Database product short-form inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 431,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T11:26:00+05:30",
+      "ended_at": "2026-09-19T11:44:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 432,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T11:44:00+05:30",
+      "ended_at": "2026-09-19T12:16:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 433,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T12:16:00+05:30",
+      "ended_at": "2026-09-19T12:31:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-19_pg_partial_take1.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 434,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T12:42:00+05:30",
+      "ended_at": "2026-09-19T13:09:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 435,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T13:09:00+05:30",
+      "ended_at": "2026-09-19T13:24:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-19_pg_partial_take2.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 436,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T14:38:00+05:30",
+      "ended_at": "2026-09-19T15:09:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "partial_indexes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 437,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T15:09:00+05:30",
+      "ended_at": "2026-09-19T15:42:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "partial_indexes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 438,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T15:42:00+05:30",
+      "ended_at": "2026-09-19T16:03:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "technical explainer pacing examples",
+      "url": "https://www.youtube.com/results?search_query=technical+explainer+pacing+examples",
+      "payload": null
+    },
+    {
+      "id": 439,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T16:03:00+05:30",
+      "ended_at": "2026-09-19T16:37:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "partial_indexes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 440,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T16:37:00+05:30",
+      "ended_at": "2026-09-19T16:52:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 441,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T17:41:00+05:30",
+      "ended_at": "2026-09-19T18:09:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "partial_indexes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 442,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T18:09:00+05:30",
+      "ended_at": "2026-09-19T18:31:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Follow-up Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 443,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T18:31:00+05:30",
+      "ended_at": "2026-09-19T18:47:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Postgres partial index thumbnail contrast",
+      "url": "https://www.google.com/search?q=Postgres+partial+index+thumbnail+contrast",
+      "payload": null
+    },
+    {
+      "id": 444,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T19:56:00+05:30",
+      "ended_at": "2026-09-19T20:17:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 445,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T20:17:00+05:30",
+      "ended_at": "2026-09-19T20:39:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 446,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T20:39:00+05:30",
+      "ended_at": "2026-09-19T20:55:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Channel Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 447,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T20:55:00+05:30",
+      "ended_at": "2026-09-19T21:18:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Database product short-form inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 448,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T21:18:00+05:30",
+      "ended_at": "2026-09-19T22:01:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 449,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T22:01:00+05:30",
+      "ended_at": "2026-09-19T22:21:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 450,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T22:21:00+05:30",
+      "ended_at": "2026-09-19T22:38:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Partial Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-19-01",
+        "started_at": "09:22",
+        "ended_at": "09:52",
+        "title": "Morning communication and audience check",
+        "summary": "Checked email, reviewed comments on the published PostgreSQL video, and returned to the active follow-up.",
+        "event_ids": [
+          426,
+          427
+        ],
+        "context": "The partial-index follow-up is entering production while the previous video is still collecting audience response.",
+        "area": "creator_operations_and_community",
+        "intent": "Handle current communication and reconnect with the active content project.",
+        "quality": "focused start",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-19-02",
+        "started_at": "09:52",
+        "ended_at": "10:48",
+        "title": "Script and sponsor clarification",
+        "summary": "Reviewed the partial-index script, checked the sponsor short-form document, and replied to a sponsor clarification email.",
+        "event_ids": [
+          428,
+          429,
+          430
+        ],
+        "context": "The sponsor request remains a separate commercial workstream from the creator's main technical video.",
+        "area": "scripting_and_sponsorship",
+        "intent": "Prepare for recording while keeping the sponsor request moving.",
+        "quality": "productive but split focus",
+        "importance": "high"
+      },
+      {
+        "id": "gt-19-03",
+        "started_at": "10:48",
+        "ended_at": "11:26",
+        "title": "Offline recording preparation",
+        "summary": "Prepared the physical recording setup away from the desktop.",
+        "event_ids": [],
+        "context": "The exact setup and preparation steps are not observable.",
+        "area": "recording",
+        "intent": "Set up for the partial-index recording session.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-19-04",
+        "started_at": "11:26",
+        "ended_at": "12:31",
+        "title": "Primary recording session",
+        "summary": "Recorded the partial-index video and reviewed the first captured file before deciding to make another take.",
+        "event_ids": [
+          431,
+          432,
+          433
+        ],
+        "context": "The script reached recording-ready state on Day 18.",
+        "area": "recording",
+        "intent": "Capture the main talking-head and screen material.",
+        "quality": "substantive production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-19-05",
+        "started_at": "12:31",
+        "ended_at": "12:42",
+        "title": "Offline recording adjustment",
+        "summary": "Made a brief physical adjustment before another take.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "recording",
+        "intent": "Improve or correct the setup for the second take.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-19-06",
+        "started_at": "12:42",
+        "ended_at": "13:24",
+        "title": "Replacement take and review",
+        "summary": "Recorded a second take and reviewed it in VLC.",
+        "event_ids": [
+          434,
+          435
+        ],
+        "context": "The second take followed the review of the first capture.",
+        "area": "recording",
+        "intent": "Capture a more usable version of the material.",
+        "quality": "iterative production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-19-07",
+        "started_at": "13:24",
+        "ended_at": "14:38",
+        "title": "Offline lunch and break",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity is available.",
+        "area": "personal",
+        "intent": "Lunch and recovery after the recording session.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-19-08",
+        "started_at": "14:38",
+        "ended_at": "16:37",
+        "title": "First rough edit",
+        "summary": "Started assembling the partial-index recording in DaVinci Resolve, briefly checked pacing examples, and continued the cut.",
+        "event_ids": [
+          436,
+          437,
+          438,
+          439
+        ],
+        "context": "Usable footage is now available from the morning recording.",
+        "area": "editing",
+        "intent": "Build an initial structure from the new footage.",
+        "quality": "substantive production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-19-09",
+        "started_at": "16:37",
+        "ended_at": "16:52",
+        "title": "Creator chat",
+        "summary": "Spent a short session in a creator Discord channel.",
+        "event_ids": [
+          440
+        ],
+        "context": "Exact discussion purpose is not visible.",
+        "area": "community",
+        "intent": "Creator-network or social interaction.",
+        "quality": "ambiguous communication",
+        "importance": "low"
+      },
+      {
+        "id": "gt-19-10",
+        "started_at": "16:52",
+        "ended_at": "17:41",
+        "title": "Offline break",
+        "summary": "Spent a period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Break between editing and packaging.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-19-11",
+        "started_at": "17:41",
+        "ended_at": "18:47",
+        "title": "Edit continuation and thumbnail test",
+        "summary": "Continued the rough edit, then explored a thumbnail concept and checked one visual contrast reference.",
+        "event_ids": [
+          441,
+          442,
+          443
+        ],
+        "context": "Packaging activity is beginning before the edit is complete.",
+        "area": "editing_and_thumbnail_design",
+        "intent": "Advance the cut while testing a possible visual package.",
+        "quality": "productive but slightly fragmented",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-19-12",
+        "started_at": "18:47",
+        "ended_at": "19:56",
+        "title": "Offline dinner and personal time",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and normal evening time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-19-13",
+        "started_at": "19:56",
+        "ended_at": "20:55",
+        "title": "Audience and performance check",
+        "summary": "Checked Instagram direct messages, reviewed early PostgreSQL video analytics, and updated the metrics sheet.",
+        "event_ids": [
+          444,
+          445,
+          446
+        ],
+        "context": "The creator is maintaining the feedback loop for the recently published video.",
+        "area": "community_and_analytics",
+        "intent": "Handle audience communication and record current performance.",
+        "quality": "relevant maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-19-14",
+        "started_at": "20:55",
+        "ended_at": "21:18",
+        "title": "Sponsor follow-up",
+        "summary": "Replied to the sponsor inquiry after the earlier clarification thread.",
+        "event_ids": [
+          447
+        ],
+        "context": "This is commercial admin, not part of the personal video pipeline.",
+        "area": "sponsorship",
+        "intent": "Keep the sponsor opportunity moving without expanding its scope.",
+        "quality": "contained business work",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-19-15",
+        "started_at": "21:18",
+        "ended_at": "22:21",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          448,
+          449
+        ],
+        "context": "Normal evening leisure.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-19-16",
+        "started_at": "22:21",
+        "ended_at": "22:38",
+        "title": "Script note closeout",
+        "summary": "Made a brief note in the partial-index script after the day's recording and editing work.",
+        "event_ids": [
+          450
+        ],
+        "context": "The project is now in the editing stage.",
+        "area": "scripting_and_project_management",
+        "intent": "Preserve a note for the next edit pass.",
+        "quality": "useful closeout",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:48",
+        "ended_at": "11:26",
+        "reason": "Offline recording preparation"
+      },
+      {
+        "started_at": "12:31",
+        "ended_at": "12:42",
+        "reason": "Offline recording adjustment"
+      },
+      {
+        "started_at": "13:24",
+        "ended_at": "14:38",
+        "reason": "Offline lunch and break"
+      },
+      {
+        "started_at": "16:52",
+        "ended_at": "17:41",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "18:47",
+        "ended_at": "19:56",
+        "reason": "Offline dinner and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The partial-index follow-up crossed an important pipeline boundary from scripting into recording.",
+      "The creator reviewed the first take and recorded a second version, suggesting active quality control rather than simply accumulating footage.",
+      "A rough edit was started the same afternoon, so the new project now has both usable footage and an initial cut.",
+      "Sponsor work remained a legitimate secondary priority, handled in short blocks around the main creative work.",
+      "Thumbnail exploration began while the edit was still rough, which may be useful experimentation but also introduces parallel work before the core cut is closed.",
+      "The new PostgreSQL video's analytics were checked again, but there is still no visible major decision tied to the numbers."
+    ],
+    "priority_alignment": [
+      "Most substantial work stayed on the partial-index video and moved it through recording into editing.",
+      "The sponsor inquiry received attention without taking over the day.",
+      "The creator used review-and-retake rather than forcing the first recorded take into the edit."
+    ],
+    "important_uncertainty": [
+      "The tracker cannot establish why the first take was rejected or whether the second take is definitively final.",
+      "The rough edit is only an initial cut; no export or publish decision is visible.",
+      "The thumbnail session may be exploratory rather than a commitment to a final design.",
+      "Sponsor response status and any commercial deadline are not visible.",
+      "Analytics contain no visible numbers or downstream strategic decision.",
+      "Offline activity is unobserved."
+    ],
+    "possible_next_step": "Finish the rough cut end-to-end before investing further in the thumbnail, then decide whether another recording pass is actually necessary."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the rough cut before polishing",
+      "action_type": "complete_open_loop",
+      "reason": "The project now has footage and an initial edit, so the highest-value next step is to establish a complete narrative cut before spending more time on packaging.",
+      "target": "PostgreSQL Partial Indexes follow-up",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Keep sponsor work contained",
+      "action_type": "protect_primary_priority",
+      "reason": "The sponsor thread is legitimate but should remain bounded unless a concrete deadline requires a priority change.",
+      "target": "Database-tool short-form inquiry",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not assume the second recording take is perfect without reviewing it inside the full cut.",
+      "Do not over-invest in the thumbnail while the core edit is still incomplete.",
+      "Do not infer sponsor urgency from the number of emails alone.",
+      "Do not treat analytics checks as strategically valuable without an observable question or decision.",
+      "Do not classify creator-chat activity without more context.",
+      "Do not infer offline recording details."
+    ]
+  }
+}

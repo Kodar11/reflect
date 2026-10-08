@@ -1,0 +1,464 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Complete the next round of experiments for the main uncertainty estimation project",
+      "Move the manuscript from exploratory notes toward a coherent results section",
+      "Resolve whether the current experimental setup is measuring calibration fairly",
+      "Complete the replication study before deciding whether it is worth extending"
+    ]
+  },
+  "day": {
+    "day_number": 11,
+    "date": "2026-09-11",
+    "day_type": "focused_generalization_experiment_day_with_interruption",
+    "circumstances": [
+      "The researcher executes the single pre-specified generalization test using the frozen evaluation protocol. The run initially appears to reproduce the earlier pattern, but analysis reveals that one subgroup has a much wider confidence interval than expected. Rather than changing the protocol, the researcher checks the sample counts and finds that the subgroup is small. The overall result remains directionally consistent, but the evidence is not strong enough to justify a broad robustness claim. The afternoon is used to prepare a compact results table and manuscript revision. A short administrative interruption and unrelated browsing appear later in the day."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:12",
+      "last_seen": "20:17",
+      "approx_active_hours": 7.9,
+      "longest_unobserved_gap_minutes": 69
+    }
+  },
+  "raw_events": [
+    {
+      "id": 261,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T09:12:00+05:30",
+      "ended_at": "2026-09-11T09:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — experiment_protocol.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "experiment_protocol.md",
+        "interaction": "reviewed frozen metric and shift settings"
+      }
+    },
+    {
+      "id": 262,
+      "watcher": "Terminal",
+      "started_at": "2026-09-11T09:31:00+05:30",
+      "ended_at": "2026-09-11T10:03:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python run_experiment.py --config configs/generalization.yaml --seed 47"
+        ],
+        "output_state": "running"
+      }
+    },
+    {
+      "id": 263,
+      "watcher": "Terminal",
+      "started_at": "2026-09-11T10:03:00+05:30",
+      "ended_at": "2026-09-11T10:21:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python run_experiment.py --config configs/generalization.yaml --seed 47"
+        ],
+        "output_state": "completed",
+        "visible_text": "run completed"
+      }
+    },
+    {
+      "id": 264,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T10:21:00+05:30",
+      "ended_at": "2026-09-11T10:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — generalization_analysis.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "generalization_analysis.ipynb",
+        "interaction": "loaded results and generated summary metrics"
+      }
+    },
+    {
+      "id": 265,
+      "watcher": "Terminal",
+      "started_at": "2026-09-11T10:48:00+05:30",
+      "ended_at": "2026-09-11T11:07:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/bootstrap_subgroups.py --run 47",
+          "python scripts/count_subgroups.py --run 47"
+        ],
+        "output_state": "completed"
+      }
+    },
+    {
+      "id": 266,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T11:07:00+05:30",
+      "ended_at": "2026-09-11T11:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — generalization_analysis.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "generalization_analysis.ipynb",
+        "interaction": "inspected subgroup confidence intervals"
+      }
+    },
+    {
+      "id": 267,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-11T11:34:00+05:30",
+      "ended_at": "2026-09-11T11:51:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Bootstrap confidence intervals calibration subgroup size — search",
+      "url": "https://www.google.com/search?q=bootstrap+confidence+intervals+calibration+subgroup+size",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "search results and abstracts"
+      }
+    },
+    {
+      "id": 268,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T11:51:00+05:30",
+      "ended_at": "2026-09-11T12:16:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — generalization_analysis.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "generalization_analysis.ipynb",
+        "interaction": "annotated subgroup counts and confidence intervals"
+      }
+    },
+    {
+      "id": 269,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-11T13:28:00+05:30",
+      "ended_at": "2026-09-11T13:54:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — results_table.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "results_table.py",
+        "interaction": "created compact comparison table"
+      }
+    },
+    {
+      "id": 270,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T13:54:00+05:30",
+      "ended_at": "2026-09-11T14:22:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — results.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "added generalization result and caveat"
+      }
+    },
+    {
+      "id": 271,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T14:22:00+05:30",
+      "ended_at": "2026-09-11T14:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — discussion.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "revised interpretation and limitations"
+      }
+    },
+    {
+      "id": 272,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-11T14:48:00+05:30",
+      "ended_at": "2026-09-11T15:03:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Docs — manuscript comments",
+      "url": "https://docs.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "reviewed comments and suggestions"
+      }
+    },
+    {
+      "id": 273,
+      "watcher": "Gmail",
+      "started_at": "2026-09-11T15:03:00+05:30",
+      "ended_at": "2026-09-11T15:17:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox (2) — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read collaborator email and replied"
+      }
+    },
+    {
+      "id": 274,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T15:17:00+05:30",
+      "ended_at": "2026-09-11T15:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — results.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "incorporated collaborator wording suggestion"
+      }
+    },
+    {
+      "id": 275,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T16:55:00+05:30",
+      "ended_at": "2026-09-11T17:21:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — next_steps.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "drafted follow-up options and marked experiments as complete or optional"
+      }
+    },
+    {
+      "id": 276,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T17:21:00+05:30",
+      "ended_at": "2026-09-11T17:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — manuscript_outline.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "reordered results and discussion sections"
+      }
+    },
+    {
+      "id": 277,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-11T18:55:00+05:30",
+      "ended_at": "2026-09-11T19:17:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — research presentation",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 278,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-11T19:17:00+05:30",
+      "ended_at": "2026-09-11T19:36:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — noise cancelling headphones",
+      "url": "https://www.google.com/search?q=noise+cancelling+headphones",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "search results"
+      }
+    },
+    {
+      "id": 279,
+      "watcher": "VS Code",
+      "started_at": "2026-09-11T19:36:00+05:30",
+      "ended_at": "2026-09-11T20:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — manuscript_outline.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "finalized manuscript structure and open evidence questions"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-11-01",
+        "started_at": "09:12",
+        "ended_at": "12:16",
+        "title": "Run and analyze the final pre-specified generalization test",
+        "summary": "The researcher ran the final planned generalization comparison under the frozen protocol, computed subgroup bootstrap intervals and sample counts, and investigated why one subgroup produced a much wider interval. The subgroup is small, so the uncertainty is largely attributable to limited sample size rather than evidence of a qualitatively different effect.",
+        "event_ids": [
+          261,
+          262,
+          263,
+          264,
+          265,
+          266,
+          267,
+          268
+        ],
+        "context": "Direct continuation of the stopping rule established on Day 10.",
+        "area": "main research project",
+        "intent": "experiment",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-11-02",
+        "started_at": "13:28",
+        "ended_at": "15:46",
+        "title": "Integrate the generalization result into the manuscript",
+        "summary": "The researcher created a compact comparison table, added the generalization result and caveat to the results and discussion, reviewed manuscript comments, exchanged a short collaborator email, and incorporated a wording suggestion. The result is directionally consistent with the earlier finding but does not justify a broad robustness claim.",
+        "event_ids": [
+          269,
+          270,
+          271,
+          272,
+          273,
+          274
+        ],
+        "context": "Manuscript update based on the completed generalization test.",
+        "area": "manuscript",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-11-03",
+        "started_at": "16:55",
+        "ended_at": "17:46",
+        "title": "Decide which experiments are complete and restructure the manuscript",
+        "summary": "The researcher documented follow-up options, marked the core experiments as complete or optional, and reordered the manuscript results and discussion sections around the evidence that is now available.",
+        "event_ids": [
+          275,
+          276
+        ],
+        "context": "Closes the experimental loop and transitions toward manuscript completion.",
+        "area": "project planning and manuscript",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-11-04",
+        "started_at": "18:55",
+        "ended_at": "20:17",
+        "title": "Lower-intensity learning and final manuscript planning",
+        "summary": "The researcher watched a research presentation, briefly browsed noise-cancelling headphones, then returned to finalize the manuscript structure and list remaining evidence questions. The presentation may be relevant but no direct research output is visible.",
+        "event_ids": [
+          277,
+          278,
+          279
+        ],
+        "context": "Evening work after the main experimental loop has largely closed.",
+        "area": "manuscript and learning",
+        "intent": "planning",
+        "quality": "medium",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:16",
+        "ended_at": "13:28",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "15:46",
+        "ended_at": "16:55",
+        "reason": "offline / personal time"
+      },
+      {
+        "started_at": "17:46",
+        "ended_at": "18:55",
+        "reason": "offline / break"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The final pre-specified generalization test completed successfully under the frozen evaluation protocol.",
+      "The overall direction of the distribution-shift result remains consistent with earlier experiments, but one small subgroup has wide uncertainty and should not be used to support a strong subgroup-specific claim.",
+      "The main experimental loop is now sufficiently complete to justify shifting the center of effort from experimentation toward manuscript completion.",
+      "The compact results table and revised discussion make the evidence easier to interpret without overstating robustness.",
+      "Several follow-up experiments remain possible, but they are now optional rather than required to answer the current research question."
+    ],
+    "priority_alignment": [
+      "The day's primary priority was completed: the planned generalization test was run and interpreted using the frozen protocol.",
+      "Manuscript work immediately followed the experiment and incorporated the new evidence.",
+      "The replication study remained secondary and did not compete with the main project."
+    ],
+    "important_uncertainty": [
+      "The evidence does not establish that the observed distribution-shift behavior generalizes to every possible shift or dataset.",
+      "The small subgroup has insufficient sample size for a reliable subgroup-specific conclusion.",
+      "It remains possible that a reviewer would ask for an additional dataset or shift condition, but that is no longer necessary for the currently defined claim."
+    ],
+    "possible_next_step": "Stop adding core experiments for now and begin a complete manuscript pass, using the current results as the evidence boundary and listing any extra experiments only as explicitly optional follow-ups."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "schedule_change",
+      "title": "Shift from experimentation to manuscript completion",
+      "reason": "The pre-specified generalization test has closed the current experimental loop. Continuing to add experiments risks delaying the manuscript without addressing a clearly defined unresolved question.",
+      "suggested_focus_minutes": 120,
+      "target": "Manuscript"
+    },
+    "secondary_action": {
+      "action_type": "protect_priority",
+      "title": "Keep optional experiments out of the core work queue",
+      "reason": "The researcher has identified several possible extensions, but none is currently necessary for the stated contribution.",
+      "suggested_focus_minutes": 15,
+      "target": "Main Research Project"
+    },
+    "things_not_to_do": [
+      "Do not treat the small subgroup's wide confidence interval as evidence for a separate failure mode.",
+      "Do not add another experiment merely because additional datasets or shifts are available.",
+      "Do not let optional follow-up ideas displace the manuscript pass now that the planned evidence-gathering loop is complete."
+    ]
+  }
+}

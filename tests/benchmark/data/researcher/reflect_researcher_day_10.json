@@ -1,0 +1,478 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Complete the next round of experiments for the main uncertainty estimation project",
+      "Move the manuscript from exploratory notes toward a coherent results section",
+      "Resolve whether the current experimental setup is measuring calibration fairly",
+      "Complete the replication study before deciding whether it is worth extending"
+    ]
+  },
+  "day": {
+    "day_number": 10,
+    "date": "2026-09-10",
+    "day_type": "literature_and_manuscript_day_with_experiment_decision",
+    "circumstances": [
+      "With the evaluation protocol frozen, the researcher spends the morning synthesizing literature around calibration under distribution shift and checking whether the current result supports a distinct contribution. Several papers revisit the same issue from different angles. The afternoon is dominated by manuscript reframing and a concrete stopping-rule decision. One final generalization test is retained, while a broad experiment matrix is rejected. The replication remains blocked on reference preprocessing. The evening contains a short unrelated browsing detour before the researcher returns to finalize the research question."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:27",
+      "last_seen": "20:23",
+      "approx_active_hours": 7.5,
+      "longest_unobserved_gap_minutes": 82
+    }
+  },
+  "raw_events": [
+    {
+      "id": 243,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T09:27:00+05:30",
+      "ended_at": "2026-09-10T09:48:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Scholar — calibration under distribution shift",
+      "url": "https://scholar.google.com/scholar?q=calibration+distribution+shift",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 8,
+        "interaction": "search results and abstracts"
+      }
+    },
+    {
+      "id": 244,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T09:48:00+05:30",
+      "ended_at": "2026-09-10T10:14:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Robust calibration under distribution shift — paper PDF",
+      "url": "https://arxiv.org/pdf/2502.01842",
+      "payload": {
+        "window_state": "active",
+        "page": 5,
+        "interaction": "scrolling and text selection"
+      }
+    },
+    {
+      "id": 245,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T10:14:00+05:30",
+      "ended_at": "2026-09-10T10:37:00+05:30",
+      "app": "Zotero",
+      "browser": null,
+      "title": "Zotero — Calibration / Distribution Shift",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "collection": "Calibration / Distribution Shift",
+        "interaction": "edited notes and linked citation"
+      }
+    },
+    {
+      "id": 246,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T10:37:00+05:30",
+      "ended_at": "2026-09-10T11:02:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Selective prediction and uncertainty estimation — paper PDF",
+      "url": "https://arxiv.org/pdf/2407.04421",
+      "payload": {
+        "window_state": "active",
+        "page": 11,
+        "interaction": "reading and text selection"
+      }
+    },
+    {
+      "id": 247,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T11:02:00+05:30",
+      "ended_at": "2026-09-10T11:18:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Calibration with covariate shift — paper PDF",
+      "url": "https://arxiv.org/pdf/2311.07341",
+      "payload": {
+        "window_state": "active",
+        "page": 8,
+        "interaction": "returned to previously viewed paper"
+      }
+    },
+    {
+      "id": 248,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T11:18:00+05:30",
+      "ended_at": "2026-09-10T11:42:00+05:30",
+      "app": "Zotero",
+      "browser": null,
+      "title": "Zotero — Calibration / Distribution Shift",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "collection": "Calibration / Distribution Shift",
+        "interaction": "compared notes across papers and added synthesis note"
+      }
+    },
+    {
+      "id": 249,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T11:42:00+05:30",
+      "ended_at": "2026-09-10T12:07:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — literature_review.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "literature_review.md",
+        "interaction": "drafted comparison of papers"
+      }
+    },
+    {
+      "id": 250,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T12:07:00+05:30",
+      "ended_at": "2026-09-10T12:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — literature_review.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "literature_review.md",
+        "interaction": "revised synthesis paragraph and inserted citations"
+      }
+    },
+    {
+      "id": 251,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T13:53:00+05:30",
+      "ended_at": "2026-09-10T14:22:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_question.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_question.md",
+        "interaction": "rewrote research question and contribution statement"
+      }
+    },
+    {
+      "id": 252,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T14:22:00+05:30",
+      "ended_at": "2026-09-10T14:54:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — introduction.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "introduction.md",
+        "interaction": "revised motivation and contribution framing"
+      }
+    },
+    {
+      "id": 253,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T14:54:00+05:30",
+      "ended_at": "2026-09-10T15:21:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — related_work.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "related_work.md",
+        "interaction": "drafted related-work subsection"
+      }
+    },
+    {
+      "id": 254,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T15:21:00+05:30",
+      "ended_at": "2026-09-10T15:38:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Conference deadline uncertainty calibration 2026",
+      "url": "https://www.google.com/search?q=conference+deadline+uncertainty+calibration+2026",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 4,
+        "interaction": "searched deadline information"
+      }
+    },
+    {
+      "id": 255,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T15:38:00+05:30",
+      "ended_at": "2026-09-10T16:09:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — project_plan.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "project_plan.md",
+        "interaction": "updated experiment stopping rule and milestone list"
+      }
+    },
+    {
+      "id": 256,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T17:31:00+05:30",
+      "ended_at": "2026-09-10T17:54:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "replication-study — notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "replication-study",
+        "file": "notes.md",
+        "interaction": "reviewed blocked dependency and added reminder"
+      }
+    },
+    {
+      "id": 257,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T17:54:00+05:30",
+      "ended_at": "2026-09-10T18:11:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — research seminar: uncertainty and robustness",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 258,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T18:11:00+05:30",
+      "ended_at": "2026-09-10T18:31:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Amazon India — mechanical keyboard",
+      "url": "https://www.amazon.in/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "product browsing"
+      }
+    },
+    {
+      "id": 259,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T19:26:00+05:30",
+      "ended_at": "2026-09-10T19:54:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — introduction.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "introduction.md",
+        "interaction": "integrated related-work framing and revised opening paragraphs"
+      }
+    },
+    {
+      "id": 260,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T19:54:00+05:30",
+      "ended_at": "2026-09-10T20:23:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_question.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_question.md",
+        "interaction": "finalized research question wording"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-10-01",
+        "started_at": "09:27",
+        "ended_at": "12:31",
+        "title": "Synthesize literature on calibration under distribution shift",
+        "summary": "The researcher searched for recent work, read two papers including a return to a paper seen earlier in the week, compared notes in Zotero, and drafted a synthesis section. The literature places the current question within an established concern about calibration reliability under shift, while the papers differ in assumptions and evaluation settings.",
+        "event_ids": [
+          243,
+          244,
+          245,
+          246,
+          247,
+          248,
+          249,
+          250
+        ],
+        "context": "Builds directly on the distribution-shift interpretation developed during Days 5–9.",
+        "area": "literature review",
+        "intent": "synthesis",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-10-02",
+        "started_at": "13:53",
+        "ended_at": "15:21",
+        "title": "Reframe research question and related work",
+        "summary": "The researcher rewrote the research question and contribution statement, revised the introduction, and drafted a related-work subsection using the literature synthesis. The framing becomes narrower and more defensible than the earlier broad claim.",
+        "event_ids": [
+          251,
+          252,
+          253
+        ],
+        "context": "Manuscript framing is updated after the literature synthesis.",
+        "area": "manuscript",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-10-03",
+        "started_at": "15:21",
+        "ended_at": "16:09",
+        "title": "Check submission timing and set an experiment stopping rule",
+        "summary": "The researcher searched for a possible conference deadline and then updated the project plan with a concrete stopping rule and milestone list. The deadline search provides planning context but does not itself resolve the scientific question.",
+        "event_ids": [
+          254,
+          255
+        ],
+        "context": "A possible submission timeline creates a practical constraint on further experimentation.",
+        "area": "project planning",
+        "intent": "planning",
+        "quality": "medium",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-10-04",
+        "started_at": "17:31",
+        "ended_at": "18:11",
+        "title": "Maintain replication-study status and do topic-adjacent learning",
+        "summary": "The researcher reviewed the blocked replication dependency and watched part of a research seminar on uncertainty and robustness. Neither activity changes the main experimental plan.",
+        "event_ids": [
+          256,
+          257
+        ],
+        "context": "The replication remains blocked on reference preprocessing.",
+        "area": "replication and learning",
+        "intent": "maintenance",
+        "quality": "medium",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-05",
+        "started_at": "18:11",
+        "ended_at": "18:31",
+        "title": "Unrelated product browsing",
+        "summary": "The researcher browsed mechanical keyboards on an online marketplace. This is unrelated to the research work.",
+        "event_ids": [
+          258
+        ],
+        "context": "Short unrelated evening browsing.",
+        "area": "personal",
+        "intent": "leisure",
+        "quality": "unknown",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-06",
+        "started_at": "19:26",
+        "ended_at": "20:23",
+        "title": "Integrate literature framing and finalize research question",
+        "summary": "The researcher returned to the introduction and research-question notes, integrated the related-work framing, and finalized the wording of the research question.",
+        "event_ids": [
+          259,
+          260
+        ],
+        "context": "Final writing block after the evening interruption.",
+        "area": "manuscript",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:31",
+        "ended_at": "13:53",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "16:09",
+        "ended_at": "17:31",
+        "reason": "offline / personal time"
+      },
+      {
+        "started_at": "18:31",
+        "ended_at": "19:26",
+        "reason": "offline / dinner or personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The literature synthesis confirms that calibration under distribution shift is already an established research concern, so the contribution cannot simply be framed as discovering that calibration changes under shift.",
+      "The reviewed papers use different assumptions and evaluation settings, leaving room for a narrower empirical contribution tied to the specific method and frozen evaluation protocol used here.",
+      "The research question, introduction, and related-work framing were substantially rewritten around that narrower contribution.",
+      "A concrete stopping rule was added: one additional generalization test is justified, but a broad experiment matrix is not unless that test reveals a new unresolved issue.",
+      "The replication study remains blocked and should stay secondary until its reference preprocessing can be clarified."
+    ],
+    "priority_alignment": [
+      "Literature synthesis and manuscript framing directly supported the highest-priority goal of turning the existing experiments into a defensible research narrative.",
+      "Experimentation was intentionally limited rather than expanded simply because more evidence could be collected.",
+      "The possible submission timeline introduced a planning constraint without overriding scientific validity."
+    ],
+    "important_uncertainty": [
+      "The exact novelty boundary is still being refined because related work already addresses calibration under shift.",
+      "It remains uncertain whether the final generalization test will materially strengthen the contribution or simply confirm the current result."
+    ],
+    "possible_next_step": "Run the single pre-specified generalization test using the frozen protocol, then use its outcome to decide whether the experimental section is complete enough for full manuscript drafting."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "protect_priority",
+      "title": "Do the one planned generalization test",
+      "reason": "The literature and manuscript work have narrowed the contribution and the stopping rule now defines a bounded final evidence-gathering step.",
+      "suggested_focus_minutes": 90,
+      "target": "Main Research Project"
+    },
+    "secondary_action": {
+      "action_type": "continue_successful_behavior",
+      "title": "Keep the research question narrow",
+      "reason": "The strongest progress today came from aligning the literature, experiments, and manuscript around a defensible claim instead of broadening the project.",
+      "suggested_focus_minutes": 30,
+      "target": "Manuscript"
+    },
+    "things_not_to_do": [
+      "Do not expand the literature search indefinitely after the core related-work gap has been mapped.",
+      "Do not add a large experiment matrix before running the single pre-specified generalization test.",
+      "Do not revive the replication study without resolving its reference preprocessing dependency."
+    ]
+  }
+}

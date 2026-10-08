@@ -1,0 +1,691 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life"
+  },
+  "day": {
+    "day_number": 24,
+    "date": "2026-09-24",
+    "day_type": "rough_cut_completion_and_insert_recording",
+    "circumstances": [
+      "The creator reviewed the indexing-mistakes rough cut end-to-end and identified one missing concrete demo instead of restarting the edit.",
+      "A targeted search and script adjustment led to a short screen recording and review of the missing PostgreSQL example.",
+      "The demo was integrated into the rough cut, which was then brought to a substantially complete state.",
+      "Thumbnail work progressed after the main structural edit was solved.",
+      "A contained sponsor-status check occurred in the evening, while analytics and community activity remained secondary."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:48",
+      "last_seen": "22:49",
+      "approx_active_hours": 10.8,
+      "longest_unobserved_gap_minutes": 68
+    }
+  },
+  "raw_events": [
+    {
+      "id": 560,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T08:48:00+05:30",
+      "ended_at": "2026-09-24T09:03:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 561,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T09:03:00+05:30",
+      "ended_at": "2026-09-24T09:19:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — PostgreSQL Partial Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 562,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T09:19:00+05:30",
+      "ended_at": "2026-09-24T09:34:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Partial Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 563,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T09:34:00+05:30",
+      "ended_at": "2026-09-24T10:06:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 564,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T10:06:00+05:30",
+      "ended_at": "2026-09-24T10:42:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 565,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T10:42:00+05:30",
+      "ended_at": "2026-09-24T11:01:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "index_mistakes_roughcut.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 566,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T11:16:00+05:30",
+      "ended_at": "2026-09-24T11:35:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Indexing Mistakes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 567,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T11:35:00+05:30",
+      "ended_at": "2026-09-24T11:58:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL index scan demo SQL",
+      "url": "https://www.google.com/search?q=PostgreSQL+index+scan+demo+SQL",
+      "payload": null
+    },
+    {
+      "id": 568,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T11:58:00+05:30",
+      "ended_at": "2026-09-24T12:21:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Indexing Mistakes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 569,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T13:08:00+05:30",
+      "ended_at": "2026-09-24T13:31:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Screen Capture",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 570,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T13:31:00+05:30",
+      "ended_at": "2026-09-24T13:49:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-24_index_demo.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 571,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T14:03:00+05:30",
+      "ended_at": "2026-09-24T14:36:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 572,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T14:36:00+05:30",
+      "ended_at": "2026-09-24T15:04:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 573,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T15:04:00+05:30",
+      "ended_at": "2026-09-24T15:27:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "technical editing before after examples",
+      "url": "https://www.youtube.com/results?search_query=technical+editing+before+after+examples",
+      "payload": null
+    },
+    {
+      "id": 574,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T15:27:00+05:30",
+      "ended_at": "2026-09-24T15:58:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 575,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T15:58:00+05:30",
+      "ended_at": "2026-09-24T16:16:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexing Mistakes Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 576,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T16:16:00+05:30",
+      "ended_at": "2026-09-24T16:31:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "YouTube thumbnail one idea text",
+      "url": "https://www.google.com/search?q=YouTube+thumbnail+one+idea+text",
+      "payload": null
+    },
+    {
+      "id": 577,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T16:31:00+05:30",
+      "ended_at": "2026-09-24T16:54:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexing Mistakes Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 578,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T17:42:00+05:30",
+      "ended_at": "2026-09-24T18:03:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Database product short-form inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 579,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T18:03:00+05:30",
+      "ended_at": "2026-09-24T18:24:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Creator Assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 580,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T18:24:00+05:30",
+      "ended_at": "2026-09-24T18:39:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Sponsor Deliverables",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 581,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T19:47:00+05:30",
+      "ended_at": "2026-09-24T20:05:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 582,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T20:05:00+05:30",
+      "ended_at": "2026-09-24T20:22:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "Explore",
+      "url": "https://www.instagram.com/explore/",
+      "payload": null
+    },
+    {
+      "id": 583,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T20:22:00+05:30",
+      "ended_at": "2026-09-24T20:46:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Partial Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 584,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T20:46:00+05:30",
+      "ended_at": "2026-09-24T21:03:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Channel Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 585,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T21:03:00+05:30",
+      "ended_at": "2026-09-24T21:27:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 586,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T21:27:00+05:30",
+      "ended_at": "2026-09-24T22:10:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 587,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T22:10:00+05:30",
+      "ended_at": "2026-09-24T22:32:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 588,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T22:32:00+05:30",
+      "ended_at": "2026-09-24T22:49:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-24-01",
+        "started_at": "08:48",
+        "ended_at": "09:34",
+        "title": "Morning communication and release review",
+        "summary": "Checked email, comments, and early analytics for the recently published PostgreSQL partial-index video.",
+        "event_ids": [
+          560,
+          561,
+          562
+        ],
+        "context": "The creator is still using the published video's feedback as a reference while the next video is in production.",
+        "area": "creator_operations_and_community",
+        "intent": "Handle current communication and inspect the current feedback loop.",
+        "quality": "focused maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-24-02",
+        "started_at": "09:34",
+        "ended_at": "11:01",
+        "title": "Full rough-cut review",
+        "summary": "Continued the indexing-mistakes edit, watched a full rough-cut export, and identified a missing concrete demo that would improve the explanation.",
+        "event_ids": [
+          563,
+          564,
+          565
+        ],
+        "context": "The project has had a first rough edit since Day 23.",
+        "area": "editing",
+        "intent": "Evaluate the complete narrative and identify only necessary corrections.",
+        "quality": "high-value quality control",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-03",
+        "started_at": "11:01",
+        "ended_at": "11:16",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Brief break before fixing the identified edit gap.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-04",
+        "started_at": "11:16",
+        "ended_at": "12:21",
+        "title": "Demo planning and script adjustment",
+        "summary": "Reviewed the script, searched for a PostgreSQL index-scan demo query, and adjusted the explanation around the missing example.",
+        "event_ids": [
+          566,
+          567,
+          568
+        ],
+        "context": "The correction comes directly from the rough-cut review.",
+        "area": "scripting_and_research",
+        "intent": "Define a concrete insert that can solve the identified clarity gap.",
+        "quality": "targeted corrective work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-05",
+        "started_at": "12:21",
+        "ended_at": "13:08",
+        "title": "Offline lunch and recording setup",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "Physical setup and lunch are not observable.",
+        "area": "personal_and_recording",
+        "intent": "Lunch and prepare to capture the missing screen demo.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-06",
+        "started_at": "13:08",
+        "ended_at": "13:49",
+        "title": "Screen-demo capture and review",
+        "summary": "Captured the missing PostgreSQL screen demo and reviewed the resulting file.",
+        "event_ids": [
+          569,
+          570
+        ],
+        "context": "This is a narrowly scoped insert motivated by the morning edit review.",
+        "area": "recording",
+        "intent": "Create the missing visual evidence for the explanation.",
+        "quality": "efficient corrective production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-07",
+        "started_at": "13:49",
+        "ended_at": "14:03",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Brief break before integrating the demo.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-08",
+        "started_at": "14:03",
+        "ended_at": "15:58",
+        "title": "Rough-cut completion",
+        "summary": "Inserted the new demo into the edit, refined the surrounding pacing, checked one editing reference, and continued the complete rough cut.",
+        "event_ids": [
+          571,
+          572,
+          573,
+          574
+        ],
+        "context": "The creator is solving one concrete weakness rather than reworking the whole video.",
+        "area": "editing",
+        "intent": "Produce a coherent complete rough cut with the missing demo integrated.",
+        "quality": "substantive production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-09",
+        "started_at": "15:58",
+        "ended_at": "16:54",
+        "title": "Thumbnail iteration",
+        "summary": "Iterated the indexing-mistakes thumbnail, checked a simple text-direction reference, and refined the design.",
+        "event_ids": [
+          575,
+          576,
+          577
+        ],
+        "context": "The core rough cut is now substantially complete.",
+        "area": "thumbnail_design",
+        "intent": "Develop a clear visual package for the video.",
+        "quality": "productive packaging",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-24-10",
+        "started_at": "16:54",
+        "ended_at": "17:42",
+        "title": "Offline break",
+        "summary": "Spent a period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Break before handling the sponsor thread.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-11",
+        "started_at": "17:42",
+        "ended_at": "18:39",
+        "title": "Sponsor approval and file check",
+        "summary": "Reviewed the sponsor thread, checked the creator asset folder, and updated the sponsor deliverables record.",
+        "event_ids": [
+          578,
+          579,
+          580
+        ],
+        "context": "This follows the prior sponsor delivery and small revision cycle.",
+        "area": "sponsorship",
+        "intent": "Confirm commercial deliverable status and keep records current.",
+        "quality": "contained business administration",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-24-12",
+        "started_at": "18:39",
+        "ended_at": "19:47",
+        "title": "Offline dinner and personal time",
+        "summary": "Spent the evening meal period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and normal personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-13",
+        "started_at": "19:47",
+        "ended_at": "20:46",
+        "title": "Instagram and post-release analytics",
+        "summary": "Checked Instagram direct messages and Explore, then reviewed analytics for the published PostgreSQL partial-index video.",
+        "event_ids": [
+          581,
+          582,
+          583
+        ],
+        "context": "The creator uses Instagram for both community communication and browsing; the analytics check continues the post-release feedback loop.",
+        "area": "community_and_analytics",
+        "intent": "Handle audience activity and inspect current performance.",
+        "quality": "mixed-intent maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-24-14",
+        "started_at": "20:46",
+        "ended_at": "21:03",
+        "title": "Metrics update",
+        "summary": "Updated the channel metrics sheet after reviewing the published video.",
+        "event_ids": [
+          584
+        ],
+        "context": "No visible strategic decision follows.",
+        "area": "analytics",
+        "intent": "Record current performance data.",
+        "quality": "routine maintenance",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-15",
+        "started_at": "21:03",
+        "ended_at": "21:27",
+        "title": "Backlog review",
+        "summary": "Briefly reviewed future video ideas while keeping the indexing-mistakes project as the active production thread.",
+        "event_ids": [
+          585
+        ],
+        "context": "No new production project was opened.",
+        "area": "ideation",
+        "intent": "Maintain future options without switching projects.",
+        "quality": "light maintenance",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-16",
+        "started_at": "21:27",
+        "ended_at": "22:32",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends on Discord.",
+        "event_ids": [
+          586,
+          587
+        ],
+        "context": "Normal evening leisure.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-17",
+        "started_at": "22:32",
+        "ended_at": "22:49",
+        "title": "Edit closeout",
+        "summary": "Returned briefly to the indexing-mistakes project to preserve the next polish step after the completed rough cut.",
+        "event_ids": [
+          588
+        ],
+        "context": "The core edit is substantially complete, but final review and export remain.",
+        "area": "editing_and_project_management",
+        "intent": "Record the next concrete production action.",
+        "quality": "useful closeout",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "11:01",
+        "ended_at": "11:16",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "12:21",
+        "ended_at": "13:08",
+        "reason": "Offline lunch and recording setup"
+      },
+      {
+        "started_at": "13:49",
+        "ended_at": "14:03",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "16:54",
+        "ended_at": "17:42",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "18:39",
+        "ended_at": "19:47",
+        "reason": "Offline dinner and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The most meaningful progress was resolving a concrete weakness in the rough cut rather than starting new research.",
+      "The creator recorded a small missing PostgreSQL demo specifically because the full-cut review showed that the explanation needed visual evidence.",
+      "The inserted demo brought the indexing-mistakes video to a substantially complete rough cut.",
+      "Thumbnail work advanced after the core narrative was addressed, making today's packaging work more grounded than simply designing early.",
+      "Sponsor administration was contained to a short status/file check.",
+      "The published partial-index video's analytics were reviewed again, but no visible strategic action followed."
+    ],
+    "priority_alignment": [
+      "The creator stayed centered on finishing the active video and only recorded material that directly fixed a demonstrated edit gap.",
+      "Packaging began after the main structural issue was solved.",
+      "Secondary sponsor, community, and analytics tasks did not take over the production day."
+    ],
+    "important_uncertainty": [
+      "The desktop evidence cannot establish whether the inserted demo fully solved the clarity issue for viewers.",
+      "The rough cut is substantially complete, but final end-to-end review, export, and publication are still open.",
+      "Thumbnail design is progressed but not visibly final.",
+      "The sponsor thread shows administrative activity but not a definitive approval outcome.",
+      "Analytics show activity without visible metrics or resulting strategy.",
+      "Instagram Explore may be trend research or ordinary browsing.",
+      "Offline periods are unobserved."
+    ],
+    "possible_next_step": "Perform one clean final review of the now-complete rough cut, then export and move the video into the publishing workflow."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Perform the final review",
+      "action_type": "complete_open_loop",
+      "reason": "The missing demo has been recorded and integrated, so the next milestone is a single full review before export and publishing.",
+      "target": "PostgreSQL Indexing Mistakes video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not begin another research loop unless the final review exposes a real unresolved issue.",
+      "Do not assume the new demo is sufficient without checking it in the complete narrative.",
+      "Do not spend another large block on thumbnail iteration before the final cut is verified.",
+      "Do not infer sponsor approval from the asset-folder and spreadsheet checks.",
+      "Do not treat analytics activity as useful strategy without a concrete question and decision.",
+      "Do not classify Instagram Explore without stronger intent evidence.",
+      "Do not infer offline activity."
+    ]
+  }
+}

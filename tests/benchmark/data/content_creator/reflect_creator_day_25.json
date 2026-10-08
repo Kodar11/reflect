@@ -1,0 +1,675 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life"
+  },
+  "day": {
+    "day_number": 25,
+    "date": "2026-09-25",
+    "day_type": "finalize_schedule_and_audience_branch",
+    "circumstances": [
+      "The indexing-mistakes video received a final end-to-end review and minor polish.",
+      "The creator uploaded and scheduled the video, closing another multi-day production loop.",
+      "Sponsor administration was handled after the main publication work and remained contained.",
+      "A specific audience question about composite-index behavior led to targeted research and a note, creating a plausible future branch without committing to another production cycle.",
+      "Analytics remained routine rather than driving a visible strategic change."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:02",
+      "last_seen": "23:27",
+      "approx_active_hours": 10.3,
+      "longest_unobserved_gap_minutes": 64
+    }
+  },
+  "raw_events": [
+    {
+      "id": 589,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T09:02:00+05:30",
+      "ended_at": "2026-09-25T09:16:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 590,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T09:16:00+05:30",
+      "ended_at": "2026-09-25T09:31:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Partial Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 591,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T09:31:00+05:30",
+      "ended_at": "2026-09-25T09:46:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — PostgreSQL Partial Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 592,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T09:46:00+05:30",
+      "ended_at": "2026-09-25T10:17:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 593,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T10:17:00+05:30",
+      "ended_at": "2026-09-25T10:48:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 594,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T10:48:00+05:30",
+      "ended_at": "2026-09-25T11:05:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "index_mistakes_final_review.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 595,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T11:18:00+05:30",
+      "ended_at": "2026-09-25T11:41:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "index_mistakes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 596,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T11:41:00+05:30",
+      "ended_at": "2026-09-25T12:03:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexing Mistakes Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 597,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T12:03:00+05:30",
+      "ended_at": "2026-09-25T12:19:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "YouTube thumbnail technical mistakes examples",
+      "url": "https://www.google.com/search?q=YouTube+thumbnail+technical+mistakes+examples",
+      "payload": null
+    },
+    {
+      "id": 598,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T12:19:00+05:30",
+      "ended_at": "2026-09-25T12:43:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexing Mistakes Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 599,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T13:47:00+05:30",
+      "ended_at": "2026-09-25T14:09:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Upload video",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 600,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T14:09:00+05:30",
+      "ended_at": "2026-09-25T14:34:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Video details",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 601,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T14:34:00+05:30",
+      "ended_at": "2026-09-25T14:48:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Checks — PostgreSQL Indexing Mistakes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 602,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T14:48:00+05:30",
+      "ended_at": "2026-09-25T15:01:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content — Scheduled",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 603,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T15:01:00+05:30",
+      "ended_at": "2026-09-25T15:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Indexing Mistakes — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 604,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T16:22:00+05:30",
+      "ended_at": "2026-09-25T16:44:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Database product short-form inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 605,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T16:44:00+05:30",
+      "ended_at": "2026-09-25T17:03:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Sponsor Deliverables",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 606,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T17:03:00+05:30",
+      "ended_at": "2026-09-25T17:22:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Creator Assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 607,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T17:22:00+05:30",
+      "ended_at": "2026-09-25T17:39:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sent",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 608,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T18:31:00+05:30",
+      "ended_at": "2026-09-25T18:50:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 609,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T18:50:00+05:30",
+      "ended_at": "2026-09-25T19:09:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — PostgreSQL Partial Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 610,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T19:09:00+05:30",
+      "ended_at": "2026-09-25T19:31:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Next Video Question — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 611,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T19:31:00+05:30",
+      "ended_at": "2026-09-25T19:55:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL composite indexes leftmost prefix",
+      "url": "https://www.google.com/search?q=PostgreSQL+composite+indexes+leftmost+prefix",
+      "payload": null
+    },
+    {
+      "id": 612,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T19:55:00+05:30",
+      "ended_at": "2026-09-25T20:18:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PostgreSQL composite indexes explained",
+      "url": "https://www.youtube.com/results?search_query=PostgreSQL+composite+indexes+explained",
+      "payload": null
+    },
+    {
+      "id": 613,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T20:18:00+05:30",
+      "ended_at": "2026-09-25T20:37:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 614,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T21:28:00+05:30",
+      "ended_at": "2026-09-25T21:49:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Partial Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 615,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T21:49:00+05:30",
+      "ended_at": "2026-09-25T22:06:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Channel Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 616,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T22:06:00+05:30",
+      "ended_at": "2026-09-25T22:49:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 617,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T22:49:00+05:30",
+      "ended_at": "2026-09-25T23:10:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 618,
+      "watcher": "desktop",
+      "started_at": "2026-09-25T23:10:00+05:30",
+      "ended_at": "2026-09-25T23:27:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Next Video Question — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-25-01",
+        "started_at": "09:02",
+        "ended_at": "09:46",
+        "title": "Morning inbox and release-signal check",
+        "summary": "Checked email, reviewed early analytics, and read comments on the published PostgreSQL partial-index video.",
+        "event_ids": [
+          589,
+          590,
+          591
+        ],
+        "context": "The previously scheduled video is now in its early release window.",
+        "area": "creator_operations_and_community",
+        "intent": "Handle communication and inspect early release response before finalizing the next production state.",
+        "quality": "focused post-publish review",
+        "importance": "high"
+      },
+      {
+        "id": "gt-25-02",
+        "started_at": "09:46",
+        "ended_at": "11:05",
+        "title": "Final end-to-end edit review",
+        "summary": "Reviewed the indexing-mistakes rough cut in Resolve and watched a final review export to check pacing, clarity, and continuity.",
+        "event_ids": [
+          592,
+          593,
+          594
+        ],
+        "context": "The rough cut had been substantially completed on Day 24.",
+        "area": "editing",
+        "intent": "Verify the final narrative before publishing.",
+        "quality": "high-value quality control",
+        "importance": "high"
+      },
+      {
+        "id": "gt-25-03",
+        "started_at": "11:05",
+        "ended_at": "11:18",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Brief break before final polish.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-25-04",
+        "started_at": "11:18",
+        "ended_at": "12:43",
+        "title": "Final edit and thumbnail polish",
+        "summary": "Made a last small Resolve adjustment, refined the thumbnail, checked a visual packaging reference, and returned to Canva for the final design pass.",
+        "event_ids": [
+          595,
+          596,
+          597,
+          598
+        ],
+        "context": "The video passed the end-to-end review with only minor final polish remaining.",
+        "area": "editing_and_thumbnail_design",
+        "intent": "Finish the core video and its primary publishing asset.",
+        "quality": "substantive final production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-25-05",
+        "started_at": "12:43",
+        "ended_at": "13:47",
+        "title": "Offline lunch and personal time",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and recovery before publishing.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-25-06",
+        "started_at": "13:47",
+        "ended_at": "15:18",
+        "title": "YouTube publishing setup",
+        "summary": "Uploaded the indexing-mistakes video, configured its publishing details, completed platform checks, scheduled the video, and added a brief project note.",
+        "event_ids": [
+          599,
+          600,
+          601,
+          602,
+          603
+        ],
+        "context": "This closes the production loop, while the release is scheduled for later.",
+        "area": "publishing",
+        "intent": "Move the finished video from final edit into a scheduled release state.",
+        "quality": "successful completion",
+        "importance": "high"
+      },
+      {
+        "id": "gt-25-07",
+        "started_at": "15:18",
+        "ended_at": "16:22",
+        "title": "Offline break",
+        "summary": "Spent a period away from the desktop after scheduling the video.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Break after completing a major deliverable.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-25-08",
+        "started_at": "16:22",
+        "ended_at": "17:39",
+        "title": "Sponsor admin closeout",
+        "summary": "Reviewed the sponsor thread, updated the deliverables sheet and asset folder, and sent a final administrative response.",
+        "event_ids": [
+          604,
+          605,
+          606,
+          607
+        ],
+        "context": "The sponsor workstream is separate from the creator's own scheduled video.",
+        "area": "sponsorship",
+        "intent": "Close any remaining commercial administration.",
+        "quality": "contained business work",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-25-09",
+        "started_at": "17:39",
+        "ended_at": "18:31",
+        "title": "Offline break and evening transition",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity is available.",
+        "area": "personal",
+        "intent": "Transition into evening community and content review.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-25-10",
+        "started_at": "18:31",
+        "ended_at": "19:31",
+        "title": "Audience feedback and follow-up note",
+        "summary": "Checked Instagram messages, reviewed comments on the partial-index video, and captured a new audience question in a document.",
+        "event_ids": [
+          608,
+          609,
+          610
+        ],
+        "context": "A specific audience question appears to point toward composite-index behavior.",
+        "area": "community_and_ideation",
+        "intent": "Capture audience-driven material that may inform a future technical video.",
+        "quality": "high-signal community work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-25-11",
+        "started_at": "19:31",
+        "ended_at": "20:37",
+        "title": "Composite-index exploratory research",
+        "summary": "Researched PostgreSQL composite-index ordering and watched explanatory examples, then reviewed the video idea backlog.",
+        "event_ids": [
+          611,
+          612,
+          613
+        ],
+        "context": "The research is a direct response to the audience question, but no production commitment has been made.",
+        "area": "research_and_ideation",
+        "intent": "Test whether the audience question can support a useful follow-up.",
+        "quality": "targeted exploratory research",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-25-12",
+        "started_at": "20:37",
+        "ended_at": "21:28",
+        "title": "Offline dinner",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and normal evening time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-25-13",
+        "started_at": "21:28",
+        "ended_at": "22:06",
+        "title": "Release analytics maintenance",
+        "summary": "Checked analytics for the PostgreSQL partial-index video and updated the channel metrics sheet.",
+        "event_ids": [
+          614,
+          615
+        ],
+        "context": "The scheduled indexing-mistakes video has not yet released, while the previous video remains the comparison point.",
+        "area": "analytics",
+        "intent": "Record current performance of the existing published video.",
+        "quality": "routine maintenance",
+        "importance": "low"
+      },
+      {
+        "id": "gt-25-14",
+        "started_at": "22:06",
+        "ended_at": "23:10",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          616,
+          617
+        ],
+        "context": "Normal evening leisure.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-25-15",
+        "started_at": "23:10",
+        "ended_at": "23:27",
+        "title": "Audience-question note closeout",
+        "summary": "Returned to the composite-index notes and preserved the research direction for a later go/no-go decision.",
+        "event_ids": [
+          618
+        ],
+        "context": "The new question is a candidate follow-up, not yet a committed project.",
+        "area": "ideation",
+        "intent": "Preserve the next decision point without beginning another late-night production block.",
+        "quality": "useful closeout",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "11:05",
+        "ended_at": "11:18",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "12:43",
+        "ended_at": "13:47",
+        "reason": "Offline lunch and personal time"
+      },
+      {
+        "started_at": "15:18",
+        "ended_at": "16:22",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "17:39",
+        "ended_at": "18:31",
+        "reason": "Offline break and evening transition"
+      },
+      {
+        "started_at": "20:37",
+        "ended_at": "21:28",
+        "reason": "Offline dinner"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The indexing-mistakes video completed its final quality-control pass and moved to scheduled publication.",
+      "The creator made only minor final changes after the end-to-end review, suggesting the main production loop was largely complete.",
+      "The sponsor workstream received a contained administrative closeout rather than competing with the main publishing milestone.",
+      "An audience question created a new, concrete composite-index research branch that is related to the existing PostgreSQL content thread.",
+      "The new composite-index topic remains exploratory: there is research and a note, but no commitment to outline or record it.",
+      "Analytics were checked and recorded, but no visible strategic action followed."
+    ],
+    "priority_alignment": [
+      "The creator closed the active indexing-mistakes production loop before investing meaningful time in a new idea.",
+      "Audience feedback was converted into a narrowly scoped research question rather than a broad topic search.",
+      "Commercial administration stayed secondary to the creator's own publication milestone."
+    ],
+    "important_uncertainty": [
+      "The exact comment or question that prompted the composite-index research is not visible in the raw desktop evidence.",
+      "The scheduled release time itself is not exposed beyond the fact that the video is in a scheduled state.",
+      "The sponsor thread shows administrative completion but not an explicit confirmation of final approval.",
+      "The thumbnail appears finalized enough for upload, but no external presentation result is observable.",
+      "Analytics activity contains no visible metrics or decision.",
+      "Instagram messages are community work, while the intent of any surrounding browsing is not established.",
+      "Offline periods are unobserved."
+    ],
+    "possible_next_step": "Let the scheduled indexing-mistakes video release, then decide whether the composite-index audience question is strong enough to become the next project or whether another backlog idea should win."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Use the audience question as a decision gate",
+      "action_type": "validate_next_content_choice",
+      "reason": "A concrete audience question now has some targeted research behind it, but it should compete against the broader backlog before becoming the next full production project.",
+      "target": "Composite-index follow-up",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the scheduled indexing-mistakes video is successful before it has released and accumulated response.",
+      "Do not turn the composite-index question into a committed project solely because it came from a viewer.",
+      "Do not reopen broad research while the candidate has only a narrow research question.",
+      "Do not infer sponsor approval from administrative email activity.",
+      "Do not treat analytics checks as strategic by themselves.",
+      "Do not classify Instagram activity without stronger intent evidence.",
+      "Do not infer offline activity or exact audience sentiment from the raw timeline."
+    ]
+  }
+}

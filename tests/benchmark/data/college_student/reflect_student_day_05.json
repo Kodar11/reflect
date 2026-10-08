@@ -1,0 +1,428 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Keeping up with current semester coursework",
+      "Completing a newly announced Computer Networks lab task",
+      "Working with classmates on a semester project"
+    ],
+    "priorities": [
+      "Keep up with current coursework after the Operating Systems quiz",
+      "Complete the new Computer Networks lab task",
+      "Make progress on the semester group project"
+    ]
+  },
+  "day": {
+    "day_number": 5,
+    "date": "2026-09-05",
+    "day_type": "os_quiz_and_networks_lab_day",
+    "circumstances": [
+      "The Operating Systems quiz took place mostly outside the laptop's observation window after a short last-minute review.",
+      "A new Computer Networks lab task became the main digital coursework thread and required research, implementation, testing, and a later continuation.",
+      "The semester project received a smaller maintenance block through issue review and parser work.",
+      "Friday evening included gaming, gaming-related YouTube, and friend communication before the student returned briefly to the Networks lab."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:12",
+      "last_seen": "21:31",
+      "approx_active_hours": 8.0,
+      "longest_unobserved_gap_minutes": 194
+    }
+  },
+  "raw_events": [
+    {
+      "id": 85,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T08:12:00+05:30",
+      "ended_at": "2026-09-05T08:27:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Moodle — Operating Systems quiz",
+      "url": "https://moodle.example.edu/mod/quiz/view.php?id=2194",
+      "payload": null
+    },
+    {
+      "id": 86,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T08:27:00+05:30",
+      "ended_at": "2026-09-05T08:44:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "OS last-minute notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 87,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T11:58:00+05:30",
+      "ended_at": "2026-09-05T12:16:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 88,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T12:16:00+05:30",
+      "ended_at": "2026-09-05T12:34:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Classroom — Computer Networks Lab 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 89,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T12:34:00+05:30",
+      "ended_at": "2026-09-05T13:02:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Computer Networks Lab 2 notes",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 90,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T13:02:00+05:30",
+      "ended_at": "2026-09-05T13:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "TCP three-way handshake examples",
+      "url": "https://www.google.com/search?q=tcp+three+way+handshake+examples",
+      "payload": null
+    },
+    {
+      "id": 91,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T13:29:00+05:30",
+      "ended_at": "2026-09-05T14:01:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "cn-lab-2 — client.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 92,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T14:01:00+05:30",
+      "ended_at": "2026-09-05T14:17:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python client.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 93,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T14:17:00+05:30",
+      "ended_at": "2026-09-05T14:43:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "cn-lab-2 — client.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 94,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T14:43:00+05:30",
+      "ended_at": "2026-09-05T15:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Socket Programming in Python",
+      "url": "https://docs.python.org/3/library/socket.html",
+      "payload": null
+    },
+    {
+      "id": 95,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T15:03:00+05:30",
+      "ended_at": "2026-09-05T15:28:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "cn-lab-2 — server.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 96,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T16:11:00+05:30",
+      "ended_at": "2026-09-05T16:30:00+05:30",
+      "app": "Discord",
+      "browser": null,
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 97,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T16:30:00+05:30",
+      "ended_at": "2026-09-05T16:58:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project — issue #9",
+      "url": "https://github.com/.../issues/9",
+      "payload": null
+    },
+    {
+      "id": 98,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T16:58:00+05:30",
+      "ended_at": "2026-09-05T17:21:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — parser.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 99,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T17:21:00+05:30",
+      "ended_at": "2026-09-05T17:39:00+05:30",
+      "app": "Discord",
+      "browser": null,
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 100,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T18:18:00+05:30",
+      "ended_at": "2026-09-05T18:47:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "CS2 highlights",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 101,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T18:47:00+05:30",
+      "ended_at": "2026-09-05T19:42:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 102,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T19:42:00+05:30",
+      "ended_at": "2026-09-05T20:03:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 103,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T20:47:00+05:30",
+      "ended_at": "2026-09-05T21:06:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Classroom — Computer Networks Lab 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 104,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T21:06:00+05:30",
+      "ended_at": "2026-09-05T21:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "cn-lab-2 — server.py",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-05-01",
+        "started_at": "08:12",
+        "ended_at": "08:44",
+        "title": "Operating Systems quiz review",
+        "summary": "Checked the quiz page and reviewed last-minute OS notes before leaving for the day's assessment.",
+        "event_ids": [
+          85,
+          86
+        ],
+        "context": "Academic",
+        "area": "Operating Systems",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-02",
+        "started_at": "11:58",
+        "ended_at": "15:28",
+        "title": "Computer Networks lab setup and implementation",
+        "summary": "Checked course communication and the new lab instructions, reviewed networking examples, implemented a socket client and server, tested the client, and consulted the Python socket documentation before continuing the server code.",
+        "event_ids": [
+          87,
+          88,
+          89,
+          90,
+          91,
+          92,
+          93,
+          94,
+          95
+        ],
+        "context": "Academic",
+        "area": "Computer Networks",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-03",
+        "started_at": "16:11",
+        "ended_at": "17:39",
+        "title": "Semester project maintenance",
+        "summary": "Discussed a project issue with teammates, reviewed the repository issue, adjusted the parser, and clarified the next step with the group.",
+        "event_ids": [
+          96,
+          97,
+          98,
+          99
+        ],
+        "context": "Academic",
+        "area": "Semester Project",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-05-04",
+        "started_at": "18:18",
+        "ended_at": "20:03",
+        "title": "Friday leisure and social time",
+        "summary": "Watched gaming-related videos, played a game, and exchanged messages with friends.",
+        "event_ids": [
+          100,
+          101,
+          102
+        ],
+        "context": "Personal",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-05",
+        "started_at": "20:47",
+        "ended_at": "21:31",
+        "title": "Computer Networks lab continuation",
+        "summary": "Reopened the lab instructions and continued implementing the server component after the evening break.",
+        "event_ids": [
+          103,
+          104
+        ],
+        "context": "Academic",
+        "area": "Computer Networks",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:44",
+        "ended_at": "11:58",
+        "reason": "OS quiz / classes / campus activity"
+      },
+      {
+        "started_at": "15:28",
+        "ended_at": "16:11",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "17:39",
+        "ended_at": "18:18",
+        "reason": "Walk / snack / personal activity"
+      },
+      {
+        "started_at": "20:03",
+        "ended_at": "20:47",
+        "reason": "Dinner / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The OS quiz was the day's opening academic concern, but the actual assessment was largely unobserved; laptop activity mainly shows the preparation immediately before it.",
+      "The new Computer Networks lab became the largest visible coursework thread, moving from instructions and examples into actual socket-programming implementation and a later evening continuation.",
+      "The semester project remained active but secondary, with a small parser maintenance pass following team discussion.",
+      "The evening leisure block was distinct from the later return to coursework, showing a normal Friday shift between academic and personal activity."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Keep up with current coursework after the Operating Systems quiz",
+        "assessment": "strong progress"
+      },
+      {
+        "priority": "Complete the new Computer Networks lab task",
+        "assessment": "meaningful progress / still unfinished"
+      },
+      {
+        "priority": "Make progress on the semester group project",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [
+      "The laptop record cannot show how the student performed in the OS quiz itself because most of the assessment period was offline.",
+      "The Networks lab implementation is visibly in progress, but the events do not establish that the client/server program is fully correct.",
+      "The project parser changes were discussed with teammates, but their final acceptance is not visible."
+    ],
+    "possible_next_step": "Finish and test the Computer Networks lab implementation while the task is still active, then return to the semester project."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the Computer Networks lab",
+      "action_type": "complete_open_loop",
+      "reason": "The new lab already has substantial implementation work behind it and was left open for another session, making completion the clearest academic next step.",
+      "suggested_focus_minutes": 60,
+      "target": "Computer Networks"
+    },
+    "secondary_action": {
+      "title": "Prepare the parser change for review",
+      "action_type": "continue_successful_behavior",
+      "reason": "The semester project received communication, issue review, and a code update, leaving a natural review checkpoint for the next group session.",
+      "suggested_focus_minutes": 30,
+      "target": "Semester Project"
+    },
+    "things_not_to_do": [
+      "Do not infer quiz performance from the short laptop review before the offline assessment.",
+      "Do not assume the Networks lab is correct simply because the code ran once.",
+      "Do not criticize the Friday gaming and social block simply because academic work remained open.",
+      "Do not treat teammate communication as a distraction when it directly supported the project task.",
+      "Do not treat the unobserved periods as time in which nothing academic happened."
+    ]
+  }
+}

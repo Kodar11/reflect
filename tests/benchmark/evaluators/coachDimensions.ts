@@ -43,6 +43,25 @@ export const ACTION_TYPE_MAPPING: Record<string, { exact: string[]; compatible: 
   schedule_change: { exact: ['change_timing'], compatible: ['protect_priority', 'experiment'] },
   deliberate_rest: { exact: ['rest'], compatible: [] },
   stop_recurring_pattern: { exact: ['avoid_pattern'], compatible: ['change_approach', 'reduce_fragmentation', 'experiment'] },
+  // The designer key's word for a focus block.
+  scheduled_focus: { exact: ['focus_session'], compatible: ['protect_priority', 'reduce_fragmentation', 'continue_behavior', 'close_open_loop'] },
+  // The content-creator key names the move in its own pipeline's terms.
+  //   finish the stage the project is in
+  move_project_to_next_pipeline_stage: { exact: ['close_open_loop'], compatible: ['focus_session', 'protect_priority'] },
+  deadline_driven_completion: { exact: ['close_open_loop'], compatible: ['focus_session', 'protect_priority'] },
+  //   keep a second work stream from taking the main one's time
+  contain_competing_workstream: { exact: ['protect_priority'], compatible: ['reduce_fragmentation', 'change_timing', 'focus_session'] },
+  protect_primary_priority: { exact: ['protect_priority'], compatible: ['reduce_fragmentation', 'change_timing', 'focus_session'] },
+  //   choose the next project deliberately
+  decide_next_content_project: { exact: ['clarify_priority'], compatible: ['experiment', 'close_open_loop'] },
+  validate_next_content_choice: { exact: ['clarify_priority'], compatible: ['experiment'] },
+  //   hold off: Reflect has no "wait" action, so the nearest forms count as compatible and none as exact
+  deprioritize_immediate_new_production: { exact: [], compatible: ['clarify_priority', 'avoid_pattern', 'continue_behavior', 'rest'] },
+  defer_new_commitment: { exact: [], compatible: ['clarify_priority', 'avoid_pattern', 'continue_behavior', 'rest'] },
+  defer_next_project_until_feedback: { exact: [], compatible: ['clarify_priority', 'avoid_pattern', 'continue_behavior', 'rest'] },
+  //   write down where things stand
+  preserve_open_loop: { exact: [], compatible: ['close_open_loop', 'continue_behavior'] },
+  retain_longitudinal_context: { exact: [], compatible: ['close_open_loop', 'continue_behavior'] },
 };
 
 /** Work streams the founder/freelancer answer key names instead of a priority. */

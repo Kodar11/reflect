@@ -1,0 +1,595 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing research, scripting, production, community, analytics, sponsorships, and personal life",
+    "current_work": [
+      "Developing a Redis/caching follow-up prompted by questions around the published API video",
+      "Handling a sponsorship follow-up on the earlier campaign",
+      "Maintaining the broader technical video idea backlog"
+    ],
+    "priorities": [
+      "Turn the strongest caching follow-up into a clear recording-ready script",
+      "Close the sponsor follow-up without letting it become an open-ended admin thread",
+      "Keep secondary ideas and social browsing from displacing the current script"
+    ]
+  },
+  "day": {
+    "day_number": 7,
+    "date": "2026-09-07",
+    "day_type": "monday_follow_up_scripting_and_sponsor_admin",
+    "circumstances": [
+      "The caching/Redis follow-up from Day 6 became the main creative workstream and moved from notes into an outline and script.",
+      "YouTube was used for technical reference during the scripting process, while a separate camera-setup video appeared later as general production research.",
+      "A sponsor follow-up required a short administrative block in the middle of the day.",
+      "Instagram again combined direct-message handling with general browsing.",
+      "The day ended without recording the new follow-up, so scripting remains the clearest open loop."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:47",
+      "last_seen": "22:31",
+      "approx_active_hours": 9.1,
+      "longest_unobserved_gap_minutes": 102
+    }
+  },
+  "raw_events": [
+    {
+      "id": 134,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T08:47:00+05:30",
+      "ended_at": "2026-09-07T08:59:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 135,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T08:59:00+05:30",
+      "ended_at": "2026-09-07T09:14:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — Why APIs Feel Slow",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 136,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T09:14:00+05:30",
+      "ended_at": "2026-09-07T09:29:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "API Video Follow-up Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 137,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T09:29:00+05:30",
+      "ended_at": "2026-09-07T09:44:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Redis cache stampede explained",
+      "url": "https://www.youtube.com/watch?v=redis-stampede-11",
+      "payload": null
+    },
+    {
+      "id": 138,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T09:44:00+05:30",
+      "ended_at": "2026-09-07T10:07:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Redis cache invalidation examples",
+      "url": "https://www.google.com/search?q=Redis+cache+invalidation+examples",
+      "payload": null
+    },
+    {
+      "id": 139,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T10:07:00+05:30",
+      "ended_at": "2026-09-07T10:42:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Redis Caching Follow-up — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 140,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T10:42:00+05:30",
+      "ended_at": "2026-09-07T11:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Redis Caching Follow-up — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 141,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T11:18:00+05:30",
+      "ended_at": "2026-09-07T11:31:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 142,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T11:31:00+05:30",
+      "ended_at": "2026-09-07T12:03:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Redis Caching Follow-up — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 143,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T12:03:00+05:30",
+      "ended_at": "2026-09-07T12:21:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Redis cache invalidation mistakes",
+      "url": "https://www.youtube.com/results?search_query=Redis+cache+invalidation+mistakes",
+      "payload": null
+    },
+    {
+      "id": 144,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T12:21:00+05:30",
+      "ended_at": "2026-09-07T12:54:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Redis Caching Follow-up — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 145,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T14:36:00+05:30",
+      "ended_at": "2026-09-07T14:49:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 146,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T14:49:00+05:30",
+      "ended_at": "2026-09-07T15:05:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Sponsor deliverables",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 147,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T15:05:00+05:30",
+      "ended_at": "2026-09-07T15:27:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship thread",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 148,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T15:27:00+05:30",
+      "ended_at": "2026-09-07T15:46:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Brand Deliverables",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 149,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T16:28:00+05:30",
+      "ended_at": "2026-09-07T16:56:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Redis Caching Follow-up — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 150,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T16:56:00+05:30",
+      "ended_at": "2026-09-07T17:19:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Redis TTL cache aside example",
+      "url": "https://www.google.com/search?q=Redis+TTL+cache+example",
+      "payload": null
+    },
+    {
+      "id": 151,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T17:19:00+05:30",
+      "ended_at": "2026-09-07T17:37:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Redis Caching Follow-up — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 152,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T18:52:00+05:30",
+      "ended_at": "2026-09-07T19:18:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 153,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T19:18:00+05:30",
+      "ended_at": "2026-09-07T19:31:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/explore/",
+      "url": "https://www.instagram.com/explore/",
+      "payload": null
+    },
+    {
+      "id": 154,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T20:06:00+05:30",
+      "ended_at": "2026-09-07T20:48:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "camera setup review",
+      "url": "https://www.youtube.com/watch?v=camera-setup-12",
+      "payload": null
+    },
+    {
+      "id": 155,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T20:48:00+05:30",
+      "ended_at": "2026-09-07T21:32:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 156,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T21:32:00+05:30",
+      "ended_at": "2026-09-07T21:51:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 157,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T22:17:00+05:30",
+      "ended_at": "2026-09-07T22:31:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-07-01",
+        "started_at": "08:47",
+        "ended_at": "09:29",
+        "title": "Morning audience and follow-up review",
+        "summary": "Checked email, reviewed comments on the published API video, and reopened the follow-up notes.",
+        "event_ids": [
+          134,
+          135,
+          136
+        ],
+        "context": "The previous day's audience review had produced the Redis/caching follow-up direction.",
+        "area": "community_and_ideation",
+        "intent": "Use recent audience feedback to decide what to develop next.",
+        "quality": "useful planning",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-02",
+        "started_at": "09:29",
+        "ended_at": "10:07",
+        "title": "Caching reference research",
+        "summary": "Watched a Redis cache-stampede explanation and searched for cache-invalidation examples before drafting the follow-up.",
+        "event_ids": [
+          137,
+          138
+        ],
+        "context": "The research was directly related to the follow-up idea identified on Day 6.",
+        "area": "content_research",
+        "intent": "Validate technical examples for the follow-up.",
+        "quality": "focused research",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-03",
+        "started_at": "10:07",
+        "ended_at": "12:54",
+        "title": "Follow-up outline and scripting",
+        "summary": "Built an outline, started the script, briefly checked creator chat, searched another Redis reference, and continued the script.",
+        "event_ids": [
+          139,
+          140,
+          141,
+          142,
+          143,
+          144
+        ],
+        "context": "The Redis/caching topic moved from a loose idea into the beginnings of a real production asset.",
+        "area": "scripting",
+        "intent": "Develop a recording-ready script for the follow-up video.",
+        "quality": "substantive creative work with brief interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-04",
+        "started_at": "12:54",
+        "ended_at": "14:36",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the midday period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Lunch and ordinary personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-05",
+        "started_at": "14:36",
+        "ended_at": "15:46",
+        "title": "Sponsor follow-up administration",
+        "summary": "Reviewed the sponsorship thread, checked the requested deliverables, replied to the sponsor, and reviewed the deliverables sheet.",
+        "event_ids": [
+          145,
+          146,
+          147,
+          148
+        ],
+        "context": "This continued the sponsorship thread first addressed on Day 4 and closed on Day 5, with a new follow-up now arriving.",
+        "area": "sponsorship",
+        "intent": "Handle a concrete sponsor follow-up request.",
+        "quality": "bounded administrative work",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-07-06",
+        "started_at": "15:46",
+        "ended_at": "16:28",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Take a break between sponsor work and scripting.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-07",
+        "started_at": "16:28",
+        "ended_at": "17:37",
+        "title": "Follow-up script refinement",
+        "summary": "Returned to the Redis/caching script, searched one TTL example, and revised the script around the chosen technical example.",
+        "event_ids": [
+          149,
+          150,
+          151
+        ],
+        "context": "The creator returned to the same script after the sponsor interruption rather than starting a new topic.",
+        "area": "scripting",
+        "intent": "Turn the follow-up script into a more concrete recording plan.",
+        "quality": "focused production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-08",
+        "started_at": "17:37",
+        "ended_at": "18:52",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the early evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Dinner and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-09",
+        "started_at": "18:52",
+        "ended_at": "19:31",
+        "title": "Instagram community and browsing",
+        "summary": "Checked direct messages and then browsed the Instagram explore feed.",
+        "event_ids": [
+          152,
+          153
+        ],
+        "context": "The platform again supports both creator communication and casual browsing.",
+        "area": "community_and_leisure",
+        "intent": "Handle audience communication and browse social content.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-07-10",
+        "started_at": "19:31",
+        "ended_at": "20:06",
+        "title": "Offline personal time",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Personal time before evening recreation.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-11",
+        "started_at": "20:06",
+        "ended_at": "20:48",
+        "title": "General recording research",
+        "summary": "Watched a camera-setup review that could inform future production setup, but did not modify the current script or begin recording.",
+        "event_ids": [
+          154
+        ],
+        "context": "This was related to production generally, not clearly to the caching video's specific content.",
+        "area": "creator_learning",
+        "intent": "Explore recording setup considerations.",
+        "quality": "general learning",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-12",
+        "started_at": "20:48",
+        "ended_at": "21:51",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          155,
+          156
+        ],
+        "context": "Normal evening leisure after a scripting-heavy day.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-13",
+        "started_at": "21:51",
+        "ended_at": "22:17",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Wind down before ending the day.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-14",
+        "started_at": "22:17",
+        "ended_at": "22:31",
+        "title": "Idea backlog review",
+        "summary": "Briefly reviewed the broader video idea list without starting another project.",
+        "event_ids": [
+          157
+        ],
+        "context": "The Redis follow-up remained the active content project.",
+        "area": "ideation",
+        "intent": "Review future possibilities without committing to another project.",
+        "quality": "brief maintenance",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:54",
+        "ended_at": "14:36",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "15:46",
+        "ended_at": "16:28",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "17:37",
+        "ended_at": "18:52",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "19:31",
+        "ended_at": "20:06",
+        "reason": "Offline personal time"
+      },
+      {
+        "started_at": "21:51",
+        "ended_at": "22:17",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Redis/caching follow-up moved from an audience-backed idea into a concrete outline and substantial script, with targeted technical references used during drafting.",
+      "The same script remained the central creative thread even after a sponsor interruption; the creator returned to it and refined a specific TTL example.",
+      "The sponsor follow-up was a legitimate competing workstream but stayed bounded to a response and deliverables review.",
+      "A camera-setup video appeared later as general production learning, but there is no evidence it directly advanced the current caching video.",
+      "The creator ended the day with the follow-up still pre-recording, so the main open loop has shifted from deciding what to make toward getting the script ready to shoot."
+    ],
+    "priority_alignment": [
+      "The strongest sustained work remained on the audience-backed Redis/caching follow-up.",
+      "The sponsor request was handled without displacing the follow-up for the rest of the day.",
+      "The broader idea backlog remained secondary and did not turn into another active project."
+    ],
+    "important_uncertainty": [
+      "The script is substantially developed, but the desktop evidence cannot establish whether it is actually complete or recording-ready.",
+      "The audience comments that prompted the follow-up are not represented in enough detail to verify the exact topic choice.",
+      "The sponsor thread was handled today, but the timeline does not show whether the sponsor considered the follow-up fully resolved.",
+      "The camera-setup research may or may not influence future recording decisions.",
+      "Offline periods remain outside desktop observation."
+    ],
+    "possible_next_step": "Read the follow-up script once end-to-end, lock the recording structure, and then schedule or begin the actual recording rather than adding more research."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Lock the recording script",
+      "action_type": "complete_open_loop",
+      "reason": "The follow-up has now moved through feedback, research, outline, and substantial scripting; the next concrete milestone is to finish the script and prepare for recording.",
+      "target": "Redis/caching follow-up",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the script is fully ready simply because several long drafting blocks occurred.",
+      "Do not treat the sponsor follow-up as a distraction; it was a legitimate external responsibility.",
+      "Do not classify the camera-setup video as directly related to the caching video without supporting evidence.",
+      "Do not infer that the Redis follow-up must be produced just because audience questions suggested it; the creator still needs to decide the final scope.",
+      "Do not criticize Instagram browsing or evening recreation as inherently harmful.",
+      "Do not infer what happened during offline periods."
+    ]
+  }
+}

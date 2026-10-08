@@ -1,0 +1,442 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Northstar Coffee portfolio case study",
+      "New small brand identity brief",
+      "Social media campaign assets for an existing client"
+    ],
+    "priorities": [
+      "Complete the new brand identity brief",
+      "Finish the Northstar Coffee portfolio case study",
+      "Deliver recurring social campaign work",
+      "Maintain client communication and relationships"
+    ]
+  },
+  "day": {
+    "day_number": 15,
+    "date": "2026-09-15",
+    "day_type": "identity_system_build_and_portfolio_day",
+    "circumstances": [
+      "The new brand identity moved from selected direction into a more concrete application package, with substantial logo, typography, and mockup work.",
+      "The Northstar Coffee portfolio case study also received two meaningful work blocks and is closer to a presentable state, while recurring social work was handled in a contained production window.",
+      "Reference activity was mixed: some browsing was followed by related execution, while the YouTube session remains ambiguous.",
+      "Offline periods provide no observable evidence."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:14",
+      "last_seen": "22:24",
+      "approx_active_hours": 11,
+      "longest_unobserved_gap_minutes": 74
+    }
+  },
+  "raw_events": [
+    {
+      "id": 370,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T09:14:00+05:30",
+      "ended_at": "2026-09-15T09:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client feedback",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 371,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T09:32:00+05:30",
+      "ended_at": "2026-09-15T10:08:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 372,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T10:09:00+05:30",
+      "ended_at": "2026-09-15T11:02:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "New Brand Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 373,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T11:03:00+05:30",
+      "ended_at": "2026-09-15T11:27:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 374,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T11:28:00+05:30",
+      "ended_at": "2026-09-15T12:16:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 375,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:17:00+05:30",
+      "ended_at": "2026-09-15T12:42:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "New Brand Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 376,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T13:56:00+05:30",
+      "ended_at": "2026-09-15T14:21:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client messages",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 377,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:22:00+05:30",
+      "ended_at": "2026-09-15T15:03:00+05:30",
+      "app": "Photoshop",
+      "browser": null,
+      "title": "Social Campaign",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 378,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T15:04:00+05:30",
+      "ended_at": "2026-09-15T15:46:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee Portfolio",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 379,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T15:47:00+05:30",
+      "ended_at": "2026-09-15T16:28:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee Portfolio",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 380,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T16:29:00+05:30",
+      "ended_at": "2026-09-15T16:51:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Brand identity case studies",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 381,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T16:52:00+05:30",
+      "ended_at": "2026-09-15T17:31:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee Portfolio",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 382,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T17:32:00+05:30",
+      "ended_at": "2026-09-15T17:54:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Social Campaign",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 383,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T17:55:00+05:30",
+      "ended_at": "2026-09-15T18:41:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "New Brand Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 384,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T19:17:00+05:30",
+      "ended_at": "2026-09-15T19:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Brand identity presentation tips",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 385,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T19:45:00+05:30",
+      "ended_at": "2026-09-15T20:21:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 386,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T20:22:00+05:30",
+      "ended_at": "2026-09-15T20:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client Assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 387,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T20:48:00+05:30",
+      "ended_at": "2026-09-15T21:19:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee Portfolio",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 388,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T21:20:00+05:30",
+      "ended_at": "2026-09-15T21:42:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "New Brand Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 389,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T21:43:00+05:30",
+      "ended_at": "2026-09-15T22:01:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Draft client update",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 390,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T22:02:00+05:30",
+      "ended_at": "2026-09-15T22:24:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-15-01",
+        "started_at": "09:14",
+        "ended_at": "12:42",
+        "title": "New brand identity — design work",
+        "summary": "Read client response to the latest identity review; client selected one direction and asked for a few application examples. Reviewed the selected direction and listed logo, typography, and application pieces needed for the next presentation. Refined the approved logo direction and prepared responsive logo variants. Compared a short list of typefaces for the identity system.",
+        "event_ids": [
+          370,
+          371,
+          372,
+          373,
+          374,
+          375
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-02",
+        "started_at": "13:56",
+        "ended_at": "15:03",
+        "title": "Social campaign — design work",
+        "summary": "Answered two implementation questions and confirmed the next review would include sample applications. Adjusted requested campaign assets to match updated copy supplied by the client.",
+        "event_ids": [
+          376,
+          377
+        ],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-03",
+        "started_at": "15:04",
+        "ended_at": "17:31",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Rewrote the project challenge and approach sections of the case study. Refined the visual hierarchy of the case-study introduction and added final identity mockups. Reviewed how other designers present process and final applications. Used the selected presentation patterns to revise process-page spacing and captions.",
+        "event_ids": [
+          378,
+          379,
+          380,
+          381
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-04",
+        "started_at": "17:32",
+        "ended_at": "18:41",
+        "title": "Social campaign — design work",
+        "summary": "Sent the revised social assets and checked for any additional client comments. Created simple packaging and social-profile application mockups for the selected direction.",
+        "event_ids": [
+          382,
+          383
+        ],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-05",
+        "started_at": "19:17",
+        "ended_at": "19:44",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Watched videos about presenting visual identity work; relationship to the current client presentation is not directly observable.",
+        "event_ids": [
+          384
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-06",
+        "started_at": "19:45",
+        "ended_at": "20:47",
+        "title": "New brand identity — design work",
+        "summary": "Assembled the application examples and adjusted presentation-board spacing. Organized supplied client references and exported working presentation assets into folders.",
+        "event_ids": [
+          385,
+          386
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-07",
+        "started_at": "20:48",
+        "ended_at": "21:19",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Made a final pass over case-study typography and corrected several alignment issues.",
+        "event_ids": [
+          387
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-08",
+        "started_at": "21:20",
+        "ended_at": "22:24",
+        "title": "New brand identity — design work",
+        "summary": "Checked logo exports and prepared a small set of presentation-ready files. Drafted a short message describing the application examples prepared for the next review. Reopened the presentation board and adjusted two application mockup compositions.",
+        "event_ids": [
+          388,
+          389,
+          390
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:42",
+        "ended_at": "13:56",
+        "reason": "Offline / no desktop activity recorded"
+      },
+      {
+        "started_at": "18:41",
+        "ended_at": "19:17",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The new brand identity occupied the largest share of observable execution and progressed into application examples for client review.",
+      "Northstar Coffee portfolio work included substantive writing, layout, mockup selection, and refinement, but completion is not demonstrated.",
+      "The recurring social campaign was addressed without becoming the dominant workstream.",
+      "Typography and case-study reference browsing was followed by related design work, so it should not automatically be classified as distraction.",
+      "The YouTube session has insufficient evidence to determine whether it supported the active presentation work.",
+      "Offline periods should remain unknown rather than being interpreted as inactivity or rest."
+    ],
+    "priority_alignment": [],
+    "important_uncertainty": [],
+    "possible_next_step": "The identity work is converging into a concrete review package. Keep the next step bounded to the agreed application examples and client feedback rather than reopening the selected direction. The Northstar case study is also close enough to warrant a protected finishing block instead of repeatedly leaving it for late evening."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the identity review package",
+      "action_type": "complete_open_loop",
+      "reason": "The identity work is converging into a concrete review package. Keep the next step bounded to the agreed application examples and client feedback rather than reopening the selected direction. The Northstar case study is also close enough to warrant a protected finishing block instead of repeatedly leaving it for late evening.",
+      "suggested_focus_minutes": null,
+      "target": "New client identity"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

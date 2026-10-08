@@ -3,6 +3,7 @@
 //
 //   npm run benchmark -- [options]        run the benchmark (real Gemini requests)
 //   npm run benchmark:validate            validate the dataset only (no database, no Gemini)
+//   npm run benchmark:validate -- --all   validate every persona dataset under data/
 //   npm run benchmark -- --reevaluate     re-score the stored run (no database, no Gemini)
 //   npm run benchmark -- --diagnose       why each unanswered Coach day was unanswered (no database, no Gemini)
 //   npm run benchmark -- --coach-scenarios   run the fifteen Coach scenarios (real Gemini requests)
@@ -24,7 +25,7 @@ const HELP = `Reflect benchmark
 
 Usage
   npm run benchmark -- [options]
-  npm run benchmark:validate
+  npm run benchmark:validate [-- --all | --persona <name>]
 
 Options
   --days <n>                    run days 1..n only (history accumulates, so a run always starts at day 1)
@@ -45,6 +46,8 @@ Options
   --save-prompts                write every prompt and raw response to results/latest/prompts
   --tz <iana zone>              the simulated user's timezone (default Asia/Kolkata; must match the dataset's offset)
   --dataset <dir>               dataset directory (default tests/benchmark/data/founder_freelancer)
+  --persona <name>              the dataset in tests/benchmark/data/<name> (short for --dataset)
+  --all                         with --validate: every persona dataset under tests/benchmark/data
   --results <dir>               results directory (default tests/benchmark/results)
   --coach-scenarios             run the Coach scenario set (data/coach_scenarios) instead of the 30-day dataset:
                                 each scenario on its own database, the simulated user answering as its answer
@@ -85,6 +88,7 @@ let validateOnly = false;
 let reevaluateOnly = false;
 let diagnoseOnly = false;
 let coachScenarios = false;
+let allPersonas = false;
 const args = process.argv.slice(2);
 for (let i = 0; i < args.length; i++) {
   const [flag, inline] = args[i].split(/=(.*)/s);
@@ -99,6 +103,15 @@ for (let i = 0; i < args.length; i++) {
     diagnoseOnly = true;
   } else if (flag === '--coach-scenarios') {
     coachScenarios = true;
+  } else if (flag === '--all') {
+    allPersonas = true;
+  } else if (flag === '--persona') {
+    const value = inline ?? args[++i];
+    if (!value || /[\\/]/.test(value)) {
+      process.stderr.write(`--persona needs the name of a directory in tests/benchmark/data\n\n${HELP}`);
+      process.exit(2);
+    }
+    env.REFLECT_BENCH_DATASET = path.join(here, 'data', value);
   } else if (flag in BOOLEAN_FLAGS) {
     env[BOOLEAN_FLAGS[flag]] = '1';
   } else if (flag in VALUE_FLAGS) {
@@ -113,6 +126,13 @@ for (let i = 0; i < args.length; i++) {
     process.exit(2);
   }
 }
+
+if (allPersonas && !validateOnly) {
+  // A run writes one results directory for one persona's thirty days on one database.
+  process.stderr.write('--all validates every persona; a run takes one persona at a time (--persona <name>)\n');
+  process.exit(2);
+}
+if (allPersonas) env.REFLECT_BENCH_ALL_PERSONAS = '1';
 
 const vitest = path.join(repoRoot, 'node_modules', 'vitest', 'vitest.mjs');
 let command;

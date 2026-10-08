@@ -46,6 +46,21 @@ interface TrackerEventDto {
   createdAt: string | null;
 }
 
+/** An event the user has hidden, as listed for restoring or deleting it. */
+interface HiddenEventDto extends TrackerEventDto {
+  hiddenAt: string | null;
+}
+
+type EventVisibilityResultDto =
+  | {
+      ok: true;
+      /** The events the request actually changed. */
+      eventIds: number[];
+      /** Activities and reflections are being brought up to date in the background. */
+      updating: boolean;
+    }
+  | { ok: false; error: string };
+
 /** Derived session DTO. Sessions exist only in memory and are re-derived from
  * raw events on each query; the renderer never imports the engine. */
 interface SessionDto {
@@ -845,6 +860,14 @@ interface Window {
     getToday: () => Promise<TrackerEventDto[]>;
     getRange: (from: string, to: string) => Promise<TrackerEventDto[]>;
     getAll: (limit?: number) => Promise<TrackerEventDto[]>;
+    getByIds: (ids: number[]) => Promise<TrackerEventDto[]>;
+    /** Take events out of everything Reflect shows and analyses. They can be restored. */
+    hideEvents: (eventIds: number[]) => Promise<EventVisibilityResultDto>;
+    unhideEvents: (eventIds: number[]) => Promise<EventVisibilityResultDto>;
+    /** Remove events for good. Irreversible. */
+    deleteEvents: (eventIds: number[]) => Promise<EventVisibilityResultDto>;
+    /** Hidden events only — for the list where they are restored or deleted. */
+    listHiddenEvents: (limit?: number) => Promise<HiddenEventDto[]>;
   };
   session: {
     getToday: () => Promise<SessionDto[]>;

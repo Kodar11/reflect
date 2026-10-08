@@ -9,11 +9,11 @@ import {
   type GroundTruthLabels,
   type PredictedLabels,
 } from './classification';
-import { ACTION_TYPE_MAPPING, KNOWN_TARGETS, evaluateCoach, type CoachEvaluation } from './coach';
+import { ACTION_TYPE_MAPPING, evaluateCoach, type CoachEvaluation } from './coach';
 import { summarizeCoachDimensions, type ActionStateRecord, type CoachDimensionSummary } from './coachDimensions';
 import { evaluateReflection, progressLevel, type ReflectionEvaluation } from './reflection';
 import { evaluateSegmentation, segmentFromEvents, type Segment, type SegmentationMetrics, type SegmentationResult, type TimedEvent } from './segmentation';
-import { NULL_LABEL, TAXONOMY_MAPPING, resolveMapping, type DatasetDimension } from './taxonomyMapping';
+import { NULL_LABEL, TAXONOMY_MAPPING, canonicalLabel, resolveMapping, type DatasetDimension } from './taxonomyMapping';
 import type { Criterion, Verdict } from './text';
 
 /**
@@ -78,12 +78,17 @@ export function evaluateDay(captured: CapturedDay, answer: EvaluationOnlyDay, ct
   const eventsById = new Map(events.map((e) => [e.id, e]));
   const datasetIdOf = new Map(captured.events.map((e) => [e.eventId, e.datasetId]));
 
-  const groundTruth: Segment[] = answer.groundTruth.activities.map((a) => segmentFromEvents(a.id, a.event_ids, eventsById));
+  // Time away from the screen that the key tells as an activity owns no events: there is nothing Reflect could have reconstructed.
+  const observed = answer.groundTruth.activities.filter((a) => a.event_ids.length > 0);
+  const groundTruth: Segment[] = observed.map((a) => segmentFromEvents(a.id, a.event_ids, eventsById));
   const labelsOf = new Map<string, GroundTruthLabels>(
-    answer.groundTruth.activities.map((a) => [a.id, { context: a.context, area: a.area, intent: a.intent, quality: a.quality }]),
+    observed.map((a) => [
+      a.id,
+      { context: canonicalLabel('context', a.context), area: canonicalLabel('area', a.area), intent: canonicalLabel('intent', a.intent), quality: canonicalLabel('quality', a.quality) },
+    ]),
   );
   const ownerOf = new Map<number, string>();
-  for (const a of answer.groundTruth.activities) for (const id of a.event_ids) ownerOf.set(id, a.id);
+  for (const a of observed) for (const id of a.event_ids) ownerOf.set(id, a.id);
 
   const used: Record<DatasetDimension, (string | null)[]> = { context: [], area: [], intent: [], quality: [] };
   for (const labels of labelsOf.values()) for (const dimension of Object.keys(used) as DatasetDimension[]) used[dimension].push(labels[dimension]);
@@ -156,38 +161,59 @@ export function evaluateDay(captured: CapturedDay, answer: EvaluationOnlyDay, ct
 
 // ── Answer-key vocabulary ───────────────────────────────────────────────────
 
+export interface VocabularyCheck {
+  errors: string[];
+  warnings: string[];
+  /** Per classification dimension: how many scored activities there are, and how many carry a label with no mapping. */
+  classification: Record<DatasetDimension, { activities: number; unmapped: number }>;
+}
+
 /**
- * Every label the answer key uses must be one the evaluator knows how to
- * read. Checked together with the dataset, so an unknown label fails before a
- * single request is made rather than being scored as "wrong" afterwards.
+ * What the evaluator can and cannot read in the answer key, established
+ * before a single request is made.
+ *
+ * A Coach action type with no mapping is an error: the expected action could
+ * only ever be scored as "wrong". A classification label with no mapping is
+ * not: the activity is left out of that dimension's accuracy (it is never
+ * counted as right or wrong), and how many are left out is reported here so
+ * that an accuracy over a small remainder is not mistaken for the whole.
  */
-export function checkAnswerKeyVocabulary(evaluation: EvaluationOnly): { errors: string[]; warnings: string[] } {
+export function checkAnswerKeyVocabulary(evaluation: EvaluationOnly): VocabularyCheck {
   const errors: string[] = [];
   const warnings: string[] = [];
+  const classification = { context: { activities: 0, unmapped: 0 }, area: { activities: 0, unmapped: 0 }, intent: { activities: 0, unmapped: 0 }, quality: { activities: 0, unmapped: 0 } };
+  const unmappedLabels = new Map<string, number>();
   for (const day of evaluation.days) {
     const at = `day ${day.dayNumber}`;
     for (const activity of day.groundTruth.activities) {
+      if (activity.event_ids.length === 0) continue; // off-screen time: not scored
       for (const dimension of ['context', 'area', 'intent', 'quality'] as const) {
-        const label = activity[dimension] ?? NULL_LABEL;
+        const label = canonicalLabel(dimension, activity[dimension]) ?? NULL_LABEL;
+        classification[dimension].activities++;
         if (!(label in TAXONOMY_MAPPING[dimension].labels) && !(dimension === 'area' && evaluation.priorities.includes(label))) {
-          errors.push(`${at} ${activity.id}: ${dimension} "${label}" has no entry in evaluators/taxonomyMapping.ts`);
+          classification[dimension].unmapped++;
+          const key = `${dimension} "${label.length > 60 ? `${label.slice(0, 57)}…` : label}"`;
+          unmappedLabels.set(key, (unmappedLabels.get(key) ?? 0) + 1);
         }
       }
     }
     for (const [slot, action] of [['primary_action', day.expectedCoachOutcome.primary_action], ['secondary_action', day.expectedCoachOutcome.secondary_action]] as const) {
       if (!action) continue;
       if (!(action.action_type in ACTION_TYPE_MAPPING)) errors.push(`${at} ${slot}: action_type "${action.action_type}" has no entry in evaluators/coach.ts ACTION_TYPE_MAPPING`);
-      if (action.target !== null && !KNOWN_TARGETS.includes(action.target) && !evaluation.priorities.includes(action.target)) {
-        errors.push(`${at} ${slot}: target "${action.target}" is neither a known work stream (${KNOWN_TARGETS.join(', ')}) nor one of the persona's priorities`);
-      }
+      // A target is a known work stream, a stated priority, or the name of the thing itself ("DBMS Practical 3"),
+      // which is matched against what the action says.
+      if (action.target !== null && !action.target.trim()) errors.push(`${at} ${slot}: target is empty (use null for a day-wide action)`);
     }
     const opportunity = day.expectedCoachOutcome.action_opportunity;
     if (opportunity?.type && !(opportunity.type in ACTION_TYPE_MAPPING)) errors.push(`${at} action_opportunity: type "${opportunity.type}" has no entry in ACTION_TYPE_MAPPING`);
     for (const entry of day.expectedReflection.priority_alignment) {
-      if (progressLevel(entry.assessment) === null) warnings.push(`${at}: priority assessment "${entry.assessment}" is not recognised and will not be scored`);
+      if (typeof entry !== 'string' && progressLevel(entry.assessment) === null) warnings.push(`${at}: priority assessment "${entry.assessment}" is not recognised and will not be scored`);
     }
   }
-  return { errors, warnings };
+  for (const [label, count] of [...unmappedLabels].sort((a, b) => b[1] - a[1])) {
+    warnings.push(`${label} has no entry in evaluators/taxonomyMapping.ts: ${count} activit${count === 1 ? 'y is' : 'ies are'} left out of that dimension's accuracy`);
+  }
+  return { errors, warnings, classification };
 }
 
 // ── Aggregation ─────────────────────────────────────────────────────────────

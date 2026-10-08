@@ -5,6 +5,7 @@ import { GeminiError, type IGeminiClient } from '../intelligence/GeminiClient.js
 import type { UserContextProvider } from '../intelligence/IntelligenceModels.js';
 import { activitySignature } from './ReflectionActivities.js';
 import type { ReflectionAnnotator } from './ReflectionAnnotator.js';
+import { EVENTS_REMOVED_REASON } from './ReflectionChanges.js';
 import type { DailyCoachSession, ReflectionCoachHook } from './ReflectionCoachHook.js';
 import { assessSufficiency, findMeaningfulDifference, selectSupportingMetrics, staleReasonFor } from './ReflectionMetrics.js';
 import { prioritiesFingerprint, type ReflectionMetricsService } from './ReflectionMetricsService.js';
@@ -664,7 +665,8 @@ export class ReflectionService {
       if (now.getTime() >= earliest && !this.rejectedTooOften(today)) {
         const current = this.deps.repo.getCurrentReport('day', today.key);
         const latest = this.deps.repo.getLatestAttempt('day', today.key);
-        const written = current !== null && current.coveredUntil !== null && Date.parse(current.coveredUntil) >= earliest;
+        const written =
+          current !== null && current.staleReason !== EVENTS_REMOVED_REASON && current.coveredUntil !== null && Date.parse(current.coveredUntil) >= earliest;
         const tooThin = latest?.status === 'insufficient_data' && Date.parse(latest.createdAt) >= reflectionTime;
         const due = now.getTime() >= reflectionTime ? !tooThin : await this.hasWoundDown(today, now);
         if (!written && due) pending.push(today);
@@ -700,6 +702,8 @@ export class ReflectionService {
     if (this.rejectedTooOften(period)) return false;
     const current = this.deps.repo.getCurrentReport(period.type, period.key);
     if (current?.status !== 'stale') return false;
+    // Written from an event the user has since removed: not something to leave standing for the cooldown.
+    if (current.staleReason === EVENTS_REMOVED_REASON) return true;
     return now.getTime() - Date.parse(current.generatedAt ?? current.createdAt) >= this.config.staleRegenerateCooldownMs;
   }
 
@@ -715,6 +719,7 @@ export class ReflectionService {
     if (!(this.config.runningRefreshDays[period.type] > 0)) return false;
     const refreshMs = this.config.runningRefreshDays[period.type] * DAY_MS;
     const current = repo.getCurrentReport(period.type, period.key);
+    if (current?.staleReason === EVENTS_REMOVED_REASON) return true;
     if (current) return now.getTime() - Date.parse(current.coveredUntil ?? current.createdAt) >= refreshMs;
     const latest = repo.getLatestAttempt(period.type, period.key);
     // Found too thin (or failed) recently: look again when it could have changed.

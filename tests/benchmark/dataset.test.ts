@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { checkAnswerKeyVocabulary } from './evaluators/index';
-import { loadConfig } from './runner/config';
+import { loadConfig, personaDatasetDirs } from './runner/config';
 import { DatasetValidationError, loadDataset, splitDataset, validateDataset, type DatasetDayFile } from './runner/dataset';
 
 /**
@@ -17,18 +17,32 @@ import { DatasetValidationError, loadDataset, splitDataset, validateDataset, typ
 
 const config = loadConfig();
 
-describe('benchmark dataset on disk', () => {
-  const result = validateDataset(config.datasetDir, config.expectedDays);
+/** The configured dataset, or — `npm run benchmark:validate -- --all` — every persona directory. */
+const datasets = (process.env.REFLECT_BENCH_ALL_PERSONAS === '1' ? personaDatasetDirs() : [config.datasetDir]).map((dir) => ({ name: path.basename(dir), dir }));
+const LISTED_ERRORS = 40;
+
+describe.each(datasets)('benchmark dataset on disk — $name', ({ name, dir }) => {
+  const result = validateDataset(dir, config.expectedDays);
 
   it(`has ${config.expectedDays} valid day files`, () => {
-    const listing = result.errors.map((e) => `[${e.code}] ${e.file} ${e.where}: ${e.message}`).join('\n');
-    expect(result.errors.length, `Dataset errors:\n${listing}\n`).toBe(0);
+    const byCode = new Map<string, number>();
+    for (const e of result.errors) byCode.set(e.code, (byCode.get(e.code) ?? 0) + 1);
+    const counts = [...byCode].sort((a, b) => b[1] - a[1]).map(([code, n]) => `${code} ×${n}`).join(', ');
+    const failing = new Set(result.errors.map((e) => e.file)).size;
+    console.log(`[benchmark:validate] ${name}: ${result.stats.days} file(s), ${result.stats.rawEvents} raw events, ${result.errors.length} error(s)${counts ? ` in ${failing} file(s) — ${counts}` : ''}, ${result.warnings.length} warning(s)`);
+    const listing = result.errors.slice(0, LISTED_ERRORS).map((e) => `[${e.code}] ${e.file} ${e.where}: ${e.message}`).join('\n');
+    const more = result.errors.length > LISTED_ERRORS ? `\n… and ${result.errors.length - LISTED_ERRORS} more` : '';
+    expect(result.errors.length, `Dataset errors (${counts}):\n${listing}${more}\n`).toBe(0);
     expect(result.stats.days).toBe(config.expectedDays);
   });
 
-  it('uses only labels the evaluator can read', () => {
+  it('uses only coach action types the evaluator can read, and says how much of the classification it can score', () => {
     if (!result.dataset) return; // already reported by the test above
     const vocabulary = checkAnswerKeyVocabulary(splitDataset(result.dataset).evaluation);
+    const scorable = Object.entries(vocabulary.classification)
+      .map(([dimension, c]) => `${dimension} ${c.activities - c.unmapped}/${c.activities}`)
+      .join(', ');
+    console.log(`[benchmark:validate] ${name}: classification labels the evaluator can score — ${scorable}`);
     expect(vocabulary.errors, vocabulary.errors.join('\n')).toEqual([]);
   });
 
@@ -39,8 +53,15 @@ describe('benchmark dataset on disk', () => {
     expect(Object.keys(input.days[0]).sort()).toEqual(['date', 'dayNumber', 'rawEvents']);
     expect(Object.keys(input.days[0].rawEvents[0]).sort()).toEqual(['app', 'browser', 'datasetId', 'endedAt', 'startedAt', 'title', 'url', 'watcher']);
     const serialized = JSON.stringify(input);
-    for (const forbidden of ['ground_truth', 'groundTruth', 'expected', 'day_type', 'dayType', 'circumstances', 'things_not_to_do', 'importance']) {
-      expect(serialized).not.toContain(forbidden);
+    // As field names: a window title may well say "Expected Calibration Error".
+    for (const forbidden of ['ground_truth', 'groundTruth', 'expected_reflection', 'expectedReflection', 'expected_coach_outcome', 'expectedCoachOutcome', 'day_type', 'dayType', 'circumstances', 'things_not_to_do', 'importance', 'statedPriorities']) {
+      expect(serialized).not.toContain(`"${forbidden}":`);
+    }
+    // Only day 1's profile is Reflect's: what a later file says the day was about stays in the answer key.
+    for (const day of result.dataset.days.slice(1)) {
+      for (const text of [...(day.persona.priorities ?? []), ...(day.persona.current_work ?? [])]) {
+        if (![...input.persona.priorities, ...input.persona.current_work].includes(text)) expect(serialized).not.toContain(JSON.stringify(text));
+      }
     }
     // No ground-truth sentence appears in the input half.
     for (const day of evaluation.days) {
@@ -127,6 +148,13 @@ describe('dataset validator', () => {
     expect(codes(() => {}, (days) => ({ 'reflect_day_01.json': JSON.stringify(days[0]), 'reflect_day_02.json': JSON.stringify(days[1]), 'notes.json': '{}' }))).toContain('unexpected_file');
   });
 
+  it('accepts the persona in the file name, and refuses two files for one day', () => {
+    expect(codes(() => {}, (days) => ({ 'reflect_student_day_01.json': JSON.stringify(days[0]), 'reflect_software_developer_day_02.json': JSON.stringify(days[1]) }))).toEqual([]);
+    expect(
+      codes(() => {}, (days) => ({ 'reflect_day_01.json': JSON.stringify(days[0]), 'reflect_day_02.json': JSON.stringify(days[1]), 'reflect_student_day_02.json': JSON.stringify(days[1]) })),
+    ).toContain('duplicate_day_file');
+  });
+
   it('requires every section', () => {
     expect(codes((days) => delete (days[0] as Partial<DatasetDayFile>).expected_coach_outcome)).toContain('missing_section');
     expect(codes((days) => delete (days[0] as Partial<DatasetDayFile>).ground_truth)).toContain('missing_section');
@@ -166,8 +194,31 @@ describe('dataset validator', () => {
     expect(codes((days) => (days[0].expected_coach_outcome.primary_action!.title = ''))).toContain('expected_action_field');
   });
 
-  it('treats a persona that changes between days as an error', () => {
-    expect(codes((days) => days[1].persona.priorities.push('A new priority'))).toContain('persona_changed');
+  it('lets a later day restate its priorities, keeps them out of the input, and refuses a different person', () => {
+    expect(codes((days) => (days[1].persona.role = 'Somebody else'))).toContain('persona_changed');
+    expect(codes((days) => delete (days[0].persona as { priorities?: string[] }).priorities)).toContain('persona_shape');
+    // Day 2 says what it was about in its own words; its alignment has to use those words.
+    expect(codes((days) => (days[1].persona.priorities = ['Close the beta feedback loop']))).toContain('unknown_priority');
+    expect(
+      codes((days) => {
+        days[1].persona.priorities = ['Close the beta feedback loop'];
+        days[1].expected_reflection.priority_alignment = [{ priority: 'Close the beta feedback loop', assessment: 'strong progress' }, 'Client work stayed contained.'];
+      }),
+    ).toEqual([]);
+    const { input, evaluation } = splitDataset(loadDataset(dir, 2).dataset);
+    expect(input.persona.priorities).toEqual(['Ship the SaaS MVP']);
+    expect(JSON.stringify(input)).not.toContain('beta feedback');
+    expect(evaluation.days[1].statedPriorities).toEqual(['Close the beta feedback loop']);
+    // An over-long profile entry is a warning: Reflect's own form would refuse it.
+    codes((days) => days.forEach((day) => (day.persona.priorities = ['Complete the next round of experiments for the main uncertainty estimation project'])));
+    expect(validateDataset(dir, 2).warnings.map((w) => w.code)).toContain('profile_over_limit');
+  });
+
+  it('accepts off-screen time told as an activity, unless something was tracked inside it', () => {
+    const offline = { id: 'gt-off', started_at: '10:00', ended_at: '10:30', title: 'Offline break', summary: 'Away from the desk.', event_ids: [], context: 'No desktop activity was observed.', area: 'personal', intent: 'Take a break.', quality: 'unobserved offline activity', importance: 'low' };
+    expect(codes((days) => days[0].ground_truth.activities.push({ ...offline }))).toEqual([]);
+    expect(codes((days) => days[0].ground_truth.activities.push({ ...offline, started_at: '09:40' }))).toContain('activity_event_ids');
+    expect(codes((days) => (days[0].ground_truth.activities = [{ ...offline }]))).toContain('ground_truth_empty');
   });
 
   it('never repairs: an invalid dataset cannot be loaded', () => {
@@ -185,7 +236,12 @@ describe('dataset validator', () => {
     });
     const { dataset } = loadDataset(dir, 2);
     const vocabulary = checkAnswerKeyVocabulary(splitDataset(dataset).evaluation);
-    expect(vocabulary.errors.join('\n')).toMatch(/intent "Daydream"/);
+    // An unreadable action type could only ever be scored as wrong: an error.
     expect(vocabulary.errors.join('\n')).toMatch(/action_type "teleport"/);
+    // An unreadable classification label is left out of that dimension, and counted.
+    expect(vocabulary.errors.join('\n')).not.toMatch(/Daydream/);
+    expect(vocabulary.warnings.join('\n')).toMatch(/intent "Daydream".*1 activity is left out/);
+    expect(vocabulary.classification.intent).toEqual({ activities: 4, unmapped: 1 });
+    expect(vocabulary.classification.quality).toEqual({ activities: 4, unmapped: 0 });
   });
 });

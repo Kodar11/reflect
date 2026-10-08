@@ -1,0 +1,376 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Closing the DBMS Practical 3",
+      "Completing the Software Engineering group presentation cycle",
+      "Starting a new Theory of Computation tutorial task"
+    ],
+    "priorities": [
+      "Submit the DBMS Practical 3 cleanly",
+      "Complete the Software Engineering presentation review cycle",
+      "Start the newly posted Theory of Computation tutorial"
+    ]
+  },
+  "day": {
+    "day_number": 16,
+    "date": "2026-09-16",
+    "day_type": "wednesday_presentation_day_and_new_coursework",
+    "circumstances": [
+      "Wednesday contained a long in-person college block, including the Software Engineering group presentation, which was largely invisible to laptop tracking.",
+      "The DBMS Practical 3 was finalized and submitted in the morning after a final check of the SQL examples.",
+      "A new Theory of Computation tutorial appeared and received an initial research and drafting session later in the afternoon.",
+      "The semester project was not actively worked on today beyond a quick message check, as the student's attention was concentrated on coursework.",
+      "The evening was mostly social and gaming time, followed by a brief review of the new tutorial."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:11",
+      "last_seen": "21:16",
+      "approx_active_hours": 4.8,
+      "longest_unobserved_gap_minutes": 250
+    }
+  },
+  "raw_events": [
+    {
+      "id": 295,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T08:11:00+05:30",
+      "ended_at": "2026-09-16T08:24:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 296,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T08:24:00+05:30",
+      "ended_at": "2026-09-16T08:39:00+05:30",
+      "app": "MySQL Workbench",
+      "browser": null,
+      "title": "SQL Editor — practical_3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 297,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T08:39:00+05:30",
+      "ended_at": "2026-09-16T08:52:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 298,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T08:52:00+05:30",
+      "ended_at": "2026-09-16T09:05:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS — Practical 3",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 299,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T09:05:00+05:30",
+      "ended_at": "2026-09-16T09:18:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 300,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T13:28:00+05:30",
+      "ended_at": "2026-09-16T13:43:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Theory of Computation — Tutorial 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 301,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T13:43:00+05:30",
+      "ended_at": "2026-09-16T14:04:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "TOC Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 302,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T14:04:00+05:30",
+      "ended_at": "2026-09-16T14:19:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "CFG ambiguity left recursion example",
+      "url": "https://www.google.com/search?q=CFG+ambiguity+left+recursion+example",
+      "payload": null
+    },
+    {
+      "id": 303,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T14:19:00+05:30",
+      "ended_at": "2026-09-16T14:47:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "TOC Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 304,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T14:47:00+05:30",
+      "ended_at": "2026-09-16T15:02:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "context free grammar ambiguity explained",
+      "url": "https://www.youtube.com/watch?v=example11",
+      "payload": null
+    },
+    {
+      "id": 305,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T15:02:00+05:30",
+      "ended_at": "2026-09-16T15:28:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "TOC Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 306,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T16:57:00+05:30",
+      "ended_at": "2026-09-16T17:08:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 307,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T19:43:00+05:30",
+      "ended_at": "2026-09-16T20:29:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 308,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T20:29:00+05:30",
+      "ended_at": "2026-09-16T20:47:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Hades challenge run",
+      "url": "https://www.youtube.com/watch?v=example12",
+      "payload": null
+    },
+    {
+      "id": 309,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T20:47:00+05:30",
+      "ended_at": "2026-09-16T21:01:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 310,
+      "watcher": "desktop",
+      "started_at": "2026-09-16T21:01:00+05:30",
+      "ended_at": "2026-09-16T21:16:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "TOC Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-16-01",
+        "started_at": "08:11",
+        "ended_at": "09:18",
+        "title": "DBMS Practical 3 finalization and submission",
+        "summary": "Made a final pass through the DBMS draft, reran the relevant SQL examples, opened the Classroom submission page, and checked email afterward.",
+        "event_ids": [
+          295,
+          296,
+          297,
+          298,
+          299
+        ],
+        "context": "The DBMS practical had remained open across Days 14–15.",
+        "area": "coursework",
+        "intent": "Verify the remaining work and submit the practical.",
+        "quality": "completion-focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-16-02",
+        "started_at": "09:18",
+        "ended_at": "13:28",
+        "title": "College classes and Software Engineering presentation",
+        "summary": "Attended classes and delivered the Software Engineering group presentation in person, away from the laptop.",
+        "event_ids": [],
+        "context": "The presentation had gone through drafting, rehearsal, revision, and review across the previous week.",
+        "area": "coursework",
+        "intent": "Complete the scheduled Software Engineering presentation.",
+        "quality": "completed offline and not directly observable",
+        "importance": "high"
+      },
+      {
+        "id": "gt-16-03",
+        "started_at": "13:28",
+        "ended_at": "15:28",
+        "title": "Theory of Computation tutorial start",
+        "summary": "Read the new tutorial requirements, drafted answers, researched CFG ambiguity and left recursion, watched a targeted explanation, and returned to the draft.",
+        "event_ids": [
+          300,
+          301,
+          302,
+          303,
+          304,
+          305
+        ],
+        "context": "A new Theory of Computation tutorial became relevant after the Software Engineering presentation milestone.",
+        "area": "coursework",
+        "intent": "Understand the grammar questions and begin producing the tutorial answers.",
+        "quality": "substantive start",
+        "importance": "high"
+      },
+      {
+        "id": "gt-16-04",
+        "started_at": "16:57",
+        "ended_at": "17:08",
+        "title": "Semester project message check",
+        "summary": "Briefly checked the project group chat for new information but did not start implementation work.",
+        "event_ids": [
+          306
+        ],
+        "context": "The project had been active during the previous week but was not today's main priority.",
+        "area": "semester_project",
+        "intent": "Check whether teammates need any immediate response.",
+        "quality": "brief coordination",
+        "importance": "low"
+      },
+      {
+        "id": "gt-16-05",
+        "started_at": "19:43",
+        "ended_at": "21:01",
+        "title": "Gaming and social time",
+        "summary": "Played Hades, watched a related challenge-run video, and chatted with friends.",
+        "event_ids": [
+          307,
+          308,
+          309
+        ],
+        "context": "Evening personal time after a presentation-heavy college day.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-16-06",
+        "started_at": "21:01",
+        "ended_at": "21:16",
+        "title": "Theory of Computation draft review",
+        "summary": "Reopened the tutorial draft to review the current answers before stopping for the night.",
+        "event_ids": [
+          310
+        ],
+        "context": "The tutorial had only been started that afternoon and remained open.",
+        "area": "coursework",
+        "intent": "Check the current state of the tutorial draft before the next work session.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "09:18",
+        "ended_at": "13:28",
+        "reason": "College classes and the in-person Software Engineering presentation away from the laptop"
+      },
+      {
+        "started_at": "15:28",
+        "ended_at": "16:57",
+        "reason": "Lunch and offline personal activity"
+      },
+      {
+        "started_at": "17:08",
+        "ended_at": "19:43",
+        "reason": "Offline rest, errands, and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The DBMS Practical 3 appears to have reached its submission stage after several days of research, SQL testing, and drafting.",
+      "The Software Engineering presentation was the day's major academic milestone, but it occurred offline and therefore cannot be reconstructed from laptop events.",
+      "A new Theory of Computation tutorial became the next visible open coursework thread, with research and drafting around CFG ambiguity and left recursion.",
+      "The semester project was only checked for messages and did not receive an implementation block today.",
+      "The evening gaming and related YouTube activity formed a separate leisure period from the Theory of Computation work."
+    ],
+    "priority_alignment": [
+      "The long-running DBMS open loop was addressed first and appears to have been submitted.",
+      "The Software Engineering presentation received its scheduled offline attention.",
+      "The new Theory of Computation tutorial was started on the same day rather than immediately reopening the completed presentation work."
+    ],
+    "important_uncertainty": [
+      "The laptop timeline cannot establish how the Software Engineering presentation itself went because the delivery occurred offline.",
+      "Opening the DBMS submission page strongly suggests submission handling, but the observed evidence does not prove that the assignment was accepted or graded.",
+      "The Theory of Computation draft is clearly active, but the events do not establish that the answers are correct or complete.",
+      "The brief semester-project message check does not indicate whether any new project work became necessary."
+    ],
+    "possible_next_step": "Continue the Theory of Computation tutorial from the existing draft and finish its grammar questions before reopening the semester project."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Continue the Theory of Computation tutorial",
+      "action_type": "start_focus",
+      "reason": "The tutorial is the clearest new open coursework thread after the DBMS submission and presentation milestone.",
+      "suggested_focus_minutes": 45,
+      "target": "Theory of Computation Tutorial 2"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not infer presentation quality or outcome from the laptop timeline because the presentation happened offline.",
+      "Do not claim the DBMS assignment was accepted or graded just from the Classroom submission page.",
+      "Do not treat the Theory of Computation search and YouTube session as unrelated browsing; both occurred inside the same tutorial workflow.",
+      "Do not assume the semester project was neglected simply because it was not implemented today.",
+      "Do not frame the Hades and social period as a productivity failure."
+    ]
+  }
+}

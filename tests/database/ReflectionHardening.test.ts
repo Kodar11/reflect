@@ -319,7 +319,7 @@ suite('Reflection hardening (SQLite, real timeline)', () => {
 
     const db = new Database(dbPath);
     const check = new BetterSqliteDB(dbPath, { readonly: true });
-    expect(check.pragma('user_version', { simple: true })).toBe(17);
+    expect(check.pragma('user_version', { simple: true })).toBe(18);
     check.close();
     const repo = new ReflectionRepository(db);
 

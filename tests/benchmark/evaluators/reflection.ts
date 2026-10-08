@@ -64,7 +64,7 @@ function durationsIn(text: string): { raw: string; minutes: number }[] {
  * `null` when the wording is not recognised.
  */
 export function progressLevel(assessment: string): number | null {
-  const text = assessment.toLowerCase();
+  const text = assessment.toLowerCase().replace(/_/g, ' ');
   if (/\bno (substantial|meaningful|visible)\b|\blittle visible\b|\bnone\b/.test(text)) return 0;
   if (/\bmaintenance\b|\blimited\b|\bsmall\b|\bcontained\b|\bbrief\b/.test(text) && !/\bstrong\b/.test(text)) return 1;
   if (/\bsome\b|\bmoderate\b/.test(text) && !/\bstrong\b/.test(text)) return 2;
@@ -334,9 +334,33 @@ function semanticChecks(captured: CapturedDay, answer: EvaluationOnlyDay, ctx: R
     });
   });
 
-  // ── Priority alignment: the answer key's stated progress vs the time Reflect linked to each priority ──
+  // ── Priority alignment ──
+  // An entry that names one of the priorities Reflect holds is compared with the time Reflect linked to
+  // it. Any other entry — a plain sentence, or a work stream the profile never stated — is a statement
+  // about the day and is looked for in what Reflect wrote, as a key observation is.
+  const measurable = expected.priority_alignment.filter(
+    (p): p is { priority: string; assessment: string } => typeof p !== 'string' && captured.priorities.some((x) => x.text === p.priority),
+  );
+  expected.priority_alignment
+    .filter((p) => typeof p === 'string' || !measurable.includes(p))
+    .map((p) => (typeof p === 'string' ? p : `${p.priority}: ${p.assessment.replace(/_/g, ' ')}`))
+    .forEach((statement, i) => {
+      const c = coverage(statement, said);
+      const best = bestSentence(statement, everything);
+      out.push({
+        id: `priority_statement_${i + 1}`,
+        label: 'Priority statement is reflected',
+        verdict: report ? verdictFromCoverage(c.score, ctx.semantic) : 'FAIL',
+        method: 'lexical',
+        confidence: 'low',
+        expected: statement,
+        score: c.score,
+        detail: report ? `concept coverage ${(c.score * 100).toFixed(0)}%${c.missing.length ? `; not found: ${c.missing.slice(0, 8).join(', ')}` : ''}` : 'no report',
+        ...(best ? { evidence: [best.sentence] } : {}),
+      });
+    });
   {
-    const rows = expected.priority_alignment.map((p) => {
+    const rows = measurable.map((p) => {
       const priority = captured.priorities.find((x) => x.text === p.priority) ?? null;
       const metric = priority ? report?.metricsSnapshot?.[`priority.${priority.id}.minutes`]?.value : undefined;
       return { priority: p.priority, assessment: p.assessment, level: progressLevel(p.assessment), minutes: typeof metric === 'number' ? metric : 0, known: priority !== null };

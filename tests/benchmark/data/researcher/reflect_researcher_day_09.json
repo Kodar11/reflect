@@ -1,0 +1,510 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Complete the next round of experiments for the main uncertainty estimation project",
+      "Move the manuscript from exploratory notes toward a coherent results section",
+      "Resolve whether the current experimental setup is measuring calibration fairly",
+      "Complete the replication study before deciding whether it is worth extending"
+    ]
+  },
+  "day": {
+    "day_number": 9,
+    "date": "2026-09-09",
+    "day_type": "writing_and_protocol_day_with_limited_experimentation",
+    "circumstances": [
+      "The researcher begins by freezing the evaluation configuration after the metric discrepancy from Day 8. Rather than running a new experiment immediately, they document the exact calibration settings and audit older results for compatibility. A short check reveals that one earlier exploratory run used a different bin count and is excluded from the main comparison. The afternoon is dominated by manuscript writing, figure captions, and methods documentation. The replication study receives only a brief status note. A collaborator sends feedback on the results framing, leading to a small revision before the end of the day."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:42",
+      "last_seen": "20:11",
+      "approx_active_hours": 7.7,
+      "longest_unobserved_gap_minutes": 73
+    }
+  },
+  "raw_events": [
+    {
+      "id": 223,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:42:00+05:30",
+      "ended_at": "2026-09-09T10:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — experiment_protocol.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "experiment_protocol.md",
+        "interaction": "edited metric and evaluation configuration notes"
+      }
+    },
+    {
+      "id": 224,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T10:03:00+05:30",
+      "ended_at": "2026-09-09T10:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — metrics/config.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "metrics/config.py",
+        "interaction": "updated shared evaluation constants"
+      }
+    },
+    {
+      "id": 225,
+      "watcher": "Terminal",
+      "started_at": "2026-09-09T10:29:00+05:30",
+      "ended_at": "2026-09-09T10:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "pytest tests/test_metrics.py",
+          "python scripts/check_eval_config.py"
+        ],
+        "output_state": "completed",
+        "visible_text": "tests passed"
+      }
+    },
+    {
+      "id": 226,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T10:51:00+05:30",
+      "ended_at": "2026-09-09T11:16:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — audit_runs.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "audit_runs.ipynb",
+        "interaction": "listed historical run configurations"
+      }
+    },
+    {
+      "id": 227,
+      "watcher": "Terminal",
+      "started_at": "2026-09-09T11:16:00+05:30",
+      "ended_at": "2026-09-09T11:32:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/check_eval_config.py --runs 31 32 33 44 45 46"
+        ],
+        "output_state": "completed"
+      }
+    },
+    {
+      "id": 228,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T11:32:00+05:30",
+      "ended_at": "2026-09-09T11:49:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — audit_runs.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "audit_runs.ipynb",
+        "interaction": "marked one older run as incompatible with current metric settings"
+      }
+    },
+    {
+      "id": 229,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-09T11:49:00+05:30",
+      "ended_at": "2026-09-09T12:06:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Calibration evaluation protocol reproducibility — search",
+      "url": "https://www.google.com/search?q=calibration+evaluation+protocol+reproducibility",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "search results"
+      }
+    },
+    {
+      "id": 230,
+      "watcher": "Zotero",
+      "started_at": "2026-09-09T12:06:00+05:30",
+      "ended_at": "2026-09-09T12:24:00+05:30",
+      "app": "Zotero",
+      "browser": null,
+      "title": "Zotero — Calibration / Evaluation",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "collection": "Calibration / Evaluation",
+        "interaction": "edited paper note and added protocol reference"
+      }
+    },
+    {
+      "id": 231,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T13:38:00+05:30",
+      "ended_at": "2026-09-09T14:07:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods.md",
+        "interaction": "drafted evaluation methodology section"
+      }
+    },
+    {
+      "id": 232,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T14:07:00+05:30",
+      "ended_at": "2026-09-09T14:36:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods.md",
+        "interaction": "revised metric definitions and evaluation details"
+      }
+    },
+    {
+      "id": 233,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T14:36:00+05:30",
+      "ended_at": "2026-09-09T15:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — figures/shift_comparison.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "adjusted figure labels and caption data"
+      }
+    },
+    {
+      "id": 234,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T15:04:00+05:30",
+      "ended_at": "2026-09-09T15:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — results.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "edited results prose and linked corrected run"
+      }
+    },
+    {
+      "id": 235,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-09T15:31:00+05:30",
+      "ended_at": "2026-09-09T15:47:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Docs — collaborator manuscript comments",
+      "url": "https://docs.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read comments on results section"
+      }
+    },
+    {
+      "id": 236,
+      "watcher": "Gmail",
+      "started_at": "2026-09-09T15:47:00+05:30",
+      "ended_at": "2026-09-09T16:02:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox (4) — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read collaborator follow-up and drafted response"
+      }
+    },
+    {
+      "id": 237,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T16:02:00+05:30",
+      "ended_at": "2026-09-09T16:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — discussion.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "revised discussion based on collaborator comments"
+      }
+    },
+    {
+      "id": 238,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T17:44:00+05:30",
+      "ended_at": "2026-09-09T18:13:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "replication-study — notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "replication-study",
+        "file": "notes.md",
+        "interaction": "updated status and next dependency"
+      }
+    },
+    {
+      "id": 239,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-09T18:13:00+05:30",
+      "ended_at": "2026-09-09T18:29:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — ML systems seminar",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 240,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-09T18:29:00+05:30",
+      "ended_at": "2026-09-09T18:46:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — laptop stand comparison",
+      "url": "https://www.google.com/search?q=laptop+stand+comparison",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 4,
+        "interaction": "search results"
+      }
+    },
+    {
+      "id": 241,
+      "watcher": "VS Code",
+      "started_at": "2026-09-09T18:46:00+05:30",
+      "ended_at": "2026-09-09T19:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — experiment_protocol.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "experiment_protocol.md",
+        "interaction": "finalized evaluation protocol and added excluded-run note"
+      }
+    },
+    {
+      "id": 242,
+      "watcher": "Terminal",
+      "started_at": "2026-09-09T19:17:00+05:30",
+      "ended_at": "2026-09-09T20:11:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "git status",
+          "git diff --stat",
+          "git log -2 --oneline"
+        ],
+        "output_state": "completed"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-09-01",
+        "started_at": "09:42",
+        "ended_at": "12:24",
+        "title": "Freeze and audit the evaluation protocol",
+        "summary": "The researcher documented the current metric configuration, updated shared evaluation constants, verified tests, and audited historical runs. One older exploratory run used incompatible settings and was marked unsuitable for the main comparison. A short literature search and Zotero note supported the protocol documentation.",
+        "event_ids": [
+          223,
+          224,
+          225,
+          226,
+          227,
+          228,
+          229,
+          230
+        ],
+        "context": "Direct follow-up to the metric discrepancy discovered on Day 8.",
+        "area": "research infrastructure and methodology",
+        "intent": "methodology",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-02",
+        "started_at": "13:38",
+        "ended_at": "15:31",
+        "title": "Write methods and corrected results sections",
+        "summary": "The researcher drafted the evaluation methodology, clarified metric definitions, adjusted figure labeling, and linked the corrected experiment outputs into the results narrative. This converts the debugging outcome into reproducible manuscript documentation.",
+        "event_ids": [
+          231,
+          232,
+          233,
+          234
+        ],
+        "context": "Manuscript work depends on the frozen evaluation protocol.",
+        "area": "manuscript",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-03",
+        "started_at": "15:31",
+        "ended_at": "16:31",
+        "title": "Incorporate collaborator feedback on results framing",
+        "summary": "The researcher reviewed manuscript comments, exchanged a short email with a collaborator, and revised the discussion to make the claims more cautious and explicitly separate the stable overall result from the excluded exploratory run.",
+        "event_ids": [
+          235,
+          236,
+          237
+        ],
+        "context": "External feedback arrives after the corrected analysis is incorporated.",
+        "area": "manuscript and collaboration",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-04",
+        "started_at": "17:44",
+        "ended_at": "18:13",
+        "title": "Record replication-study dependency",
+        "summary": "The researcher updated the replication notes to record that progress is blocked on clarifying the reference preprocessing pipeline. No new replication experiment was started.",
+        "event_ids": [
+          238
+        ],
+        "context": "Maintains the parked replication thread without allowing it to compete with the main project.",
+        "area": "replication study",
+        "intent": "administrative",
+        "quality": "medium",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-05",
+        "started_at": "18:13",
+        "ended_at": "19:17",
+        "title": "Mixed learning, unrelated browsing, and protocol finalization",
+        "summary": "The researcher watched part of an ML systems seminar, briefly searched for laptop stands, then returned to the project and finalized the evaluation protocol with an explicit excluded-run note. The seminar may be useful but produced no directly observable project artifact.",
+        "event_ids": [
+          239,
+          240,
+          241
+        ],
+        "context": "Lower-intensity evening activity followed by a concrete documentation task.",
+        "area": "learning and research documentation",
+        "intent": "documentation",
+        "quality": "medium",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-06",
+        "started_at": "19:17",
+        "ended_at": "20:11",
+        "title": "Repository cleanup and state check",
+        "summary": "The researcher checked the repository status and recent commits after finalizing the protocol. No new experiment was launched.",
+        "event_ids": [
+          242
+        ],
+        "context": "Administrative closeout of the day's methodology work.",
+        "area": "research software",
+        "intent": "maintenance",
+        "quality": "medium",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:24",
+        "ended_at": "13:38",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "16:31",
+        "ended_at": "17:44",
+        "reason": "offline / personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The evaluation protocol is now frozen and explicitly documented, reducing the risk of another interpretation being driven by inconsistent metric settings.",
+      "The historical audit found one exploratory run that cannot be compared directly with the corrected experiments; excluding it is more defensible than retroactively converting its settings.",
+      "The manuscript moved substantially forward because the methods, corrected results, figure labeling, and discussion now share the same evaluation assumptions.",
+      "Collaborator feedback reinforced a cautious framing: the stable overall result should be distinguished from the earlier subgroup observation that depended partly on inconsistent evaluation settings.",
+      "The replication study is now explicitly blocked on reference preprocessing clarification and did not compete for meaningful time today."
+    ],
+    "priority_alignment": [
+      "Methodological validity and the main manuscript were the dominant priorities and received most of the substantive work.",
+      "The replication thread was maintained only enough to make its dependency visible.",
+      "No new experiment was launched simply to fill the day; the researcher prioritized making existing evidence reproducible."
+    ],
+    "important_uncertainty": [
+      "The corrected evidence is more stable, but the generality of the distribution-shift finding across datasets or shift constructions remains untested.",
+      "The excluded exploratory run cannot be used as a direct comparison unless its evaluation configuration is reconstructed."
+    ],
+    "possible_next_step": "Use the frozen protocol for one final pre-specified generalization test, then decide whether the evidence is strong enough to stop expanding the experiment set and focus on manuscript completion."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "protect_priority",
+      "title": "Finish the protocol-to-manuscript handoff",
+      "reason": "The main methodological uncertainty has been resolved enough that another broad debugging cycle is unnecessary; the next value comes from completing the reproducible methods and results narrative.",
+      "suggested_focus_minutes": 60,
+      "target": "Manuscript"
+    },
+    "secondary_action": {
+      "action_type": "clarify_priority",
+      "title": "Set a stopping rule for additional experiments",
+      "reason": "The project has accumulated several controlled comparisons. A clear criterion for when to stop expanding the experiment set would prevent open-ended experimentation.",
+      "suggested_focus_minutes": 20,
+      "target": "Main Research Project"
+    },
+    "things_not_to_do": [
+      "Do not reintroduce the excluded exploratory run into the main comparison without reconstructing its evaluation settings.",
+      "Do not restart the replication study while its reference preprocessing dependency remains unresolved.",
+      "Do not add another metric implementation unless the frozen protocol exposes a specific unresolved methodological issue."
+    ]
+  }
+}

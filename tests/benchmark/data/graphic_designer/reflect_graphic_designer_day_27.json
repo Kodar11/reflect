@@ -1,0 +1,435 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "day_number": 27,
+    "date": "2026-09-27",
+    "day_type": "concept_development_and_client_review_day",
+    "circumstances": [
+      "The new identity moved from discovery into concrete concept development. Two visual territories were developed into reviewable presentation boards and sent to the client, but no client selection or approval is yet evidenced.",
+      "The published Northstar case study received only a brief status and link check; no substantive portfolio production is evidenced.",
+      "Pinterest and YouTube may have supported visual research or professional learning, but the raw events do not establish their exact necessity or value.",
+      "A short lettering exercise occurred after the client review materials were prepared; it is distinct from the main client deliverable.",
+      "Untracked periods limit visibility into activity performed away from the tracked desktop."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:18",
+      "last_seen": "19:49",
+      "approx_active_hours": 7.9,
+      "longest_unobserved_gap_minutes": 90
+    }
+  },
+  "raw_events": [
+    {
+      "id": 635,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T09:18:00+05:30",
+      "ended_at": "2026-09-27T09:37:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Food Brand — Project Notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 636,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T09:37:00+05:30",
+      "ended_at": "2026-09-27T09:58:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Territories",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 637,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T09:58:00+05:30",
+      "ended_at": "2026-09-27T10:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 638,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T10:21:00+05:30",
+      "ended_at": "2026-09-27T10:49:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Discovery",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 639,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T10:49:00+05:30",
+      "ended_at": "2026-09-27T11:14:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Territories",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 640,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T11:14:00+05:30",
+      "ended_at": "2026-09-27T11:46:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "food-brand-mark.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 641,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T11:46:00+05:30",
+      "ended_at": "2026-09-27T12:13:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "food-brand-mark.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 642,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T12:13:00+05:30",
+      "ended_at": "2026-09-27T12:32:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 643,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T14:02:00+05:30",
+      "ended_at": "2026-09-27T14:26:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Discovery",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 644,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T14:26:00+05:30",
+      "ended_at": "2026-09-27T14:54:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Territories",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 645,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T14:54:00+05:30",
+      "ended_at": "2026-09-27T15:23:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "food-brand-mark.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 646,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T15:23:00+05:30",
+      "ended_at": "2026-09-27T15:51:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 647,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T15:51:00+05:30",
+      "ended_at": "2026-09-27T16:05:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 648,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T16:18:00+05:30",
+      "ended_at": "2026-09-27T16:32:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 649,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T16:41:00+05:30",
+      "ended_at": "2026-09-27T16:55:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Food Brand Identity / Handoff",
+      "url": "https://drive.google.com/drive/",
+      "payload": null
+    },
+    {
+      "id": 650,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T17:06:00+05:30",
+      "ended_at": "2026-09-27T17:34:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 651,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T17:34:00+05:30",
+      "ended_at": "2026-09-27T17:48:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 652,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T18:01:00+05:30",
+      "ended_at": "2026-09-27T18:15:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 653,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T18:29:00+05:30",
+      "ended_at": "2026-09-27T19:03:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "lettering-study-03.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 654,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T19:03:00+05:30",
+      "ended_at": "2026-09-27T19:27:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Food Brand — Project Notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 655,
+      "watcher": "desktop",
+      "started_at": "2026-09-27T19:27:00+05:30",
+      "ended_at": "2026-09-27T19:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Northstar Coffee — Portfolio",
+      "url": "https://portfolio.example.com/northstar-coffee",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-27-01",
+        "started_at": "09:18",
+        "ended_at": "09:58",
+        "title": "New food-business identity — design work",
+        "summary": "Reviewed the kickoff notes for the new food-business identity, including audience, positioning, competitor observations, and practical brand requirements. Opened the new identity working file and created a page for three initial visual directions.",
+        "event_ids": [
+          635,
+          636
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-27-02",
+        "started_at": "09:58",
+        "ended_at": "10:12",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Collected examples of food-brand typography, packaging layouts, and restrained color systems.",
+        "event_ids": [
+          637
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-27-03",
+        "started_at": "10:21",
+        "ended_at": "12:32",
+        "title": "New food-business identity — design work",
+        "summary": "Built rough moodboards for three directions using typography, color, and image references from the discovery notes. Reduced the initial exploration to two clearer visual territories and annotated the differences between them. Sketched several rough wordmark constructions for the first visual territory. Tested letter spacing, custom terminal shapes, and simple modifications to the rough wordmark.",
+        "event_ids": [
+          638,
+          639,
+          640,
+          641,
+          642
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-27-04",
+        "started_at": "14:02",
+        "ended_at": "17:48",
+        "title": "New food-business identity — design work",
+        "summary": "Returned to the new identity file and reviewed the two visual territories against the discovery notes. Expanded the second territory with a warmer type treatment and a simpler supporting graphic language. Explored a small set of custom icon and symbol ideas that could work across packaging and social assets. Placed the strongest wordmark and symbol explorations into two presentation-ready concept boards.",
+        "event_ids": [
+          643,
+          644,
+          645,
+          646,
+          647,
+          648,
+          649,
+          650,
+          651
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-27-05",
+        "started_at": "18:01",
+        "ended_at": "18:15",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Watched a branding presentation about logo systems and visual identity case studies; its direct contribution to the current project is not observable.",
+        "event_ids": [
+          652
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-27-06",
+        "started_at": "18:29",
+        "ended_at": "19:03",
+        "title": "Personal lettering practice — design work",
+        "summary": "Practiced a small lettering variation based loosely on forms encountered during the day's identity exploration.",
+        "event_ids": [
+          653
+        ],
+        "context": "Personal",
+        "area": "Personal exploration",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-27-07",
+        "started_at": "19:03",
+        "ended_at": "19:27",
+        "title": "New food-business identity — planning",
+        "summary": "Added a short list of questions and decision points to revisit after the client selects a direction.",
+        "event_ids": [
+          654
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-27-08",
+        "started_at": "19:27",
+        "ended_at": "19:49",
+        "title": "Northstar portfolio case study — review",
+        "summary": "Opened the published Northstar case study and checked the current presentation and external link status.",
+        "event_ids": [
+          655
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:32",
+        "ended_at": "14:02",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The designer converted discovery inputs into two concrete visual territories rather than continuing broad reference collection.",
+      "The concept boards were prepared and sent for client review, creating a clear external decision point.",
+      "There was some waiting and inbox checking after the review request, but no client response was visible during the tracked period.",
+      "Pinterest and YouTube activity may have supported research or learning, but the evidence does not justify classifying either as essential work or distraction.",
+      "The Northstar portfolio received only a maintenance/status check, indicating that the new identity currently occupied more of the tracked workday."
+    ],
+    "priority_alignment": [
+      "New brand inquiry: Two initial identity directions prepared and sent for review; client selection remains pending.",
+      "Northstar portfolio: Published and checked briefly; no substantive new portfolio work evidenced.",
+      "Social campaign: No meaningful activity recorded today."
+    ],
+    "important_uncertainty": [
+      "Which of the two identity territories, if either, will the client select?",
+      "Whether the client will request additional directions rather than choosing between the two prepared territories is unknown.",
+      "How much of the research activity directly informed the concepts cannot be established from desktop events alone.",
+      "Offline periods leave some activity unobserved."
+    ],
+    "possible_next_step": "Protect the next block for responding to the client's concept feedback and developing only the selected direction; avoid expanding into additional concepts before a decision is received."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Develop only the direction the client selects",
+      "action_type": "protect_priority",
+      "reason": "The new identity has reached a useful review point, so the next high-value step depends on client feedback rather than more open-ended exploration.",
+      "suggested_focus_minutes": null,
+      "target": "New food-business identity"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

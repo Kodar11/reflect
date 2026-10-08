@@ -1,0 +1,469 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Preparing a manuscript on uncertainty estimation in neural network classifiers",
+      "Maintaining the research code and experiment infrastructure used for the manuscript",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Lock the submission venue and complete the near-submission checklist",
+      "Prepare the manuscript for final collaborator or lab review",
+      "Resolve only evidence or formatting issues that affect the current submission",
+      "Keep the replication study parked unless its preprocessing dependency is resolved"
+    ]
+  },
+  "day": {
+    "day_number": 17,
+    "date": "2026-09-17",
+    "day_type": "submission_preparation_and_final_review_day",
+    "circumstances": [
+      "The researcher confirms the preferred venue, checks the latest author instructions, and works through the near-submission checklist. Most remaining work is mechanical but not trivial: figure numbering, references, supplementary-material decisions, and consistency between the main text and appendix. A final PDF inspection reveals one figure reference pointing to the wrong panel label, which is corrected without changing the underlying analysis. The collaborator gives a short final acknowledgement rather than substantive new feedback. The replication study remains parked. The day contains a longer administrative interruption and a brief unrelated browsing session."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:17",
+      "last_seen": "19:48",
+      "approx_active_hours": 7.1,
+      "longest_unobserved_gap_minutes": 94
+    }
+  },
+  "raw_events": [
+    {
+      "id": 369,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-17T09:17:00+05:30",
+      "ended_at": "2026-09-17T09:38:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Conference submission portal — author guidelines",
+      "url": "https://example.org/author-guidelines",
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked current page limit, formatting, anonymity, and supplementary rules"
+      }
+    },
+    {
+      "id": 370,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T09:38:00+05:30",
+      "ended_at": "2026-09-17T10:07:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — venue_comparison.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "venue_comparison.md",
+        "interaction": "recorded final venue choice and submission constraints"
+      }
+    },
+    {
+      "id": 371,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T10:07:00+05:30",
+      "ended_at": "2026-09-17T10:41:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — submission_checklist.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "worked through figures, references, anonymity, and supplementary-material checks"
+      }
+    },
+    {
+      "id": 372,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T10:41:00+05:30",
+      "ended_at": "2026-09-17T11:15:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — appendix.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "appendix.md",
+        "interaction": "decided which calibration details belong in supplementary material"
+      }
+    },
+    {
+      "id": 373,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T11:15:00+05:30",
+      "ended_at": "2026-09-17T11:43:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — references.bib",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "references.bib",
+        "interaction": "checked duplicate entries and missing metadata"
+      }
+    },
+    {
+      "id": 374,
+      "watcher": "Terminal",
+      "started_at": "2026-09-17T11:43:00+05:30",
+      "ended_at": "2026-09-17T12:08:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/check_citations.py",
+          "python scripts/render_manuscript.py --draft full_draft.md"
+        ],
+        "output_state": "completed",
+        "visible_text": "citation check passed; PDF rendered"
+      }
+    },
+    {
+      "id": 375,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T12:08:00+05:30",
+      "ended_at": "2026-09-17T12:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked page references and appendix links"
+      }
+    },
+    {
+      "id": 376,
+      "watcher": "Gmail",
+      "started_at": "2026-09-17T13:52:00+05:30",
+      "ended_at": "2026-09-17T14:07:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox (1) — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read collaborator acknowledgement"
+      }
+    },
+    {
+      "id": 377,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-17T14:07:00+05:30",
+      "ended_at": "2026-09-17T14:31:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Docs — manuscript final review",
+      "url": "https://docs.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "reviewed final collaborator comments"
+      }
+    },
+    {
+      "id": 378,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T14:31:00+05:30",
+      "ended_at": "2026-09-17T15:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "made final wording cleanup and checked contribution statement"
+      }
+    },
+    {
+      "id": 379,
+      "watcher": "Terminal",
+      "started_at": "2026-09-17T15:04:00+05:30",
+      "ended_at": "2026-09-17T15:26:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/render_manuscript.py --draft full_draft.md"
+        ],
+        "output_state": "completed",
+        "visible_text": "PDF rendered"
+      }
+    },
+    {
+      "id": 380,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-17T15:26:00+05:30",
+      "ended_at": "2026-09-17T15:52:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "PDF viewer — manuscript.pdf",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "inspected figures, captions, page references, and appendix links"
+      }
+    },
+    {
+      "id": 381,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T15:52:00+05:30",
+      "ended_at": "2026-09-17T16:14:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "corrected one figure panel reference"
+      }
+    },
+    {
+      "id": 382,
+      "watcher": "Terminal",
+      "started_at": "2026-09-17T16:14:00+05:30",
+      "ended_at": "2026-09-17T16:35:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/render_manuscript.py --draft full_draft.md"
+        ],
+        "output_state": "completed",
+        "visible_text": "PDF rendered"
+      }
+    },
+    {
+      "id": 383,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-17T16:35:00+05:30",
+      "ended_at": "2026-09-17T16:58:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "PDF viewer — manuscript.pdf",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked corrected figure reference and final page count"
+      }
+    },
+    {
+      "id": 384,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-17T18:22:00+05:30",
+      "ended_at": "2026-09-17T18:44:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — Python typing error message",
+      "url": "https://www.google.com/search?q=python+typing+error+message",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "search results"
+      }
+    },
+    {
+      "id": 385,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-17T18:44:00+05:30",
+      "ended_at": "2026-09-17T19:03:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "YouTube — Python debugging walkthrough",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 386,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T19:03:00+05:30",
+      "ended_at": "2026-09-17T19:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — submission_checklist.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "marked remaining pre-submission checks"
+      }
+    },
+    {
+      "id": 387,
+      "watcher": "VS Code",
+      "started_at": "2026-09-17T19:29:00+05:30",
+      "ended_at": "2026-09-17T19:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — next_steps.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "recorded submission readiness and deferred replication work"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-17-01",
+        "started_at": "09:17",
+        "ended_at": "12:34",
+        "title": "Lock venue and complete submission preparation checks",
+        "summary": "The researcher confirmed the preferred venue and worked through formatting, anonymity, supplementary-material, appendix, and reference checks. Citation validation passed and a submission PDF was rendered for inspection.",
+        "event_ids": [
+          369,
+          370,
+          371,
+          372,
+          373,
+          374,
+          375
+        ],
+        "context": "Continuation of the near-submission workflow established on Days 15–16.",
+        "area": "submission",
+        "intent": "preparation",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-02",
+        "started_at": "13:52",
+        "ended_at": "15:26",
+        "title": "Incorporate final collaborator acknowledgement and render final review draft",
+        "summary": "The collaborator's response contained no substantive new objection. The researcher made a final wording cleanup, checked the contribution statement, and rendered the manuscript again for visual inspection.",
+        "event_ids": [
+          376,
+          377,
+          378,
+          379
+        ],
+        "context": "Final collaborator review after the compressed draft.",
+        "area": "manuscript",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-03",
+        "started_at": "15:26",
+        "ended_at": "16:58",
+        "title": "Inspect final PDF and correct a figure reference",
+        "summary": "Visual inspection found one figure reference pointing to the wrong panel label. The researcher corrected the manuscript reference, rerendered the PDF, and verified the corrected page and final page count.",
+        "event_ids": [
+          380,
+          381,
+          382,
+          383
+        ],
+        "context": "Quality-control pass on the rendered manuscript.",
+        "area": "manuscript",
+        "intent": "review",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-04",
+        "started_at": "18:22",
+        "ended_at": "19:03",
+        "title": "Unrelated programming learning",
+        "summary": "The researcher searched for a Python typing error and watched a debugging walkthrough. The activity is not directly connected to the manuscript or current research question.",
+        "event_ids": [
+          384,
+          385
+        ],
+        "context": "Evening learning unrelated to the active research project.",
+        "area": "unrelated learning",
+        "intent": "learning",
+        "quality": "unknown",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-05",
+        "started_at": "19:03",
+        "ended_at": "19:48",
+        "title": "Close remaining submission checklist items",
+        "summary": "The researcher marked the remaining pre-submission checks and recorded that the manuscript is effectively submission-ready, while explicitly keeping the replication study deferred.",
+        "event_ids": [
+          386,
+          387
+        ],
+        "context": "Closing the current manuscript preparation loop.",
+        "area": "submission",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:34",
+        "ended_at": "13:52",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "16:58",
+        "ended_at": "18:22",
+        "reason": "offline / break and administrative time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The preferred submission venue has been locked and the main venue-specific preparation checks are complete.",
+      "The final collaborator review did not introduce substantive objections, so the manuscript did not require another conceptual rewrite.",
+      "Visual PDF inspection caught a real but narrow figure-reference error that was corrected without changing any underlying analysis.",
+      "The manuscript is now effectively submission-ready, with only final administrative or portal-specific tasks remaining.",
+      "The replication study remains deliberately deferred rather than silently becoming the next priority."
+    ],
+    "priority_alignment": [
+      "The day's primary effort was fully aligned with submission preparation and final manuscript quality control.",
+      "The researcher caught a concrete presentation error through direct PDF inspection rather than assuming the source files were sufficient.",
+      "Unrelated programming learning did not displace the submission work."
+    ],
+    "important_uncertainty": [
+      "The exact portal submission process and final administrative requirements may still reveal small issues.",
+      "The replication study remains unresolved, but it is not necessary for the current manuscript submission.",
+      "Post-submission reviewer feedback may later require new experiments or revisions, but that cannot yet be known."
+    ],
+    "possible_next_step": "Complete the final administrative submission steps, archive the exact submitted version and configuration, then deliberately decide whether to resume the replication study or begin a separate research thread rather than automatically continuing manuscript work."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "complete_open_loop",
+      "title": "Finish the submission",
+      "reason": "The manuscript has passed collaborator review, venue checks, citation checks, and a final PDF inspection. The remaining work is administrative and should close the current loop.",
+      "suggested_focus_minutes": 45,
+      "target": "Submission"
+    },
+    "secondary_action": {
+      "action_type": "schedule_change",
+      "title": "Create a post-submission decision point",
+      "reason": "Once the manuscript is submitted, the researcher should explicitly choose whether the next priority is the parked replication study or another research question rather than drifting back into experiments.",
+      "suggested_focus_minutes": 20,
+      "target": "Research Planning"
+    },
+    "things_not_to_do": [
+      "Do not add experiments to a manuscript that is already submission-ready unless a concrete submission requirement exposes a gap.",
+      "Do not keep polishing wording indefinitely after the final review has passed.",
+      "Do not automatically resume the replication study without revisiting its unresolved preprocessing dependency."
+    ]
+  }
+}

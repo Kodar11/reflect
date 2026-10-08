@@ -1,0 +1,546 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 9,
+    "date": "2026-09-09",
+    "day_type": "deployment_verification_and_code_review_day",
+    "circumstances": [
+      "The focused workspace performance change is ready for a controlled deployment and needs comparison against recent latency data.",
+      "The webhook reliability issue remains unresolved and infrastructure has provided a limited production observation window.",
+      "Billing is no longer the dominant engineering task after its release follow-through.",
+      "The engineer has a normal teammate review responsibility alongside the active reliability work."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:12",
+      "last_seen": "18:36",
+      "approx_active_hours": 7.3,
+      "longest_unobserved_gap_minutes": 74
+    }
+  },
+  "raw_events": [
+    {
+      "id": 228,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T09:12:00+05:30",
+      "ended_at": "2026-09-09T09:21:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-482 — workspace API latency",
+      "url": "https://jira.company.local/browse/PLAT-482",
+      "payload": {
+        "issue": "PLAT-482"
+      }
+    },
+    {
+      "id": 229,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T09:21:00+05:30",
+      "ended_at": "2026-09-09T09:37:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#workspace-api",
+      "url": null,
+      "payload": {
+        "channel": "#workspace-api"
+      }
+    },
+    {
+      "id": 230,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T09:37:00+05:30",
+      "ended_at": "2026-09-09T09:58:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #862 — platform-api",
+      "url": "https://github.com/company/platform-api/pull/862",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 862
+      }
+    },
+    {
+      "id": 231,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T09:58:00+05:30",
+      "ended_at": "2026-09-09T10:26:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "workspaceRepository.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "workspaceRepository.ts",
+          "workspaceService.ts"
+        ]
+      }
+    },
+    {
+      "id": 232,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T10:26:00+05:30",
+      "ended_at": "2026-09-09T10:44:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git diff --check && npm test -- workspaceRepository.test.ts",
+      "url": null,
+      "payload": {
+        "command": "git diff --check && npm test -- workspaceRepository.test.ts"
+      }
+    },
+    {
+      "id": 233,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T10:44:00+05:30",
+      "ended_at": "2026-09-09T11:02:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #862 — Checks",
+      "url": "https://github.com/company/platform-api/pull/862/checks",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 862
+      }
+    },
+    {
+      "id": 234,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T11:02:00+05:30",
+      "ended_at": "2026-09-09T11:19:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 235,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T11:19:00+05:30",
+      "ended_at": "2026-09-09T11:43:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "workspace-api — p95 latency",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "workspace-api",
+        "metric": "p95 latency"
+      }
+    },
+    {
+      "id": 236,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T11:43:00+05:30",
+      "ended_at": "2026-09-09T12:04:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "workspace-api — database duration",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "workspace-api",
+        "metric": "database duration"
+      }
+    },
+    {
+      "id": 237,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T12:04:00+05:30",
+      "ended_at": "2026-09-09T12:27:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#qa-platform",
+      "url": null,
+      "payload": {
+        "channel": "#qa-platform"
+      }
+    },
+    {
+      "id": 238,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T12:27:00+05:30",
+      "ended_at": "2026-09-09T12:44:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "workspaceRepository.test.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "workspaceRepository.test.ts"
+        ]
+      }
+    },
+    {
+      "id": 239,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T14:01:00+05:30",
+      "ended_at": "2026-09-09T14:18:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — consumer lag",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "metric": "consumer lag"
+      }
+    },
+    {
+      "id": 240,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T14:18:00+05:30",
+      "ended_at": "2026-09-09T14:36:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — acknowledgement latency",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "metric": "acknowledgement latency"
+      }
+    },
+    {
+      "id": 241,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T14:36:00+05:30",
+      "ended_at": "2026-09-09T14:55:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#infra",
+      "url": null,
+      "payload": {
+        "channel": "#infra"
+      }
+    },
+    {
+      "id": 242,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T14:55:00+05:30",
+      "ended_at": "2026-09-09T15:22:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookProcessor.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookProcessor.ts",
+          "webhookDelivery.ts"
+        ]
+      }
+    },
+    {
+      "id": 243,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T15:22:00+05:30",
+      "ended_at": "2026-09-09T15:41:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookProcessor.test.ts webhookDelivery.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- webhookProcessor.test.ts webhookDelivery.test.ts"
+      }
+    },
+    {
+      "id": 244,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T15:41:00+05:30",
+      "ended_at": "2026-09-09T16:03:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "DM with Arjun - webhook worker",
+      "url": null,
+      "payload": {
+        "participants": [
+          "Arjun"
+        ]
+      }
+    },
+    {
+      "id": 245,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T16:03:00+05:30",
+      "ended_at": "2026-09-09T16:25:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #864 — platform-api",
+      "url": "https://github.com/company/platform-api/pull/864",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 864
+      }
+    },
+    {
+      "id": 246,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T16:25:00+05:30",
+      "ended_at": "2026-09-09T16:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "workspaceService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "workspaceService.ts",
+          "workspaceRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 247,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T16:48:00+05:30",
+      "ended_at": "2026-09-09T17:09:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "kubectl rollout status deployment/workspace-api",
+      "url": null,
+      "payload": {
+        "command": "kubectl rollout status deployment/workspace-api"
+      }
+    },
+    {
+      "id": 248,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T17:09:00+05:30",
+      "ended_at": "2026-09-09T17:31:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "workspace-api — p95 latency — post deploy",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "workspace-api",
+        "metric": "p95 latency",
+        "view": "post deploy"
+      }
+    },
+    {
+      "id": 249,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T17:31:00+05:30",
+      "ended_at": "2026-09-09T17:52:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#workspace-api",
+      "url": null,
+      "payload": {
+        "channel": "#workspace-api"
+      }
+    },
+    {
+      "id": 250,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T17:52:00+05:30",
+      "ended_at": "2026-09-09T18:14:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "workspaceService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "workspaceService.ts"
+        ]
+      }
+    },
+    {
+      "id": 251,
+      "watcher": "window_activity",
+      "started_at": "2026-09-09T18:14:00+05:30",
+      "ended_at": "2026-09-09T18:36:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git status && npm test -- workspaceService.test.ts",
+      "url": null,
+      "payload": {
+        "command": "git status && npm test -- workspaceService.test.ts"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-09-01",
+        "started_at": "09:12",
+        "ended_at": "12:44",
+        "title": "Workspace change preparation and review",
+        "summary": "Checked the focused workspace change, reviewed the related pull request, ran tests, and monitored latency and database-duration signals before deployment.",
+        "event_ids": [
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236,
+          237,
+          238
+        ],
+        "context": "The workspace performance change had reached the point where controlled deployment and comparison were appropriate.",
+        "area": "database_performance",
+        "intent": "complete",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-02",
+        "started_at": "14:01",
+        "ended_at": "16:03",
+        "title": "Webhook production observation",
+        "summary": "Compared consumer lag and acknowledgement latency, checked infrastructure discussion, inspected the delivery path, reran regression tests, and coordinated the next observation with infrastructure.",
+        "event_ids": [
+          239,
+          240,
+          241,
+          242,
+          243,
+          244
+        ],
+        "context": "Infrastructure provided a limited production observation window for the acknowledgement hypothesis.",
+        "area": "webhook_reliability",
+        "intent": "investigate",
+        "quality": "useful",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-03",
+        "started_at": "16:03",
+        "ended_at": "16:25",
+        "title": "Teammate pull request review",
+        "summary": "Reviewed pull request #864 and left feedback as part of the team's normal review responsibility.",
+        "event_ids": [
+          245
+        ],
+        "context": "A separate team pull request required review during the afternoon.",
+        "area": "team_maintenance",
+        "intent": "review",
+        "quality": "useful",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-04",
+        "started_at": "16:25",
+        "ended_at": "18:36",
+        "title": "Workspace controlled deployment and verification",
+        "summary": "Checked the workspace service implementation, monitored rollout completion, compared post-deploy latency, coordinated with the team, and made a small follow-up adjustment before rerunning tests.",
+        "event_ids": [
+          246,
+          247,
+          248,
+          249,
+          250,
+          251
+        ],
+        "context": "The focused workspace performance change was deployed for controlled verification; the first post-deploy signal was encouraging but not yet sufficient for a final conclusion.",
+        "area": "database_performance",
+        "intent": "verify",
+        "quality": "strong",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:44",
+        "ended_at": "14:01",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The workspace performance work progressed from a test-backed change into a controlled deployment and post-deploy verification cycle.",
+      "The post-deploy latency signal was encouraging, but the observation window was short enough that it should not yet be treated as definitive resolution.",
+      "The webhook investigation remained focused on production acknowledgement and consumer-lag evidence rather than expanding into unrelated code changes.",
+      "The teammate review was a bounded secondary responsibility and did not materially disrupt the main workspace investigation."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Resolve workspace database performance regression",
+        "assessment": "strong_progress_with_initial_production_evidence",
+        "evidence": [
+          231,
+          232,
+          235,
+          236,
+          246,
+          247,
+          248,
+          249,
+          250,
+          251
+        ]
+      },
+      {
+        "priority": "Understand and fix webhook processing reliability issue",
+        "assessment": "continued_investigation_but_unresolved",
+        "evidence": [
+          239,
+          240,
+          241,
+          242,
+          243,
+          244
+        ]
+      },
+      {
+        "priority": "Maintain normal team review responsibilities",
+        "assessment": "completed_secondary_responsibility",
+        "evidence": [
+          245
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "The post-deploy workspace latency signal is based on a limited observation window and does not establish sustained improvement.",
+      "The webhook production observation supports the acknowledgement hypothesis but does not conclusively establish whether acknowledgement delay is the initiating failure or a downstream symptom.",
+      "The small workspace follow-up adjustment means the post-deploy state is not completely static yet."
+    ],
+    "possible_next_step": "Allow the workspace deployment enough observation time to establish whether the latency improvement persists, while keeping the webhook investigation limited to the evidence gathered so far."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Workspace performance verification",
+      "action_type": "continue_successful_behavior",
+      "target": "Workspace performance verification",
+      "reason": "The engineer moved from investigation to a controlled deployment with explicit post-deploy measurement instead of declaring success from local tests.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Workspace post-deploy observation",
+      "action_type": "protect_priority",
+      "target": "Workspace post-deploy observation",
+      "reason": "The new production signal is promising but needs time and consistent measurement before another substantial code change is justified.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not declare the workspace latency regression fixed from the first post-deploy observation.",
+      "Do not make a larger webhook change solely because acknowledgement latency remains elevated.",
+      "Do not treat the teammate code review as unnecessary context switching.",
+      "Do not interpret the lunch gap as a productivity problem."
+    ]
+  }
+}

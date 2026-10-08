@@ -1,0 +1,81 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Northstar Coffee portfolio case study",
+      "New small brand identity brief",
+      "Social media campaign assets for an existing client"
+    ],
+    "priorities": [
+      "Complete the new brand identity brief",
+      "Finish the Northstar Coffee portfolio case study",
+      "Deliver recurring social campaign work",
+      "Maintain client communication and relationships"
+    ]
+  },
+  "day": {
+    "date": "2026-09-15",
+    "day_number": 15,
+    "day_type": "identity_system_build_and_portfolio_day"
+  },
+  "raw_events": [
+    {"event_id":371,"start_time":"2026-09-15T09:14:00+05:30","end_time":"2026-09-15T09:31:00+05:30","application":"Gmail","window_title":"Client feedback","description":"read client response to the latest identity review; client selected one direction and asked for a few application examples","event_type":"client_communication"},
+    {"event_id":372,"start_time":"2026-09-15T09:32:00+05:30","end_time":"2026-09-15T10:08:00+05:30","application":"Figma","window_title":"New Brand Identity","description":"reviewed the selected direction and listed logo, typography, and application pieces needed for the next presentation","event_type":"design_planning"},
+    {"event_id":373,"start_time":"2026-09-15T10:09:00+05:30","end_time":"2026-09-15T11:02:00+05:30","application":"Adobe Illustrator","window_title":"New Brand Identity","description":"refined the approved logo direction and prepared responsive logo variants","event_type":"design_execution"},
+    {"event_id":374,"start_time":"2026-09-15T11:03:00+05:30","end_time":"2026-09-15T11:27:00+05:30","application":"Google Chrome","window_title":"Google Fonts","description":"compared a short list of typefaces for the identity system","event_type":"reference_research"},
+    {"event_id":375,"start_time":"2026-09-15T11:28:00+05:30","end_time":"2026-09-15T12:16:00+05:30","application":"Figma","window_title":"New Brand Identity","description":"built primary typography hierarchy and tested headline/body combinations","event_type":"design_execution"},
+    {"event_id":376,"start_time":"2026-09-15T12:17:00+05:30","end_time":"2026-09-15T12:42:00+05:30","application":"Adobe Illustrator","window_title":"New Brand Identity","description":"tested color applications and simplified the secondary mark","event_type":"design_execution"},
+    {"event_id":377,"start_time":"2026-09-15T12:43:00+05:30","end_time":"2026-09-15T13:56:00+05:30","application":null,"window_title":"Offline","description":"No desktop events recorded","event_type":"offline"},
+    {"event_id":378,"start_time":"2026-09-15T13:56:00+05:30","end_time":"2026-09-15T14:21:00+05:30","application":"Slack","window_title":"Client messages","description":"answered two implementation questions and confirmed the next review would include sample applications","event_type":"client_communication"},
+    {"event_id":379,"start_time":"2026-09-15T14:22:00+05:30","end_time":"2026-09-15T15:03:00+05:30","application":"Adobe Photoshop","window_title":"Social Campaign","description":"adjusted requested campaign assets to match updated copy supplied by the client","event_type":"social_campaign"},
+    {"event_id":380,"start_time":"2026-09-15T15:04:00+05:30","end_time":"2026-09-15T15:46:00+05:30","application":"Figma","window_title":"Northstar Coffee Portfolio","description":"rewrote the project challenge and approach sections of the case study","event_type":"portfolio"},
+    {"event_id":381,"start_time":"2026-09-15T15:47:00+05:30","end_time":"2026-09-15T16:28:00+05:30","application":"Figma","window_title":"Northstar Coffee Portfolio","description":"refined the visual hierarchy of the case-study introduction and added final identity mockups","event_type":"portfolio"},
+    {"event_id":382,"start_time":"2026-09-15T16:29:00+05:30","end_time":"2026-09-15T16:51:00+05:30","application":"Behance","window_title":"Brand identity case studies","description":"reviewed how other designers present process and final applications","event_type":"reference_research"},
+    {"event_id":383,"start_time":"2026-09-15T16:52:00+05:30","end_time":"2026-09-15T17:31:00+05:30","application":"Figma","window_title":"Northstar Coffee Portfolio","description":"used the selected presentation patterns to revise process-page spacing and captions","event_type":"portfolio"},
+    {"event_id":384,"start_time":"2026-09-15T17:32:00+05:30","end_time":"2026-09-15T17:54:00+05:30","application":"Gmail","window_title":"Social Campaign","description":"sent the revised social assets and checked for any additional client comments","event_type":"client_communication"},
+    {"event_id":385,"start_time":"2026-09-15T17:55:00+05:30","end_time":"2026-09-15T18:41:00+05:30","application":"Adobe Illustrator","window_title":"New Brand Identity","description":"created simple packaging and social-profile application mockups for the selected direction","event_type":"design_execution"},
+    {"event_id":386,"start_time":"2026-09-15T18:42:00+05:30","end_time":"2026-09-15T19:17:00+05:30","application":null,"window_title":"Offline","description":"No desktop events recorded","event_type":"offline"},
+    {"event_id":387,"start_time":"2026-09-15T19:17:00+05:30","end_time":"2026-09-15T19:44:00+05:30","application":"YouTube","window_title":"Brand identity presentation tips","description":"watched videos about presenting visual identity work; relationship to the current client presentation is not directly observable","event_type":"ambiguous"},
+    {"event_id":388,"start_time":"2026-09-15T19:45:00+05:30","end_time":"2026-09-15T20:21:00+05:30","application":"Figma","window_title":"New Brand Identity","description":"assembled the application examples and adjusted presentation-board spacing","event_type":"design_execution"},
+    {"event_id":389,"start_time":"2026-09-15T20:22:00+05:30","end_time":"2026-09-15T20:47:00+05:30","application":"Google Drive","window_title":"Client Assets","description":"organized supplied client references and exported working presentation assets into folders","event_type":"file_management"},
+    {"event_id":390,"start_time":"2026-09-15T20:48:00+05:30","end_time":"2026-09-15T21:19:00+05:30","application":"Figma","window_title":"Northstar Coffee Portfolio","description":"made a final pass over case-study typography and corrected several alignment issues","event_type":"portfolio"},
+    {"event_id":391,"start_time":"2026-09-15T21:20:00+05:30","end_time":"2026-09-15T21:42:00+05:30","application":"Adobe Illustrator","window_title":"New Brand Identity","description":"checked logo exports and prepared a small set of presentation-ready files","event_type":"design_execution"},
+    {"event_id":392,"start_time":"2026-09-15T21:43:00+05:30","end_time":"2026-09-15T22:01:00+05:30","application":"Gmail","window_title":"Draft client update","description":"drafted a short message describing the application examples prepared for the next review","event_type":"client_communication"},
+    {"event_id":393,"start_time":"2026-09-15T22:02:00+05:30","end_time":"2026-09-15T22:24:00+05:30","application":"Figma","window_title":"New Brand Identity","description":"reopened the presentation board and adjusted two application mockup compositions","event_type":"design_execution"}
+  ],
+  "ground_truth": {
+    "completed": [
+      {"event_id":391,"task":"new_brand_identity_application_package","evidence":"prepared presentation-ready logo exports and application files after building the requested examples"}
+    ],
+    "in_progress": [
+      {"event_id":390,"task":"northstar_portfolio_case_study","evidence":"revised case-study copy, visual hierarchy, process pages, and final alignment details"}
+    ],
+    "partial": [
+      {"event_id":379,"task":"social_campaign","evidence":"updated requested assets and sent them back for client review"}
+    ],
+    "uncertain": [
+      {"event_id":389,"task":"client_asset_organization","evidence":"organized supplied references and working exports, but the downstream usefulness of the organization is not directly observable"}
+    ],
+    "ambiguous": [
+      {"event_id":387,"task":"presentation_learning","evidence":"watched identity-presentation videos, but the observable events do not establish whether this was directly useful or distracting"}
+    ]
+  },
+  "expected_reflection": {
+    "summary":"The new brand identity moved from selected direction into a more concrete application package, with substantial logo, typography, and mockup work. The Northstar Coffee portfolio case study also received two meaningful work blocks and is closer to a presentable state, while recurring social work was handled in a contained production window. Reference activity was mixed: some browsing was followed by related execution, while the YouTube session remains ambiguous. Offline periods provide no observable evidence.",
+    "key_observations":[
+      "The new brand identity occupied the largest share of observable execution and progressed into application examples for client review.",
+      "Northstar Coffee portfolio work included substantive writing, layout, mockup selection, and refinement, but completion is not demonstrated.",
+      "The recurring social campaign was addressed without becoming the dominant workstream.",
+      "Typography and case-study reference browsing was followed by related design work, so it should not automatically be classified as distraction.",
+      "The YouTube session has insufficient evidence to determine whether it supported the active presentation work.",
+      "Offline periods should remain unknown rather than being interpreted as inactivity or rest."
+    ]
+  },
+  "expected_coach_outcome": {
+    "should_coach": true,
+    "message":"The identity work is converging into a concrete review package. Keep the next step bounded to the agreed application examples and client feedback rather than reopening the selected direction. The Northstar case study is also close enough to warrant a protected finishing block instead of repeatedly leaving it for late evening.",
+    "priority":"close_identity_review_package_and_finish_portfolio"
+  }
+}

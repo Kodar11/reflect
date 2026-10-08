@@ -1,0 +1,448 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Prepare a near-submission manuscript after collaborator review",
+      "Choose and lock a realistic submission venue",
+      "Compress the manuscript without removing necessary methodological evidence",
+      "Keep the replication study parked unless its preprocessing dependency is resolved"
+    ]
+  },
+  "day": {
+    "day_number": 16,
+    "date": "2026-09-16",
+    "day_type": "venue_selection_and_manuscript_compression_day",
+    "circumstances": [
+      "The researcher works on the likely submission venue and starts compressing the manuscript to fit its page constraints. A first attempt reveals that the methods section is already close to the minimum useful detail, so space is recovered mainly by shortening related work and consolidating discussion paragraphs. A collaborator replies briefly that the narrower venue fit is reasonable but asks to preserve the calibration protocol details. The researcher updates the draft accordingly and creates a near-submission checklist. The replication study remains parked. Later in the day, the researcher spends some time on an unrelated software tutorial and personal browsing before returning to the manuscript."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:34",
+      "last_seen": "20:26",
+      "approx_active_hours": 7.6,
+      "longest_unobserved_gap_minutes": 83
+    }
+  },
+  "raw_events": [
+    {
+      "id": 351,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-16T09:34:00+05:30",
+      "ended_at": "2026-09-16T09:52:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Conference author guidelines — submission portal",
+      "url": "https://example.org/author-guidelines",
+      "payload": {
+        "window_state": "active",
+        "interaction": "reviewed page limit, formatting, and supplementary material rules"
+      }
+    },
+    {
+      "id": 352,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T09:52:00+05:30",
+      "ended_at": "2026-09-16T10:21:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — venue_comparison.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "venue_comparison.md",
+        "interaction": "recorded preferred venue and submission constraints"
+      }
+    },
+    {
+      "id": 353,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T10:21:00+05:30",
+      "ended_at": "2026-09-16T10:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "reviewed sections against page-limit target"
+      }
+    },
+    {
+      "id": 354,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T10:58:00+05:30",
+      "ended_at": "2026-09-16T11:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — related_work.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "related_work.md",
+        "interaction": "removed repeated literature explanations and merged paragraphs"
+      }
+    },
+    {
+      "id": 355,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T11:29:00+05:30",
+      "ended_at": "2026-09-16T12:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — discussion.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "consolidated discussion paragraphs"
+      }
+    },
+    {
+      "id": 356,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T12:03:00+05:30",
+      "ended_at": "2026-09-16T12:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked minimum necessary evaluation-protocol detail"
+      }
+    },
+    {
+      "id": 357,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-16T13:47:00+05:30",
+      "ended_at": "2026-09-16T14:02:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — Inbox",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked collaborator response"
+      }
+    },
+    {
+      "id": 358,
+      "watcher": "Gmail",
+      "started_at": "2026-09-16T14:02:00+05:30",
+      "ended_at": "2026-09-16T14:18:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox (1) — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read collaborator reply"
+      }
+    },
+    {
+      "id": 359,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T14:18:00+05:30",
+      "ended_at": "2026-09-16T14:49:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "restored evaluation-protocol detail after review"
+      }
+    },
+    {
+      "id": 360,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T14:49:00+05:30",
+      "ended_at": "2026-09-16T15:23:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — related_work.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "compressed literature section further"
+      }
+    },
+    {
+      "id": 361,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T15:23:00+05:30",
+      "ended_at": "2026-09-16T15:57:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "updated assembled draft with compressed sections"
+      }
+    },
+    {
+      "id": 362,
+      "watcher": "Terminal",
+      "started_at": "2026-09-16T15:57:00+05:30",
+      "ended_at": "2026-09-16T16:19:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/render_manuscript.py --draft full_draft.md"
+        ],
+        "output_state": "completed",
+        "visible_text": "rendered PDF"
+      }
+    },
+    {
+      "id": 363,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T16:19:00+05:30",
+      "ended_at": "2026-09-16T16:43:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — submission_checklist.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "created near-submission checklist"
+      }
+    },
+    {
+      "id": 364,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-16T18:06:00+05:30",
+      "ended_at": "2026-09-16T18:31:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — Python packaging tutorial",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 365,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-16T18:31:00+05:30",
+      "ended_at": "2026-09-16T18:52:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — second hand office chair",
+      "url": "https://www.google.com/search?q=second+hand+office+chair",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "search results"
+      }
+    },
+    {
+      "id": 366,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T18:52:00+05:30",
+      "ended_at": "2026-09-16T19:24:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "checked rendered draft against source after compression"
+      }
+    },
+    {
+      "id": 367,
+      "watcher": "VS Code",
+      "started_at": "2026-09-16T19:24:00+05:30",
+      "ended_at": "2026-09-16T19:53:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — submission_checklist.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "marked completed checks and noted remaining venue-specific tasks"
+      }
+    },
+    {
+      "id": 368,
+      "watcher": "Gmail",
+      "started_at": "2026-09-16T19:53:00+05:30",
+      "ended_at": "2026-09-16T20:26:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Compose — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "sent brief acknowledgement to collaborator"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-16-01",
+        "started_at": "09:34",
+        "ended_at": "12:29",
+        "title": "Compress manuscript for the preferred venue",
+        "summary": "The researcher confirmed the preferred venue's page and formatting constraints, reviewed the full draft, shortened related work and discussion, and checked that the methods still contained the necessary evaluation-protocol detail.",
+        "event_ids": [
+          351,
+          352,
+          353,
+          354,
+          355,
+          356
+        ],
+        "context": "Continuation of venue comparison and manuscript preparation from Day 15.",
+        "area": "manuscript and submission planning",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-16-02",
+        "started_at": "13:47",
+        "ended_at": "16:19",
+        "title": "Incorporate collaborator constraint and render the compressed draft",
+        "summary": "The researcher reviewed the collaborator's reply, restored evaluation-protocol detail that had been compressed too aggressively, shortened related work instead, updated the full draft, and rendered a new PDF for inspection.",
+        "event_ids": [
+          357,
+          358,
+          359,
+          360,
+          361,
+          362
+        ],
+        "context": "Collaborator requested preservation of methodological detail.",
+        "area": "manuscript",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-16-03",
+        "started_at": "16:19",
+        "ended_at": "16:43",
+        "title": "Create near-submission checklist",
+        "summary": "The researcher created a checklist covering formatting, figures, citations, supplementary material, and remaining venue-specific tasks.",
+        "event_ids": [
+          363
+        ],
+        "context": "The manuscript is approaching a review-ready state.",
+        "area": "submission planning",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-16-04",
+        "started_at": "18:06",
+        "ended_at": "18:52",
+        "title": "Unrelated software learning and personal browsing",
+        "summary": "The researcher watched a Python packaging tutorial and searched for a second-hand office chair. The tutorial is adjacent to software skills but not directly needed for the research manuscript.",
+        "event_ids": [
+          364,
+          365
+        ],
+        "context": "Evening lower-intensity activity.",
+        "area": "learning and unrelated",
+        "intent": "mixed",
+        "quality": "unknown",
+        "importance": "low"
+      },
+      {
+        "id": "gt-16-05",
+        "started_at": "18:52",
+        "ended_at": "20:26",
+        "title": "Verify compressed draft and close collaborator loop",
+        "summary": "The researcher checked the rendered manuscript against the source, marked completed submission checks, documented remaining venue-specific tasks, and sent a brief acknowledgement to the collaborator.",
+        "event_ids": [
+          366,
+          367,
+          368
+        ],
+        "context": "Closing the day's manuscript compression work.",
+        "area": "manuscript and collaboration",
+        "intent": "review",
+        "quality": "high",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:29",
+        "ended_at": "13:47",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "16:43",
+        "ended_at": "18:06",
+        "reason": "offline / break"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The preferred submission venue is now the working assumption, and the manuscript was actively compressed toward its constraints.",
+      "The first compression attempt removed too much methodological detail; collaborator feedback correctly pushed the evaluation protocol back into the main text.",
+      "Space was recovered instead by consolidating related work and discussion, which better preserves the evidence needed to interpret the experiments.",
+      "A rendered near-submission draft and checklist now exist, with only venue-specific tasks remaining.",
+      "No new experiments were started, and the replication study remained parked."
+    ],
+    "priority_alignment": [
+      "The day was strongly aligned with manuscript completion and submission preparation.",
+      "The collaborator's methodological constraint was incorporated rather than ignored in favor of page count.",
+      "The unrelated evening activities were bounded and did not replace the main work."
+    ],
+    "important_uncertainty": [
+      "The exact submission venue still needs to be formally confirmed.",
+      "The final page count and supplementary-material decision may change after the last figures and references are locked.",
+      "The collaborator may have additional minor comments after seeing the compressed version."
+    ],
+    "possible_next_step": "Lock the preferred venue, complete the remaining checklist items, and prepare a review-ready version for one final collaborator or lab review rather than reopening experiments."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "complete_open_loop",
+      "title": "Lock venue and finish submission checklist",
+      "reason": "The manuscript has been compressed, rendered, and checked, so the highest-value remaining work is to resolve the small set of venue-specific submission tasks.",
+      "suggested_focus_minutes": 90,
+      "target": "Submission"
+    },
+    "secondary_action": {
+      "action_type": "protect_priority",
+      "title": "Preserve methodological detail",
+      "reason": "Today's compression attempt showed that the evaluation protocol is important enough to retain even under a tight page limit.",
+      "suggested_focus_minutes": 10,
+      "target": "Manuscript"
+    },
+    "things_not_to_do": [
+      "Do not cut evaluation-protocol details solely to gain a small amount of page space.",
+      "Do not begin new experiments while the near-submission draft is still being finalized.",
+      "Do not spend substantial time on unrelated software learning until the submission checklist is closed."
+    ]
+  }
+}

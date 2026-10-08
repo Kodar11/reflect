@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { PROFILE_LIMITS } from '../../../src/profile/UserProfile';
 
 /**
  * The benchmark dataset: schema, loader, validator, and the split between what
@@ -28,6 +29,20 @@ export interface DatasetPersona {
   priorities: string[];
 }
 
+/**
+ * The persona as a day file states it. Day 1 is the profile Reflect is onboarded
+ * with. A later day may restate `current_work` / `priorities` in its own words
+ * or leave them out: that is the answer key's view of what the day was about —
+ * evaluation context, never sent to Reflect.
+ */
+export interface DatasetDayPersona {
+  id: string;
+  type: string;
+  role: string;
+  current_work?: string[];
+  priorities?: string[];
+}
+
 export interface DatasetRawEvent {
   id: number;
   watcher: string;
@@ -46,6 +61,7 @@ export interface DatasetGroundTruthActivity {
   ended_at: string;
   title: string;
   summary: string;
+  /** Empty for time away from the screen that the key describes as an activity; such an activity is never scored. */
   event_ids: number[];
   context: string;
   area: string | null;
@@ -131,8 +147,11 @@ export interface DatasetSeedAction {
   reason_code?: string | null;
 }
 
+/** How a priority fared: against a named priority, or as a plain statement. */
+export type DatasetPriorityAlignment = { priority: string; assessment: string } | string;
+
 export interface DatasetDayFile {
-  persona: DatasetPersona;
+  persona: DatasetDayPersona;
   day: {
     day_number: number;
     date: string;
@@ -153,7 +172,7 @@ export interface DatasetDayFile {
   expected_reflection: {
     period: string;
     key_observations: string[];
-    priority_alignment: { priority: string; assessment: string }[];
+    priority_alignment: DatasetPriorityAlignment[];
     important_uncertainty: string[];
     possible_next_step: string;
   };
@@ -209,6 +228,8 @@ export interface EvaluationOnlyDay {
   utcOffset: string;
   dayType: string;
   circumstances: string[];
+  /** The priorities this day's file states (day 1's where it states none). Reflect itself only ever has day 1's. */
+  statedPriorities: string[];
   laptopUsage: DatasetDayFile['day']['laptop_usage'];
   /** The day's raw events as the dataset states them (for interval math). */
   events: { datasetId: number; startMs: number; endMs: number; app: string | null; title: string | null; url: string | null }[];
@@ -221,6 +242,7 @@ export interface EvaluationOnlyDay {
 }
 
 export interface EvaluationOnly {
+  /** Every priority any day's file states. */
   priorities: string[];
   days: EvaluationOnlyDay[];
 }
@@ -266,7 +288,8 @@ export class DatasetValidationError extends Error {
   }
 }
 
-export const DAY_FILE_PATTERN = /^reflect_day_(\d{2})\.json$/;
+/** `reflect_day_NN.json`, or with the persona between: `reflect_student_day_NN.json`. */
+export const DAY_FILE_PATTERN = /^reflect_(?:[a-z0-9]+_)*day_(\d{2})\.json$/;
 const ISO_WITH_OFFSET = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?(Z|[+-]\d{2}:\d{2})$/;
 const CLOCK = /^([01]\d|2[0-3]):[0-5]\d$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
@@ -320,7 +343,7 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
   for (const file of files) {
     const match = DAY_FILE_PATTERN.exec(file.name);
     if (!match) {
-      add('error', 'unexpected_file', file.name, '', `File name does not match reflect_day_NN.json`);
+      add('error', 'unexpected_file', file.name, '', `File name does not match reflect_day_NN.json or reflect_<persona>_day_NN.json`);
       continue;
     }
     let data: unknown;
@@ -337,20 +360,28 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
     parsed.push({ name: file.name, number: Number(match[1]), data: data as unknown as DatasetDayFile });
   }
 
+  // Days are checked in day order, whatever the file names sort as.
+  parsed.sort((a, b) => a.number - b.number || a.name.localeCompare(b.name));
+
   // ── Day set ──
   const numbers = parsed.map((p) => p.number);
   if (parsed.length !== expectedDays) {
     add('error', 'day_count', '(dataset)', '', `Expected exactly ${expectedDays} day files, found ${parsed.length}`);
   }
   for (let n = 1; n <= expectedDays; n++) {
-    if (!numbers.includes(n)) add('error', 'missing_day', '(dataset)', '', `reflect_day_${String(n).padStart(2, '0')}.json is missing`);
+    if (!numbers.includes(n)) add('error', 'missing_day', '(dataset)', '', `The day ${String(n).padStart(2, '0')} file is missing`);
+  }
+  // Two files for one day number: only a second naming style in the same directory can cause it.
+  for (const p of parsed) {
+    const twin = parsed.find((other) => other !== p && other.number === p.number && other.name < p.name);
+    if (twin) add('error', 'duplicate_day_file', p.name, '', `Day ${p.number} already has the file ${twin.name}`);
   }
 
   const seenEventIds = new Map<number, string>();
   const seenDayNumbers = new Map<number, string>();
   const seenDates = new Map<string, string>();
   const offsets = new Set<string>();
-  let personaJson: string | null = null;
+  let identity: string | null = null;
   let previous: { name: string; date: string; lastEventId: number; lastEndMs: number } | null = null;
   let rawEvents = 0;
   let groundTruthActivities = 0;
@@ -375,14 +406,33 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
     if (!sectionsOk) continue;
 
     // ── Persona ──
-    const persona = data.persona;
-    if (!isObject(persona) || !isString(persona.id) || !isString(persona.type) || !isString(persona.role) || !isStringArray(persona.current_work) || !isStringArray(persona.priorities)) {
+    const persona = data.persona as unknown;
+    const optionalList = (key: string) => !isObject(persona) || !(key in persona) || isStringArray(persona[key]);
+    /** The priorities this very file states — what its priority alignment has to name. */
+    let ownPriorities: string[] | null = null;
+    if (!isObject(persona) || !isString(persona.id) || !isString(persona.type) || !isString(persona.role) || !optionalList('current_work') || !optionalList('priorities')) {
       err('persona_shape', 'persona', 'Expected { id, type, role, current_work[], priorities[] }');
     } else {
-      const json = JSON.stringify(persona);
-      if (personaJson === null) personaJson = json;
-      else if (json !== personaJson) {
-        err('persona_changed', 'persona', 'Persona differs from day 1; the dataset has no way to state a legitimate profile change');
+      if (isStringArray(persona.priorities)) ownPriorities = persona.priorities;
+      const who = JSON.stringify([persona.id, persona.type, persona.role]);
+      if (identity === null) {
+        identity = who;
+        // The first file is the profile Reflect is onboarded with: it has to be whole, and enterable.
+        if (!isStringArray(persona.current_work) || !isStringArray(persona.priorities)) {
+          err('persona_shape', 'persona', 'The first day must state current_work[] and priorities[]: it is the profile Reflect is onboarded with');
+        } else {
+          const tooLong = [...persona.current_work, ...persona.priorities].filter((text) => text.length > PROFILE_LIMITS.tagLength);
+          if (tooLong.length > 0 || persona.current_work.length > PROFILE_LIMITS.currentWork || persona.priorities.length > PROFILE_LIMITS.priorities) {
+            warn(
+              'profile_over_limit',
+              'persona',
+              `Reflect's profile takes ${PROFILE_LIMITS.priorities} priorities and ${PROFILE_LIMITS.currentWork} work items of at most ${PROFILE_LIMITS.tagLength} characters; ` +
+                `${tooLong.length} entr${tooLong.length === 1 ? 'y is' : 'ies are'} longer, so onboarding as this persona will be refused`,
+            );
+          }
+        }
+      } else if (who !== identity) {
+        err('persona_changed', 'persona', 'id, type or role differs from day 1; a later day may restate only current_work and priorities');
       }
     }
 
@@ -488,7 +538,7 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
       err('ground_truth_shape', 'ground_truth', 'Expected { activities[], unobserved_periods[] }');
     } else {
       groundTruthActivities += gt.activities.length;
-      if (gt.activities.length === 0) err('ground_truth_empty', 'ground_truth.activities', 'Expected at least one activity');
+      let observedActivities = 0;
       const activityIds = new Set<string>();
       const ownerOf = new Map<number, string>();
       gt.activities.forEach((a, i) => {
@@ -515,9 +565,20 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
           err('activity_range', where, `Activity ${label}: started_at ${a.started_at} is not before ended_at ${a.ended_at}`);
         }
 
-        if (!Array.isArray(a.event_ids) || a.event_ids.length === 0 || !a.event_ids.every((id) => Number.isInteger(id))) {
-          return err('activity_event_ids', `${where}.event_ids`, `Activity ${label}: expected a non-empty array of integer event ids`);
+        if (!Array.isArray(a.event_ids) || !a.event_ids.every((id) => Number.isInteger(id))) {
+          return err('activity_event_ids', `${where}.event_ids`, `Activity ${label}: expected an array of integer event ids`);
         }
+        // No events: time away from the screen, told as an activity. Nothing may have been tracked inside it.
+        if (a.event_ids.length === 0) {
+          if (!timesOk) return;
+          for (const e of dayEvents.values()) {
+            if (e.started_at.slice(11, 16) < (a.ended_at as string) && e.ended_at.slice(11, 16) > (a.started_at as string)) {
+              err('activity_event_ids', `${where}.event_ids`, `Activity ${label} lists no events, but raw event ${e.id} lies inside its ${a.started_at}–${a.ended_at}`);
+            }
+          }
+          return;
+        }
+        observedActivities++;
         const owned: DatasetRawEvent[] = [];
         for (const id of a.event_ids as number[]) {
           const event = dayEvents.get(id);
@@ -543,6 +604,7 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
           }
         }
       });
+      if (observedActivities === 0) err('ground_truth_empty', 'ground_truth.activities', 'Expected at least one activity that owns events');
       for (const id of dayEvents.keys()) {
         if (!ownerOf.has(id)) warn('event_without_ground_truth', 'ground_truth.activities', `Raw event ${id} belongs to no ground-truth activity`);
       }
@@ -593,8 +655,11 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
       } else {
         reflection.priority_alignment.forEach((p, i) => {
           const where = `expected_reflection.priority_alignment[${i}]`;
-          if (!isObject(p) || !isString(p.priority) || !isString(p.assessment)) return err('priority_alignment_shape', where, 'Expected { priority, assessment }');
-          if (isObject(persona) && isStringArray(persona.priorities) && !persona.priorities.includes(p.priority)) {
+          if (isString(p) && p.trim()) return; // a plain statement, scored on its content
+          if (!isObject(p) || !isString(p.priority) || !isString(p.assessment)) return err('priority_alignment_shape', where, 'Expected { priority, assessment } or a non-empty sentence');
+          // Checked against what this file states. Where it states no priorities, the entry names the day's
+          // own work stream; the evaluator reads it as a statement.
+          if (ownPriorities && !ownPriorities.includes(p.priority)) {
             err('unknown_priority', where, `Priority ${JSON.stringify(p.priority)} is not one of the persona's priorities`);
           }
         });
@@ -754,8 +819,8 @@ export function splitDataset(dataset: LoadedDataset): { input: ReflectInput; eva
       id: first.persona.id,
       type: first.persona.type,
       role: first.persona.role,
-      current_work: [...first.persona.current_work],
-      priorities: [...first.persona.priorities],
+      current_work: [...(first.persona.current_work ?? [])],
+      priorities: [...(first.persona.priorities ?? [])],
     },
     utcOffset,
     days: dataset.days.map((d) => ({
@@ -775,13 +840,14 @@ export function splitDataset(dataset: LoadedDataset): { input: ReflectInput; eva
   };
 
   const evaluation: EvaluationOnly = {
-    priorities: [...first.persona.priorities],
+    priorities: [...new Set(dataset.days.flatMap((d) => d.persona.priorities ?? []))],
     days: dataset.days.map((d) => ({
       dayNumber: d.day.day_number,
       date: d.day.date,
       utcOffset,
       dayType: d.day.day_type,
       circumstances: d.day.circumstances,
+      statedPriorities: [...(d.persona.priorities ?? first.persona.priorities ?? [])],
       laptopUsage: d.day.laptop_usage,
       events: d.raw_events.map((e) => ({
         datasetId: e.id,

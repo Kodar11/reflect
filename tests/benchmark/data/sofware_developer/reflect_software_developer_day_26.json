@@ -1,0 +1,491 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 26,
+    "date": "2026-09-26",
+    "day_type": "post_release_closure_and_new_platform_work_day",
+    "circumstances": [
+      "The account export API has accumulated enough production evidence to close its implementation workstream.",
+      "The engineer spends part of the day documenting the closure and then picks up a newly prioritized platform task.",
+      "The new task concerns improving API request auditability for administrative actions and requires initial discovery before implementation.",
+      "Normal team review responsibilities continue in parallel."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:10",
+      "last_seen": "18:36",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 78
+    }
+  },
+  "raw_events": [
+    {
+      "id": 599,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T09:10:00+05:30",
+      "ended_at": "2026-09-26T09:34:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 600,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T09:34:00+05:30",
+      "ended_at": "2026-09-26T09:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "account-export-runbook.md — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "account-export-runbook.md",
+          "release-notes.md"
+        ]
+      }
+    },
+    {
+      "id": 601,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T09:58:00+05:30",
+      "ended_at": "2026-09-26T10:22:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #892 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/892",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 892
+      }
+    },
+    {
+      "id": 602,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T10:22:00+05:30",
+      "ended_at": "2026-09-26T10:46:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "status"
+      }
+    },
+    {
+      "id": 603,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T10:46:00+05:30",
+      "ended_at": "2026-09-26T11:10:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 604,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T11:10:00+05:30",
+      "ended_at": "2026-09-26T11:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAuditService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAuditService.ts",
+          "adminAuditRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 605,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T11:34:00+05:30",
+      "ended_at": "2026-09-26T11:58:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PLAT-531 — Admin action audit trail",
+      "url": "https://jira.company.local/browse/PLAT-531",
+      "payload": {
+        "issue": "PLAT-531",
+        "view": "description"
+      }
+    },
+    {
+      "id": 606,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T11:58:00+05:30",
+      "ended_at": "2026-09-26T12:22:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminActionAudit.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminActionAudit.ts",
+          "auditEvent.ts",
+          "adminAuditRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 607,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T12:22:00+05:30",
+      "ended_at": "2026-09-26T12:46:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "rg \"audit\" src/admin src/workspaces src/billing",
+      "url": null,
+      "payload": {
+        "command": "rg \"audit\" src/admin src/workspaces src/billing"
+      }
+    },
+    {
+      "id": 608,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T14:04:00+05:30",
+      "ended_at": "2026-09-26T14:28:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Admin action audit requirements",
+      "url": "https://notion.company.local/admin-audit",
+      "payload": {
+        "page": "Admin action audit requirements"
+      }
+    },
+    {
+      "id": 609,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T14:28:00+05:30",
+      "ended_at": "2026-09-26T14:52:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#workspace-api",
+      "url": null,
+      "payload": {
+        "channel": "#workspace-api"
+      }
+    },
+    {
+      "id": 610,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T14:52:00+05:30",
+      "ended_at": "2026-09-26T15:16:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAuditRepository.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAuditRepository.ts",
+          "auditEvent.ts"
+        ]
+      }
+    },
+    {
+      "id": 611,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T15:16:00+05:30",
+      "ended_at": "2026-09-26T15:40:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "psql platform_api",
+      "url": null,
+      "payload": {
+        "command": "psql platform_api"
+      }
+    },
+    {
+      "id": 612,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T15:40:00+05:30",
+      "ended_at": "2026-09-26T16:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAuditService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAuditService.ts"
+        ]
+      }
+    },
+    {
+      "id": 613,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T16:04:00+05:30",
+      "ended_at": "2026-09-26T16:28:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- adminAuditService.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- adminAuditService.test.ts"
+      }
+    },
+    {
+      "id": 614,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T16:28:00+05:30",
+      "ended_at": "2026-09-26T16:52:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #898 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/898",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 898
+      }
+    },
+    {
+      "id": 615,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T16:52:00+05:30",
+      "ended_at": "2026-09-26T17:16:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "adminAuditService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "adminAuditService.ts",
+          "adminAuditRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 616,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T17:16:00+05:30",
+      "ended_at": "2026-09-26T17:40:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-531 — Admin action audit trail",
+      "url": "https://jira.company.local/browse/PLAT-531",
+      "payload": {
+        "issue": "PLAT-531",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 617,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T17:40:00+05:30",
+      "ended_at": "2026-09-26T18:04:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "platform-api — 5xx rate",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "platform-api",
+        "metric": "5xx rate",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 618,
+      "watcher": "window_activity",
+      "started_at": "2026-09-26T18:04:00+05:30",
+      "ended_at": "2026-09-26T18:36:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-26-01",
+        "started_at": "09:10",
+        "ended_at": "11:10",
+        "title": "Close account export workstream",
+        "summary": "Reviewed the final production evidence, updated the runbook and issue status, and recorded the release outcome before moving on from PLAT-512.",
+        "event_ids": [
+          599,
+          600,
+          601,
+          602,
+          603
+        ],
+        "context": "The account export feature had completed implementation, review, release, and post-release observation.",
+        "area": "account_export",
+        "intent": "close",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-02",
+        "started_at": "11:10",
+        "ended_at": "12:46",
+        "title": "Discover admin action audit work",
+        "summary": "Inspected the existing audit-related code and data structures, reviewed PLAT-531, and searched current workspace and billing paths for existing audit conventions.",
+        "event_ids": [
+          604,
+          605,
+          606,
+          607
+        ],
+        "context": "The next platform task required understanding whether an existing audit model could be extended instead of introducing a parallel mechanism.",
+        "area": "admin_audit",
+        "intent": "discover",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-03",
+        "started_at": "14:04",
+        "ended_at": "16:28",
+        "title": "Shape audit trail implementation",
+        "summary": "Reviewed product requirements, discussed existing workspace behavior, inspected the audit repository and database schema, and began a service-layer implementation with a focused test.",
+        "event_ids": [
+          608,
+          609,
+          610,
+          611,
+          612,
+          613
+        ],
+        "context": "Initial discovery suggested the existing audit event shape could support the requirement, but retention and actor metadata still needed clarification.",
+        "area": "admin_audit",
+        "intent": "implement",
+        "quality": "useful",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-04",
+        "started_at": "16:28",
+        "ended_at": "18:36",
+        "title": "Teammate review and task framing",
+        "summary": "Reviewed a teammate pull request, updated PLAT-531 with implementation findings and open questions, checked platform error rate, and coordinated the next step with the backend team.",
+        "event_ids": [
+          614,
+          615,
+          616,
+          617,
+          618
+        ],
+        "context": "The new audit work was started but was not yet sufficiently specified to finish the entire feature in one day.",
+        "area": "engineering_delivery",
+        "intent": "coordinate",
+        "quality": "appropriate",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:46",
+        "ended_at": "14:04",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The account export workstream was closed after implementation, release, and post-release evidence rather than being kept open for indefinite monitoring.",
+      "PLAT-531 became the primary new workstream, and the existing audit model appears reusable based on repository and schema inspection.",
+      "A first service-layer slice and focused test were started, but retention and actor metadata semantics remain unresolved.",
+      "The new task is still in discovery-to-implementation transition and should not be treated as review-ready yet."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Close account export API",
+        "assessment": "completed",
+        "evidence": [
+          599,
+          600,
+          601,
+          602
+        ]
+      },
+      {
+        "priority": "Start PLAT-531 admin action audit trail",
+        "assessment": "discovery_and_initial_implementation",
+        "evidence": [
+          604,
+          605,
+          606,
+          607,
+          608,
+          610,
+          611,
+          612,
+          613,
+          616
+        ]
+      },
+      {
+        "priority": "Maintain team review responsibilities",
+        "assessment": "completed_secondary_responsibility",
+        "evidence": [
+          614
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "It is not yet clear how long admin audit records must be retained.",
+      "The exact actor metadata and representation for automated versus human actions needs confirmation.",
+      "The existing audit schema may be reusable, but broader write-path coverage has not yet been tested."
+    ],
+    "possible_next_step": "Clarify audit retention and actor semantics with product and platform owners, then implement the remaining write-path integration and tests around the agreed contract."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "PLAT-531 audit retention and actor metadata contract",
+      "action_type": "clarify_priority",
+      "target": "PLAT-531 audit retention and actor metadata contract",
+      "reason": "The initial implementation depends on unresolved product and data semantics; clarifying these now avoids building the wrong persistence behavior.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Initial admin audit service slice",
+      "action_type": "complete_open_loop",
+      "target": "Initial admin audit service slice",
+      "reason": "The first implementation and focused test should be left in a coherent state while the contract is clarified.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not reopen the completed account export workstream without new production evidence.",
+      "Do not build broad audit integrations before retention and actor semantics are settled.",
+      "Do not create a second audit persistence model without confirming the existing one cannot support the requirement.",
+      "Do not infer a platform incident from the normal 5xx dashboard check."
+    ]
+  }
+}

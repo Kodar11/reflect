@@ -1,0 +1,681 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life"
+  },
+  "day": {
+    "day_number": 21,
+    "date": "2026-09-21",
+    "day_type": "sponsor_handoff_and_video_scheduling",
+    "circumstances": [
+      "The sponsor short had a concrete near-term handoff, so the day began by finalizing and delivering it.",
+      "After the sponsor handoff, the creator returned to the partial-index video and completed a final review without needing another recording session.",
+      "The creator made a small wording correction and refined the thumbnail before uploading the video.",
+      "The PostgreSQL video cleared platform checks and was scheduled rather than immediately published.",
+      "The evening shifted toward community, analytics, light ideation, and normal recreation."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:43",
+      "last_seen": "22:29",
+      "approx_active_hours": 10.1,
+      "longest_unobserved_gap_minutes": 77
+    }
+  },
+  "raw_events": [
+    {
+      "id": 476,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T08:43:00+05:30",
+      "ended_at": "2026-09-21T08:58:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 477,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T08:58:00+05:30",
+      "ended_at": "2026-09-21T09:13:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Database product short-form inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 478,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T09:13:00+05:30",
+      "ended_at": "2026-09-21T09:39:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "sponsor_short",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 479,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T09:39:00+05:30",
+      "ended_at": "2026-09-21T10:07:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "sponsor_short",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 480,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T10:07:00+05:30",
+      "ended_at": "2026-09-21T10:21:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "sponsor_short_export.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 481,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T10:33:00+05:30",
+      "ended_at": "2026-09-21T10:51:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Sponsor Short — Graphic",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 482,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T10:51:00+05:30",
+      "ended_at": "2026-09-21T11:08:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Creator Assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 483,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T11:08:00+05:30",
+      "ended_at": "2026-09-21T11:24:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Database product short-form inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 484,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T11:24:00+05:30",
+      "ended_at": "2026-09-21T12:11:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "partial_indexes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 485,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T12:11:00+05:30",
+      "ended_at": "2026-09-21T12:33:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "partial_indexes_finalreview.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 486,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T12:45:00+05:30",
+      "ended_at": "2026-09-21T13:14:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "partial_indexes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 487,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T13:14:00+05:30",
+      "ended_at": "2026-09-21T13:32:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Partial Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 488,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T14:49:00+05:30",
+      "ended_at": "2026-09-21T15:08:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL partial indexes wording example",
+      "url": "https://www.google.com/search?q=PostgreSQL+partial+indexes+wording+example",
+      "payload": null
+    },
+    {
+      "id": 489,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T15:08:00+05:30",
+      "ended_at": "2026-09-21T15:36:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "partial_indexes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 490,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T15:36:00+05:30",
+      "ended_at": "2026-09-21T15:58:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Follow-up Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 491,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T16:14:00+05:30",
+      "ended_at": "2026-09-21T16:32:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Upload video",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 492,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T16:32:00+05:30",
+      "ended_at": "2026-09-21T16:55:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Video details",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 493,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T16:55:00+05:30",
+      "ended_at": "2026-09-21T17:08:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Checks — PostgreSQL Partial Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 494,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T17:08:00+05:30",
+      "ended_at": "2026-09-21T17:23:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content — Scheduled",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 495,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T18:17:00+05:30",
+      "ended_at": "2026-09-21T18:38:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 496,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T18:38:00+05:30",
+      "ended_at": "2026-09-21T18:55:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "Explore",
+      "url": "https://www.instagram.com/explore/",
+      "payload": null
+    },
+    {
+      "id": 497,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T18:55:00+05:30",
+      "ended_at": "2026-09-21T19:21:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 498,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T19:21:00+05:30",
+      "ended_at": "2026-09-21T19:38:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Channel Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 499,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T20:26:00+05:30",
+      "ended_at": "2026-09-21T20:44:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 500,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T20:44:00+05:30",
+      "ended_at": "2026-09-21T21:02:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PostgreSQL indexing mistakes",
+      "url": "https://www.youtube.com/results?search_query=PostgreSQL+indexing+mistakes",
+      "payload": null
+    },
+    {
+      "id": 501,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T21:02:00+05:30",
+      "ended_at": "2026-09-21T21:24:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 502,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T21:24:00+05:30",
+      "ended_at": "2026-09-21T22:07:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 503,
+      "watcher": "desktop",
+      "started_at": "2026-09-21T22:07:00+05:30",
+      "ended_at": "2026-09-21T22:29:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Follow-up Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-21-01",
+        "started_at": "08:43",
+        "ended_at": "09:13",
+        "title": "Inbox and sponsor deadline check",
+        "summary": "Checked email and the sponsor thread to confirm the current short-form handoff requirements.",
+        "event_ids": [
+          476,
+          477
+        ],
+        "context": "The sponsor work became time-bound over the weekend.",
+        "area": "creator_operations_and_sponsorship",
+        "intent": "Confirm what needs to be delivered and by when.",
+        "quality": "focused administrative start",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-02",
+        "started_at": "09:13",
+        "ended_at": "10:21",
+        "title": "Sponsor short final edit",
+        "summary": "Polished the sponsored short in Resolve and reviewed an export in VLC.",
+        "event_ids": [
+          478,
+          479,
+          480
+        ],
+        "context": "The short was recorded and roughly edited on Day 20.",
+        "area": "sponsorship_and_editing",
+        "intent": "Reach a handoff-ready version of the commercial deliverable.",
+        "quality": "substantive deadline-driven production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-03",
+        "started_at": "10:21",
+        "ended_at": "10:33",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Brief break after finalizing the export.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-04",
+        "started_at": "10:33",
+        "ended_at": "11:24",
+        "title": "Sponsor asset and handoff",
+        "summary": "Checked the sponsor graphic, reviewed the creator asset folder, and emailed the completed short to the sponsor.",
+        "event_ids": [
+          481,
+          482,
+          483
+        ],
+        "context": "This closes the commercial workstream that interrupted the prior two production days.",
+        "area": "sponsorship",
+        "intent": "Deliver the agreed sponsored asset and associated files.",
+        "quality": "successful business completion",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-05",
+        "started_at": "11:24",
+        "ended_at": "12:33",
+        "title": "Final PostgreSQL edit review",
+        "summary": "Returned to the partial-index video, made a final editing pass, and watched a full review export.",
+        "event_ids": [
+          484,
+          485
+        ],
+        "context": "The personal video had reached complete rough-cut stage on Day 20.",
+        "area": "editing",
+        "intent": "Verify the complete cut before publication.",
+        "quality": "high-value quality control",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-06",
+        "started_at": "12:33",
+        "ended_at": "12:45",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Brief break before final polish.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-07",
+        "started_at": "12:45",
+        "ended_at": "13:32",
+        "title": "Final edit and script cleanup",
+        "summary": "Made final small edit adjustments and checked the script for consistency with the finished footage.",
+        "event_ids": [
+          486,
+          487
+        ],
+        "context": "The review did not trigger another recording session.",
+        "area": "editing_and_scripting",
+        "intent": "Close remaining quality issues before upload.",
+        "quality": "focused production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-08",
+        "started_at": "13:32",
+        "ended_at": "14:49",
+        "title": "Offline lunch and personal time",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and recovery between work blocks.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-09",
+        "started_at": "14:49",
+        "ended_at": "15:58",
+        "title": "Final wording and thumbnail pass",
+        "summary": "Checked one wording example related to partial indexes, made the corresponding edit adjustment, and refined the thumbnail.",
+        "event_ids": [
+          488,
+          489,
+          490
+        ],
+        "context": "The creator is finishing packaging for the already-completed core edit.",
+        "area": "editing_and_thumbnail_design",
+        "intent": "Remove the last small ambiguity and prepare publication assets.",
+        "quality": "targeted final polish",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-10",
+        "started_at": "15:58",
+        "ended_at": "16:14",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Brief transition before upload.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-11",
+        "started_at": "16:14",
+        "ended_at": "17:23",
+        "title": "PostgreSQL video upload and scheduling",
+        "summary": "Uploaded the finished partial-index video, configured publication details, completed platform checks, and scheduled it on the channel.",
+        "event_ids": [
+          491,
+          492,
+          493,
+          494
+        ],
+        "context": "This completes the production loop but delays public release to a later scheduled time.",
+        "area": "publishing",
+        "intent": "Prepare and schedule the finished video for publication.",
+        "quality": "successful completion",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-12",
+        "started_at": "17:23",
+        "ended_at": "18:17",
+        "title": "Offline break and personal time",
+        "summary": "Spent a period away from the desktop after scheduling the video.",
+        "event_ids": [],
+        "context": "No desktop activity is available.",
+        "area": "personal",
+        "intent": "Break after completing the publishing loop.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-13",
+        "started_at": "18:17",
+        "ended_at": "19:38",
+        "title": "Instagram community and channel metrics",
+        "summary": "Checked Instagram direct messages, browsed Explore, then reviewed the channel's current metrics.",
+        "event_ids": [
+          495,
+          496,
+          497,
+          498
+        ],
+        "context": "The creator is following both audience communication and the performance of existing content.",
+        "area": "community_and_analytics",
+        "intent": "Handle audience activity and maintain channel performance records.",
+        "quality": "mixed-intent maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-21-14",
+        "started_at": "19:38",
+        "ended_at": "20:26",
+        "title": "Offline dinner",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Dinner and normal evening time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-15",
+        "started_at": "20:26",
+        "ended_at": "21:02",
+        "title": "Backlog and reference review",
+        "summary": "Reviewed future video ideas and watched a few PostgreSQL indexing references without starting a new production project.",
+        "event_ids": [
+          499,
+          500
+        ],
+        "context": "The newly scheduled video is the current active content commitment.",
+        "area": "ideation_and_research",
+        "intent": "Keep future options visible and collect possible follow-up material.",
+        "quality": "light exploratory work",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-16",
+        "started_at": "21:02",
+        "ended_at": "22:07",
+        "title": "Evening social and recreation",
+        "summary": "Chatted in Discord and played Hades.",
+        "event_ids": [
+          501,
+          502
+        ],
+        "context": "Normal evening leisure.",
+        "area": "leisure",
+        "intent": "Social interaction and recreation.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-17",
+        "started_at": "22:07",
+        "ended_at": "22:29",
+        "title": "Project notes closeout",
+        "summary": "Updated the partial-index follow-up notes after scheduling the video, preserving the next audience-feedback checkpoint.",
+        "event_ids": [
+          503
+        ],
+        "context": "The video is scheduled rather than immediately published.",
+        "area": "project_management",
+        "intent": "Record what to revisit after the scheduled release.",
+        "quality": "useful closeout",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:21",
+        "ended_at": "10:33",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "12:33",
+        "ended_at": "12:45",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "13:32",
+        "ended_at": "14:49",
+        "reason": "Offline lunch and personal time"
+      },
+      {
+        "started_at": "15:58",
+        "ended_at": "16:14",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "17:23",
+        "ended_at": "18:17",
+        "reason": "Offline break and personal time"
+      },
+      {
+        "started_at": "19:38",
+        "ended_at": "20:26",
+        "reason": "Offline dinner"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The sponsor workstream closed successfully: the short was polished, reviewed, and delivered.",
+      "The partial-index video also crossed a major milestone from rough cut to scheduled publication after a final review and small wording/thumbnail polish.",
+      "The creator did not let the commercial deadline permanently displace the personal content pipeline; once the sponsor was delivered, attention returned to the PostgreSQL project.",
+      "Instagram direct messages and Explore were separate activities, while the channel metrics review had no visible major decision attached.",
+      "The video was scheduled rather than published immediately, so the next meaningful feedback loop has been deferred to the release."
+    ],
+    "priority_alignment": [
+      "The concrete sponsor handoff was correctly treated as the first priority on Monday.",
+      "The creator then closed the longer-running partial-index project instead of opening another new project.",
+      "Future ideation stayed lightweight after the major production milestones were completed."
+    ],
+    "important_uncertainty": [
+      "Sponsor acceptance or approval after delivery is not visible.",
+      "The scheduled publication time beyond the scheduling event itself is not visible in the raw timeline.",
+      "The small wording search may have supported the final edit, but the exact final change is not observable.",
+      "Analytics show no visible numbers or resulting strategic decision.",
+      "Instagram Explore may be trend research or ordinary browsing.",
+      "Offline periods are unobserved."
+    ],
+    "possible_next_step": "Let the scheduled PostgreSQL video publish, then evaluate comments and early performance before deciding whether to develop another PostgreSQL follow-up or return to a different backlog item."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Wait for the scheduled release signal",
+      "action_type": "defer_new_commitment",
+      "reason": "Two major deliverables were closed today; the next useful information will come from audience response to the newly scheduled video.",
+      "target": "PostgreSQL Partial Indexes video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume sponsor approval simply because the asset was emailed.",
+      "Do not start another full content project before seeing whether the scheduled video generates useful feedback.",
+      "Do not infer a strategy from analytics without visible numbers or a resulting decision.",
+      "Do not classify Instagram Explore as work or distraction without stronger intent evidence.",
+      "Do not infer the exact effect of the wording search on the final edit.",
+      "Do not criticize evening recreation.",
+      "Do not infer offline activity."
+    ]
+  }
+}

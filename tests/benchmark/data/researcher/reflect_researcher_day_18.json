@@ -1,0 +1,441 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Submitted manuscript on uncertainty estimation in neural network classifiers",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Considering the next research direction after manuscript submission"
+    ],
+    "priorities": [
+      "Complete and archive the manuscript submission workflow",
+      "Resolve the preprocessing dependency blocking the replication study",
+      "Decide whether the replication study is worth resuming",
+      "Identify a focused next research question without immediately committing to a large experiment"
+    ]
+  },
+  "day": {
+    "day_number": 18,
+    "date": "2026-09-18",
+    "day_type": "post_submission_replication_recovery_day",
+    "circumstances": [
+      "The researcher closes the submission loop and then returns to the previously parked replication study. Instead of immediately rerunning it, they inspect the reference paper, old preprocessing notes, and the local replication code. They discover that the reference paper's preprocessing description is underspecified in the paper but a supplementary artifact contains enough information to reproduce one missing normalization step. The researcher updates the replication preprocessing code and runs a small sanity check, but does not launch the full replication yet. The afternoon shifts toward deciding whether the replication is still scientifically useful given the manuscript's narrower contribution. Some literature browsing is exploratory, and an unrelated personal task interrupts the evening."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:05",
+      "last_seen": "19:37",
+      "approx_active_hours": 7.3,
+      "longest_unobserved_gap_minutes": 79
+    }
+  },
+  "raw_events": [
+    {
+      "id": 388,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T09:05:00+05:30",
+      "ended_at": "2026-09-18T09:27:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — submission_checklist.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "submission_checklist.md",
+        "interaction": "reviewed final administrative items"
+      }
+    },
+    {
+      "id": 389,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-18T09:27:00+05:30",
+      "ended_at": "2026-09-18T09:44:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Conference submission portal — author dashboard",
+      "url": "https://example.org/submission",
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked submission status and final metadata"
+      }
+    },
+    {
+      "id": 390,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T09:44:00+05:30",
+      "ended_at": "2026-09-18T10:12:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — submission_record.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "submission_record.md",
+        "interaction": "recorded submission version, configuration, and timestamp"
+      }
+    },
+    {
+      "id": 391,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T10:12:00+05:30",
+      "ended_at": "2026-09-18T10:39:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_notes.md",
+        "interaction": "reviewed blocked preprocessing issue"
+      }
+    },
+    {
+      "id": 392,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-18T10:39:00+05:30",
+      "ended_at": "2026-09-18T11:08:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper supplementary material — calibration method",
+      "url": "https://example.org/supplement",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read supplementary preprocessing details"
+      }
+    },
+    {
+      "id": 393,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-18T11:08:00+05:30",
+      "ended_at": "2026-09-18T11:31:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — calibration method",
+      "url": "https://example.org/paper.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "rechecked preprocessing description in main paper"
+      }
+    },
+    {
+      "id": 394,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T11:31:00+05:30",
+      "ended_at": "2026-09-18T12:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_preprocess.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_preprocess.py",
+        "interaction": "implemented missing normalization step"
+      }
+    },
+    {
+      "id": 395,
+      "watcher": "Terminal",
+      "started_at": "2026-09-18T12:03:00+05:30",
+      "ended_at": "2026-09-18T12:27:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/check_replication_preprocess.py",
+          "python scripts/run_replication_smoke.py"
+        ],
+        "output_state": "completed",
+        "visible_text": "preprocessing checks passed; smoke test completed"
+      }
+    },
+    {
+      "id": 396,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T12:27:00+05:30",
+      "ended_at": "2026-09-18T12:49:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_notes.md",
+        "interaction": "documented preprocessing resolution and remaining replication questions"
+      }
+    },
+    {
+      "id": 397,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-18T14:08:00+05:30",
+      "ended_at": "2026-09-18T14:34:00+05:30",
+      "app": "Google Scholar",
+      "browser": "Chrome",
+      "title": "Google Scholar — calibration method replication",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 6,
+        "interaction": "searched for later papers citing the reference method"
+      }
+    },
+    {
+      "id": 398,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-18T14:34:00+05:30",
+      "ended_at": "2026-09-18T15:02:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — calibration method follow-up",
+      "url": "https://example.org/followup.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read results and limitations section"
+      }
+    },
+    {
+      "id": 399,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T15:02:00+05:30",
+      "ended_at": "2026-09-18T15:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_decision.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "listed reasons to resume, pause, or abandon replication"
+      }
+    },
+    {
+      "id": 400,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T15:31:00+05:30",
+      "ended_at": "2026-09-18T15:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "file": "research_ideas.md",
+        "interaction": "captured possible follow-up questions from literature"
+      }
+    },
+    {
+      "id": 401,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-18T15:58:00+05:30",
+      "ended_at": "2026-09-18T16:21:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — uncertainty calibration benchmark datasets",
+      "url": "https://www.google.com/search?q=uncertainty+calibration+benchmark+datasets",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 7,
+        "interaction": "reviewed search results"
+      }
+    },
+    {
+      "id": 402,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T16:21:00+05:30",
+      "ended_at": "2026-09-18T16:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_decision.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "revised replication plan with one bounded full run"
+      }
+    },
+    {
+      "id": 403,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-18T18:07:00+05:30",
+      "ended_at": "2026-09-18T18:26:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — courier service contact",
+      "url": "https://www.google.com/search?q=courier+service+contact",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 4,
+        "interaction": "searched contact information for a personal delivery"
+      }
+    },
+    {
+      "id": 404,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T18:26:00+05:30",
+      "ended_at": "2026-09-18T19:01:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_decision.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "finalized bounded replication plan and stopping condition"
+      }
+    },
+    {
+      "id": 405,
+      "watcher": "VS Code",
+      "started_at": "2026-09-18T19:01:00+05:30",
+      "ended_at": "2026-09-18T19:37:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "file": "research_ideas.md",
+        "interaction": "ranked follow-up questions and deferred broad benchmark exploration"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-18-01",
+        "started_at": "09:05",
+        "ended_at": "10:12",
+        "title": "Close and archive the manuscript submission",
+        "summary": "The researcher checked the submission portal, verified final metadata, and recorded the submitted version, configuration, and timestamp so the manuscript state is reproducible.",
+        "event_ids": [
+          388,
+          389,
+          390
+        ],
+        "context": "Final administrative closure following the submission-ready state on Day 17.",
+        "area": "submission",
+        "intent": "administration",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-02",
+        "started_at": "10:12",
+        "ended_at": "12:49",
+        "title": "Resolve the replication preprocessing blocker",
+        "summary": "The researcher revisited the old preprocessing discrepancy, inspected the reference paper and supplementary material, found enough information to identify a missing normalization step, implemented it locally, passed preprocessing checks and a smoke test, and documented the remaining questions.",
+        "event_ids": [
+          391,
+          392,
+          393,
+          394,
+          395,
+          396
+        ],
+        "context": "First substantive return to the replication study after it was parked for several days.",
+        "area": "replication study",
+        "intent": "debugging",
+        "quality": "high",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-18-03",
+        "started_at": "14:08",
+        "ended_at": "16:48",
+        "title": "Evaluate whether the replication study is still worth running",
+        "summary": "The researcher read later work citing the reference method, considered the limitations of the replication, wrote explicit resume/pause/abandon criteria, captured possible follow-up questions, and revised the plan toward one bounded replication run rather than a broad extension.",
+        "event_ids": [
+          397,
+          398,
+          399,
+          400,
+          401,
+          402
+        ],
+        "context": "Post-submission research planning.",
+        "area": "replication and research planning",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-18-04",
+        "started_at": "18:07",
+        "ended_at": "19:37",
+        "title": "Finalize bounded replication plan and rank future questions",
+        "summary": "After a short personal delivery-related search, the researcher finalized a stopping condition for one full replication run and ranked possible follow-up questions while explicitly deferring a broad benchmark search.",
+        "event_ids": [
+          403,
+          404,
+          405
+        ],
+        "context": "Closing the decision loop without committing to a large new project.",
+        "area": "research planning",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:49",
+        "ended_at": "14:08",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "16:48",
+        "ended_at": "18:07",
+        "reason": "offline / break and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The manuscript submission loop was closed and the exact submitted state was archived.",
+      "The previously blocking replication preprocessing issue was partially resolved using supplementary information from the reference work.",
+      "The replication is now technically runnable, but its scientific value is less obvious than it was before the main manuscript narrowed its contribution.",
+      "Rather than launching a broad replication or benchmark sweep, the researcher defined one bounded full run with an explicit stopping condition.",
+      "Several possible next research questions were captured, but broad exploration was deliberately deferred."
+    ],
+    "priority_alignment": [
+      "The researcher completed the final submission administration before switching projects.",
+      "The replication blocker was addressed directly rather than bypassed with an assumption about preprocessing.",
+      "Research planning remained bounded and did not immediately turn into a new large experiment program."
+    ],
+    "important_uncertainty": [
+      "It is not yet known whether the corrected preprocessing will reproduce the reference result.",
+      "Even a successful replication may have limited value for the current research trajectory unless it reveals a useful discrepancy or methodological insight.",
+      "The next major research question is not yet selected."
+    ],
+    "possible_next_step": "Run the single bounded replication using the corrected preprocessing, inspect the result against the predefined stopping condition, and only then decide whether to extend, pause, or abandon the replication."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "complete_open_loop",
+      "title": "Run the bounded replication",
+      "reason": "The preprocessing blocker has been resolved enough for a controlled full run, and the researcher has already defined a stopping condition.",
+      "suggested_focus_minutes": 120,
+      "target": "Replication Study"
+    },
+    "secondary_action": {
+      "action_type": "clarify_priority",
+      "title": "Keep new research ideas parked until the replication decision",
+      "reason": "The researcher has several possible directions, but selecting among them before resolving the bounded replication would create unnecessary parallel work.",
+      "suggested_focus_minutes": 15,
+      "target": "Research Planning"
+    },
+    "things_not_to_do": [
+      "Do not launch a broad benchmark search before the bounded replication result is known.",
+      "Do not silently change preprocessing again during the full replication run unless a concrete implementation error is found.",
+      "Do not treat the submitted manuscript as an unfinished experiment queue."
+    ]
+  }
+}

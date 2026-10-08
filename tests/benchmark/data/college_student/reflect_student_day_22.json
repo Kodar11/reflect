@@ -1,0 +1,509 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Preparing for the upcoming Data Structures internal assessment",
+      "Maintaining the semester project",
+      "Keeping up with normal semester coursework"
+    ],
+    "priorities": [
+      "Prepare for the upcoming Data Structures assessment",
+      "Keep the semester project stable when a concrete issue appears",
+      "Keep regular coursework manageable"
+    ]
+  },
+  "day": {
+    "day_number": 22,
+    "date": "2026-09-22",
+    "day_type": "tuesday_assessment_practice_and_project_issue",
+    "circumstances": [
+      "Tuesday included regular college activity and a substantial period away from the laptop.",
+      "Data Structures assessment preparation moved from notes into concrete shortest-path practice and timed algorithm questions.",
+      "The student had a short WhatsApp interruption during the study block and then returned to the same answer set.",
+      "A semester-project response issue surfaced in the evening and received a contained debugging pass.",
+      "The day ended with gaming, game-related YouTube, and social time, followed by a brief return to assessment notes."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:12",
+      "last_seen": "21:17",
+      "approx_active_hours": 7.8,
+      "longest_unobserved_gap_minutes": 179
+    }
+  },
+  "raw_events": [
+    {
+      "id": 400,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T08:12:00+05:30",
+      "ended_at": "2026-09-22T08:23:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 401,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T08:23:00+05:30",
+      "ended_at": "2026-09-22T08:39:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 402,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T11:38:00+05:30",
+      "ended_at": "2026-09-22T11:54:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 403,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T11:54:00+05:30",
+      "ended_at": "2026-09-22T12:18:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Dijkstra shortest path example C++",
+      "url": "https://www.google.com/search?q=Dijkstra+shortest+path+example+C%2B%2B",
+      "payload": null
+    },
+    {
+      "id": 404,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T12:18:00+05:30",
+      "ended_at": "2026-09-22T12:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "dsa-practice — dijkstra.cpp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 405,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T12:47:00+05:30",
+      "ended_at": "2026-09-22T13:01:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "g++ dijkstra.cpp && ./a.exe",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 406,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T13:01:00+05:30",
+      "ended_at": "2026-09-22T13:16:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Practice Answers",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 407,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T13:16:00+05:30",
+      "ended_at": "2026-09-22T13:33:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 408,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T13:33:00+05:30",
+      "ended_at": "2026-09-22T13:45:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 409,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T13:45:00+05:30",
+      "ended_at": "2026-09-22T14:11:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Practice Answers",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 410,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T14:11:00+05:30",
+      "ended_at": "2026-09-22T14:29:00+05:30",
+      "app": "HackerRank",
+      "browser": "Chrome",
+      "title": "Algorithms Practice",
+      "url": "https://www.hackerrank.com/domains/algorithms",
+      "payload": null
+    },
+    {
+      "id": 411,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T14:29:00+05:30",
+      "ended_at": "2026-09-22T14:52:00+05:30",
+      "app": "HackerRank",
+      "browser": "Chrome",
+      "title": "Algorithms Practice",
+      "url": "https://www.hackerrank.com/domains/algorithms",
+      "payload": null
+    },
+    {
+      "id": 412,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T14:52:00+05:30",
+      "ended_at": "2026-09-22T15:08:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Dijkstra time complexity adjacency list",
+      "url": "https://www.google.com/search?q=Dijkstra+time+complexity+adjacency+list",
+      "payload": null
+    },
+    {
+      "id": 413,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T15:08:00+05:30",
+      "ended_at": "2026-09-22T15:31:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 414,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T17:14:00+05:30",
+      "ended_at": "2026-09-22T17:27:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 415,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T17:27:00+05:30",
+      "ended_at": "2026-09-22T17:41:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Issues",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 416,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T17:41:00+05:30",
+      "ended_at": "2026-09-22T18:18:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — response.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 417,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T18:18:00+05:30",
+      "ended_at": "2026-09-22T18:31:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- response",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 418,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T18:31:00+05:30",
+      "ended_at": "2026-09-22T18:44:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 419,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T18:44:00+05:30",
+      "ended_at": "2026-09-22T19:28:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 420,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T19:28:00+05:30",
+      "ended_at": "2026-09-22T19:47:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Hades no-hit run attempt",
+      "url": "https://www.youtube.com/watch?v=example20",
+      "payload": null
+    },
+    {
+      "id": 421,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T19:47:00+05:30",
+      "ended_at": "2026-09-22T20:03:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 422,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T20:41:00+05:30",
+      "ended_at": "2026-09-22T20:52:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 423,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T20:52:00+05:30",
+      "ended_at": "2026-09-22T21:06:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 424,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T21:06:00+05:30",
+      "ended_at": "2026-09-22T21:17:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-22-01",
+        "started_at": "08:12",
+        "ended_at": "08:39",
+        "title": "Morning assessment check",
+        "summary": "Checked email and the upcoming Data Structures assessment page before the college day.",
+        "event_ids": [
+          400,
+          401
+        ],
+        "context": "The assessment had become the main near-term academic priority on Day 21.",
+        "area": "coursework",
+        "intent": "Review assessment information before classes.",
+        "quality": "routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-22-02",
+        "started_at": "11:38",
+        "ended_at": "15:31",
+        "title": "Data Structures assessment practice",
+        "summary": "Reviewed heap and graph notes, researched Dijkstra, implemented and ran a C++ shortest-path solution, recorded answers, exchanged a brief message with classmates, practiced algorithm questions on HackerRank, checked complexity details, and returned to the notes.",
+        "event_ids": [
+          402,
+          403,
+          404,
+          405,
+          406,
+          407,
+          408,
+          409,
+          410,
+          411,
+          412,
+          413
+        ],
+        "context": "This continues the assessment preparation from Day 21 and shifts it toward active problem solving.",
+        "area": "coursework",
+        "intent": "Practice graph algorithms and identify topics that need further review before the assessment.",
+        "quality": "substantive practice with a short interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-22-03",
+        "started_at": "09:10",
+        "ended_at": "11:38",
+        "title": "Offline classes and campus activity",
+        "summary": "Attended classes and handled campus activity away from the laptop.",
+        "event_ids": [],
+        "context": "No laptop events were captured during this period.",
+        "area": "coursework",
+        "intent": "Attend scheduled classes and campus responsibilities.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-22-04",
+        "started_at": "15:31",
+        "ended_at": "17:14",
+        "title": "Offline break and personal time",
+        "summary": "Took lunch and spent time away from the laptop before returning in the evening.",
+        "event_ids": [],
+        "context": "The laptop was inactive during this period.",
+        "area": "personal",
+        "intent": "Handle ordinary personal and weekend-adjacent downtime.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-22-05",
+        "started_at": "17:14",
+        "ended_at": "18:44",
+        "title": "Semester project response bug fix",
+        "summary": "Checked the project message, reviewed the reported issue, edited response handling, ran targeted tests, and reported the result back to teammates.",
+        "event_ids": [
+          414,
+          415,
+          416,
+          417,
+          418
+        ],
+        "context": "A concrete response issue surfaced while the project was in maintenance mode.",
+        "area": "semester_project",
+        "intent": "Investigate the reported response issue and verify the narrow fix.",
+        "quality": "focused debugging and coordination",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-22-06",
+        "started_at": "18:44",
+        "ended_at": "20:03",
+        "title": "Evening gaming and social time",
+        "summary": "Played Hades, watched a related no-hit-run video, and chatted with friends.",
+        "event_ids": [
+          419,
+          420,
+          421
+        ],
+        "context": "Ordinary evening leisure after academic and project work.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-22-07",
+        "started_at": "20:41",
+        "ended_at": "21:17",
+        "title": "Data Structures evening review",
+        "summary": "Returned to the Data Structures notes and assessment page for a short final review.",
+        "event_ids": [
+          422,
+          423,
+          424
+        ],
+        "context": "Assessment preparation remained the main open academic thread.",
+        "area": "coursework",
+        "intent": "Review current preparation state and identify what to continue next.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:39",
+        "ended_at": "09:10",
+        "reason": "Commuting and preparation away from the laptop"
+      },
+      {
+        "started_at": "09:10",
+        "ended_at": "11:38",
+        "reason": "College classes and campus activity away from the laptop"
+      },
+      {
+        "started_at": "15:31",
+        "ended_at": "17:14",
+        "reason": "Lunch, offline break, and personal activity"
+      },
+      {
+        "started_at": "20:03",
+        "ended_at": "20:41",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Data Structures preparation became more active today: the student moved from reviewing notes into Dijkstra implementation, local execution, written answers, and algorithm practice.",
+      "Google Docs, OneNote, search, VS Code, Terminal, and HackerRank formed one broader assessment-preparation workflow rather than separate unrelated activities.",
+      "The semester project briefly became relevant because a concrete response issue appeared, leading to a narrow fix-and-test cycle before the student returned to leisure.",
+      "The assessment notes were revisited at night, confirming that preparation remained an open thread.",
+      "A substantial part of the day was spent in classes or away from the laptop and cannot be assessed from raw desktop events."
+    ],
+    "priority_alignment": [
+      "The largest substantive laptop block went toward Data Structures assessment preparation, matching the current priority.",
+      "The semester project received targeted attention only when a concrete issue surfaced.",
+      "The student did not spend the evening reopening unrelated coursework after the main study block."
+    ],
+    "important_uncertainty": [
+      "The Dijkstra program ran successfully, but this does not establish correctness on all cases or mastery of the algorithm.",
+      "HackerRank practice indicates active problem solving, but the observed events do not show scores or which problems were completed.",
+      "The project response fix was tested, but the events do not prove the broader issue is fully resolved.",
+      "The exact content of the offline classes and campus period is unknown from laptop data."
+    ],
+    "possible_next_step": "Continue assessment preparation with a timed set covering graph algorithms and then review any questions missed rather than simply rereading all notes."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Do a timed Data Structures set",
+      "action_type": "start_focus",
+      "reason": "Preparation has progressed from passive review into implementation and practice, making timed problem solving the most direct next step toward the upcoming assessment.",
+      "suggested_focus_minutes": 45,
+      "target": "Data Structures Internal Assessment"
+    },
+    "secondary_action": {
+      "title": "Recheck only the project response path",
+      "action_type": "continue_successful_behavior",
+      "reason": "The project issue was handled with a narrow change and targeted tests; any follow-up should stay limited to that path.",
+      "suggested_focus_minutes": 20,
+      "target": "Semester Project response handling"
+    },
+    "things_not_to_do": [
+      "Do not treat the algorithm tutorial, search, coding, and HackerRank sessions as unrelated activities.",
+      "Do not assume a successful Dijkstra run proves assessment readiness.",
+      "Do not infer HackerRank performance from the site being open.",
+      "Do not treat the project issue as evidence that the entire semester project needs attention.",
+      "Do not infer what happened during the offline college period.",
+      "Do not criticize the evening gaming and social time as inherently harmful."
+    ]
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Northstar Coffee portfolio case study",
+      "Social media campaign assets for an existing client",
+      "New food-business brand inquiry",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Finish and publish the Northstar Coffee case study",
+      "Deliver bounded social campaign revisions",
+      "Qualify the new food-business inquiry",
+      "Maintain client relationships"
+    ]
+  },
+  "day": {
+    "day_number": 23,
+    "date": "2026-09-23",
+    "day_type": "portfolio_launch_and_new_client_scoping_day",
+    "circumstances": [
+      "A small additional story-size variation was produced and sent to the client. The available events show completion of the requested adaptation, but not the client's subsequent response.",
+      "The Northstar Coffee case study was actively maintained on the portfolio site, including copy and section changes, deployment inspection, responsive correction, and post-deployment review. The tracked evidence supports that it was deployed, but does not establish broader promotion or external reception.",
+      "The food-business inquiry became more concrete through a client reply, scope planning, business research, reference collection, and a clarification response. The evidence still does not show a confirmed proposal, payment, or project start.",
+      "Pinterest and YouTube activity could have supported design research, but the raw events do not establish their usefulness or whether they were necessary.",
+      "There are untracked periods during the day, so activity during those periods cannot be inferred."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:08",
+      "last_seen": "20:00",
+      "approx_active_hours": 7.2,
+      "longest_unobserved_gap_minutes": 95
+    }
+  },
+  "raw_events": [
+    {
+      "id": 549,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T09:08:00+05:30",
+      "ended_at": "2026-09-23T09:27:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 550,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T09:27:00+05:30",
+      "ended_at": "2026-09-23T09:51:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — September Assets",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 551,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T09:51:00+05:30",
+      "ended_at": "2026-09-23T10:16:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — September Assets",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 552,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T10:16:00+05:30",
+      "ended_at": "2026-09-23T10:31:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Social Campaign / Handoff",
+      "url": "https://drive.google.com/drive/",
+      "payload": null
+    },
+    {
+      "id": 553,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T10:31:00+05:30",
+      "ended_at": "2026-09-23T10:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 554,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T12:14:00+05:30",
+      "ended_at": "2026-09-23T12:32:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/",
+      "payload": null
+    },
+    {
+      "id": 555,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T12:32:00+05:30",
+      "ended_at": "2026-09-23T12:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "portfolio-site — northstar-coffee.html",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 556,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T12:58:00+05:30",
+      "ended_at": "2026-09-23T13:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/",
+      "payload": null
+    },
+    {
+      "id": 557,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T13:21:00+05:30",
+      "ended_at": "2026-09-23T13:42:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Vercel",
+      "url": "https://vercel.com/",
+      "payload": null
+    },
+    {
+      "id": 558,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T13:42:00+05:30",
+      "ended_at": "2026-09-23T13:56:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/",
+      "payload": null
+    },
+    {
+      "id": 559,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T14:05:00+05:30",
+      "ended_at": "2026-09-23T14:28:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "portfolio-site — northstar-coffee.html",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 560,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T14:28:00+05:30",
+      "ended_at": "2026-09-23T14:42:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/",
+      "payload": null
+    },
+    {
+      "id": 561,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T16:17:00+05:30",
+      "ended_at": "2026-09-23T16:36:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 562,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T16:36:00+05:30",
+      "ended_at": "2026-09-23T16:58:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Food Brand — Project Notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 563,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T16:58:00+05:30",
+      "ended_at": "2026-09-23T17:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/",
+      "payload": null
+    },
+    {
+      "id": 564,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T17:25:00+05:30",
+      "ended_at": "2026-09-23T17:52:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 565,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T17:52:00+05:30",
+      "ended_at": "2026-09-23T18:13:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 566,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T18:13:00+05:30",
+      "ended_at": "2026-09-23T18:34:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 567,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T18:34:00+05:30",
+      "ended_at": "2026-09-23T18:48:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 568,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T18:57:00+05:30",
+      "ended_at": "2026-09-23T19:21:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 569,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T19:21:00+05:30",
+      "ended_at": "2026-09-23T19:46:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Projects",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 570,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T19:46:00+05:30",
+      "ended_at": "2026-09-23T20:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-23-01",
+        "started_at": "09:08",
+        "ended_at": "10:47",
+        "title": "Social campaign — design work",
+        "summary": "Reviewed a reply from the social campaign client confirming the latest adaptations and asking for one additional story-size variation. Opened the social campaign file and duplicated the approved adaptation into the requested story format. Adjusted spacing and text hierarchy for the additional story-size variation. Exported the new social asset and organized it with the existing campaign deliverables.",
+        "event_ids": [
+          549,
+          550,
+          551,
+          552,
+          553
+        ],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-23-02",
+        "started_at": "12:14",
+        "ended_at": "14:42",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Opened the personal portfolio site and checked the Northstar case-study page from a normal visitor view. Edited the Northstar portfolio entry to improve the project summary and reorder two case-study sections. Previewed the revised Northstar case-study page and checked image loading and section spacing. Opened the deployment dashboard and inspected the latest portfolio deployment status.",
+        "event_ids": [
+          554,
+          555,
+          556,
+          557,
+          558,
+          559,
+          560
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-03",
+        "started_at": "16:17",
+        "ended_at": "18:34",
+        "title": "New food-business identity — client communication",
+        "summary": "Reviewed a reply from the new food-business inquiry answering several of the scope questions and asking about the expected deliverables. Created a rough scope note for the food-business inquiry covering identity direction, expected applications, and open questions. Researched the food business and reviewed its existing website and public social profiles. Started a loose reference board for the food-business inquiry using supplied materials and a few visual references.",
+        "event_ids": [
+          561,
+          562,
+          563,
+          564,
+          565,
+          566
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-04",
+        "started_at": "18:34",
+        "ended_at": "18:48",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Browsed food-brand identity references and packaging layouts; the direct usefulness to the inquiry is not established from the event alone.",
+        "event_ids": [
+          567
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-23-05",
+        "started_at": "18:57",
+        "ended_at": "19:21",
+        "title": "New food-business identity — reference research",
+        "summary": "Added a small number of selected references to the food-business board and grouped them by visual direction.",
+        "event_ids": [
+          568
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Research",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-23-06",
+        "started_at": "19:21",
+        "ended_at": "19:46",
+        "title": "Admin and file organisation — planning",
+        "summary": "Updated the project tracker with the completed social variation, Northstar portfolio deployment status, and pending response from the new inquiry.",
+        "event_ids": [
+          569
+        ],
+        "context": "Work",
+        "area": "Administration",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-23-07",
+        "started_at": "19:46",
+        "ended_at": "20:00",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Watched a branding case-study presentation; whether it was research or general browsing is unclear from the event alone.",
+        "event_ids": [
+          570
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:47",
+        "ended_at": "12:14",
+        "reason": "Offline / no desktop activity recorded"
+      },
+      {
+        "started_at": "14:42",
+        "ended_at": "16:17",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The social campaign work was a bounded request and was completed and sent to the client.",
+      "Northstar moved from repeated editing into deployed portfolio work, including responsive correction and post-deployment verification.",
+      "The new food-business inquiry became more actionable because the prospective client supplied additional information and received a structured clarification response.",
+      "Reference browsing was followed by work on the inquiry, but its exact contribution remains uncertain.",
+      "Offline periods limit visibility into the full day."
+    ],
+    "priority_alignment": [],
+    "important_uncertainty": [
+      "Whether the social client accepts the additional story variation without another revision is unknown.",
+      "Whether the Northstar case study receives meaningful external traffic or feedback is not observable from these events.",
+      "Whether the food-business inquiry converts into a confirmed paid project remains unresolved."
+    ],
+    "possible_next_step": "The new inquiry is becoming concrete. Before starting visual exploration, confirm scope, deliverables, timeline, and commercial terms so research and reference collection do not run ahead of a defined brief."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Confirm scope and terms for the new inquiry",
+      "action_type": "clarify_priority",
+      "reason": "The new inquiry is becoming concrete. Before starting visual exploration, confirm scope, deliverables, timeline, and commercial terms so research and reference collection do not run ahead of a defined brief.",
+      "suggested_focus_minutes": null,
+      "target": "New brand inquiry"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

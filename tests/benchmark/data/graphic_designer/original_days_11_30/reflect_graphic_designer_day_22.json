@@ -1,0 +1,105 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Northstar Coffee portfolio case study",
+      "Social media campaign assets for an existing client",
+      "New food-business brand inquiry",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Finish and publish the Northstar Coffee case study",
+      "Deliver bounded social campaign revisions",
+      "Qualify the new food-business inquiry",
+      "Maintain client relationships"
+    ]
+  },
+  "day": {
+    "date": "2026-09-22",
+    "day_number": 22,
+    "day_type": "portfolio_publish_and_inquiry_followup_day"
+  },
+  "raw_events": [
+    {"event_id": 272, "timestamp": "2026-09-22T09:18:00+05:30", "app": "Gmail", "activity": "Read a client message requesting one more minor alignment change to the social campaign size adaptations."},
+    {"event_id": 273, "timestamp": "2026-09-22T09:31:00+05:30", "app": "Figma", "activity": "Opened the social campaign file and checked the requested alignment against the approved layout."},
+    {"event_id": 274, "timestamp": "2026-09-22T09:47:00+05:30", "app": "Figma", "activity": "Adjusted spacing and alignment across the requested social campaign adaptations."},
+    {"event_id": 275, "timestamp": "2026-09-22T10:12:00+05:30", "app": "Export", "activity": "Exported the revised social campaign sizes for client delivery."},
+    {"event_id": 276, "timestamp": "2026-09-22T10:25:00+05:30", "app": "Gmail", "activity": "Sent the revised social campaign files with a short delivery note."},
+    {"event_id": 277, "timestamp": "2026-09-22T10:43:00+05:30", "app": "Figma", "activity": "Opened the Northstar Coffee portfolio case study and reviewed the overall page sequence."},
+    {"event_id": 278, "timestamp": "2026-09-22T11:02:00+05:30", "app": "Figma", "activity": "Reworked the opening case-study spread to make the project context and final identity easier to scan."},
+    {"event_id": 279, "timestamp": "2026-09-22T11:38:00+05:30", "app": "Figma", "activity": "Cleaned up typography hierarchy and spacing across several Northstar portfolio sections."},
+    {"event_id": 280, "timestamp": "2026-09-22T12:16:00+05:30", "app": "Chrome", "activity": "Browsed a small set of designer portfolio case studies for presentation and sequencing references."},
+    {"event_id": 281, "timestamp": "2026-09-22T12:37:00+05:30", "app": "Figma", "activity": "Applied a few presentation changes to the Northstar case study after the reference browsing."},
+    {"event_id": 282, "timestamp": "2026-09-22T12:54:00+05:30", "app": "System", "activity": "No tracked desktop activity; offline period begins."},
+    {"event_id": 283, "timestamp": "2026-09-22T14:21:00+05:30", "app": "Gmail", "activity": "Reviewed the new food-business inquiry and answered a question about expected deliverables."},
+    {"event_id": 284, "timestamp": "2026-09-22T14:39:00+05:30", "app": "Google Docs", "activity": "Drafted a short list of questions covering scope, timeline, audience, existing assets, and required brand applications for the new inquiry."},
+    {"event_id": 285, "timestamp": "2026-09-22T15:04:00+05:30", "app": "Gmail", "activity": "Sent the qualification questions to the prospective client."},
+    {"event_id": 286, "timestamp": "2026-09-22T15:27:00+05:30", "app": "Figma", "activity": "Returned to the Northstar case study and checked image crops and mockup consistency."},
+    {"event_id": 287, "timestamp": "2026-09-22T15:58:00+05:30", "app": "Figma", "activity": "Replaced two weak application mockups and adjusted captions in the Northstar case study."},
+    {"event_id": 288, "timestamp": "2026-09-22T16:34:00+05:30", "app": "Figma", "activity": "Performed a full-page review of the Northstar case study at presentation scale."},
+    {"event_id": 289, "timestamp": "2026-09-22T17:02:00+05:30", "app": "Notion", "activity": "Added a draft project description and case-study metadata for the Northstar portfolio entry."},
+    {"event_id": 290, "timestamp": "2026-09-22T17:24:00+05:30", "app": "Chrome", "activity": "Opened the personal portfolio site and inspected the project listing and case-study route."},
+    {"event_id": 291, "timestamp": "2026-09-22T17:46:00+05:30", "app": "VS Code", "activity": "Edited portfolio project content and replaced an older Northstar thumbnail with the updated case-study asset."},
+    {"event_id": 292, "timestamp": "2026-09-22T18:09:00+05:30", "app": "Chrome", "activity": "Previewed the updated portfolio page and checked the Northstar case-study presentation on the live preview."},
+    {"event_id": 293, "timestamp": "2026-09-22T18:31:00+05:30", "app": "YouTube", "activity": "Watched several minutes of a branding portfolio walkthrough; the relation to current work is unclear from the event alone."},
+    {"event_id": 294, "timestamp": "2026-09-22T18:49:00+05:30", "app": "Figma", "activity": "Made a final small typography adjustment to the Northstar case study after reviewing the portfolio preview."},
+    {"event_id": 295, "timestamp": "2026-09-22T19:13:00+05:30", "app": "System", "activity": "No tracked desktop activity; offline period begins."}
+  ],
+  "ground_truth": {
+    "events": [
+      {"event_id": 272, "project": "social_campaign", "activity_type": "client_feedback", "importance": "medium"},
+      {"event_id": 273, "project": "social_campaign", "activity_type": "review", "importance": "medium"},
+      {"event_id": 274, "project": "social_campaign", "activity_type": "execution", "importance": "medium"},
+      {"event_id": 275, "project": "social_campaign", "activity_type": "delivery_prep", "importance": "medium"},
+      {"event_id": 276, "project": "social_campaign", "activity_type": "client_communication", "importance": "medium"},
+      {"event_id": 277, "project": "northstar_portfolio", "activity_type": "review", "importance": "high"},
+      {"event_id": 278, "project": "northstar_portfolio", "activity_type": "execution", "importance": "high"},
+      {"event_id": 279, "project": "northstar_portfolio", "activity_type": "execution", "importance": "high"},
+      {"event_id": 280, "project": "ambiguous_inspiration", "activity_type": "research", "importance": "low"},
+      {"event_id": 281, "project": "northstar_portfolio", "activity_type": "execution", "importance": "medium"},
+      {"event_id": 282, "project": "offline", "activity_type": "offline", "importance": "low"},
+      {"event_id": 283, "project": "new_brand_inquiry", "activity_type": "client_communication", "importance": "medium"},
+      {"event_id": 284, "project": "new_brand_inquiry", "activity_type": "planning", "importance": "medium"},
+      {"event_id": 285, "project": "new_brand_inquiry", "activity_type": "client_communication", "importance": "medium"},
+      {"event_id": 286, "project": "northstar_portfolio", "activity_type": "review", "importance": "medium"},
+      {"event_id": 287, "project": "northstar_portfolio", "activity_type": "execution", "importance": "high"},
+      {"event_id": 288, "project": "northstar_portfolio", "activity_type": "review", "importance": "high"},
+      {"event_id": 289, "project": "northstar_portfolio", "activity_type": "content", "importance": "medium"},
+      {"event_id": 290, "project": "northstar_portfolio", "activity_type": "review", "importance": "medium"},
+      {"event_id": 291, "project": "northstar_portfolio", "activity_type": "execution", "importance": "high"},
+      {"event_id": 292, "project": "northstar_portfolio", "activity_type": "review", "importance": "high"},
+      {"event_id": 293, "project": "ambiguous_inspiration", "activity_type": "research", "importance": "low"},
+      {"event_id": 294, "project": "northstar_portfolio", "activity_type": "execution", "importance": "medium"},
+      {"event_id": 295, "project": "offline", "activity_type": "offline", "importance": "low"}
+    ],
+    "summary": {
+      "northstar_portfolio": "The Northstar Coffee case study received another substantial finishing pass, including opening-page restructuring, typography cleanup, mockup replacement, metadata preparation, portfolio integration, and preview checks. The events provide evidence that it was moved into the portfolio site, although they do not establish that the case study was publicly announced or fully finished beyond the tracked preview.",
+      "social_campaign": "A small client-requested alignment change was completed and the revised campaign adaptations were delivered. No further client response is visible during the tracked period.",
+      "new_brand_inquiry": "The new food-business inquiry moved from general qualification into a concrete scope-question exchange. The designer sent a structured set of questions, but no confirmed project agreement or proposal is visible.",
+      "ambiguity": "Portfolio references and a branding walkthrough may have influenced presentation decisions, but the raw events cannot establish the usefulness of either browsing session.",
+      "offline": "There are untracked periods during the day, so activity during those periods cannot be inferred."
+    }
+  },
+  "expected_reflection": {
+    "summary": "The day was dominated by a finalization push for the Northstar Coffee portfolio case study, with the work moving from design cleanup into actual portfolio integration and preview. A small social campaign revision was completed early, while the new food-business inquiry received structured qualification rather than becoming committed production work.",
+    "key_observations": [
+      "The social campaign request remained bounded and was completed without consuming the rest of the visible workday.",
+      "Northstar moved beyond isolated case-study editing into portfolio integration, metadata preparation, and live-preview checking.",
+      "The new food-business inquiry received concrete qualification questions, but the available evidence does not show a confirmed scope or commitment.",
+      "Reference browsing was followed by portfolio changes, although the exact contribution of the research remains uncertain.",
+      "Offline periods limit visibility into the full day."
+    ],
+    "open_questions": [
+      "Whether the Northstar case study was actually published publicly after the tracked preview is not established.",
+      "Whether the social client accepted the latest adaptation without further changes is unknown.",
+      "Whether the food-business inquiry will convert into a paid project depends on the prospective client's response and is not yet observable."
+    ]
+  },
+  "expected_coach_outcome": {
+    "should_intervene": true,
+    "message": "Treat the Northstar case study as a finishing-and-release task now: verify the public portfolio version and close it rather than continuing broad refinement. Keep the food-business inquiry in qualification until the client answers the scope questions, while handling any social follow-up as a bounded request.",
+    "reason": "The Northstar case study has accumulated repeated execution and review across many days and has now reached portfolio integration, so continued open-ended polishing risks extending a workstream that is already close to release."
+  }
+}

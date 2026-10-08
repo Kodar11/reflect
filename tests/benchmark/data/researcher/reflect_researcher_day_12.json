@@ -1,0 +1,480 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Move the manuscript from exploratory notes toward a coherent full draft",
+      "Present the experimental evidence without overstating generalization",
+      "Resolve remaining methodological wording and figure inconsistencies",
+      "Keep the replication study parked unless its preprocessing dependency is resolved"
+    ]
+  },
+  "day": {
+    "day_number": 12,
+    "date": "2026-09-12",
+    "day_type": "manuscript_writing_and_figure_cleanup_day",
+    "circumstances": [
+      "The researcher shifts away from new experiments and works through the manuscript using the completed experimental evidence. A figure-label inconsistency is discovered between an older draft and the frozen evaluation configuration, leading to a small correction rather than a new experiment. The researcher writes the results and discussion sections, checks citations, and prepares a rough full-draft structure. The replication study remains parked. The day includes a short personal interruption and some low-value browsing before returning to the manuscript."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:41",
+      "last_seen": "19:52",
+      "approx_active_hours": 7.2,
+      "longest_unobserved_gap_minutes": 76
+    }
+  },
+  "raw_events": [
+    {
+      "id": 280,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T09:41:00+05:30",
+      "ended_at": "2026-09-12T10:06:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — manuscript_outline.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "manuscript_outline.md",
+        "interaction": "reviewed section order and remaining evidence questions"
+      }
+    },
+    {
+      "id": 281,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T10:06:00+05:30",
+      "ended_at": "2026-09-12T10:42:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — results.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "results.md",
+        "interaction": "expanded experiment comparison and generalization result"
+      }
+    },
+    {
+      "id": 282,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T10:42:00+05:30",
+      "ended_at": "2026-09-12T11:15:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — figures/calibration_shift.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "figures/calibration_shift.py",
+        "interaction": "checked plotted labels and legend configuration"
+      }
+    },
+    {
+      "id": 283,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T11:15:00+05:30",
+      "ended_at": "2026-09-12T11:37:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — figures/calibration_shift.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "figures/calibration_shift.py",
+        "interaction": "changed legend labels and regenerated figure"
+      }
+    },
+    {
+      "id": 284,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T11:37:00+05:30",
+      "ended_at": "2026-09-12T12:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — figures/calibration_shift.png",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "figures/calibration_shift.png",
+        "interaction": "visually checked regenerated figure"
+      }
+    },
+    {
+      "id": 285,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-12T12:03:00+05:30",
+      "ended_at": "2026-09-12T12:21:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Scholar — uncertainty calibration references",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 4,
+        "interaction": "checked citation details and publication metadata"
+      }
+    },
+    {
+      "id": 286,
+      "watcher": "Zotero",
+      "started_at": "2026-09-12T12:21:00+05:30",
+      "ended_at": "2026-09-12T12:43:00+05:30",
+      "app": "Zotero",
+      "browser": null,
+      "title": "Zotero — Uncertainty Calibration",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "updated citation metadata and notes"
+      }
+    },
+    {
+      "id": 287,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T13:59:00+05:30",
+      "ended_at": "2026-09-12T14:33:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — discussion.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "discussion.md",
+        "interaction": "rewrote interpretation around distribution-shift limitation"
+      }
+    },
+    {
+      "id": 288,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T14:33:00+05:30",
+      "ended_at": "2026-09-12T15:08:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — introduction.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "introduction.md",
+        "interaction": "tightened contribution statement and scope"
+      }
+    },
+    {
+      "id": 289,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T15:08:00+05:30",
+      "ended_at": "2026-09-12T15:36:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — related_work.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "related_work.md",
+        "interaction": "merged overlapping literature paragraphs"
+      }
+    },
+    {
+      "id": 290,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-12T15:36:00+05:30",
+      "ended_at": "2026-09-12T15:49:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Docs — manuscript draft",
+      "url": "https://docs.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "reviewed shared manuscript text"
+      }
+    },
+    {
+      "id": 291,
+      "watcher": "Gmail",
+      "started_at": "2026-09-12T15:49:00+05:30",
+      "ended_at": "2026-09-12T16:02:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox (1) — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "readed an administrative lab message and archived it"
+      }
+    },
+    {
+      "id": 292,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T16:02:00+05:30",
+      "ended_at": "2026-09-12T16:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "assembled introduction, methods, results, and discussion headings"
+      }
+    },
+    {
+      "id": 293,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T16:31:00+05:30",
+      "ended_at": "2026-09-12T16:54:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "moved results text and inserted figure references"
+      }
+    },
+    {
+      "id": 294,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T17:02:00+05:30",
+      "ended_at": "2026-09-12T17:24:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "filled missing transitions and marked unresolved claims"
+      }
+    },
+    {
+      "id": 295,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-12T18:40:00+05:30",
+      "ended_at": "2026-09-12T19:02:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — mechanical keyboard switches comparison",
+      "url": "https://www.google.com/search?q=mechanical+keyboard+switches+comparison",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 6,
+        "interaction": "search results"
+      }
+    },
+    {
+      "id": 296,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-12T19:02:00+05:30",
+      "ended_at": "2026-09-12T19:21:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — keyboard sound test",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 297,
+      "watcher": "VS Code",
+      "started_at": "2026-09-12T19:21:00+05:30",
+      "ended_at": "2026-09-12T19:52:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "revised remaining claims and added a limitations placeholder"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-12-01",
+        "started_at": "09:41",
+        "ended_at": "12:03",
+        "title": "Build the manuscript results around the completed experiments",
+        "summary": "The researcher reviewed the manuscript structure, expanded the results section, checked the figure-generation code, corrected legend labels, regenerated the main calibration-shift figure, and visually inspected it. The correction was to presentation rather than experimental methodology.",
+        "event_ids": [
+          280,
+          281,
+          282,
+          283,
+          284
+        ],
+        "context": "Direct continuation of the completed experimental loop from Day 11.",
+        "area": "manuscript",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-02",
+        "started_at": "12:03",
+        "ended_at": "12:43",
+        "title": "Verify manuscript citations",
+        "summary": "The researcher checked publication metadata and citation details for uncertainty-calibration references and updated the local citation records.",
+        "event_ids": [
+          285,
+          286
+        ],
+        "context": "Citation cleanup while converting exploratory notes into a coherent draft.",
+        "area": "literature",
+        "intent": "writing",
+        "quality": "medium",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-12-03",
+        "started_at": "13:59",
+        "ended_at": "16:54",
+        "title": "Write and assemble the full manuscript draft",
+        "summary": "The researcher rewrote the discussion to reflect the distribution-shift limitation, tightened the contribution statement, consolidated related work, reviewed the shared draft, handled a short administrative email, and assembled the main sections into a single draft with figure references.",
+        "event_ids": [
+          287,
+          288,
+          289,
+          290,
+          291,
+          292,
+          293
+        ],
+        "context": "The project has moved from evidence gathering toward manuscript completion.",
+        "area": "manuscript",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-04",
+        "started_at": "17:02",
+        "ended_at": "17:24",
+        "title": "Mark unresolved claims in the draft",
+        "summary": "The researcher filled missing transitions and explicitly marked claims that still need evidence or wording review rather than inventing stronger conclusions.",
+        "event_ids": [
+          294
+        ],
+        "context": "Draft quality-control pass.",
+        "area": "manuscript",
+        "intent": "review",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-05",
+        "started_at": "18:40",
+        "ended_at": "19:21",
+        "title": "Unrelated keyboard browsing",
+        "summary": "The researcher searched for mechanical keyboard switches and watched a sound-test video. The activity is unrelated to the research project.",
+        "event_ids": [
+          295,
+          296
+        ],
+        "context": "Evening browsing after the main manuscript work.",
+        "area": "unrelated",
+        "intent": "leisure",
+        "quality": "unknown",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-06",
+        "started_at": "19:21",
+        "ended_at": "19:52",
+        "title": "Return to manuscript and tighten limitations",
+        "summary": "The researcher returned to the full draft, revised remaining claims, and added a placeholder for the limitations section.",
+        "event_ids": [
+          297
+        ],
+        "context": "Return to the primary work after unrelated browsing.",
+        "area": "manuscript",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:43",
+        "ended_at": "13:59",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "16:54",
+        "ended_at": "17:02",
+        "reason": "brief offline interruption"
+      },
+      {
+        "started_at": "17:24",
+        "ended_at": "18:40",
+        "reason": "offline / personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The manuscript moved from separate section notes toward a single coherent draft.",
+      "A figure-label inconsistency was corrected without changing the underlying experiment or evaluation protocol.",
+      "The discussion and contribution statement were narrowed to match the actual evidence, especially the limitation under distribution shift.",
+      "Unresolved claims were explicitly marked instead of being strengthened without supporting evidence.",
+      "The replication study did not re-enter the core workflow and remained appropriately parked."
+    ],
+    "priority_alignment": [
+      "The day's main effort was aligned with the new post-experiment priority: manuscript completion.",
+      "Figure and citation cleanup supported the manuscript rather than expanding the experiment scope.",
+      "The brief unrelated browsing did not displace the majority of the day's research work."
+    ],
+    "important_uncertainty": [
+      "Several marked claims still need either stronger wording or direct citation support.",
+      "The current draft may expose gaps in the methods-to-results narrative that were less visible when sections were separate.",
+      "The appropriate submission venue and exact deadline remain unresolved."
+    ],
+    "possible_next_step": "Complete a full read-through of the assembled draft from introduction through discussion, focusing on logical continuity and unsupported claims before adding any new research work."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "complete_open_loop",
+      "title": "Do one end-to-end manuscript pass",
+      "reason": "The manuscript now exists as a single draft, so the highest-value next step is to identify structural gaps and unsupported claims before returning to optional experiments.",
+      "suggested_focus_minutes": 120,
+      "target": "Full Manuscript Draft"
+    },
+    "secondary_action": {
+      "action_type": "protect_priority",
+      "title": "Keep the experimental scope frozen",
+      "reason": "Today's work produced a coherent draft without needing new experiments; reopening the experimental loop now would interrupt manuscript consolidation.",
+      "suggested_focus_minutes": 10,
+      "target": "Main Research Project"
+    },
+    "things_not_to_do": [
+      "Do not treat the corrected figure labels as evidence that the underlying experiment needs to be rerun.",
+      "Do not reopen the parked replication study during the manuscript consolidation pass.",
+      "Do not fill unresolved claims with stronger language merely to make the draft read more confidently."
+    ]
+  }
+}

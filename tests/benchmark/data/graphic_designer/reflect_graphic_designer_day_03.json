@@ -1,0 +1,540 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Developing a visual identity for a local specialty coffee brand",
+      "Preparing social media campaign assets for an existing client",
+      "Building a personal portfolio case study",
+      "Handling client communication and revisions"
+    ],
+    "priorities": [
+      "Complete the coffee brand identity before the client review",
+      "Deliver the social media campaign assets on time",
+      "Build a stronger portfolio with the coffee project",
+      "Maintain existing freelance client relationships"
+    ]
+  },
+  "day": {
+    "day_number": 3,
+    "date": "2026-09-03",
+    "day_type": "client_approval_and_production_day",
+    "circumstances": [
+      "Started by clarifying the remaining Northstar Coffee feedback",
+      "The client approved the general logo direction but requested a few practical brand applications",
+      "Shifted from exploration toward production of the identity system",
+      "Spent a long uninterrupted period preparing logo variants and basic brand assets",
+      "A small urgent social media request arrived in the afternoon",
+      "Portfolio work was intentionally kept short while the client project moved toward completion",
+      "Ended with file organization and a preliminary handoff package rather than a fully closed project"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:11",
+      "last_seen": "21:42",
+      "approx_active_hours": 9.1,
+      "longest_unobserved_gap_minutes": 81
+    }
+  },
+  "raw_events": [
+    {
+      "id": 59,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:11:00+05:30",
+      "ended_at": "2026-09-03T09:24:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 60,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:24:00+05:30",
+      "ended_at": "2026-09-03T09:43:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "design-client",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 61,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:43:00+05:30",
+      "ended_at": "2026-09-03T09:57:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Northstar Coffee / Review Export",
+      "url": "https://drive.google.com/drive/...",
+      "payload": null
+    },
+    {
+      "id": 62,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T09:57:00+05:30",
+      "ended_at": "2026-09-03T10:18:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 63,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:18:00+05:30",
+      "ended_at": "2026-09-03T10:47:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 64,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T10:47:00+05:30",
+      "ended_at": "2026-09-03T11:06:00+05:30",
+      "app": "Adobe Illustrator",
+      "browser": null,
+      "title": "northstar_logo_concepts.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 65,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T11:06:00+05:30",
+      "ended_at": "2026-09-03T11:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 66,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T11:18:00+05:30",
+      "ended_at": "2026-09-03T12:04:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand System",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 67,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T12:04:00+05:30",
+      "ended_at": "2026-09-03T12:31:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand System",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 68,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T12:31:00+05:30",
+      "ended_at": "2026-09-03T12:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Unsplash",
+      "url": "https://unsplash.com/s/photos/coffee...",
+      "payload": null
+    },
+    {
+      "id": 69,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T12:44:00+05:30",
+      "ended_at": "2026-09-03T13:26:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand System",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 70,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T13:26:00+05:30",
+      "ended_at": "2026-09-03T13:39:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Northstar Coffee / Assets",
+      "url": "https://drive.google.com/drive/...",
+      "payload": null
+    },
+    {
+      "id": 71,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:00:00+05:30",
+      "ended_at": "2026-09-03T15:18:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "September Social Set",
+      "url": "https://www.canva.com/design/...",
+      "payload": null
+    },
+    {
+      "id": 72,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:18:00+05:30",
+      "ended_at": "2026-09-03T15:29:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 73,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:29:00+05:30",
+      "ended_at": "2026-09-03T15:52:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "September Social Set",
+      "url": "https://www.canva.com/design/...",
+      "payload": null
+    },
+    {
+      "id": 74,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T15:52:00+05:30",
+      "ended_at": "2026-09-03T16:07:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pexels",
+      "url": "https://www.pexels.com/search/coffee/",
+      "payload": null
+    },
+    {
+      "id": 75,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T16:07:00+05:30",
+      "ended_at": "2026-09-03T16:31:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "September Social Set",
+      "url": "https://www.canva.com/design/...",
+      "payload": null
+    },
+    {
+      "id": 76,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T16:31:00+05:30",
+      "ended_at": "2026-09-03T16:48:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "design-client",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 77,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T16:48:00+05:30",
+      "ended_at": "2026-09-03T17:03:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand System",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 78,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:03:00+05:30",
+      "ended_at": "2026-09-03T17:41:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand System",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 79,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:41:00+05:30",
+      "ended_at": "2026-09-03T17:55:00+05:30",
+      "app": "Adobe Illustrator",
+      "browser": null,
+      "title": "northstar_logo_final.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 80,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T17:55:00+05:30",
+      "ended_at": "2026-09-03T18:12:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Northstar Coffee / Assets",
+      "url": "https://drive.google.com/drive/...",
+      "payload": null
+    },
+    {
+      "id": 81,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T19:33:00+05:30",
+      "ended_at": "2026-09-03T19:49:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "portfolio — Case Studies",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 82,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T19:49:00+05:30",
+      "ended_at": "2026-09-03T20:06:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "portfolio — Case Studies",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 83,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T20:06:00+05:30",
+      "ended_at": "2026-09-03T20:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 84,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T20:21:00+05:30",
+      "ended_at": "2026-09-03T20:46:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "portfolio — Case Studies",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 85,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T20:46:00+05:30",
+      "ended_at": "2026-09-03T21:02:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 86,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T21:02:00+05:30",
+      "ended_at": "2026-09-03T21:24:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Northstar Coffee / Handoff",
+      "url": "https://drive.google.com/drive/...",
+      "payload": null
+    },
+    {
+      "id": 87,
+      "watcher": "desktop",
+      "started_at": "2026-09-03T21:24:00+05:30",
+      "ended_at": "2026-09-03T21:42:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-03-01",
+        "started_at": "09:11",
+        "ended_at": "10:18",
+        "title": "Client approval review and identity setup",
+        "summary": "Reviewed the client's response, confirmed the preferred direction, and opened the working files to begin turning the approved concept into a more complete identity system.",
+        "event_ids": [59, 60, 61, 62],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-02",
+        "started_at": "10:18",
+        "ended_at": "11:18",
+        "title": "Logo refinement and type system",
+        "summary": "Refined the approved logo direction and compared typography options before establishing a more consistent visual treatment.",
+        "event_ids": [63, 64, 65],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-03",
+        "started_at": "11:18",
+        "ended_at": "13:39",
+        "title": "Building the coffee brand system",
+        "summary": "Converted the approved direction into practical identity components, including layout rules and supporting visual elements, then organized the resulting assets.",
+        "event_ids": [66, 67, 68, 69, 70],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-04",
+        "started_at": "15:00",
+        "ended_at": "16:48",
+        "title": "Urgent social campaign revision",
+        "summary": "Responded to a small but time-sensitive social media request, selecting a suitable image and updating several campaign assets before confirming the changes with the client.",
+        "event_ids": [71, 72, 73, 74, 75, 76],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Create",
+        "quality": "Production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-05",
+        "started_at": "16:48",
+        "ended_at": "18:12",
+        "title": "Final Northstar asset preparation",
+        "summary": "Returned to the coffee identity, completed several remaining brand-system elements, refined the final logo file, and organized the assets for a preliminary handoff.",
+        "event_ids": [77, 78, 79, 80],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-03-06",
+        "started_at": "19:33",
+        "ended_at": "20:46",
+        "title": "Portfolio case study assembly",
+        "summary": "Continued assembling the Northstar Coffee case study and used another portfolio as a reference for how to present the project process.",
+        "event_ids": [81, 82, 83, 84],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-03-07",
+        "started_at": "20:46",
+        "ended_at": "21:02",
+        "title": "Unclear video browsing",
+        "summary": "Watched a YouTube video, but the available evidence does not establish whether it was related to design work.",
+        "event_ids": [85],
+        "context": "Ambiguous",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-03-08",
+        "started_at": "21:02",
+        "ended_at": "21:42",
+        "title": "Handoff preparation and client communication",
+        "summary": "Reviewed the organized Northstar files as a preliminary handoff package and checked final client communication.",
+        "event_ids": [86, 87],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:39",
+        "ended_at": "15:00",
+        "reason": "Lunch and offline personal activity"
+      },
+      {
+        "started_at": "18:12",
+        "ended_at": "19:33",
+        "reason": "Dinner and personal activity"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Northstar Coffee project moved from exploration and revision into production after the client approved the general direction.",
+      "A substantial portion of the day was spent converting the chosen concept into usable identity assets rather than continuing open-ended exploration.",
+      "The urgent social campaign request interrupted the identity work, but the designer returned to Northstar afterward and continued toward handoff.",
+      "The preliminary Northstar handoff package represents meaningful progress, although the project should not yet be considered fully complete.",
+      "Portfolio work continued for more than an hour and is beginning to use the coffee project as a case study rather than remaining a separate abstract task.",
+      "The later YouTube session remains ambiguous and should not automatically be treated as distraction."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Complete the coffee brand identity before the client review",
+        "assessment": "nearly completed"
+      },
+      {
+        "priority": "Deliver the social media campaign assets on time",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Build a stronger portfolio with the coffee project",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Maintain existing freelance client relationships",
+        "assessment": "meaningfully progressed"
+      }
+    ],
+    "important_uncertainty": [
+      "The preliminary handoff does not prove that every requested identity application is complete.",
+      "The available communication evidence does not establish whether the client has formally accepted the full handoff.",
+      "The YouTube session cannot be classified reliably from the observed window alone.",
+      "Offline periods remain completely unobserved."
+    ],
+    "possible_next_step": "Confirm whether the Northstar handoff has any remaining client requirements before spending another large block on refinements, and then give the portfolio case study a more deliberate block."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the Northstar handoff",
+      "action_type": "complete_open_loop",
+      "reason": "The identity has moved into production and a preliminary handoff exists, so confirming the remaining client requirements is more valuable than starting another broad exploration cycle.",
+      "suggested_focus_minutes": 30,
+      "target": "Northstar Coffee"
+    },
+    "secondary_action": {
+      "title": "Protect portfolio time",
+      "action_type": "protect_priority",
+      "reason": "The portfolio case study has begun receiving consistent attention and can now build directly on the nearly completed client project.",
+      "suggested_focus_minutes": 60,
+      "target": "Portfolio"
+    },
+    "things_not_to_do": [
+      "Do not treat the urgent social request as inherently harmful to the main project.",
+      "Do not assume the Northstar project is completely finished solely because files were organized for handoff.",
+      "Do not characterize Behance or asset browsing as distraction without evidence of its purpose.",
+      "Do not infer that the YouTube session was unproductive.",
+      "Do not assume offline time was wasted.",
+      "Do not recommend abandoning portfolio work merely because client work is currently more urgent."
+    ]
+  }
+}

@@ -1,0 +1,489 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Finalizing a bounded methods note on calibration sensitivity to noisy prevalence estimates",
+      "Seeking internal feedback on the pilot interpretation",
+      "Maintaining the standardized experiment pipeline",
+      "Considering longer-term follow-up questions without expanding the current study"
+    ],
+    "priorities": [
+      "Circulate the bounded methods note for useful feedback",
+      "Resolve concrete reviewer or collaborator comments without reopening the experiment scope",
+      "Preserve the reproducible pilot configuration",
+      "Separate future research ideas from the current deliverable"
+    ]
+  },
+  "day": {
+    "day_number": 30,
+    "date": "2026-09-30",
+    "day_type": "feedback_and_revision_day",
+    "circumstances": [
+      "The researcher sends the bounded methods note to a collaborator and then works on a final pre-circulation pass. Feedback arrives later in the day: the collaborator questions whether the term 'robustness' is too strong and asks for a clearer distinction between prevalence-estimation noise and actual prevalence shift. The researcher checks the cited papers and the pilot configuration, then revises terminology and adds a small clarification to the methods section. They also discover that one figure caption implies a comparison that was not actually performed and correct it. A short attempt to formulate a broader follow-up question is parked after the researcher realizes it would require new datasets and assumptions. The day ends with the revised note ready for another read-through."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:06",
+      "last_seen": "19:14",
+      "approx_active_hours": 7.0,
+      "longest_unobserved_gap_minutes": 88
+    }
+  },
+  "raw_events": [
+    {
+      "id": 599,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T09:06:00+05:30",
+      "ended_at": "2026-09-30T09:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "read-through for clarity and unsupported claims"
+      }
+    },
+    {
+      "id": 600,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T09:31:00+05:30",
+      "ended_at": "2026-09-30T09:54:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "tightened results wording and checked references"
+      }
+    },
+    {
+      "id": 601,
+      "watcher": "Gmail",
+      "started_at": "2026-09-30T09:54:00+05:30",
+      "ended_at": "2026-09-30T10:18:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — inbox",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "sent methods note to collaborator for feedback"
+      }
+    },
+    {
+      "id": 602,
+      "watcher": "Gmail",
+      "started_at": "2026-09-30T10:18:00+05:30",
+      "ended_at": "2026-09-30T10:31:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — sent",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked sent message and attachment"
+      }
+    },
+    {
+      "id": 603,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T10:31:00+05:30",
+      "ended_at": "2026-09-30T11:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — README.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "README.md",
+        "interaction": "checked reproduction steps and configuration references"
+      }
+    },
+    {
+      "id": 604,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T11:03:00+05:30",
+      "ended_at": "2026-09-30T11:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "cross-checked terminology against experiment configuration"
+      }
+    },
+    {
+      "id": 605,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-30T11:29:00+05:30",
+      "ended_at": "2026-09-30T11:52:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Scholar — prevalence shift calibration terminology",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "checked terminology and related definitions"
+      }
+    },
+    {
+      "id": 606,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-30T11:52:00+05:30",
+      "ended_at": "2026-09-30T12:16:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — calibration under label shift",
+      "url": "https://example.org/label-shift-calibration.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked distinction between shift assumptions and prevalence-estimation error"
+      }
+    },
+    {
+      "id": 607,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T12:16:00+05:30",
+      "ended_at": "2026-09-30T12:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "revised terminology and added clarification to evaluation protocol"
+      }
+    },
+    {
+      "id": 608,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T12:48:00+05:30",
+      "ended_at": "2026-09-30T13:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — figures/figure_method_noise.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "figures/figure_method_noise.py",
+        "interaction": "checked figure labels and caption wording"
+      }
+    },
+    {
+      "id": 609,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T13:17:00+05:30",
+      "ended_at": "2026-09-30T13:42:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "corrected a figure caption that implied an unperformed comparison"
+      }
+    },
+    {
+      "id": 610,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T13:42:00+05:30",
+      "ended_at": "2026-09-30T14:09:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "reviewed revised note end-to-end"
+      }
+    },
+    {
+      "id": 611,
+      "watcher": "Gmail",
+      "started_at": "2026-09-30T14:09:00+05:30",
+      "ended_at": "2026-09-30T14:34:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — inbox",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "received collaborator feedback on methods note"
+      }
+    },
+    {
+      "id": 612,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T14:34:00+05:30",
+      "ended_at": "2026-09-30T15:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "reviewed comments about terminology and scope"
+      }
+    },
+    {
+      "id": 613,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T15:02:00+05:30",
+      "ended_at": "2026-09-30T15:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "revised use of robustness and prevalence-shift terminology"
+      }
+    },
+    {
+      "id": 614,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T15:29:00+05:30",
+      "ended_at": "2026-09-30T15:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "added collaborator-requested clarification and updated limitations"
+      }
+    },
+    {
+      "id": 615,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T15:58:00+05:30",
+      "ended_at": "2026-09-30T16:26:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "sketched a possible broader follow-up involving additional datasets"
+      }
+    },
+    {
+      "id": 616,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T16:26:00+05:30",
+      "ended_at": "2026-09-30T16:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_question.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_question.md",
+        "interaction": "checked whether broader follow-up was required to support current note"
+      }
+    },
+    {
+      "id": 617,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-30T16:48:00+05:30",
+      "ended_at": "2026-09-30T17:09:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Amazon — USB microphone stands",
+      "url": "https://www.amazon.in/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "viewed product listings"
+      }
+    },
+    {
+      "id": 618,
+      "watcher": "VS Code",
+      "started_at": "2026-09-30T18:37:00+05:30",
+      "ended_at": "2026-09-30T19:14:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — methods_note.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "methods_note.md",
+        "interaction": "final read-through after collaborator revisions"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-30-01",
+        "started_at": "09:06",
+        "ended_at": "14:09",
+        "title": "Prepare and circulate the bounded methods note",
+        "summary": "The researcher completed a pre-circulation review, sent the methods note to a collaborator, checked reproduction instructions and terminology, and corrected a figure caption that implied a comparison not actually performed.",
+        "event_ids": [
+          599,
+          600,
+          601,
+          602,
+          603,
+          604,
+          605,
+          606,
+          607,
+          608,
+          609,
+          610
+        ],
+        "context": "Finalization of the bounded pilot artifact established over the previous several days.",
+        "area": "methods note",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-30-02",
+        "started_at": "14:09",
+        "ended_at": "15:58",
+        "title": "Incorporate collaborator feedback",
+        "summary": "The collaborator questioned whether 'robustness' was too strong and requested a clearer distinction between prevalence-estimation noise and prevalence shift. The researcher checked related literature and revised terminology, methods wording, and limitations.",
+        "event_ids": [
+          611,
+          612,
+          613,
+          614
+        ],
+        "context": "External feedback on the bounded note exposed a framing issue rather than a need for new experiments.",
+        "area": "methods note",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-30-03",
+        "started_at": "15:58",
+        "ended_at": "16:48",
+        "title": "Explore and park a broader follow-up",
+        "summary": "The researcher sketched a possible broader study involving additional datasets, then checked it against the current research question and determined that it was not required for the present note.",
+        "event_ids": [
+          615,
+          616
+        ],
+        "context": "Separating a plausible future study from the current bounded deliverable.",
+        "area": "future research",
+        "intent": "exploration",
+        "quality": "medium",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-30-04",
+        "started_at": "16:48",
+        "ended_at": "17:09",
+        "title": "Incidental equipment browsing",
+        "summary": "The researcher viewed USB microphone stand listings unrelated to the research deliverable.",
+        "event_ids": [
+          617
+        ],
+        "context": "Short personal browsing period.",
+        "area": "personal",
+        "intent": "leisure",
+        "quality": "neutral",
+        "importance": "low"
+      },
+      {
+        "id": "gt-30-05",
+        "started_at": "18:37",
+        "ended_at": "19:14",
+        "title": "Final read-through after revision",
+        "summary": "The researcher returned to the revised methods note and completed another end-to-end read-through after incorporating collaborator feedback.",
+        "event_ids": [
+          618
+        ],
+        "context": "Closing pass after terminology and scope corrections.",
+        "area": "methods note",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "17:09",
+        "ended_at": "18:37",
+        "reason": "offline / break and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The bounded methods note was circulated and received substantive feedback focused on terminology and scope rather than missing experiments.",
+      "The distinction between prevalence-estimation noise and prevalence shift needed to be made explicit, and the wording around 'robustness' was appropriately weakened.",
+      "A figure caption was corrected because it implied a comparison that the pilot had not actually performed.",
+      "A possible broader multi-dataset study was identified but correctly separated from the current note.",
+      "The revised note is now ready for another focused read-through rather than another round of experimental expansion."
+    ],
+    "priority_alignment": [
+      "The main deliverable remained the bounded methods note.",
+      "Collaborator feedback was addressed through interpretation and documentation changes instead of automatically triggering new experiments.",
+      "Future research was kept separate from the current scope."
+    ],
+    "important_uncertainty": [
+      "The current pilot still does not establish generality across datasets.",
+      "The distinction between prevalence-estimation noise and actual prevalence shift may need to remain explicit in future versions.",
+      "It is not yet clear whether the collaborator will consider the revised framing sufficient."
+    ],
+    "possible_next_step": "Do one final focused read-through of the revised note, then send the updated version back to the collaborator if no further unsupported claims remain."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "complete_open_loop",
+      "title": "Close the collaborator revision loop",
+      "reason": "The requested changes are concrete and already implemented; the next useful step is a final read-through and return to the collaborator rather than reopening the study.",
+      "suggested_focus_minutes": 30,
+      "target": "Noisy Prevalence Calibration Study"
+    },
+    "secondary_action": {
+      "action_type": "protect_priority",
+      "title": "Keep the broader study parked",
+      "reason": "The broader multi-dataset idea is plausible but would introduce new assumptions and scope beyond the current bounded note.",
+      "suggested_focus_minutes": 5,
+      "target": "Noisy Prevalence Calibration Study"
+    },
+    "things_not_to_do": [
+      "Do not add experiments just because the collaborator questioned terminology.",
+      "Do not use 'robustness' as a stronger claim than the pilot supports.",
+      "Do not conflate prevalence-estimation noise with actual prevalence shift.",
+      "Do not let the future multi-dataset study replace finishing the current note."
+    ]
+  }
+}

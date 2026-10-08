@@ -1,0 +1,663 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life"
+  },
+  "day": {
+    "day_number": 29,
+    "date": "2026-09-29",
+    "day_type": "recording_and_first_edit",
+    "circumstances": [
+      "The creator moved the background-jobs/idempotency project from script into recording.",
+      "The main explanation was recorded and reviewed, followed by a dedicated screen capture for the duplicate-processing failure case.",
+      "The afternoon began the first Resolve edit and established the narrative around the failure case.",
+      "Thumbnail exploration started before the rough cut was final, while audience and channel maintenance remained secondary.",
+      "The day ended with a specific note that one section may benefit from a cleaner retake."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:03",
+      "last_seen": "23:07",
+      "approx_active_hours": 10.2,
+      "longest_unobserved_gap_minutes": 75
+    }
+  },
+  "raw_events": [
+    {
+      "id": 701,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:03:00+05:30",
+      "ended_at": "2026-09-29T09:17:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 702,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:17:00+05:30",
+      "ended_at": "2026-09-29T09:34:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — PostgreSQL Indexing Mistakes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 703,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:34:00+05:30",
+      "ended_at": "2026-09-29T09:51:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Indexing Mistakes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 704,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:51:00+05:30",
+      "ended_at": "2026-09-29T10:08:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 705,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T10:08:00+05:30",
+      "ended_at": "2026-09-29T10:31:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Shot Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 706,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T10:31:00+05:30",
+      "ended_at": "2026-09-29T10:49:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "idempotency key duplicate request example",
+      "url": "https://www.google.com/search?q=idempotency+key+duplicate+request+example",
+      "payload": null
+    },
+    {
+      "id": 707,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T11:32:00+05:30",
+      "ended_at": "2026-09-29T11:49:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 708,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T11:49:00+05:30",
+      "ended_at": "2026-09-29T12:21:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 709,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:21:00+05:30",
+      "ended_at": "2026-09-29T12:37:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-29_jobs_take1.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 710,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:49:00+05:30",
+      "ended_at": "2026-09-29T13:14:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Screen Capture",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 711,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T13:14:00+05:30",
+      "ended_at": "2026-09-29T13:31:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-29_jobs_demo.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 712,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T14:46:00+05:30",
+      "ended_at": "2026-09-29T15:18:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "background_jobs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 713,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:18:00+05:30",
+      "ended_at": "2026-09-29T15:52:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "background_jobs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 714,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:52:00+05:30",
+      "ended_at": "2026-09-29T16:13:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "technical explainer opening examples",
+      "url": "https://www.youtube.com/results?search_query=technical+explainer+opening+examples",
+      "payload": null
+    },
+    {
+      "id": 715,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T16:13:00+05:30",
+      "ended_at": "2026-09-29T16:46:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "background_jobs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 716,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T16:46:00+05:30",
+      "ended_at": "2026-09-29T17:03:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 717,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T17:52:00+05:30",
+      "ended_at": "2026-09-29T18:17:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "background_jobs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 718,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T18:17:00+05:30",
+      "ended_at": "2026-09-29T18:39:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "background_jobs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 719,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T18:39:00+05:30",
+      "ended_at": "2026-09-29T18:56:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Background Jobs Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 720,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T18:56:00+05:30",
+      "ended_at": "2026-09-29T19:14:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "background jobs duplicate processing thumbnail",
+      "url": "https://www.google.com/search?q=background+jobs+duplicate+processing+thumbnail",
+      "payload": null
+    },
+    {
+      "id": 721,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T19:14:00+05:30",
+      "ended_at": "2026-09-29T19:31:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Background Jobs Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 722,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T20:27:00+05:30",
+      "ended_at": "2026-09-29T20:47:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 723,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T20:47:00+05:30",
+      "ended_at": "2026-09-29T21:05:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — PostgreSQL Indexing Mistakes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 724,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T21:05:00+05:30",
+      "ended_at": "2026-09-29T21:23:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Channel Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 725,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T21:23:00+05:30",
+      "ended_at": "2026-09-29T21:42:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 726,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T21:42:00+05:30",
+      "ended_at": "2026-09-29T22:26:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 727,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T22:26:00+05:30",
+      "ended_at": "2026-09-29T22:48:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 728,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T22:48:00+05:30",
+      "ended_at": "2026-09-29T23:07:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Shot Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-29-01",
+        "started_at": "09:03",
+        "ended_at": "09:51",
+        "title": "Morning audience and release check",
+        "summary": "Checked email, reviewed comments, and looked at analytics for the recently published PostgreSQL indexing-mistakes video.",
+        "event_ids": [
+          701,
+          702,
+          703
+        ],
+        "context": "The prior release remains a source of audience feedback while the new background-jobs project enters production.",
+        "area": "creator_operations_and_community",
+        "intent": "Handle communication and inspect current release context before recording.",
+        "quality": "focused maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-02",
+        "started_at": "09:51",
+        "ended_at": "10:49",
+        "title": "Recording preparation and final script check",
+        "summary": "Reviewed the background-jobs script and shot notes, then checked one idempotency example before recording.",
+        "event_ids": [
+          704,
+          705,
+          706
+        ],
+        "context": "The hook was narrowed on Day 28 around duplicate processing and idempotency.",
+        "area": "scripting_and_recording_prep",
+        "intent": "Make the script and demo concrete enough for the recording session.",
+        "quality": "focused pre-production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-03",
+        "started_at": "10:49",
+        "ended_at": "11:32",
+        "title": "Offline recording setup",
+        "summary": "Prepared the physical recording setup away from the desktop.",
+        "event_ids": [],
+        "context": "The setup process is not observable.",
+        "area": "recording",
+        "intent": "Prepare for the main recording session.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-04",
+        "started_at": "11:32",
+        "ended_at": "12:37",
+        "title": "Main recording session",
+        "summary": "Recorded the main background-jobs explanation and reviewed the first take.",
+        "event_ids": [
+          707,
+          708,
+          709
+        ],
+        "context": "The script was considered recording-ready at the end of Day 28.",
+        "area": "recording",
+        "intent": "Capture the main talking-head and screen material.",
+        "quality": "substantive production with quality review",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-05",
+        "started_at": "12:37",
+        "ended_at": "12:49",
+        "title": "Offline recording adjustment",
+        "summary": "Made a brief physical adjustment before capturing the screen demo.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "recording",
+        "intent": "Prepare the technical demonstration segment.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-06",
+        "started_at": "12:49",
+        "ended_at": "13:31",
+        "title": "Failure-case demo capture",
+        "summary": "Captured a screen demonstration of duplicate processing and reviewed the resulting file.",
+        "event_ids": [
+          710,
+          711
+        ],
+        "context": "The failure case is the central example chosen for the video's hook.",
+        "area": "recording",
+        "intent": "Capture the concrete technical demonstration supporting the explanation.",
+        "quality": "focused production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-07",
+        "started_at": "13:31",
+        "ended_at": "14:46",
+        "title": "Offline lunch and break",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and recovery after recording.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-08",
+        "started_at": "14:46",
+        "ended_at": "16:46",
+        "title": "First background-jobs edit",
+        "summary": "Started assembling the recorded material in Resolve, briefly checked opening examples, and continued the rough cut.",
+        "event_ids": [
+          712,
+          713,
+          714,
+          715
+        ],
+        "context": "Usable main footage and a concrete demo are now available.",
+        "area": "editing",
+        "intent": "Build the first coherent cut and improve the opening.",
+        "quality": "substantive production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-09",
+        "started_at": "16:46",
+        "ended_at": "17:03",
+        "title": "Creator chat",
+        "summary": "Spent a short session in a creator Discord channel.",
+        "event_ids": [
+          716
+        ],
+        "context": "Exact purpose is not observable.",
+        "area": "community",
+        "intent": "Peer or social interaction.",
+        "quality": "ambiguous communication",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-10",
+        "started_at": "17:03",
+        "ended_at": "17:52",
+        "title": "Offline break",
+        "summary": "Spent a period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Break between editing blocks.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-11",
+        "started_at": "17:52",
+        "ended_at": "18:39",
+        "title": "Rough-cut continuation",
+        "summary": "Continued refining the background-jobs cut and tightened the transition into the failure-case demo.",
+        "event_ids": [
+          717,
+          718
+        ],
+        "context": "The first edit is being shaped around the duplicate-processing story.",
+        "area": "editing",
+        "intent": "Make the technical example land clearly in the narrative.",
+        "quality": "focused production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-12",
+        "started_at": "18:39",
+        "ended_at": "19:31",
+        "title": "Thumbnail exploration",
+        "summary": "Tested a background-jobs thumbnail, searched for a duplicate-processing visual, and refined the design.",
+        "event_ids": [
+          719,
+          720,
+          721
+        ],
+        "context": "Packaging is being explored while the edit remains rough.",
+        "area": "thumbnail_design",
+        "intent": "Find a clear visual hook for the technical topic.",
+        "quality": "exploratory packaging",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-13",
+        "started_at": "19:31",
+        "ended_at": "20:27",
+        "title": "Offline dinner",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Dinner and evening transition.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-14",
+        "started_at": "20:27",
+        "ended_at": "21:42",
+        "title": "Community and channel maintenance",
+        "summary": "Checked Instagram direct messages, reviewed comments on the PostgreSQL indexing-mistakes video, updated channel metrics, and looked over the idea list.",
+        "event_ids": [
+          722,
+          723,
+          724,
+          725
+        ],
+        "context": "The creator is maintaining the audience loop while the new project is still in editing.",
+        "area": "community_analytics_and_ideation",
+        "intent": "Handle audience activity and preserve current channel records.",
+        "quality": "mixed maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-15",
+        "started_at": "21:42",
+        "ended_at": "22:48",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          726,
+          727
+        ],
+        "context": "Normal evening leisure.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-16",
+        "started_at": "22:48",
+        "ended_at": "23:07",
+        "title": "Recording note closeout",
+        "summary": "Added a note to the shot document after reviewing the first edit, identifying one section that may need a cleaner retake.",
+        "event_ids": [
+          728
+        ],
+        "context": "The first cut exists but is not yet final.",
+        "area": "editing_and_project_management",
+        "intent": "Preserve the next concrete correction for the next session.",
+        "quality": "useful closeout",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:49",
+        "ended_at": "11:32",
+        "reason": "Offline recording setup"
+      },
+      {
+        "started_at": "12:37",
+        "ended_at": "12:49",
+        "reason": "Offline recording adjustment"
+      },
+      {
+        "started_at": "13:31",
+        "ended_at": "14:46",
+        "reason": "Offline lunch and break"
+      },
+      {
+        "started_at": "17:03",
+        "ended_at": "17:52",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "19:31",
+        "ended_at": "20:27",
+        "reason": "Offline dinner"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The background-jobs project crossed from scripting into recording, with both the main explanation and the failure-case demo captured.",
+      "The creator reviewed the first main take instead of assuming it was usable, then separately captured the key duplicate-processing demo.",
+      "A first rough cut was started the same day, so the project now has recorded material and an initial narrative structure.",
+      "The edit was explicitly shaped around the concrete failure case, matching the narrower hook developed over the prior days.",
+      "Thumbnail work began while the edit was rough, but the creator also left a concrete note that one section may need a cleaner retake.",
+      "Community and analytics activity remained secondary and did not visibly redirect the production plan."
+    ],
+    "priority_alignment": [
+      "The creator advanced the active background-jobs project through recording and into editing rather than reopening the topic decision.",
+      "The central technical failure case was captured as a dedicated demo, strengthening continuity with the chosen hook.",
+      "Secondary channel maintenance stayed bounded around the main production work."
+    ],
+    "important_uncertainty": [
+      "The raw timeline cannot establish why the first main take was insufficient or exactly which section needs a retake.",
+      "The rough cut is incomplete; no final review, export, or publication is visible.",
+      "The thumbnail is exploratory and may change after the edit is complete.",
+      "The exact audience signals from the PostgreSQL video are not visible in the tracker.",
+      "Instagram direct messages and general browsing intent are not fully distinguishable from the available events.",
+      "Offline recording setup and personal periods are unobserved."
+    ],
+    "possible_next_step": "Finish the rough cut end-to-end, then review the flagged section in context and record only a targeted retake if it remains necessary."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the rough cut",
+      "action_type": "complete_open_loop",
+      "reason": "The project now has the main footage, a dedicated failure-case demo, and an initial edit; the next useful step is to see the complete narrative before deciding whether the flagged retake is actually needed.",
+      "target": "Background Jobs / Idempotency video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the flagged section definitely needs a retake before seeing the complete cut.",
+      "Do not prioritize thumbnail polishing over completing the narrative edit.",
+      "Do not reopen broad research into background-job architecture while usable footage is already available.",
+      "Do not infer audience sentiment from the visible comments or analytics screens.",
+      "Do not treat creator-chat activity as content work without stronger intent evidence.",
+      "Do not infer offline recording details."
+    ]
+  }
+}

@@ -1,0 +1,428 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Keeping up with current semester coursework",
+      "Completing a new Software Engineering mini-assignment",
+      "Working with classmates on a semester project"
+    ],
+    "priorities": [
+      "Complete the Software Engineering mini-assignment",
+      "Keep up with current coursework",
+      "Make progress on the semester group project"
+    ]
+  },
+  "day": {
+    "day_number": 7,
+    "date": "2026-09-07",
+    "day_type": "monday_coursework_and_project_day",
+    "circumstances": [
+      "Monday included regular college classes, with several hours of activity occurring away from the laptop.",
+      "A new Software Engineering mini-assignment became the main academic task after the Computer Networks lab reached its submission point on the previous day.",
+      "The student spent a sustained afternoon block researching use-case modelling and assembling the assignment, with a short classmate interruption in the middle.",
+      "The semester project received a smaller implementation block later in the day rather than becoming the main focus.",
+      "The evening included ordinary gaming and social time before a brief coursework check."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:05",
+      "last_seen": "21:11",
+      "approx_active_hours": 6.7,
+      "longest_unobserved_gap_minutes": 257
+    }
+  },
+  "raw_events": [
+    {
+      "id": 122,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T08:05:00+05:30",
+      "ended_at": "2026-09-07T08:14:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 123,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T08:14:00+05:30",
+      "ended_at": "2026-09-07T08:29:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Stream — Computer Science",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 124,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T12:46:00+05:30",
+      "ended_at": "2026-09-07T13:02:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Software Engineering — Course Materials",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 125,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T13:02:00+05:30",
+      "ended_at": "2026-09-07T13:20:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "SE Mini Assignment — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 126,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T13:20:00+05:30",
+      "ended_at": "2026-09-07T13:38:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "use case diagram include extend generalization",
+      "url": "https://www.google.com/search",
+      "payload": null
+    },
+    {
+      "id": 127,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T13:38:00+05:30",
+      "ended_at": "2026-09-07T14:10:00+05:30",
+      "app": "diagrams.net",
+      "browser": "Chrome",
+      "title": "Untitled Diagram",
+      "url": "https://app.diagrams.net/",
+      "payload": null
+    },
+    {
+      "id": 128,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T14:10:00+05:30",
+      "ended_at": "2026-09-07T14:39:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "SE Mini Assignment — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 129,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T14:39:00+05:30",
+      "ended_at": "2026-09-07T14:54:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "UML Use Case Diagram Explained",
+      "url": "https://www.youtube.com/watch?v=example",
+      "payload": null
+    },
+    {
+      "id": 130,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T14:54:00+05:30",
+      "ended_at": "2026-09-07T15:07:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 131,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T15:07:00+05:30",
+      "ended_at": "2026-09-07T15:32:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "SE Mini Assignment — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 132,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T16:18:00+05:30",
+      "ended_at": "2026-09-07T16:31:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 133,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T16:31:00+05:30",
+      "ended_at": "2026-09-07T16:46:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Issues",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 134,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T16:46:00+05:30",
+      "ended_at": "2026-09-07T17:24:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — api.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 135,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T17:24:00+05:30",
+      "ended_at": "2026-09-07T17:38:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 136,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T17:38:00+05:30",
+      "ended_at": "2026-09-07T17:52:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Express Router Error Handling Tutorial",
+      "url": "https://www.youtube.com/watch?v=example2",
+      "payload": null
+    },
+    {
+      "id": 137,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T17:52:00+05:30",
+      "ended_at": "2026-09-07T18:41:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 138,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T18:41:00+05:30",
+      "ended_at": "2026-09-07T19:03:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 139,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T20:26:00+05:30",
+      "ended_at": "2026-09-07T20:41:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Software Engineering — Course Materials",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 140,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T20:41:00+05:30",
+      "ended_at": "2026-09-07T20:58:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "My Drive — SE Mini Assignment",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 141,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T20:58:00+05:30",
+      "ended_at": "2026-09-07T21:11:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-07-01",
+        "started_at": "08:05",
+        "ended_at": "08:29",
+        "title": "Morning college and coursework check",
+        "summary": "Reviewed email and the college course stream before leaving for classes.",
+        "event_ids": [
+          122,
+          123
+        ],
+        "context": "Normal Monday start before campus classes.",
+        "area": "coursework",
+        "intent": "Review current academic information and notices.",
+        "quality": "routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-02",
+        "started_at": "12:46",
+        "ended_at": "15:32",
+        "title": "Software Engineering mini-assignment work",
+        "summary": "Opened the newly relevant Software Engineering task, researched use-case modelling, created a diagram, and drafted the written submission. A short WhatsApp interruption occurred before the student returned to the document.",
+        "event_ids": [
+          124,
+          125,
+          126,
+          127,
+          128,
+          129,
+          130,
+          131
+        ],
+        "context": "The Networks lab from the prior days had reached a submission point, leaving this newer coursework task as the main open academic item.",
+        "area": "coursework",
+        "intent": "Understand the assignment requirements and produce the required use-case model and explanation.",
+        "quality": "substantive progress with a brief interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-03",
+        "started_at": "16:18",
+        "ended_at": "16:31",
+        "title": "Semester project coordination",
+        "summary": "Checked the project chat and aligned on what to work on next.",
+        "event_ids": [
+          132
+        ],
+        "context": "The group had left the project in planning on Sunday and was moving toward implementation.",
+        "area": "semester_project",
+        "intent": "Coordinate the next implementation step with teammates.",
+        "quality": "useful coordination",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-07-04",
+        "started_at": "16:31",
+        "ended_at": "17:52",
+        "title": "Semester project API implementation and debugging",
+        "summary": "Reviewed an issue, edited the project API code, ran tests, and used a targeted tutorial to investigate error handling.",
+        "event_ids": [
+          133,
+          134,
+          135,
+          136
+        ],
+        "context": "This was the first concrete implementation work after the planning-focused project session on Sunday.",
+        "area": "semester_project",
+        "intent": "Implement the next API change and resolve a test/error-handling issue.",
+        "quality": "focused technical progress",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-07-05",
+        "started_at": "17:52",
+        "ended_at": "19:03",
+        "title": "Gaming and social time",
+        "summary": "Played Hades and then spent time chatting with friends on Discord.",
+        "event_ids": [
+          137,
+          138
+        ],
+        "context": "Ordinary leisure after the afternoon academic and project work.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-06",
+        "started_at": "20:26",
+        "ended_at": "21:11",
+        "title": "Evening coursework and submission check",
+        "summary": "Revisited the Software Engineering course page and assignment folder to check the current submission materials, then checked email.",
+        "event_ids": [
+          139,
+          140,
+          141
+        ],
+        "context": "The mini-assignment draft had progressed substantially but had not clearly reached final submission during the afternoon.",
+        "area": "coursework",
+        "intent": "Verify assignment materials and any new course or submission information.",
+        "quality": "brief verification",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:29",
+        "ended_at": "12:46",
+        "reason": "College classes and campus activity away from the laptop"
+      },
+      {
+        "started_at": "15:32",
+        "ended_at": "16:18",
+        "reason": "Snack, short break, and offline personal activity"
+      },
+      {
+        "started_at": "19:03",
+        "ended_at": "20:26",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The main academic thread shifted from the completed Computer Networks lab to a new Software Engineering mini-assignment, with substantial afternoon progress on research, modelling, and drafting.",
+      "The student returned to the semester project after Sunday's planning session and moved from coordination into actual API implementation and testing.",
+      "YouTube appeared in two different contexts: one targeted to understand UML use-case modelling and another used to investigate an API error-handling problem; the gaming session was separate.",
+      "The Software Engineering task appears substantially developed but not clearly submitted, making it the most concrete open loop from the observed laptop activity."
+    ],
+    "priority_alignment": [
+      "Software Engineering coursework received the largest observed work block and is the strongest current academic priority.",
+      "The semester project moved from planning toward implementation, which is meaningful progress but smaller than the coursework block."
+    ],
+    "important_uncertainty": [
+      "The evening Classroom/Drive revisit suggests a submission check, but the observed events do not prove that the Software Engineering assignment was finally submitted or accepted.",
+      "Several hours of classes and other offline activity are unobserved, so the laptop timeline does not represent the whole day.",
+      "The project tutorial and coding indicate implementation/debugging activity, but the observed events alone do not establish how much of the underlying issue was fully resolved."
+    ],
+    "possible_next_step": "Finish and submit the Software Engineering mini-assignment before spending another large block on the semester project."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the Software Engineering assignment",
+      "action_type": "complete_open_loop",
+      "reason": "The assignment received most of the day's academic work but remained visibly open at the evening check.",
+      "suggested_focus_minutes": 45,
+      "target": "Software Engineering Mini-Assignment"
+    },
+    "secondary_action": {
+      "title": "Continue the semester project API task",
+      "action_type": "continue_successful_behavior",
+      "reason": "The project moved from planning into implementation and testing today, so a short follow-up block would preserve that momentum after the assignment is closed.",
+      "suggested_focus_minutes": 30,
+      "target": "Semester Project"
+    },
+    "things_not_to_do": [
+      "Do not assume the Software Engineering assignment was submitted just because its materials were revisited in the evening.",
+      "Do not treat the long offline class period as missing productivity or wasted time.",
+      "Do not classify the two YouTube sessions identically; their contexts indicate different purposes.",
+      "Do not criticize the gaming or friend-chat period as inherently harmful.",
+      "Do not infer that the project bug was fully solved from the code/test/tutor sequence alone."
+    ]
+  }
+}

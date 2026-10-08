@@ -1,0 +1,467 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "New small brand identity brief",
+      "Social media campaign assets for an existing client",
+      "Northstar Coffee portfolio case study",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Complete the new brand identity brief",
+      "Deliver recurring social campaign work",
+      "Finish the Northstar Coffee portfolio case study",
+      "Maintain client relationships"
+    ]
+  },
+  "day": {
+    "day_number": 29,
+    "date": "2026-09-29",
+    "day_type": "client_revision_and_parallel_delivery_day",
+    "circumstances": [
+      "The client requested a bounded wordmark adjustment and another application example. The selected identity was revised and the updated presentation was sent back, but final approval is not evidenced.",
+      "One additional format was produced and delivered using the existing campaign system.",
+      "The unfinished case-study narrative received a focused refinement block.",
+      "Pinterest and YouTube may have supported visual research or professional learning, but the raw events do not establish their exact necessity or value.",
+      "A short lettering practice session occurred separately from client deliverables."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:08",
+      "last_seen": "20:22",
+      "approx_active_hours": 7.7,
+      "longest_unobserved_gap_minutes": 86
+    }
+  },
+  "raw_events": [
+    {
+      "id": 678,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:08:00+05:30",
+      "ended_at": "2026-09-29T09:24:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 679,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:24:00+05:30",
+      "ended_at": "2026-09-29T09:42:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Food Brand — Project Notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 680,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T09:42:00+05:30",
+      "ended_at": "2026-09-29T10:05:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 681,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T10:05:00+05:30",
+      "ended_at": "2026-09-29T10:29:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Logo",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 682,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T10:49:00+05:30",
+      "ended_at": "2026-09-29T11:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 683,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T11:13:00+05:30",
+      "ended_at": "2026-09-29T11:46:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 684,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T11:46:00+05:30",
+      "ended_at": "2026-09-29T12:07:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 685,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:07:00+05:30",
+      "ended_at": "2026-09-29T12:41:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Territories",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 686,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:41:00+05:30",
+      "ended_at": "2026-09-29T13:02:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 687,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T14:17:00+05:30",
+      "ended_at": "2026-09-29T14:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 688,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T14:31:00+05:30",
+      "ended_at": "2026-09-29T14:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 689,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T14:46:00+05:30",
+      "ended_at": "2026-09-29T15:02:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "social-client",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 690,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:02:00+05:30",
+      "ended_at": "2026-09-29T15:39:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — September Assets",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 691,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:39:00+05:30",
+      "ended_at": "2026-09-29T16:03:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — September Assets",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 692,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T16:03:00+05:30",
+      "ended_at": "2026-09-29T16:18:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Social Campaign / Handoff",
+      "url": "https://drive.google.com/drive/",
+      "payload": null
+    },
+    {
+      "id": 693,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T16:18:00+05:30",
+      "ended_at": "2026-09-29T16:32:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 694,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T16:42:00+05:30",
+      "ended_at": "2026-09-29T17:06:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 695,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T17:06:00+05:30",
+      "ended_at": "2026-09-29T17:38:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 696,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T19:04:00+05:30",
+      "ended_at": "2026-09-29T19:31:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "lettering-study-03.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 697,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T19:31:00+05:30",
+      "ended_at": "2026-09-29T19:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 698,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T19:58:00+05:30",
+      "ended_at": "2026-09-29T20:22:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-29-01",
+        "started_at": "09:08",
+        "ended_at": "11:46",
+        "title": "New food-business identity — design work",
+        "summary": "Read client feedback on the revised identity; client asked for a small wordmark proportion change and one more application example. Updated project notes with the requested changes and a short revision checklist. Reviewed the selected identity direction and marked the wordmark elements requiring adjustment. Adjusted wordmark proportions, spacing, and alignment based on the client feedback.",
+        "event_ids": [
+          678,
+          679,
+          680,
+          681,
+          682,
+          683
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-02",
+        "started_at": "11:46",
+        "ended_at": "12:07",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Browsed packaging and identity references for the requested application example.",
+        "event_ids": [
+          684
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-03",
+        "started_at": "12:07",
+        "ended_at": "13:02",
+        "title": "New food-business identity — design work",
+        "summary": "Built the additional application mockup using the revised identity direction. Refined the presentation board and prepared the updated identity slides.",
+        "event_ids": [
+          685,
+          686
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-04",
+        "started_at": "14:17",
+        "ended_at": "14:46",
+        "title": "New food-business identity — client communication",
+        "summary": "Reviewed the client email thread and prepared a concise delivery response. Sent the revised identity presentation and noted the requested changes completed.",
+        "event_ids": [
+          687,
+          688
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-05",
+        "started_at": "14:46",
+        "ended_at": "16:32",
+        "title": "Social campaign — design work",
+        "summary": "Received a short social campaign request for one additional format using an existing design. Opened the social campaign file and adapted the existing composition to the requested format. Checked typography, crop, and export dimensions for the social asset. Uploaded the social campaign asset and organized the export alongside the previous variants.",
+        "event_ids": [
+          689,
+          690,
+          691,
+          692,
+          693
+        ],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-06",
+        "started_at": "16:42",
+        "ended_at": "17:38",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Returned to the Northstar Coffee portfolio case study and reviewed the unfinished narrative section. Reworked the Northstar case-study introduction and added context around the final identity direction.",
+        "event_ids": [
+          694,
+          695
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-07",
+        "started_at": "19:04",
+        "ended_at": "19:31",
+        "title": "Personal lettering practice — design work",
+        "summary": "Personal lettering practice; experimented with a display word treatment unrelated to current client work.",
+        "event_ids": [
+          696
+        ],
+        "context": "Personal",
+        "area": "Personal exploration",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-08",
+        "started_at": "19:31",
+        "ended_at": "19:45",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Watched a branding case-study video; whether it was directly useful to current work is not established.",
+        "event_ids": [
+          697
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-09",
+        "started_at": "19:58",
+        "ended_at": "20:22",
+        "title": "New food-business identity — review",
+        "summary": "Made a final small cleanup to the new identity presentation and checked the file before ending work.",
+        "event_ids": [
+          698
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:02",
+        "ended_at": "14:17",
+        "reason": "Offline / no desktop activity recorded"
+      },
+      {
+        "started_at": "17:38",
+        "ended_at": "19:04",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The new identity work followed a specific client request rather than reopening broad concept exploration.",
+      "The revised identity was sent back to the client, creating another external decision point.",
+      "The social campaign request was handled as a contained production task.",
+      "Northstar portfolio work received a focused block despite lower immediate client priority.",
+      "Pinterest and YouTube activity cannot be confidently classified as either essential research or distraction.",
+      "Offline periods leave some activity unobserved."
+    ],
+    "priority_alignment": [
+      "New brand inquiry: Requested revision was implemented and sent; final client approval is pending.",
+      "Social campaign: One additional format was produced and delivered.",
+      "Northstar portfolio: The case-study narrative was refined but the portfolio remains unfinished."
+    ],
+    "important_uncertainty": [
+      "Will the client approve the latest identity revision or request another change?",
+      "Whether the identity is now ready for final handoff is not established.",
+      "How much the reference browsing influenced the final design cannot be determined.",
+      "What work occurred during the offline periods is unknown."
+    ],
+    "possible_next_step": "Wait for the client response before making another broad identity pass; if feedback arrives, turn it into a bounded revision checklist and continue closing the selected direction toward finalization."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Wait for the client response",
+      "action_type": "defer_new_commitment",
+      "reason": "The main identity is now in a narrow feedback loop, so additional open-ended exploration is less justified until the client responds.",
+      "suggested_focus_minutes": null,
+      "target": "New food-business identity"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

@@ -1,0 +1,464 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Closing documentation for a bounded replication study of a calibration method",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Selecting a focused next research question after manuscript submission"
+    ],
+    "priorities": [
+      "Record the replication outcome and unresolved evaluation ambiguity clearly",
+      "Compare candidate next research questions against scientific value and feasibility",
+      "Avoid committing to a new experiment before narrowing the question",
+      "Maintain a clean boundary between the submitted manuscript and new exploratory work"
+    ]
+  },
+  "day": {
+    "day_number": 21,
+    "date": "2026-09-21",
+    "day_type": "replication_writeup_and_next_question_selection_day",
+    "circumstances": [
+      "The researcher closes out the partial replication and begins a deliberate transition toward the next project. They write a short internal replication report, archive the exact configurations and outputs, and compare several possible directions. One idea about subgroup-specific calibration initially looks promising, but a literature search reveals that the basic framing is already well studied. A different question about calibration under changing class prevalence remains less settled and appears feasible with existing code. The researcher does not start a new experiment; instead, they narrow the question and define a small literature-reading task for the next day. There is also routine repository maintenance and a brief unrelated browsing detour."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:08",
+      "last_seen": "19:14",
+      "approx_active_hours": 7.1,
+      "longest_unobserved_gap_minutes": 82
+    }
+  },
+  "raw_events": [
+    {
+      "id": 438,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T09:08:00+05:30",
+      "ended_at": "2026-09-21T09:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_notes.md",
+        "interaction": "reviewed results and unresolved evaluation assumptions"
+      }
+    },
+    {
+      "id": 439,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T09:34:00+05:30",
+      "ended_at": "2026-09-21T10:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_report.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_report.md",
+        "interaction": "drafted replication setup and result summary"
+      }
+    },
+    {
+      "id": 440,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T10:02:00+05:30",
+      "ended_at": "2026-09-21T10:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_report.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_report.md",
+        "interaction": "added comparison table and limitations"
+      }
+    },
+    {
+      "id": 441,
+      "watcher": "Terminal",
+      "started_at": "2026-09-21T10:29:00+05:30",
+      "ended_at": "2026-09-21T10:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "git status",
+          "git diff --stat",
+          "git log -5"
+        ],
+        "output_state": "completed",
+        "visible_text": "working tree contains replication documentation and generated outputs"
+      }
+    },
+    {
+      "id": 442,
+      "watcher": "Terminal",
+      "started_at": "2026-09-21T10:51:00+05:30",
+      "ended_at": "2026-09-21T11:17:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "git add replication_notes.md replication_report.md configs/replication_subset.yaml",
+          "git commit -m \"document bounded replication\""
+        ],
+        "output_state": "completed"
+      }
+    },
+    {
+      "id": 443,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T11:17:00+05:30",
+      "ended_at": "2026-09-21T11:43:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "reviewed candidate research questions"
+      }
+    },
+    {
+      "id": 444,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-21T11:43:00+05:30",
+      "ended_at": "2026-09-21T12:14:00+05:30",
+      "app": "Google Scholar",
+      "browser": "Chrome",
+      "title": "Google Scholar — subgroup calibration neural networks",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 7,
+        "interaction": "searched recent work on subgroup-specific calibration"
+      }
+    },
+    {
+      "id": 445,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-21T12:14:00+05:30",
+      "ended_at": "2026-09-21T12:47:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — groupwise calibration",
+      "url": "https://example.org/groupwise-calibration.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read methods and related work sections"
+      }
+    },
+    {
+      "id": 446,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T12:47:00+05:30",
+      "ended_at": "2026-09-21T13:08:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "marked subgroup calibration direction as lower novelty"
+      }
+    },
+    {
+      "id": 447,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-21T13:08:00+05:30",
+      "ended_at": "2026-09-21T13:31:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — calibration changing class prevalence",
+      "url": "https://www.google.com/search?q=calibration+changing+class+prevalence",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 6,
+        "interaction": "searched papers and terminology"
+      }
+    },
+    {
+      "id": 448,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-21T13:31:00+05:30",
+      "ended_at": "2026-09-21T14:03:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — calibration under label shift",
+      "url": "https://example.org/label-shift-calibration.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read evaluation and limitations sections"
+      }
+    },
+    {
+      "id": 449,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T14:03:00+05:30",
+      "ended_at": "2026-09-21T14:26:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "compared candidate question scope, datasets, and available code"
+      }
+    },
+    {
+      "id": 450,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-21T14:26:00+05:30",
+      "ended_at": "2026-09-21T14:44:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Google Search — label shift calibration neural network evaluation",
+      "url": "https://www.google.com/search?q=label+shift+calibration+neural+network+evaluation",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 4,
+        "interaction": "checked terminology and candidate references"
+      }
+    },
+    {
+      "id": 451,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T14:44:00+05:30",
+      "ended_at": "2026-09-21T15:16:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "drafted a narrower question around calibration when class prevalence changes"
+      }
+    },
+    {
+      "id": 452,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-21T15:16:00+05:30",
+      "ended_at": "2026-09-21T15:37:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Amazon — USB-C hub",
+      "url": "https://www.amazon.in/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "browsed product listings"
+      }
+    },
+    {
+      "id": 453,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T15:37:00+05:30",
+      "ended_at": "2026-09-21T16:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "listed open questions and candidate datasets for later review"
+      }
+    },
+    {
+      "id": 454,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T17:26:00+05:30",
+      "ended_at": "2026-09-21T17:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "revised candidate question and wrote next-day literature task"
+      }
+    },
+    {
+      "id": 455,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-21T17:58:00+05:30",
+      "ended_at": "2026-09-21T18:21:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "YouTube — ML conference talk",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "watched part of a conference talk"
+      }
+    },
+    {
+      "id": 456,
+      "watcher": "VS Code",
+      "started_at": "2026-09-21T18:21:00+05:30",
+      "ended_at": "2026-09-21T19:14:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "finalized a short next-day reading list and parked unrelated ideas"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-21-01",
+        "started_at": "09:08",
+        "ended_at": "11:17",
+        "title": "Close and archive the replication study",
+        "summary": "The researcher wrote an internal replication report, summarized the partial reproduction and unresolved evaluation ambiguity, checked repository state, and committed the replication documentation and configuration.",
+        "event_ids": [
+          438,
+          439,
+          440,
+          441,
+          442
+        ],
+        "context": "The bounded replication reached its stopping rule on Day 20.",
+        "area": "replication study",
+        "intent": "documentation",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-02",
+        "started_at": "11:17",
+        "ended_at": "15:16",
+        "title": "Evaluate candidate next research questions",
+        "summary": "The researcher compared several possible directions. Subgroup-specific calibration appeared initially promising but recent literature made the basic framing less novel. Attention shifted toward calibration under changing class prevalence, where existing work left a narrower question worth investigating.",
+        "event_ids": [
+          443,
+          444,
+          445,
+          446,
+          447,
+          448,
+          449,
+          450,
+          451
+        ],
+        "context": "Post-submission transition after closing the replication.",
+        "area": "research planning and literature",
+        "intent": "exploration",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-03",
+        "started_at": "15:16",
+        "ended_at": "16:04",
+        "title": "Research ideas and incidental browsing",
+        "summary": "A short unrelated product-browsing detour occurred before the researcher returned to the ideas document and listed candidate datasets and unresolved questions without starting implementation.",
+        "event_ids": [
+          452,
+          453
+        ],
+        "context": "Mixed-purpose afternoon session.",
+        "area": "research planning",
+        "intent": "planning",
+        "quality": "medium",
+        "importance": "low"
+      },
+      {
+        "id": "gt-21-04",
+        "started_at": "17:26",
+        "ended_at": "19:14",
+        "title": "Narrow the next research question",
+        "summary": "The researcher refined the class-prevalence calibration question, wrote a small literature task for the next day, watched part of an unrelated conference talk, and then finalized a short reading list while parking other ideas.",
+        "event_ids": [
+          454,
+          455,
+          456
+        ],
+        "context": "Transition from broad idea generation to a deliberately small next step.",
+        "area": "research planning",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "16:04",
+        "ended_at": "17:26",
+        "reason": "offline / break and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The replication was formally documented and archived rather than left as an ambiguous open loop.",
+      "The first candidate next direction, subgroup-specific calibration, lost novelty after checking recent literature.",
+      "A narrower question about calibration when class prevalence changes emerged as more promising and feasible with existing infrastructure.",
+      "The researcher deliberately stopped at a literature task rather than beginning a new experiment before the question was sufficiently specified.",
+      "Some unrelated browsing and a conference talk occurred, but neither became part of the research plan."
+    ],
+    "priority_alignment": [
+      "The replication closure was completed before substantial new project exploration began.",
+      "The main planning effort was spent comparing research questions rather than immediately coding.",
+      "The next step is intentionally limited to literature synthesis and question refinement."
+    ],
+    "important_uncertainty": [
+      "It is not yet clear whether the class-prevalence direction contains a sufficiently distinct contribution.",
+      "The appropriate datasets and evaluation setup for the new question have not been selected.",
+      "The parked ideas may become relevant later, so deprioritized does not mean permanently abandoned."
+    ],
+    "possible_next_step": "Read the short set of papers on calibration under changing class prevalence, identify the exact unresolved assumption or evaluation gap, and decide whether it warrants a small pilot."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "clarify_priority",
+      "title": "Validate the new research question",
+      "reason": "The replication is closed and one candidate direction has emerged, but its novelty and experimental scope are not established yet.",
+      "suggested_focus_minutes": 90,
+      "target": "Next Research Question"
+    },
+    "secondary_action": {
+      "action_type": "protect_priority",
+      "title": "Keep implementation paused",
+      "reason": "Starting a new experiment before the literature gap and evaluation setup are clear would recreate the exploratory expansion the researcher just avoided in the replication study.",
+      "suggested_focus_minutes": 10,
+      "target": "Next Research Question"
+    },
+    "things_not_to_do": [
+      "Do not begin coding the new calibration experiment before reviewing the relevant literature.",
+      "Do not revive subgroup calibration merely because it is easy to implement.",
+      "Do not reopen the completed replication unless new evidence changes the documented stopping decision.",
+      "Do not turn the candidate dataset list into a broad benchmark project yet."
+    ]
+  }
+}

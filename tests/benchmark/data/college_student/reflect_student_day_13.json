@@ -1,0 +1,361 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Preparing the Software Engineering group presentation",
+      "Maintaining the semester project",
+      "Keeping up with current semester coursework"
+    ],
+    "priorities": [
+      "Be ready for the next Software Engineering group review",
+      "Keep the semester project moving without creating unnecessary rework",
+      "Prepare for the coming academic week"
+    ]
+  },
+  "day": {
+    "day_number": 13,
+    "date": "2026-09-13",
+    "day_type": "sunday_presentation_polish_and_light_project_work",
+    "circumstances": [
+      "Sunday started late and was noticeably lighter than the weekday schedule.",
+      "The student incorporated a couple of changes into the Software Engineering presentation after the previous day's in-person rehearsal.",
+      "A college notice about the recent Computer Networks lab was checked, but the laptop activity does not establish whether any academic result was final.",
+      "The semester project received one moderate implementation block, followed by a short code-review exchange with teammates.",
+      "The evening was mostly personal leisure, with gaming and social communication separated from a brief final academic check."
+    ],
+    "laptop_usage": {
+      "first_seen": "11:02",
+      "last_seen": "21:14",
+      "approx_active_hours": 5.0,
+      "longest_unobserved_gap_minutes": 142
+    }
+  },
+  "raw_events": [
+    {
+      "id": 234,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T11:02:00+05:30",
+      "ended_at": "2026-09-13T11:19:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 235,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T11:19:00+05:30",
+      "ended_at": "2026-09-13T11:46:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 236,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T11:46:00+05:30",
+      "ended_at": "2026-09-13T12:01:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "UML sequence diagram simple example",
+      "url": "https://www.google.com/search?q=UML+sequence+diagram+simple+example",
+      "payload": null
+    },
+    {
+      "id": 237,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T12:01:00+05:30",
+      "ended_at": "2026-09-13T12:34:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 238,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T12:34:00+05:30",
+      "ended_at": "2026-09-13T12:43:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "My Drive — Semester Presentation",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 239,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T15:05:00+05:30",
+      "ended_at": "2026-09-13T15:18:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Computer Networks — Lab 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 240,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T15:18:00+05:30",
+      "ended_at": "2026-09-13T15:29:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 241,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T17:47:00+05:30",
+      "ended_at": "2026-09-13T18:06:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 242,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T18:06:00+05:30",
+      "ended_at": "2026-09-13T18:22:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Pull requests",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 243,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T18:22:00+05:30",
+      "ended_at": "2026-09-13T19:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — routes.js + api.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 244,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T19:03:00+05:30",
+      "ended_at": "2026-09-13T19:17:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- routes api",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 245,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T19:17:00+05:30",
+      "ended_at": "2026-09-13T19:30:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 246,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T19:30:00+05:30",
+      "ended_at": "2026-09-13T20:07:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 247,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T20:07:00+05:30",
+      "ended_at": "2026-09-13T20:28:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 248,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T21:02:00+05:30",
+      "ended_at": "2026-09-13T21:10:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 249,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T21:10:00+05:30",
+      "ended_at": "2026-09-13T21:14:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "My Drive — Semester Presentation",
+      "url": "https://drive.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-13-01",
+        "started_at": "11:02",
+        "ended_at": "12:43",
+        "title": "Software Engineering presentation polish",
+        "summary": "Coordinated with the group, revised the presentation slides, searched for a simple UML sequence-diagram example, and checked the shared Drive materials.",
+        "event_ids": [
+          234,
+          235,
+          236,
+          237,
+          238
+        ],
+        "context": "The group had rehearsed offline on Saturday and identified a few presentation changes to make.",
+        "area": "coursework",
+        "intent": "Apply rehearsal feedback and improve the clarity of the group's presentation.",
+        "quality": "focused revision",
+        "importance": "high"
+      },
+      {
+        "id": "gt-13-02",
+        "started_at": "15:05",
+        "ended_at": "15:29",
+        "title": "Course and email check",
+        "summary": "Opened the Computer Networks lab page and then checked email for any new academic information.",
+        "event_ids": [
+          239,
+          240
+        ],
+        "context": "The Networks lab had been submitted earlier in the week and the course page was revisited on Sunday.",
+        "area": "coursework",
+        "intent": "Check for feedback, updates, or new instructions.",
+        "quality": "brief verification",
+        "importance": "low"
+      },
+      {
+        "id": "gt-13-03",
+        "started_at": "17:47",
+        "ended_at": "19:30",
+        "title": "Semester project implementation and review",
+        "summary": "Discussed the current project state, reviewed a pull request, edited route and API code, ran targeted tests, and reported the result back to teammates.",
+        "event_ids": [
+          241,
+          242,
+          243,
+          244,
+          245
+        ],
+        "context": "The project had moved into integration and maintenance during the previous week.",
+        "area": "semester_project",
+        "intent": "Implement a small follow-up change and verify the affected API behavior.",
+        "quality": "focused implementation and verification",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-13-04",
+        "started_at": "19:30",
+        "ended_at": "20:28",
+        "title": "Sunday leisure and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          246,
+          247
+        ],
+        "context": "Evening personal time after the day's academic work.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-13-05",
+        "started_at": "21:02",
+        "ended_at": "21:14",
+        "title": "Presentation file check",
+        "summary": "Briefly reopened the presentation and Drive folder to verify the latest files before the next academic day.",
+        "event_ids": [
+          248,
+          249
+        ],
+        "context": "The presentation review was approaching and the group had been editing shared materials.",
+        "area": "coursework",
+        "intent": "Verify that the latest presentation files are saved and available.",
+        "quality": "brief verification",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:43",
+        "ended_at": "15:05",
+        "reason": "Lunch and offline personal activity"
+      },
+      {
+        "started_at": "15:29",
+        "ended_at": "17:47",
+        "reason": "Offline rest, errands, and personal time"
+      },
+      {
+        "started_at": "20:28",
+        "ended_at": "21:02",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Software Engineering presentation remained the clearest academic priority, with a focused revision block that incorporated the previous day's rehearsal experience.",
+      "The semester project continued through another coherent implementation-and-test session, but it was secondary to presentation preparation.",
+      "The Computer Networks course page was checked briefly, but there is not enough laptop evidence to conclude that new graded feedback or a result was available.",
+      "Sunday laptop usage was moderate rather than continuous, with substantial offline time and an ordinary evening leisure period."
+    ],
+    "priority_alignment": [
+      "Presentation preparation received the largest academic block and was directly connected to the upcoming group review.",
+      "The semester project received maintenance-level attention without displacing the presentation priority."
+    ],
+    "important_uncertainty": [
+      "The presentation edits indicate progress, but the laptop timeline does not establish whether every teammate has approved the final version.",
+      "Opening the Networks lab page does not prove that a grade or substantive feedback was released.",
+      "The project tests show verification of the touched code paths, not proof that the broader project is complete.",
+      "Offline periods are not represented in the laptop timeline."
+    ],
+    "possible_next_step": "Use the next presentation session for a final review of the specific changes from the rehearsal, then keep the project work bounded unless a concrete integration issue appears."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Final presentation review",
+      "action_type": "complete_open_loop",
+      "reason": "The presentation has moved through drafting, rehearsal, and revision; a final targeted review is the clearest remaining open loop.",
+      "suggested_focus_minutes": 30,
+      "target": "Software Engineering presentation"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not infer that the Networks lab received a grade simply because its course page was opened.",
+      "Do not assume the presentation is fully finalized from the laptop edits alone.",
+      "Do not treat the semester project test run as proof that all integration work is complete.",
+      "Do not interpret the long offline periods as wasted time.",
+      "Do not frame the evening gaming and social period as inherently negative."
+    ]
+  }
+}

@@ -1,0 +1,812 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    },
+    "current_work": [
+      "Implementing an API change for workspace-level billing settings",
+      "Investigating an intermittent webhook processing issue",
+      "Reviewing a teammate's pull request"
+    ],
+    "priorities": [
+      "Ship the billing settings API change",
+      "Understand and fix the recurring webhook processing issue",
+      "Keep the team's pending pull requests moving"
+    ]
+  },
+
+  "day": {
+    "day_number": 1,
+    "date": "2026-09-01",
+    "day_type": "normal_mixed_engineering_day",
+    "circumstances": [
+      "Started with the team's daily standup",
+      "Planned to continue the billing settings API ticket",
+      "A production-like webhook failure surfaced during investigation",
+      "Part of the morning was spent reviewing unfamiliar webhook processing code",
+      "A teammate requested review on an unrelated but important API change",
+      "The afternoon contained a mix of implementation, debugging, and team communication",
+      "The webhook investigation did not reach a final fix"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:06",
+      "last_seen": "18:26",
+      "approx_active_hours": 7.1,
+      "longest_unobserved_gap_minutes": 68
+    }
+  },
+
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:06:00+05:30",
+      "ended_at": "2026-09-01T09:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Jira",
+      "url": "https://acme.atlassian.net/browse/PLAT-1842",
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:18:00+05:30",
+      "ended_at": "2026-09-01T09:27:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "core-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:27:00+05:30",
+      "ended_at": "2026-09-01T09:43:00+05:30",
+      "app": "Google Meet",
+      "browser": "Chrome",
+      "title": "Daily Standup",
+      "url": "https://meet.google.com/abc-defg-hij",
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:43:00+05:30",
+      "ended_at": "2026-09-01T09:51:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "core-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:51:00+05:30",
+      "ended_at": "2026-09-01T10:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — billingSettings.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:17:00+05:30",
+      "ended_at": "2026-09-01T10:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — workspaceService.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:29:00+05:30",
+      "ended_at": "2026-09-01T10:38:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PostgreSQL documentation",
+      "url": "https://www.postgresql.org/docs/current/sql-update.html",
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:38:00+05:30",
+      "ended_at": "2026-09-01T10:56:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — billingSettings.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:56:00+05:30",
+      "ended_at": "2026-09-01T11:08:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "platform-api",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:08:00+05:30",
+      "ended_at": "2026-09-01T11:23:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — billingSettings.test.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:23:00+05:30",
+      "ended_at": "2026-09-01T11:31:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull requests · platform-api",
+      "url": "https://github.com/acme/platform-api/pulls",
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:31:00+05:30",
+      "ended_at": "2026-09-01T11:52:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #842",
+      "url": "https://github.com/acme/platform-api/pull/842",
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:52:00+05:30",
+      "ended_at": "2026-09-01T12:04:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "backend-reviews",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T12:04:00+05:30",
+      "ended_at": "2026-09-01T12:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sentry",
+      "url": "https://sentry.io/organizations/acme/issues/",
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T12:18:00+05:30",
+      "ended_at": "2026-09-01T12:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sentry",
+      "url": "https://sentry.io/organizations/acme/issues/12345/",
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T12:31:00+05:30",
+      "ended_at": "2026-09-01T12:45:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "core-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T13:53:00+05:30",
+      "ended_at": "2026-09-01T14:11:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — webhookProcessor.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 18,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T14:11:00+05:30",
+      "ended_at": "2026-09-01T14:26:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — retryQueue.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T14:26:00+05:30",
+      "ended_at": "2026-09-01T14:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Redis documentation",
+      "url": "https://redis.io/docs/latest/develop/data-types/streams/",
+      "payload": null
+    },
+    {
+      "id": 20,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T14:39:00+05:30",
+      "ended_at": "2026-09-01T14:52:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "platform-api",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 21,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T14:52:00+05:30",
+      "ended_at": "2026-09-01T15:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — webhookProcessor.test.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 22,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T15:17:00+05:30",
+      "ended_at": "2026-09-01T15:31:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookProcessor",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T15:31:00+05:30",
+      "ended_at": "2026-09-01T15:47:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "core-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T15:47:00+05:30",
+      "ended_at": "2026-09-01T16:08:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — webhookProcessor.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T16:08:00+05:30",
+      "ended_at": "2026-09-01T16:21:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #842",
+      "url": "https://github.com/acme/platform-api/pull/842",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T16:21:00+05:30",
+      "ended_at": "2026-09-01T16:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — webhookProcessor.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T16:34:00+05:30",
+      "ended_at": "2026-09-01T16:41:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git status",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T16:41:00+05:30",
+      "ended_at": "2026-09-01T16:58:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-1842",
+      "url": "https://acme.atlassian.net/browse/PLAT-1842",
+      "payload": null
+    },
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T16:58:00+05:30",
+      "ended_at": "2026-09-01T17:19:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — billingSettings.test.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T17:19:00+05:30",
+      "ended_at": "2026-09-01T17:27:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "platform-api",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 31,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T17:27:00+05:30",
+      "ended_at": "2026-09-01T17:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "GitHub Actions",
+      "url": "https://github.com/acme/platform-api/actions",
+      "payload": null
+    },
+    {
+      "id": 32,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T17:44:00+05:30",
+      "ended_at": "2026-09-01T17:52:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "core-platform",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 33,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T17:52:00+05:30",
+      "ended_at": "2026-09-01T18:07:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — billingSettings.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 34,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T18:07:00+05:30",
+      "ended_at": "2026-09-01T18:26:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Jira",
+      "url": "https://acme.atlassian.net/browse/PLAT-1842",
+      "payload": null
+    }
+  ],
+
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "09:06",
+        "ended_at": "09:18",
+        "title": "Reviewed billing API ticket and current status",
+        "summary": "Reviewed the billing settings ticket and existing discussion before starting implementation work.",
+        "event_ids": [1],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "09:18",
+        "ended_at": "09:27",
+        "title": "Team communication before standup",
+        "summary": "Checked messages from the platform team and reviewed an update related to current work.",
+        "event_ids": [2],
+        "context": "Work",
+        "area": "Team Communication",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-03",
+        "started_at": "09:27",
+        "ended_at": "09:43",
+        "title": "Daily standup",
+        "summary": "Participated in the team's daily engineering standup and discussed current work.",
+        "event_ids": [3],
+        "context": "Work",
+        "area": "Team",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-04",
+        "started_at": "09:43",
+        "ended_at": "09:51",
+        "title": "Post-standup coordination",
+        "summary": "Followed up on a technical issue raised during team communication.",
+        "event_ids": [4],
+        "context": "Work",
+        "area": "Team Communication",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-05",
+        "started_at": "09:51",
+        "ended_at": "11:08",
+        "title": "Billing settings API implementation",
+        "summary": "Worked through the billing settings endpoint and supporting workspace logic, including checking database update behavior.",
+        "event_ids": [5, 6, 7, 8, 9],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-06",
+        "started_at": "11:08",
+        "ended_at": "11:23",
+        "title": "Billing settings test coverage",
+        "summary": "Added and adjusted tests for the billing settings API implementation.",
+        "event_ids": [10],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-07",
+        "started_at": "11:23",
+        "ended_at": "11:52",
+        "title": "Reviewing teammate's API pull request",
+        "summary": "Reviewed another engineer's pull request and examined implementation details and potential issues.",
+        "event_ids": [11, 12],
+        "context": "Work",
+        "area": "Code Review",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-08",
+        "started_at": "11:52",
+        "ended_at": "12:04",
+        "title": "Code review discussion",
+        "summary": "Discussed review findings with the backend team.",
+        "event_ids": [13],
+        "context": "Work",
+        "area": "Code Review",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-09",
+        "started_at": "12:04",
+        "ended_at": "12:31",
+        "title": "Investigating webhook errors",
+        "summary": "Inspected error reports and traces after noticing intermittent webhook processing failures.",
+        "event_ids": [14, 15],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Investigate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-10",
+        "started_at": "12:31",
+        "ended_at": "12:45",
+        "title": "Webhook investigation coordination",
+        "summary": "Shared findings with the team and discussed whether the observed errors matched a previously reported issue.",
+        "event_ids": [16],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-11",
+        "started_at": "13:53",
+        "ended_at": "14:26",
+        "title": "Tracing webhook processing flow",
+        "summary": "Read through the webhook processor and retry queue implementation to understand where failed deliveries were being retried.",
+        "event_ids": [17, 18],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Investigate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-12",
+        "started_at": "14:26",
+        "ended_at": "14:52",
+        "title": "Investigating queue behavior",
+        "summary": "Read Redis stream documentation and used the terminal to inspect local queue behavior while investigating the webhook issue.",
+        "event_ids": [19, 20],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Investigate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-13",
+        "started_at": "14:52",
+        "ended_at": "15:17",
+        "title": "Webhook regression test work",
+        "summary": "Created and adjusted tests around webhook processing and retry behavior.",
+        "event_ids": [21],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-14",
+        "started_at": "15:17",
+        "ended_at": "15:31",
+        "title": "Running webhook tests",
+        "summary": "Ran the targeted webhook test suite and examined its output.",
+        "event_ids": [22],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Test",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-15",
+        "started_at": "15:31",
+        "ended_at": "15:47",
+        "title": "Discussing webhook findings",
+        "summary": "Discussed the investigation with teammates and received additional context about recent webhook behavior.",
+        "event_ids": [23],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-16",
+        "started_at": "15:47",
+        "ended_at": "16:08",
+        "title": "Continuing webhook investigation",
+        "summary": "Returned to the webhook processor and traced another branch of the retry flow based on the team's discussion.",
+        "event_ids": [24],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Investigate",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-17",
+        "started_at": "16:08",
+        "ended_at": "16:21",
+        "title": "Second pass on code review",
+        "summary": "Returned to the teammate's pull request and checked the implementation against the earlier review discussion.",
+        "event_ids": [25],
+        "context": "Work",
+        "area": "Code Review",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-18",
+        "started_at": "16:21",
+        "ended_at": "16:41",
+        "title": "Webhook implementation experiment",
+        "summary": "Made a small local change to test a hypothesis about webhook retry behavior and checked repository state afterward.",
+        "event_ids": [26, 27],
+        "context": "Work",
+        "area": "Webhook Reliability",
+        "intent": "Investigate",
+        "quality": "Exploratory",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-19",
+        "started_at": "16:41",
+        "ended_at": "16:58",
+        "title": "Reviewing billing ticket status",
+        "summary": "Returned to the billing settings ticket to reassess the remaining work after the webhook issue consumed part of the planned afternoon.",
+        "event_ids": [28],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-20",
+        "started_at": "16:58",
+        "ended_at": "17:27",
+        "title": "Finishing billing API test changes",
+        "summary": "Returned to the billing settings tests and made additional changes before running the broader validation suite.",
+        "event_ids": [29, 30],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-21",
+        "started_at": "17:27",
+        "ended_at": "17:44",
+        "title": "Waiting for CI and checking results",
+        "summary": "Checked the automated test run for the billing changes and waited for the pipeline to complete.",
+        "event_ids": [31],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Verify",
+        "quality": "Waiting",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-22",
+        "started_at": "17:44",
+        "ended_at": "17:52",
+        "title": "CI result coordination",
+        "summary": "Shared the current test status with the team and checked whether any additional changes were needed.",
+        "event_ids": [32],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-23",
+        "started_at": "17:52",
+        "ended_at": "18:07",
+        "title": "Final billing API adjustments",
+        "summary": "Made a final round of changes to the billing settings implementation based on the day's validation.",
+        "event_ids": [33],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-24",
+        "started_at": "18:07",
+        "ended_at": "18:26",
+        "title": "Updating ticket and recording remaining work",
+        "summary": "Updated the billing ticket with the current implementation status and documented remaining work.",
+        "event_ids": [34],
+        "context": "Work",
+        "area": "Billing API",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:45",
+        "ended_at": "13:53",
+        "reason": "Lunch and offline personal time"
+      }
+    ]
+  },
+
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The billing settings API made meaningful progress, including implementation, test coverage, and validation.",
+      "A recurring webhook problem became a significant secondary workstream and consumed a substantial portion of the afternoon.",
+      "The webhook issue was investigated across code, queue behavior, tests, and team discussion, but no confirmed fix was completed today.",
+      "The developer also spent meaningful time reviewing a teammate's pull request, so not all engineering progress was directly tied to their own ticket.",
+      "The day involved several switches between billing work, code review, and webhook investigation, largely because the webhook issue emerged during the day rather than from a planned schedule.",
+      "The final CI and ticket updates suggest the billing work was left in a more complete state, but the available evidence does not establish that the ticket was ready to merge."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship the billing settings API change",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Understand and fix the recurring webhook processing issue",
+        "assessment": "meaningful investigation, not resolved"
+      },
+      {
+        "priority": "Keep the team's pending pull requests moving",
+        "assessment": "some progress"
+      }
+    ],
+    "important_uncertainty": [
+      "The desktop evidence does not establish whether the webhook investigation identified the actual production root cause.",
+      "The CI dashboard was observed, but the available activity evidence does not establish whether the billing changes ultimately passed all required checks.",
+      "The offline period is completely unobserved.",
+      "The repeated switches between workstreams may reflect legitimate team priorities rather than inefficient context switching."
+    ],
+    "possible_next_step": "Resume the billing ticket first if CI is clean, while capturing the webhook investigation's current hypothesis and next diagnostic step separately so the unresolved issue does not remain an open-ended debugging loop."
+  },
+
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the billing API loop",
+      "action_type": "complete_open_loop",
+      "reason": "The billing settings work received substantial implementation and testing time but was not clearly completed or merged by the end of the day.",
+      "suggested_focus_minutes": 60,
+      "target": "Billing API"
+    },
+    "secondary_action": {
+      "title": "Define the next webhook investigation step",
+      "action_type": "clarify_priority",
+      "reason": "The webhook issue consumed significant investigation time without reaching a confirmed resolution, so the next diagnostic step should be explicit before continuing the investigation.",
+      "suggested_focus_minutes": 30,
+      "target": "Webhook Reliability"
+    },
+    "things_not_to_do": [
+      "Do not treat the time spent reading Redis or PostgreSQL documentation as unproductive browsing.",
+      "Do not assume that switching between billing work and webhook investigation was unnecessary context switching.",
+      "Do not claim that the webhook issue was fixed.",
+      "Do not claim that the billing ticket was merged or deployed.",
+      "Do not infer frustration, stress, motivation, or confidence from the debugging activity.",
+      "Do not treat the unobserved lunch period as lost productivity.",
+      "Do not recommend eliminating code review or team communication simply because they interrupted implementation time."
+    ]
+  }
+}

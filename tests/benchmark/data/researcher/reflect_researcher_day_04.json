@@ -1,0 +1,613 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Complete the next round of experiments for the main uncertainty estimation project",
+      "Move the manuscript from exploratory notes toward a coherent results section",
+      "Resolve whether the current experimental setup is measuring calibration fairly",
+      "Complete the replication study before deciding whether it is worth extending"
+    ]
+  },
+
+  "day": {
+    "day_number": 4,
+    "date": "2026-09-04",
+    "day_type": "focused_experiment_day_with_minor_interruptions",
+    "circumstances": [
+      "Started by comparing the candidate calibration metrics on the same experimental outputs",
+      "The comparison suggested that the qualitative conclusion was broadly stable across metrics",
+      "Spent the late morning preparing a controlled experiment rather than changing the overall research question again",
+      "The replication run from the previous day completed and required a brief inspection",
+      "A collaborator sent a message asking for clarification on the evaluation protocol",
+      "Afternoon contained a long uninterrupted implementation and experiment block",
+      "The evening was used to inspect preliminary results and update the manuscript figures",
+      "Some unrelated browsing appeared late in the evening"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:03",
+      "last_seen": "22:03",
+      "approx_active_hours": 9.2,
+      "longest_unobserved_gap_minutes": 87
+    }
+  },
+
+  "raw_events": [
+    {
+      "id": 96,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T09:03:00+05:30",
+      "ended_at": "2026-09-04T09:18:00+05:30",
+      "app": "Jupyter",
+      "browser": "Chrome",
+      "title": "metric-comparison.ipynb",
+      "url": "http://localhost:8888/notebooks/metric-comparison.ipynb",
+      "payload": null
+    },
+    {
+      "id": 97,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T09:18:00+05:30",
+      "ended_at": "2026-09-04T09:37:00+05:30",
+      "app": "Python",
+      "browser": null,
+      "title": "metric comparison plots",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 98,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T09:37:00+05:30",
+      "ended_at": "2026-09-04T09:44:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — metric investigation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 99,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T09:44:00+05:30",
+      "ended_at": "2026-09-04T10:06:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — evaluate.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 100,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T10:06:00+05:30",
+      "ended_at": "2026-09-04T10:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — experiment_config.yaml",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 101,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T10:29:00+05:30",
+      "ended_at": "2026-09-04T10:37:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python compare_metrics.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 102,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T10:37:00+05:30",
+      "ended_at": "2026-09-04T10:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "comparison output",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 103,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T10:51:00+05:30",
+      "ended_at": "2026-09-04T11:09:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — experiment questions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 104,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T11:09:00+05:30",
+      "ended_at": "2026-09-04T11:22:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 105,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T11:22:00+05:30",
+      "ended_at": "2026-09-04T11:41:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Research Lab",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 106,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T11:41:00+05:30",
+      "ended_at": "2026-09-04T12:03:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Evaluation Protocol",
+      "url": "https://docs.google.com/document/d/...",
+      "payload": null
+    },
+    {
+      "id": 107,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T12:03:00+05:30",
+      "ended_at": "2026-09-04T12:16:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — experiment questions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 108,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T12:16:00+05:30",
+      "ended_at": "2026-09-04T12:21:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "replication status",
+      "url": null,
+      "payload": null
+    },
+
+    {
+      "id": 109,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T13:48:00+05:30",
+      "ended_at": "2026-09-04T14:05:00+05:30",
+      "app": "Jupyter",
+      "browser": "Chrome",
+      "title": "replication-results.ipynb",
+      "url": "http://localhost:8888/notebooks/replication-results.ipynb",
+      "payload": null
+    },
+    {
+      "id": 110,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T14:05:00+05:30",
+      "ended_at": "2026-09-04T14:21:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Replication study notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 111,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T14:21:00+05:30",
+      "ended_at": "2026-09-04T14:39:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "replication-study — analysis.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 112,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T14:39:00+05:30",
+      "ended_at": "2026-09-04T14:54:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python analyze_baseline.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 113,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T14:54:00+05:30",
+      "ended_at": "2026-09-04T15:07:00+05:30",
+      "app": "Jupyter",
+      "browser": "Chrome",
+      "title": "replication-results.ipynb",
+      "url": "http://localhost:8888/notebooks/replication-results.ipynb",
+      "payload": null
+    },
+    {
+      "id": 114,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T15:07:00+05:30",
+      "ended_at": "2026-09-04T15:18:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Replication study notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 115,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T15:18:00+05:30",
+      "ended_at": "2026-09-04T15:34:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Reproducing calibration results",
+      "url": "https://arxiv.org/abs/...",
+      "payload": null
+    },
+    {
+      "id": 116,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T15:34:00+05:30",
+      "ended_at": "2026-09-04T15:49:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "replication-study — analysis.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 117,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T15:49:00+05:30",
+      "ended_at": "2026-09-04T16:08:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python compare_baselines.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 118,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T16:08:00+05:30",
+      "ended_at": "2026-09-04T16:31:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Replication study notes",
+      "url": null,
+      "payload": null
+    },
+
+    {
+      "id": 119,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T17:58:00+05:30",
+      "ended_at": "2026-09-04T18:19:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — run_config.yaml",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 120,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T18:19:00+05:30",
+      "ended_at": "2026-09-04T18:32:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python run_experiment.py --seed 44",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 121,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T18:32:00+05:30",
+      "ended_at": "2026-09-04T18:46:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "experiment output",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 122,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T18:46:00+05:30",
+      "ended_at": "2026-09-04T19:07:00+05:30",
+      "app": "Jupyter",
+      "browser": "Chrome",
+      "title": "experiment-results.ipynb",
+      "url": "http://localhost:8888/notebooks/experiment-results.ipynb",
+      "payload": null
+    },
+    {
+      "id": 123,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T19:07:00+05:30",
+      "ended_at": "2026-09-04T19:27:00+05:30",
+      "app": "Python",
+      "browser": null,
+      "title": "calibration plots",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 124,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T19:27:00+05:30",
+      "ended_at": "2026-09-04T19:42:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — experiment log",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 125,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T19:42:00+05:30",
+      "ended_at": "2026-09-04T20:05:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Main Paper — Results",
+      "url": "https://docs.google.com/document/d/...",
+      "payload": null
+    },
+    {
+      "id": 126,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T20:05:00+05:30",
+      "ended_at": "2026-09-04T20:17:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Main Paper — Figures",
+      "url": "https://docs.google.com/document/d/...",
+      "payload": null
+    },
+    {
+      "id": 127,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T20:17:00+05:30",
+      "ended_at": "2026-09-04T20:34:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/search?q=calibration+plot+design",
+      "payload": null
+    },
+    {
+      "id": 128,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T20:34:00+05:30",
+      "ended_at": "2026-09-04T20:51:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Main Paper — Figures",
+      "url": "https://docs.google.com/document/d/...",
+      "payload": null
+    },
+    {
+      "id": 129,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T20:51:00+05:30",
+      "ended_at": "2026-09-04T21:07:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "AI research conference talk",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 130,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T21:07:00+05:30",
+      "ended_at": "2026-09-04T21:28:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — weekly summary",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 131,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T21:28:00+05:30",
+      "ended_at": "2026-09-04T22:03:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Main Paper — Results",
+      "url": "https://docs.google.com/document/d/...",
+      "payload": null
+    }
+  ],
+
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-04-01",
+        "started_at": "09:03",
+        "ended_at": "11:09",
+        "title": "Compared calibration metrics on existing results",
+        "summary": "Applied the candidate metrics to the same outputs and found that the broad qualitative pattern was reasonably stable, reducing the likelihood that the previous uncertainty was solely caused by metric choice.",
+        "event_ids": [96, 97, 98, 99, 100, 101, 102, 103],
+        "context": "Work",
+        "area": "Main Research Project",
+        "intent": "Analyze",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-02",
+        "started_at": "11:09",
+        "ended_at": "12:21",
+        "title": "Clarified evaluation protocol with collaborator",
+        "summary": "Checked research communication and reviewed the shared evaluation protocol in response to a collaborator's question about how the experimental comparison should be interpreted.",
+        "event_ids": [104, 105, 106, 107, 108],
+        "context": "Work",
+        "area": "Methodology",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-03",
+        "started_at": "13:48",
+        "ended_at": "16:31",
+        "title": "Analyzed replication study",
+        "summary": "Inspected the completed baseline replication, compared its behavior with the reference paper, and documented discrepancies that may require another check before deciding whether the replication is valid.",
+        "event_ids": [109, 110, 111, 112, 113, 114, 115, 116, 117, 118],
+        "context": "Work",
+        "area": "Replication Study",
+        "intent": "Analyze",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-04",
+        "started_at": "17:58",
+        "ended_at": "19:42",
+        "title": "Ran controlled main experiment",
+        "summary": "Prepared a controlled run using the clarified evaluation setup, launched it, and inspected its early output and calibration plots.",
+        "event_ids": [119, 120, 121, 122, 123, 124],
+        "context": "Work",
+        "area": "Main Research Project",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-05",
+        "started_at": "19:42",
+        "ended_at": "20:51",
+        "title": "Updated results figures",
+        "summary": "Revised manuscript results and figure presentation based on the latest analysis, including a small amount of searching for a clearer way to present calibration behavior.",
+        "event_ids": [125, 126, 127, 128],
+        "context": "Work",
+        "area": "Main Paper",
+        "intent": "Write",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-06",
+        "started_at": "20:51",
+        "ended_at": "21:28",
+        "title": "Technical conference talk and weekly notes",
+        "summary": "Watched part of a research conference talk and then recorded a weekly summary of the main experiment, replication study, and remaining questions.",
+        "event_ids": [129, 130],
+        "context": "Work",
+        "area": "Learning",
+        "intent": "Learn",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-07",
+        "started_at": "21:28",
+        "ended_at": "22:03",
+        "title": "Refined manuscript results section",
+        "summary": "Returned to the results section and tightened the description of the controlled experiment without yet drawing a definitive conclusion from preliminary output.",
+        "event_ids": [131],
+        "context": "Work",
+        "area": "Main Paper",
+        "intent": "Write",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:21",
+        "ended_at": "13:48",
+        "reason": "Lunch / offline personal activity"
+      },
+      {
+        "started_at": "16:31",
+        "ended_at": "17:58",
+        "reason": "Personal activity / offline"
+      }
+    ]
+  },
+
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The main methodological uncertainty narrowed substantially: comparing candidate metrics on identical outputs suggested that the broad finding is not simply an artifact of metric choice.",
+      "The researcher moved from methodological investigation back into controlled experimentation rather than continuing to search broadly.",
+      "The main experiment is now progressing toward a more interpretable result, while the replication study revealed discrepancies that still need validation.",
+      "Manuscript work became more substantive today, particularly around figures and the results section.",
+      "The replication study remains useful but is competing with the main project and should not automatically receive equal attention."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Complete the next round of experiments for the main uncertainty estimation project",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Move the manuscript from exploratory notes toward a coherent results section",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Resolve whether the current experimental setup is measuring calibration fairly",
+        "assessment": "substantially progressed"
+      },
+      {
+        "priority": "Complete the replication study before deciding whether it is worth extending",
+        "assessment": "progressed, but discrepancy remains unresolved"
+      }
+    ],
+    "important_uncertainty": [
+      "The controlled experiment had only preliminary output available during the observed period, so its final interpretation remains uncertain.",
+      "The replication discrepancy may reflect implementation or experimental differences, but the available evidence does not establish the cause.",
+      "The conference talk may have provided useful context, but there is insufficient evidence to treat it as a major research contribution.",
+      "The desktop record does not reveal what occurred during the offline periods."
+    ],
+    "possible_next_step": "Inspect the completed controlled experiment and decide whether its result is strong enough to support the manuscript before launching another variation."
+  },
+
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Inspect the controlled experiment",
+      "action_type": "complete_open_loop",
+      "reason": "The main experiment has progressed through setup and preliminary inspection; completing the interpretation of this run is more valuable than immediately starting another experiment.",
+      "suggested_focus_minutes": 75,
+      "target": "Main Research Project"
+    },
+    "secondary_action": {
+      "title": "Decide whether to pause replication",
+      "action_type": "clarify_priority",
+      "reason": "The replication study has produced a discrepancy and could absorb substantial additional time without yet being central to the main manuscript.",
+      "suggested_focus_minutes": 20,
+      "target": "Replication Study"
+    },
+    "things_not_to_do": [
+      "Do not recommend another metric investigation unless the controlled results reveal a new metric-specific issue.",
+      "Do not assume the replication discrepancy means the reference paper cannot be reproduced.",
+      "Do not treat the conference talk as a distraction solely because it occurred on YouTube.",
+      "Do not recommend launching several new experiment variants before interpreting the current controlled run.",
+      "Do not infer that the researcher is procrastinating from the amount of time spent documenting and writing.",
+      "Do not claim that the main hypothesis has been confirmed."
+    ]
+  }
+}

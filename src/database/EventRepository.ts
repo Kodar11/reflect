@@ -1,10 +1,18 @@
 import type { Database } from './Database.js';
-import type { Event, WatcherName } from '../models/Event.js';
+import type { Event, StoredEvent, WatcherName } from '../models/Event.js';
 
 /**
  * The storage seam the heartbeat engine + watchers depend on. Watchers NEVER
  * touch SQL directly — they emit `ActivitySample` to the heartbeat engine,
  * which calls this repository. Tests substitute an in-memory fake.
+ *
+ * PRIVACY BOUNDARY: every read on this interface returns VISIBLE events only.
+ * An event the user has hidden does not exist for anything built on it — the
+ * Events view, sessions, the Timeline, classification, the analysis sent to
+ * Gemini, Reflection, the Coach, exports, the tray and the widget. No caller
+ * has to remember a filter. Hidden events are reachable only through
+ * `IEventVisibilityStore`, which exists for the hide / restore / delete
+ * controls and nothing else.
  *
  * Times are ISO-8601 (string) at the interface boundary. SQLite DATETIME columns
  * round-trip these strings trivially and stay human-readable in the DB file.
@@ -27,6 +35,24 @@ export interface IEventRepository {
   getAll(limit?: number): Event[];
 }
 
+/**
+ * The internal side of the privacy boundary: the only way to see or change a
+ * hidden event. Used by the visibility controls; never hand this to a layer
+ * that derives, analyses, displays or exports activity.
+ */
+export interface IEventVisibilityStore {
+  /** The stored rows for these ids, hidden ones included; ids that do not exist are absent. */
+  findIncludingHidden(ids: number[]): StoredEvent[];
+  /** Hide the visible events among `ids`. Returns the ids that were hidden by this call. */
+  hide(ids: number[], nowIso: string): number[];
+  /** Make the hidden events among `ids` visible again. Returns the ids that were restored. */
+  unhide(ids: number[]): number[];
+  /** Remove the rows for good. Returns the ids that existed and are now gone. */
+  deletePermanently(ids: number[]): number[];
+  /** Hidden events, most recently hidden first. */
+  listHidden(limit?: number): StoredEvent[];
+}
+
 interface EventRow {
   id: number;
   watcher: WatcherName;
@@ -38,14 +64,18 @@ interface EventRow {
   url: string | null;
   payload: string | null;
   created_at: string | null;
+  hidden_at: string | null;
 }
+
+/** The one condition that makes a query user-facing. */
+const VISIBLE = 'hidden_at IS NULL';
 
 /**
  * `EventRepository` owns all SQL knowledge. Column↔field mapping happens only
  * here, so a schema change is a one-file edit. Implements `IEventRepository`
  * so consumers can depend on the interface instead of this class.
  */
-export class EventRepository implements IEventRepository {
+export class EventRepository implements IEventRepository, IEventVisibilityStore {
   private readonly insertStmt;
   private readonly updateEndedAtStmt;
   private readonly todayStmt;
@@ -62,16 +92,16 @@ export class EventRepository implements IEventRepository {
       `UPDATE events SET ended_at = @ended_at WHERE id = @id`,
     );
     this.todayStmt = db.prepare(
-      `SELECT * FROM events WHERE started_at >= @from ORDER BY started_at DESC`,
+      `SELECT * FROM events WHERE ${VISIBLE} AND started_at >= @from ORDER BY started_at DESC`,
     );
     this.rangeStmt = db.prepare(
-      `SELECT * FROM events WHERE started_at >= @from AND started_at < @to ORDER BY started_at DESC`,
+      `SELECT * FROM events WHERE ${VISIBLE} AND started_at >= @from AND started_at < @to ORDER BY started_at DESC`,
     );
     this.overlappingStmt = db.prepare(
-      `SELECT * FROM events WHERE started_at < @to AND ended_at > @from ORDER BY started_at ASC, id ASC`,
+      `SELECT * FROM events WHERE ${VISIBLE} AND started_at < @to AND ended_at > @from ORDER BY started_at ASC, id ASC`,
     );
     this.allStmt = db.prepare(
-      `SELECT * FROM events ORDER BY started_at DESC LIMIT @limit`,
+      `SELECT * FROM events WHERE ${VISIBLE} ORDER BY started_at DESC LIMIT @limit`,
     );
   }
 
@@ -110,7 +140,7 @@ export class EventRepository implements IEventRepository {
     if (ids.length === 0) return [];
     const placeholders = ids.map(() => '?').join(',');
     const stmt = this.db.prepare(
-      `SELECT * FROM events WHERE id IN (${placeholders}) ORDER BY started_at DESC`,
+      `SELECT * FROM events WHERE ${VISIBLE} AND id IN (${placeholders}) ORDER BY started_at DESC`,
     );
     return (stmt.all(...ids) as unknown[] as EventRow[]).map(rowToEvent);
   }
@@ -131,7 +161,7 @@ export class EventRepository implements IEventRepository {
             (julianday(MIN(ended_at, @to)) - julianday(MAX(started_at, @from))) * 86400000.0
           ), 0) AS ms
          FROM events
-         WHERE watcher = 'window' AND started_at < @to AND ended_at > @from`,
+         WHERE ${VISIBLE} AND watcher = 'window' AND started_at < @to AND ended_at > @from`,
       )
       .get({ from, to }) as { ms: number | null };
     return Math.max(0, Math.round(row.ms ?? 0));
@@ -139,14 +169,61 @@ export class EventRepository implements IEventRepository {
 
   /** The most recently updated event, or null with no events. */
   getLatest(): Event | null {
-    const row = this.db.prepare(`SELECT * FROM events ORDER BY ended_at DESC, id DESC LIMIT 1`).get() as EventRow | undefined;
+    const row = this.db.prepare(`SELECT * FROM events WHERE ${VISIBLE} ORDER BY ended_at DESC, id DESC LIMIT 1`).get() as EventRow | undefined;
     return row ? rowToEvent(row) : null;
   }
 
   /** When tracking began: the earliest event start, or null with no events. */
   getFirstEventStart(): string | null {
-    const row = this.db.prepare(`SELECT MIN(started_at) AS first FROM events`).get() as { first: string | null };
+    const row = this.db.prepare(`SELECT MIN(started_at) AS first FROM events WHERE ${VISIBLE}`).get() as { first: string | null };
     return row.first ?? null;
+  }
+
+  // ── IEventVisibilityStore (internal: the only queries that see hidden rows) ──
+
+  findIncludingHidden(ids: number[]): StoredEvent[] {
+    if (ids.length === 0) return [];
+    const rows = this.db
+      .prepare(`SELECT * FROM events WHERE id IN (SELECT value FROM json_each(@ids)) ORDER BY started_at ASC, id ASC`)
+      .all({ ids: JSON.stringify(ids) }) as unknown[] as EventRow[];
+    return rows.map(rowToStoredEvent);
+  }
+
+  hide(ids: number[], nowIso: string): number[] {
+    return this.changing(ids, VISIBLE, (id) =>
+      this.db.prepare(`UPDATE events SET hidden_at = @now WHERE id = @id AND ${VISIBLE}`).run({ id, now: nowIso }).changes,
+    );
+  }
+
+  unhide(ids: number[]): number[] {
+    return this.changing(ids, 'hidden_at IS NOT NULL', (id) =>
+      this.db.prepare(`UPDATE events SET hidden_at = NULL WHERE id = @id AND hidden_at IS NOT NULL`).run({ id }).changes,
+    );
+  }
+
+  deletePermanently(ids: number[]): number[] {
+    // Rows that reference the event (its classification, its AI membership)
+    // go with it through ON DELETE CASCADE.
+    return this.changing(ids, '1 = 1', (id) => this.db.prepare(`DELETE FROM events WHERE id = @id`).run({ id }).changes);
+  }
+
+  listHidden(limit = 200): StoredEvent[] {
+    const rows = this.db
+      .prepare(`SELECT * FROM events WHERE hidden_at IS NOT NULL ORDER BY hidden_at DESC, id DESC LIMIT @limit`)
+      .all({ limit }) as unknown[] as EventRow[];
+    return rows.map(rowToStoredEvent);
+  }
+
+  /** Apply `change` to each id matching `condition`, atomically; returns the ids it changed. */
+  private changing(ids: number[], condition: string, change: (id: number) => number): number[] {
+    const wanted = [...new Set(ids)].filter((id) => Number.isInteger(id));
+    if (wanted.length === 0) return [];
+    return this.db.transaction(() => {
+      const matching = this.db
+        .prepare(`SELECT id FROM events WHERE ${condition} AND id IN (SELECT value FROM json_each(@ids))`)
+        .all({ ids: JSON.stringify(wanted) }) as { id: number }[];
+      return matching.filter(({ id }) => change(id) > 0).map(({ id }) => id);
+    });
   }
 }
 
@@ -163,6 +240,10 @@ function rowToEvent(r: EventRow): Event {
     payload: r.payload,
     createdAt: r.created_at,
   };
+}
+
+function rowToStoredEvent(r: EventRow): StoredEvent {
+  return { ...rowToEvent(r), hiddenAt: r.hidden_at };
 }
 
 /**

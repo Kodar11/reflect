@@ -1,0 +1,597 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Complete the next round of experiments for the main uncertainty estimation project",
+      "Move the manuscript from exploratory notes toward a coherent results section",
+      "Resolve whether the current experimental setup is measuring calibration fairly",
+      "Complete the replication study before deciding whether it is worth extending"
+    ]
+  },
+
+  "day": {
+    "day_number": 2,
+    "date": "2026-09-02",
+    "day_type": "experiment_and_analysis_day",
+    "circumstances": [
+      "Started by checking the experiment launched at the end of the previous day",
+      "The first run completed overnight but produced an unexpected calibration pattern",
+      "Spent the morning inspecting outputs and verifying that the result was not caused by an implementation error",
+      "A short collaborator discussion raised a concern about the evaluation split",
+      "Afternoon shifted toward rerunning the experiment with a revised evaluation setup",
+      "Some manuscript work was postponed while the result was being investigated",
+      "Ended with the revised experiment running and notes documenting the interpretation problem"
+    ],
+    "laptop_usage": {
+      "first_seen": "08:54",
+      "last_seen": "22:11",
+      "approx_active_hours": 9.7,
+      "longest_unobserved_gap_minutes": 94
+    }
+  },
+
+  "raw_events": [
+    {
+      "id": 33,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T08:54:00+05:30",
+      "ended_at": "2026-09-02T09:06:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python run_experiment.py --seed 42",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 34,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:06:00+05:30",
+      "ended_at": "2026-09-02T09:24:00+05:30",
+      "app": "Jupyter",
+      "browser": "Chrome",
+      "title": "experiment-results.ipynb",
+      "url": "http://localhost:8888/notebooks/experiment-results.ipynb",
+      "payload": null
+    },
+    {
+      "id": 35,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:24:00+05:30",
+      "ended_at": "2026-09-02T09:41:00+05:30",
+      "app": "Jupyter",
+      "browser": "Chrome",
+      "title": "experiment-results.ipynb",
+      "url": "http://localhost:8888/notebooks/experiment-results.ipynb",
+      "payload": null
+    },
+    {
+      "id": 36,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:41:00+05:30",
+      "ended_at": "2026-09-02T09:58:00+05:30",
+      "app": "Python",
+      "browser": null,
+      "title": "calibration plots",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 37,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:58:00+05:30",
+      "ended_at": "2026-09-02T10:12:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — evaluate.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 38,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T10:12:00+05:30",
+      "ended_at": "2026-09-02T10:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — data.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 39,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T10:29:00+05:30",
+      "ended_at": "2026-09-02T10:43:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git diff",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 40,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T10:43:00+05:30",
+      "ended_at": "2026-09-02T11:02:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Dataset documentation",
+      "url": "https://...",
+      "payload": null
+    },
+    {
+      "id": 41,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T11:02:00+05:30",
+      "ended_at": "2026-09-02T11:19:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — evaluation protocol",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 42,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T11:19:00+05:30",
+      "ended_at": "2026-09-02T11:27:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Research Lab",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 43,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T11:27:00+05:30",
+      "ended_at": "2026-09-02T11:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Shared document",
+      "url": "https://docs.google.com/document/d/...",
+      "payload": null
+    },
+    {
+      "id": 44,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T11:46:00+05:30",
+      "ended_at": "2026-09-02T12:03:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — evaluation protocol",
+      "url": null,
+      "payload": null
+    },
+
+    {
+      "id": 45,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T13:37:00+05:30",
+      "ended_at": "2026-09-02T13:52:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — split.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 46,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T13:52:00+05:30",
+      "ended_at": "2026-09-02T14:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — evaluate.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 47,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T14:17:00+05:30",
+      "ended_at": "2026-09-02T14:31:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python verify_split.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 48,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T14:31:00+05:30",
+      "ended_at": "2026-09-02T14:54:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — evaluate.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 49,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T14:54:00+05:30",
+      "ended_at": "2026-09-02T15:01:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python run_experiment.py --seed 43",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 50,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T15:01:00+05:30",
+      "ended_at": "2026-09-02T15:18:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "experiment output",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 51,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T15:18:00+05:30",
+      "ended_at": "2026-09-02T15:37:00+05:30",
+      "app": "Jupyter",
+      "browser": "Chrome",
+      "title": "experiment-results.ipynb",
+      "url": "http://localhost:8888/notebooks/experiment-results.ipynb",
+      "payload": null
+    },
+    {
+      "id": 52,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T15:37:00+05:30",
+      "ended_at": "2026-09-02T15:58:00+05:30",
+      "app": "Jupyter",
+      "browser": "Chrome",
+      "title": "experiment-results.ipynb",
+      "url": "http://localhost:8888/notebooks/experiment-results.ipynb",
+      "payload": null
+    },
+    {
+      "id": 53,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T15:58:00+05:30",
+      "ended_at": "2026-09-02T16:19:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — unexpected result",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 54,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T16:19:00+05:30",
+      "ended_at": "2026-09-02T16:31:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Research Lab",
+      "url": null,
+      "payload": null
+    },
+
+    {
+      "id": 55,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T17:44:00+05:30",
+      "ended_at": "2026-09-02T18:06:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Main Paper — Results",
+      "url": "https://docs.google.com/document/d/...",
+      "payload": null
+    },
+    {
+      "id": 56,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T18:06:00+05:30",
+      "ended_at": "2026-09-02T18:17:00+05:30",
+      "app": "Google Scholar",
+      "browser": "Chrome",
+      "title": "Google Scholar",
+      "url": "https://scholar.google.com/",
+      "payload": null
+    },
+    {
+      "id": 57,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T18:17:00+05:30",
+      "ended_at": "2026-09-02T18:42:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Calibration under distribution shift",
+      "url": "https://arxiv.org/abs/...",
+      "payload": null
+    },
+    {
+      "id": 58,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T18:42:00+05:30",
+      "ended_at": "2026-09-02T18:58:00+05:30",
+      "app": "Zotero",
+      "browser": null,
+      "title": "Zotero",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 59,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T18:58:00+05:30",
+      "ended_at": "2026-09-02T19:21:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — distribution shift",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 60,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T19:21:00+05:30",
+      "ended_at": "2026-09-02T19:34:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Neural network calibration lecture",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 61,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T19:34:00+05:30",
+      "ended_at": "2026-09-02T20:02:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — unexpected result",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 62,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T20:02:00+05:30",
+      "ended_at": "2026-09-02T20:27:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Main Paper — Results",
+      "url": "https://docs.google.com/document/d/...",
+      "payload": null
+    },
+    {
+      "id": 63,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T20:27:00+05:30",
+      "ended_at": "2026-09-02T20:39:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 64,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T20:39:00+05:30",
+      "ended_at": "2026-09-02T21:04:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — experiment log",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 65,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T21:04:00+05:30",
+      "ended_at": "2026-09-02T21:11:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "experiment status",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 66,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T21:11:00+05:30",
+      "ended_at": "2026-09-02T22:11:00+05:30",
+      "app": "Obsidian",
+      "browser": null,
+      "title": "Research notes — experiment log",
+      "url": null,
+      "payload": null
+    }
+  ],
+
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "08:54",
+        "ended_at": "10:43",
+        "title": "Investigated unexpected experiment result",
+        "summary": "Inspected the completed experiment, visualized its calibration behavior, and checked the evaluation and data-processing code to determine whether the unexpected pattern was caused by an implementation problem.",
+        "event_ids": [33, 34, 35, 36, 37, 38, 39],
+        "context": "Work",
+        "area": "Main Research Project",
+        "intent": "Analyze",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "10:43",
+        "ended_at": "12:03",
+        "title": "Checked evaluation methodology and discussed concern",
+        "summary": "Reviewed dataset documentation and research notes, then discussed the evaluation setup with collaborators. A concern emerged that the current split may not be appropriate for the comparison.",
+        "event_ids": [40, 41, 42, 43, 44],
+        "context": "Work",
+        "area": "Methodology",
+        "intent": "Analyze",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-03",
+        "started_at": "13:37",
+        "ended_at": "16:31",
+        "title": "Revised evaluation split and reran experiment",
+        "summary": "Modified the evaluation split, verified the revised setup, launched a new run, and inspected the early results. The unexpected pattern changed but did not disappear completely.",
+        "event_ids": [45, 46, 47, 48, 49, 50, 51, 52, 53, 54],
+        "context": "Work",
+        "area": "Main Research Project",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-04",
+        "started_at": "17:44",
+        "ended_at": "19:21",
+        "title": "Connected experiment result to literature",
+        "summary": "Reviewed the manuscript results section and searched for related work concerning calibration under distribution shift. The researcher was trying to determine whether the unexpected result could represent a meaningful phenomenon rather than simply an implementation problem.",
+        "event_ids": [55, 56, 57, 58, 59],
+        "context": "Work",
+        "area": "Main Research Project",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-05",
+        "started_at": "19:21",
+        "ended_at": "20:02",
+        "title": "Follow-up methodological investigation",
+        "summary": "Used a short technical lecture and then updated research notes about the unexpected result and possible explanations.",
+        "event_ids": [60, 61],
+        "context": "Work",
+        "area": "Methodology",
+        "intent": "Analyze",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-02-06",
+        "started_at": "20:02",
+        "ended_at": "20:27",
+        "title": "Brief manuscript revision",
+        "summary": "Made limited changes to the results section to reflect the revised evaluation setup, without presenting the new result as a confirmed finding.",
+        "event_ids": [62],
+        "context": "Work",
+        "area": "Main Paper",
+        "intent": "Write",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-02-07",
+        "started_at": "20:27",
+        "ended_at": "20:39",
+        "title": "Research communication",
+        "summary": "Checked email for possible responses related to the research project.",
+        "event_ids": [63],
+        "context": "Work",
+        "area": "Collaboration",
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-08",
+        "started_at": "20:39",
+        "ended_at": "22:11",
+        "title": "Documented experiment and open questions",
+        "summary": "Updated the experiment log with the revised setup and recorded unresolved questions about whether the observed calibration change is robust.",
+        "event_ids": [64, 65, 66],
+        "context": "Work",
+        "area": "Main Research Project",
+        "intent": "Analyze",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:03",
+        "ended_at": "13:37",
+        "reason": "Lunch / offline personal activity"
+      },
+      {
+        "started_at": "16:31",
+        "ended_at": "17:44",
+        "reason": "Personal activity / offline"
+      }
+    ]
+  },
+
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The unexpected result from yesterday became the central research question today rather than being dismissed as a simple implementation failure.",
+      "The researcher made meaningful progress by identifying a possible evaluation-split issue, revising the setup, and rerunning the experiment.",
+      "The revised experiment changed the observed pattern but did not fully resolve the question, leaving an important interpretive open loop.",
+      "Literature review was more targeted than yesterday and was used to investigate whether the unexpected behavior could have a plausible methodological explanation.",
+      "Manuscript work remained limited because interpreting the new result took priority."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Complete the next round of experiments for the main uncertainty estimation project",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Move the manuscript from exploratory notes toward a coherent results section",
+        "assessment": "some progress, but secondary today"
+      },
+      {
+        "priority": "Resolve whether the current experimental setup is measuring calibration fairly",
+        "assessment": "meaningfully progressed but unresolved"
+      },
+      {
+        "priority": "Complete the replication study before deciding whether it is worth extending",
+        "assessment": "no meaningful progress observed today"
+      }
+    ],
+    "important_uncertainty": [
+      "The revised experiment does not yet establish whether the observed calibration behavior is a genuine finding.",
+      "The desktop record cannot establish what happened during the offline periods.",
+      "The collaborator's concern is visible through the communication sequence, but the exact reasoning behind it is not fully observable from desktop activity alone.",
+      "The short lecture may have contributed to the investigation, but its actual usefulness cannot be established solely from the application and duration."
+    ],
+    "possible_next_step": "Let the revised experiment finish and compare its results against the original run before making further changes to the hypothesis or manuscript."
+  },
+
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Resolve the experiment open loop",
+      "action_type": "complete_open_loop",
+      "reason": "The revised experiment is already underway and the central research question remains unresolved; interpreting its completed output is the highest-value immediate continuation.",
+      "suggested_focus_minutes": 75,
+      "target": "Main Research Project"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not tell the researcher that the unexpected result is a confirmed finding.",
+      "Do not recommend further literature searching merely because the result remains uncertain.",
+      "Do not treat the limited manuscript writing as failure; the methodology question directly affected the validity of the results section.",
+      "Do not infer frustration or stress from the repeated debugging and analysis.",
+      "Do not assume the replication study is being neglected without considering the competing high-priority experiment.",
+      "Do not recommend changing the hypothesis before the revised experiment has been properly inspected."
+    ]
+  }
+}

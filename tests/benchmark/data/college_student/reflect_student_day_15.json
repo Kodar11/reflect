@@ -1,0 +1,449 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Completing DBMS Practical 3",
+      "Preparing for the next Software Engineering group presentation review",
+      "Maintaining the semester project"
+    ],
+    "priorities": [
+      "Finish the DBMS Practical 3 requirements",
+      "Keep the next Software Engineering presentation materials coherent",
+      "Continue the semester project without letting small issues accumulate"
+    ]
+  },
+  "day": {
+    "day_number": 15,
+    "date": "2026-09-15",
+    "day_type": "tuesday_dbms_practical_and_fragmented_project_day",
+    "circumstances": [
+      "Tuesday included regular college classes and a long afternoon period away from the laptop.",
+      "The DBMS practical continued from Day 14, moving from initial SQL work into views and stored-procedure examples.",
+      "The student spent more time than planned switching between the DBMS draft, documentation, search results, and a messaging thread with classmates, then returned to the same task.",
+      "The semester project received a shorter maintenance session after a teammate merged the recent response-handling change.",
+      "The Software Engineering presentation was only briefly checked; most of the previous review cycle was already complete.",
+      "The evening contained ordinary gaming and social time before a final DBMS review."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:17",
+      "last_seen": "21:35",
+      "approx_active_hours": 6.5,
+      "longest_unobserved_gap_minutes": 189
+    }
+  },
+  "raw_events": [
+    {
+      "id": 274,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T08:17:00+05:30",
+      "ended_at": "2026-09-15T08:29:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 275,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T08:29:00+05:30",
+      "ended_at": "2026-09-15T08:42:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS — Practical 3",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 276,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T11:51:00+05:30",
+      "ended_at": "2026-09-15T12:14:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 277,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:14:00+05:30",
+      "ended_at": "2026-09-15T12:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "MySQL CREATE VIEW syntax",
+      "url": "https://dev.mysql.com/doc/refman/8.0/en/create-view.html",
+      "payload": null
+    },
+    {
+      "id": 278,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:31:00+05:30",
+      "ended_at": "2026-09-15T12:57:00+05:30",
+      "app": "MySQL Workbench",
+      "browser": null,
+      "title": "SQL Editor — practical_3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 279,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:57:00+05:30",
+      "ended_at": "2026-09-15T13:08:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "MySQL stored procedure IN parameter example",
+      "url": "https://www.google.com/search?q=MySQL+stored+procedure+IN+parameter+example",
+      "payload": null
+    },
+    {
+      "id": 280,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T13:08:00+05:30",
+      "ended_at": "2026-09-15T13:36:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 281,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T13:36:00+05:30",
+      "ended_at": "2026-09-15T13:51:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 282,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T13:51:00+05:30",
+      "ended_at": "2026-09-15T14:07:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 283,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:07:00+05:30",
+      "ended_at": "2026-09-15T14:24:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "MySQL stored procedures explained",
+      "url": "https://www.youtube.com/watch?v=example10",
+      "payload": null
+    },
+    {
+      "id": 284,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:24:00+05:30",
+      "ended_at": "2026-09-15T14:42:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 285,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T16:39:00+05:30",
+      "ended_at": "2026-09-15T16:52:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 286,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T16:52:00+05:30",
+      "ended_at": "2026-09-15T17:10:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Commits",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 287,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T17:10:00+05:30",
+      "ended_at": "2026-09-15T17:43:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — response.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 288,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T17:43:00+05:30",
+      "ended_at": "2026-09-15T17:56:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- response",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 289,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T17:56:00+05:30",
+      "ended_at": "2026-09-15T18:08:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 290,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T18:08:00+05:30",
+      "ended_at": "2026-09-15T18:21:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 291,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T19:04:00+05:30",
+      "ended_at": "2026-09-15T19:46:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 292,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T19:46:00+05:30",
+      "ended_at": "2026-09-15T20:08:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 293,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T21:09:00+05:30",
+      "ended_at": "2026-09-15T21:22:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS — Practical 3",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 294,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T21:22:00+05:30",
+      "ended_at": "2026-09-15T21:35:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-15-01",
+        "started_at": "08:17",
+        "ended_at": "08:42",
+        "title": "Morning academic check",
+        "summary": "Checked email and the DBMS practical page before leaving for the day's classes.",
+        "event_ids": [
+          274,
+          275
+        ],
+        "context": "Routine Tuesday start after the practical had been opened on Day 14.",
+        "area": "coursework",
+        "intent": "Review current coursework information and requirements.",
+        "quality": "routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-02",
+        "started_at": "11:51",
+        "ended_at": "14:42",
+        "title": "DBMS Practical 3 research and drafting",
+        "summary": "Worked through the DBMS practical draft, checked MySQL documentation for views, tested SQL in MySQL Workbench, researched stored-procedure syntax, briefly exchanged messages with classmates, watched a targeted tutorial, and returned repeatedly to the same draft.",
+        "event_ids": [
+          276,
+          277,
+          278,
+          279,
+          280,
+          281,
+          282,
+          283,
+          284
+        ],
+        "context": "This continues the practical assignment started on Day 14 and adds concrete database-programming tasks.",
+        "area": "coursework",
+        "intent": "Complete the practical's database queries and procedural examples and document the results.",
+        "quality": "substantive but somewhat fragmented",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-03",
+        "started_at": "16:39",
+        "ended_at": "18:08",
+        "title": "Semester project maintenance after merge",
+        "summary": "Checked the group discussion and recent commits, inspected the merged response-handling code, ran the relevant tests, and reported the result to teammates.",
+        "event_ids": [
+          285,
+          286,
+          287,
+          288,
+          289
+        ],
+        "context": "The recent project response fix had been merged and now needed a quick follow-up verification.",
+        "area": "semester_project",
+        "intent": "Verify the merged response-handling change and report whether further action is needed.",
+        "quality": "focused maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-04",
+        "started_at": "18:08",
+        "ended_at": "18:21",
+        "title": "Presentation materials glance",
+        "summary": "Briefly opened the semester presentation deck to check the latest shared version.",
+        "event_ids": [
+          290
+        ],
+        "context": "The presentation work had already gone through review and revision on previous days.",
+        "area": "coursework",
+        "intent": "Confirm the current shared presentation state.",
+        "quality": "brief verification",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-05",
+        "started_at": "19:04",
+        "ended_at": "20:08",
+        "title": "Evening gaming and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          291,
+          292
+        ],
+        "context": "Ordinary evening leisure after the afternoon project check.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-06",
+        "started_at": "21:09",
+        "ended_at": "21:35",
+        "title": "DBMS practical review",
+        "summary": "Reopened the practical page and draft to inspect the current state and remaining requirements.",
+        "event_ids": [
+          293,
+          294
+        ],
+        "context": "The practical remained open after the afternoon research and drafting.",
+        "area": "coursework",
+        "intent": "Review what remains before the next work session.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:42",
+        "ended_at": "11:51",
+        "reason": "College classes and campus activity away from the laptop"
+      },
+      {
+        "started_at": "14:42",
+        "ended_at": "16:39",
+        "reason": "Lunch, library/offline study, and personal activity"
+      },
+      {
+        "started_at": "18:21",
+        "ended_at": "19:04",
+        "reason": "Break and offline personal time"
+      },
+      {
+        "started_at": "20:08",
+        "ended_at": "21:09",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The DBMS practical was the main academic thread and progressed from initial setup into concrete work with MySQL views and stored procedures.",
+      "The DBMS block was somewhat fragmented by repeated switching between the draft, documentation, search, messaging, and a targeted tutorial, but the student repeatedly returned to the same assignment.",
+      "The semester project received a contained maintenance block after the recent response-handling change was merged, with code review and targeted tests rather than a new feature push.",
+      "The Software Engineering presentation was only briefly checked and was no longer the dominant workstream.",
+      "The final DBMS revisit indicates the practical remained open at the end of the observed day."
+    ],
+    "priority_alignment": [
+      "Most substantive laptop work went toward finishing the DBMS practical, matching the clearest open coursework task.",
+      "The project was maintained after a teammate merge without displacing the DBMS priority.",
+      "Presentation activity was limited to a quick status check rather than unnecessary rework."
+    ],
+    "important_uncertainty": [
+      "The DBMS searches, tutorial, and Workbench activity support active problem-solving, but they do not prove that all stored procedures or SQL results are correct.",
+      "The final Classroom/Docs revisit shows the practical was still being checked, but does not identify exactly what remained.",
+      "The project test run verifies the touched response path, not the whole project.",
+      "Classes and other offline periods are absent from the laptop timeline."
+    ],
+    "possible_next_step": "Finish the remaining DBMS Practical 3 requirements from the existing draft and verify the final examples before submission."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close DBMS Practical 3",
+      "action_type": "complete_open_loop",
+      "reason": "The practical has carried across two days and now has research, tested SQL, documentation, and a persistent draft, but it still appears open.",
+      "suggested_focus_minutes": 45,
+      "target": "DBMS Practical 3"
+    },
+    "secondary_action": {
+      "title": "Leave project maintenance bounded",
+      "action_type": "protect_priority",
+      "reason": "The semester project received an appropriate verification pass today; the DBMS practical is the clearer remaining priority.",
+      "suggested_focus_minutes": 20,
+      "target": "Semester Project response handling"
+    },
+    "things_not_to_do": [
+      "Do not treat every switch between DBMS Docs, documentation, search, WhatsApp, YouTube, and Workbench as a separate academic task.",
+      "Do not assume the DBMS practical is complete because database commands were run successfully.",
+      "Do not reopen the Software Engineering presentation for large-scale changes without new feedback.",
+      "Do not infer that the merged project change is fully correct from one targeted test run.",
+      "Do not treat gaming and friend communication as inherently problematic."
+    ]
+  }
+}

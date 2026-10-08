@@ -107,7 +107,7 @@ suite('CoachRepository (SQLite)', () => {
 
   it('a fresh database is at v15 with the coach tables and the daily-intelligence columns', () => {
     const raw = new BetterSqliteDB(dbPath, { readonly: true });
-    expect(raw.pragma('user_version', { simple: true })).toBe(17);
+    expect(raw.pragma('user_version', { simple: true })).toBe(18);
     const tables = (raw.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all() as { name: string }[]).map((t) => t.name);
     for (const t of ['coach_actions', 'coach_action_events', 'coach_memory', 'coach_messages', 'coach_settings']) expect(tables).toContain(t);
     const columns = (raw.prepare(`PRAGMA table_info(reflection_reports)`).all() as { name: string }[]).map((c) => c.name);
@@ -187,6 +187,24 @@ suite('CoachRepository (SQLite)', () => {
       ['execution', 'accepted', 'review', null],
       ['outcome', 'review', 'closed', { reasonCode: 'too_difficult' }],
     ]);
+  });
+
+  it('deletes an action together with its audit trail, and nothing else', () => {
+    openReport('report-12');
+    const gone = coachAction({ title: 'Made from a deleted event' });
+    const kept = coachAction({ title: 'Unrelated' });
+    for (const action of [gone, kept]) {
+      repo.insertAction(action);
+      repo.insertActionEvent({ id: `e-${action.id}`, actionId: action.id, type: 'suggested', fromStatus: null, toStatus: 'suggested', detail: null, createdAt: action.createdAt });
+    }
+
+    repo.deleteAction(gone.id);
+
+    expect(repo.getAction(gone.id)).toBeNull();
+    expect(repo.listActionEvents(gone.id)).toEqual([]);
+    expect(repo.getAction(kept.id)).toMatchObject({ title: 'Unrelated' });
+    expect(repo.listActionEvents(kept.id)).toHaveLength(1);
+    expect(repo.listActionsByReport('report-12').map((a) => a.title)).toEqual(['Unrelated']);
   });
 
   it('lists actions newest first, by time and by report', () => {
@@ -320,7 +338,7 @@ suite('CoachRepository (SQLite)', () => {
 
     db = new Database(dbPath);
     const check = new BetterSqliteDB(dbPath, { readonly: true });
-    expect(check.pragma('user_version', { simple: true })).toBe(17);
+    expect(check.pragma('user_version', { simple: true })).toBe(18);
     check.close();
 
     expect(new ReflectionRepository(db).getCurrentReport('day', day12.key)).toMatchObject({

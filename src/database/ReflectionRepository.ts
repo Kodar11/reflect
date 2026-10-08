@@ -24,6 +24,12 @@ import type {
   ReflectionTrigger,
   ReportCoachBlock,
 } from '../reflection/ReflectionModels.js';
+import {
+  EVENTS_REMOVED_HEADLINE,
+  EVENTS_REMOVED_REASON,
+  planReportRedaction,
+  type RemovedEvents,
+} from '../reflection/ReflectionChanges.js';
 import { intervalsFromEvents, type PrioritySyncPlan } from '../reflection/ReflectionPriorities.js';
 
 /**
@@ -903,6 +909,84 @@ export class ReflectionRepository implements IReflectionRepository {
 
   deleteDayFacts(range: { start: string; end: string } | null): number {
     return range ? this.deleteDayRangeStmt.run({ start: range.start, end: range.end }).changes : this.deleteAllDaysStmt.run().changes;
+  }
+
+  // --- Event removal ---
+
+  /**
+   * The user hid or deleted events. Every stored report that was written
+   * from a block holding one of them stops showing what was derived from it:
+   *
+   *   - insights (and the carry-forward) that cite the block are removed,
+   *     with their evidence — a claim is not kept without what it rested on;
+   *   - the block leaves the report's record of what it was written from;
+   *   - the headline and the narrative, which retell the period in free prose
+   *     and cannot be checked sentence by sentence, are withdrawn;
+   *   - a current report becomes stale (`events_removed`), which is what gets
+   *     it rewritten from the timeline as it now is.
+   *
+   * Reports that never saw the events are not touched. `signatures` are the
+   * thread / priority links cached for the affected blocks; the ones the
+   * model decided are dropped so their labels are not offered again (a link
+   * the user corrected is theirs and stays).
+   *
+   * Returns the periods whose current report went stale.
+   */
+  redactRemovedEvents(removed: RemovedEvents, signatures: string[], nowIso: string): ReflectionPeriod[] {
+    if (removed.eventIds.length === 0 || removed.ranges.length === 0) return [];
+    const start = removed.ranges.reduce((min, r) => (r.start < min ? r.start : min), removed.ranges[0].start);
+    const end = removed.ranges.reduce((max, r) => (r.end > max ? r.end : max), removed.ranges[0].end);
+    const stale: ReflectionPeriod[] = [];
+
+    this.db.transaction(() => {
+      const rows = this.db
+        .prepare(
+          `SELECT * FROM reflection_reports
+           WHERE status IN ('fresh', 'stale', 'superseded') AND period_start <= @end AND period_end >= @start`,
+        )
+        .all({ start, end }) as ReportRow[];
+      const deleteInsight = this.db.prepare(`DELETE FROM reflection_insights WHERE id = ?`);
+      const redact = this.db.prepare(
+        `UPDATE reflection_reports
+         SET headline = @headline, narrative = NULL,
+             carry_forward_json = CASE WHEN @drop_carry = 1 THEN NULL ELSE carry_forward_json END,
+             data_snapshot_json = @data_snapshot_json,
+             status = CASE WHEN status = 'fresh' THEN 'stale' ELSE status END,
+             stale_reason = CASE WHEN status = 'superseded' THEN stale_reason ELSE @reason END,
+             stale_at = CASE WHEN status = 'superseded' THEN stale_at ELSE @now END,
+             needs_verification = 0, updated_at = @now
+         WHERE id = @id`,
+      );
+
+      for (const row of rows) {
+        const report = this.toReport(row);
+        const plan = planReportRedaction(report, removed);
+        if (!plan) continue;
+        for (const id of plan.insightIds) deleteInsight.run(id);
+        const snapshot = report.dataSnapshot
+          ? { ...report.dataSnapshot, activities: report.dataSnapshot.activities.filter((_, index) => !plan.snapshotActivities.includes(index)) }
+          : null;
+        redact.run({
+          id: row.id,
+          headline: EVENTS_REMOVED_HEADLINE,
+          drop_carry: plan.carryForward ? 1 : 0,
+          data_snapshot_json: snapshot ? JSON.stringify(snapshot) : null,
+          reason: EVENTS_REMOVED_REASON,
+          now: nowIso,
+        });
+        if (row.status !== 'superseded') stale.push(report.period);
+      }
+
+      if (signatures.length > 0) {
+        this.db
+          .prepare(
+            `DELETE FROM reflection_activity_annotations
+             WHERE source != 'user' AND signature IN (SELECT value FROM json_each(@signatures))`,
+          )
+          .run({ signatures: JSON.stringify(signatures) });
+      }
+    });
+    return stale;
   }
 
   // --- mapping ---

@@ -1,0 +1,434 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Completing Theory of Computation Tutorial 2",
+      "Maintaining the semester project",
+      "Keeping up with regular semester coursework"
+    ],
+    "priorities": [
+      "Finish the Theory of Computation tutorial",
+      "Keep the semester project moving on concrete tasks",
+      "Stay current with normal coursework"
+    ]
+  },
+  "day": {
+    "day_number": 17,
+    "date": "2026-09-17",
+    "day_type": "thursday_toc_continuation_and_offline_study",
+    "circumstances": [
+      "Thursday included regular classes and a long library period where the student worked from paper notes rather than the laptop.",
+      "The Theory of Computation tutorial continued from Day 16, with the student revising grammar answers and checking derivations after the offline study period.",
+      "The semester project received a moderate implementation block focused on a small database-layer change.",
+      "A short teammate message interrupted the project work, then the student returned to the same code path.",
+      "The evening was lighter, with a short entertainment session and a final check of the Theory of Computation draft."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:09",
+      "last_seen": "21:22",
+      "approx_active_hours": 6.5,
+      "longest_unobserved_gap_minutes": 189
+    }
+  },
+  "raw_events": [
+    {
+      "id": 311,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T08:09:00+05:30",
+      "ended_at": "2026-09-17T08:22:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 312,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T08:22:00+05:30",
+      "ended_at": "2026-09-17T08:37:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Theory of Computation — Tutorial 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 313,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T11:46:00+05:30",
+      "ended_at": "2026-09-17T12:03:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 314,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:03:00+05:30",
+      "ended_at": "2026-09-17T12:21:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "CFG parse tree ambiguity example",
+      "url": "https://www.google.com/search?q=CFG+parse+tree+ambiguity+example",
+      "payload": null
+    },
+    {
+      "id": 315,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:21:00+05:30",
+      "ended_at": "2026-09-17T12:49:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 316,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:49:00+05:30",
+      "ended_at": "2026-09-17T13:02:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "parse trees and ambiguity in CFG",
+      "url": "https://www.youtube.com/watch?v=example13",
+      "payload": null
+    },
+    {
+      "id": 317,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T13:02:00+05:30",
+      "ended_at": "2026-09-17T13:29:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 318,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T13:29:00+05:30",
+      "ended_at": "2026-09-17T13:44:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 319,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T13:44:00+05:30",
+      "ended_at": "2026-09-17T14:08:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 320,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:31:00+05:30",
+      "ended_at": "2026-09-17T16:45:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 321,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:45:00+05:30",
+      "ended_at": "2026-09-17T17:03:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Commits",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 322,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T17:03:00+05:30",
+      "ended_at": "2026-09-17T17:42:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — db.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 323,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T17:42:00+05:30",
+      "ended_at": "2026-09-17T17:55:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- db",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 324,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T17:55:00+05:30",
+      "ended_at": "2026-09-17T18:08:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 325,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:08:00+05:30",
+      "ended_at": "2026-09-17T18:23:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Commits",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 326,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:23:00+05:30",
+      "ended_at": "2026-09-17T18:37:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "desk setup ideas for small rooms",
+      "url": "https://www.youtube.com/watch?v=example14",
+      "payload": null
+    },
+    {
+      "id": 327,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:37:00+05:30",
+      "ended_at": "2026-09-17T19:24:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 328,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T19:24:00+05:30",
+      "ended_at": "2026-09-17T19:43:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 329,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T20:51:00+05:30",
+      "ended_at": "2026-09-17T21:05:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Theory of Computation — Tutorial 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 330,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T21:05:00+05:30",
+      "ended_at": "2026-09-17T21:22:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-17-01",
+        "started_at": "08:09",
+        "ended_at": "08:37",
+        "title": "Morning coursework check",
+        "summary": "Checked email and opened the Theory of Computation tutorial page before the college day.",
+        "event_ids": [
+          311,
+          312
+        ],
+        "context": "Routine morning academic review after starting the tutorial on Day 16.",
+        "area": "coursework",
+        "intent": "Review current tutorial requirements and any course updates.",
+        "quality": "routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-02",
+        "started_at": "11:46",
+        "ended_at": "14:08",
+        "title": "Theory of Computation tutorial revision",
+        "summary": "Reworked tutorial answers using parse-tree examples, checked ambiguity explanations, watched a targeted explanation, and returned to the document after a short WhatsApp interruption.",
+        "event_ids": [
+          313,
+          314,
+          315,
+          316,
+          317,
+          318,
+          319
+        ],
+        "context": "The student had studied parts of the tutorial offline in the library before returning to the laptop.",
+        "area": "coursework",
+        "intent": "Improve the grammar answers and make the derivations internally consistent.",
+        "quality": "substantive revision with brief interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-03",
+        "started_at": "11:00",
+        "ended_at": "11:46",
+        "title": "Offline Theory of Computation problem solving",
+        "summary": "Worked through parse trees and grammar questions on paper in the library without using the laptop.",
+        "event_ids": [],
+        "context": "Offline library study occurred before the laptop-based revision session.",
+        "area": "coursework",
+        "intent": "Solve tutorial questions manually and compare derivations.",
+        "quality": "unobserved offline study",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-17-04",
+        "started_at": "16:31",
+        "ended_at": "18:23",
+        "title": "Semester project database-layer implementation",
+        "summary": "Reviewed project commits, edited the database helper, ran targeted tests, discussed a small issue with teammates, and checked the latest commit state.",
+        "event_ids": [
+          320,
+          321,
+          322,
+          323,
+          324,
+          325
+        ],
+        "context": "The semester project needed a small database-layer adjustment after recent API integration work.",
+        "area": "semester_project",
+        "intent": "Implement the database-layer change and verify the affected tests.",
+        "quality": "focused implementation and verification",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-17-05",
+        "started_at": "18:23",
+        "ended_at": "19:43",
+        "title": "Evening personal time",
+        "summary": "Watched a room-setup video, played Hades, and chatted with friends.",
+        "event_ids": [
+          326,
+          327,
+          328
+        ],
+        "context": "Ordinary personal time after the project work.",
+        "area": "leisure",
+        "intent": "Recreation, personal-interest browsing, and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-06",
+        "started_at": "20:51",
+        "ended_at": "21:22",
+        "title": "Theory of Computation draft review",
+        "summary": "Reopened the course page and tutorial draft to review the current answers before ending the workday.",
+        "event_ids": [
+          329,
+          330
+        ],
+        "context": "The tutorial had received substantial revision but remained open.",
+        "area": "coursework",
+        "intent": "Check remaining requirements and prepare the next work session.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:37",
+        "ended_at": "11:00",
+        "reason": "College classes and commuting away from the laptop"
+      },
+      {
+        "started_at": "11:00",
+        "ended_at": "11:46",
+        "reason": "Offline library study on paper"
+      },
+      {
+        "started_at": "14:08",
+        "ended_at": "16:31",
+        "reason": "Lunch, additional offline coursework, and personal activity"
+      },
+      {
+        "started_at": "19:43",
+        "ended_at": "20:51",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Theory of Computation remained the main coursework thread, continuing from Day 16 into revision of parse-tree and grammar answers.",
+      "Part of the tutorial work happened offline in the library, so the laptop timeline understates the amount of time spent on that topic.",
+      "The semester project received a coherent database-layer implementation and test cycle, with a brief teammate interruption inside the same task.",
+      "The evening personal-interest YouTube session was unrelated to coursework and preceded gaming and social time.",
+      "The tutorial was revisited at the end of the day but still appears open."
+    ],
+    "priority_alignment": [
+      "The main academic effort continued toward the Theory of Computation tutorial.",
+      "The semester project received meaningful but bounded implementation work rather than displacing the main coursework thread."
+    ],
+    "important_uncertainty": [
+      "The offline library session cannot be assessed from desktop events, so its exact duration and content are known only at ground-truth level.",
+      "The tutorial edits and examples indicate progress, but the events do not prove that all derivations are correct.",
+      "The project test run verifies the edited database path but does not establish that the wider project is stable.",
+      "The final Classroom/Docs revisit shows the tutorial remains active but does not identify the exact remaining work."
+    ],
+    "possible_next_step": "Finish the remaining Theory of Computation tutorial answers from the current draft before starting another major academic thread."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish Theory of Computation Tutorial 2",
+      "action_type": "complete_open_loop",
+      "reason": "The tutorial has now received both offline and laptop-based work across two days and remains the clearest unfinished academic thread.",
+      "suggested_focus_minutes": 45,
+      "target": "Theory of Computation Tutorial 2"
+    },
+    "secondary_action": {
+      "title": "Keep project database work bounded",
+      "action_type": "protect_priority",
+      "reason": "The database-layer change received a complete implementation/test pass today; the tutorial is the more obvious remaining open loop.",
+      "suggested_focus_minutes": 20,
+      "target": "Semester Project database layer"
+    },
+    "things_not_to_do": [
+      "Do not infer that the laptop timeline captures all Theory of Computation work; some study occurred offline in the library.",
+      "Do not treat the YouTube room-setup video as academic activity.",
+      "Do not assume the tutorial is complete because the document was revised repeatedly.",
+      "Do not assume the semester project database change is fully correct because targeted tests passed.",
+      "Do not treat the gaming and social period as inherently negative."
+    ]
+  }
+}

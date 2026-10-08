@@ -1,0 +1,436 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Evaluating calibration under changing class prevalence with uncertain target prevalence estimates",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Preparing a small pilot experiment for the new research direction"
+    ],
+    "priorities": [
+      "Establish that the noisy-prevalence question has a defensible literature gap",
+      "Finalize a minimal pilot design and suitable dataset before implementation",
+      "Keep the pilot exploratory until the evaluation assumptions are explicit",
+      "Maintain a clean separation from the submitted manuscript and paused replication"
+    ]
+  },
+  "day": {
+    "day_number": 23,
+    "date": "2026-09-23",
+    "day_type": "literature_gap_resolution_and_pilot_implementation_day",
+    "circumstances": [
+      "The researcher completes the focused literature check from Day 22. A few papers study prevalence-estimation error, but mostly as a sensitivity analysis rather than as the central calibration question. The researcher decides the gap is worth a small pilot. They select a dataset already used in the codebase, implement a prevalence-noise adapter, and run a tiny smoke test rather than the full experiment. The smoke test exposes an indexing issue when prevalence estimates are generated per batch instead of per evaluation window. The researcher fixes the implementation, reruns the smoke test, and leaves the full pilot for a later day. The day is coding-heavy with some literature synthesis and a long offline period."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:13",
+      "last_seen": "19:21",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 84
+    }
+  },
+  "raw_events": [
+    {
+      "id": 475,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T09:13:00+05:30",
+      "ended_at": "2026-09-23T09:41:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — literature_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "literature_notes.md",
+        "interaction": "reviewed papers on prevalence-estimation error and calibration"
+      }
+    },
+    {
+      "id": 476,
+      "watcher": "Google Scholar",
+      "started_at": "2026-09-23T09:41:00+05:30",
+      "ended_at": "2026-09-23T10:13:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Scholar — noisy class prior estimation calibration",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 7,
+        "interaction": "searched recent papers and cited-by results"
+      }
+    },
+    {
+      "id": 477,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-23T10:13:00+05:30",
+      "ended_at": "2026-09-23T10:46:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — prior estimation under label shift",
+      "url": "https://example.org/prior-estimation.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read sensitivity analysis and limitations"
+      }
+    },
+    {
+      "id": 478,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T10:46:00+05:30",
+      "ended_at": "2026-09-23T11:14:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "wrote a narrower statement of the candidate research gap"
+      }
+    },
+    {
+      "id": 479,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T11:14:00+05:30",
+      "ended_at": "2026-09-23T11:43:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "pilot_design.md",
+        "interaction": "revised pilot hypothesis and evaluation factors"
+      }
+    },
+    {
+      "id": 480,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-23T11:43:00+05:30",
+      "ended_at": "2026-09-23T12:06:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Dataset documentation — image classification benchmark",
+      "url": "https://example.org/dataset-docs",
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked class distribution and split documentation"
+      }
+    },
+    {
+      "id": 481,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T12:06:00+05:30",
+      "ended_at": "2026-09-23T12:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "pilot_design.md",
+        "interaction": "locked a minimal pilot using an existing dataset and fixed prevalence-noise levels"
+      }
+    },
+    {
+      "id": 482,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T12:34:00+05:30",
+      "ended_at": "2026-09-23T13:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — prevalence_noise.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "prevalence_noise.py",
+        "interaction": "implemented adapter for perturbing target prevalence estimates"
+      }
+    },
+    {
+      "id": 483,
+      "watcher": "Terminal",
+      "ended_at": "2026-09-23T13:23:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python -m pytest tests/test_prevalence_noise.py -q"
+        ],
+        "output_state": "completed",
+        "visible_text": "new adapter tests passed"
+      },
+      "started_at": "2026-09-23T13:02:00+05:30"
+    },
+    {
+      "id": 484,
+      "watcher": "Terminal",
+      "started_at": "2026-09-23T13:23:00+05:30",
+      "ended_at": "2026-09-23T13:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/smoke_pilot.py --noise 0.10 --seed 3"
+        ],
+        "output_state": "completed_with_error",
+        "visible_text": "IndexError: prevalence estimate index out of range"
+      }
+    },
+    {
+      "id": 485,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T13:51:00+05:30",
+      "ended_at": "2026-09-23T14:22:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — prevalence_noise.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "prevalence_noise.py",
+        "interaction": "traced batch-level versus evaluation-window indexing"
+      }
+    },
+    {
+      "id": 486,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T14:22:00+05:30",
+      "ended_at": "2026-09-23T14:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — prevalence_noise.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "prevalence_noise.py",
+        "interaction": "changed adapter indexing to evaluation-window scope"
+      }
+    },
+    {
+      "id": 487,
+      "watcher": "Terminal",
+      "started_at": "2026-09-23T14:48:00+05:30",
+      "ended_at": "2026-09-23T15:19:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "commands_visible": [
+          "python scripts/smoke_pilot.py --noise 0.10 --seed 3"
+        ],
+        "output_state": "completed",
+        "visible_text": "smoke test completed; metrics written to outputs/pilot_smoke/seed3"
+      }
+    },
+    {
+      "id": 488,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T15:19:00+05:30",
+      "ended_at": "2026-09-23T15:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "pilot_design.md",
+        "interaction": "recorded smoke-test outcome and implementation caveat"
+      }
+    },
+    {
+      "id": 489,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T17:12:00+05:30",
+      "ended_at": "2026-09-23T17:44:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "pilot_design.md",
+        "interaction": "listed pilot runs and fixed analysis outputs for the eventual experiment"
+      }
+    },
+    {
+      "id": 490,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-23T17:44:00+05:30",
+      "ended_at": "2026-09-23T18:05:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Google Search — Python dataframe display formatting",
+      "url": "https://www.google.com/search?q=python+dataframe+display+formatting",
+      "payload": {
+        "window_state": "active",
+        "interaction": "searched documentation and examples"
+      }
+    },
+    {
+      "id": 491,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T18:05:00+05:30",
+      "ended_at": "2026-09-23T18:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "pilot_design.md",
+        "interaction": "simplified output format and wrote run checklist"
+      }
+    },
+    {
+      "id": 492,
+      "watcher": "VS Code",
+      "started_at": "2026-09-23T18:31:00+05:30",
+      "ended_at": "2026-09-23T19:21:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "updated next milestone and left full pilot unrun"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-23-01",
+        "started_at": "09:13",
+        "ended_at": "12:34",
+        "title": "Resolve the literature gap and lock the pilot design",
+        "summary": "The researcher completed the focused literature check, found that prevalence-estimation error is usually treated as a secondary sensitivity issue, narrowed the question, checked a candidate dataset, and fixed a minimal pilot design with predefined noise levels.",
+        "event_ids": [
+          475,
+          476,
+          477,
+          478,
+          479,
+          480,
+          481
+        ],
+        "context": "Continuation of the literature task from Day 22.",
+        "area": "literature review and research design",
+        "intent": "research",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-02",
+        "started_at": "12:34",
+        "ended_at": "15:48",
+        "title": "Implement and smoke-test the prevalence-noise adapter",
+        "summary": "The researcher implemented the adapter, verified its unit tests, ran a small smoke test, encountered an indexing error caused by treating prevalence estimates as batch-level rather than evaluation-window-level, fixed the indexing, reran successfully, and documented the caveat.",
+        "event_ids": [
+          482,
+          483,
+          484,
+          485,
+          486,
+          487,
+          488
+        ],
+        "context": "First implementation work for the newly justified pilot.",
+        "area": "research engineering",
+        "intent": "implementation",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-03",
+        "started_at": "17:12",
+        "ended_at": "19:21",
+        "title": "Prepare the pilot run checklist",
+        "summary": "The researcher fixed the intended run structure and analysis outputs, briefly searched for dataframe formatting documentation, simplified the output format, and updated the next milestone. The full pilot was intentionally left unrun.",
+        "event_ids": [
+          489,
+          490,
+          491,
+          492
+        ],
+        "context": "Preparing a reproducible pilot rather than immediately launching it.",
+        "area": "research engineering and planning",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "15:48",
+        "ended_at": "17:12",
+        "reason": "offline / break and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The focused literature review strengthened the case for a small study of prevalence-estimation error because existing work generally treats it as secondary rather than central.",
+      "The pilot design is now narrow, with a fixed dataset, predefined noise levels, and explicit outputs.",
+      "The first smoke test exposed a real implementation issue: prevalence estimates were indexed at batch scope when the pilot requires evaluation-window scope.",
+      "The implementation was corrected and the smoke test completed successfully, but the full pilot was deliberately not launched.",
+      "The project has moved from question formation into experiment preparation without yet generating substantive experimental results."
+    ],
+    "priority_alignment": [
+      "The researcher resolved the main scientific uncertainty before committing substantial implementation effort.",
+      "Coding was used to make the proposed pilot executable and reproducible, not to expand the question.",
+      "The full experiment remains a controlled next step rather than an automatic continuation."
+    ],
+    "important_uncertainty": [
+      "The literature gap is plausible but still depends on the exact calibration setting and noise model used in the pilot.",
+      "The chosen prevalence-noise model may be too artificial if it does not resemble realistic target prevalence estimation error.",
+      "The smoke test validates execution mechanics, not the scientific usefulness of the pilot."
+    ],
+    "possible_next_step": "Run the minimal pilot across the predefined prevalence-noise levels, inspect whether the effect is stable and interpretable, and avoid expanding the design until the first results justify it."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "start_focus",
+      "title": "Run the minimal pilot",
+      "reason": "The literature question is sufficiently narrowed, the adapter passes its smoke test, and the run checklist is prepared.",
+      "suggested_focus_minutes": 120,
+      "target": "Noisy Prevalence Calibration Pilot"
+    },
+    "secondary_action": {
+      "action_type": "reduce_fragmentation",
+      "title": "Use the fixed run checklist",
+      "reason": "The implementation has just crossed the threshold from exploratory coding to a reproducible pilot, so keeping the first run constrained will make the result easier to interpret.",
+      "suggested_focus_minutes": 15,
+      "target": "Noisy Prevalence Calibration Pilot"
+    },
+    "things_not_to_do": [
+      "Do not add new noise models before seeing the predefined pilot results.",
+      "Do not interpret the smoke test as evidence for the research hypothesis.",
+      "Do not change evaluation-window semantics during the full run without documenting the change.",
+      "Do not reopen the paused replication or submitted manuscript."
+    ]
+  }
+}

@@ -1,0 +1,975 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "day_number": 12,
+    "date": "2026-09-12",
+    "day_type": "identity_production_and_portfolio_day",
+    "circumstances": [
+      "The active identity brief received substantial production time, moved through presentation refinement and logo execution, and selected directions were sent to the client.",
+      "A small client request was handled without becoming the dominant workstream.",
+      "The completed Northstar project continued to be converted into a portfolio case study through several focused design blocks.",
+      "Pinterest, Behance, YouTube, and other browsing may support design work, but the raw events do not establish the purpose of every session."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:08",
+      "last_seen": "19:20",
+      "approx_active_hours": 9.4,
+      "longest_unobserved_gap_minutes": 4
+    }
+  },
+  "raw_events": [
+    {
+      "id": 264,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T09:08:00+05:30",
+      "ended_at": "2026-09-12T09:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail - New client feedback",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 265,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T09:13:00+05:30",
+      "ended_at": "2026-09-12T09:14:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Client Direction Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 266,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T09:16:00+05:30",
+      "ended_at": "2026-09-12T09:37:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 267,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T09:38:00+05:30",
+      "ended_at": "2026-09-12T09:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts — variable serif fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 268,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T09:44:00+05:30",
+      "ended_at": "2026-09-12T10:01:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 269,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T10:02:00+05:30",
+      "ended_at": "2026-09-12T10:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest — editorial branding references",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 270,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T10:10:00+05:30",
+      "ended_at": "2026-09-12T10:30:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 271,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T10:30:00+05:30",
+      "ended_at": "2026-09-12T10:35:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Instagram Web — saved brand references",
+      "url": "https://www.instagram.com/",
+      "payload": null
+    },
+    {
+      "id": 272,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T10:36:00+05:30",
+      "ended_at": "2026-09-12T10:51:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 273,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T10:52:00+05:30",
+      "ended_at": "2026-09-12T10:57:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Reply — brand direction update",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 274,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:00:00+05:30",
+      "ended_at": "2026-09-12T11:04:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — logo presentation examples",
+      "url": "https://www.google.com/",
+      "payload": null
+    },
+    {
+      "id": 275,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:05:00+05:30",
+      "ended_at": "2026-09-12T11:23:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 276,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:24:00+05:30",
+      "ended_at": "2026-09-12T11:27:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#client-work — social campaign copy change",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 277,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:28:00+05:30",
+      "ended_at": "2026-09-12T11:42:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — September Assets",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 278,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:43:00+05:30",
+      "ended_at": "2026-09-12T11:45:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Social campaign asset approval",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 279,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:46:00+05:30",
+      "ended_at": "2026-09-12T11:55:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — September Assets",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 280,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:56:00+05:30",
+      "ended_at": "2026-09-12T11:59:00+05:30",
+      "app": "File Explorer",
+      "browser": null,
+      "title": "Downloads",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 281,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T12:01:00+05:30",
+      "ended_at": "2026-09-12T12:13:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 282,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T12:13:00+05:30",
+      "ended_at": "2026-09-12T12:19:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Brand identity process / logo design workflow",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 283,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T12:20:00+05:30",
+      "ended_at": "2026-09-12T12:36:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 284,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T12:36:00+05:30",
+      "ended_at": "2026-09-12T12:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive — client reference assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 285,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T12:40:00+05:30",
+      "ended_at": "2026-09-12T12:50:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 286,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T12:51:00+05:30",
+      "ended_at": "2026-09-12T12:56:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest — typography and packaging references",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 287,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T13:00:00+05:30",
+      "ended_at": "2026-09-12T13:12:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 288,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T13:13:00+05:30",
+      "ended_at": "2026-09-12T13:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Notion — project notes and deliverables",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 289,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T13:17:00+05:30",
+      "ended_at": "2026-09-12T13:35:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 290,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T13:36:00+05:30",
+      "ended_at": "2026-09-12T13:41:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance — coffee branding case studies",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 291,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T13:42:00+05:30",
+      "ended_at": "2026-09-12T14:03:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 292,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T14:03:00+05:30",
+      "ended_at": "2026-09-12T14:05:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail - client follow-up",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 293,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T14:06:00+05:30",
+      "ended_at": "2026-09-12T14:22:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 294,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T14:22:00+05:30",
+      "ended_at": "2026-09-12T14:33:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 295,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T14:34:00+05:30",
+      "ended_at": "2026-09-12T14:38:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Draft — selected identity directions",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 296,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T14:39:00+05:30",
+      "ended_at": "2026-09-12T14:43:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Client Assets / Brand References",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 297,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T14:44:00+05:30",
+      "ended_at": "2026-09-12T15:03:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 298,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:03:00+05:30",
+      "ended_at": "2026-09-12T15:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — graphic design studio vlog",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 299,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:12:00+05:30",
+      "ended_at": "2026-09-12T15:27:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 300,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:27:00+05:30",
+      "ended_at": "2026-09-12T15:31:00+05:30",
+      "app": "File Explorer",
+      "browser": null,
+      "title": "Projects\\Brand Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 301,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:32:00+05:30",
+      "ended_at": "2026-09-12T15:54:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Brand Identity — Logo Mark",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 302,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:54:00+05:30",
+      "ended_at": "2026-09-12T15:59:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Font families — client shortlist",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 303,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:59:00+05:30",
+      "ended_at": "2026-09-12T16:16:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Brand Identity — Logo Mark",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 304,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T16:16:00+05:30",
+      "ended_at": "2026-09-12T16:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sent — selected identity directions",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 305,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T16:19:00+05:30",
+      "ended_at": "2026-09-12T16:34:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 306,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T16:35:00+05:30",
+      "ended_at": "2026-09-12T16:41:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance — portfolio case study layouts",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 307,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T16:42:00+05:30",
+      "ended_at": "2026-09-12T17:00:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 308,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:01:00+05:30",
+      "ended_at": "2026-09-12T17:04:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive — export assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 309,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:05:00+05:30",
+      "ended_at": "2026-09-12T17:18:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 310,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:18:00+05:30",
+      "ended_at": "2026-09-12T17:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail - no new client response",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 311,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:21:00+05:30",
+      "ended_at": "2026-09-12T17:35:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 312,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:35:00+05:30",
+      "ended_at": "2026-09-12T17:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest — minimal packaging systems",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 313,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:40:00+05:30",
+      "ended_at": "2026-09-12T17:59:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Brand Identity — Logo Mark",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 314,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:59:00+05:30",
+      "ended_at": "2026-09-12T18:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail - sent directions",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 315,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T18:02:00+05:30",
+      "ended_at": "2026-09-12T18:14:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 316,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T18:14:00+05:30",
+      "ended_at": "2026-09-12T18:17:00+05:30",
+      "app": "File Explorer",
+      "browser": null,
+      "title": "Projects\\Brand Identity\\Exports",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 317,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T18:18:00+05:30",
+      "ended_at": "2026-09-12T18:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — logo critique compilation",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 318,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T18:25:00+05:30",
+      "ended_at": "2026-09-12T18:41:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Brand Identity — Logo Mark",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 319,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T18:41:00+05:30",
+      "ended_at": "2026-09-12T18:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Draft — follow-up after direction review",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 320,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T18:45:00+05:30",
+      "ended_at": "2026-09-12T18:55:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 321,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T18:56:00+05:30",
+      "ended_at": "2026-09-12T19:05:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 322,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T19:05:00+05:30",
+      "ended_at": "2026-09-12T19:07:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive — project folder",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 323,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T19:08:00+05:30",
+      "ended_at": "2026-09-12T19:20:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-12-01",
+        "started_at": "09:08",
+        "ended_at": "11:23",
+        "title": "New brand identity — design work",
+        "summary": "Client feedback on the new identity was received and reviewed. Execution on the active new brand identity brief. Relevant typography research for the active identity. Relevant visual reference gathering for the active identity.",
+        "event_ids": [
+          264,
+          265,
+          266,
+          267,
+          268,
+          269,
+          270,
+          271,
+          272,
+          273,
+          274,
+          275
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-02",
+        "started_at": "11:24",
+        "ended_at": "11:59",
+        "title": "Social campaign — design work",
+        "summary": "Small production task for the recurring social campaign.",
+        "event_ids": [
+          276,
+          277,
+          278,
+          279,
+          280
+        ],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-12-03",
+        "started_at": "12:01",
+        "ended_at": "12:13",
+        "title": "New brand identity — design work",
+        "summary": "Further refinement of the active identity directions.",
+        "event_ids": [
+          281
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-04",
+        "started_at": "12:13",
+        "ended_at": "12:19",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Ambiguous video consumption; may be relevant design learning or passive viewing.",
+        "event_ids": [
+          282
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-05",
+        "started_at": "12:20",
+        "ended_at": "13:17",
+        "title": "New brand identity — design work",
+        "summary": "Worked in Figma (New Brand Identity — Logo Directions), Chrome (Google Drive — client reference assets), Figma (New Brand Identity — Presentation Board), Chrome (Pinterest — typography and packaging references).",
+        "event_ids": [
+          283,
+          284,
+          285,
+          286,
+          287,
+          288
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-06",
+        "started_at": "13:17",
+        "ended_at": "14:05",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Portfolio case study work using the completed Northstar project. Relevant portfolio/reference research, but its direct contribution is uncertain from events alone. Portfolio case study execution.",
+        "event_ids": [
+          289,
+          290,
+          291,
+          292
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-07",
+        "started_at": "14:06",
+        "ended_at": "15:03",
+        "title": "New brand identity — design work",
+        "summary": "Preparation/refinement of client-facing identity presentation material.",
+        "event_ids": [
+          293,
+          294,
+          295,
+          296,
+          297
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-08",
+        "started_at": "15:03",
+        "ended_at": "15:12",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Ambiguous design-related video consumption.",
+        "event_ids": [
+          298
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-09",
+        "started_at": "15:12",
+        "ended_at": "16:17",
+        "title": "New brand identity — design work",
+        "summary": "Logo mark production for the active identity brief. Client-facing delivery of selected identity directions.",
+        "event_ids": [
+          299,
+          300,
+          301,
+          302,
+          303,
+          304
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-10",
+        "started_at": "16:19",
+        "ended_at": "17:20",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Portfolio case study continuation. Portfolio case study execution.",
+        "event_ids": [
+          305,
+          306,
+          307,
+          308,
+          309,
+          310
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-11",
+        "started_at": "17:21",
+        "ended_at": "18:17",
+        "title": "New brand identity — design work",
+        "summary": "Additional refinement of the client-facing identity presentation. Further logo refinement and production. Final presentation refinement after sending directions.",
+        "event_ids": [
+          311,
+          312,
+          313,
+          314,
+          315,
+          316
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-12",
+        "started_at": "18:18",
+        "ended_at": "18:25",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Ambiguous design-related video consumption.",
+        "event_ids": [
+          317
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-13",
+        "started_at": "18:25",
+        "ended_at": "18:55",
+        "title": "New brand identity — design work",
+        "summary": "Continued logo production/refinement.",
+        "event_ids": [
+          318,
+          319,
+          320
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-14",
+        "started_at": "18:56",
+        "ended_at": "19:20",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Portfolio case study continuation.",
+        "event_ids": [
+          321,
+          322,
+          323
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": []
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "New brand identity was the primary workstream and received sustained execution time.",
+      "Selected identity directions were prepared and sent to the client, creating a clear handoff point for feedback.",
+      "The recurring social campaign was handled as a smaller interruption rather than the main focus.",
+      "Northstar Coffee portfolio work continued with multiple focused blocks but was not demonstrably finished.",
+      "Several reference and YouTube sessions are intentionally ambiguous and should not be labeled as distraction solely from app names."
+    ],
+    "priority_alignment": [],
+    "important_uncertainty": [
+      "The client response to the selected identity directions is not visible in this day's events.",
+      "Some browsing and video sessions may have been useful research or learning, but their exact purpose cannot be established from raw desktop events.",
+      "File-management activity shows organization/export work but does not by itself prove completion of a deliverable."
+    ],
+    "possible_next_step": "Protect the next focused block for the active brand identity, but avoid continuing refinement indefinitely before client feedback arrives. Use the waiting period for a clearly bounded Northstar portfolio milestone rather than repeatedly checking for a response."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Protect a focused block for the brand identity",
+      "action_type": "protect_priority",
+      "reason": "The identity direction has reached a natural client-feedback boundary, while the portfolio case study remains an open secondary deliverable.",
+      "suggested_focus_minutes": null,
+      "target": "New client identity"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

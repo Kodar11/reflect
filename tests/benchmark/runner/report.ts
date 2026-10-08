@@ -241,7 +241,7 @@ export function renderReviewPacket(days: { evaluation: DayEvaluation; captured: 
 
     lines.push('### Reflection', '', '**Expected**', '');
     lines.push(...answer.expectedReflection.key_observations.map((o) => `- ${o}`));
-    lines.push(...answer.expectedReflection.priority_alignment.map((p) => `- _${p.priority}_: ${p.assessment}`));
+    lines.push(...answer.expectedReflection.priority_alignment.map((p) => (typeof p === 'string' ? `- ${p}` : `- _${p.priority}_: ${p.assessment}`)));
     lines.push(...answer.expectedReflection.important_uncertainty.map((u) => `- Uncertain: ${u}`));
     lines.push(`- Next step: ${answer.expectedReflection.possible_next_step}`, '', '**Actual**', '');
     if (!report) {

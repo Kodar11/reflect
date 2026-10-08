@@ -7,6 +7,7 @@ import { carryMetrics, trajectoryMetrics } from '../reflection/ReflectionLongitu
 import { GeminiError, type IGeminiClient } from '../intelligence/GeminiClient.js';
 import type { UserContextProvider } from '../intelligence/IntelligenceModels.js';
 import { formatIntelligenceContext } from '../profile/UserProfile.js';
+import { citesRemovedEvents, type RemovedEvents } from '../reflection/ReflectionChanges.js';
 import type { CoachCheck, DailyCoachInput, DailyCoachSession, ReflectionCoachHook } from '../reflection/ReflectionCoachHook.js';
 import { selectSupportingMetrics } from '../reflection/ReflectionMetrics.js';
 import type { ReflectionMetricsService } from '../reflection/ReflectionMetricsService.js';
@@ -727,6 +728,57 @@ export class CoachService implements ReflectionCoachHook {
       }
     } catch (err) {
       this.log.error(`[COACH] Observation sweep failed: ${messageOf(err)}`);
+    }
+    if (changed > 0) this.notifyChanged();
+    return changed;
+  }
+
+  /**
+   * The user hid or deleted events. A suggestion that was made from one of
+   * them and is still undecided is withdrawn — its reason is gone. One the
+   * user already decided on is theirs: it stays, without the evidence that
+   * pointed at the removed event. Returns how many actions changed.
+   *
+   * `purge` (the event was permanently deleted): a suggestion made from it
+   * that the user never took on is removed outright instead of being kept
+   * as a withdrawn record — its wording was written from the event.
+   */
+  onEventsRemoved(removed: RemovedEvents, options: { purge?: boolean } = {}): number {
+    let changed = 0;
+    try {
+      const { repo } = this.deps;
+      const nowIso = this.now().toISOString();
+      const fromRemoved = (activityId: string) => removed.activityIds.includes(activityId);
+      for (const action of repo.listActions('')) {
+        const cited = action.evidence.some((e) => citesRemovedEvents(e, removed)) || action.sourceActivityIds.some(fromRemoved);
+        const observed = action.observation?.activityIds.some(fromRemoved) ?? false;
+        if (!cited && !observed) continue;
+        const undecided = action.status === 'suggested' || action.status === 'snoozed';
+        const withdrawn = action.status === 'withdrawn';
+        if (cited && options.purge && (undecided || withdrawn)) {
+          repo.deleteAction(action.id);
+        } else if (cited && undecided) {
+          this.persist(action, { type: 'withdraw' }, nowIso, { by: 'events_removed' });
+        } else if (withdrawn) {
+          // Already out of everything the user and the model see. Its evidence
+          // is left as it is: that link is how a later permanent deletion
+          // of the event finds this record and removes it.
+          continue;
+        } else {
+          repo.updateAction({
+            ...action,
+            evidence: action.evidence.filter((e) => !citesRemovedEvents(e, removed)),
+            sourceActivityIds: action.sourceActivityIds.filter((id) => !fromRemoved(id)),
+            observation: action.observation
+              ? { ...action.observation, activityIds: action.observation.activityIds.filter((id) => !fromRemoved(id)) }
+              : null,
+            updatedAt: nowIso,
+          });
+        }
+        changed++;
+      }
+    } catch (err) {
+      this.log.error(`[COACH] Could not apply an event removal: ${messageOf(err)}`);
     }
     if (changed > 0) this.notifyChanged();
     return changed;

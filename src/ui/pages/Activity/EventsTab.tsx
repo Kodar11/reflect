@@ -7,6 +7,7 @@ import {
 } from 'react';
 
 import {
+  EyeOff,
   Pencil,
   Search,
   Tag,
@@ -25,6 +26,13 @@ import type {
 
 import { AppIcon, WebsiteFavicon } from './ActivityIcons';
 import { EventClassificationEditor } from './EventClassificationEditor';
+import { HiddenEventsPanel } from './HiddenEventsPanel';
+import {
+  EventPrivacyContextMenu,
+  EventPrivacyMenu,
+  useEventPrivacy,
+  withoutRemoved,
+} from '../../components/EventPrivacy';
 
 import {
   CURATED_COLORS,
@@ -44,6 +52,8 @@ interface EventsTabProps {
   };
   onActivitiesChange?: () => Promise<void>;
   onRulesChange?: () => Promise<void>;
+  /** An event was hidden, restored or deleted here. */
+  onEventsChange?: () => void;
 }
 
 interface LocalClassification {
@@ -62,13 +72,52 @@ const EMPTY_CLASSIFICATION: EventClassificationEdit = {
 };
 
 export function EventsTab({
-  events,
+  events: trackedEvents,
   activities,
   dimensions,
   onActivitiesChange,
   onRulesChange,
+  onEventsChange,
 }: EventsTabProps) {
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [hiddenEvents, setHiddenEvents] = useState<HiddenEventDto[]>([]);
+  const [hiddenOpen, setHiddenOpen] = useState(false);
+
+  /* Right-click on a row: the same Hide / Delete choices, at the pointer. */
+  const [contextMenu, setContextMenu] = useState<{
+    x: number;
+    y: number;
+    event: TrackerEventDto;
+  } | null>(null);
+
+  const loadHidden = useCallback(async () => {
+    try {
+      setHiddenEvents(await window.tracker.listHiddenEvents());
+    } catch (e) {
+      console.error('Failed to load hidden events', e);
+    }
+  }, []);
+
+  useEffect(() => {
+    void loadHidden();
+  }, [loadHidden]);
+
+  const privacy = useEventPrivacy({
+    onChanged: () => {
+      void loadHidden();
+      onEventsChange?.();
+    },
+  });
+
+  /*
+   * An event the user just hid or deleted leaves the table at once,
+   * without waiting for the next tracker refresh to confirm it.
+   */
+  const events = useMemo(
+    () => withoutRemoved(trackedEvents, privacy.removedIds),
+    [trackedEvents, privacy.removedIds],
+  );
 
   const [classificationMap, setClassificationMap] = useState<
     Map<number, LocalClassification>
@@ -634,12 +683,37 @@ export function EventsTab({
           />
         </div>
 
-        {saveError && (
-          <span className="text-[12px] text-danger">
-            {saveError}
-          </span>
-        )}
+        <div className="flex items-center gap-3">
+          {saveError && (
+            <span className="text-[12px] text-danger">
+              {saveError}
+            </span>
+          )}
+
+          {(hiddenEvents.length > 0 || hiddenOpen) && (
+            <button
+              type="button"
+              className="btn btn-ghost text-[12px]"
+              aria-expanded={hiddenOpen}
+              onClick={() => setHiddenOpen((open) => !open)}
+            >
+              <EyeOff size={13} />
+              <span>
+                Hidden events ({hiddenEvents.length})
+              </span>
+            </button>
+          )}
+        </div>
       </div>
+
+      {hiddenOpen && (
+        <HiddenEventsPanel
+          events={hiddenEvents}
+          onRestore={(id) => privacy.restore([id])}
+          onDelete={(target) => privacy.requestDelete(target)}
+          onClose={() => setHiddenOpen(false)}
+        />
+      )}
 
       {/* Events table */}
       <div className="card flex-1 min-h-0 overflow-hidden flex flex-col rounded-xl border border-default">
@@ -656,7 +730,7 @@ export function EventsTab({
             className="text-[12.5px]"
             style={{
               width: '100%',
-              minWidth: '1320px',
+              minWidth: '1350px',
               tableLayout: 'fixed',
               borderCollapse:
                 'separate',
@@ -695,7 +769,7 @@ export function EventsTab({
                 style={{ width: '105px' }}
               />
               <col
-                style={{ width: '88px' }}
+                style={{ width: '118px' }}
               />
             </colgroup>
 
@@ -795,6 +869,14 @@ export function EventsTab({
                     <tr
                       key={e.id}
                       className="border-b border-default hover:bg-hover transition-colors"
+                      onContextMenu={(ev) => {
+                        ev.preventDefault();
+                        setContextMenu({
+                          x: ev.clientX,
+                          y: ev.clientY,
+                          event: e,
+                        });
+                      }}
                     >
                       {/* Time */}
                       <td className="px-3 py-2 whitespace-nowrap text-muted font-mono">
@@ -945,6 +1027,22 @@ export function EventsTab({
                               size={13}
                             />
                           </button>
+
+                          <EventPrivacyMenu
+                            onHide={() =>
+                              privacy.hide({
+                                id: e.id,
+                              })
+                            }
+                            onDelete={() =>
+                              privacy.requestDelete({
+                                id: e.id,
+                                label: [e.app, e.title]
+                                  .filter(Boolean)
+                                  .join(' · '),
+                              })
+                            }
+                          />
                         </div>
                       </td>
                     </tr>
@@ -1161,6 +1259,27 @@ export function EventsTab({
             </div>
           </div>
         )}
+
+      {contextMenu && (
+        <EventPrivacyContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          onHide={() =>
+            privacy.hide({ id: contextMenu.event.id })
+          }
+          onDelete={() =>
+            privacy.requestDelete({
+              id: contextMenu.event.id,
+              label: [contextMenu.event.app, contextMenu.event.title]
+                .filter(Boolean)
+                .join(' · '),
+            })
+          }
+          onClose={() => setContextMenu(null)}
+        />
+      )}
+
+      {privacy.overlay}
     </div>
   );
 }

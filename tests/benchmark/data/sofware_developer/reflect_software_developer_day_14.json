@@ -1,0 +1,518 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 14,
+    "date": "2026-09-14",
+    "day_type": "controlled_webhook_validation_and_release_preparation_day",
+    "circumstances": [
+      "The targeted webhook retry-path change is ready for review and controlled validation.",
+      "The workspace performance regression remains closed with stable production metrics.",
+      "The engineer needs to validate the webhook change against production-like evidence before release.",
+      "Normal team review and release coordination remain secondary responsibilities."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:03",
+      "last_seen": "18:38",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 76
+    }
+  },
+  "raw_events": [
+    {
+      "id": 342,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T09:03:00+05:30",
+      "ended_at": "2026-09-14T09:19:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #873 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/873",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 873
+      }
+    },
+    {
+      "id": 343,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T09:19:00+05:30",
+      "ended_at": "2026-09-14T09:42:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #873 — Checks",
+      "url": "https://github.com/company/platform-api/pull/873/checks",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 873
+      }
+    },
+    {
+      "id": 344,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T09:42:00+05:30",
+      "ended_at": "2026-09-14T10:04:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#qa-platform",
+      "url": null,
+      "payload": {
+        "channel": "#qa-platform"
+      }
+    },
+    {
+      "id": 345,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T10:04:00+05:30",
+      "ended_at": "2026-09-14T10:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookRetry.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookRetry.ts",
+          "webhookRetry.test.ts"
+        ]
+      }
+    },
+    {
+      "id": 346,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T10:29:00+05:30",
+      "ended_at": "2026-09-14T10:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookRetry.test.ts webhookDelivery.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- webhookRetry.test.ts webhookDelivery.test.ts"
+      }
+    },
+    {
+      "id": 347,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T10:51:00+05:30",
+      "ended_at": "2026-09-14T11:14:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #873 — Files changed",
+      "url": "https://github.com/company/platform-api/pull/873",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 873
+      }
+    },
+    {
+      "id": 348,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T11:14:00+05:30",
+      "ended_at": "2026-09-14T11:36:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 349,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T11:36:00+05:30",
+      "ended_at": "2026-09-14T11:59:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — delivery outcomes — canary",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "view": "delivery outcomes",
+        "time_range": "2h",
+        "scope": "canary"
+      }
+    },
+    {
+      "id": 350,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T11:59:00+05:30",
+      "ended_at": "2026-09-14T12:22:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — retry latency — canary",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "metric": "retry latency",
+        "time_range": "2h",
+        "scope": "canary"
+      }
+    },
+    {
+      "id": 351,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T12:22:00+05:30",
+      "ended_at": "2026-09-14T12:44:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sentry — webhook-worker errors",
+      "url": "https://sentry.company.local/",
+      "payload": {
+        "service": "webhook-worker",
+        "time_range": "2h"
+      }
+    },
+    {
+      "id": 352,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T14:00:00+05:30",
+      "ended_at": "2026-09-14T14:24:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — delivery outcomes — canary",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "view": "delivery outcomes",
+        "time_range": "4h",
+        "scope": "canary"
+      }
+    },
+    {
+      "id": 353,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T14:24:00+05:30",
+      "ended_at": "2026-09-14T14:49:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — retry latency — canary",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "metric": "retry latency",
+        "time_range": "4h",
+        "scope": "canary"
+      }
+    },
+    {
+      "id": 354,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T14:49:00+05:30",
+      "ended_at": "2026-09-14T15:12:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#infra",
+      "url": null,
+      "payload": {
+        "channel": "#infra"
+      }
+    },
+    {
+      "id": 355,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T15:12:00+05:30",
+      "ended_at": "2026-09-14T15:35:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookDelivery.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookDelivery.ts",
+          "webhookProcessor.ts"
+        ]
+      }
+    },
+    {
+      "id": 356,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T15:35:00+05:30",
+      "ended_at": "2026-09-14T15:57:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookDelivery.test.ts webhookProcessor.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- webhookDelivery.test.ts webhookProcessor.test.ts"
+      }
+    },
+    {
+      "id": 357,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T15:57:00+05:30",
+      "ended_at": "2026-09-14T16:21:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #873 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/873",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 873
+      }
+    },
+    {
+      "id": 358,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T16:21:00+05:30",
+      "ended_at": "2026-09-14T16:44:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#release-coordination",
+      "url": null,
+      "payload": {
+        "channel": "#release-coordination"
+      }
+    },
+    {
+      "id": 359,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T16:44:00+05:30",
+      "ended_at": "2026-09-14T17:07:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #873 — Checks",
+      "url": "https://github.com/company/platform-api/pull/873/checks",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 873
+      }
+    },
+    {
+      "id": 360,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T17:07:00+05:30",
+      "ended_at": "2026-09-14T17:29:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "workspace-api — p95 latency",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "workspace-api",
+        "metric": "p95 latency",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 361,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T17:29:00+05:30",
+      "ended_at": "2026-09-14T17:52:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "billing-api — request errors",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "billing-api",
+        "metric": "request errors",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 362,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T17:52:00+05:30",
+      "ended_at": "2026-09-14T18:15:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-497 — webhook delivery reliability",
+      "url": "https://jira.company.local/browse/PLAT-497",
+      "payload": {
+        "issue": "PLAT-497",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 363,
+      "watcher": "window_activity",
+      "started_at": "2026-09-14T18:15:00+05:30",
+      "ended_at": "2026-09-14T18:38:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-14-01",
+        "started_at": "09:03",
+        "ended_at": "12:44",
+        "title": "Webhook change review and canary validation",
+        "summary": "Reviewed pull request #873 and its checks, coordinated QA expectations, inspected the targeted retry-path implementation and tests, then examined canary delivery outcomes, retry latency, and error signals.",
+        "event_ids": [
+          342,
+          343,
+          344,
+          345,
+          346,
+          347,
+          348,
+          349,
+          350,
+          351
+        ],
+        "context": "The targeted retry-path change needed code review and a controlled production validation before wider release.",
+        "area": "webhook_reliability",
+        "intent": "validate",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-14-02",
+        "started_at": "14:00",
+        "ended_at": "16:44",
+        "title": "Canary follow-up and release preparation",
+        "summary": "Compared the longer canary window, checked infrastructure signals, reviewed adjacent delivery and processor code, reran focused tests, and resolved review comments on the change.",
+        "event_ids": [
+          352,
+          353,
+          354,
+          355,
+          356,
+          357,
+          358
+        ],
+        "context": "Canary evidence was encouraging enough for release preparation but still required careful review of the adjacent delivery path.",
+        "area": "webhook_reliability",
+        "intent": "prepare_release",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-14-03",
+        "started_at": "16:44",
+        "ended_at": "17:29",
+        "title": "Final checks for webhook change",
+        "summary": "Confirmed the pull request checks after review updates and checked the current production state of the previously resolved workspace issue.",
+        "event_ids": [
+          359,
+          360
+        ],
+        "context": "The webhook change was approaching release while the workspace issue remained stable.",
+        "area": "release_validation",
+        "intent": "verify",
+        "quality": "useful",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-14-04",
+        "started_at": "17:29",
+        "ended_at": "18:38",
+        "title": "Routine platform monitoring and issue update",
+        "summary": "Checked billing errors, updated the webhook reliability issue, and communicated the current release status with the backend team.",
+        "event_ids": [
+          361,
+          362,
+          363
+        ],
+        "context": "Routine monitoring and explicit coordination before the next release step.",
+        "area": "platform_operations",
+        "intent": "coordinate",
+        "quality": "appropriate",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:44",
+        "ended_at": "14:00",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The webhook retry-path change passed focused code and test review and was validated through a progressively longer canary window.",
+      "The canary signals are encouraging, but the change has not yet had enough broad production exposure to declare the reliability issue resolved.",
+      "The engineer appropriately checked adjacent delivery and processor code without expanding the scope into a larger rewrite.",
+      "Workspace and billing remained routine monitoring concerns rather than competing engineering priorities."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Understand and fix webhook processing reliability issue",
+        "assessment": "ready_for_controlled_release_with_remaining_validation",
+        "evidence": [
+          342,
+          343,
+          349,
+          350,
+          351,
+          352,
+          353,
+          355,
+          356,
+          357,
+          359,
+          362
+        ]
+      },
+      {
+        "priority": "Maintain stability of workspace performance fix",
+        "assessment": "stable",
+        "evidence": [
+          360
+        ]
+      },
+      {
+        "priority": "Maintain normal platform operations",
+        "assessment": "completed",
+        "evidence": [
+          361,
+          363
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "Canary behavior is encouraging but may not represent the full production traffic distribution.",
+      "The retry-path change has not yet been exposed broadly enough to prove that the original reliability symptoms are gone.",
+      "The relationship between worker lifecycle events and rare delivery failures may remain relevant even if the targeted change improves the common failure path."
+    ],
+    "possible_next_step": "Proceed with a controlled broader release if the team agrees, then compare delivery outcomes and retry behavior against the pre-change baseline over a meaningful production window before closing PLAT-497."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Webhook retry-path change",
+      "action_type": "complete_open_loop",
+      "target": "Webhook retry-path change",
+      "reason": "The change has passed focused testing and canary validation; the next useful step is controlled broader release followed by outcome-based verification.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Workspace performance stability",
+      "action_type": "protect_priority",
+      "target": "Workspace performance stability",
+      "reason": "The workspace issue is stable and should remain monitoring-only while the webhook release is completed.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not declare the webhook reliability issue fully resolved from canary results alone.",
+      "Do not expand the change into unrelated webhook architecture work before broader validation.",
+      "Do not reopen the workspace performance issue without a new signal.",
+      "Do not treat routine billing monitoring as a major competing priority."
+    ]
+  }
+}

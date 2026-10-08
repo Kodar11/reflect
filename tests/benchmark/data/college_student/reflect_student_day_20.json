@@ -1,0 +1,365 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Continuing Data Structures Problem Set 4",
+      "Checking the newly posted internal assessment schedule",
+      "Monitoring the semester project"
+    ],
+    "priorities": [
+      "Make meaningful progress on the Data Structures problem set",
+      "Understand the upcoming assessment schedule",
+      "Keep the semester project from accumulating unresolved issues"
+    ]
+  },
+  "day": {
+    "day_number": 20,
+    "date": "2026-09-20",
+    "day_type": "sunday_dsa_catchup_and_assessment_notice",
+    "circumstances": [
+      "Sunday was mostly offline and personal, with one focused morning coursework block and a short evening check-in.",
+      "The Data Structures problem set continued into graph-traversal questions after the heap and priority-queue work from Days 18–19.",
+      "A newly posted internal assessment schedule changed what the student needed to keep in mind for the coming week, but no dedicated exam-preparation session happened yet.",
+      "The semester project was only checked briefly for teammate updates.",
+      "The student spent a longer uninterrupted afternoon and evening away from the laptop."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:18",
+      "last_seen": "20:46",
+      "approx_active_hours": 4.3,
+      "longest_unobserved_gap_minutes": 281
+    }
+  },
+  "raw_events": [
+    {
+      "id": 362,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T10:18:00+05:30",
+      "ended_at": "2026-09-20T10:31:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Problem Set 4",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 363,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T10:31:00+05:30",
+      "ended_at": "2026-09-20T10:49:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 364,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T10:49:00+05:30",
+      "ended_at": "2026-09-20T11:07:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "BFS DFS iterative C++ adjacency list",
+      "url": "https://www.google.com/search?q=BFS+DFS+iterative+C%2B%2B+adjacency+list",
+      "payload": null
+    },
+    {
+      "id": 365,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T11:07:00+05:30",
+      "ended_at": "2026-09-20T11:38:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "ds-problem-set-4 — graph.cpp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 366,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T11:38:00+05:30",
+      "ended_at": "2026-09-20T11:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "g++ graph.cpp && ./a.exe",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 367,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T11:51:00+05:30",
+      "ended_at": "2026-09-20T12:14:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 368,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T12:14:00+05:30",
+      "ended_at": "2026-09-20T12:29:00+05:30",
+      "app": "Reddit",
+      "browser": "Chrome",
+      "title": "graph traversal c++ common mistakes",
+      "url": "https://www.reddit.com/r/cpp/",
+      "payload": null
+    },
+    {
+      "id": 369,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T12:29:00+05:30",
+      "ended_at": "2026-09-20T12:43:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 370,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T12:43:00+05:30",
+      "ended_at": "2026-09-20T12:55:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 371,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T12:55:00+05:30",
+      "ended_at": "2026-09-20T13:11:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Computer Science — Internal Assessment Schedule",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 372,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T17:52:00+05:30",
+      "ended_at": "2026-09-20T18:06:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 373,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T18:06:00+05:30",
+      "ended_at": "2026-09-20T18:19:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Issues",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 374,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T19:47:00+05:30",
+      "ended_at": "2026-09-20T20:18:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "best Hades weapons after patch",
+      "url": "https://www.youtube.com/watch?v=example18",
+      "payload": null
+    },
+    {
+      "id": 375,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T20:18:00+05:30",
+      "ended_at": "2026-09-20T20:35:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 376,
+      "watcher": "desktop",
+      "started_at": "2026-09-20T20:35:00+05:30",
+      "ended_at": "2026-09-20T20:46:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-20-01",
+        "started_at": "10:18",
+        "ended_at": "12:43",
+        "title": "Data Structures graph problem work",
+        "summary": "Reviewed the problem set, researched BFS and DFS implementation details, coded and ran a graph-traversal solution, checked common mistakes on Reddit, and returned to the notes.",
+        "event_ids": [
+          362,
+          363,
+          364,
+          365,
+          366,
+          367,
+          368,
+          369
+        ],
+        "context": "The student had already completed heap and priority-queue work on the same problem set during Days 18–19.",
+        "area": "coursework",
+        "intent": "Move to the graph-traversal section of the problem set and verify the implementation.",
+        "quality": "substantive technical work with exploratory research",
+        "importance": "high"
+      },
+      {
+        "id": "gt-20-02",
+        "started_at": "12:43",
+        "ended_at": "13:11",
+        "title": "Academic schedule check",
+        "summary": "Checked email and the newly posted internal assessment schedule to understand upcoming academic dates.",
+        "event_ids": [
+          370,
+          371
+        ],
+        "context": "A new schedule notice appeared after the morning problem-set session.",
+        "area": "coursework",
+        "intent": "Review the upcoming assessment dates and related course information.",
+        "quality": "useful administrative check",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-20-03",
+        "started_at": "13:11",
+        "ended_at": "17:52",
+        "title": "Offline Sunday personal and academic time",
+        "summary": "Spent the afternoon away from the laptop with lunch, errands, and some personal study/review.",
+        "event_ids": [],
+        "context": "The laptop was inactive for most of the afternoon.",
+        "area": "personal",
+        "intent": "Handle ordinary weekend activities and some offline academic review.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-20-04",
+        "started_at": "17:52",
+        "ended_at": "18:19",
+        "title": "Semester project status check",
+        "summary": "Checked the project chat and issue tracker for any new requests, but did not make code changes.",
+        "event_ids": [
+          372,
+          373
+        ],
+        "context": "The project had remained stable while coursework took priority.",
+        "area": "semester_project",
+        "intent": "Check whether teammates need an immediate response.",
+        "quality": "brief coordination",
+        "importance": "low"
+      },
+      {
+        "id": "gt-20-05",
+        "started_at": "19:47",
+        "ended_at": "20:35",
+        "title": "Sunday leisure and social time",
+        "summary": "Watched game-related YouTube content and chatted with friends.",
+        "event_ids": [
+          374,
+          375
+        ],
+        "context": "Evening personal time after a mostly offline Sunday.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-20-06",
+        "started_at": "20:35",
+        "ended_at": "20:46",
+        "title": "Data Structures note revisit",
+        "summary": "Briefly reopened the problem-set notes to mark where the graph section had reached and what remained.",
+        "event_ids": [
+          376
+        ],
+        "context": "The graph problem had been worked on earlier in the morning and remained incomplete.",
+        "area": "coursework",
+        "intent": "Review the current state and identify the next unanswered problem.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:11",
+        "ended_at": "17:52",
+        "reason": "Lunch, errands, offline review, and personal activity away from the laptop"
+      },
+      {
+        "started_at": "18:19",
+        "ended_at": "19:47",
+        "reason": "Dinner, rest, and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Data Structures problem set moved from heap-related work into graph traversal, with the student researching BFS/DFS, implementing a solution, running it, and checking common mistakes before returning to the notes.",
+      "The same Google Docs document was revisited throughout the graph work, so the search, coding, terminal, and Reddit events are better understood as components of one problem-solving activity.",
+      "A new internal assessment schedule appeared and was checked, introducing upcoming dates that may affect priorities in the next few days.",
+      "The semester project was only monitored briefly, while a large part of the Sunday remained offline and outside laptop observation.",
+      "The final return to the Data Structures notes shows the graph section remained open at the end of the observed period."
+    ],
+    "priority_alignment": [
+      "The Data Structures problem set received the day's main substantive laptop work and remains the clearest unfinished coursework thread.",
+      "The assessment schedule was checked early enough to establish the upcoming academic constraints.",
+      "The semester project was monitored without taking a large block away from coursework."
+    ],
+    "important_uncertainty": [
+      "The graph program was compiled and run, but the laptop events do not prove that the solution satisfies all hidden test cases or every problem-set requirement.",
+      "The assessment schedule was viewed, but the observed events do not show which subject or date is most important to the student.",
+      "The long offline period may contain additional study or personal activity that Reflect cannot reconstruct.",
+      "The project issue check gives no evidence about whether teammates progressed offline."
+    ],
+    "possible_next_step": "Continue the Data Structures graph section and use the newly visible assessment schedule to decide which upcoming course needs attention first."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Continue the graph section",
+      "action_type": "continue_successful_behavior",
+      "reason": "The student already has a working graph implementation and an identified next problem, so continuing from the current notes is the most direct open-loop step.",
+      "suggested_focus_minutes": 45,
+      "target": "Data Structures Problem Set 4"
+    },
+    "secondary_action": {
+      "title": "Map the new assessment dates",
+      "action_type": "clarify_priority",
+      "reason": "The internal assessment schedule is newly visible but its impact on the current workload has not yet been established.",
+      "suggested_focus_minutes": 15,
+      "target": "Internal Assessment Schedule"
+    },
+    "things_not_to_do": [
+      "Do not treat the Reddit search as automatically unrelated browsing; it occurred inside the graph-problem workflow.",
+      "Do not assume the graph solution is correct merely because it compiled and ran.",
+      "Do not infer the student's afternoon activities from the laptop gap.",
+      "Do not assume the newly posted assessment schedule makes every subject equally urgent.",
+      "Do not treat Sunday leisure or social time as inherently problematic."
+    ]
+  }
+}

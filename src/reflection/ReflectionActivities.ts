@@ -127,6 +127,30 @@ export function createEventLocator(
   };
 }
 
+/**
+ * The timeline blocks that hold the given raw events NOW, as Reflection
+ * identifies them: the block's id and the signature its thread / priority
+ * link is cached under. Used when events are removed, to find what was
+ * written about the blocks they were part of.
+ */
+export function createBlockDescriber(
+  events: { getByIds(ids: number[]): { startedAt: string; endedAt: string }[] },
+  timeline: { getByRange(from: string, to: string): VerifiedSession[] },
+): (eventIds: number[]) => { id: string; signature: string }[] {
+  return (eventIds) => {
+    const found = events.getByIds(eventIds);
+    if (found.length === 0) return [];
+    const from = new Date(Math.min(...found.map((e) => Date.parse(e.startedAt))));
+    from.setHours(0, 0, 0, 0);
+    const to = new Date(Math.max(...found.map((e) => Date.parse(e.endedAt))));
+    to.setHours(24, 0, 0, 0);
+    const wanted = new Set(eventIds);
+    const holding = timeline.getByRange(from.toISOString(), to.toISOString()).filter((s) => s.events.some((e) => wanted.has(e.id)));
+    const signatures = new Map(toReflectionActivities(holding).map((a) => [a.id, activitySignature(a)]));
+    return holding.map((s) => ({ id: s.id, signature: signatures.get(s.id) ?? '' }));
+  };
+}
+
 export function sortActivities(activities: ReflectionActivity[]): ReflectionActivity[] {
   return [...activities].sort((a, b) =>
     a.startedAt < b.startedAt ? -1 : a.startedAt > b.startedAt ? 1 : a.id < b.id ? -1 : a.id > b.id ? 1 : 0,

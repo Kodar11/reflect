@@ -1,0 +1,341 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "date": "2026-09-28",
+    "day_number": 28,
+    "day_type": "client_selection_and_revision_day"
+  },
+  "raw_events": [
+    {
+      "event_id": 415,
+      "timestamp": "2026-09-28T09:07:00+05:30",
+      "app": "Gmail",
+      "activity": "Read client feedback on the two identity directions; client asked to proceed with the first direction and requested a few typography and color adjustments."
+    },
+    {
+      "event_id": 416,
+      "timestamp": "2026-09-28T09:24:00+05:30",
+      "app": "Notion",
+      "activity": "Updated the project notes with the selected direction and listed the requested adjustments."
+    },
+    {
+      "event_id": 417,
+      "timestamp": "2026-09-28T09:41:00+05:30",
+      "app": "Figma",
+      "activity": "Opened the selected identity direction and reviewed the existing concept board before editing."
+    },
+    {
+      "event_id": 418,
+      "timestamp": "2026-09-28T10:06:00+05:30",
+      "app": "Figma",
+      "activity": "Adjusted the primary type pairing and tested several weight combinations for the selected direction."
+    },
+    {
+      "event_id": 419,
+      "timestamp": "2026-09-28T10:34:00+05:30",
+      "app": "Google Fonts",
+      "activity": "Compared typefaces and checked licensing/details for fonts being considered for the identity system."
+    },
+    {
+      "event_id": 420,
+      "timestamp": "2026-09-28T10:57:00+05:30",
+      "app": "Figma",
+      "activity": "Refined the wordmark proportions and spacing using the selected typography direction."
+    },
+    {
+      "event_id": 421,
+      "timestamp": "2026-09-28T11:26:00+05:30",
+      "app": "Figma",
+      "activity": "Built a small color palette exploration around the client-requested change and compared alternate combinations."
+    },
+    {
+      "event_id": 422,
+      "timestamp": "2026-09-28T11:51:00+05:30",
+      "app": "Pinterest",
+      "activity": "Browsed brand identity references involving restrained palettes and editorial typography."
+    },
+    {
+      "event_id": 423,
+      "timestamp": "2026-09-28T12:17:00+05:30",
+      "app": "Figma",
+      "activity": "Returned to the identity board and narrowed the palette to a small set of candidate combinations."
+    },
+    {
+      "event_id": 424,
+      "timestamp": "2026-09-28T12:43:00+05:30",
+      "app": "System",
+      "activity": "No tracked desktop activity; offline period begins."
+    },
+    {
+      "event_id": 425,
+      "timestamp": "2026-09-28T14:08:00+05:30",
+      "app": "Slack",
+      "activity": "Reviewed a message from the existing social-campaign client requesting two additional campaign variants."
+    },
+    {
+      "event_id": 426,
+      "timestamp": "2026-09-28T14:19:00+05:30",
+      "app": "Figma",
+      "activity": "Opened the social campaign file and reviewed the existing layout components before making the requested variants."
+    },
+    {
+      "event_id": 427,
+      "timestamp": "2026-09-28T14:48:00+05:30",
+      "app": "Figma",
+      "activity": "Created the first additional social campaign variant using the existing visual system."
+    },
+    {
+      "event_id": 428,
+      "timestamp": "2026-09-28T15:16:00+05:30",
+      "app": "Figma",
+      "activity": "Created the second campaign variant and adjusted spacing and hierarchy for the alternate format."
+    },
+    {
+      "event_id": 429,
+      "timestamp": "2026-09-28T15:43:00+05:30",
+      "app": "Slack",
+      "activity": "Sent the two social campaign variants to the client for review."
+    },
+    {
+      "event_id": 430,
+      "timestamp": "2026-09-28T16:02:00+05:30",
+      "app": "Figma",
+      "activity": "Returned to the new identity and incorporated the selected palette and typography adjustments."
+    },
+    {
+      "event_id": 431,
+      "timestamp": "2026-09-28T16:37:00+05:30",
+      "app": "Figma",
+      "activity": "Prepared updated identity presentation pages showing the revised direction and key applications."
+    },
+    {
+      "event_id": 432,
+      "timestamp": "2026-09-28T17:11:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent the revised identity direction to the client with a short summary of the changes."
+    },
+    {
+      "event_id": 433,
+      "timestamp": "2026-09-28T17:28:00+05:30",
+      "app": "Gmail",
+      "activity": "Checked for client responses; no new response to the revised identity was visible."
+    },
+    {
+      "event_id": 434,
+      "timestamp": "2026-09-28T17:46:00+05:30",
+      "app": "Northstar Portfolio",
+      "activity": "Opened the Northstar case study and identified two unfinished presentation sections."
+    },
+    {
+      "event_id": 435,
+      "timestamp": "2026-09-28T18:03:00+05:30",
+      "app": "Figma",
+      "activity": "Made a small layout adjustment to one Northstar portfolio page and saved the working file."
+    },
+    {
+      "event_id": 436,
+      "timestamp": "2026-09-28T18:31:00+05:30",
+      "app": "YouTube",
+      "activity": "Watched a short video about logo presentation and brand guideline structure; connection to current work is unclear."
+    },
+    {
+      "event_id": 437,
+      "timestamp": "2026-09-28T18:56:00+05:30",
+      "app": "Illustrator",
+      "activity": "Practiced a small lettering and vector-shape exercise unrelated to the active client files."
+    },
+    {
+      "event_id": 438,
+      "timestamp": "2026-09-28T19:21:00+05:30",
+      "app": "System",
+      "activity": "No tracked desktop activity; offline period begins."
+    }
+  ],
+  "ground_truth": {
+    "events": [
+      {
+        "event_id": 415,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 416,
+        "project": "new_brand_inquiry",
+        "activity_type": "planning",
+        "importance": "medium"
+      },
+      {
+        "event_id": 417,
+        "project": "new_brand_inquiry",
+        "activity_type": "review",
+        "importance": "medium"
+      },
+      {
+        "event_id": 418,
+        "project": "new_brand_inquiry",
+        "activity_type": "typography_refinement",
+        "importance": "high"
+      },
+      {
+        "event_id": 419,
+        "project": "new_brand_inquiry",
+        "activity_type": "research",
+        "importance": "medium"
+      },
+      {
+        "event_id": 420,
+        "project": "new_brand_inquiry",
+        "activity_type": "logo_refinement",
+        "importance": "high"
+      },
+      {
+        "event_id": 421,
+        "project": "new_brand_inquiry",
+        "activity_type": "color_exploration",
+        "importance": "high"
+      },
+      {
+        "event_id": 422,
+        "project": "ambiguous_inspiration",
+        "activity_type": "research",
+        "importance": "low"
+      },
+      {
+        "event_id": 423,
+        "project": "new_brand_inquiry",
+        "activity_type": "concept_refinement",
+        "importance": "high"
+      },
+      {
+        "event_id": 424,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      },
+      {
+        "event_id": 425,
+        "project": "social_campaign",
+        "activity_type": "client_communication",
+        "importance": "medium"
+      },
+      {
+        "event_id": 426,
+        "project": "social_campaign",
+        "activity_type": "review",
+        "importance": "medium"
+      },
+      {
+        "event_id": 427,
+        "project": "social_campaign",
+        "activity_type": "production",
+        "importance": "medium"
+      },
+      {
+        "event_id": 428,
+        "project": "social_campaign",
+        "activity_type": "production",
+        "importance": "medium"
+      },
+      {
+        "event_id": 429,
+        "project": "social_campaign",
+        "activity_type": "client_communication",
+        "importance": "medium"
+      },
+      {
+        "event_id": 430,
+        "project": "new_brand_inquiry",
+        "activity_type": "concept_refinement",
+        "importance": "high"
+      },
+      {
+        "event_id": 431,
+        "project": "new_brand_inquiry",
+        "activity_type": "presentation_preparation",
+        "importance": "high"
+      },
+      {
+        "event_id": 432,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 433,
+        "project": "new_brand_inquiry",
+        "activity_type": "waiting",
+        "importance": "low"
+      },
+      {
+        "event_id": 434,
+        "project": "northstar_portfolio",
+        "activity_type": "review",
+        "importance": "low"
+      },
+      {
+        "event_id": 435,
+        "project": "northstar_portfolio",
+        "activity_type": "refinement",
+        "importance": "low"
+      },
+      {
+        "event_id": 436,
+        "project": "ambiguous_video",
+        "activity_type": "video",
+        "importance": "low"
+      },
+      {
+        "event_id": 437,
+        "project": "personal_exploration",
+        "activity_type": "practice",
+        "importance": "low"
+      },
+      {
+        "event_id": 438,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      }
+    ],
+    "summary": {
+      "new_brand_inquiry": "The client selected the first identity direction and requested typography and color adjustments. The selected direction was refined and a revised presentation was sent back to the client, but final approval is not evidenced.",
+      "social_campaign": "Two additional campaign variants were produced and sent to the existing client for review.",
+      "northstar_portfolio": "Only a small layout refinement was made to an unfinished case-study section.",
+      "ambiguity": "Pinterest and YouTube may have supported visual research or professional learning, but the raw events do not establish their exact necessity or value.",
+      "personal_exploration": "A short lettering/vector exercise occurred after client work and is distinct from the active deliverables.",
+      "offline": "Untracked periods limit visibility into activity performed away from the tracked desktop."
+    }
+  },
+  "expected_reflection": {
+    "summary": "The new identity moved from client selection into focused revision. The selected direction received concrete typography, color, wordmark, and presentation updates, and the revised work was sent back to the client. The social campaign also advanced through two requested variants, while the Northstar portfolio received only a small refinement. Final approval of the new identity remains unresolved.",
+    "project_status": {
+      "new_brand_inquiry": "Client selected the first direction; requested revisions were implemented and a revised presentation was sent; final approval is pending.",
+      "social_campaign": "Two additional variants were produced and sent for review.",
+      "northstar_portfolio": "One small case-study layout refinement was completed; the portfolio remains unfinished."
+    },
+    "key_observations": [
+      "The client decision reduced the new identity from two competing directions to one concrete revision path.",
+      "Typography, color, wordmark, and presentation work all directly followed the selected direction and client feedback.",
+      "The revised identity was sent back to the client, creating another external decision point.",
+      "The social campaign request was handled in a contained block without displacing the main identity revision entirely.",
+      "Pinterest and YouTube activity may have supported research or learning, but the evidence does not justify classifying either as essential work or distraction.",
+      "Offline periods leave some activity unobserved."
+    ],
+    "open_questions": [
+      "Will the client approve the revised identity or request another revision cycle?",
+      "Whether the selected identity is now close to final handoff is not yet established.",
+      "How much the reference browsing influenced the final design cannot be determined from desktop events alone.",
+      "What work occurred during the offline period is unknown."
+    ]
+  },
+  "expected_coach_outcome": {
+    "coach": "Wait for the client response before making another broad identity pass; if feedback arrives, turn it into a bounded revision checklist and close the selected direction toward finalization.",
+    "reason": "The main identity has moved into a feedback-driven revision loop, so the next high-value step depends on client response rather than additional open-ended exploration.",
+    "intervention_confidence": "high"
+  }
+}

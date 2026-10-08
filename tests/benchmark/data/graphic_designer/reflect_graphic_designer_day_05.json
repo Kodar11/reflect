@@ -1,0 +1,73 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": ["Northstar Coffee brand identity", "Social media campaign assets for an existing client", "Personal portfolio case study around the coffee project", "Client communication and revisions"],
+    "priorities": ["Complete and close the Northstar Coffee identity and handoff", "Deliver social campaign work", "Build a stronger portfolio with the Northstar Coffee project", "Maintain client relationships"]
+  },
+  "day": {
+    "day_number": 5,
+    "date": "2026-09-05",
+    "day_type": "lighter_weekend_completion_and_portfolio_day",
+    "circumstances": ["Northstar Coffee received final client approval after the previous day's handoff work", "Morning was used to send the final Northstar package and close remaining file-delivery details", "The social campaign had a small production request but did not dominate the day", "A longer uninterrupted block was finally available for the Northstar portfolio case study", "The evening included personal visual exploration rather than additional client production"],
+    "laptop_usage": {"first_seen": "10:08", "last_seen": "19:42", "approx_active_hours": 6.1, "longest_unobserved_gap_minutes": 83}
+  },
+  "raw_events": [
+    {"id":114,"watcher":"desktop","started_at":"2026-09-05T10:08:00+05:30","ended_at":"2026-09-05T10:21:00+05:30","app":"Chrome","browser":"Chrome","title":"Gmail","url":"https://mail.google.com/","payload":null},
+    {"id":115,"watcher":"desktop","started_at":"2026-09-05T10:21:00+05:30","ended_at":"2026-09-05T10:34:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Drive","url":"https://drive.google.com/","payload":null},
+    {"id":116,"watcher":"desktop","started_at":"2026-09-05T10:34:00+05:30","ended_at":"2026-09-05T11:02:00+05:30","app":"Figma","browser":null,"title":"Northstar Coffee — Brand System","url":null,"payload":null},
+    {"id":117,"watcher":"desktop","started_at":"2026-09-05T11:02:00+05:30","ended_at":"2026-09-05T11:08:00+05:30","app":"Chrome","browser":"Chrome","title":"Gmail","url":"https://mail.google.com/","payload":null},
+    {"id":118,"watcher":"desktop","started_at":"2026-09-05T11:08:00+05:30","ended_at":"2026-09-05T11:26:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Drive","url":"https://drive.google.com/","payload":null},
+    {"id":119,"watcher":"desktop","started_at":"2026-09-05T11:26:00+05:30","ended_at":"2026-09-05T11:39:00+05:30","app":"Chrome","browser":"Chrome","title":"Gmail","url":"https://mail.google.com/","payload":null},
+    {"id":120,"watcher":"desktop","started_at":"2026-09-05T11:39:00+05:30","ended_at":"2026-09-05T12:03:00+05:30","app":"Figma","browser":null,"title":"Northstar Coffee — Brand System","url":null,"payload":null},
+    {"id":121,"watcher":"desktop","started_at":"2026-09-05T12:03:00+05:30","ended_at":"2026-09-05T12:18:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Drive","url":"https://drive.google.com/","payload":null},
+    {"id":122,"watcher":"desktop","started_at":"2026-09-05T12:18:00+05:30","ended_at":"2026-09-05T12:31:00+05:30","app":"Chrome","browser":"Chrome","title":"Behance","url":"https://www.behance.net/","payload":null},
+    {"id":123,"watcher":"desktop","started_at":"2026-09-05T12:31:00+05:30","ended_at":"2026-09-05T12:43:00+05:30","app":"Chrome","browser":"Chrome","title":"Behance","url":"https://www.behance.net/","payload":null},
+    {"id":124,"watcher":"desktop","started_at":"2026-09-05T12:43:00+05:30","ended_at":"2026-09-05T12:56:00+05:30","app":"Figma","browser":null,"title":"Northstar Coffee — Case Study","url":null,"payload":null},
+    {"id":125,"watcher":"desktop","started_at":"2026-09-05T12:56:00+05:30","ended_at":"2026-09-05T13:11:00+05:30","app":"Figma","browser":null,"title":"Northstar Coffee — Case Study","url":null,"payload":null},
+    {"id":126,"watcher":"desktop","started_at":"2026-09-05T14:34:00+05:30","ended_at":"2026-09-05T15:07:00+05:30","app":"Figma","browser":null,"title":"Northstar Coffee — Case Study","url":null,"payload":null},
+    {"id":127,"watcher":"desktop","started_at":"2026-09-05T15:07:00+05:30","ended_at":"2026-09-05T15:31:00+05:30","app":"Adobe Photoshop","browser":null,"title":"northstar-packaging-mockup.psd","url":null,"payload":null},
+    {"id":128,"watcher":"desktop","started_at":"2026-09-05T15:31:00+05:30","ended_at":"2026-09-05T15:52:00+05:30","app":"Figma","browser":null,"title":"Northstar Coffee — Case Study","url":null,"payload":null},
+    {"id":129,"watcher":"desktop","started_at":"2026-09-05T15:52:00+05:30","ended_at":"2026-09-05T16:06:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Fonts","url":"https://fonts.google.com/","payload":null},
+    {"id":130,"watcher":"desktop","started_at":"2026-09-05T16:06:00+05:30","ended_at":"2026-09-05T16:23:00+05:30","app":"Figma","browser":null,"title":"Northstar Coffee — Case Study","url":null,"payload":null},
+    {"id":131,"watcher":"desktop","started_at":"2026-09-05T16:23:00+05:30","ended_at":"2026-09-05T16:48:00+05:30","app":"Chrome","browser":"Chrome","title":"Gmail","url":"https://mail.google.com/","payload":null},
+    {"id":132,"watcher":"desktop","started_at":"2026-09-05T16:48:00+05:30","ended_at":"2026-09-05T17:09:00+05:30","app":"Canva","browser":"Chrome","title":"Instagram carousel — September campaign","url":"https://www.canva.com/","payload":null},
+    {"id":133,"watcher":"desktop","started_at":"2026-09-05T17:09:00+05:30","ended_at":"2026-09-05T17:18:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Drive","url":"https://drive.google.com/","payload":null},
+    {"id":134,"watcher":"desktop","started_at":"2026-09-05T17:18:00+05:30","ended_at":"2026-09-05T17:32:00+05:30","app":"Chrome","browser":"Chrome","title":"YouTube","url":"https://www.youtube.com/","payload":null},
+    {"id":135,"watcher":"desktop","started_at":"2026-09-05T17:32:00+05:30","ended_at":"2026-09-05T17:46:00+05:30","app":"Adobe Illustrator","browser":null,"title":"Untitled-3.ai","url":null,"payload":null},
+    {"id":136,"watcher":"desktop","started_at":"2026-09-05T17:46:00+05:30","ended_at":"2026-09-05T18:21:00+05:30","app":"Adobe Illustrator","browser":null,"title":"Untitled-3.ai","url":null,"payload":null},
+    {"id":137,"watcher":"desktop","started_at":"2026-09-05T18:21:00+05:30","ended_at":"2026-09-05T18:38:00+05:30","app":"Chrome","browser":"Chrome","title":"Dribbble","url":"https://dribbble.com/","payload":null},
+    {"id":138,"watcher":"desktop","started_at":"2026-09-05T19:14:00+05:30","ended_at":"2026-09-05T19:42:00+05:30","app":"Figma","browser":null,"title":"Northstar Coffee — Case Study","url":null,"payload":null}
+  ],
+  "ground_truth": {
+    "activities": [
+      {"id":"gt-05-01","started_at":"10:08","ended_at":"10:34","title":"Reviewing final Northstar approval and delivery details","summary":"Checked the client's approval email, verified the final shared files, and prepared the package for closure.","event_ids":[114,115],"context":"Work","area":"Freelance","intent":"Communicate and hand off","quality":"Necessary completion work","importance":"high"},
+      {"id":"gt-05-02","started_at":"10:34","ended_at":"12:18","title":"Finalizing Northstar handoff","summary":"Made small final file and brand-system checks, responded to the approval thread, and completed the client delivery.","event_ids":[116,117,118,119,120,121],"context":"Work","area":"Freelance","intent":"Complete deliverable","quality":"Successful completion","importance":"high"},
+      {"id":"gt-05-03","started_at":"12:18","ended_at":"12:43","title":"Gathering visual references for the portfolio case study","summary":"Looked through Behance examples for presentation approaches before continuing the Northstar case study.","event_ids":[122,123],"context":"Work","area":"Portfolio","intent":"Research","quality":"Ambiguous but plausibly useful","importance":"medium"},
+      {"id":"gt-05-04","started_at":"12:43","ended_at":"13:11","title":"Beginning Northstar portfolio case study","summary":"Started arranging the project story and visual sections for the portfolio case study.","event_ids":[124,125],"context":"Work","area":"Portfolio","intent":"Create","quality":"Meaningful progress","importance":"high"},
+      {"id":"gt-05-05","started_at":"14:34","ended_at":"16:23","title":"Focused portfolio case study assembly","summary":"Built the main case-study layout, prepared a packaging mockup, and refined the visual presentation.","event_ids":[126,127,128,129,130],"context":"Work","area":"Portfolio","intent":"Create and refine","quality":"Strong progress","importance":"high"},
+      {"id":"gt-05-06","started_at":"16:23","ended_at":"16:48","title":"Checking client communication","summary":"Reviewed email after the focused portfolio block and handled a small follow-up message.","event_ids":[131],"context":"Work","area":"Freelance","intent":"Communicate","quality":"Routine","importance":"low"},
+      {"id":"gt-05-07","started_at":"16:48","ended_at":"17:18","title":"Small social campaign production task","summary":"Made a requested carousel adjustment and checked the related campaign files.","event_ids":[132,133],"context":"Work","area":"Client work","intent":"Produce and deliver","quality":"Meaningful progress","importance":"medium"},
+      {"id":"gt-05-08","started_at":"17:18","ended_at":"17:32","title":"Unclear browser activity","summary":"The YouTube session is not sufficient to determine whether the content was related to design work or unrelated viewing.","event_ids":[134],"context":"Uncertain","area":"Unknown","intent":"Unknown","quality":"Unresolved","importance":"low"},
+      {"id":"gt-05-09","started_at":"17:32","ended_at":"18:38","title":"Personal typography experimentation","summary":"Used Illustrator to test type and letterform treatments, followed by reference browsing on Dribbble.","event_ids":[135,136,137],"context":"Personal","area":"Skill development","intent":"Experiment and explore","quality":"Legitimate personal exploration","importance":"low"},
+      {"id":"gt-05-10","started_at":"19:14","ended_at":"19:42","title":"Returning to portfolio case study","summary":"Made another focused pass on the Northstar case study after the evening break.","event_ids":[138],"context":"Work","area":"Portfolio","intent":"Refine","quality":"Meaningful progress","importance":"high"}
+    ],
+    "unobserved_periods": [
+      {"started_at":"13:11","ended_at":"14:34","reason":"Lunch / offline"},
+      {"started_at":"18:38","ended_at":"19:14","reason":"Personal activity / offline"}
+    ]
+  },
+  "expected_reflection": {
+    "period":"today",
+    "key_observations":["Northstar Coffee moved from an open handoff to a completed client delivery after final approval.","The portfolio case study received substantially more focused attention than on the previous few days, including a long uninterrupted assembly block.","A small social campaign request was handled without displacing the main portfolio block.","The Behance, YouTube, and Dribbble sessions do not all have the same evidentiary status: Behance plausibly supported portfolio research, YouTube is genuinely ambiguous, and Dribbble followed a personal typography experiment."],
+    "priority_alignment":[{"priority":"Complete and close the Northstar Coffee identity and handoff","assessment":"completed"},{"priority":"Deliver social campaign work","assessment":"meaningfully progressed"},{"priority":"Build a stronger portfolio with the Northstar Coffee project","assessment":"meaningfully progressed"},{"priority":"Maintain client relationships","assessment":"maintained"}],
+    "important_uncertainty":["The 17:18–17:32 YouTube session cannot be classified confidently from the available desktop evidence.","Offline periods are unobserved and should not be interpreted as either work or non-work."],
+    "possible_next_step":"Continue the Northstar portfolio case study while the project context is fresh, but there is no need to reopen the completed client handoff unless new feedback arrives."
+  },
+  "expected_coach_outcome": {
+    "primary_action":{"title":"Continue the Northstar portfolio case study","action_type":"continue_successful_behavior","reason":"The first sustained portfolio block in several days produced meaningful progress after the client handoff was closed.","suggested_focus_minutes":60,"target":"Northstar Coffee portfolio case study"},
+    "secondary_action":null,
+    "things_not_to_do":["Do not treat Northstar as unfinished simply because the portfolio case study remains open; the client identity and handoff were completed.","Do not criticize the Behance session as distraction without considering its connection to the case-study presentation.","Do not classify the YouTube session as either productive or unproductive without additional evidence.","Do not treat the personal typography exploration as wasted time.","Do not infer anything about motivation, stress, or psychological state from the lighter weekend schedule."]
+  }
+}

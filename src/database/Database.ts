@@ -59,7 +59,7 @@ export class Database {
       simple: true,
     }) as number;
 
-    if (version >= 17) return;
+    if (version >= 18) return;
 
     const tableHasColumn = (
       tableName: string,
@@ -1516,6 +1516,39 @@ export class Database {
         `);
 
         this.db.pragma('user_version = 17');
+      })();
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // v17 → v18
+    //
+    // User-controlled event visibility.
+    //
+    // events.hidden_at is NULL for a visible event and the moment the user
+    // hid it otherwise. A hidden event stays stored (so it can be restored)
+    // but is invisible to everything user-facing: EventRepository's reads
+    // leave it out, and with them every layer derived from events.
+    //
+    // A permanently deleted event has no row at all. No tombstone is kept:
+    // event ids are AUTOINCREMENT and never reused, so a reference left in
+    // older derived data can never resolve to a different event.
+    //
+    // Purely additive. Every existing event stays visible.
+    // ─────────────────────────────────────────────────────────────────────
+
+    if (version < 18) {
+      this.db.transaction(() => {
+        if (!tableHasColumn('events', 'hidden_at')) {
+          this.db.exec('ALTER TABLE events ADD COLUMN hidden_at DATETIME');
+        }
+
+        this.db.exec(`
+          CREATE INDEX IF NOT EXISTS idx_events_hidden_at
+            ON events (hidden_at)
+            WHERE hidden_at IS NOT NULL;
+        `);
+
+        this.db.pragma('user_version = 18');
       })();
     }
   }

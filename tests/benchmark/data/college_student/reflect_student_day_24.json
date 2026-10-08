@@ -1,0 +1,510 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Consolidating Data Structures material for the upcoming internal assessment",
+      "Keeping the semester project available for concrete teammate requests",
+      "Keeping normal coursework from generating new open loops"
+    ],
+    "priorities": [
+      "Test recall of the graph topics already reviewed and identify remaining weak areas",
+      "Keep the semester project bounded while assessment preparation is urgent",
+      "Avoid adding unnecessary new study threads at the end of the review cycle"
+    ]
+  },
+  "day": {
+    "day_number": 24,
+    "date": "2026-09-24",
+    "day_type": "thursday_consolidation_and_self_testing",
+    "circumstances": [
+      "Regular college activity created a substantial offline period before the laptop-based review sessions.",
+      "Instead of another implementation-heavy session, the student used flashcards, a self-test, notes, and one targeted search to consolidate graph topics.",
+      "A short project chat and issue check happened because teammates were discussing the semester project, but no substantial implementation followed.",
+      "The evening was mostly personal time, followed by a brief final review of graph notes and the assessment page."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:07",
+      "last_seen": "21:33",
+      "approx_active_hours": 6.2,
+      "longest_unobserved_gap_minutes": 168
+    }
+  },
+  "raw_events": [
+    {
+      "id": 449,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T08:07:00+05:30",
+      "ended_at": "2026-09-24T08:19:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 450,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T08:19:00+05:30",
+      "ended_at": "2026-09-24T08:34:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 451,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T11:22:00+05:30",
+      "ended_at": "2026-09-24T11:41:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 452,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T11:41:00+05:30",
+      "ended_at": "2026-09-24T12:03:00+05:30",
+      "app": "Anki",
+      "browser": null,
+      "title": "Data Structures",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 453,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T12:03:00+05:30",
+      "ended_at": "2026-09-24T12:17:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "BFS DFS Dijkstra MST practice questions",
+      "url": "https://www.google.com/search?q=BFS+DFS+Dijkstra+MST+practice+questions",
+      "payload": null
+    },
+    {
+      "id": 454,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T12:17:00+05:30",
+      "ended_at": "2026-09-24T12:45:00+05:30",
+      "app": "Google Forms",
+      "browser": "Chrome",
+      "title": "Data Structures Self-Test",
+      "url": "https://docs.google.com/forms/",
+      "payload": null
+    },
+    {
+      "id": 455,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T12:45:00+05:30",
+      "ended_at": "2026-09-24T13:02:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 456,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T13:02:00+05:30",
+      "ended_at": "2026-09-24T13:16:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 457,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T13:16:00+05:30",
+      "ended_at": "2026-09-24T13:39:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 458,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T15:18:00+05:30",
+      "ended_at": "2026-09-24T15:37:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Revision Sheet",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 459,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T15:37:00+05:30",
+      "ended_at": "2026-09-24T15:58:00+05:30",
+      "app": "Anki",
+      "browser": null,
+      "title": "Data Structures",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 460,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T15:58:00+05:30",
+      "ended_at": "2026-09-24T16:11:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "topological sort Kahn algorithm example",
+      "url": "https://www.google.com/search?q=topological+sort+Kahn+algorithm+example",
+      "payload": null
+    },
+    {
+      "id": 461,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T16:11:00+05:30",
+      "ended_at": "2026-09-24T16:36:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 462,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T17:24:00+05:30",
+      "ended_at": "2026-09-24T17:38:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 463,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T17:38:00+05:30",
+      "ended_at": "2026-09-24T17:51:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Issues",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 464,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T17:51:00+05:30",
+      "ended_at": "2026-09-24T18:09:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 465,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T19:31:00+05:30",
+      "ended_at": "2026-09-24T19:54:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 466,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T19:54:00+05:30",
+      "ended_at": "2026-09-24T20:13:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Hades speedrun commentary",
+      "url": "https://www.youtube.com/watch?v=example23",
+      "payload": null
+    },
+    {
+      "id": 467,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T20:13:00+05:30",
+      "ended_at": "2026-09-24T20:31:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 468,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T21:07:00+05:30",
+      "ended_at": "2026-09-24T21:19:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 469,
+      "watcher": "desktop",
+      "started_at": "2026-09-24T21:19:00+05:30",
+      "ended_at": "2026-09-24T21:33:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-24-01",
+        "started_at": "08:07",
+        "ended_at": "08:34",
+        "title": "Morning assessment and course check",
+        "summary": "Checked email and the current Data Structures assessment information before leaving for college.",
+        "event_ids": [
+          449,
+          450
+        ],
+        "context": "The assessment had become the main academic thread over the previous several days.",
+        "area": "coursework",
+        "intent": "Check current course and assessment information.",
+        "quality": "routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-24-02",
+        "started_at": "09:00",
+        "ended_at": "11:22",
+        "title": "Classes and library study away from laptop",
+        "summary": "Attended classes and spent part of the college morning studying away from the laptop.",
+        "event_ids": [],
+        "context": "The laptop was not observed during this period.",
+        "area": "coursework",
+        "intent": "Attend scheduled classes and study offline.",
+        "quality": "unobserved offline activity",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-03",
+        "started_at": "11:22",
+        "ended_at": "13:39",
+        "title": "Graph topic consolidation and self-test",
+        "summary": "Reviewed graph notes, used flashcards, searched for practice material, completed a self-test, and returned to notes after a short WhatsApp interruption.",
+        "event_ids": [
+          451,
+          452,
+          453,
+          454,
+          455,
+          456,
+          457
+        ],
+        "context": "The student had already worked through Dijkstra and MST on Day 23 and was now checking recall across several graph topics.",
+        "area": "coursework",
+        "intent": "Consolidate graph concepts and test recall before the assessment.",
+        "quality": "focused review with brief interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-04",
+        "started_at": "13:39",
+        "ended_at": "15:18",
+        "title": "Lunch and offline campus time",
+        "summary": "Spent lunch and early afternoon away from the laptop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured during this period.",
+        "area": "personal",
+        "intent": "Handle lunch and ordinary campus activity offline.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-05",
+        "started_at": "15:18",
+        "ended_at": "16:36",
+        "title": "Revision-sheet review and targeted topology check",
+        "summary": "Reworked a revision sheet and flashcards, looked up a topological-sort example, and returned to graph notes to check the concept.",
+        "event_ids": [
+          458,
+          459,
+          460,
+          461
+        ],
+        "context": "The self-test helped narrow the remaining review to a smaller set of graph concepts rather than restarting the whole syllabus.",
+        "area": "coursework",
+        "intent": "Clarify a remaining graph concept and update review notes.",
+        "quality": "targeted follow-up",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-06",
+        "started_at": "16:36",
+        "ended_at": "17:24",
+        "title": "Offline break and transition",
+        "summary": "Took a break away from the laptop before checking the semester project.",
+        "event_ids": [],
+        "context": "There is no desktop evidence for this period.",
+        "area": "personal",
+        "intent": "Take an ordinary afternoon break and transition between activities.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-07",
+        "started_at": "17:24",
+        "ended_at": "18:09",
+        "title": "Semester project coordination",
+        "summary": "Read the project chat, checked the issue tracker, and replied in the group conversation about the current state of the project.",
+        "event_ids": [
+          462,
+          463,
+          464
+        ],
+        "context": "The project remained secondary while the Data Structures assessment was approaching.",
+        "area": "semester_project",
+        "intent": "Stay aligned with teammates and identify whether action is required.",
+        "quality": "brief coordination",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-24-08",
+        "started_at": "18:09",
+        "ended_at": "19:31",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the early evening away from the laptop.",
+        "event_ids": [],
+        "context": "No desktop events were observed.",
+        "area": "personal",
+        "intent": "Dinner and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-09",
+        "started_at": "19:31",
+        "ended_at": "20:31",
+        "title": "Gaming and social time",
+        "summary": "Played Hades, watched a related video, and chatted with friends.",
+        "event_ids": [
+          465,
+          466,
+          467
+        ],
+        "context": "Personal evening time after a review-focused academic day.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-24-10",
+        "started_at": "21:07",
+        "ended_at": "21:33",
+        "title": "Final assessment check",
+        "summary": "Briefly reviewed graph notes and reopened the assessment page before ending the day.",
+        "event_ids": [
+          468,
+          469
+        ],
+        "context": "This was a short closing check rather than a full additional study block.",
+        "area": "coursework",
+        "intent": "Confirm the current review state before the next assessment step.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:34",
+        "ended_at": "09:00",
+        "reason": "Getting ready and commuting away from the laptop"
+      },
+      {
+        "started_at": "09:00",
+        "ended_at": "11:22",
+        "reason": "Classes and library study away from the laptop"
+      },
+      {
+        "started_at": "13:39",
+        "ended_at": "15:18",
+        "reason": "Lunch and offline campus time"
+      },
+      {
+        "started_at": "16:36",
+        "ended_at": "17:24",
+        "reason": "Afternoon break away from the laptop"
+      },
+      {
+        "started_at": "18:09",
+        "ended_at": "19:31",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "20:31",
+        "ended_at": "21:07",
+        "reason": "Short offline break"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The main academic work shifted from solving new graph problems to consolidation: flashcards and a self-test were used to check recall across topics already covered.",
+      "A targeted topological-sort lookup followed the review rather than a broad return to the entire graph syllabus.",
+      "A substantial part of the day was offline, including classes and library study, so the laptop timeline understates total academic activity.",
+      "The semester project received a bounded coordination check but did not displace the assessment-focused work.",
+      "The final evening review was brief; most of the later evening was personal and social time."
+    ],
+    "priority_alignment": [
+      "Most observable academic laptop time was aligned with the upcoming Data Structures assessment.",
+      "The student used self-testing rather than relying only on passive note review.",
+      "Project coordination stayed limited during a period when assessment preparation had higher priority."
+    ],
+    "important_uncertainty": [
+      "The self-test and flashcards provide evidence of review activity, but the desktop timeline does not show which answers were wrong or how strong recall actually was.",
+      "The targeted topological-sort search suggests a remaining knowledge question, but the events do not establish whether the concept was fully resolved.",
+      "The morning library study is entirely offline from Reflect's perspective, so its duration and content cannot be reconstructed from these events.",
+      "The assessment page was reopened, but the laptop evidence does not expose the complete assessment scope."
+    ],
+    "possible_next_step": "Use a short closed-book graph test next, then review only the concepts that are actually missed rather than reopening the whole set of notes."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Run a closed-book graph check",
+      "action_type": "start_focus",
+      "reason": "The review cycle has moved toward consolidation; a closed-book check is a more informative next step than another broad pass through notes.",
+      "suggested_focus_minutes": 35,
+      "target": "Data Structures Internal Assessment"
+    },
+    "secondary_action": {
+      "title": "Keep project work bounded",
+      "action_type": "protect_priority",
+      "reason": "The project needed coordination but did not require implementation today, so it can remain secondary until the assessment work is settled.",
+      "suggested_focus_minutes": null,
+      "target": null
+    },
+    "things_not_to_do": [
+      "Do not assume the self-test proves mastery without seeing the answers.",
+      "Do not treat the topological-sort search as proof that the topic remained unresolved.",
+      "Do not count the offline morning as unproductive or try to reconstruct its content from the laptop gap.",
+      "Do not treat the short project coordination block as a distraction from the assessment.",
+      "Do not criticize the gaming or social time simply because an assessment was approaching.",
+      "Do not assume that reopening the assessment page means the student discovered new requirements."
+    ]
+  }
+}

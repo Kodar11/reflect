@@ -1,0 +1,109 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": ["TypeScript", "Node.js", "PostgreSQL", "Redis", "React"],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 4,
+    "date": "2026-09-04",
+    "day_type": "review_verification_and_debugging_day",
+    "circumstances": [
+      "Billing settings API is review-ready but still has a small reviewer feedback loop.",
+      "The workspace database latency regression remains a high-priority issue and needs verification beyond the local query improvement.",
+      "New infrastructure evidence about webhook processing becomes available, allowing the team to narrow the investigation.",
+      "The engineer still has normal team responsibilities including code review and coordination with QA and infrastructure."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:08",
+      "last_seen": "18:32",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 71
+    }
+  },
+  "raw_events": [
+    {"id":98,"watcher":"window_activity","started_at":"2026-09-04T09:08:00+05:30","ended_at":"2026-09-04T09:17:00+05:30","app":"Chrome","browser":"Chrome","title":"Jira - Platform Engineering","url":"https://jira.company.local/browse/PLAT-482","payload":{"workspace":"Platform Engineering","visible_issue":"PLAT-482"}},
+    {"id":99,"watcher":"window_activity","started_at":"2026-09-04T09:17:00+05:30","ended_at":"2026-09-04T09:25:00+05:30","app":"Slack","browser":null,"title":"#platform-backend","url":null,"payload":{"channel":"#platform-backend"}},
+    {"id":100,"watcher":"window_activity","started_at":"2026-09-04T09:25:00+05:30","ended_at":"2026-09-04T09:39:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Meet - Core Platform standup","url":"https://meet.google.com/","payload":{"meeting":"Core Platform standup"}},
+    {"id":101,"watcher":"window_activity","started_at":"2026-09-04T09:40:00+05:30","ended_at":"2026-09-04T09:53:00+05:30","app":"Slack","browser":null,"title":"#billing-rollout","url":null,"payload":{"channel":"#billing-rollout"}},
+    {"id":102,"watcher":"window_activity","started_at":"2026-09-04T09:53:00+05:30","ended_at":"2026-09-04T10:21:00+05:30","app":"VS Code","browser":null,"title":"billingController.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["billingController.ts","billingService.ts"]}},
+    {"id":103,"watcher":"window_activity","started_at":"2026-09-04T10:21:00+05:30","ended_at":"2026-09-04T10:29:00+05:30","app":"Chrome","browser":"Chrome","title":"GitHub - Pull request #851","url":"https://github.com/company/platform-api/pull/851","payload":{"repository":"platform-api","pull_request":851}},
+    {"id":104,"watcher":"window_activity","started_at":"2026-09-04T10:29:00+05:30","ended_at":"2026-09-04T10:42:00+05:30","app":"Slack","browser":null,"title":"DM with Maya - billing rollout","url":null,"payload":{"participants":["Maya"]}},
+    {"id":105,"watcher":"window_activity","started_at":"2026-09-04T10:42:00+05:30","ended_at":"2026-09-04T11:07:00+05:30","app":"VS Code","browser":null,"title":"billingService.test.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["billingService.test.ts"]}},
+    {"id":106,"watcher":"window_activity","started_at":"2026-09-04T11:07:00+05:30","ended_at":"2026-09-04T11:18:00+05:30","app":"Terminal","browser":null,"title":"npm test -- billingService.test.ts","url":null,"payload":{"command":"npm test -- billingService.test.ts"}},
+    {"id":107,"watcher":"window_activity","started_at":"2026-09-04T11:18:00+05:30","ended_at":"2026-09-04T11:36:00+05:30","app":"VS Code","browser":null,"title":"billingController.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["billingController.ts","billingService.ts"]}},
+    {"id":108,"watcher":"window_activity","started_at":"2026-09-04T11:36:00+05:30","ended_at":"2026-09-04T11:44:00+05:30","app":"GitHub","browser":null,"title":"Pull request #851 — Files changed","url":"https://github.com/company/platform-api/pull/851/files","payload":{"repository":"platform-api","pull_request":851}},
+    {"id":109,"watcher":"window_activity","started_at":"2026-09-04T11:44:00+05:30","ended_at":"2026-09-04T12:02:00+05:30","app":"Chrome","browser":"Chrome","title":"GitHub Actions - platform-api","url":"https://github.com/company/platform-api/actions","payload":{"repository":"platform-api","workflow":"CI"}},
+    {"id":110,"watcher":"window_activity","started_at":"2026-09-04T12:02:00+05:30","ended_at":"2026-09-04T12:18:00+05:30","app":"Slack","browser":null,"title":"#qa-platform","url":null,"payload":{"channel":"#qa-platform"}},
+    {"id":111,"watcher":"window_activity","started_at":"2026-09-04T12:18:00+05:30","ended_at":"2026-09-04T12:31:00+05:30","app":"VS Code","browser":null,"title":"billingService.test.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["billingService.test.ts"]}},
+    {"id":112,"watcher":"window_activity","started_at":"2026-09-04T12:31:00+05:30","ended_at":"2026-09-04T12:42:00+05:30","app":"Terminal","browser":null,"title":"git status && git diff --check","url":null,"payload":{"command":"git status && git diff --check"}},
+    {"id":113,"watcher":"window_activity","started_at":"2026-09-04T12:42:00+05:30","ended_at":"2026-09-04T12:49:00+05:30","app":"Slack","browser":null,"title":"#platform-backend","url":null,"payload":{"channel":"#platform-backend"}},
+    {"id":114,"watcher":"window_activity","started_at":"2026-09-04T14:00:00+05:30","ended_at":"2026-09-04T14:19:00+05:30","app":"Datadog","browser":null,"title":"workspace-api latency — 7d","url":"https://app.datadoghq.com/","payload":{"service":"workspace-api","time_range":"7d"}},
+    {"id":115,"watcher":"window_activity","started_at":"2026-09-04T14:19:00+05:30","ended_at":"2026-09-04T14:43:00+05:30","app":"VS Code","browser":null,"title":"workspaceRepository.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["workspaceRepository.ts"]}},
+    {"id":116,"watcher":"window_activity","started_at":"2026-09-04T14:43:00+05:30","ended_at":"2026-09-04T15:01:00+05:30","app":"Terminal","browser":null,"title":"psql platform_staging","url":null,"payload":{"database":"platform_staging"}},
+    {"id":117,"watcher":"window_activity","started_at":"2026-09-04T15:01:00+05:30","ended_at":"2026-09-04T15:24:00+05:30","app":"VS Code","browser":null,"title":"workspaceRepository.test.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["workspaceRepository.test.ts"]}},
+    {"id":118,"watcher":"window_activity","started_at":"2026-09-04T15:24:00+05:30","ended_at":"2026-09-04T15:33:00+05:30","app":"Terminal","browser":null,"title":"npm test -- workspaceRepository.test.ts","url":null,"payload":{"command":"npm test -- workspaceRepository.test.ts"}},
+    {"id":119,"watcher":"window_activity","started_at":"2026-09-04T15:33:00+05:30","ended_at":"2026-09-04T15:47:00+05:30","app":"Slack","browser":null,"title":"#infra","url":null,"payload":{"channel":"#infra"}},
+    {"id":120,"watcher":"window_activity","started_at":"2026-09-04T15:47:00+05:30","ended_at":"2026-09-04T16:11:00+05:30","app":"Datadog","browser":null,"title":"webhook-worker logs","url":"https://app.datadoghq.com/","payload":{"service":"webhook-worker"}},
+    {"id":121,"watcher":"window_activity","started_at":"2026-09-04T16:11:00+05:30","ended_at":"2026-09-04T16:35:00+05:30","app":"VS Code","browser":null,"title":"webhookProcessor.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["webhookProcessor.ts","webhookDelivery.ts"]}},
+    {"id":122,"watcher":"window_activity","started_at":"2026-09-04T16:35:00+05:30","ended_at":"2026-09-04T16:49:00+05:30","app":"Slack","browser":null,"title":"#infra","url":null,"payload":{"channel":"#infra"}},
+    {"id":123,"watcher":"window_activity","started_at":"2026-09-04T16:49:00+05:30","ended_at":"2026-09-04T17:12:00+05:30","app":"VS Code","browser":null,"title":"webhookProcessor.test.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["webhookProcessor.test.ts"]}},
+    {"id":124,"watcher":"window_activity","started_at":"2026-09-04T17:12:00+05:30","ended_at":"2026-09-04T17:24:00+05:30","app":"Terminal","browser":null,"title":"npm test -- webhookProcessor.test.ts","url":null,"payload":{"command":"npm test -- webhookProcessor.test.ts"}},
+    {"id":125,"watcher":"window_activity","started_at":"2026-09-04T17:24:00+05:30","ended_at":"2026-09-04T17:43:00+05:30","app":"GitHub","browser":null,"title":"Pull request #851 — Checks","url":"https://github.com/company/platform-api/pull/851/checks","payload":{"repository":"platform-api","pull_request":851}},
+    {"id":126,"watcher":"window_activity","started_at":"2026-09-04T17:43:00+05:30","ended_at":"2026-09-04T18:02:00+05:30","app":"Slack","browser":null,"title":"DM with Maya - billing rollout","url":null,"payload":{"participants":["Maya"]}},
+    {"id":127,"watcher":"window_activity","started_at":"2026-09-04T18:02:00+05:30","ended_at":"2026-09-04T18:19:00+05:30","app":"VS Code","browser":null,"title":"billingService.test.ts — platform-api","url":null,"payload":{"workspace":"platform-api","files":["billingService.test.ts"]}},
+    {"id":128,"watcher":"window_activity","started_at":"2026-09-04T18:19:00+05:30","ended_at":"2026-09-04T18:32:00+05:30","app":"Terminal","browser":null,"title":"git diff --check && npm test -- billingService.test.ts","url":null,"payload":{"command":"git diff --check && npm test -- billingService.test.ts"}}
+  ],
+  "ground_truth": {
+    "activities": [
+      {"id":"gt-04-01","started_at":"09:08","ended_at":"09:53","title":"Morning coordination and billing rollout review","summary":"Reviewed the billing ticket, standup updates, and rollout discussion before returning to the implementation.","event_ids":[98,99,100,101],"context":"Billing settings API remained in review and rollout preparation.","area":"billing","intent":"coordinate","quality":"useful","importance":"medium"},
+      {"id":"gt-04-02","started_at":"09:53","ended_at":"12:49","title":"Addressed billing review feedback","summary":"Inspected reviewer feedback, clarified one behavior with a teammate, adjusted implementation and tests, and checked CI and diff cleanliness.","event_ids":[102,103,104,105,106,107,108,109,110,111,112,113],"context":"The billing settings pull request was close to approval but needed a small behavior clarification and test adjustment.","area":"billing","intent":"complete","quality":"strong","importance":"high"},
+      {"id":"gt-04-03","started_at":"14:00","ended_at":"15:33","title":"Verified workspace query change","summary":"Compared recent latency data, inspected the repository query, checked the staging database, and added targeted regression coverage.","event_ids":[114,115,116,117,118],"context":"A query change from the previous day needed evidence that it improved the regression without introducing a different failure mode.","area":"database_performance","intent":"verify","quality":"strong","importance":"high"},
+      {"id":"gt-04-04","started_at":"15:33","ended_at":"17:24","title":"Narrowed webhook processing investigation","summary":"Reviewed infrastructure discussion and worker logs, compared the observed behavior with the processing code, then added a regression test around the suspected duplicate-delivery path.","event_ids":[119,120,121,122,123,124],"context":"New infrastructure evidence narrowed the webhook issue but did not conclusively establish a production fix.","area":"webhook_reliability","intent":"investigate","quality":"useful","importance":"high"},
+      {"id":"gt-04-05","started_at":"17:24","ended_at":"18:32","title":"Billing final validation and rollout coordination","summary":"Rechecked the billing pull request status, coordinated the remaining rollout detail, and ran the final focused test locally.","event_ids":[125,126,127,128],"context":"The billing change was close to merge but still depended on final review and rollout confirmation.","area":"billing","intent":"complete","quality":"strong","importance":"high"}
+    ],
+    "unobserved_periods": [
+      {"started_at":"12:49","ended_at":"14:00","reason":"lunch and offline time"}
+    ]
+  },
+  "expected_reflection": {
+    "period":"today",
+    "key_observations":[
+      "The billing settings work received most of the morning and end-of-day attention and moved through another review cycle with implementation and test changes.",
+      "The workspace database investigation progressed from a code-level query change to staging and latency verification, but the evidence is not enough to claim the production regression is fully resolved.",
+      "The webhook investigation became more concrete after infrastructure evidence arrived; the suspected duplicate-delivery path now has regression coverage, but the production issue remains unresolved.",
+      "The day's context switching was mostly driven by team coordination, review feedback, and three active technical workstreams rather than unrelated browsing."
+    ],
+    "priority_alignment":[
+      {"priority":"Ship billing settings API","assessment":"strong_progress","evidence":[102,105,107,109,111,125,127,128]},
+      {"priority":"Resolve workspace database performance regression","assessment":"meaningful_progress","evidence":[114,115,116,117,118]},
+      {"priority":"Understand and fix webhook processing reliability issue","assessment":"meaningful_progress_but_unresolved","evidence":[119,120,121,123,124]}
+    ],
+    "important_uncertainty":[
+      "The latency improvement observed in staging does not by itself establish that the customer-facing production regression is resolved.",
+      "The webhook evidence narrows the suspected path but does not prove that duplicate delivery is the sole production cause.",
+      "Billing is close to merge, but the final review and rollout state is not completely settled by the observed desktop activity."
+    ],
+    "possible_next_step":"Close the remaining billing review loop first, then capture a clear production or staging verification point for the database change before broadening the investigation further."
+  },
+  "expected_coach_outcome": {
+    "primary_action":{"title": "Billing settings API","action_type":"complete_open_loop","target":"Billing settings API","reason":"The work is close to completion and received repeated validation today; the remaining review and rollout confirmation are the clearest short-term closure point.",
+      "suggested_focus_minutes": null},
+    "secondary_action":{"title": "Workspace database performance investigation","action_type":"continue_successful_behavior","target":"Workspace database performance investigation","reason":"The engineer moved from a code change to database and latency verification instead of treating the local improvement as proof of resolution.",
+      "suggested_focus_minutes": null},
+    "things_not_to_do":[
+      "Do not claim the database performance regression is fixed based only on staging evidence.",
+      "Do not treat the webhook investigation as abandoned; infrastructure evidence materially changed the investigation today.",
+      "Do not interpret the lunch gap as a productivity problem.",
+      "Do not infer motivation, stress, or psychological state from the work pattern."
+    ]
+  }
+}

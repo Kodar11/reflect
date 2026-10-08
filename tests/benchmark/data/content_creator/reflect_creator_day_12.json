@@ -1,0 +1,596 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing research, scripting, recording, editing, community, analytics, sponsorships, learning, and personal life",
+    "current_work": [
+      "Writing the PostgreSQL indexing video selected as the next main piece",
+      "Delivering a small sponsored short-form asset with an external deadline",
+      "Maintaining the published Redis follow-up and audience communication"
+    ],
+    "priorities": [
+      "Move the PostgreSQL concept from outline into a usable script",
+      "Complete the concrete sponsor short deliverable by its deadline",
+      "Keep analytics and social browsing from consuming the main creator-work blocks"
+    ]
+  },
+  "day": {
+    "day_number": 12,
+    "date": "2026-09-12",
+    "day_type": "saturday_scriptwriting_and_sponsor_short",
+    "circumstances": [
+      "The PostgreSQL topic moved from outline into a substantially developed script, with a concrete EXPLAIN/ANALYZE example researched and incorporated.",
+      "A sponsored short-form deliverable introduced a legitimate external deadline and temporarily displaced the main script.",
+      "CapCut and Canva were used for the sponsored asset, while the PostgreSQL script remained the main unfinished creator project.",
+      "Instagram mixed audience communication with general reels browsing.",
+      "The day ended with a short return to the PostgreSQL script after leisure."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:41",
+      "last_seen": "22:49",
+      "approx_active_hours": 8.6,
+      "longest_unobserved_gap_minutes": 82
+    }
+  },
+  "raw_events": [
+    {
+      "id": 249,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T09:41:00+05:30",
+      "ended_at": "2026-09-12T09:54:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 250,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T09:54:00+05:30",
+      "ended_at": "2026-09-12T10:08:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 251,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T10:08:00+05:30",
+      "ended_at": "2026-09-12T10:26:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 252,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T10:26:00+05:30",
+      "ended_at": "2026-09-12T10:49:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 253,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T10:49:00+05:30",
+      "ended_at": "2026-09-12T11:12:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL EXPLAIN analyze example",
+      "url": "https://www.google.com/search?q=PostgreSQL+EXPLAIN+ANALYZE+example",
+      "payload": null
+    },
+    {
+      "id": 254,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:12:00+05:30",
+      "ended_at": "2026-09-12T11:46:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 255,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:46:00+05:30",
+      "ended_at": "2026-09-12T11:59:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Postgres EXPLAIN tutorial",
+      "url": "https://www.youtube.com/watch?v=postgres-explain-19",
+      "payload": null
+    },
+    {
+      "id": 256,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T11:59:00+05:30",
+      "ended_at": "2026-09-12T12:37:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 257,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T12:37:00+05:30",
+      "ended_at": "2026-09-12T12:51:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 258,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T12:51:00+05:30",
+      "ended_at": "2026-09-12T13:22:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 259,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T14:44:00+05:30",
+      "ended_at": "2026-09-12T14:58:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship thread",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 260,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T14:58:00+05:30",
+      "ended_at": "2026-09-12T15:16:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Sponsor Short — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 261,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:16:00+05:30",
+      "ended_at": "2026-09-12T15:34:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Sponsor Short — Graphic",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 262,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:34:00+05:30",
+      "ended_at": "2026-09-12T15:52:00+05:30",
+      "app": "CapCut",
+      "browser": null,
+      "title": "Sponsor Short",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 263,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T15:52:00+05:30",
+      "ended_at": "2026-09-12T16:19:00+05:30",
+      "app": "CapCut",
+      "browser": null,
+      "title": "Sponsor Short",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 264,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T16:19:00+05:30",
+      "ended_at": "2026-09-12T16:31:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship thread",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 265,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:22:00+05:30",
+      "ended_at": "2026-09-12T17:39:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 266,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T17:39:00+05:30",
+      "ended_at": "2026-09-12T17:55:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/reels/",
+      "url": "https://www.instagram.com/reels/",
+      "payload": null
+    },
+    {
+      "id": 267,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T18:47:00+05:30",
+      "ended_at": "2026-09-12T19:02:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 268,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T19:02:00+05:30",
+      "ended_at": "2026-09-12T19:21:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Content Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 269,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T20:14:00+05:30",
+      "ended_at": "2026-09-12T20:57:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "database performance interview",
+      "url": "https://www.youtube.com/watch?v=db-interview-20",
+      "payload": null
+    },
+    {
+      "id": 270,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T20:57:00+05:30",
+      "ended_at": "2026-09-12T21:41:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 271,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T21:41:00+05:30",
+      "ended_at": "2026-09-12T22:00:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 272,
+      "watcher": "desktop",
+      "started_at": "2026-09-12T22:32:00+05:30",
+      "ended_at": "2026-09-12T22:49:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-12-01",
+        "started_at": "09:41",
+        "ended_at": "10:26",
+        "title": "Morning channel and audience check",
+        "summary": "Checked email, reviewed comments on the published Redis follow-up, and looked at the current idea list.",
+        "event_ids": [
+          249,
+          250,
+          251
+        ],
+        "context": "The creator is beginning a new production cycle while still monitoring the recently published video.",
+        "area": "creator_operations",
+        "intent": "Review communication, audience feedback, and active ideas.",
+        "quality": "routine planning",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-12-02",
+        "started_at": "10:26",
+        "ended_at": "12:37",
+        "title": "PostgreSQL script development",
+        "summary": "Revisited the PostgreSQL outline, researched an EXPLAIN/ANALYZE example, watched a tutorial, and turned the material into a substantial script.",
+        "event_ids": [
+          252,
+          253,
+          254,
+          255,
+          256
+        ],
+        "context": "The topic was selected on Day 11 and is now moving from planning into production preparation.",
+        "area": "scripting_and_research",
+        "intent": "Develop a technically concrete script for the next video.",
+        "quality": "focused creative work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-03",
+        "started_at": "12:37",
+        "ended_at": "12:51",
+        "title": "Creator communication interruption",
+        "summary": "Checked the creator chat briefly before returning to the PostgreSQL script.",
+        "event_ids": [
+          257
+        ],
+        "context": "The interruption occurred inside the ongoing script-writing block.",
+        "area": "communication",
+        "intent": "Handle an incoming creator-group message.",
+        "quality": "brief interruption",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-04",
+        "started_at": "12:51",
+        "ended_at": "13:22",
+        "title": "PostgreSQL script continuation",
+        "summary": "Returned to the script and integrated the technical example into the planned explanation.",
+        "event_ids": [
+          258
+        ],
+        "context": "This continued the morning scripting activity after the short interruption.",
+        "area": "scripting",
+        "intent": "Strengthen the script with a concrete database example.",
+        "quality": "focused creative work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-05",
+        "started_at": "13:22",
+        "ended_at": "14:44",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the early afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Lunch and ordinary weekend activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-06",
+        "started_at": "14:44",
+        "ended_at": "16:31",
+        "title": "Sponsored short-form deliverable",
+        "summary": "Reviewed the sponsorship thread, opened the sponsor script, created a simple graphic, edited the sponsored short in CapCut, and replied in the email thread.",
+        "event_ids": [
+          259,
+          260,
+          261,
+          262,
+          263,
+          264
+        ],
+        "context": "The sponsor requested a small short-form asset with a near-term deadline, creating a legitimate competing responsibility.",
+        "area": "sponsorship",
+        "intent": "Produce and hand off the sponsored short-form asset.",
+        "quality": "focused external deliverable",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-07",
+        "started_at": "16:31",
+        "ended_at": "17:22",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop after sponsor work.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Take a break between external work and community tasks.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-08",
+        "started_at": "17:22",
+        "ended_at": "17:55",
+        "title": "Instagram community and browsing",
+        "summary": "Checked direct messages and then browsed the reels feed.",
+        "event_ids": [
+          265,
+          266
+        ],
+        "context": "Instagram supports both genuine audience work and general social use.",
+        "area": "community_and_leisure",
+        "intent": "Handle audience communication and browse social content.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-12-09",
+        "started_at": "17:55",
+        "ended_at": "18:47",
+        "title": "Offline personal time",
+        "summary": "Spent the early evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Personal time before an analytics check.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-10",
+        "started_at": "18:47",
+        "ended_at": "19:21",
+        "title": "Published-video metrics review",
+        "summary": "Checked analytics for the Redis follow-up and updated the content metrics sheet.",
+        "event_ids": [
+          267,
+          268
+        ],
+        "context": "The creator is monitoring the previous video while deciding the next production direction.",
+        "area": "analytics",
+        "intent": "Record and review current channel performance.",
+        "quality": "useful monitoring",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-12-11",
+        "started_at": "19:21",
+        "ended_at": "20:14",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-12",
+        "started_at": "20:14",
+        "ended_at": "22:00",
+        "title": "Technical learning and recreation",
+        "summary": "Watched a database-performance interview, played Hades, and chatted with friends.",
+        "event_ids": [
+          269,
+          270,
+          271
+        ],
+        "context": "The database topic was related to the creator's niche but was not clearly part of the active PostgreSQL script.",
+        "area": "learning_and_leisure",
+        "intent": "Learn casually and relax.",
+        "quality": "mixed",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-13",
+        "started_at": "22:00",
+        "ended_at": "22:32",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Wind down before a final script check.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-12-14",
+        "started_at": "22:32",
+        "ended_at": "22:49",
+        "title": "Late PostgreSQL script review",
+        "summary": "Returned briefly to the PostgreSQL script and made a short closing pass.",
+        "event_ids": [
+          272
+        ],
+        "context": "The main video remains unfinished but substantially more developed than on Day 11.",
+        "area": "scripting",
+        "intent": "Keep the current script moving without starting another large session.",
+        "quality": "brief follow-up",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:22",
+        "ended_at": "14:44",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "16:31",
+        "ended_at": "17:22",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "17:55",
+        "ended_at": "18:47",
+        "reason": "Offline personal time"
+      },
+      {
+        "started_at": "19:21",
+        "ended_at": "20:14",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "22:00",
+        "ended_at": "22:32",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The PostgreSQL video moved meaningfully from outline toward a developed script, with a concrete EXPLAIN/ANALYZE example incorporated into the explanation.",
+      "A legitimate sponsorship deadline created a competing workstream in the afternoon, and the creator completed a short-form asset before returning to the main content pipeline.",
+      "The current PostgreSQL script remained the main open creator project despite the sponsor interruption, while the published Redis video's metrics were monitored separately.",
+      "Instagram again combined audience communication with general browsing.",
+      "The evening database-performance interview was relevant to the creator's niche but was not clearly connected to the active script."
+    ],
+    "priority_alignment": [
+      "The PostgreSQL project received the largest substantive creative block and continued across the sponsor interruption.",
+      "The sponsored short was handled as a bounded external deliverable rather than allowed to become an all-day diversion.",
+      "The previous video's analytics were monitored without overtaking the current production work."
+    ],
+    "important_uncertainty": [
+      "The PostgreSQL script is substantially developed, but the desktop evidence does not establish whether it is ready for recording.",
+      "The EXPLAIN/ANALYZE example was researched and incorporated, but the timeline does not reveal whether it is technically complete or simplified correctly for the intended audience.",
+      "The sponsor short appears edited and the thread was revisited, but there is no evidence of sponsor approval after the response.",
+      "Analytics were recorded in a sheet, but the metrics and any strategic conclusion are not visible.",
+      "The evening database interview could support future content indirectly, but no direct connection to today's script is observable."
+    ],
+    "possible_next_step": "Finish the PostgreSQL script around one clear example and mark the sponsor short as closed unless the sponsor returns with changes."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the PostgreSQL script",
+      "action_type": "complete_open_loop",
+      "reason": "The script has moved beyond outlining into a substantial draft; closing that loop is the clearest next milestone before recording.",
+      "target": "PostgreSQL Indexes video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not treat the sponsor work as a distraction; it was a legitimate external deadline.",
+      "Do not assume the PostgreSQL script is recording-ready merely because a detailed draft exists.",
+      "Do not treat the EXPLAIN/ANALYZE search and tutorial as unrelated browsing when they fed the script.",
+      "Do not infer sponsor approval from the outgoing email thread alone.",
+      "Do not infer a strategy change from the metrics sheet without seeing the underlying numbers or decision.",
+      "Do not assume the database interview directly influenced the active video.",
+      "Do not criticize the weekend social, gaming, or personal time."
+    ]
+  }
+}

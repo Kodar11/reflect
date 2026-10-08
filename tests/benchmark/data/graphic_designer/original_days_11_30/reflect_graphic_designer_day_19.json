@@ -1,0 +1,307 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "date": "2026-09-19",
+    "day_number": 19,
+    "day_type": "identity_completion_and_portfolio_restart_day"
+  },
+  "raw_events": [
+    {
+      "event_id": 203,
+      "timestamp": "2026-09-19T09:26:00+05:30",
+      "app": "Gmail",
+      "activity": "Read client reply approving the overall identity direction but asking for final color and usage adjustments."
+    },
+    {
+      "event_id": 204,
+      "timestamp": "2026-09-19T09:43:00+05:30",
+      "app": "Figma",
+      "activity": "Reviewed the approved identity direction and listed the requested final changes."
+    },
+    {
+      "event_id": 205,
+      "timestamp": "2026-09-19T10:07:00+05:30",
+      "app": "Figma",
+      "activity": "Adjusted the primary and secondary brand colors and checked contrast across key applications."
+    },
+    {
+      "event_id": 206,
+      "timestamp": "2026-09-19T10:41:00+05:30",
+      "app": "Illustrator",
+      "activity": "Updated logo color variants and cleaned the corresponding vector exports."
+    },
+    {
+      "event_id": 207,
+      "timestamp": "2026-09-19T11:18:00+05:30",
+      "app": "Figma",
+      "activity": "Applied the revised colors to the brand board and sample social layouts."
+    },
+    {
+      "event_id": 208,
+      "timestamp": "2026-09-19T11:56:00+05:30",
+      "app": "Google Fonts",
+      "activity": "Checked licensing and availability details for the selected brand typefaces."
+    },
+    {
+      "event_id": 209,
+      "timestamp": "2026-09-19T12:21:00+05:30",
+      "app": "Google Drive",
+      "activity": "Updated the delivery folder structure and replaced outdated preview files."
+    },
+    {
+      "event_id": 210,
+      "timestamp": "2026-09-19T12:48:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent the revised color board and usage examples to the client for final confirmation."
+    },
+    {
+      "event_id": 211,
+      "timestamp": "2026-09-19T13:06:00+05:30",
+      "app": "System",
+      "activity": "No tracked desktop activity; offline period begins."
+    },
+    {
+      "event_id": 212,
+      "timestamp": "2026-09-19T14:32:00+05:30",
+      "app": "Figma",
+      "activity": "Returned to the identity file and prepared a final presentation page for client confirmation."
+    },
+    {
+      "event_id": 213,
+      "timestamp": "2026-09-19T15:03:00+05:30",
+      "app": "Illustrator",
+      "activity": "Exported updated SVG, PDF, and PNG logo variants for the delivery package."
+    },
+    {
+      "event_id": 214,
+      "timestamp": "2026-09-19T15:37:00+05:30",
+      "app": "Google Drive",
+      "activity": "Checked filenames, folders, and duplicate exports in the client package."
+    },
+    {
+      "event_id": 215,
+      "timestamp": "2026-09-19T16:02:00+05:30",
+      "app": "Gmail",
+      "activity": "Read client confirmation that the revised colors and usage examples were approved."
+    },
+    {
+      "event_id": 216,
+      "timestamp": "2026-09-19T16:16:00+05:30",
+      "app": "Figma",
+      "activity": "Marked the approved identity direction and removed obsolete presentation alternatives from the working file."
+    },
+    {
+      "event_id": 217,
+      "timestamp": "2026-09-19T16:54:00+05:30",
+      "app": "Google Drive",
+      "activity": "Uploaded the final approved logo and brand-board files to the client delivery folder."
+    },
+    {
+      "event_id": 218,
+      "timestamp": "2026-09-19T17:22:00+05:30",
+      "app": "Notion",
+      "activity": "Updated the project checklist to mark the identity deliverables as complete and noted the remaining invoice follow-up."
+    },
+    {
+      "event_id": 219,
+      "timestamp": "2026-09-19T17:46:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent the final delivery message with the client folder and invoice follow-up."
+    },
+    {
+      "event_id": 220,
+      "timestamp": "2026-09-19T18:14:00+05:30",
+      "app": "Figma",
+      "activity": "Opened the Northstar Coffee portfolio case study and reviewed the unfinished sections."
+    },
+    {
+      "event_id": 221,
+      "timestamp": "2026-09-19T18:32:00+05:30",
+      "app": "Figma",
+      "activity": "Drafted a short project overview and timeline for the Northstar portfolio case study."
+    },
+    {
+      "event_id": 222,
+      "timestamp": "2026-09-19T19:05:00+05:30",
+      "app": "Chrome",
+      "activity": "Browsed a few branding case studies for portfolio presentation references."
+    },
+    {
+      "event_id": 223,
+      "timestamp": "2026-09-19T19:23:00+05:30",
+      "app": "Figma",
+      "activity": "Reworked the Northstar case-study cover and placed selected project visuals."
+    },
+    {
+      "event_id": 224,
+      "timestamp": "2026-09-19T19:58:00+05:30",
+      "app": "System",
+      "activity": "No tracked desktop activity; offline period begins."
+    }
+  ],
+  "ground_truth": {
+    "events": [
+      {
+        "event_id": 203,
+        "project": "new_brand_identity",
+        "activity_type": "client_feedback",
+        "importance": "high"
+      },
+      {
+        "event_id": 204,
+        "project": "new_brand_identity",
+        "activity_type": "review",
+        "importance": "high"
+      },
+      {
+        "event_id": 205,
+        "project": "new_brand_identity",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 206,
+        "project": "new_brand_identity",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 207,
+        "project": "new_brand_identity",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 208,
+        "project": "new_brand_identity",
+        "activity_type": "research",
+        "importance": "medium"
+      },
+      {
+        "event_id": 209,
+        "project": "new_brand_identity",
+        "activity_type": "file_organization",
+        "importance": "high"
+      },
+      {
+        "event_id": 210,
+        "project": "new_brand_identity",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 211,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      },
+      {
+        "event_id": 212,
+        "project": "new_brand_identity",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 213,
+        "project": "new_brand_identity",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 214,
+        "project": "new_brand_identity",
+        "activity_type": "file_organization",
+        "importance": "high"
+      },
+      {
+        "event_id": 215,
+        "project": "new_brand_identity",
+        "activity_type": "client_feedback",
+        "importance": "high"
+      },
+      {
+        "event_id": 216,
+        "project": "new_brand_identity",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 217,
+        "project": "new_brand_identity",
+        "activity_type": "delivery",
+        "importance": "high"
+      },
+      {
+        "event_id": 218,
+        "project": "new_brand_identity",
+        "activity_type": "planning",
+        "importance": "medium"
+      },
+      {
+        "event_id": 219,
+        "project": "new_brand_identity",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 220,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "medium"
+      },
+      {
+        "event_id": 221,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "medium"
+      },
+      {
+        "event_id": 222,
+        "project": "ambiguous_inspiration",
+        "activity_type": "research",
+        "importance": "low"
+      },
+      {
+        "event_id": 223,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "medium"
+      },
+      {
+        "event_id": 224,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      }
+    ],
+    "summary": {
+      "new_brand_identity": "The active brand identity reached client approval and final delivery today. Requested color and usage changes were implemented, final assets were exported and organized, and the client delivery was sent. The invoice follow-up remains administrative and is not shown as completed.",
+      "northstar_portfolio": "The Northstar Coffee portfolio case study was restarted after the identity project was closed, with a project overview, timeline, cover, and selected visuals drafted.",
+      "social_campaign": "No clear social campaign production is visible today.",
+      "ambiguity": "Portfolio reference browsing may have supported presentation decisions, but the raw events do not establish its value conclusively."
+    }
+  },
+  "expected_reflection": {
+    "summary": "The main client identity project reached a meaningful stopping point: the requested final adjustments were made, the client confirmed approval, and the final delivery package was sent. The designer then used the remaining work window to restart the Northstar Coffee portfolio case study rather than continuing to refine the completed client project. The social campaign did not receive visible attention today.",
+    "key_observations": [
+      "Most of the day was focused on closing the active brand identity rather than exploring new directions.",
+      "The client approval is directly evidenced by the approval message and was followed by final packaging and delivery.",
+      "The designer transitioned to the Northstar portfolio after the client project reached a clear stopping point.",
+      "Branding reference browsing occurred immediately before additional portfolio presentation work, so it may have been relevant rather than automatically distracting.",
+      "Offline periods mean untracked work or breaks cannot be inferred."
+    ],
+    "open_questions": [
+      "Whether the invoice was subsequently paid is not observable.",
+      "Whether the Northstar portfolio case study will be completed in the next work sessions is not established."
+    ]
+  },
+  "expected_coach_outcome": {
+    "should_intervene": true,
+    "message": "The new identity has a clear client-approved stopping point. Keep it closed unless new client feedback arrives, and use the next focused block to finish the Northstar portfolio case study while the project context is still fresh.",
+    "reason": "The client project is now approved and delivered, creating a natural opportunity to shift effort from refinement to the unfinished portfolio work."
+  }
+}

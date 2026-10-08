@@ -1,0 +1,410 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "day_number": 9,
+    "date": "2026-09-09",
+    "day_type": "client_feedback_and_revision_day",
+    "circumstances": [
+      "The new brand identity was ready enough to show a client, but the client feedback introduced a request for a more distinctive visual direction",
+      "The designer spent the morning preparing and sending a concise presentation of the preferred route",
+      "Client feedback later required revisiting the mark and typography rather than simply polishing the existing direction",
+      "A recurring social campaign task arrived during the revision work and had to be handled before its deadline",
+      "The Northstar portfolio case study remained open and received only a short evening block"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:12",
+      "last_seen": "20:44",
+      "approx_active_hours": 8.2,
+      "longest_unobserved_gap_minutes": 82
+    }
+  },
+  "raw_events": [
+    {
+      "id": 199,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:12:00+05:30",
+      "ended_at": "2026-09-09T09:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 200,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:31:00+05:30",
+      "ended_at": "2026-09-09T10:04:00+05:30",
+      "app": "Figma",
+      "browser": "Chrome",
+      "title": "New Brand Identity — Client Presentation",
+      "url": "https://www.figma.com/",
+      "payload": null
+    },
+    {
+      "id": 201,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T10:04:00+05:30",
+      "ended_at": "2026-09-09T10:27:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "New Brand Identity — Client Presentation",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 202,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T10:27:00+05:30",
+      "ended_at": "2026-09-09T10:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive — Client Assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 203,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T10:46:00+05:30",
+      "ended_at": "2026-09-09T11:32:00+05:30",
+      "app": "Figma",
+      "browser": "Chrome",
+      "title": "New Brand Identity — Client Presentation",
+      "url": "https://www.figma.com/",
+      "payload": null
+    },
+    {
+      "id": 204,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T11:32:00+05:30",
+      "ended_at": "2026-09-09T11:48:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Brand identity directions",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 205,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T11:48:00+05:30",
+      "ended_at": "2026-09-09T12:38:00+05:30",
+      "app": "Figma",
+      "browser": "Chrome",
+      "title": "Brand identity — presentation revisions",
+      "url": "https://www.figma.com/",
+      "payload": null
+    },
+    {
+      "id": 206,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T13:58:00+05:30",
+      "ended_at": "2026-09-09T14:21:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Brand identity feedback",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 207,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T14:21:00+05:30",
+      "ended_at": "2026-09-09T15:08:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Brand Mark Exploration",
+      "url": "file:///C:/Projects/ClientIdentity/brand-mark.ai",
+      "payload": null
+    },
+    {
+      "id": 208,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T15:08:00+05:30",
+      "ended_at": "2026-09-09T15:44:00+05:30",
+      "app": "Figma",
+      "browser": "Chrome",
+      "title": "Brand Identity — revised concepts",
+      "url": "https://www.figma.com/",
+      "payload": null
+    },
+    {
+      "id": 209,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T15:44:00+05:30",
+      "ended_at": "2026-09-09T16:09:00+05:30",
+      "app": "Google Fonts",
+      "browser": "Chrome",
+      "title": "Font families — variable sans",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 210,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T16:09:00+05:30",
+      "ended_at": "2026-09-09T16:42:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Brand Mark Exploration",
+      "url": "file:///C:/Projects/ClientIdentity/brand-mark.ai",
+      "payload": null
+    },
+    {
+      "id": 211,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T18:04:00+05:30",
+      "ended_at": "2026-09-09T18:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Instagram — client campaign reference",
+      "url": "https://www.instagram.com/",
+      "payload": null
+    },
+    {
+      "id": 212,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T18:29:00+05:30",
+      "ended_at": "2026-09-09T19:07:00+05:30",
+      "app": "Figma",
+      "browser": "Chrome",
+      "title": "Social Campaign — Carousel Revision",
+      "url": "https://www.figma.com/",
+      "payload": null
+    },
+    {
+      "id": 213,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T19:07:00+05:30",
+      "ended_at": "2026-09-09T19:28:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive — Social Campaign",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 214,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T19:28:00+05:30",
+      "ended_at": "2026-09-09T19:46:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Campaign carousel revision",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 215,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T19:46:00+05:30",
+      "ended_at": "2026-09-09T20:21:00+05:30",
+      "app": "Figma",
+      "browser": "Chrome",
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": "https://www.figma.com/",
+      "payload": null
+    },
+    {
+      "id": 216,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T20:21:00+05:30",
+      "ended_at": "2026-09-09T20:44:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Logo presentation layout tutorial",
+      "url": "https://www.youtube.com/watch?v=example",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-09-01",
+        "started_at": "09:12",
+        "ended_at": "10:46",
+        "title": "Preparing the identity presentation",
+        "summary": "Reviewed client communication, tightened the preferred identity route, and assembled a concise presentation with the current mark and typography choices.",
+        "event_ids": [
+          199,
+          200,
+          201,
+          202
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Prepare and communicate",
+        "quality": "Strong progress",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-02",
+        "started_at": "10:46",
+        "ended_at": "11:48",
+        "title": "Final presentation pass and client send",
+        "summary": "Made a final presentation pass, sent the identity direction to the client, and checked the resulting email thread.",
+        "event_ids": [
+          203,
+          204
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Communicate",
+        "quality": "Meaningful progress",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-03",
+        "started_at": "11:48",
+        "ended_at": "12:38",
+        "title": "Waiting while tightening the presentation",
+        "summary": "Made a final visual adjustment to the presentation after sending the main direction; this block overlaps the transition into client feedback and does not establish a new design direction.",
+        "event_ids": [
+          205
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Refine",
+        "quality": "Necessary refinement",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-04",
+        "started_at": "13:58",
+        "ended_at": "16:42",
+        "title": "Reworking the identity after client feedback",
+        "summary": "Reviewed client feedback requesting a more distinctive route, explored alternative mark constructions, compared typography options, and developed revised concepts.",
+        "event_ids": [
+          206,
+          207,
+          208,
+          209,
+          210
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Revise and explore",
+        "quality": "Substantial progress",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-05",
+        "started_at": "18:04",
+        "ended_at": "19:46",
+        "title": "Social campaign revision",
+        "summary": "Reviewed campaign references, revised the requested carousel, checked supplied assets, and replied to the client with the updated version.",
+        "event_ids": [
+          211,
+          212,
+          213,
+          214
+        ],
+        "context": "Work",
+        "area": "Client work",
+        "intent": "Revise and communicate",
+        "quality": "Necessary client work",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-06",
+        "started_at": "19:46",
+        "ended_at": "20:21",
+        "title": "Short Northstar portfolio pass",
+        "summary": "Worked briefly on the Northstar case study, mainly arranging the existing material rather than completing the full case study.",
+        "event_ids": [
+          215
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Build portfolio",
+        "quality": "Some progress",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-07",
+        "started_at": "20:21",
+        "ended_at": "20:44",
+        "title": "Logo presentation tutorial browsing",
+        "summary": "Watched a short logo-presentation tutorial after the portfolio block; the available event does not establish whether this directly informed the day's client work.",
+        "event_ids": [
+          216
+        ],
+        "context": "Uncertain",
+        "area": "Reference / learning",
+        "intent": "Unknown",
+        "quality": "Ambiguous",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:38",
+        "ended_at": "13:58",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:42",
+        "ended_at": "18:04",
+        "reason": "Personal activity / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The new client identity moved into a real feedback-and-revision cycle: a presentable direction was sent, then client feedback caused a meaningful return to exploration.",
+      "The revision work was substantial rather than cosmetic, with new mark constructions and typography comparisons after the client requested a more distinctive route.",
+      "The recurring social campaign was completed in a contained evening block and included client communication.",
+      "The Northstar portfolio case study received another short block but remains unfinished.",
+      "The final YouTube session is ambiguous and should not be treated as either productive learning or distraction without stronger evidence."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Develop the newly scoped brand identity project",
+        "assessment": "strong progress, but direction reopened after client feedback"
+      },
+      {
+        "priority": "Deliver social campaign work",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Build a stronger portfolio with the Northstar Coffee project",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Maintain client relationships",
+        "assessment": "maintained through presentation and revision communication"
+      }
+    ],
+    "important_uncertainty": [
+      "The client requested a more distinctive direction, but the evidence does not show which revised concept will be selected.",
+      "The short post-send Figma block does not establish whether the client had already responded or whether the designer was independently refining the presentation.",
+      "The final YouTube tutorial may be relevant to presentation work, but the event alone cannot establish its purpose.",
+      "Offline periods are unobserved."
+    ],
+    "possible_next_step": "Consolidate the revised identity into two or three clearly differentiated options and send a focused follow-up rather than continuing open-ended exploration."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Consolidate the revised identity options",
+      "action_type": "complete_open_loop",
+      "reason": "Client feedback reopened the identity direction; the next useful step is to narrow the new exploration into a small, presentable set of options.",
+      "suggested_focus_minutes": 90,
+      "target": "New client brand identity"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not frame the client feedback as failure; it is a normal part of an active identity project.",
+      "Do not treat the social campaign block as a distraction from the identity work; it was legitimate client work.",
+      "Do not assume one revised concept is already approved.",
+      "Do not claim the Northstar portfolio case study was abandoned; it received another deliberate block.",
+      "Do not infer motivation, stress, or psychology from the revision-heavy day.",
+      "Do not classify the final YouTube session as distraction without stronger evidence."
+    ]
+  }
+}

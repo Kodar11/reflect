@@ -1,0 +1,570 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Complete the next round of experiments for the main uncertainty estimation project",
+      "Move the manuscript from exploratory notes toward a coherent results section",
+      "Resolve whether the current experimental setup is measuring calibration fairly",
+      "Complete the replication study before deciding whether it is worth extending"
+    ]
+  },
+  "day": {
+    "day_number": 7,
+    "date": "2026-09-07",
+    "day_type": "analysis_heavy_day_with_collaborator_interruption",
+    "circumstances": [
+      "The researcher starts by reviewing the focused distribution-shift comparison from Day 6 rather than immediately running another experiment. The effect remains visible but varies across subgroups, leading to a narrower interpretation and a request for collaborator feedback. A midday lab meeting introduces a competing interpretation of the shift result and creates a small documentation task. The afternoon is spent checking subgroup behavior, revising the manuscript, and preparing a concise experiment proposal for the next run. The replication study remains parked. A short unrelated browsing period appears late in the day."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:18",
+      "last_seen": "21:04",
+      "approx_active_hours": 8.4,
+      "longest_unobserved_gap_minutes": 58
+    }
+  },
+  "raw_events": [
+    {
+      "id": 178,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T09:18:00+05:30",
+      "ended_at": "2026-09-07T09:37:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — analysis_shift.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "analysis_shift.ipynb",
+        "interaction": "reviewed run summaries and existing plots"
+      }
+    },
+    {
+      "id": 179,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T09:37:00+05:30",
+      "ended_at": "2026-09-07T10:01:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — analysis_shift.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "analysis_shift.ipynb",
+        "interaction": "computed subgroup calibration statistics"
+      }
+    },
+    {
+      "id": 180,
+      "watcher": "Terminal",
+      "started_at": "2026-09-07T10:01:00+05:30",
+      "ended_at": "2026-09-07T10:18:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/bootstrap_subgroups.py --run 45",
+          "python scripts/export_summary.py --run 45"
+        ],
+        "output_state": "completed"
+      }
+    },
+    {
+      "id": 181,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-07T10:18:00+05:30",
+      "ended_at": "2026-09-07T10:36:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — Re: calibration shift experiment",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read message and drafted reply"
+      }
+    },
+    {
+      "id": 182,
+      "watcher": "desktop",
+      "started_at": "2026-09-07T10:36:00+05:30",
+      "ended_at": "2026-09-07T10:55:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — experiment_proposal.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "experiment_proposal.md",
+        "interaction": "drafted a short comparison plan"
+      }
+    },
+    {
+      "id": 183,
+      "watcher": "Google Meet",
+      "started_at": "2026-09-07T11:07:00+05:30",
+      "ended_at": "2026-09-07T11:52:00+05:30",
+      "app": "Google Meet",
+      "browser": "Chrome",
+      "title": "ML Lab — weekly research meeting",
+      "url": "https://meet.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "meeting window visible"
+      }
+    },
+    {
+      "id": 184,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-07T11:52:00+05:30",
+      "ended_at": "2026-09-07T12:07:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "ML Lab — shared notes",
+      "url": "https://drive.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "edited shared meeting notes"
+      }
+    },
+    {
+      "id": 185,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T12:07:00+05:30",
+      "ended_at": "2026-09-07T12:25:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — experiment_proposal.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "experiment_proposal.md",
+        "interaction": "revised comparison plan after meeting"
+      }
+    },
+    {
+      "id": 186,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T13:23:00+05:30",
+      "ended_at": "2026-09-07T13:49:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — analysis_shift.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "analysis_shift.ipynb",
+        "interaction": "inspected subgroup outputs and interval estimates"
+      }
+    },
+    {
+      "id": 187,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T13:49:00+05:30",
+      "ended_at": "2026-09-07T14:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — analysis_shift.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "analysis_shift.ipynb",
+        "interaction": "tested alternate subgroup aggregation"
+      }
+    },
+    {
+      "id": 188,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-07T14:17:00+05:30",
+      "ended_at": "2026-09-07T14:34:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Calibration under domain shift — paper PDF",
+      "url": "https://arxiv.org/pdf/2311.07341",
+      "payload": {
+        "window_state": "active",
+        "page": 8,
+        "interaction": "reading and text selection"
+      }
+    },
+    {
+      "id": 189,
+      "watcher": "Zotero",
+      "started_at": "2026-09-07T14:34:00+05:30",
+      "ended_at": "2026-09-07T14:49:00+05:30",
+      "app": "Zotero",
+      "browser": null,
+      "title": "Zotero — Calibration / Distribution Shift",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "collection": "Calibration / Distribution Shift",
+        "interaction": "edited paper note and linked citation"
+      }
+    },
+    {
+      "id": 190,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T15:41:00+05:30",
+      "ended_at": "2026-09-07T16:09:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — results.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "results.md",
+        "interaction": "rewrote interpretation paragraph and added caveat"
+      }
+    },
+    {
+      "id": 191,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T16:09:00+05:30",
+      "ended_at": "2026-09-07T16:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — discussion.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "discussion.md",
+        "interaction": "drafted interpretation and limitations"
+      }
+    },
+    {
+      "id": 192,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-07T16:31:00+05:30",
+      "ended_at": "2026-09-07T16:46:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "GitHub — uncertainty-project pull request",
+      "url": "https://github.com/org/uncertainty-project/pull/27",
+      "payload": {
+        "window_state": "active",
+        "interaction": "reviewed code changes and comments"
+      }
+    },
+    {
+      "id": 193,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T16:46:00+05:30",
+      "ended_at": "2026-09-07T17:12:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — experiment_proposal.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "experiment_proposal.md",
+        "interaction": "specified seed, shift condition, metrics, and stopping criteria"
+      }
+    },
+    {
+      "id": 194,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T17:12:00+05:30",
+      "ended_at": "2026-09-07T17:29:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "git diff --check",
+          "git status"
+        ],
+        "output_state": "completed"
+      }
+    },
+    {
+      "id": 195,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-07T18:27:00+05:30",
+      "ended_at": "2026-09-07T18:46:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — ML conference keynote",
+      "url": "https://www.youtube.com/watch?v=keynote789",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 196,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-07T18:46:00+05:30",
+      "ended_at": "2026-09-07T19:03:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Reddit — r/MachineLearning",
+      "url": "https://www.reddit.com/r/MachineLearning/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "page browsing"
+      }
+    },
+    {
+      "id": 197,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T19:03:00+05:30",
+      "ended_at": "2026-09-07T19:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — README.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "README.md",
+        "interaction": "updated experiment references and research questions"
+      }
+    },
+    {
+      "id": 198,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-07T19:31:00+05:30",
+      "ended_at": "2026-09-07T19:52:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — standing desk mat reviews",
+      "url": "https://www.google.com/search?q=standing+desk+mat+reviews",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 3,
+        "interaction": "search results"
+      }
+    },
+    {
+      "id": 199,
+      "watcher": "VS Code",
+      "started_at": "2026-09-07T19:52:00+05:30",
+      "ended_at": "2026-09-07T20:18:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — experiment_proposal.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "experiment_proposal.md",
+        "interaction": "final edits and saved document"
+      }
+    },
+    {
+      "id": 200,
+      "watcher": "Terminal",
+      "started_at": "2026-09-07T20:18:00+05:30",
+      "ended_at": "2026-09-07T21:04:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "git status",
+          "git log -3 --oneline",
+          "git diff --stat"
+        ],
+        "output_state": "completed"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-07-01",
+        "started_at": "09:18",
+        "ended_at": "10:55",
+        "title": "Analyze the distribution-shift result and prepare a follow-up proposal",
+        "summary": "The researcher reviewed the focused run from Day 6, computed subgroup statistics, exported summaries, replied to a collaborator, and drafted a short proposal for a follow-up comparison. The effect remains visible overall but appears uneven across subgroups.",
+        "event_ids": [
+          178,
+          179,
+          180,
+          181,
+          182
+        ],
+        "context": "Continuation of the focused distribution-shift experiment.",
+        "area": "main research project",
+        "intent": "analysis",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-02",
+        "started_at": "11:07",
+        "ended_at": "12:25",
+        "title": "Attend lab meeting and revise experiment framing",
+        "summary": "A weekly lab meeting introduced an alternative interpretation of the shift result. The researcher recorded shared notes and revised the follow-up comparison plan rather than treating the earlier interpretation as settled.",
+        "event_ids": [
+          183,
+          184,
+          185
+        ],
+        "context": "Collaborator feedback affects the interpretation of the current experiment.",
+        "area": "collaboration",
+        "intent": "meeting",
+        "quality": "medium",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-03",
+        "started_at": "13:23",
+        "ended_at": "14:49",
+        "title": "Investigate subgroup behavior and related literature",
+        "summary": "The researcher inspected subgroup intervals, tested an alternate aggregation, read a related paper, and recorded the citation. The subgroup variation does not yet identify a single explanation for the overall shift effect.",
+        "event_ids": [
+          186,
+          187,
+          188,
+          189
+        ],
+        "context": "Follow-up analysis prompted by the morning results and lab discussion.",
+        "area": "main research project",
+        "intent": "analysis",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-04",
+        "started_at": "15:41",
+        "ended_at": "17:29",
+        "title": "Revise manuscript interpretation and specify the next experiment",
+        "summary": "The researcher rewrote the results and discussion around the more cautious interpretation, reviewed a code pull request, and then specified the seed, shift condition, metrics, and stopping criteria for the next experiment.",
+        "event_ids": [
+          190,
+          191,
+          192,
+          193,
+          194
+        ],
+        "context": "Transforms new evidence and collaborator feedback into a more controlled next step.",
+        "area": "manuscript and experiment planning",
+        "intent": "writing",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-05",
+        "started_at": "18:27",
+        "ended_at": "19:31",
+        "title": "Lower-intensity learning and project documentation",
+        "summary": "The researcher watched a conference keynote and browsed a machine-learning community forum, then updated the project README with experiment references and current research questions. The learning activities may be useful, but their direct contribution is uncertain.",
+        "event_ids": [
+          195,
+          196,
+          197
+        ],
+        "context": "Evening activity after the main analysis and planning work.",
+        "area": "learning and documentation",
+        "intent": "documentation",
+        "quality": "medium",
+        "importance": "low"
+      },
+      {
+        "id": "gt-07-06",
+        "started_at": "19:31",
+        "ended_at": "21:04",
+        "title": "Brief unrelated browsing followed by final experiment cleanup",
+        "summary": "The researcher briefly searched for standing-desk mat reviews, then returned to the experiment proposal for final edits and checked repository status. The product search is unrelated to the research work, while the final proposal and repository check close the day's main thread.",
+        "event_ids": [
+          198,
+          199,
+          200
+        ],
+        "context": "A short unrelated browsing detour occurs before finalizing the research plan.",
+        "area": "main research project",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:55",
+        "ended_at": "11:07",
+        "reason": "waiting / meeting preparation"
+      },
+      {
+        "started_at": "12:25",
+        "ended_at": "13:23",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "14:49",
+        "ended_at": "15:41",
+        "reason": "offline / personal time"
+      },
+      {
+        "started_at": "17:29",
+        "ended_at": "18:27",
+        "reason": "offline / break"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The distribution-shift effect remains visible after the corrected run, but subgroup variation makes a broad robustness claim premature.",
+      "The lab discussion introduced a plausible alternative interpretation, so the next experiment should distinguish between a genuine robustness limitation and an artifact of the particular shift construction.",
+      "The researcher converted the uncertainty into a bounded experiment with an explicit seed, shift condition, metrics, and stopping criteria rather than expanding the search space.",
+      "The manuscript now reflects the more cautious interpretation, and the replication study remains intentionally parked."
+    ],
+    "priority_alignment": [
+      "The main research question dominated the day through analysis, collaboration, manuscript revision, and experiment design.",
+      "The manuscript and experiment plan were updated in response to actual evidence rather than being developed independently.",
+      "The replication study did not consume meaningful research time beyond its existing documentation."
+    ],
+    "important_uncertainty": [
+      "The subgroup variation could reflect differences in the shift itself rather than a fundamental limitation of the method.",
+      "One additional controlled comparison is needed before deciding whether the distribution-shift limitation belongs in the central research claim."
+    ],
+    "possible_next_step": "Run the explicitly specified follow-up comparison once, using the preselected seed and shift condition, then decide whether the evidence supports a broader experiment matrix."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "protect_priority",
+      "title": "Run the pre-specified follow-up before expanding scope",
+      "reason": "The researcher has converted collaborator feedback and subgroup uncertainty into a bounded experiment. Completing that experiment is more informative than adding more literature searches or variants.",
+      "suggested_focus_minutes": 90,
+      "target": "Main Research Project"
+    },
+    "secondary_action": {
+      "action_type": "reduce_fragmentation",
+      "title": "Keep unrelated browsing out of the experiment-planning block",
+      "reason": "The standing-desk search was brief and did not derail the day, but returning to the proposal immediately afterward suggests the research task was still active.",
+      "suggested_focus_minutes": 0,
+      "target": "Work sessions"
+    },
+    "things_not_to_do": [
+      "Do not interpret subgroup variation as proof that the method fails under distribution shift.",
+      "Do not expand the experiment matrix before completing the already specified comparison.",
+      "Do not reopen the replication study merely because the main project is temporarily waiting on another run."
+    ]
+  }
+}

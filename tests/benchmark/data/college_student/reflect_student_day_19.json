@@ -1,0 +1,305 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Continuing Data Structures Problem Set 4",
+      "Monitoring the semester project",
+      "Handling normal college and personal responsibilities"
+    ],
+    "priorities": [
+      "Make progress on the Data Structures problem set",
+      "Keep the semester project from accumulating unresolved issues",
+      "Use the weekend for ordinary social and personal time"
+    ]
+  },
+  "day": {
+    "day_number": 19,
+    "date": "2026-09-19",
+    "day_type": "saturday_light_dsa_and_extended_leisure",
+    "circumstances": [
+      "Saturday had substantially less laptop activity than the weekdays.",
+      "The Data Structures problem set received a short focused continuation session in the morning, mainly on priority-queue and heap questions.",
+      "A large middle portion of the day was spent away from the laptop with friends and personal errands.",
+      "The semester project was only checked briefly for messages and no implementation was done.",
+      "The evening became a longer leisure block with gaming, social chat, and unrelated YouTube."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:32",
+      "last_seen": "22:14",
+      "approx_active_hours": 5.2,
+      "longest_unobserved_gap_minutes": 248
+    }
+  },
+  "raw_events": [
+    {
+      "id": 349,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T10:32:00+05:30",
+      "ended_at": "2026-09-19T10:47:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 350,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T10:47:00+05:30",
+      "ended_at": "2026-09-19T11:06:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "priority queue heap implementation c++",
+      "url": "https://www.google.com/search?q=priority+queue+heap+implementation+c%2B%2B",
+      "payload": null
+    },
+    {
+      "id": 351,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T11:06:00+05:30",
+      "ended_at": "2026-09-19T11:39:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "ds-problem-set-4 — priority_queue.cpp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 352,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T11:39:00+05:30",
+      "ended_at": "2026-09-19T11:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "g++ priority_queue.cpp && ./a.exe",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 353,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T11:51:00+05:30",
+      "ended_at": "2026-09-19T12:08:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 354,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T16:16:00+05:30",
+      "ended_at": "2026-09-19T16:28:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 355,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T16:28:00+05:30",
+      "ended_at": "2026-09-19T16:42:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Issues",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 356,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T19:05:00+05:30",
+      "ended_at": "2026-09-19T19:18:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "best indie games under 10 hours",
+      "url": "https://www.youtube.com/watch?v=example16",
+      "payload": null
+    },
+    {
+      "id": 357,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T19:18:00+05:30",
+      "ended_at": "2026-09-19T20:39:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 358,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T20:39:00+05:30",
+      "ended_at": "2026-09-19T20:57:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 359,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T20:57:00+05:30",
+      "ended_at": "2026-09-19T21:16:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Hades speedrun world record progression",
+      "url": "https://www.youtube.com/watch?v=example17",
+      "payload": null
+    },
+    {
+      "id": 360,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T21:16:00+05:30",
+      "ended_at": "2026-09-19T22:02:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 361,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T22:02:00+05:30",
+      "ended_at": "2026-09-19T22:14:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-19-01",
+        "started_at": "10:32",
+        "ended_at": "12:08",
+        "title": "Data Structures problem-set continuation",
+        "summary": "Reviewed the existing problem-set notes, researched priority-queue implementation, coded a C++ solution, ran it, and returned to the notes.",
+        "event_ids": [
+          349,
+          350,
+          351,
+          352,
+          353
+        ],
+        "context": "The heap portion of the Data Structures problem set had been started on Friday.",
+        "area": "coursework",
+        "intent": "Continue the problem set by implementing and checking the next priority-queue solution.",
+        "quality": "focused technical progress",
+        "importance": "high"
+      },
+      {
+        "id": "gt-19-02",
+        "started_at": "12:08",
+        "ended_at": "16:16",
+        "title": "Offline social and personal time",
+        "summary": "Spent the afternoon away from the laptop with friends, lunch, errands, and personal activities.",
+        "event_ids": [],
+        "context": "Saturday offline time is not captured by desktop tracking.",
+        "area": "personal",
+        "intent": "Handle ordinary weekend social and personal activities.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-19-03",
+        "started_at": "16:16",
+        "ended_at": "16:42",
+        "title": "Semester project status check",
+        "summary": "Checked the project group discussion and issue tracker for any new requests, but did not make code changes.",
+        "event_ids": [
+          354,
+          355
+        ],
+        "context": "The project was stable enough that no implementation work was required today.",
+        "area": "semester_project",
+        "intent": "Check for any immediate issue or teammate request.",
+        "quality": "brief coordination",
+        "importance": "low"
+      },
+      {
+        "id": "gt-19-04",
+        "started_at": "19:05",
+        "ended_at": "22:14",
+        "title": "Extended gaming and social leisure",
+        "summary": "Watched game-related YouTube videos, played Hades for an extended period, and chatted with friends between gaming sessions.",
+        "event_ids": [
+          356,
+          357,
+          358,
+          359,
+          360,
+          361
+        ],
+        "context": "Saturday evening recreation after a relatively light academic day.",
+        "area": "leisure",
+        "intent": "Recreation, gaming-related browsing, and social interaction.",
+        "quality": "extended leisure",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:08",
+        "ended_at": "16:16",
+        "reason": "Lunch, travel, time with friends, and personal errands away from the laptop"
+      },
+      {
+        "started_at": "16:42",
+        "ended_at": "19:05",
+        "reason": "Offline social time, dinner, and personal activity"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Data Structures problem set continued with a concrete priority-queue implementation and test run, but only one focused academic block was observed.",
+      "A large portion of the Saturday was offline and therefore cannot be evaluated from laptop activity.",
+      "The semester project was monitored briefly but did not receive implementation time because no concrete new request was visible.",
+      "The evening was dominated by extended gaming and game-related browsing, clearly distinct from the morning coursework."
+    ],
+    "priority_alignment": [
+      "The Data Structures problem set received the day's meaningful academic work and remains the clearest open coursework thread.",
+      "The semester project was checked without unnecessarily reopening implementation work on a light weekend day."
+    ],
+    "important_uncertainty": [
+      "The priority-queue program was compiled and run, but the observed events do not prove that the solution satisfies all problem-set requirements.",
+      "The long offline afternoon contains unknown social and personal activity and should not be interpreted from laptop absence.",
+      "The brief project issue check does not establish whether teammates made progress offline.",
+      "The evening game-related YouTube content is clearly associated with leisure context, but raw desktop evidence alone cannot establish how much attention was actually given to each video."
+    ],
+    "possible_next_step": "Resume the Data Structures problem set with the next unanswered question rather than repeating the already-tested priority-queue work."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Continue the next Data Structures question",
+      "action_type": "continue_successful_behavior",
+      "reason": "The student completed a concrete implementation-and-test cycle today and the problem set remains open.",
+      "suggested_focus_minutes": 40,
+      "target": "Data Structures Problem Set 4"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not treat the long offline afternoon as wasted time or assume it contained no coursework.",
+      "Do not assume the priority-queue implementation is fully correct just because it ran locally.",
+      "Do not interpret the brief project status check as evidence that the semester project was neglected.",
+      "Do not classify gaming-related YouTube and unrelated academic videos using the same meaning solely because both use YouTube.",
+      "Do not criticize the extended Saturday gaming session as inherently problematic."
+    ]
+  }
+}

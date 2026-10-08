@@ -1,0 +1,415 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Keeping up with current semester coursework",
+      "Finishing the DBMS mini-assignment",
+      "Working with classmates on a semester project"
+    ],
+    "priorities": [
+      "Submit the DBMS mini-assignment",
+      "Keep up with current coursework",
+      "Continue the semester group project without letting implementation stall"
+    ]
+  },
+  "day": {
+    "day_number": 10,
+    "date": "2026-09-10",
+    "day_type": "thursday_assignment_submission_and_project_integration",
+    "circumstances": [
+      "Thursday included several hours of classes and campus activity away from the laptop.",
+      "The DBMS mini-assignment from Days 8–9 was finalized and submitted in the morning after checking the remaining SQL answers.",
+      "Later, the semester project moved from isolated API work toward integrating a teammate's changes and checking the combined branch.",
+      "A new Software Engineering presentation topic was briefly reviewed in the evening, but no substantial work started on it.",
+      "The student also had ordinary social and gaming time between academic blocks."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:07",
+      "last_seen": "21:36",
+      "approx_active_hours": 6.0,
+      "longest_unobserved_gap_minutes": 205
+    }
+  },
+  "raw_events": [
+    {
+      "id": 182,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T08:07:00+05:30",
+      "ended_at": "2026-09-10T08:22:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 183,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T08:22:00+05:30",
+      "ended_at": "2026-09-10T08:34:00+05:30",
+      "app": "MySQL Workbench",
+      "browser": null,
+      "title": "SQL Editor — dbms_assignment",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 184,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T08:34:00+05:30",
+      "ended_at": "2026-09-10T08:48:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 185,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T08:48:00+05:30",
+      "ended_at": "2026-09-10T09:02:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Submission",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 186,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T09:02:00+05:30",
+      "ended_at": "2026-09-10T09:17:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 187,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T12:42:00+05:30",
+      "ended_at": "2026-09-10T13:01:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Software Engineering — Announcements",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 188,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T13:01:00+05:30",
+      "ended_at": "2026-09-10T13:24:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 189,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T13:24:00+05:30",
+      "ended_at": "2026-09-10T13:39:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "UML presentation slide examples",
+      "url": "https://www.google.com/search?q=UML+presentation+slide+examples",
+      "payload": null
+    },
+    {
+      "id": 190,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T13:39:00+05:30",
+      "ended_at": "2026-09-10T14:03:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 191,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T14:03:00+05:30",
+      "ended_at": "2026-09-10T14:15:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 192,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T14:15:00+05:30",
+      "ended_at": "2026-09-10T14:28:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 193,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T17:53:00+05:30",
+      "ended_at": "2026-09-10T18:05:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 194,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T18:05:00+05:30",
+      "ended_at": "2026-09-10T18:21:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Pull requests",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 195,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T18:21:00+05:30",
+      "ended_at": "2026-09-10T19:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — api.js + routes.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 196,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T19:04:00+05:30",
+      "ended_at": "2026-09-10T19:17:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test && npm run build",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 197,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T19:17:00+05:30",
+      "ended_at": "2026-09-10T19:31:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Actions",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 198,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T19:31:00+05:30",
+      "ended_at": "2026-09-10T20:08:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 199,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T20:08:00+05:30",
+      "ended_at": "2026-09-10T20:26:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 200,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T21:08:00+05:30",
+      "ended_at": "2026-09-10T21:22:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Software Engineering — Announcements",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 201,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T21:22:00+05:30",
+      "ended_at": "2026-09-10T21:36:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-10-01",
+        "started_at": "08:07",
+        "ended_at": "09:17",
+        "title": "DBMS assignment finalization and submission",
+        "summary": "Checked the remaining SQL work, made a final pass through the written answers, opened the Classroom submission page, and verified email afterward.",
+        "event_ids": [
+          182,
+          183,
+          184,
+          185,
+          186
+        ],
+        "context": "The DBMS assignment had been the main open coursework thread across the previous two days.",
+        "area": "coursework",
+        "intent": "Finish the remaining DBMS work and submit the assignment.",
+        "quality": "completion-focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-10-02",
+        "started_at": "12:42",
+        "ended_at": "14:28",
+        "title": "Software Engineering presentation preparation",
+        "summary": "Reviewed a newly posted Software Engineering announcement, opened the group presentation draft, searched for example UML slide layouts, and made a few edits before a short WhatsApp interruption.",
+        "event_ids": [
+          187,
+          188,
+          189,
+          190,
+          191,
+          192
+        ],
+        "context": "A presentation task became relevant after the DBMS assignment was closed.",
+        "area": "coursework",
+        "intent": "Understand the presentation requirement and shape the group's initial slide structure.",
+        "quality": "early progress",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-10-03",
+        "started_at": "17:53",
+        "ended_at": "19:31",
+        "title": "Semester project integration and verification",
+        "summary": "Reviewed teammate changes, edited the combined API/routes code, ran tests and a build, then checked the GitHub Actions result.",
+        "event_ids": [
+          193,
+          194,
+          195,
+          196,
+          197
+        ],
+        "context": "The project was moving from individual API changes toward integrating the work into a shared branch.",
+        "area": "semester_project",
+        "intent": "Integrate the latest project changes and verify the combined codebase.",
+        "quality": "focused implementation and verification",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-10-04",
+        "started_at": "19:31",
+        "ended_at": "20:26",
+        "title": "Gaming and social time",
+        "summary": "Played Hades and chatted with friends on Discord.",
+        "event_ids": [
+          198,
+          199
+        ],
+        "context": "Ordinary evening leisure after academic work.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-05",
+        "started_at": "21:08",
+        "ended_at": "21:36",
+        "title": "Evening academic check",
+        "summary": "Returned to the Software Engineering announcements and email to check for updates related to the new presentation task.",
+        "event_ids": [
+          200,
+          201
+        ],
+        "context": "The presentation task was new and not yet a major workstream.",
+        "area": "coursework",
+        "intent": "Check for new instructions or communication before the next day.",
+        "quality": "brief verification",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "09:17",
+        "ended_at": "12:42",
+        "reason": "College classes, commuting, and campus activity away from the laptop"
+      },
+      {
+        "started_at": "14:28",
+        "ended_at": "17:53",
+        "reason": "Lunch, library/offline study, and personal activity"
+      },
+      {
+        "started_at": "20:26",
+        "ended_at": "21:08",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The DBMS mini-assignment moved from repeated drafting and SQL testing into finalization and submission, closing the main open coursework thread from Days 8–9.",
+      "A new Software Engineering presentation task appeared after the DBMS work ended; the student made an initial slide structure and looked at UML examples but did not spend the whole day on it.",
+      "The semester project continued across multiple tools as one integration task: teammate review, code changes, tests/build, and CI verification.",
+      "The day's academic priorities changed without a clean all-day study pattern, with substantial offline college time and an ordinary leisure block."
+    ],
+    "priority_alignment": [
+      "The highest-priority open loop from the previous days was addressed first and appears to have been submitted.",
+      "The semester project remained active through integration and verification, while the new presentation task was started without displacing the project's existing work entirely."
+    ],
+    "important_uncertainty": [
+      "The Classroom submission page was opened during the DBMS session, but the laptop evidence does not independently prove that the submission was accepted or graded.",
+      "The Software Engineering presentation work is early-stage; the observed edits do not establish that the group's final slide responsibilities are settled.",
+      "The GitHub Actions check suggests verification occurred, but it does not prove the entire semester project is correct.",
+      "Offline college and library periods are not represented in the laptop timeline."
+    ],
+    "possible_next_step": "Treat the DBMS assignment as closed unless later evidence shows otherwise, and pick up the next concrete Software Engineering presentation task before expanding the semester project further."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Start the Software Engineering presentation task",
+      "action_type": "start_focus",
+      "reason": "The previous DBMS open loop appears closed, and the new presentation task has already been opened and lightly developed.",
+      "suggested_focus_minutes": 45,
+      "target": "Software Engineering presentation"
+    },
+    "secondary_action": {
+      "title": "Continue integrated project testing",
+      "action_type": "continue_successful_behavior",
+      "reason": "The semester project has progressed into integrated code, tests, build, and CI verification; a short follow-up can address any remaining integration issue.",
+      "suggested_focus_minutes": 30,
+      "target": "Semester Project integration"
+    },
+    "things_not_to_do": [
+      "Do not claim the DBMS assignment was graded or accepted solely because the submission page was opened.",
+      "Do not interpret the UML search and slide editing as a large completed presentation effort; it was an initial setup block.",
+      "Do not assume the project is fully correct because the tests, build, and CI check were run.",
+      "Do not treat the offline college/library time as unproductive.",
+      "Do not frame the Hades and Discord period as a failure simply because it occurred between academic blocks."
+    ]
+  }
+}

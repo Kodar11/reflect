@@ -1,0 +1,513 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "New small brand identity brief",
+      "Social media campaign assets for an existing client",
+      "Northstar Coffee portfolio case study",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Complete active client identity work",
+      "Deliver recurring social campaign work",
+      "Build stronger portfolio with the completed Northstar Coffee project",
+      "Maintain client relationships and pipeline"
+    ]
+  },
+  "day": {
+    "day_number": 17,
+    "date": "2026-09-17",
+    "day_type": "client_feedback_and_production_day",
+    "circumstances": [
+      "The new brand identity became the main focus and moved from feedback into a much more concrete presentation-ready direction.",
+      "The recurring social campaign was handled and delivered, while the Northstar portfolio case study made meaningful progress but is still not clearly finished.",
+      "Several reference-browsing periods were followed by design work, although the purpose of the YouTube and Pinterest sessions cannot be established from desktop evidence alone."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:07",
+      "last_seen": "19:30",
+      "approx_active_hours": 7.5,
+      "longest_unobserved_gap_minutes": 84
+    }
+  },
+  "raw_events": [
+    {
+      "id": 412,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:07:00+05:30",
+      "ended_at": "2026-09-17T09:14:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 413,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:16:00+05:30",
+      "ended_at": "2026-09-17T09:25:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive — Client Assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 414,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:27:00+05:30",
+      "ended_at": "2026-09-17T09:40:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 415,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:42:00+05:30",
+      "ended_at": "2026-09-17T10:14:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Client Identity — Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 416,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T10:15:00+05:30",
+      "ended_at": "2026-09-17T10:38:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Client Identity — Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 417,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T10:40:00+05:30",
+      "ended_at": "2026-09-17T10:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 418,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T10:49:00+05:30",
+      "ended_at": "2026-09-17T11:10:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Client Identity — Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 419,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T11:10:00+05:30",
+      "ended_at": "2026-09-17T11:16:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "Client Project Messages",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 420,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T11:18:00+05:30",
+      "ended_at": "2026-09-17T11:47:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Logo Construction — Client Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 421,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T11:49:00+05:30",
+      "ended_at": "2026-09-17T12:07:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Logo Construction — Client Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 422,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:07:00+05:30",
+      "ended_at": "2026-09-17T12:19:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — Design Tutorials",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 423,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:19:00+05:30",
+      "ended_at": "2026-09-17T12:34:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Logo Construction — Client Identity",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 424,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:34:00+05:30",
+      "ended_at": "2026-09-17T12:51:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Client Identity — Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 425,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T14:15:00+05:30",
+      "ended_at": "2026-09-17T14:20:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 426,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T14:22:00+05:30",
+      "ended_at": "2026-09-17T14:44:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — Revision",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 427,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T14:45:00+05:30",
+      "ended_at": "2026-09-17T15:00:00+05:30",
+      "app": "Photoshop",
+      "browser": null,
+      "title": "Social Campaign — Product Image",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 428,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:02:00+05:30",
+      "ended_at": "2026-09-17T15:08:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive — Campaign Uploads",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 429,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:09:00+05:30",
+      "ended_at": "2026-09-17T15:13:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 430,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:14:00+05:30",
+      "ended_at": "2026-09-17T15:40:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 431,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:40:00+05:30",
+      "ended_at": "2026-09-17T16:00:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 432,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:00:00+05:30",
+      "ended_at": "2026-09-17T16:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance — Brand Identity Projects",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 433,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:12:00+05:30",
+      "ended_at": "2026-09-17T16:35:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 434,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:35:00+05:30",
+      "ended_at": "2026-09-17T16:43:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 435,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:44:00+05:30",
+      "ended_at": "2026-09-17T17:01:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 436,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:10:00+05:30",
+      "ended_at": "2026-09-17T18:15:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 437,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:16:00+05:30",
+      "ended_at": "2026-09-17T18:40:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Client Identity — Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 438,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:40:00+05:30",
+      "ended_at": "2026-09-17T19:00:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "Client Identity — Logo Construction",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 439,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T19:00:00+05:30",
+      "ended_at": "2026-09-17T19:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Images — Identity References",
+      "url": "https://www.google.com/search?tbm=isch",
+      "payload": null
+    },
+    {
+      "id": 440,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T19:09:00+05:30",
+      "ended_at": "2026-09-17T19:30:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Client Identity — Presentation",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-17-01",
+        "started_at": "09:07",
+        "ended_at": "12:07",
+        "title": "New brand identity — design work",
+        "summary": "Reviewed client feedback on the new identity brief; feedback asks for a simpler mark and stronger wordmark options. Opened supplied logo references, product photos, and an earlier moodboard from the client folder. Browsed identity systems, compact wordmarks, and packaging references related to the client's requested direction. Sketched and compared several simplified logo-mark directions and adjusted the wordmark structure.",
+        "event_ids": [
+          412,
+          413,
+          414,
+          415,
+          416,
+          417,
+          418,
+          419,
+          420,
+          421
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-02",
+        "started_at": "12:07",
+        "ended_at": "12:19",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Watched portions of videos about logo construction and identity presentation; relationship to current work is unclear from events alone.",
+        "event_ids": [
+          422
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-03",
+        "started_at": "12:19",
+        "ended_at": "12:51",
+        "title": "New brand identity — design work",
+        "summary": "Returned to the vector file and adjusted the mark after comparing it with the tutorial references. Created a compact presentation page showing the selected direction, wordmark, and initial color treatment.",
+        "event_ids": [
+          423,
+          424
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-04",
+        "started_at": "14:15",
+        "ended_at": "15:13",
+        "title": "Social campaign — design work",
+        "summary": "Checked for a response to the clarification sent before lunch. Opened the recurring social campaign and applied requested copy and layout revisions to two assets. Adjusted product-image crops and prepared alternate image treatments for the revised campaign assets. Uploaded revised campaign exports and checked file naming and dimensions.",
+        "event_ids": [
+          425,
+          426,
+          427,
+          428,
+          429
+        ],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-17-05",
+        "started_at": "15:14",
+        "ended_at": "17:01",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Reworked the case-study opening section and selected final identity visuals from the completed project. Built a before/after visual comparison and refined the project narrative layout. Reviewed several published identity case studies for presentation and sequencing references. Applied presentation ideas from the references and tightened the case-study sequence.",
+        "event_ids": [
+          430,
+          431,
+          432,
+          433,
+          434,
+          435
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-06",
+        "started_at": "18:10",
+        "ended_at": "19:30",
+        "title": "New brand identity — design work",
+        "summary": "Checked the client thread for the new identity brief; no new substantive feedback was visible. Prepared cleaner presentation frames for the two strongest identity directions and added usage-size examples. Refined the preferred logo mark and created a monochrome version for presentation. Checked small-size logo examples and packaging marks to compare visual legibility.",
+        "event_ids": [
+          436,
+          437,
+          438,
+          439,
+          440
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:51",
+        "ended_at": "14:15",
+        "reason": "Offline / no desktop activity recorded"
+      },
+      {
+        "started_at": "17:01",
+        "ended_at": "18:10",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The day contained long execution blocks, with a recurring client request interrupting the portfolio block. Reference research generally connected to subsequent design work, but not every browsing session can be classified confidently."
+    ],
+    "priority_alignment": [
+      "New brand identity: strong progress; two directions narrowed into a presentation-ready preferred direction, awaiting client response.",
+      "Social campaign: revision completed and delivered.",
+      "Northstar portfolio: meaningful progress; case-study structure and visuals improved but not complete."
+    ],
+    "important_uncertainty": [
+      "Purpose of YouTube tutorial viewing is uncertain.",
+      "Purpose of late-afternoon Pinterest browsing is partly ambiguous.",
+      "Offline periods provide no evidence about activity during those intervals."
+    ],
+    "possible_next_step": "Send the two strongest new-identity directions for client feedback before doing more refinement. Keep the Northstar portfolio case study as a separate focused block rather than letting presentation polishing expand indefinitely."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Send the two strongest identity directions for feedback",
+      "action_type": "complete_open_loop",
+      "reason": "The active identity work is ready for an external decision point, while the portfolio has been repeatedly advanced but remains open.",
+      "suggested_focus_minutes": null,
+      "target": "New client identity"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

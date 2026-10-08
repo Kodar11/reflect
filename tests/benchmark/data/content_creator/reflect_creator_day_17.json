@@ -1,0 +1,607 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life"
+  },
+  "day": {
+    "day_number": 17,
+    "date": "2026-09-17",
+    "day_type": "follow_up_selection_and_outline",
+    "circumstances": [
+      "The creator started by reviewing comments and early performance on the newly published PostgreSQL indexing video.",
+      "Several related signals pointed toward partial indexes as a narrower follow-up angle, so the creator compared the idea against the backlog before committing to an outline.",
+      "Research focused on practical use cases and planner limitations rather than broad PostgreSQL study.",
+      "An outline was built and revised through the afternoon, while thumbnail work was only exploratory.",
+      "The evening included Instagram community activity, another analytics check, gaming, and a late search for indexing mistakes."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:18",
+      "last_seen": "22:26",
+      "approx_active_hours": 9.9,
+      "longest_unobserved_gap_minutes": 75
+    }
+  },
+  "raw_events": [
+    {
+      "id": 373,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:18:00+05:30",
+      "ended_at": "2026-09-17T09:32:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 374,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:32:00+05:30",
+      "ended_at": "2026-09-17T09:48:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — PostgreSQL Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 375,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T09:48:00+05:30",
+      "ended_at": "2026-09-17T10:12:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 376,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T10:12:00+05:30",
+      "ended_at": "2026-09-17T10:34:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Channel Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 377,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T10:34:00+05:30",
+      "ended_at": "2026-09-17T10:58:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 378,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T11:17:00+05:30",
+      "ended_at": "2026-09-17T11:43:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PostgreSQL partial indexes explained",
+      "url": "https://www.youtube.com/results?search_query=PostgreSQL+partial+indexes+explained",
+      "payload": null
+    },
+    {
+      "id": 379,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T11:43:00+05:30",
+      "ended_at": "2026-09-17T12:09:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL partial index use cases",
+      "url": "https://www.google.com/search?q=PostgreSQL+partial+index+use+cases",
+      "payload": null
+    },
+    {
+      "id": 380,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:09:00+05:30",
+      "ended_at": "2026-09-17T12:34:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Partial Indexes — Research Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 381,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T12:34:00+05:30",
+      "ended_at": "2026-09-17T13:02:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL partial indexes planner limitations",
+      "url": "https://www.google.com/search?q=PostgreSQL+partial+indexes+planner+limitations",
+      "payload": null
+    },
+    {
+      "id": 382,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T13:02:00+05:30",
+      "ended_at": "2026-09-17T13:26:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Partial Indexes — Research Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 383,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T14:41:00+05:30",
+      "ended_at": "2026-09-17T15:12:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Partial Indexes — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 384,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:12:00+05:30",
+      "ended_at": "2026-09-17T15:36:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PostgreSQL partial index demo",
+      "url": "https://www.youtube.com/results?search_query=PostgreSQL+partial+index+demo",
+      "payload": null
+    },
+    {
+      "id": 385,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T15:36:00+05:30",
+      "ended_at": "2026-09-17T16:09:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Partial Indexes — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 386,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:09:00+05:30",
+      "ended_at": "2026-09-17T16:24:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 387,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T16:24:00+05:30",
+      "ended_at": "2026-09-17T16:51:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Partial Indexes — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 388,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T17:38:00+05:30",
+      "ended_at": "2026-09-17T17:55:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Follow-up Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 389,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T17:55:00+05:30",
+      "ended_at": "2026-09-17T18:16:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "database index icon thumbnail",
+      "url": "https://www.google.com/search?q=database+index+icon+thumbnail",
+      "payload": null
+    },
+    {
+      "id": 390,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T18:16:00+05:30",
+      "ended_at": "2026-09-17T18:34:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Follow-up Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 391,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T19:27:00+05:30",
+      "ended_at": "2026-09-17T19:49:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 392,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T19:49:00+05:30",
+      "ended_at": "2026-09-17T20:06:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "Explore",
+      "url": "https://www.instagram.com/explore/",
+      "payload": null
+    },
+    {
+      "id": 393,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T20:06:00+05:30",
+      "ended_at": "2026-09-17T20:29:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Indexes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 394,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T20:29:00+05:30",
+      "ended_at": "2026-09-17T20:52:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 395,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T20:52:00+05:30",
+      "ended_at": "2026-09-17T21:04:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Partial Indexes — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 396,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T21:04:00+05:30",
+      "ended_at": "2026-09-17T21:47:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 397,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T21:47:00+05:30",
+      "ended_at": "2026-09-17T22:09:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 398,
+      "watcher": "desktop",
+      "started_at": "2026-09-17T22:09:00+05:30",
+      "ended_at": "2026-09-17T22:26:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PostgreSQL indexing mistakes",
+      "url": "https://www.youtube.com/results?search_query=PostgreSQL+indexing+mistakes",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-17-01",
+        "started_at": "09:18",
+        "ended_at": "10:34",
+        "title": "Post-publish audience and performance review",
+        "summary": "Checked email, reviewed comments on the PostgreSQL video, looked at early analytics, and recorded the current numbers in the channel metrics sheet.",
+        "event_ids": [
+          373,
+          374,
+          375,
+          376
+        ],
+        "context": "The PostgreSQL video was published the previous day and is now generating early audience signals.",
+        "area": "community_and_analytics",
+        "intent": "Understand initial response before choosing the next content move.",
+        "quality": "relevant post-publish review",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-02",
+        "started_at": "10:34",
+        "ended_at": "10:58",
+        "title": "Backlog comparison",
+        "summary": "Reviewed the existing video idea list and compared possible next topics rather than immediately starting a new project.",
+        "event_ids": [
+          377
+        ],
+        "context": "The creator has multiple technical ideas after completing the PostgreSQL video.",
+        "area": "ideation",
+        "intent": "Choose a sensible follow-up topic.",
+        "quality": "deliberate prioritization",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-03",
+        "started_at": "10:58",
+        "ended_at": "11:17",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Break before follow-up research.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-04",
+        "started_at": "11:17",
+        "ended_at": "13:26",
+        "title": "Partial-index research",
+        "summary": "Compared explanations and practical use cases for PostgreSQL partial indexes, then captured research notes and planner limitations in a document.",
+        "event_ids": [
+          378,
+          379,
+          380,
+          381,
+          382
+        ],
+        "context": "Partial indexes emerged as a possible follow-up to the published indexing video.",
+        "area": "research",
+        "intent": "Determine whether the topic has enough practical substance for a focused follow-up.",
+        "quality": "targeted research",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-05",
+        "started_at": "13:26",
+        "ended_at": "14:41",
+        "title": "Offline lunch and personal time",
+        "summary": "Spent the midday period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and ordinary personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-06",
+        "started_at": "14:41",
+        "ended_at": "16:51",
+        "title": "Partial-index outline development",
+        "summary": "Built and revised an outline for a possible PostgreSQL partial-index video, using one demonstration example to sharpen the structure.",
+        "event_ids": [
+          383,
+          384,
+          385,
+          386,
+          387
+        ],
+        "context": "Research suggested the topic could be narrowed into a practical explainer.",
+        "area": "outlining",
+        "intent": "Turn research into a coherent potential video structure.",
+        "quality": "substantive pre-production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-07",
+        "started_at": "16:51",
+        "ended_at": "17:38",
+        "title": "Offline break",
+        "summary": "Spent a period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Break between outlining and packaging exploration.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-08",
+        "started_at": "17:38",
+        "ended_at": "18:34",
+        "title": "Follow-up thumbnail exploration",
+        "summary": "Started a thumbnail concept for the possible partial-index follow-up, briefly searched for a suitable database visual, and returned to Canva.",
+        "event_ids": [
+          388,
+          389,
+          390
+        ],
+        "context": "The follow-up is outlined but not yet recorded.",
+        "area": "thumbnail_design",
+        "intent": "Test whether the narrower topic has a clear visual package.",
+        "quality": "exploratory packaging",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-17-09",
+        "started_at": "18:34",
+        "ended_at": "19:27",
+        "title": "Offline dinner transition",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and evening transition.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-10",
+        "started_at": "19:27",
+        "ended_at": "20:06",
+        "title": "Instagram audience activity",
+        "summary": "Checked direct messages and browsed the Instagram Explore feed.",
+        "event_ids": [
+          391,
+          392
+        ],
+        "context": "The creator uses Instagram for both community communication and general browsing.",
+        "area": "community_and_social",
+        "intent": "Handle audience communication and browse current content.",
+        "quality": "mixed-intent activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-17-11",
+        "started_at": "20:06",
+        "ended_at": "20:52",
+        "title": "Second analytics and backlog check",
+        "summary": "Returned to YouTube Studio analytics and then reviewed the idea list again.",
+        "event_ids": [
+          393,
+          394
+        ],
+        "context": "The repeated analytics check has no visible numeric decision attached to it.",
+        "area": "analytics_and_ideation",
+        "intent": "Recheck the published video's state and future options.",
+        "quality": "partly useful, partly uncertain",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-12",
+        "started_at": "20:52",
+        "ended_at": "21:04",
+        "title": "Outline closeout",
+        "summary": "Returned briefly to the partial-index outline and made a small final note before recreation.",
+        "event_ids": [
+          395
+        ],
+        "context": "The topic remains a possible next project, not a completed production.",
+        "area": "outlining",
+        "intent": "Preserve the latest structure and next questions.",
+        "quality": "useful closeout",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-17-13",
+        "started_at": "21:04",
+        "ended_at": "22:09",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends on Discord.",
+        "event_ids": [
+          396,
+          397
+        ],
+        "context": "Normal evening leisure.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-17-14",
+        "started_at": "22:09",
+        "ended_at": "22:26",
+        "title": "Late indexing reference check",
+        "summary": "Searched for PostgreSQL indexing mistakes that might help sharpen the follow-up angle.",
+        "event_ids": [
+          398
+        ],
+        "context": "This is a narrow technical reference check tied to the active outline.",
+        "area": "research",
+        "intent": "Look for a concrete mistake or failure case to strengthen the follow-up.",
+        "quality": "targeted research",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:58",
+        "ended_at": "11:17",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "13:26",
+        "ended_at": "14:41",
+        "reason": "Offline lunch and personal time"
+      },
+      {
+        "started_at": "16:51",
+        "ended_at": "17:38",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "18:34",
+        "ended_at": "19:27",
+        "reason": "Offline dinner transition"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The creator used the first meaningful post-publish signals from the PostgreSQL video to narrow the next topic toward partial indexes instead of starting an unrelated project.",
+      "Most of the productive work was research and outlining; no recording occurred for the follow-up.",
+      "The outline became concrete enough to support an early thumbnail experiment, but the project is still pre-production.",
+      "Analytics were checked twice, while the second check has no visible associated decision.",
+      "Instagram activity mixed direct audience communication with general Explore browsing, so the two intentions should not be collapsed.",
+      "The late indexing-mistakes search is clearly tied to the active follow-up rather than a new idea."
+    ],
+    "priority_alignment": [
+      "The creator completed a deliberate selection step after publishing rather than immediately jumping into production.",
+      "Research was narrow enough to support an actual outline instead of becoming open-ended PostgreSQL browsing.",
+      "Packaging exploration stayed secondary to deciding whether the follow-up topic was strong enough."
+    ],
+    "important_uncertainty": [
+      "The raw evidence does not show the actual comments or metrics that caused the partial-index idea to win.",
+      "The outline is substantial, but there is no evidence yet that the creator has fully committed to recording it.",
+      "The thumbnail experiment may be exploratory rather than a production commitment.",
+      "The second analytics check does not reveal any resulting action.",
+      "Instagram Explore activity may be leisure, trend awareness, or casual browsing.",
+      "Offline periods are not observable."
+    ],
+    "possible_next_step": "Turn the partial-index outline into a recording-ready script only if the practical example and failure case are clear; otherwise return to the backlog rather than forcing production."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Convert the outline into a recording-ready script",
+      "action_type": "complete_open_loop",
+      "reason": "The creator has moved from idea selection into a fairly concrete outline; the next useful threshold is a script that can be recorded without another broad research loop.",
+      "target": "PostgreSQL Partial Indexes follow-up",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the topic was selected solely because of analytics; the exact audience signal is not visible.",
+      "Do not treat the thumbnail as evidence that recording is already committed.",
+      "Do not repeat analytics checks without a specific question they are meant to answer.",
+      "Do not classify all Instagram Explore browsing as creator work.",
+      "Do not turn the late indexing search into a separate content project.",
+      "Do not infer anything about offline periods."
+    ]
+  }
+}

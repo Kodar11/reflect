@@ -68,6 +68,11 @@ export class FakeCoachRepository implements ICoachRepository {
     return this.actions.filter((a) => a.reportId === reportId).map((a) => structuredClone(a));
   }
 
+  deleteAction(id: string): void {
+    this.actions = this.actions.filter((a) => a.id !== id);
+    this.events = this.events.filter((e) => e.actionId !== id);
+  }
+
   insertActionEvent(event: CoachActionEvent): void {
     this.events.push(structuredClone(event));
   }

@@ -6,7 +6,10 @@ Runs a 30-day simulated user through the **real** Reflect pipeline and the **rea
 
 ```
 tests/benchmark/
-├── data/founder_freelancer/reflect_day_01.json … reflect_day_30.json
+├── data/founder_freelancer/reflect_day_01.json … reflect_day_30.json   the one persona that runs end to end
+├── data/<persona>/reflect_<persona>_day_NN.json   five more personas; all validate, none has been run yet — see AUDIT.md
+├── data/normalize.mjs        repairs mechanical drift in the persona day files (dry run unless --write)
+├── AUDIT.md                  state of all six personas and of the evaluators
 ├── data/coach_scenarios/<scenario>/reflect_day_NN.json   twenty-two small Coach scenarios (+ generate.mjs)
 ├── data/annotate_coach.mjs   derives the coach answer-key annotations of the 30-day set
 ├── runner/            what talks to Reflect (sees raw events only)
@@ -29,6 +32,12 @@ npm run benchmark:validate
 ```
 
 Validates the dataset and stops. No database, no Gemini.
+
+```bash
+npm run benchmark:validate -- --all
+```
+
+Validates every persona directory under `data/` and prints one line per persona with its error counts. `--persona <name>` picks one of them (for a run as well: `npm run benchmark -- --persona researcher`). It also prints how many of each persona's classification labels the evaluator can score. All six validate today; `AUDIT.md` says what limits the new ones have before they can be run.
 
 ```bash
 npm run benchmark
@@ -190,7 +199,7 @@ Both live only in the answer key. `splitDataset` does not copy them into `Reflec
 
 For the 30-day set the two annotations are derived by `data/annotate_coach.mjs` from what the key already states (the expected actions, and the next day's ground-truth activities and priority assessments). That set has 24 strong and 6 moderate days and **no** null day, and its simulated user accepts and carries out everything. It therefore cannot tell a good Coach from a talkative one, and a Coach tuned to it would learn to always say something. Treat its recall as one reading among several: appropriate-null, rejection, postponement, failure, "too difficult", external-constraint handling and the choice among competing priorities are measured by the scenario set, which is the check against overfitting to this one.
 
-There is no College Student 30-day dataset yet (only `data/founder_freelancer`). The student persona is covered by eleven of the scenarios.
+The other five 30-day personas carry neither annotation; `KNOWN_TARGETS`, the work-stream matching in `evaluators/text.ts` and `data/annotate_coach.mjs` are written for the founder persona. Until then the student persona is covered by eleven of the scenarios.
 
 ### Coach scenario set
 

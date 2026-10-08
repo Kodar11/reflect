@@ -1,0 +1,594 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while handling research, production, publishing, community, analytics, and occasional sponsorship work",
+    "current_work": [
+      "Finishing the API-performance video from the previous three days",
+      "Handling a small sponsorship inquiry and its requested creative deliverable",
+      "Maintaining audience/community and channel operations"
+    ],
+    "priorities": [
+      "Protect enough time to close the nearly finished API video",
+      "Handle the sponsorship inquiry professionally without allowing it to consume the whole production day",
+      "Keep the sponsor work and creator work clearly separated when the evidence supports different activities"
+    ]
+  },
+  "day": {
+    "day_number": 4,
+    "date": "2026-09-04",
+    "day_type": "friday_sponsorship_interruption_and_video_push",
+    "circumstances": [
+      "A small sponsorship inquiry arrived and required reading a brief, checking disclosure requirements, preparing a response, and creating a simple sponsor graphic.",
+      "The API-performance video remained the more developed creative project and received two substantial editing blocks.",
+      "The same YouTube and Instagram platforms continued to serve different intentions, including research, audience communication, and general browsing.",
+      "Analytics were checked once without an observable follow-up decision.",
+      "The creator ended the day with normal entertainment and only a brief idea-list check."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:52",
+      "last_seen": "22:47",
+      "approx_active_hours": 8.3,
+      "longest_unobserved_gap_minutes": 101
+    }
+  },
+  "raw_events": [
+    {
+      "id": 69,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T08:52:00+05:30",
+      "ended_at": "2026-09-04T09:07:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 70,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T09:07:00+05:30",
+      "ended_at": "2026-09-04T09:19:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Brand Deliverables",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 71,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T09:19:00+05:30",
+      "ended_at": "2026-09-04T09:37:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 72,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T09:37:00+05:30",
+      "ended_at": "2026-09-04T10:04:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "API Sponsorship Brief",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 73,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T10:04:00+05:30",
+      "ended_at": "2026-09-04T10:21:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "developer tool integration disclosure examples",
+      "url": "https://www.google.com/search?q=developer+tool+integration+disclosure+examples",
+      "payload": null
+    },
+    {
+      "id": 74,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T10:21:00+05:30",
+      "ended_at": "2026-09-04T10:48:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 75,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T11:26:00+05:30",
+      "ended_at": "2026-09-04T11:53:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 76,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T11:53:00+05:30",
+      "ended_at": "2026-09-04T12:17:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 77,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T12:17:00+05:30",
+      "ended_at": "2026-09-04T12:29:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "video intro pacing examples",
+      "url": "https://www.youtube.com/results?search_query=video+intro+pacing+examples",
+      "payload": null
+    },
+    {
+      "id": 78,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T12:29:00+05:30",
+      "ended_at": "2026-09-04T12:58:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 79,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T14:21:00+05:30",
+      "ended_at": "2026-09-04T14:49:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "API Sponsorship Brief",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 80,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T14:49:00+05:30",
+      "ended_at": "2026-09-04T15:11:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Sponsor graphic",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 81,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T15:11:00+05:30",
+      "ended_at": "2026-09-04T15:26:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Draft response",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 82,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T16:07:00+05:30",
+      "ended_at": "2026-09-04T16:34:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 83,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T16:34:00+05:30",
+      "ended_at": "2026-09-04T16:52:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 84,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T17:38:00+05:30",
+      "ended_at": "2026-09-04T17:52:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content analytics",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 85,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T17:52:00+05:30",
+      "ended_at": "2026-09-04T18:06:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 86,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T18:06:00+05:30",
+      "ended_at": "2026-09-04T18:22:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/explore/",
+      "url": "https://www.instagram.com/explore/",
+      "payload": null
+    },
+    {
+      "id": 87,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T20:03:00+05:30",
+      "ended_at": "2026-09-04T20:46:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Mechanical keyboards review",
+      "url": "https://www.youtube.com/watch?v=keyboard-review-07",
+      "payload": null
+    },
+    {
+      "id": 88,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T20:46:00+05:30",
+      "ended_at": "2026-09-04T21:31:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 89,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T21:31:00+05:30",
+      "ended_at": "2026-09-04T21:50:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 90,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T22:18:00+05:30",
+      "ended_at": "2026-09-04T22:32:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 91,
+      "watcher": "desktop",
+      "started_at": "2026-09-04T22:32:00+05:30",
+      "ended_at": "2026-09-04T22:47:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-04-01",
+        "started_at": "08:52",
+        "ended_at": "09:37",
+        "title": "Morning inbox and sponsor triage",
+        "summary": "Checked email, reviewed the deliverables sheet, and opened the new sponsorship inquiry.",
+        "event_ids": [
+          69,
+          70,
+          71
+        ],
+        "context": "A small sponsorship request arrived while the main API video was still unfinished.",
+        "area": "sponsorship",
+        "intent": "Understand the sponsor request and decide what work it requires.",
+        "quality": "useful administrative work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-02",
+        "started_at": "09:37",
+        "ended_at": "10:48",
+        "title": "Sponsorship requirements and response",
+        "summary": "Read the sponsor brief, checked disclosure wording examples, and drafted a response with the requested deliverables.",
+        "event_ids": [
+          72,
+          73,
+          74
+        ],
+        "context": "The sponsor work was concrete enough to require action but still relatively small.",
+        "area": "sponsorship",
+        "intent": "Clarify the deliverable and prepare a professional response.",
+        "quality": "focused administrative work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-03",
+        "started_at": "10:48",
+        "ended_at": "11:26",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Take a break before returning to production.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-04",
+        "started_at": "11:26",
+        "ended_at": "12:58",
+        "title": "API video edit continuation",
+        "summary": "Returned to the rough cut, reviewed pacing, checked one set of intro examples, and continued tightening the current video.",
+        "event_ids": [
+          75,
+          76,
+          77,
+          78
+        ],
+        "context": "The API video was already in rough-cut form and remained the main creator project.",
+        "area": "editing",
+        "intent": "Bring the current video closer to a finished watchable cut.",
+        "quality": "focused production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-05",
+        "started_at": "12:58",
+        "ended_at": "14:21",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the midday period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and ordinary personal activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-06",
+        "started_at": "14:21",
+        "ended_at": "15:26",
+        "title": "Sponsor asset preparation",
+        "summary": "Reopened the sponsor brief, created a simple graphic in Canva, and prepared a response email.",
+        "event_ids": [
+          79,
+          80,
+          81
+        ],
+        "context": "The creator temporarily shifted from personal production to a concrete external deliverable.",
+        "area": "sponsorship",
+        "intent": "Prepare the requested sponsor asset and response.",
+        "quality": "bounded deliverable work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-07",
+        "started_at": "15:26",
+        "ended_at": "16:07",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Take a break between external-work and creator-work blocks.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-08",
+        "started_at": "16:07",
+        "ended_at": "16:52",
+        "title": "API video edit push",
+        "summary": "Returned to the Resolve timeline and made another substantial pass on the current video.",
+        "event_ids": [
+          82,
+          83
+        ],
+        "context": "The creator returned to the main video after completing the sponsor response work.",
+        "area": "editing",
+        "intent": "Continue closing the main video edit.",
+        "quality": "focused production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-04-09",
+        "started_at": "16:52",
+        "ended_at": "17:38",
+        "title": "Offline transition",
+        "summary": "Spent time away from the desktop before routine channel checks.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Transition between work and routine channel maintenance.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-10",
+        "started_at": "17:38",
+        "ended_at": "18:22",
+        "title": "Channel maintenance and social browsing",
+        "summary": "Checked YouTube analytics, answered Instagram direct messages, and then browsed the explore feed.",
+        "event_ids": [
+          84,
+          85,
+          86
+        ],
+        "context": "These platforms support both legitimate creator operations and ordinary social browsing.",
+        "area": "community_and_analytics",
+        "intent": "Handle audience maintenance and inspect current channel state.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-04-11",
+        "started_at": "18:22",
+        "ended_at": "20:03",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the early evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-12",
+        "started_at": "20:03",
+        "ended_at": "21:50",
+        "title": "Evening entertainment and social time",
+        "summary": "Watched a mechanical-keyboard review, played Hades, and chatted with friends.",
+        "event_ids": [
+          87,
+          88,
+          89
+        ],
+        "context": "This was ordinary evening leisure after sponsor administration and video editing.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-13",
+        "started_at": "21:50",
+        "ended_at": "22:18",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Wind down before the final light check.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-04-14",
+        "started_at": "22:18",
+        "ended_at": "22:47",
+        "title": "Idea-list and inbox check",
+        "summary": "Looked briefly at the video idea list and then checked the inbox before ending desktop use.",
+        "event_ids": [
+          90,
+          91
+        ],
+        "context": "No new content project was started.",
+        "area": "creator_operations",
+        "intent": "Review open ideas and any late incoming communication.",
+        "quality": "brief maintenance",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:48",
+        "ended_at": "11:26",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "12:58",
+        "ended_at": "14:21",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "15:26",
+        "ended_at": "16:07",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "16:52",
+        "ended_at": "17:38",
+        "reason": "Offline transition"
+      },
+      {
+        "started_at": "18:22",
+        "ended_at": "20:03",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "21:50",
+        "ended_at": "22:18",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The day introduced a legitimate competing priority: a sponsorship request required a brief, response, and asset preparation while the API video was still unfinished.",
+      "The creator returned to the API edit twice after sponsor work, so the external request displaced some production time but did not replace the main video as the day's longest-running creative thread.",
+      "The same platforms again represented different intentions: YouTube supported editing references and entertainment, while Instagram combined audience communication with general browsing.",
+      "The API video is still an open production loop despite several days of editing, while the sponsor work is closer to a bounded deliverable.",
+      "Analytics were checked once without a visible decision, but there is not enough evidence to say whether the check influenced off-screen planning."
+    ],
+    "priority_alignment": [
+      "The sponsor work was handled as a concrete external obligation rather than allowed to expand indefinitely.",
+      "The API video remained the principal creator project and received meaningful editing time before and after the sponsor work.",
+      "New idea exploration was kept minimal rather than competing with the two active workstreams."
+    ],
+    "important_uncertainty": [
+      "The timeline does not show whether the sponsorship agreement was accepted, declined, or still under discussion after the email work.",
+      "The sponsor graphic was created, but its final quality and whether it satisfied the requested deliverable are not observable.",
+      "The API edit received another substantial pass, but the evidence does not establish whether it is now ready for final review.",
+      "Analytics were opened, but the actual metrics and any resulting decision are unavailable.",
+      "Offline periods are outside desktop observation."
+    ],
+    "possible_next_step": "Decide the status of the sponsorship request, then protect one uninterrupted block to finish the current API edit before adding more secondary work."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Protect an uninterrupted edit block",
+      "action_type": "protect_priority",
+      "reason": "The API video has progressed through multiple days and survived a legitimate sponsor interruption; one protected block should help close the remaining edit loop.",
+      "suggested_focus_minutes": 75,
+      "target": "Why APIs Feel Slow — video"
+    },
+    "secondary_action": {
+      "title": "Close the sponsor decision",
+      "action_type": "complete_open_loop",
+      "reason": "The sponsorship work is concrete and partly prepared, so leaving its status unresolved could keep competing with creator production.",
+      "suggested_focus_minutes": null,
+      "target": null
+    },
+    "things_not_to_do": [
+      "Do not assume the sponsorship work was a distraction from creator work; it was a separate legitimate responsibility.",
+      "Do not assume the sponsor request was more important than the API video simply because it was external.",
+      "Do not treat the YouTube intro examples as unrelated browsing when they were embedded in the editing workflow.",
+      "Do not classify the Instagram explore session as audience work simply because it followed direct-message handling.",
+      "Do not infer the sponsorship outcome or acceptance from the draft response alone.",
+      "Do not assume the API video is finished because it received another long edit block.",
+      "Do not criticize the evening leisure as inherently harmful."
+    ]
+  }
+}

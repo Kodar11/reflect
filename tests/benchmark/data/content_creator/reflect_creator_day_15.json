@@ -1,0 +1,695 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life"
+  },
+  "day": {
+    "day_number": 15,
+    "date": "2026-09-15",
+    "day_type": "near_final_edit_and_retake",
+    "circumstances": [
+      "The creator began with the existing PostgreSQL rough cut and reviewed it end-to-end rather than immediately adding another unrelated idea.",
+      "The review exposed a weak explanation around EXPLAIN output, so the script was checked, a targeted technical example was researched, and a short replacement take was recorded.",
+      "The new footage was reviewed and inserted into the rough cut, bringing the video closer to a complete edit.",
+      "Thumbnail work continued with a mobile-readability check, while audience messages, analytics, and idea-list maintenance remained secondary.",
+      "The evening included ordinary recreation and a short technical documentary session."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:51",
+      "last_seen": "22:31",
+      "approx_active_hours": 10.6,
+      "longest_unobserved_gap_minutes": 67
+    }
+  },
+  "raw_events": [
+    {
+      "id": 320,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T08:51:00+05:30",
+      "ended_at": "2026-09-15T09:06:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 321,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T09:06:00+05:30",
+      "ended_at": "2026-09-15T09:21:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content — Overview",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 322,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T09:21:00+05:30",
+      "ended_at": "2026-09-15T09:43:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "PostgreSQL Indexes — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 323,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T09:43:00+05:30",
+      "ended_at": "2026-09-15T10:18:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "PostgreSQL Indexes — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 324,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T10:18:00+05:30",
+      "ended_at": "2026-09-15T10:36:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "PostgreSQL Indexes — review export.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 325,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T10:49:00+05:30",
+      "ended_at": "2026-09-15T11:04:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 326,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T11:04:00+05:30",
+      "ended_at": "2026-09-15T11:27:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL EXPLAIN actual rows estimate example",
+      "url": "https://www.google.com/search?q=PostgreSQL+EXPLAIN+actual+rows+estimate+example",
+      "payload": null
+    },
+    {
+      "id": 327,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T11:44:00+05:30",
+      "ended_at": "2026-09-15T12:15:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 328,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:15:00+05:30",
+      "ended_at": "2026-09-15T12:29:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-15_pg_take3.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 329,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T12:42:00+05:30",
+      "ended_at": "2026-09-15T13:11:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "PostgreSQL Indexes — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 330,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T13:11:00+05:30",
+      "ended_at": "2026-09-15T13:38:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "PostgreSQL Indexes — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 331,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T13:38:00+05:30",
+      "ended_at": "2026-09-15T14:00:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "PostgreSQL Indexes — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 332,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:00:00+05:30",
+      "ended_at": "2026-09-15T14:24:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Video Thumbnail Ideas",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 333,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:24:00+05:30",
+      "ended_at": "2026-09-15T14:39:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "YouTube thumbnail text readability mobile",
+      "url": "https://www.google.com/search?q=YouTube+thumbnail+text+readability+mobile",
+      "payload": null
+    },
+    {
+      "id": 334,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T14:39:00+05:30",
+      "ended_at": "2026-09-15T15:02:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Video Thumbnail Ideas",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 335,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T15:02:00+05:30",
+      "ended_at": "2026-09-15T15:19:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 336,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T16:07:00+05:30",
+      "ended_at": "2026-09-15T16:39:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "PostgreSQL Indexes — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 337,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T16:39:00+05:30",
+      "ended_at": "2026-09-15T16:52:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PostgreSQL indexing examples",
+      "url": "https://www.youtube.com/results?search_query=PostgreSQL+indexing+examples",
+      "payload": null
+    },
+    {
+      "id": 338,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T16:52:00+05:30",
+      "ended_at": "2026-09-15T17:24:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "PostgreSQL Indexes — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 339,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T17:24:00+05:30",
+      "ended_at": "2026-09-15T17:39:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Creator Assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 340,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T18:46:00+05:30",
+      "ended_at": "2026-09-15T19:14:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 341,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T19:14:00+05:30",
+      "ended_at": "2026-09-15T19:33:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Channel Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 342,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T19:33:00+05:30",
+      "ended_at": "2026-09-15T20:02:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 343,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T20:02:00+05:30",
+      "ended_at": "2026-09-15T20:24:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 344,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T20:24:00+05:30",
+      "ended_at": "2026-09-15T21:08:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 345,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T21:08:00+05:30",
+      "ended_at": "2026-09-15T21:31:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "distributed systems documentary",
+      "url": "https://www.youtube.com/watch?v=example",
+      "payload": null
+    },
+    {
+      "id": 346,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T21:59:00+05:30",
+      "ended_at": "2026-09-15T22:14:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content — Overview",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 347,
+      "watcher": "desktop",
+      "started_at": "2026-09-15T22:14:00+05:30",
+      "ended_at": "2026-09-15T22:31:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-15-01",
+        "started_at": "08:51",
+        "ended_at": "09:21",
+        "title": "Inbox, channel, and project status check",
+        "summary": "Checked email and the YouTube Studio dashboard, then moved directly into the active PostgreSQL project.",
+        "event_ids": [
+          320,
+          321
+        ],
+        "context": "The PostgreSQL video is the main unfinished production project.",
+        "area": "creator_operations",
+        "intent": "Review incoming work and current channel state before production.",
+        "quality": "focused start",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-02",
+        "started_at": "09:21",
+        "ended_at": "10:36",
+        "title": "End-to-end rough-cut review",
+        "summary": "Reviewed the PostgreSQL edit and watched a review export to evaluate pacing and explanatory clarity.",
+        "event_ids": [
+          322,
+          323,
+          324
+        ],
+        "context": "The previous day established the first real rough cut.",
+        "area": "editing",
+        "intent": "Find issues in the cut before polishing or publishing.",
+        "quality": "high-value review",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-03",
+        "started_at": "10:36",
+        "ended_at": "10:49",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Brief break between edit review and correction.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-04",
+        "started_at": "10:49",
+        "ended_at": "11:27",
+        "title": "Fixing a weak technical explanation",
+        "summary": "Checked the PostgreSQL script and researched an EXPLAIN actual-versus-estimated-rows example after the rough-cut review exposed a weak explanation.",
+        "event_ids": [
+          325,
+          326
+        ],
+        "context": "The creator is correcting a specific clarity problem rather than rewriting the whole video.",
+        "area": "scripting_and_research",
+        "intent": "Find a concrete example that makes the explanation clearer.",
+        "quality": "targeted improvement",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-05",
+        "started_at": "11:27",
+        "ended_at": "11:44",
+        "title": "Offline recording preparation",
+        "summary": "Prepared the recording setup away from the desktop.",
+        "event_ids": [],
+        "context": "The exact physical setup steps are not observable.",
+        "area": "recording",
+        "intent": "Prepare for a short replacement take.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-06",
+        "started_at": "11:44",
+        "ended_at": "12:29",
+        "title": "Targeted replacement recording",
+        "summary": "Recorded a short replacement section and reviewed the resulting file before editing it into the project.",
+        "event_ids": [
+          327,
+          328
+        ],
+        "context": "This is a focused re-record prompted by the morning review.",
+        "area": "recording",
+        "intent": "Capture a clearer version of one problematic explanation.",
+        "quality": "efficient corrective production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-07",
+        "started_at": "12:42",
+        "ended_at": "14:00",
+        "title": "Integrating the replacement take",
+        "summary": "Returned to DaVinci Resolve and continued the rough cut, incorporating the new footage into the relevant section.",
+        "event_ids": [
+          329,
+          330,
+          331
+        ],
+        "context": "The recording correction is now being integrated into the edit.",
+        "area": "editing",
+        "intent": "Repair the weak section and improve overall flow.",
+        "quality": "substantive production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-08",
+        "started_at": "14:00",
+        "ended_at": "14:24",
+        "title": "Thumbnail iteration",
+        "summary": "Worked on the PostgreSQL thumbnail while the core edit was substantially shaped.",
+        "event_ids": [
+          332
+        ],
+        "context": "Packaging is being developed before final publication.",
+        "area": "thumbnail_design",
+        "intent": "Create a viable thumbnail concept.",
+        "quality": "productive packaging",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-09",
+        "started_at": "14:24",
+        "ended_at": "15:02",
+        "title": "Thumbnail readability check",
+        "summary": "Looked up mobile thumbnail readability guidance and iterated the design in Canva.",
+        "event_ids": [
+          333,
+          334
+        ],
+        "context": "The search is directly related to the active thumbnail rather than general browsing.",
+        "area": "thumbnail_design",
+        "intent": "Improve legibility at small display sizes.",
+        "quality": "targeted packaging work",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-10",
+        "started_at": "15:02",
+        "ended_at": "15:19",
+        "title": "Audience message check",
+        "summary": "Checked the Instagram direct inbox for audience communication.",
+        "event_ids": [
+          335
+        ],
+        "context": "Community activity is part of the creator's normal workload.",
+        "area": "community",
+        "intent": "Handle audience messages.",
+        "quality": "brief communication",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-11",
+        "started_at": "15:19",
+        "ended_at": "16:07",
+        "title": "Offline break",
+        "summary": "Spent a period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Break between work blocks.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-12",
+        "started_at": "16:07",
+        "ended_at": "17:24",
+        "title": "Edit polish and reference check",
+        "summary": "Continued polishing the PostgreSQL cut, briefly reviewed other indexing explanations on YouTube, and returned to the edit.",
+        "event_ids": [
+          336,
+          337,
+          338
+        ],
+        "context": "The reference search may help presentation, but the majority of time stayed in the editor.",
+        "area": "editing",
+        "intent": "Polish the current cut and validate explanation/presentation choices.",
+        "quality": "mostly focused production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-13",
+        "started_at": "17:39",
+        "ended_at": "18:46",
+        "title": "Offline personal time",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "The tracker cannot observe offline activity.",
+        "area": "personal",
+        "intent": "Normal evening transition and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-14",
+        "started_at": "17:24",
+        "ended_at": "17:39",
+        "title": "Asset library check",
+        "summary": "The creator briefly accessed the shared creator asset folder before the evening break.",
+        "event_ids": [
+          339
+        ],
+        "context": "The single Drive event does not reveal which asset was inspected or whether anything was changed.",
+        "area": "creator_operations",
+        "intent": "Check available production assets.",
+        "quality": "ambiguous maintenance",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-15",
+        "started_at": "18:46",
+        "ended_at": "20:24",
+        "title": "Metrics review and idea backlog maintenance",
+        "summary": "Reviewed the Redis follow-up analytics, recorded a few metrics in the channel sheet, and looked over the broader idea backlog.",
+        "event_ids": [
+          340,
+          341,
+          342,
+          343
+        ],
+        "context": "The analytics check is tied to an existing published video, but no major strategy change is visible.",
+        "area": "analytics_and_ideation",
+        "intent": "Maintain channel records and review possible future content.",
+        "quality": "light maintenance with limited visible action",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-16",
+        "started_at": "20:24",
+        "ended_at": "21:31",
+        "title": "Evening recreation",
+        "summary": "Played Hades and watched a distributed-systems documentary.",
+        "event_ids": [
+          344,
+          345
+        ],
+        "context": "The documentary is technically relevant to the creator's interests, but the evidence does not establish it as deliberate content research.",
+        "area": "leisure",
+        "intent": "Recreation and general technical interest.",
+        "quality": "mixed leisure/learning ambiguity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-17",
+        "started_at": "21:31",
+        "ended_at": "21:59",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Wind down before final project notes.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-18",
+        "started_at": "21:59",
+        "ended_at": "22:31",
+        "title": "Final status and project note",
+        "summary": "Briefly checked the channel overview and updated PostgreSQL video notes after the day's edit work.",
+        "event_ids": [
+          346,
+          347
+        ],
+        "context": "The PostgreSQL video is closer to final but is not yet clearly published.",
+        "area": "creator_operations_and_project_management",
+        "intent": "Close the day with a status check and preserve next-step notes.",
+        "quality": "useful closeout",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:36",
+        "ended_at": "10:49",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "11:27",
+        "ended_at": "11:44",
+        "reason": "Offline recording preparation"
+      },
+      {
+        "started_at": "12:29",
+        "ended_at": "12:42",
+        "reason": "Brief offline transition"
+      },
+      {
+        "started_at": "15:19",
+        "ended_at": "16:07",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "17:39",
+        "ended_at": "18:46",
+        "reason": "Offline personal time"
+      },
+      {
+        "started_at": "21:31",
+        "ended_at": "21:59",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The most important progress was not a new project but a quality correction: the creator reviewed the PostgreSQL rough cut end-to-end, identified a weak explanation, researched a concrete example, and recorded a focused replacement.",
+      "The replacement footage was incorporated into the edit, making the PostgreSQL video materially closer to a final cut.",
+      "Thumbnail packaging also advanced, including a targeted mobile-readability check.",
+      "Analytics and the idea backlog were checked in the evening, but there is no visible evidence of a major decision resulting from those checks.",
+      "The distributed-systems documentary is ambiguous: it may simply be leisure or general learning, and should not automatically be classified as content research."
+    ],
+    "priority_alignment": [
+      "The creator stayed centered on the PostgreSQL video's actual production bottleneck.",
+      "Research was used to repair a specific explanation rather than becoming an open-ended research session.",
+      "Packaging and channel maintenance remained secondary to editing."
+    ],
+    "important_uncertainty": [
+      "The review showed something was weak, but the desktop timeline cannot prove the final replacement fully solved the issue.",
+      "The edit appears near final, but there is no explicit export, upload, or publication event.",
+      "The Drive asset check does not reveal what was inspected or whether it materially affected production.",
+      "The metrics sheet contains no observable numeric outcome in the raw evidence.",
+      "Offline periods, including the physical recording setup, are not observable.",
+      "The evening technical documentary cannot be confidently labeled as work."
+    ],
+    "possible_next_step": "Do one clean end-to-end review of the near-final PostgreSQL cut, then make the export/upload decision before starting another substantial idea."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the PostgreSQL edit",
+      "action_type": "complete_open_loop",
+      "reason": "The recording problem has been specifically addressed and the cut is now near final; the highest-value next step is to verify and close the production loop.",
+      "target": "PostgreSQL Indexes video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the near-final cut is publish-ready without an end-to-end review.",
+      "Do not turn every technically relevant YouTube session into content research.",
+      "Do not infer a strategic analytics decision from the metrics checks.",
+      "Do not treat the Instagram inbox check as distraction without evidence of intent.",
+      "Do not infer anything about the offline recording setup.",
+      "Do not criticize leisure activity."
+    ]
+  }
+}

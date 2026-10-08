@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -10,6 +11,16 @@ import { fileURLToPath } from 'node:url';
 
 export const BENCHMARK_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const REPO_ROOT = path.resolve(BENCHMARK_ROOT, '..', '..');
+
+/** Every 30-day persona dataset under `data/` (the Coach scenario set is a different kind of dataset). */
+export function personaDatasetDirs(): string[] {
+  const root = path.join(BENCHMARK_ROOT, 'data');
+  return fs
+    .readdirSync(root, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && entry.name !== 'coach_scenarios')
+    .map((entry) => path.join(root, entry.name))
+    .sort();
+}
 
 export type IntelligenceWindowMode = 'hour' | 'day';
 export type ActionPolicy = 'none' | 'accept_all' | 'scenario';

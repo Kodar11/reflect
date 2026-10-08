@@ -1,0 +1,509 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Preparing for the upcoming Data Structures internal assessment",
+      "Maintaining the semester project",
+      "Keeping up with normal semester coursework"
+    ],
+    "priorities": [
+      "Identify and strengthen weak Data Structures topics before the assessment",
+      "Keep the semester project available for concrete teammate requests",
+      "Avoid opening too many unrelated academic tasks before the assessment"
+    ]
+  },
+  "day": {
+    "day_number": 23,
+    "date": "2026-09-23",
+    "day_type": "wednesday_assessment_diagnosis_and_targeted_practice",
+    "circumstances": [
+      "Wednesday included regular college classes and a long offline period outside laptop observation.",
+      "A practice set exposed a weakness around shortest-path assumptions, leading to targeted Dijkstra review rather than broad rereading.",
+      "The student then practiced minimum-spanning-tree concepts with a small C++ implementation and local run.",
+      "The semester project was only monitored through chat and issues; no implementation was needed today.",
+      "The evening was lighter with gaming and social time, followed by a brief final assessment-note check."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:14",
+      "last_seen": "21:43",
+      "approx_active_hours": 7.5,
+      "longest_unobserved_gap_minutes": 175
+    }
+  },
+  "raw_events": [
+    {
+      "id": 425,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T08:14:00+05:30",
+      "ended_at": "2026-09-23T08:27:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 426,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T08:27:00+05:30",
+      "ended_at": "2026-09-23T08:41:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 427,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T11:36:00+05:30",
+      "ended_at": "2026-09-23T11:49:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Heap & Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 428,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T11:49:00+05:30",
+      "ended_at": "2026-09-23T12:07:00+05:30",
+      "app": "HackerRank",
+      "browser": "Chrome",
+      "title": "Algorithms Practice",
+      "url": "https://www.hackerrank.com/domains/algorithms",
+      "payload": null
+    },
+    {
+      "id": 429,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T12:07:00+05:30",
+      "ended_at": "2026-09-23T12:36:00+05:30",
+      "app": "HackerRank",
+      "browser": "Chrome",
+      "title": "Algorithms Practice",
+      "url": "https://www.hackerrank.com/domains/algorithms",
+      "payload": null
+    },
+    {
+      "id": 430,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T12:36:00+05:30",
+      "ended_at": "2026-09-23T12:52:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Dijkstra negative edges why fails",
+      "url": "https://www.google.com/search?q=Dijkstra+negative+edges+why+fails",
+      "payload": null
+    },
+    {
+      "id": 431,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T12:52:00+05:30",
+      "ended_at": "2026-09-23T13:21:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 432,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T13:21:00+05:30",
+      "ended_at": "2026-09-23T13:34:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Dijkstra shortest path common mistakes",
+      "url": "https://www.youtube.com/watch?v=example21",
+      "payload": null
+    },
+    {
+      "id": 433,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T13:34:00+05:30",
+      "ended_at": "2026-09-23T14:02:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 434,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T14:02:00+05:30",
+      "ended_at": "2026-09-23T14:14:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 435,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T14:14:00+05:30",
+      "ended_at": "2026-09-23T14:39:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 436,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T16:18:00+05:30",
+      "ended_at": "2026-09-23T16:31:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Practice Answers",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 437,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T16:31:00+05:30",
+      "ended_at": "2026-09-23T16:57:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Kruskal Prim difference MST",
+      "url": "https://www.google.com/search?q=Kruskal+Prim+difference+MST",
+      "payload": null
+    },
+    {
+      "id": 438,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T16:57:00+05:30",
+      "ended_at": "2026-09-23T17:28:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "dsa-practice — mst.cpp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 439,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T17:28:00+05:30",
+      "ended_at": "2026-09-23T17:41:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "g++ mst.cpp && ./a.exe",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 440,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T17:41:00+05:30",
+      "ended_at": "2026-09-23T17:55:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Practice Answers",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 441,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T17:55:00+05:30",
+      "ended_at": "2026-09-23T18:08:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 442,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T18:08:00+05:30",
+      "ended_at": "2026-09-23T18:24:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Issues",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 443,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T18:24:00+05:30",
+      "ended_at": "2026-09-23T18:39:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 444,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T19:42:00+05:30",
+      "ended_at": "2026-09-23T20:21:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 445,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T20:21:00+05:30",
+      "ended_at": "2026-09-23T20:39:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Hades challenge run",
+      "url": "https://www.youtube.com/watch?v=example22",
+      "payload": null
+    },
+    {
+      "id": 446,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T20:39:00+05:30",
+      "ended_at": "2026-09-23T20:56:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 447,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T21:18:00+05:30",
+      "ended_at": "2026-09-23T21:31:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 448,
+      "watcher": "desktop",
+      "started_at": "2026-09-23T21:31:00+05:30",
+      "ended_at": "2026-09-23T21:43:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-23-01",
+        "started_at": "08:14",
+        "ended_at": "08:41",
+        "title": "Morning assessment check",
+        "summary": "Checked email and the Data Structures assessment page before the college day.",
+        "event_ids": [
+          425,
+          426
+        ],
+        "context": "The assessment had been the main academic priority since the schedule was posted on Day 20.",
+        "area": "coursework",
+        "intent": "Review the current assessment information.",
+        "quality": "routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-23-02",
+        "started_at": "09:00",
+        "ended_at": "11:36",
+        "title": "Offline classes and campus activity",
+        "summary": "Attended classes and handled campus activities away from the laptop.",
+        "event_ids": [],
+        "context": "The laptop was inactive during this period.",
+        "area": "coursework",
+        "intent": "Attend scheduled classes and campus responsibilities.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-23-03",
+        "started_at": "11:36",
+        "ended_at": "14:39",
+        "title": "Data Structures weak-topic diagnosis and review",
+        "summary": "Reviewed notes, completed algorithm practice, noticed difficulty around Dijkstra assumptions, searched the specific issue, watched a targeted explanation, and returned to graph notes after a short WhatsApp interruption.",
+        "event_ids": [
+          427,
+          428,
+          429,
+          430,
+          431,
+          432,
+          433,
+          434,
+          435
+        ],
+        "context": "The previous days had focused on graph traversal and general assessment preparation; today's practice exposed a narrower topic to revisit.",
+        "area": "coursework",
+        "intent": "Diagnose and strengthen a weak graph-algorithm concept before the assessment.",
+        "quality": "focused corrective study with brief interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-04",
+        "started_at": "14:39",
+        "ended_at": "16:18",
+        "title": "Offline lunch and personal time",
+        "summary": "Spent time away from the laptop for lunch and personal activity.",
+        "event_ids": [],
+        "context": "No desktop events were captured during this period.",
+        "area": "personal",
+        "intent": "Handle ordinary midday activity away from the laptop.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-23-05",
+        "started_at": "16:18",
+        "ended_at": "17:55",
+        "title": "Minimum-spanning-tree practice",
+        "summary": "Reviewed practice answers, researched the difference between Kruskal and Prim, implemented a small MST solution in C++, ran it, and returned to the written answers.",
+        "event_ids": [
+          436,
+          437,
+          438,
+          439,
+          440
+        ],
+        "context": "The student moved from the diagnosed shortest-path gap into another graph topic likely relevant to the same assessment.",
+        "area": "coursework",
+        "intent": "Practice MST concepts and verify an implementation approach.",
+        "quality": "substantive technical practice",
+        "importance": "high"
+      },
+      {
+        "id": "gt-23-06",
+        "started_at": "17:55",
+        "ended_at": "18:39",
+        "title": "Semester project status check",
+        "summary": "Checked the project chat and issue tracker for any concrete request, then reported that no immediate implementation work was needed.",
+        "event_ids": [
+          441,
+          442,
+          443
+        ],
+        "context": "The project remained in maintenance mode while assessment preparation took priority.",
+        "area": "semester_project",
+        "intent": "Check for urgent teammate requests without opening unrelated project work.",
+        "quality": "brief coordination",
+        "importance": "low"
+      },
+      {
+        "id": "gt-23-07",
+        "started_at": "19:42",
+        "ended_at": "20:56",
+        "title": "Evening gaming and social time",
+        "summary": "Played Hades, watched a related challenge-run video, and chatted with friends.",
+        "event_ids": [
+          444,
+          445,
+          446
+        ],
+        "context": "Evening personal time after the assessment-focused afternoon.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-23-08",
+        "started_at": "21:18",
+        "ended_at": "21:43",
+        "title": "Final Data Structures note check",
+        "summary": "Briefly reopened graph notes and the assessment page to mark the current review state before ending the day.",
+        "event_ids": [
+          447,
+          448
+        ],
+        "context": "Assessment preparation remained the dominant academic thread.",
+        "area": "coursework",
+        "intent": "Review the current preparation state and identify the next topic.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:41",
+        "ended_at": "09:00",
+        "reason": "Commuting and preparation away from the laptop"
+      },
+      {
+        "started_at": "09:00",
+        "ended_at": "11:36",
+        "reason": "College classes and campus activity away from the laptop"
+      },
+      {
+        "started_at": "14:39",
+        "ended_at": "16:18",
+        "reason": "Lunch and offline personal activity"
+      },
+      {
+        "started_at": "18:39",
+        "ended_at": "19:42",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "20:56",
+        "ended_at": "21:18",
+        "reason": "Short offline break"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Data Structures preparation became more diagnostic today: practice led into a specific Dijkstra-related review rather than another broad pass through all graph notes.",
+      "The student then moved to minimum-spanning-tree practice, using search, coding, a local run, and written answers as parts of one graph-assessment workflow.",
+      "The semester project was checked but did not become a substantive workstream because no concrete new request was visible.",
+      "The evening was intentionally separate from the assessment work, while a short final note check kept the assessment thread open."
+    ],
+    "priority_alignment": [
+      "Most substantive laptop work was directed toward Data Structures assessment preparation.",
+      "The student responded to a specific knowledge gap with targeted review before moving to another related graph topic.",
+      "Project time stayed bounded during the assessment period."
+    ],
+    "important_uncertainty": [
+      "Practice results and searches indicate a possible weak Dijkstra area, but desktop events do not reveal the exact questions missed or the student's final understanding.",
+      "The MST program was run locally, but that does not prove correctness across all cases or mastery of the topic.",
+      "The internal assessment page was revisited, but the laptop evidence does not establish the complete assessment scope.",
+      "Classes and other offline periods remain outside the observable laptop timeline."
+    ],
+    "possible_next_step": "Use one more focused practice set to test the graph topics covered so far, then spend remaining review time on whatever is actually missed."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Take a timed graph practice set",
+      "action_type": "start_focus",
+      "reason": "The student has moved from general review into targeted graph practice; a timed set can distinguish which topics still need work before the assessment.",
+      "suggested_focus_minutes": 45,
+      "target": "Data Structures Internal Assessment"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the Dijkstra issue is fully resolved from a search and tutorial video.",
+      "Do not treat the MST coding, search, and notes as unrelated activities.",
+      "Do not infer assessment readiness from the amount of graph content viewed.",
+      "Do not treat the project status check as a failure to make project progress.",
+      "Do not infer what happened during classes or other offline periods.",
+      "Do not criticize the evening gaming and social time as inherently harmful."
+    ]
+  }
+}

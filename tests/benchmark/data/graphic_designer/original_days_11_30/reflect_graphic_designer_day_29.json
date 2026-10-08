@@ -1,0 +1,341 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "New small brand identity brief",
+      "Social media campaign assets for an existing client",
+      "Northstar Coffee portfolio case study",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Complete the new brand identity brief",
+      "Deliver recurring social campaign work",
+      "Finish the Northstar Coffee portfolio case study",
+      "Maintain client relationships"
+    ]
+  },
+  "day": {
+    "day_number": 29,
+    "date": "2026-09-29",
+    "day_type": "client_revision_and_parallel_delivery_day"
+  },
+  "raw_events": [
+    {
+      "event_id": 439,
+      "timestamp": "2026-09-29T09:08:00+05:30",
+      "app": "Gmail",
+      "activity": "Read client feedback on the revised identity; client asked for a small wordmark proportion change and one more application example."
+    },
+    {
+      "event_id": 440,
+      "timestamp": "2026-09-29T09:24:00+05:30",
+      "app": "Notion",
+      "activity": "Updated project notes with the requested changes and a short revision checklist."
+    },
+    {
+      "event_id": 441,
+      "timestamp": "2026-09-29T09:42:00+05:30",
+      "app": "Figma",
+      "activity": "Reviewed the selected identity direction and marked the wordmark elements requiring adjustment."
+    },
+    {
+      "event_id": 442,
+      "timestamp": "2026-09-29T10:05:00+05:30",
+      "app": "Figma",
+      "activity": "Adjusted wordmark proportions, spacing, and alignment based on the client feedback."
+    },
+    {
+      "event_id": 443,
+      "timestamp": "2026-09-29T10:49:00+05:30",
+      "app": "Google Fonts",
+      "activity": "Compared supporting typefaces for the revised wordmark and checked pairing options."
+    },
+    {
+      "event_id": 444,
+      "timestamp": "2026-09-29T11:13:00+05:30",
+      "app": "Figma",
+      "activity": "Applied the shortlisted type pairing across the identity presentation and checked hierarchy."
+    },
+    {
+      "event_id": 445,
+      "timestamp": "2026-09-29T11:46:00+05:30",
+      "app": "Pinterest",
+      "activity": "Browsed packaging and identity references for the requested application example."
+    },
+    {
+      "event_id": 446,
+      "timestamp": "2026-09-29T12:07:00+05:30",
+      "app": "Figma",
+      "activity": "Built the additional application mockup using the revised identity direction."
+    },
+    {
+      "event_id": 447,
+      "timestamp": "2026-09-29T12:41:00+05:30",
+      "app": "Figma",
+      "activity": "Refined the presentation board and prepared the updated identity slides."
+    },
+    {
+      "event_id": 448,
+      "timestamp": "2026-09-29T13:02:00+05:30",
+      "app": "System",
+      "activity": "Offline period; no desktop events recorded."
+    },
+    {
+      "event_id": 449,
+      "timestamp": "2026-09-29T14:17:00+05:30",
+      "app": "Gmail",
+      "activity": "Reviewed the client email thread and prepared a concise delivery response."
+    },
+    {
+      "event_id": 450,
+      "timestamp": "2026-09-29T14:31:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent the revised identity presentation and noted the requested changes completed."
+    },
+    {
+      "event_id": 451,
+      "timestamp": "2026-09-29T14:46:00+05:30",
+      "app": "Slack",
+      "activity": "Received a short social campaign request for one additional format using an existing design."
+    },
+    {
+      "event_id": 452,
+      "timestamp": "2026-09-29T15:02:00+05:30",
+      "app": "Figma",
+      "activity": "Opened the social campaign file and adapted the existing composition to the requested format."
+    },
+    {
+      "event_id": 453,
+      "timestamp": "2026-09-29T15:39:00+05:30",
+      "app": "Figma",
+      "activity": "Checked typography, crop, and export dimensions for the social asset."
+    },
+    {
+      "event_id": 454,
+      "timestamp": "2026-09-29T16:03:00+05:30",
+      "app": "Google Drive",
+      "activity": "Uploaded the social campaign asset and organized the export alongside the previous variants."
+    },
+    {
+      "event_id": 455,
+      "timestamp": "2026-09-29T16:18:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent the social campaign asset to the client."
+    },
+    {
+      "event_id": 456,
+      "timestamp": "2026-09-29T16:42:00+05:30",
+      "app": "Figma",
+      "activity": "Returned to the Northstar Coffee portfolio case study and reviewed the unfinished narrative section."
+    },
+    {
+      "event_id": 457,
+      "timestamp": "2026-09-29T17:06:00+05:30",
+      "app": "Figma",
+      "activity": "Reworked the Northstar case-study introduction and added context around the final identity direction."
+    },
+    {
+      "event_id": 458,
+      "timestamp": "2026-09-29T17:38:00+05:30",
+      "app": "System",
+      "activity": "Offline period; no desktop events recorded."
+    },
+    {
+      "event_id": 459,
+      "timestamp": "2026-09-29T19:04:00+05:30",
+      "app": "Illustrator",
+      "activity": "Personal lettering practice; experimented with a display word treatment unrelated to current client work."
+    },
+    {
+      "event_id": 460,
+      "timestamp": "2026-09-29T19:31:00+05:30",
+      "app": "YouTube",
+      "activity": "Watched a branding case-study video; whether it was directly useful to current work is not established."
+    },
+    {
+      "event_id": 461,
+      "timestamp": "2026-09-29T19:58:00+05:30",
+      "app": "Figma",
+      "activity": "Made a final small cleanup to the new identity presentation and checked the file before ending work."
+    }
+  ],
+  "ground_truth": {
+    "events": [
+      {
+        "event_id": 439,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 440,
+        "project": "new_brand_inquiry",
+        "activity_type": "planning",
+        "importance": "medium"
+      },
+      {
+        "event_id": 441,
+        "project": "new_brand_inquiry",
+        "activity_type": "review",
+        "importance": "medium"
+      },
+      {
+        "event_id": 442,
+        "project": "new_brand_inquiry",
+        "activity_type": "wordmark_refinement",
+        "importance": "high"
+      },
+      {
+        "event_id": 443,
+        "project": "new_brand_inquiry",
+        "activity_type": "research",
+        "importance": "medium"
+      },
+      {
+        "event_id": 444,
+        "project": "new_brand_inquiry",
+        "activity_type": "typography_refinement",
+        "importance": "medium"
+      },
+      {
+        "event_id": 445,
+        "project": "ambiguous_inspiration",
+        "activity_type": "research",
+        "importance": "low"
+      },
+      {
+        "event_id": 446,
+        "project": "new_brand_inquiry",
+        "activity_type": "application_mockup",
+        "importance": "high"
+      },
+      {
+        "event_id": 447,
+        "project": "new_brand_inquiry",
+        "activity_type": "presentation_preparation",
+        "importance": "high"
+      },
+      {
+        "event_id": 448,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      },
+      {
+        "event_id": 449,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_communication",
+        "importance": "medium"
+      },
+      {
+        "event_id": 450,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 451,
+        "project": "social_campaign",
+        "activity_type": "client_communication",
+        "importance": "medium"
+      },
+      {
+        "event_id": 452,
+        "project": "social_campaign",
+        "activity_type": "production",
+        "importance": "medium"
+      },
+      {
+        "event_id": 453,
+        "project": "social_campaign",
+        "activity_type": "production",
+        "importance": "medium"
+      },
+      {
+        "event_id": 454,
+        "project": "social_campaign",
+        "activity_type": "file_management",
+        "importance": "medium"
+      },
+      {
+        "event_id": 455,
+        "project": "social_campaign",
+        "activity_type": "client_communication",
+        "importance": "medium"
+      },
+      {
+        "event_id": 456,
+        "project": "northstar_portfolio",
+        "activity_type": "review",
+        "importance": "low"
+      },
+      {
+        "event_id": 457,
+        "project": "northstar_portfolio",
+        "activity_type": "refinement",
+        "importance": "medium"
+      },
+      {
+        "event_id": 458,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      },
+      {
+        "event_id": 459,
+        "project": "personal_exploration",
+        "activity_type": "practice",
+        "importance": "low"
+      },
+      {
+        "event_id": 460,
+        "project": "ambiguous_video",
+        "activity_type": "video",
+        "importance": "low"
+      },
+      {
+        "event_id": 461,
+        "project": "new_brand_inquiry",
+        "activity_type": "final_review",
+        "importance": "medium"
+      }
+    ],
+    "summary": {
+      "new_brand_inquiry": "The client requested a bounded wordmark adjustment and another application example. The selected identity was revised and the updated presentation was sent back, but final approval is not evidenced.",
+      "social_campaign": "One additional format was produced and delivered using the existing campaign system.",
+      "northstar_portfolio": "The unfinished case-study narrative received a focused refinement block.",
+      "ambiguity": "Pinterest and YouTube may have supported visual research or professional learning, but the raw events do not establish their exact necessity or value.",
+      "personal_exploration": "A short lettering practice session occurred separately from client deliverables.",
+      "offline": "Untracked periods limit visibility into activity performed away from the tracked desktop."
+    }
+  },
+  "expected_reflection": {
+    "summary": "The new identity remained the main workstream and moved through a small, feedback-driven revision rather than another broad exploration cycle. The requested wordmark adjustment and application example were completed and the revised presentation was sent back to the client. A smaller social campaign request was also completed and delivered. The Northstar Coffee portfolio case study received meaningful narrative refinement but remains unfinished. Reference browsing and the video session remain ambiguous from the evidence alone.",
+    "project_status": {
+      "new_brand_inquiry": "Requested revision was implemented and sent; final client approval is pending.",
+      "social_campaign": "One additional format was produced and delivered.",
+      "northstar_portfolio": "The case-study narrative was refined but the portfolio remains unfinished."
+    },
+    "key_observations": [
+      "The new identity work followed a specific client request rather than reopening broad concept exploration.",
+      "The revised identity was sent back to the client, creating another external decision point.",
+      "The social campaign request was handled as a contained production task.",
+      "Northstar portfolio work received a focused block despite lower immediate client priority.",
+      "Pinterest and YouTube activity cannot be confidently classified as either essential research or distraction.",
+      "Offline periods leave some activity unobserved."
+    ],
+    "open_questions": [
+      "Will the client approve the latest identity revision or request another change?",
+      "Whether the identity is now ready for final handoff is not established.",
+      "How much the reference browsing influenced the final design cannot be determined.",
+      "What work occurred during the offline periods is unknown."
+    ]
+  },
+  "expected_coach_outcome": {
+    "coach": "Wait for the client response before making another broad identity pass; if feedback arrives, turn it into a bounded revision checklist and continue closing the selected direction toward finalization.",
+    "reason": "The main identity is now in a narrow feedback loop, so additional open-ended exploration is less justified until the client responds.",
+    "intervention_confidence": "high"
+  }
+}

@@ -9,6 +9,7 @@ import type { Event } from '../models/Event.js';
 import type { OnboardingStatus } from '../profile/UserProfile.js';
 import { GeminiError, type IGeminiClient } from './GeminiClient.js';
 import {
+  CONTEXT_LOOKBACK_MS,
   INTELLIGENCE_SCHEMA_VERSION,
   type AllowedTaxonomy,
   type AnalysisPromptInput,
@@ -72,13 +73,6 @@ const REJECTION_CATEGORIES: IntelligenceErrorCategory[] = ['malformed_output', '
 /** Failures that will hit every other window too — stop the cycle. */
 const CYCLE_STOPPING_CATEGORIES: IntelligenceErrorCategory[] = ['missing_api_key', 'quota', 'network', 'api'];
 
-/**
- * How far before the window the evidence reaches. Events in this stretch were
- * analysed already; they are shown again, with their current activity, so the
- * new events are judged against what the user was actually doing and earlier
- * groupings can be revised with hindsight.
- */
-const CONTEXT_LOOKBACK_MS = 2 * HOUR_MS;
 /** Lookback evidence is context, not the subject: it is cut to the most recent items. */
 const MAX_CONTEXT_EVIDENCE_ITEMS = 120;
 /** Recorded activities described to the model, most recent first. */

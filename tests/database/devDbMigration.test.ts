@@ -40,7 +40,7 @@ it.skipIf(!copy)('migrates a copy of the development database to the current sch
   console.log(
     JSON.stringify({ fromVersion, toVersion, sessionsBefore, sessionsAfter: sessions.length, open: open.length, profiles: profiles.length, eventsBefore, eventsAfter }),
   );
-  expect(toVersion).toBe(17);
+  expect(toVersion).toBe(18);
   expect(sessions.length).toBe(sessionsBefore);
   expect(eventsAfter).toBe(eventsBefore);
   expect(fk).toEqual([]);

@@ -1,0 +1,478 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Following up on the Software Engineering group presentation review",
+      "Starting a new DBMS practical assignment",
+      "Maintaining the semester project"
+    ],
+    "priorities": [
+      "Incorporate the Software Engineering review feedback",
+      "Start the new DBMS practical assignment",
+      "Keep the semester project moving when there is a concrete task"
+    ]
+  },
+  "day": {
+    "day_number": 14,
+    "date": "2026-09-14",
+    "day_type": "monday_group_review_and_new_dbms_task",
+    "circumstances": [
+      "Monday included regular college classes and an in-person Software Engineering group review that was mostly outside the laptop timeline.",
+      "The presentation was reviewed by the group, and the student later made several concrete slide changes based on the discussion.",
+      "A new DBMS practical assignment was posted and became the main fresh coursework thread.",
+      "The semester project received a short maintenance block after a teammate asked for help with an API response mismatch.",
+      "The evening included ordinary entertainment and a brief check of the new DBMS task."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:03",
+      "last_seen": "21:27",
+      "approx_active_hours": 7.1,
+      "longest_unobserved_gap_minutes": 188
+    }
+  },
+  "raw_events": [
+    {
+      "id": 250,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T08:03:00+05:30",
+      "ended_at": "2026-09-14T08:14:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 251,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T08:14:00+05:30",
+      "ended_at": "2026-09-14T08:29:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Software Engineering — Announcements",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 252,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T11:37:00+05:30",
+      "ended_at": "2026-09-14T11:52:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 253,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T11:52:00+05:30",
+      "ended_at": "2026-09-14T12:08:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 254,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T12:08:00+05:30",
+      "ended_at": "2026-09-14T12:34:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 255,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T12:34:00+05:30",
+      "ended_at": "2026-09-14T12:47:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Presentation Speaker Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 256,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T12:47:00+05:30",
+      "ended_at": "2026-09-14T13:02:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 257,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T13:02:00+05:30",
+      "ended_at": "2026-09-14T13:16:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 258,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T13:16:00+05:30",
+      "ended_at": "2026-09-14T13:33:00+05:30",
+      "app": "Google Slides",
+      "browser": "Chrome",
+      "title": "Semester Presentation — Draft",
+      "url": "https://docs.google.com/presentation/",
+      "payload": null
+    },
+    {
+      "id": 259,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T16:41:00+05:30",
+      "ended_at": "2026-09-14T16:53:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS — Practical 3",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 260,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T16:53:00+05:30",
+      "ended_at": "2026-09-14T17:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 261,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T17:18:00+05:30",
+      "ended_at": "2026-09-14T17:39:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "SQL joins self join example",
+      "url": "https://www.google.com/search?q=SQL+self+join+example",
+      "payload": null
+    },
+    {
+      "id": 262,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T17:39:00+05:30",
+      "ended_at": "2026-09-14T18:11:00+05:30",
+      "app": "MySQL Workbench",
+      "browser": null,
+      "title": "SQL Editor — practical_3",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 263,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T18:11:00+05:30",
+      "ended_at": "2026-09-14T18:24:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 264,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T18:24:00+05:30",
+      "ended_at": "2026-09-14T18:36:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 265,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T18:36:00+05:30",
+      "ended_at": "2026-09-14T18:49:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Issues",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 266,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T18:49:00+05:30",
+      "ended_at": "2026-09-14T19:16:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — response.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 267,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T19:16:00+05:30",
+      "ended_at": "2026-09-14T19:28:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- response",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 268,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T19:28:00+05:30",
+      "ended_at": "2026-09-14T19:42:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 269,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T19:42:00+05:30",
+      "ended_at": "2026-09-14T20:31:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 270,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T20:31:00+05:30",
+      "ended_at": "2026-09-14T20:48:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Hades speedrun tips",
+      "url": "https://www.youtube.com/watch?v=example9",
+      "payload": null
+    },
+    {
+      "id": 271,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T20:48:00+05:30",
+      "ended_at": "2026-09-14T21:02:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 272,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T21:02:00+05:30",
+      "ended_at": "2026-09-14T21:15:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS — Practical 3",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 273,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T21:15:00+05:30",
+      "ended_at": "2026-09-14T21:27:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Practical 3 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-14-01",
+        "started_at": "08:03",
+        "ended_at": "08:29",
+        "title": "Morning academic check",
+        "summary": "Checked email and the Software Engineering course announcements before heading into the college day.",
+        "event_ids": [
+          250,
+          251
+        ],
+        "context": "Routine Monday review.",
+        "area": "coursework",
+        "intent": "Check for presentation-related updates and new academic information.",
+        "quality": "routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-14-02",
+        "started_at": "11:37",
+        "ended_at": "13:33",
+        "title": "Presentation review follow-up",
+        "summary": "Reopened the presentation after the in-person group review, coordinated changes with teammates, revised slides and speaker notes, and returned to the deck after a short WhatsApp interruption.",
+        "event_ids": [
+          252,
+          253,
+          254,
+          255,
+          256,
+          257,
+          258
+        ],
+        "context": "The group reviewed the presentation earlier in the day away from the laptop and identified several changes to make.",
+        "area": "coursework",
+        "intent": "Apply review feedback and update the presentation materials.",
+        "quality": "focused revision with brief interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-14-03",
+        "started_at": "16:41",
+        "ended_at": "18:24",
+        "title": "DBMS practical assignment start",
+        "summary": "Read the new practical instructions, drafted the response, searched for a self-join example, tested SQL in MySQL Workbench, and incorporated the results back into the draft.",
+        "event_ids": [
+          259,
+          260,
+          261,
+          262,
+          263
+        ],
+        "context": "A new DBMS practical task appeared after the earlier DBMS mini-assignment had been submitted.",
+        "area": "coursework",
+        "intent": "Understand the practical requirements and begin solving the SQL portion.",
+        "quality": "substantive start",
+        "importance": "high"
+      },
+      {
+        "id": "gt-14-04",
+        "started_at": "18:24",
+        "ended_at": "19:42",
+        "title": "Semester project response fix",
+        "summary": "Responded to a project message, reviewed the issue, modified the response handling code, ran targeted tests, and reported the result back to teammates.",
+        "event_ids": [
+          264,
+          265,
+          266,
+          267,
+          268
+        ],
+        "context": "A teammate reported an API response mismatch while the project was being integrated.",
+        "area": "semester_project",
+        "intent": "Fix the reported response mismatch and verify the affected behavior.",
+        "quality": "focused debugging and coordination",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-14-05",
+        "started_at": "19:42",
+        "ended_at": "21:02",
+        "title": "Evening leisure and social time",
+        "summary": "Played Hades, watched a speedrun-related video, and chatted with friends.",
+        "event_ids": [
+          269,
+          270,
+          271
+        ],
+        "context": "Ordinary evening leisure after coursework and project work.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-14-06",
+        "started_at": "21:02",
+        "ended_at": "21:27",
+        "title": "DBMS practical review",
+        "summary": "Returned to the DBMS practical page and draft to check what remained to be completed.",
+        "event_ids": [
+          272,
+          273
+        ],
+        "context": "The practical assignment was newly started and still open.",
+        "area": "coursework",
+        "intent": "Review remaining requirements before continuing the assignment.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:29",
+        "ended_at": "11:37",
+        "reason": "College classes and the in-person Software Engineering group review away from the laptop"
+      },
+      {
+        "started_at": "13:33",
+        "ended_at": "16:41",
+        "reason": "Lunch, library/offline study, and campus activity"
+      },
+      {
+        "started_at": "21:27",
+        "ended_at": "22:30",
+        "reason": "Offline personal time and preparation for the next day"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Software Engineering presentation reached a meaningful review milestone offline, followed by a focused laptop session applying the group's feedback.",
+      "The new DBMS Practical 3 became the main fresh coursework thread, moving quickly from instructions and research into actual SQL testing and drafting.",
+      "The semester project was interrupted by a concrete response-mismatch issue and received a contained debugging cycle rather than a broad project session.",
+      "The evening Hades-related YouTube video occurred after gaming and appears connected to personal entertainment rather than the academic work."
+    ],
+    "priority_alignment": [
+      "Presentation review feedback was acted on after the offline group review.",
+      "The newly posted DBMS practical received substantial work and is the clearest remaining academic open loop.",
+      "The project issue was handled without displacing the new coursework for the entire evening."
+    ],
+    "important_uncertainty": [
+      "The presentation review itself happened offline, so the laptop timeline cannot show exactly what feedback the group gave or whether every teammate agreed with the revisions.",
+      "The DBMS work demonstrates active SQL experimentation, but the events do not establish that the final practical answers are correct or complete.",
+      "The project tests support targeted verification of the edited response handling, not proof that the whole integration is stable.",
+      "The final Classroom/Docs revisit indicates unfinished DBMS work but does not identify the exact remaining requirements."
+    ],
+    "possible_next_step": "Continue the DBMS Practical 3 from the existing draft and close its remaining SQL requirements before taking on another large academic thread."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish DBMS Practical 3",
+      "action_type": "complete_open_loop",
+      "reason": "The new practical assignment became the strongest remaining open academic thread and already has a concrete draft and tested SQL work.",
+      "suggested_focus_minutes": 45,
+      "target": "DBMS Practical 3"
+    },
+    "secondary_action": {
+      "title": "Verify the project response fix",
+      "action_type": "continue_successful_behavior",
+      "reason": "The API response issue was narrowed, changed, and tested today; a short verification pass is appropriate if the teammate reports the mismatch again.",
+      "suggested_focus_minutes": 20,
+      "target": "Semester Project response handling"
+    },
+    "things_not_to_do": [
+      "Do not infer the exact content or outcome of the offline presentation review from the subsequent slide edits.",
+      "Do not assume the DBMS practical is complete because SQL was successfully run in MySQL Workbench.",
+      "Do not treat the Hades-related YouTube session as academic work.",
+      "Do not assume the API response issue is fully resolved because targeted tests passed.",
+      "Do not treat unobserved college, library, and offline periods as wasted time."
+    ]
+  }
+}

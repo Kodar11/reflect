@@ -1,0 +1,570 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 7,
+    "date": "2026-09-07",
+    "day_type": "post_release_stabilization_and_deep_debugging_day",
+    "circumstances": [
+      "The billing settings API has moved into production and requires a short post-release verification window.",
+      "The workspace API investigation has narrowed the customer-facing issue, while the broader database latency regression remains a separate workstream.",
+      "The webhook reliability issue is still unresolved and now has a concrete acknowledgement-path hypothesis with regression coverage.",
+      "A planned technical discussion takes part of the afternoon, creating a normal interruption to the debugging work."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:04",
+      "last_seen": "18:28",
+      "approx_active_hours": 7.3,
+      "longest_unobserved_gap_minutes": 69
+    }
+  },
+  "raw_events": [
+    {
+      "id": 179,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T09:04:00+05:30",
+      "ended_at": "2026-09-07T09:13:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "Platform Engineering board",
+      "url": "https://jira.company.local/secure/RapidBoard.jspa",
+      "payload": {
+        "board": "Platform Engineering"
+      }
+    },
+    {
+      "id": 180,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T09:13:00+05:30",
+      "ended_at": "2026-09-07T09:29:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#release-coordination",
+      "url": null,
+      "payload": {
+        "channel": "#release-coordination"
+      }
+    },
+    {
+      "id": 181,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T09:29:00+05:30",
+      "ended_at": "2026-09-07T09:47:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "billing-api — request rate and errors",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "billing-api",
+        "view": "request rate and errors"
+      }
+    },
+    {
+      "id": 182,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T09:47:00+05:30",
+      "ended_at": "2026-09-07T10:05:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#billing-rollout",
+      "url": null,
+      "payload": {
+        "channel": "#billing-rollout"
+      }
+    },
+    {
+      "id": 183,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T10:05:00+05:30",
+      "ended_at": "2026-09-07T10:32:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #857 — platform-api",
+      "url": "https://github.com/company/platform-api/pull/857",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 857
+      }
+    },
+    {
+      "id": 184,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T10:32:00+05:30",
+      "ended_at": "2026-09-07T10:51:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "workspaceRepository.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "workspaceRepository.ts",
+          "workspaceService.ts"
+        ]
+      }
+    },
+    {
+      "id": 185,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T10:51:00+05:30",
+      "ended_at": "2026-09-07T11:18:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "psql platform_staging",
+      "url": null,
+      "payload": {
+        "database": "platform_staging",
+        "queries": "EXPLAIN ANALYZE"
+      }
+    },
+    {
+      "id": 186,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T11:18:00+05:30",
+      "ended_at": "2026-09-07T11:39:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "workspaceRepository.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "workspaceRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 187,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T11:39:00+05:30",
+      "ended_at": "2026-09-07T11:56:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- workspaceRepository.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- workspaceRepository.test.ts"
+      }
+    },
+    {
+      "id": 188,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T11:56:00+05:30",
+      "ended_at": "2026-09-07T12:18:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#workspace-api",
+      "url": null,
+      "payload": {
+        "channel": "#workspace-api"
+      }
+    },
+    {
+      "id": 189,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T12:18:00+05:30",
+      "ended_at": "2026-09-07T12:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sentry — workspace-api",
+      "url": "https://sentry.company.local/",
+      "payload": {
+        "service": "workspace-api"
+      }
+    },
+    {
+      "id": 190,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T12:31:00+05:30",
+      "ended_at": "2026-09-07T12:43:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 191,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T13:52:00+05:30",
+      "ended_at": "2026-09-07T14:14:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Meet - Platform architecture discussion",
+      "url": "https://meet.google.com/",
+      "payload": {
+        "meeting": "Platform architecture discussion"
+      }
+    },
+    {
+      "id": 192,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T14:14:00+05:30",
+      "ended_at": "2026-09-07T14:37:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — acknowledgement latency",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "metric": "acknowledgement latency"
+      }
+    },
+    {
+      "id": 193,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T14:37:00+05:30",
+      "ended_at": "2026-09-07T15:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookProcessor.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookProcessor.ts",
+          "webhookDelivery.ts"
+        ]
+      }
+    },
+    {
+      "id": 194,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T15:02:00+05:30",
+      "ended_at": "2026-09-07T15:21:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookProcessor.test.ts webhookDelivery.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- webhookProcessor.test.ts webhookDelivery.test.ts"
+      }
+    },
+    {
+      "id": 195,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T15:21:00+05:30",
+      "ended_at": "2026-09-07T15:38:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "DM with Arjun - webhook worker",
+      "url": null,
+      "payload": {
+        "participants": [
+          "Arjun"
+        ]
+      }
+    },
+    {
+      "id": 196,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T15:38:00+05:30",
+      "ended_at": "2026-09-07T16:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookDelivery.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookDelivery.ts"
+        ]
+      }
+    },
+    {
+      "id": 197,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T16:04:00+05:30",
+      "ended_at": "2026-09-07T16:19:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookDelivery.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- webhookDelivery.test.ts"
+      }
+    },
+    {
+      "id": 198,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T16:19:00+05:30",
+      "ended_at": "2026-09-07T16:41:00+05:30",
+      "app": "GitHub",
+      "browser": null,
+      "title": "Pull request #857 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/857",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 857
+      }
+    },
+    {
+      "id": 199,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T16:41:00+05:30",
+      "ended_at": "2026-09-07T17:03:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 200,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T17:03:00+05:30",
+      "ended_at": "2026-09-07T17:24:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "billingService.test.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "billingService.test.ts"
+        ]
+      }
+    },
+    {
+      "id": 201,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T17:24:00+05:30",
+      "ended_at": "2026-09-07T17:42:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git status && npm test -- billingService.test.ts",
+      "url": null,
+      "payload": {
+        "command": "git status && npm test -- billingService.test.ts"
+      }
+    },
+    {
+      "id": 202,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T17:42:00+05:30",
+      "ended_at": "2026-09-07T18:05:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Jira - PLAT-482",
+      "url": "https://jira.company.local/browse/PLAT-482",
+      "payload": {
+        "issue": "PLAT-482"
+      }
+    },
+    {
+      "id": 203,
+      "watcher": "window_activity",
+      "started_at": "2026-09-07T18:05:00+05:30",
+      "ended_at": "2026-09-07T18:28:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#release-coordination",
+      "url": null,
+      "payload": {
+        "channel": "#release-coordination"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-07-01",
+        "started_at": "09:04",
+        "ended_at": "10:05",
+        "title": "Billing post-release verification",
+        "summary": "Checked the release issue, monitored billing request and error signals, and reviewed rollout discussion after the feature entered production.",
+        "event_ids": [
+          179,
+          180,
+          181,
+          182
+        ],
+        "context": "Billing settings API had moved into production and needed a short verification window.",
+        "area": "billing",
+        "intent": "verify",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-02",
+        "started_at": "10:05",
+        "ended_at": "12:43",
+        "title": "Workspace latency investigation",
+        "summary": "Reviewed a related pull request, inspected the workspace repository query plan, made a targeted adjustment, ran tests, and checked current error evidence.",
+        "event_ids": [
+          183,
+          184,
+          185,
+          186,
+          187,
+          188,
+          189,
+          190
+        ],
+        "context": "The workspace service still required evidence separating latency behavior from the earlier customer-facing issue.",
+        "area": "database_performance",
+        "intent": "investigate",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-03",
+        "started_at": "13:52",
+        "ended_at": "14:14",
+        "title": "Platform architecture discussion",
+        "summary": "Participated in a team discussion about platform architecture and ongoing service boundaries.",
+        "event_ids": [
+          191
+        ],
+        "context": "Scheduled technical discussion with the platform team.",
+        "area": "team_maintenance",
+        "intent": "coordinate",
+        "quality": "useful",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-07-04",
+        "started_at": "14:14",
+        "ended_at": "16:19",
+        "title": "Webhook acknowledgement debugging",
+        "summary": "Compared acknowledgement latency with the processing path, reran regression tests, discussed the behavior with infrastructure, and inspected the delivery implementation.",
+        "event_ids": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197
+        ],
+        "context": "The acknowledgement path remained the strongest current hypothesis for the webhook issue, but production evidence was incomplete.",
+        "area": "webhook_reliability",
+        "intent": "investigate",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-07-05",
+        "started_at": "16:19",
+        "ended_at": "18:28",
+        "title": "Review and billing closure work",
+        "summary": "Handled a teammate pull request, reran billing tests, checked the release ticket, and followed up on the final rollout state.",
+        "event_ids": [
+          198,
+          199,
+          200,
+          201,
+          202,
+          203
+        ],
+        "context": "The engineer maintained normal team review duties while confirming the state of the newly released billing work.",
+        "area": "billing",
+        "intent": "complete",
+        "quality": "useful",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:43",
+        "ended_at": "13:52",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The billing work shifted from implementation to post-release verification, making the remaining work more about confirming production behavior than writing new code.",
+      "The workspace performance thread received another concrete query-plan and test cycle, while the evidence remains insufficient to declare the broader regression resolved.",
+      "The webhook investigation became the most concentrated debugging block of the afternoon and the acknowledgement path is now backed by both metrics and regression tests.",
+      "The scheduled architecture discussion and teammate review were normal team responsibilities rather than unrelated interruptions."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Confirm billing settings API release",
+        "assessment": "strong_progress",
+        "evidence": [
+          181,
+          182,
+          200,
+          201,
+          202,
+          203
+        ]
+      },
+      {
+        "priority": "Resolve workspace database performance regression",
+        "assessment": "continued_progress_but_unresolved",
+        "evidence": [
+          184,
+          185,
+          186,
+          187,
+          188,
+          189
+        ]
+      },
+      {
+        "priority": "Understand and fix webhook processing reliability issue",
+        "assessment": "strong_investigation_progress_but_unresolved",
+        "evidence": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "Billing production signals were checked, but the observed desktop evidence does not establish long-term customer impact after the release window.",
+      "The workspace query has been repeatedly examined and tested, but the broader latency regression still lacks a definitive production-level conclusion.",
+      "Webhook acknowledgement latency supports the current hypothesis, but it is not sufficient by itself to establish the complete root cause."
+    ],
+    "possible_next_step": "Close the billing release verification loop, then choose one explicit verification criterion for the workspace latency issue and one production observation for the webhook acknowledgement hypothesis."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Billing post-release verification",
+      "action_type": "complete_open_loop",
+      "target": "Billing post-release verification",
+      "reason": "The feature has moved through implementation and release; explicitly closing the verification loop would prevent an otherwise completed workstream from remaining administratively open.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Webhook reliability investigation",
+      "action_type": "protect_priority",
+      "target": "Webhook reliability investigation",
+      "reason": "The afternoon debugging block produced the clearest new evidence of the remaining reliability issue and is now a focused technical thread worth preserving.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not claim billing is fully stable based on a short post-release observation window.",
+      "Do not treat repeated query inspection as proof that the workspace latency problem is fixed.",
+      "Do not promote the webhook acknowledgement hypothesis to confirmed root cause without production evidence.",
+      "Do not characterize the architecture discussion, code review, or lunch gap as wasted time."
+    ]
+  }
+}

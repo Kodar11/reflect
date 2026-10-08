@@ -152,6 +152,9 @@ export function TimelinePage({
    */
   const selectedSessionRef = useRef<VerifiedSessionDto | null>(null);
 
+  /** Events the user hid or deleted from here; see mergeSelectedSession. */
+  const removedEventIdsRef = useRef<Set<number>>(new Set());
+
   const { timelinePct, onDrag } = useResizeSplit();
 
   /**
@@ -240,6 +243,19 @@ export function TimelinePage({
       const previousSelected = selectedSessionRef.current;
 
       if (!previousSelected) {
+        return nextSessions;
+      }
+
+      /**
+       * A block that held an event the user hid or deleted is never kept
+       * alive: it would go on showing that event.
+       */
+      if (
+        previousSelected.eventIds.some((id) =>
+          removedEventIdsRef.current.has(id),
+        )
+      ) {
+        selectedSessionRef.current = null;
         return nextSessions;
       }
 
@@ -1024,6 +1040,16 @@ export function TimelinePage({
     onToggleOffline,
     onNoteChange,
     onCopyDetails,
+    onEventsChanged: ({ eventIds, removed }) => {
+      // The selected block is normally kept on screen across a refresh that
+      // momentarily lacks it. One that held an event the user just hid or
+      // deleted must not be (see mergeSelectedSession).
+      for (const id of eventIds) {
+        if (removed) removedEventIdsRef.current.add(id);
+        else removedEventIdsRef.current.delete(id);
+      }
+      void refresh();
+    },
     onAssignActivity,
     onUpdateActivity,
     onNavigateToRule,

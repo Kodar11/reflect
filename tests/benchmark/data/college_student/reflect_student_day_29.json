@@ -1,0 +1,470 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Starting a new Computer Networks lab assignment",
+      "Checking the semester project after recent API changes",
+      "Waiting for any useful follow-up from the completed Data Structures assessment"
+    ],
+    "priorities": [
+      "Understand the new Computer Networks lab requirements and get an initial implementation running",
+      "Verify recent semester-project changes without opening unrelated project work",
+      "Avoid spending review time on the completed Data Structures assessment unless new information appears"
+    ]
+  },
+  "day": {
+    "day_number": 29,
+    "date": "2026-09-29",
+    "day_type": "tuesday_new_lab_and_project_follow_up",
+    "circumstances": [
+      "A new Computer Networks lab assignment appeared after the Data Structures assessment, creating a new academic thread.",
+      "The student read the lab material, searched for a socket-programming example, wrote a small TCP client, ran it locally, and returned to the code after watching a short explanation.",
+      "The semester project received a brief pull-request review and response-handling verification rather than a larger implementation session.",
+      "The evening mixed unrelated YouTube entertainment, gaming, and friend chat.",
+      "The student checked the new lab again late at night but did not start another large session."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:26",
+      "last_seen": "21:39",
+      "approx_active_hours": 6.0,
+      "longest_unobserved_gap_minutes": 159
+    }
+  },
+  "raw_events": [
+    {
+      "id": 544,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T08:26:00+05:30",
+      "ended_at": "2026-09-29T08:39:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 545,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T08:39:00+05:30",
+      "ended_at": "2026-09-29T08:54:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Computer Networks — Lab Assignment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 546,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T08:54:00+05:30",
+      "ended_at": "2026-09-29T09:08:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 547,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T11:47:00+05:30",
+      "ended_at": "2026-09-29T12:04:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "CN Lab 4 Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 548,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:04:00+05:30",
+      "ended_at": "2026-09-29T12:23:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "TCP client server socket C example",
+      "url": "https://www.google.com/search?q=TCP+client+server+socket+C+example",
+      "payload": null
+    },
+    {
+      "id": 549,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:23:00+05:30",
+      "ended_at": "2026-09-29T12:49:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "cn-lab4 — tcp_client.c",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 550,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T12:49:00+05:30",
+      "ended_at": "2026-09-29T13:02:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "gcc tcp_client.c && ./a.exe",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 551,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T13:02:00+05:30",
+      "ended_at": "2026-09-29T13:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "CN Lab 4 Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 552,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T13:18:00+05:30",
+      "ended_at": "2026-09-29T13:30:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "TCP sockets explained",
+      "url": "https://www.youtube.com/watch?v=example29",
+      "payload": null
+    },
+    {
+      "id": 553,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T13:30:00+05:30",
+      "ended_at": "2026-09-29T13:53:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "cn-lab4 — tcp_client.c",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 554,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:41:00+05:30",
+      "ended_at": "2026-09-29T15:58:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 555,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T15:58:00+05:30",
+      "ended_at": "2026-09-29T16:16:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Pull requests",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 556,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T16:16:00+05:30",
+      "ended_at": "2026-09-29T16:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — response.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 557,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T16:34:00+05:30",
+      "ended_at": "2026-09-29T16:45:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 558,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T16:45:00+05:30",
+      "ended_at": "2026-09-29T16:57:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 559,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T18:22:00+05:30",
+      "ended_at": "2026-09-29T18:48:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "college football highlights",
+      "url": "https://www.youtube.com/watch?v=example30",
+      "payload": null
+    },
+    {
+      "id": 560,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T18:48:00+05:30",
+      "ended_at": "2026-09-29T19:31:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 561,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T19:31:00+05:30",
+      "ended_at": "2026-09-29T19:49:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 562,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T21:12:00+05:30",
+      "ended_at": "2026-09-29T21:26:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Computer Networks — Lab Assignment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 563,
+      "watcher": "desktop",
+      "started_at": "2026-09-29T21:26:00+05:30",
+      "ended_at": "2026-09-29T21:39:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-29-01",
+        "started_at": "08:26",
+        "ended_at": "09:08",
+        "title": "Morning course check",
+        "summary": "Checked email, opened the new Computer Networks lab assignment, and briefly checked the completed Data Structures assessment page.",
+        "event_ids": [
+          544,
+          545,
+          546
+        ],
+        "context": "The Data Structures assessment had ended the previous day, while a new Networks task had appeared.",
+        "area": "coursework",
+        "intent": "Check new coursework and any relevant assessment updates.",
+        "quality": "routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-02",
+        "started_at": "09:08",
+        "ended_at": "11:47",
+        "title": "Classes and offline campus time",
+        "summary": "Attended regular classes and handled morning campus activities away from the laptop.",
+        "event_ids": [],
+        "context": "No laptop activity was observed during this period.",
+        "area": "coursework",
+        "intent": "Attend scheduled college activities.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-03",
+        "started_at": "11:47",
+        "ended_at": "13:53",
+        "title": "Computer Networks lab setup",
+        "summary": "Read the lab notes, searched for a TCP client-server socket example, wrote a small C client, compiled and ran it, watched a short explanation, and returned to the code.",
+        "event_ids": [
+          547,
+          548,
+          549,
+          550,
+          551,
+          552,
+          553
+        ],
+        "context": "This was the first substantial work on the newly assigned lab.",
+        "area": "coursework",
+        "intent": "Understand the lab requirements and get the first socket-programming component working.",
+        "quality": "focused implementation with targeted reference use",
+        "importance": "high"
+      },
+      {
+        "id": "gt-29-04",
+        "started_at": "13:53",
+        "ended_at": "15:41",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the afternoon break away from the laptop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured during this period.",
+        "area": "personal",
+        "intent": "Lunch and ordinary afternoon activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-05",
+        "started_at": "15:41",
+        "ended_at": "16:57",
+        "title": "Semester project verification",
+        "summary": "Checked a project discussion, reviewed a pull request, inspected response handling, ran the test suite, and reported the result to teammates.",
+        "event_ids": [
+          554,
+          555,
+          556,
+          557,
+          558
+        ],
+        "context": "Recent API changes had been made on Day 28, so the student checked the related project state.",
+        "area": "semester_project",
+        "intent": "Verify that the recent response-handling changes still behave as expected.",
+        "quality": "bounded verification",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-29-06",
+        "started_at": "16:57",
+        "ended_at": "18:22",
+        "title": "Offline break and transition",
+        "summary": "Spent the late afternoon away from the laptop before evening recreation.",
+        "event_ids": [],
+        "context": "No desktop events were observed.",
+        "area": "personal",
+        "intent": "Take a break between college work and evening activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-07",
+        "started_at": "18:22",
+        "ended_at": "19:49",
+        "title": "Evening entertainment and social time",
+        "summary": "Watched unrelated sports highlights, played Hades, and chatted with friends.",
+        "event_ids": [
+          559,
+          560,
+          561
+        ],
+        "context": "This was ordinary evening leisure after the new lab setup and project verification.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-08",
+        "started_at": "19:49",
+        "ended_at": "21:12",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the evening away from the laptop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and wind-down time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-29-09",
+        "started_at": "21:12",
+        "ended_at": "21:39",
+        "title": "Computer Networks lab follow-up",
+        "summary": "Reopened the new lab assignment and checked email before ending laptop use.",
+        "event_ids": [
+          562,
+          563
+        ],
+        "context": "The late check kept the new assignment visible without turning into another full work session.",
+        "area": "coursework",
+        "intent": "Confirm the new lab remains on the near-term work list.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "09:08",
+        "ended_at": "11:47",
+        "reason": "Classes and campus activity away from the laptop"
+      },
+      {
+        "started_at": "13:53",
+        "ended_at": "15:41",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "16:57",
+        "ended_at": "18:22",
+        "reason": "Afternoon break and transition"
+      },
+      {
+        "started_at": "19:49",
+        "ended_at": "21:12",
+        "reason": "Dinner and offline evening time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "A new Computer Networks lab assignment became the main academic thread, moving from reading and search into a first local implementation and run.",
+      "The lab work used multiple tools as one continuous activity: notes, a web search, C code, a local compile/run, a short explanatory video, and a return to code.",
+      "The semester project received a bounded verification pass after yesterday's API changes, but it did not become a second large workstream.",
+      "The completed Data Structures assessment was only checked briefly; there is no evidence of reopening broad DSA review.",
+      "The evening contained ordinary unrelated entertainment, gaming, and social time."
+    ],
+    "priority_alignment": [
+      "The new Networks lab received the largest substantive academic laptop block.",
+      "The project check stayed tied to a concrete recent change and ended after verification.",
+      "Old assessment review did not displace the new near-term lab work."
+    ],
+    "important_uncertainty": [
+      "The first TCP client ran locally, but the timeline does not establish whether the full lab requirements were satisfied.",
+      "The search and video provide reference material, but they do not show exactly which parts were incorporated into the student's own implementation.",
+      "The project test run confirms a verification step but does not prove full integration correctness.",
+      "The brief assessment-page check does not reveal whether any result or new information was available.",
+      "Classes and other offline periods are not represented in the laptop timeline."
+    ],
+    "possible_next_step": "Turn the working TCP example into the complete Networks lab by following the assignment requirements, then test the expected client-server cases rather than polishing the example in isolation."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Complete the Networks lab path",
+      "action_type": "start_focus",
+      "reason": "The new lab has moved past initial setup: a socket program runs locally, so the next useful step is to implement the remaining assignment requirements and verify the expected cases.",
+      "suggested_focus_minutes": 60,
+      "target": "Computer Networks Lab 4"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the successful local TCP run means the entire lab is complete.",
+      "Do not treat searches, the tutorial video, and coding as separate unrelated activities.",
+      "Do not infer that the completed Data Structures assessment needs more review without new evidence.",
+      "Do not interpret the bounded project verification as an unnecessary distraction from coursework.",
+      "Do not criticize the evening entertainment, gaming, or friend chat as inherently harmful.",
+      "Do not use the offline class period to estimate how much academic work happened there."
+    ]
+  }
+}

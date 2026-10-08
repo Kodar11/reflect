@@ -1,0 +1,586 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life",
+    "current_work": [
+      "Finishing the Redis/caching follow-up that was recorded on Day 8",
+      "Preparing the video's thumbnail and YouTube upload details",
+      "Maintaining a backlog of future technical topics"
+    ],
+    "priorities": [
+      "Make the Redis follow-up coherent enough for a publishing decision",
+      "Finish the packaging needed for upload without letting packaging replace content review",
+      "Keep new technical learning and ideation secondary to the current video"
+    ]
+  },
+  "day": {
+    "day_number": 9,
+    "date": "2026-09-09",
+    "day_type": "wednesday_cut_review_packaging_and_upload_prep",
+    "circumstances": [
+      "The Redis follow-up received a full review and several trimming passes after the first edit from Day 8.",
+      "A short YouTube search and a local footage review were used as part of deciding what to keep in the cut.",
+      "The thumbnail was refined and the YouTube upload flow was opened, but the video was not published during the observed desktop period.",
+      "Instagram again mixed audience communication with general reels browsing.",
+      "A separate database-indexing talk appeared in the evening as general technical learning, while the idea backlog remained secondary."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:16",
+      "last_seen": "22:18",
+      "approx_active_hours": 7.7,
+      "longest_unobserved_gap_minutes": 88
+    }
+  },
+  "raw_events": [
+    {
+      "id": 181,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:16:00+05:30",
+      "ended_at": "2026-09-09T09:28:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 182,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:28:00+05:30",
+      "ended_at": "2026-09-09T09:44:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 183,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T09:44:00+05:30",
+      "ended_at": "2026-09-09T10:12:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Redis caching follow-up — new edit",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 184,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T10:12:00+05:30",
+      "ended_at": "2026-09-09T10:38:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Redis caching follow-up — new edit",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 185,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T10:38:00+05:30",
+      "ended_at": "2026-09-09T10:52:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Redis caching explanation examples",
+      "url": "https://www.youtube.com/results?search_query=Redis+caching+explanation+examples",
+      "payload": null
+    },
+    {
+      "id": 186,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T10:52:00+05:30",
+      "ended_at": "2026-09-09T11:27:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Redis caching follow-up — new edit",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 187,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T11:27:00+05:30",
+      "ended_at": "2026-09-09T11:39:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-08_redis_take.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 188,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T12:18:00+05:30",
+      "ended_at": "2026-09-09T12:43:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Redis caching follow-up — new edit",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 189,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T12:43:00+05:30",
+      "ended_at": "2026-09-09T13:02:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Redis Caching Follow-up — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 190,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T13:02:00+05:30",
+      "ended_at": "2026-09-09T13:18:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Redis caching follow-up — new edit",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 191,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T14:46:00+05:30",
+      "ended_at": "2026-09-09T15:09:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Redis Video Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 192,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T15:09:00+05:30",
+      "ended_at": "2026-09-09T15:24:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "YouTube thumbnail text size mobile",
+      "url": "https://www.google.com/search?q=YouTube+thumbnail+text+size+mobile",
+      "payload": null
+    },
+    {
+      "id": 193,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T15:24:00+05:30",
+      "ended_at": "2026-09-09T15:51:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Redis Video Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 194,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T15:51:00+05:30",
+      "ended_at": "2026-09-09T16:03:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Video details",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 195,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T16:03:00+05:30",
+      "ended_at": "2026-09-09T16:20:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Upload settings",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 196,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T17:32:00+05:30",
+      "ended_at": "2026-09-09T17:48:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 197,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T17:48:00+05:30",
+      "ended_at": "2026-09-09T18:04:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/reels/",
+      "url": "https://www.instagram.com/reels/",
+      "payload": null
+    },
+    {
+      "id": 198,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T19:31:00+05:30",
+      "ended_at": "2026-09-09T20:12:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "database indexing talk",
+      "url": "https://www.youtube.com/watch?v=db-talk-15",
+      "payload": null
+    },
+    {
+      "id": 199,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T20:12:00+05:30",
+      "ended_at": "2026-09-09T20:56:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 200,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T20:56:00+05:30",
+      "ended_at": "2026-09-09T21:15:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 201,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T21:47:00+05:30",
+      "ended_at": "2026-09-09T22:05:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 202,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T22:05:00+05:30",
+      "ended_at": "2026-09-09T22:18:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Redis follow-up draft",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-09-01",
+        "started_at": "09:16",
+        "ended_at": "09:44",
+        "title": "Morning channel check",
+        "summary": "Checked email and the current content dashboard before returning to the Redis follow-up.",
+        "event_ids": [
+          181,
+          182
+        ],
+        "context": "The new follow-up is now in editing and packaging.",
+        "area": "creator_operations",
+        "intent": "Review incoming communication and current channel state.",
+        "quality": "routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-02",
+        "started_at": "09:44",
+        "ended_at": "11:39",
+        "title": "Full-cut review and trimming",
+        "summary": "Reviewed the Redis edit, checked a few reference examples, revisited the timeline, and inspected a recorded take while tightening the cut.",
+        "event_ids": [
+          183,
+          184,
+          185,
+          186,
+          187
+        ],
+        "context": "The first edit from Day 8 needed a more complete quality pass before packaging and upload.",
+        "area": "editing",
+        "intent": "Evaluate the overall cut and remove or adjust weak sections.",
+        "quality": "substantive production and quality control",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-03",
+        "started_at": "11:39",
+        "ended_at": "12:18",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Take a break between edit passes.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-04",
+        "started_at": "12:18",
+        "ended_at": "13:18",
+        "title": "Edit and script consistency check",
+        "summary": "Returned to the Resolve timeline, reviewed the script for consistency with the edit, and made another short edit pass.",
+        "event_ids": [
+          188,
+          189,
+          190
+        ],
+        "context": "The creator was checking whether the spoken structure and final cut still matched after trimming.",
+        "area": "editing",
+        "intent": "Align the current cut with the intended script and structure.",
+        "quality": "focused quality control",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-05",
+        "started_at": "13:18",
+        "ended_at": "14:46",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and ordinary personal activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-06",
+        "started_at": "14:46",
+        "ended_at": "15:51",
+        "title": "Thumbnail refinement",
+        "summary": "Refined the Redis thumbnail, checked a mobile text-size consideration, and returned to the design.",
+        "event_ids": [
+          191,
+          192,
+          193
+        ],
+        "context": "Packaging work followed a more complete edit review.",
+        "area": "thumbnail_design",
+        "intent": "Make the thumbnail readable and aligned with the video.",
+        "quality": "focused packaging work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-07",
+        "started_at": "15:51",
+        "ended_at": "16:20",
+        "title": "Upload preparation",
+        "summary": "Opened the YouTube video-details and upload-settings screens and prepared the publishing configuration.",
+        "event_ids": [
+          194,
+          195
+        ],
+        "context": "The video is close to publication but was not yet published during the observed timeline.",
+        "area": "publishing",
+        "intent": "Prepare the video for upload and publication.",
+        "quality": "substantive publishing preparation",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-08",
+        "started_at": "16:20",
+        "ended_at": "17:32",
+        "title": "Offline break and personal time",
+        "summary": "Spent the late afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Take a longer break before evening communication.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-09",
+        "started_at": "17:32",
+        "ended_at": "18:04",
+        "title": "Instagram communication and browsing",
+        "summary": "Checked direct messages and then browsed the reels feed.",
+        "event_ids": [
+          196,
+          197
+        ],
+        "context": "The same platform supports creator communication and general social use.",
+        "area": "community_and_leisure",
+        "intent": "Handle audience messages and browse social content.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-10",
+        "started_at": "18:04",
+        "ended_at": "19:31",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Dinner and ordinary evening activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-11",
+        "started_at": "19:31",
+        "ended_at": "20:12",
+        "title": "General technical learning",
+        "summary": "Watched a database-indexing talk that was not directly connected to the current Redis video.",
+        "event_ids": [
+          198
+        ],
+        "context": "The topic is within the creator's technical niche but was separate from the active production project.",
+        "area": "creator_learning",
+        "intent": "Learn about another backend topic.",
+        "quality": "general learning",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-12",
+        "started_at": "20:12",
+        "ended_at": "21:15",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          199,
+          200
+        ],
+        "context": "Normal evening leisure after a production-heavy day.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-13",
+        "started_at": "21:15",
+        "ended_at": "21:47",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Wind down before a brief idea review.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-14",
+        "started_at": "21:47",
+        "ended_at": "22:05",
+        "title": "Idea backlog review",
+        "summary": "Looked through the broader video idea list without starting another content project.",
+        "event_ids": [
+          201
+        ],
+        "context": "The Redis follow-up remains the active production loop.",
+        "area": "ideation",
+        "intent": "Review future possibilities without committing to another project.",
+        "quality": "brief maintenance",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-15",
+        "started_at": "22:05",
+        "ended_at": "22:18",
+        "title": "Late analytics check",
+        "summary": "Briefly checked the current channel analytics near the end of the day.",
+        "event_ids": [
+          202
+        ],
+        "context": "No associated publishing or strategy decision is visible in the timeline.",
+        "area": "analytics",
+        "intent": "Check current content performance.",
+        "quality": "repeated check with unclear action",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "11:39",
+        "ended_at": "12:18",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "13:18",
+        "ended_at": "14:46",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "16:20",
+        "ended_at": "17:32",
+        "reason": "Offline break and personal time"
+      },
+      {
+        "started_at": "18:04",
+        "ended_at": "19:31",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "21:15",
+        "ended_at": "21:47",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Redis follow-up received its most complete quality-control pass so far: the creator reviewed the cut, checked a recorded take, reconciled the script with the edit, and made additional trims.",
+      "Packaging then moved forward through thumbnail refinement and YouTube upload preparation, putting the video close to publication.",
+      "The video was not actually published in the observed timeline, so the main open loop is now narrower: verify the final cut and complete the publishing step.",
+      "Instagram again combined audience communication with unrelated browsing, while the evening database-indexing talk was general technical learning rather than direct production work.",
+      "A late analytics check continued the small pattern of monitoring without an observable action."
+    ],
+    "priority_alignment": [
+      "Most substantive production time stayed on the Redis follow-up and moved it closer to publication.",
+      "Thumbnail and upload preparation followed the more important cut review rather than replacing it.",
+      "New learning and idea review remained secondary to the active video."
+    ],
+    "important_uncertainty": [
+      "The desktop timeline shows several edit passes, but it cannot establish whether the final cut is actually ready for public viewing.",
+      "The upload settings were opened, but there is no evidence that the file finished uploading or that publication occurred later off-screen.",
+      "The mobile readability search informed packaging, but the timeline does not show whether the final thumbnail was satisfactory.",
+      "The analytics check exposes no metrics or resulting decision.",
+      "Offline periods are outside desktop observation."
+    ],
+    "possible_next_step": "Do one final end-to-end viewing of the current cut, then complete the upload if no substantive issues remain."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the publish step",
+      "action_type": "complete_open_loop",
+      "reason": "The current follow-up has moved through recording, editing, quality control, thumbnail work, and upload preparation, making publication the clearest remaining milestone.",
+      "target": "Redis/caching follow-up",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the video is publish-ready solely because the edit and upload settings were revisited.",
+      "Do not treat the reference searches and footage review as unrelated browsing when they were part of quality control.",
+      "Do not infer that the upload completed or the video went live outside the observed timeline.",
+      "Do not classify the Instagram reels session as audience work simply because it followed direct-message handling.",
+      "Do not assume the database talk changed the creator's content strategy.",
+      "Do not treat the analytics check as necessarily harmful without knowing what question the creator was trying to answer.",
+      "Do not criticize the evening leisure as inherently unproductive."
+    ]
+  }
+}

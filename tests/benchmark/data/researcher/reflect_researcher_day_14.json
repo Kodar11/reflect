@@ -1,0 +1,476 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Finish the manuscript consistency pass",
+      "Get targeted collaborator feedback on the revised interpretation",
+      "Resolve remaining figure, citation, and claim mismatches without expanding the experiment scope",
+      "Keep the replication study parked unless its preprocessing dependency is resolved"
+    ]
+  },
+  "day": {
+    "day_number": 14,
+    "date": "2026-09-14",
+    "day_type": "manuscript_consistency_and_collaborator_revision_day",
+    "circumstances": [
+      "The researcher completes a cross-check of the manuscript against experiment metadata, figures, and citations. A second small inconsistency is found in a table caption, while another apparent mismatch turns out to be only a naming difference between an old note and the frozen protocol. The researcher sends a focused draft section to the collaborator and receives feedback later in the day. The feedback asks for clearer separation between the primary calibration result and the distribution-shift limitation. The researcher revises the results and discussion accordingly. A short package-tracking interruption and unrelated browsing make the day somewhat fragmented."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:18",
+      "last_seen": "20:04",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 84
+    }
+  },
+  "raw_events": [
+    {
+      "id": 312,
+      "watcher": "desktop",
+      "started_at": "2026-09-14T09:18:00+05:30",
+      "ended_at": "2026-09-14T09:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — manuscript_checklist.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "manuscript_checklist.md",
+        "interaction": "reviewed remaining methods, figure, citation, and claim checks"
+      }
+    },
+    {
+      "id": 313,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T09:47:00+05:30",
+      "ended_at": "2026-09-14T10:18:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — results_table.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "results_table.py",
+        "interaction": "checked table values and formatting"
+      }
+    },
+    {
+      "id": 314,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T10:18:00+05:30",
+      "ended_at": "2026-09-14T10:42:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — figures/calibration_shift.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "figures/calibration_shift.py",
+        "interaction": "compared figure labels with manuscript terminology"
+      }
+    },
+    {
+      "id": 315,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T10:42:00+05:30",
+      "ended_at": "2026-09-14T11:06:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "located table caption and terminology references"
+      }
+    },
+    {
+      "id": 316,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T11:06:00+05:30",
+      "ended_at": "2026-09-14T11:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "revised table caption and terminology"
+      }
+    },
+    {
+      "id": 317,
+      "watcher": "Terminal",
+      "started_at": "2026-09-14T11:29:00+05:30",
+      "ended_at": "2026-09-14T11:48:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/check_run_metadata.py --runs 44,45,46,47"
+        ],
+        "output_state": "completed"
+      }
+    },
+    {
+      "id": 318,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T11:48:00+05:30",
+      "ended_at": "2026-09-14T12:12:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — manuscript_checklist.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "manuscript_checklist.md",
+        "interaction": "marked verified checks and recorded one terminology note"
+      }
+    },
+    {
+      "id": 319,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-14T12:12:00+05:30",
+      "ended_at": "2026-09-14T12:29:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Docs — manuscript excerpt",
+      "url": "https://docs.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "prepared selected manuscript sections for sharing"
+      }
+    },
+    {
+      "id": 320,
+      "watcher": "Gmail",
+      "started_at": "2026-09-14T12:29:00+05:30",
+      "ended_at": "2026-09-14T12:43:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Compose — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "sent collaborator selected manuscript sections and specific review questions"
+      }
+    },
+    {
+      "id": 321,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-14T13:58:00+05:30",
+      "ended_at": "2026-09-14T14:16:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Gmail — Inbox",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "checked for collaborator response"
+      }
+    },
+    {
+      "id": 322,
+      "watcher": "Gmail",
+      "started_at": "2026-09-14T14:16:00+05:30",
+      "ended_at": "2026-09-14T14:31:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox (1) — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read collaborator feedback"
+      }
+    },
+    {
+      "id": 323,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T14:31:00+05:30",
+      "ended_at": "2026-09-14T15:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — results.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "results.md",
+        "interaction": "separated primary calibration result from shift analysis"
+      }
+    },
+    {
+      "id": 324,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T15:04:00+05:30",
+      "ended_at": "2026-09-14T15:38:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — discussion.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "discussion.md",
+        "interaction": "reworked limitation and interpretation paragraphs"
+      }
+    },
+    {
+      "id": 325,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T15:38:00+05:30",
+      "ended_at": "2026-09-14T16:09:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — introduction.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "introduction.md",
+        "interaction": "aligned contribution statement with revised interpretation"
+      }
+    },
+    {
+      "id": 326,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-14T16:09:00+05:30",
+      "ended_at": "2026-09-14T16:23:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — conference submission formatting requirements",
+      "url": "https://www.google.com/search?q=conference+submission+formatting+requirements",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "reviewed formatting and page-limit information"
+      }
+    },
+    {
+      "id": 327,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-14T17:51:00+05:30",
+      "ended_at": "2026-09-14T18:09:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — package tracking",
+      "url": "https://www.google.com/search?q=package+tracking",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 4,
+        "interaction": "checked shipment status"
+      }
+    },
+    {
+      "id": 328,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-14T18:09:00+05:30",
+      "ended_at": "2026-09-14T18:27:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "YouTube — desk organization video",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 329,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T18:27:00+05:30",
+      "ended_at": "2026-09-14T19:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — manuscript_checklist.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "manuscript_checklist.md",
+        "interaction": "updated checklist and marked core consistency pass complete"
+      }
+    },
+    {
+      "id": 330,
+      "watcher": "VS Code",
+      "started_at": "2026-09-14T19:02:00+05:30",
+      "ended_at": "2026-09-14T20:04:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "read revised manuscript and inserted comments for final collaborator review"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-14-01",
+        "started_at": "09:18",
+        "ended_at": "12:12",
+        "title": "Complete the manuscript consistency audit",
+        "summary": "The researcher checked tables, figure terminology, manuscript wording, and experiment metadata. One table caption used an outdated term and was corrected. The run metadata check confirmed that the apparent configuration mismatch from the previous day was only a naming difference; the underlying runs were consistent with the frozen protocol.",
+        "event_ids": [
+          312,
+          313,
+          314,
+          315,
+          316,
+          317,
+          318
+        ],
+        "context": "Continuation of the manuscript consistency pass from Day 13.",
+        "area": "manuscript and methodology",
+        "intent": "review",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-14-02",
+        "started_at": "12:12",
+        "ended_at": "12:43",
+        "title": "Send focused manuscript excerpt for collaborator review",
+        "summary": "The researcher prepared selected manuscript sections and sent them to the collaborator with specific questions about the interpretation and presentation of the main result.",
+        "event_ids": [
+          319,
+          320
+        ],
+        "context": "Targeted external review after the consistency audit.",
+        "area": "collaboration",
+        "intent": "review",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-14-03",
+        "started_at": "13:58",
+        "ended_at": "16:23",
+        "title": "Incorporate collaborator feedback and check submission constraints",
+        "summary": "The researcher checked for feedback, received a request to separate the primary calibration result from the distribution-shift limitation, revised results, discussion, and introduction accordingly, and then checked conference formatting and page-limit requirements.",
+        "event_ids": [
+          321,
+          322,
+          323,
+          324,
+          325,
+          326
+        ],
+        "context": "Collaborator feedback arrived after the morning review request.",
+        "area": "manuscript and submission planning",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-14-04",
+        "started_at": "17:51",
+        "ended_at": "18:27",
+        "title": "Personal browsing and shipment check",
+        "summary": "The researcher checked a package status and watched a desk-organization video. These activities are unrelated to the research project.",
+        "event_ids": [
+          327,
+          328
+        ],
+        "context": "Personal interruption before returning to the manuscript.",
+        "area": "unrelated",
+        "intent": "leisure",
+        "quality": "unknown",
+        "importance": "low"
+      },
+      {
+        "id": "gt-14-05",
+        "started_at": "18:27",
+        "ended_at": "20:04",
+        "title": "Close the consistency pass and prepare final collaborator review",
+        "summary": "The researcher marked the core manuscript consistency checks complete, then reread the revised full draft and inserted comments for a final collaborator review rather than making another broad rewrite.",
+        "event_ids": [
+          329,
+          330
+        ],
+        "context": "Finalization after incorporating collaborator feedback.",
+        "area": "manuscript",
+        "intent": "review",
+        "quality": "high",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:43",
+        "ended_at": "13:58",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "16:23",
+        "ended_at": "17:51",
+        "reason": "offline / break"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The core manuscript consistency audit is complete: tables, figures, methods, results, and run metadata now agree on the frozen experimental protocol.",
+      "The remaining revision was interpretive rather than experimental: the primary calibration finding is now separated from the more limited distribution-shift observation.",
+      "Targeted collaborator feedback was obtained and incorporated without reopening the experiment pipeline.",
+      "The manuscript is now in a state where external review is more valuable than additional internal experimentation.",
+      "Submission formatting and page limits have been checked, but the actual venue decision is not yet final."
+    ],
+    "priority_alignment": [
+      "The main priority remained manuscript completion and review.",
+      "The researcher used collaborator feedback to improve claim boundaries instead of adding experiments.",
+      "The replication study stayed parked and did not consume the core workday."
+    ],
+    "important_uncertainty": [
+      "The collaborator may still request another revision after reviewing the updated full draft.",
+      "The final submission venue has not been chosen, so formatting requirements may still change.",
+      "It is not yet clear whether the current contribution is strong enough for the most ambitious venue being considered."
+    ],
+    "possible_next_step": "Wait for and incorporate the final collaborator review, then choose the submission venue and perform only the formatting or evidence changes that are justified by that decision."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "schedule_change",
+      "title": "Pause broad manuscript edits pending collaborator review",
+      "reason": "The consistency pass is complete and a targeted draft has been sent for review. More rewriting before receiving that feedback risks duplicating work.",
+      "suggested_focus_minutes": 15,
+      "target": "Manuscript"
+    },
+    "secondary_action": {
+      "action_type": "clarify_priority",
+      "title": "Choose the submission venue after feedback",
+      "reason": "Formatting and page limits have been checked, but the venue decision should follow the collaborator's assessment of the contribution rather than drive premature formatting work.",
+      "suggested_focus_minutes": 30,
+      "target": "Submission Planning"
+    },
+    "things_not_to_do": [
+      "Do not start another experiment while waiting for collaborator feedback.",
+      "Do not repeatedly check email for a response during focused work periods.",
+      "Do not spend substantial time formatting for a venue before the venue choice is settled.",
+      "Do not revive the replication study merely because the main manuscript work has temporarily paused."
+    ]
+  }
+}

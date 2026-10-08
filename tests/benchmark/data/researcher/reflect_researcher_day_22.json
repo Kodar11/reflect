@@ -1,0 +1,440 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Evaluating a new research direction on uncertainty calibration under changing class prevalence",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Preparing to select a small pilot experiment for the next project"
+    ],
+    "priorities": [
+      "Determine whether calibration under changing class prevalence contains a concrete unresolved research question",
+      "Understand the assumptions and evaluation protocols used by recent work",
+      "Identify a feasible dataset and pilot design without prematurely committing to implementation",
+      "Keep the previously submitted manuscript and paused replication separate from the new research direction"
+    ]
+  },
+  "day": {
+    "day_number": 22,
+    "date": "2026-09-22",
+    "day_type": "literature_synthesis_and_pilot_design_day",
+    "circumstances": [
+      "The researcher follows the literature task created on Day 21. They read several papers on calibration under label shift and changing class prevalence, compare their assumptions and evaluation setups, and discover that many methods assume access to reliable target prevalence estimates. This creates a narrower possible question around calibration when prevalence estimates are noisy rather than simply changing. The researcher checks whether existing datasets can support such an evaluation, sketches a pilot design, and performs a small code feasibility check without running an experiment. The day contains substantial reading and note synthesis, a long offline period, and a brief unrelated software search."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:22",
+      "last_seen": "19:03",
+      "approx_active_hours": 7.0,
+      "longest_unobserved_gap_minutes": 89
+    }
+  },
+  "raw_events": [
+    {
+      "id": 457,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T09:22:00+05:30",
+      "ended_at": "2026-09-22T09:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "reviewed the narrowed class-prevalence question and reading list"
+      }
+    },
+    {
+      "id": 458,
+      "watcher": "Google Scholar",
+      "started_at": "2026-09-22T09:48:00+05:30",
+      "ended_at": "2026-09-22T10:17:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Scholar — calibration under label shift",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 6,
+        "interaction": "searched papers using label-shift and prior-shift terminology"
+      }
+    },
+    {
+      "id": 459,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-22T10:17:00+05:30",
+      "ended_at": "2026-09-22T10:49:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — recalibration under label shift",
+      "url": "https://example.org/recalibration-label-shift.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read method assumptions and evaluation protocol"
+      }
+    },
+    {
+      "id": 460,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T10:49:00+05:30",
+      "ended_at": "2026-09-22T11:19:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — literature_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "literature_notes.md",
+        "interaction": "summarized assumptions and target-distribution setup"
+      }
+    },
+    {
+      "id": 461,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-22T11:19:00+05:30",
+      "ended_at": "2026-09-22T11:52:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — test-time prior adjustment",
+      "url": "https://example.org/prior-adjustment.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read experiments and limitations"
+      }
+    },
+    {
+      "id": 462,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-22T11:52:00+05:30",
+      "ended_at": "2026-09-22T12:21:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper PDF — uncertainty under prior probability shift",
+      "url": "https://example.org/prior-probability-shift.pdf",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read evaluation section and supplementary notes"
+      }
+    },
+    {
+      "id": 463,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T12:21:00+05:30",
+      "ended_at": "2026-09-22T12:54:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — literature_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "literature_notes.md",
+        "interaction": "compared assumptions across three papers"
+      }
+    },
+    {
+      "id": 464,
+      "watcher": "Google Scholar",
+      "started_at": "2026-09-22T12:54:00+05:30",
+      "ended_at": "2026-09-22T13:17:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Scholar — noisy prevalence estimates calibration",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "searched whether noisy target prevalence estimates are evaluated"
+      }
+    },
+    {
+      "id": 465,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T13:17:00+05:30",
+      "ended_at": "2026-09-22T13:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "reframed candidate question around noisy prevalence estimates"
+      }
+    },
+    {
+      "id": 466,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T13:46:00+05:30",
+      "ended_at": "2026-09-22T14:11:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — literature_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "literature_notes.md",
+        "interaction": "noted uncertainty about how target prevalence is estimated in existing evaluations"
+      }
+    },
+    {
+      "id": 467,
+      "watcher": "Google Search",
+      "started_at": "2026-09-22T14:11:00+05:30",
+      "ended_at": "2026-09-22T14:31:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — domain adaptation benchmark class prior shift",
+      "url": "https://www.google.com/search?q=domain+adaptation+benchmark+class+prior+shift",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "checked candidate benchmark datasets"
+      }
+    },
+    {
+      "id": 468,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T14:31:00+05:30",
+      "ended_at": "2026-09-22T15:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "pilot_design.md",
+        "interaction": "sketched a pilot varying prevalence-estimate noise"
+      }
+    },
+    {
+      "id": 469,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T15:02:00+05:30",
+      "ended_at": "2026-09-22T15:27:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "pilot_design.md",
+        "interaction": "listed candidate baselines and outcome metrics"
+      }
+    },
+    {
+      "id": 470,
+      "watcher": "Terminal",
+      "ended_at": "2026-09-22T15:49:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python -m pytest tests/test_calibration.py -q"
+        ],
+        "output_state": "completed",
+        "visible_text": "existing calibration tests passed"
+      },
+      "started_at": "2026-09-22T15:27:00+05:30"
+    },
+    {
+      "id": 471,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T15:49:00+05:30",
+      "ended_at": "2026-09-22T16:18:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "pilot_design.md",
+        "interaction": "noted existing code can support the proposed pilot with a small adapter"
+      }
+    },
+    {
+      "id": 472,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-22T16:18:00+05:30",
+      "ended_at": "2026-09-22T16:37:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "GitHub — probability calibration library",
+      "url": "https://github.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "looked at an implementation example and documentation"
+      }
+    },
+    {
+      "id": 473,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T16:37:00+05:30",
+      "ended_at": "2026-09-22T17:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — pilot_design.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "revised pilot scope and listed implementation questions"
+      }
+    },
+    {
+      "id": 474,
+      "watcher": "VS Code",
+      "started_at": "2026-09-22T18:32:00+05:30",
+      "ended_at": "2026-09-22T19:03:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "wrote next decision point and parked the pilot until literature review is complete"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-22-01",
+        "started_at": "09:22",
+        "ended_at": "14:11",
+        "title": "Synthesize literature on calibration under changing prevalence",
+        "summary": "The researcher searched and read several papers on label shift, prior adjustment, and uncertainty under changing class prevalence. Notes were consolidated around their assumptions, evaluation protocols, and limitations. The comparison suggested that many approaches rely on reasonably accurate target prevalence estimates.",
+        "event_ids": [
+          457,
+          458,
+          459,
+          460,
+          461,
+          462,
+          463,
+          464,
+          465,
+          466
+        ],
+        "context": "Literature task defined at the end of Day 21.",
+        "area": "literature review",
+        "intent": "research",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-22-02",
+        "started_at": "14:11",
+        "ended_at": "16:18",
+        "title": "Sketch a pilot around noisy prevalence estimates",
+        "summary": "The researcher checked candidate benchmark datasets, drafted a pilot that varies error in target prevalence estimates, ran existing calibration tests to verify the codebase remains usable, and noted that only a small adapter would be needed. No new experiment was executed.",
+        "event_ids": [
+          467,
+          468,
+          469,
+          470,
+          471
+        ],
+        "context": "Concrete follow-up to the literature gap identified earlier in the day.",
+        "area": "research planning and implementation",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-22-03",
+        "started_at": "16:18",
+        "ended_at": "17:03",
+        "title": "Check implementation feasibility",
+        "summary": "The researcher looked at an existing calibration implementation for comparison and then refined the pilot scope and implementation questions.",
+        "event_ids": [
+          472,
+          473
+        ],
+        "context": "Feasibility check before committing to implementation.",
+        "area": "research engineering",
+        "intent": "exploration",
+        "quality": "medium",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-22-04",
+        "started_at": "18:32",
+        "ended_at": "19:03",
+        "title": "Define the next decision point",
+        "summary": "The researcher documented that the pilot should remain parked until the literature review is complete and wrote the next question to resolve before implementation.",
+        "event_ids": [
+          474
+        ],
+        "context": "Closing the day without prematurely starting the new experiment.",
+        "area": "research planning",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "17:03",
+        "ended_at": "18:32",
+        "reason": "offline / break and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The literature review narrowed the new direction from generic changing prevalence to the less explored practical issue of noisy target prevalence estimates.",
+      "Several recent methods appear to depend on target prevalence estimates being reasonably accurate, making estimation error a potentially useful axis for evaluation.",
+      "The researcher designed a small pilot and verified that the existing codebase can support it, but deliberately did not run the experiment yet.",
+      "The next decision depends on whether the literature supports a sufficiently distinct gap rather than on implementation convenience."
+    ],
+    "priority_alignment": [
+      "Most of the research time was spent understanding assumptions and evaluation protocols before coding.",
+      "The pilot design directly follows from the literature comparison and is small enough to remain exploratory.",
+      "The submitted manuscript and paused replication remained separate from the new project direction."
+    ],
+    "important_uncertainty": [
+      "It is not yet clear whether noisy prevalence estimates have been sufficiently studied under the exact calibration setting being considered.",
+      "The candidate datasets may not contain a natural mechanism for controlled prevalence-estimation error.",
+      "A small pilot may be technically easy but still scientifically unmotivated if the literature gap is not strong."
+    ],
+    "possible_next_step": "Finish the focused literature review on prevalence-estimation error, identify the precise gap and assumptions, and only then decide whether to implement the proposed pilot."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "clarify_priority",
+      "title": "Finish the literature gap check",
+      "reason": "The pilot is technically feasible, but the strongest remaining uncertainty is scientific novelty and whether the proposed evaluation is sufficiently distinct.",
+      "suggested_focus_minutes": 90,
+      "target": "Next Research Question"
+    },
+    "secondary_action": {
+      "action_type": "protect_priority",
+      "title": "Keep the pilot unrun",
+      "reason": "Implementation convenience should not substitute for establishing the research question and literature gap.",
+      "suggested_focus_minutes": 10,
+      "target": "Next Research Question"
+    },
+    "things_not_to_do": [
+      "Do not start the pilot merely because the existing tests pass.",
+      "Do not broaden the literature search into every form of label or prior shift.",
+      "Do not commit to a dataset before checking whether its prevalence structure supports the intended evaluation.",
+      "Do not reopen the submitted manuscript or paused replication."
+    ]
+  }
+}

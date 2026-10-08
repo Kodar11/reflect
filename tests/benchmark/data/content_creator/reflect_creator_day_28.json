@@ -1,0 +1,673 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life"
+  },
+  "day": {
+    "day_number": 28,
+    "date": "2026-09-28",
+    "day_type": "hook_resolution_and_recording_prep",
+    "circumstances": [
+      "The creator reviewed the latest PostgreSQL release feedback and then returned to the background-jobs candidate.",
+      "The broad background-jobs concept was narrowed to a more concrete duplicate-processing/idempotency story.",
+      "Most of the day was spent refining the script and validating a practical example rather than beginning recording prematurely.",
+      "An exploratory thumbnail test became more relevant once the hook was clearer, but the project still did not enter full recording.",
+      "Sponsor maintenance remained small, while Instagram mixed audience communication with general browsing.",
+      "The day ended with the background-jobs script close to recording-ready and a specific recording-start note preserved."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:52",
+      "last_seen": "23:17",
+      "approx_active_hours": 10.6,
+      "longest_unobserved_gap_minutes": 65
+    }
+  },
+  "raw_events": [
+    {
+      "id": 672,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T08:52:00+05:30",
+      "ended_at": "2026-09-28T09:07:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 673,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T09:07:00+05:30",
+      "ended_at": "2026-09-28T09:24:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Indexing Mistakes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 674,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T09:24:00+05:30",
+      "ended_at": "2026-09-28T09:42:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — PostgreSQL Indexing Mistakes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 675,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T09:42:00+05:30",
+      "ended_at": "2026-09-28T10:03:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 676,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T10:03:00+05:30",
+      "ended_at": "2026-09-28T10:31:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 677,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T10:31:00+05:30",
+      "ended_at": "2026-09-28T10:55:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "idempotency duplicate payment webhook example",
+      "url": "https://www.google.com/search?q=idempotency+duplicate+payment+webhook+example",
+      "payload": null
+    },
+    {
+      "id": 678,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T10:55:00+05:30",
+      "ended_at": "2026-09-28T11:23:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 679,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T11:23:00+05:30",
+      "ended_at": "2026-09-28T11:41:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 680,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T12:38:00+05:30",
+      "ended_at": "2026-09-28T13:04:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "idempotency key practical example API",
+      "url": "https://www.google.com/search?q=idempotency+key+practical+example+API",
+      "payload": null
+    },
+    {
+      "id": 681,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T13:04:00+05:30",
+      "ended_at": "2026-09-28T13:32:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 682,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T13:32:00+05:30",
+      "ended_at": "2026-09-28T13:49:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "idempotency explained simply",
+      "url": "https://www.youtube.com/results?search_query=idempotency+explained+simply",
+      "payload": null
+    },
+    {
+      "id": 683,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T13:49:00+05:30",
+      "ended_at": "2026-09-28T14:16:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 684,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T15:21:00+05:30",
+      "ended_at": "2026-09-28T15:44:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 685,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T15:44:00+05:30",
+      "ended_at": "2026-09-28T16:12:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "at least once delivery retry duplicate job worker",
+      "url": "https://www.google.com/search?q=at+least+once+delivery+retry+duplicate+job+worker",
+      "payload": null
+    },
+    {
+      "id": 686,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T16:12:00+05:30",
+      "ended_at": "2026-09-28T16:39:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 687,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T16:39:00+05:30",
+      "ended_at": "2026-09-28T16:55:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 688,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T17:48:00+05:30",
+      "ended_at": "2026-09-28T18:09:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Background Jobs Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 689,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T18:09:00+05:30",
+      "ended_at": "2026-09-28T18:28:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "worker queue thumbnail visual",
+      "url": "https://www.google.com/search?q=worker+queue+thumbnail+visual",
+      "payload": null
+    },
+    {
+      "id": 690,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T18:28:00+05:30",
+      "ended_at": "2026-09-28T18:47:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Background Jobs Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 691,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T18:47:00+05:30",
+      "ended_at": "2026-09-28T19:03:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Re: Database product short-form inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 692,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T19:03:00+05:30",
+      "ended_at": "2026-09-28T19:21:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Sponsor Deliverables",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 693,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T20:14:00+05:30",
+      "ended_at": "2026-09-28T20:33:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 694,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T20:33:00+05:30",
+      "ended_at": "2026-09-28T20:51:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "Explore",
+      "url": "https://www.instagram.com/explore/",
+      "payload": null
+    },
+    {
+      "id": 695,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T20:51:00+05:30",
+      "ended_at": "2026-09-28T21:14:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — Background Jobs",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 696,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T21:14:00+05:30",
+      "ended_at": "2026-09-28T21:33:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — PostgreSQL Indexing Mistakes",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 697,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T21:33:00+05:30",
+      "ended_at": "2026-09-28T21:52:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 698,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T21:52:00+05:30",
+      "ended_at": "2026-09-28T22:36:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 699,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T22:36:00+05:30",
+      "ended_at": "2026-09-28T22:58:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 700,
+      "watcher": "desktop",
+      "started_at": "2026-09-28T22:58:00+05:30",
+      "ended_at": "2026-09-28T23:17:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Background Jobs — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-28-01",
+        "started_at": "08:52",
+        "ended_at": "09:42",
+        "title": "Morning release and audience review",
+        "summary": "Checked email, then reviewed early analytics and comments on the recently published PostgreSQL indexing-mistakes video.",
+        "event_ids": [
+          672,
+          673,
+          674
+        ],
+        "context": "The latest release is still supplying audience signals while the next topic is being selected.",
+        "area": "creator_operations_and_community",
+        "intent": "Inspect current release feedback before committing to the next project.",
+        "quality": "focused post-publish review",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-28-02",
+        "started_at": "09:42",
+        "ended_at": "10:31",
+        "title": "Background-jobs topic decision",
+        "summary": "Reviewed the video backlog and returned to the background-jobs outline, deciding to narrow the concept around duplicate processing.",
+        "event_ids": [
+          675,
+          676
+        ],
+        "context": "The topic had remained unresolved over the weekend because its hook was too broad.",
+        "area": "ideation_and_outlining",
+        "intent": "Choose a sharper angle that can support a concise technical video.",
+        "quality": "deliberate prioritization",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-03",
+        "started_at": "10:31",
+        "ended_at": "11:41",
+        "title": "Idempotency hook development",
+        "summary": "Researched a practical idempotency example and converted the narrowed hook into script material.",
+        "event_ids": [
+          677,
+          678,
+          679
+        ],
+        "context": "The creator is moving from architecture-level framing toward a concrete failure story.",
+        "area": "research_and_scripting",
+        "intent": "Develop a clear example and opening for the candidate video.",
+        "quality": "targeted pre-production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-04",
+        "started_at": "11:41",
+        "ended_at": "12:38",
+        "title": "Offline lunch and break",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Lunch and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-28-05",
+        "started_at": "12:38",
+        "ended_at": "14:16",
+        "title": "Script refinement and example validation",
+        "summary": "Researched a practical idempotency-key example, watched a simple explanation reference, and revised the background-jobs script around the chosen failure case.",
+        "event_ids": [
+          680,
+          681,
+          682,
+          683
+        ],
+        "context": "The candidate is becoming a concrete explainer centered on duplicate processing.",
+        "area": "research_and_scripting",
+        "intent": "Make the script recordable without returning to broad background-job research.",
+        "quality": "substantive scripting work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-06",
+        "started_at": "14:16",
+        "ended_at": "15:21",
+        "title": "Offline break",
+        "summary": "Spent a period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Break before another script pass.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-28-07",
+        "started_at": "15:21",
+        "ended_at": "16:39",
+        "title": "Recording-readiness pass",
+        "summary": "Reworked the script, checked retry and at-least-once delivery details, and tightened the explanation around duplicate jobs.",
+        "event_ids": [
+          684,
+          685,
+          686
+        ],
+        "context": "The technical framing is now narrow enough to support recording preparation.",
+        "area": "scripting_and_research",
+        "intent": "Close the remaining technical ambiguity before recording.",
+        "quality": "focused pre-production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-28-08",
+        "started_at": "16:39",
+        "ended_at": "16:55",
+        "title": "Creator chat",
+        "summary": "Spent a short session in a creator Discord channel.",
+        "event_ids": [
+          687
+        ],
+        "context": "The exact discussion purpose is not visible.",
+        "area": "community",
+        "intent": "Peer or social interaction.",
+        "quality": "ambiguous communication",
+        "importance": "low"
+      },
+      {
+        "id": "gt-28-09",
+        "started_at": "16:55",
+        "ended_at": "17:48",
+        "title": "Offline break",
+        "summary": "Spent a period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Break before packaging exploration.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-28-10",
+        "started_at": "17:48",
+        "ended_at": "18:47",
+        "title": "Thumbnail concept test",
+        "summary": "Tested a background-jobs thumbnail concept and checked one worker/queue visual reference before refining it.",
+        "event_ids": [
+          688,
+          689,
+          690
+        ],
+        "context": "The topic now has a more stable hook, making packaging exploration more meaningful, but it is still pre-recording.",
+        "area": "thumbnail_design",
+        "intent": "See whether the narrowed hook can be communicated visually.",
+        "quality": "exploratory packaging",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-28-11",
+        "started_at": "18:47",
+        "ended_at": "19:21",
+        "title": "Sponsor maintenance",
+        "summary": "Checked the prior sponsor thread and deliverables sheet for any new commercial follow-up.",
+        "event_ids": [
+          691,
+          692
+        ],
+        "context": "The sponsor workstream is largely complete and currently secondary.",
+        "area": "sponsorship",
+        "intent": "Confirm whether any action remains on the completed collaboration.",
+        "quality": "contained business maintenance",
+        "importance": "low"
+      },
+      {
+        "id": "gt-28-12",
+        "started_at": "19:21",
+        "ended_at": "20:14",
+        "title": "Offline dinner",
+        "summary": "Spent the period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Dinner and evening transition.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-28-13",
+        "started_at": "20:14",
+        "ended_at": "21:33",
+        "title": "Instagram and audience check",
+        "summary": "Checked Instagram direct messages and Explore, then reviewed comments on the background-jobs topic and channel analytics for the earlier PostgreSQL release.",
+        "event_ids": [
+          693,
+          694,
+          695,
+          696
+        ],
+        "context": "Community and browsing are mixed on Instagram; the YouTube comments session may provide topic feedback.",
+        "area": "community_and_analytics",
+        "intent": "Handle audience activity and inspect whether the active idea is attracting relevant questions.",
+        "quality": "mixed-intent maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-28-14",
+        "started_at": "21:33",
+        "ended_at": "21:52",
+        "title": "Idea backlog check",
+        "summary": "Briefly reviewed the video backlog after the evening feedback check.",
+        "event_ids": [
+          697
+        ],
+        "context": "The background-jobs candidate remains the active project; no unrelated project was opened.",
+        "area": "ideation",
+        "intent": "Keep future options visible without switching projects.",
+        "quality": "light maintenance",
+        "importance": "low"
+      },
+      {
+        "id": "gt-28-15",
+        "started_at": "21:52",
+        "ended_at": "22:58",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          698,
+          699
+        ],
+        "context": "Normal weekday evening leisure.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-28-16",
+        "started_at": "22:58",
+        "ended_at": "23:17",
+        "title": "Script closeout",
+        "summary": "Made a final brief pass over the background-jobs script and preserved the recording-start note for the next session.",
+        "event_ids": [
+          700
+        ],
+        "context": "The hook is narrowed and the script is close to recording-ready, but no recording occurred today.",
+        "area": "scripting_and_project_management",
+        "intent": "Preserve the exact next step without starting a late recording session.",
+        "quality": "useful closeout",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "11:41",
+        "ended_at": "12:38",
+        "reason": "Offline lunch and break"
+      },
+      {
+        "started_at": "14:16",
+        "ended_at": "15:21",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "16:55",
+        "ended_at": "17:48",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "19:21",
+        "ended_at": "20:14",
+        "reason": "Offline dinner"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The main progress was resolving the background-jobs video's previously weak hook: the concept was narrowed to duplicate processing and idempotency.",
+      "Research stayed attached to a practical example and the script rather than expanding into broad distributed-systems study.",
+      "The script now appears close to recording-ready, with a clear next step preserved at the end of the day.",
+      "The thumbnail test was more grounded than earlier exploratory packaging because the hook had become clearer, but it still does not prove production commitment.",
+      "The latest PostgreSQL release and its comments were checked for context, but the visible timeline does not expose the exact audience signal.",
+      "No new recording occurred today, which is consistent with the creator choosing to solve the editorial blocker first."
+    ],
+    "priority_alignment": [
+      "The creator kept one candidate project central and reduced ambiguity before recording.",
+      "Research was used to support a concrete example, not to justify another broad idea cycle.",
+      "Secondary sponsor and community tasks remained contained."
+    ],
+    "important_uncertainty": [
+      "The exact audience feedback motivating the duplicate-processing angle is not visible.",
+      "The script's recording readiness is inferred from the progression and closeout note, not explicitly confirmed by a recording session.",
+      "The thumbnail remains exploratory.",
+      "The sponsor thread shows maintenance but not a new request.",
+      "Instagram Explore may be trend awareness or ordinary browsing.",
+      "The analytics screen does not expose useful performance numbers.",
+      "Offline activity is unobserved."
+    ],
+    "possible_next_step": "Record the background-jobs video while the script is fresh, then review the first take before expanding the edit or packaging work."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Record the background-jobs video",
+      "action_type": "move_project_to_next_pipeline_stage",
+      "reason": "The hook has been narrowed and the script has received multiple technical passes; the main remaining open loop is to capture usable footage.",
+      "target": "Background Jobs / Idempotency video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not reopen broad research into queues or distributed systems before recording.",
+      "Do not assume the thumbnail is final because the hook is clearer.",
+      "Do not infer a specific audience signal from the comments or analytics screens.",
+      "Do not let sponsor maintenance expand without a new concrete requirement.",
+      "Do not classify Instagram Explore as work or distraction without stronger intent evidence.",
+      "Do not infer offline activity."
+    ]
+  }
+}

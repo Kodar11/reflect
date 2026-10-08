@@ -1,0 +1,590 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life",
+    "current_work": [
+      "Finalizing the PostgreSQL indexing video script",
+      "Recording the PostgreSQL video",
+      "Maintaining the already-published Redis follow-up and its audience metrics"
+    ],
+    "priorities": [
+      "Get the PostgreSQL script into a stable recording shape",
+      "Capture a usable recording rather than endlessly polishing the script",
+      "Keep the published-video monitoring and future ideas secondary to the active production"
+    ]
+  },
+  "day": {
+    "day_number": 13,
+    "date": "2026-09-13",
+    "day_type": "sunday_script_finish_and_recording_retry",
+    "circumstances": [
+      "The PostgreSQL video moved from script refinement into actual recording.",
+      "One recorded take was reviewed and another take followed; the creator then returned to the script after identifying a problem with the explanation.",
+      "A second research pass on the PostgreSQL query planner led to further script revision rather than immediate recording completion.",
+      "Thumbnail work began again, while Instagram combined audience messages with general reels browsing.",
+      "The evening included unrelated technical content, gaming, and social time; analytics for the previous Redis video were checked only briefly."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:28",
+      "last_seen": "22:40",
+      "approx_active_hours": 8.5,
+      "longest_unobserved_gap_minutes": 83
+    }
+  },
+  "raw_events": [
+    {
+      "id": 273,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T09:28:00+05:30",
+      "ended_at": "2026-09-13T09:40:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 274,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T09:40:00+05:30",
+      "ended_at": "2026-09-13T09:54:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 275,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T09:54:00+05:30",
+      "ended_at": "2026-09-13T10:21:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 276,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T10:21:00+05:30",
+      "ended_at": "2026-09-13T10:44:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL EXPLAIN index scan example",
+      "url": "https://www.google.com/search?q=PostgreSQL+EXPLAIN+index+scan+example",
+      "payload": null
+    },
+    {
+      "id": 277,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T10:44:00+05:30",
+      "ended_at": "2026-09-13T11:17:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 278,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T11:52:00+05:30",
+      "ended_at": "2026-09-13T12:08:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 279,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T12:08:00+05:30",
+      "ended_at": "2026-09-13T12:36:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 280,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T12:36:00+05:30",
+      "ended_at": "2026-09-13T12:49:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-13_pg_take.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 281,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T13:04:00+05:30",
+      "ended_at": "2026-09-13T13:39:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 282,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T13:39:00+05:30",
+      "ended_at": "2026-09-13T13:53:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 283,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T13:53:00+05:30",
+      "ended_at": "2026-09-13T14:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 284,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T15:41:00+05:30",
+      "ended_at": "2026-09-13T16:12:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL query planner explanation simple",
+      "url": "https://www.google.com/search?q=PostgreSQL+query+planner+explanation+simple",
+      "payload": null
+    },
+    {
+      "id": 285,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T16:12:00+05:30",
+      "ended_at": "2026-09-13T16:47:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Script",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 286,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T17:36:00+05:30",
+      "ended_at": "2026-09-13T17:51:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Video Thumbnail Ideas",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 287,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T17:51:00+05:30",
+      "ended_at": "2026-09-13T18:14:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Video Thumbnail Ideas",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 288,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T18:14:00+05:30",
+      "ended_at": "2026-09-13T18:28:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 289,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T18:28:00+05:30",
+      "ended_at": "2026-09-13T18:44:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/reels/",
+      "url": "https://www.instagram.com/reels/",
+      "payload": null
+    },
+    {
+      "id": 290,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T19:52:00+05:30",
+      "ended_at": "2026-09-13T20:30:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "database performance myths",
+      "url": "https://www.youtube.com/watch?v=db-myths-21",
+      "payload": null
+    },
+    {
+      "id": 291,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T20:30:00+05:30",
+      "ended_at": "2026-09-13T21:15:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 292,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T21:15:00+05:30",
+      "ended_at": "2026-09-13T21:34:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 293,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T22:06:00+05:30",
+      "ended_at": "2026-09-13T22:22:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 294,
+      "watcher": "desktop",
+      "started_at": "2026-09-13T22:22:00+05:30",
+      "ended_at": "2026-09-13T22:40:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-13-01",
+        "started_at": "09:28",
+        "ended_at": "09:54",
+        "title": "Morning inbox and published-video check",
+        "summary": "Checked email and reviewed comments on the published Redis follow-up.",
+        "event_ids": [
+          273,
+          274
+        ],
+        "context": "The previous video remains live while the creator prepares the next PostgreSQL piece.",
+        "area": "creator_operations",
+        "intent": "Review incoming communication and recent audience response.",
+        "quality": "routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-13-02",
+        "started_at": "09:54",
+        "ended_at": "11:17",
+        "title": "Final PostgreSQL script refinement",
+        "summary": "Reworked the PostgreSQL script and searched for a clearer EXPLAIN/index-scan example before continuing the draft.",
+        "event_ids": [
+          275,
+          276,
+          277
+        ],
+        "context": "The topic had been outlined and substantially scripted on Days 11–12.",
+        "area": "scripting_and_research",
+        "intent": "Make the script concrete enough to record.",
+        "quality": "focused creative work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-13-03",
+        "started_at": "11:17",
+        "ended_at": "11:52",
+        "title": "Offline recording setup",
+        "summary": "Prepared the physical recording space before the first take.",
+        "event_ids": [],
+        "context": "This setup period is outside desktop observation.",
+        "area": "recording",
+        "intent": "Prepare for recording.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-13-04",
+        "started_at": "11:52",
+        "ended_at": "12:49",
+        "title": "First recording and take review",
+        "summary": "Recorded two OBS segments, then opened a captured file to inspect the take.",
+        "event_ids": [
+          278,
+          279,
+          280
+        ],
+        "context": "The creator was moving the script into actual footage for the first time.",
+        "area": "recording",
+        "intent": "Capture usable footage and inspect the first take.",
+        "quality": "production with quality check",
+        "importance": "high"
+      },
+      {
+        "id": "gt-13-05",
+        "started_at": "12:49",
+        "ended_at": "13:04",
+        "title": "Offline recording adjustment",
+        "summary": "Made a physical setup adjustment before another take.",
+        "event_ids": [],
+        "context": "The reason for the adjustment is not visible in desktop data.",
+        "area": "recording",
+        "intent": "Improve the recording setup before continuing.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-13-06",
+        "started_at": "13:04",
+        "ended_at": "14:18",
+        "title": "Second recording attempt and script return",
+        "summary": "Recorded another OBS segment, briefly checked creator chat, and returned to the PostgreSQL script after the take.",
+        "event_ids": [
+          281,
+          282,
+          283
+        ],
+        "context": "The return to the script indicates the recording did not fully close the production issue.",
+        "area": "recording_and_scripting",
+        "intent": "Capture a better take and adjust the script where needed.",
+        "quality": "iterative production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-13-07",
+        "started_at": "14:18",
+        "ended_at": "15:41",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and ordinary Sunday activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-13-08",
+        "started_at": "15:41",
+        "ended_at": "16:47",
+        "title": "Query-planner explanation revision",
+        "summary": "Searched for a simpler query-planner explanation and revised the PostgreSQL script around the clearer explanation.",
+        "event_ids": [
+          284,
+          285
+        ],
+        "context": "The creator is still resolving how to explain the technical concept clearly on camera.",
+        "area": "scripting_and_research",
+        "intent": "Fix the explanatory weak point before another recording attempt.",
+        "quality": "focused revision",
+        "importance": "high"
+      },
+      {
+        "id": "gt-13-09",
+        "started_at": "16:47",
+        "ended_at": "17:36",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Take a break after the script revision.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-13-10",
+        "started_at": "17:36",
+        "ended_at": "18:14",
+        "title": "Thumbnail exploration",
+        "summary": "Started and refined a thumbnail direction for the PostgreSQL video.",
+        "event_ids": [
+          286,
+          287
+        ],
+        "context": "Packaging work started before recording was fully closed.",
+        "area": "thumbnail_design",
+        "intent": "Explore a visual direction for the new video.",
+        "quality": "partial production",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-13-11",
+        "started_at": "18:14",
+        "ended_at": "18:44",
+        "title": "Instagram community and browsing",
+        "summary": "Checked direct messages and then browsed the reels feed.",
+        "event_ids": [
+          288,
+          289
+        ],
+        "context": "Instagram continues to mix creator communication and casual social use.",
+        "area": "community_and_leisure",
+        "intent": "Handle audience communication and browse social content.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-13-12",
+        "started_at": "18:44",
+        "ended_at": "19:52",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the early evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Dinner and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-13-13",
+        "started_at": "19:52",
+        "ended_at": "21:34",
+        "title": "Technical learning and recreation",
+        "summary": "Watched a database-performance video, played Hades, and chatted with friends.",
+        "event_ids": [
+          290,
+          291,
+          292
+        ],
+        "context": "The database video was relevant to the niche but not clearly connected to the current PostgreSQL script.",
+        "area": "learning_and_leisure",
+        "intent": "Learn casually and relax.",
+        "quality": "mixed",
+        "importance": "low"
+      },
+      {
+        "id": "gt-13-14",
+        "started_at": "21:34",
+        "ended_at": "22:06",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Wind down before final checks.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-13-15",
+        "started_at": "22:06",
+        "ended_at": "22:40",
+        "title": "Published-video analytics and idea check",
+        "summary": "Briefly reviewed analytics for the published Redis follow-up and then looked at the broader video idea list.",
+        "event_ids": [
+          293,
+          294
+        ],
+        "context": "No new content project was started.",
+        "area": "analytics_and_ideation",
+        "intent": "Check current channel state and future ideas.",
+        "quality": "brief maintenance",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "11:17",
+        "ended_at": "11:52",
+        "reason": "Offline recording setup"
+      },
+      {
+        "started_at": "12:49",
+        "ended_at": "13:04",
+        "reason": "Offline recording adjustment"
+      },
+      {
+        "started_at": "14:18",
+        "ended_at": "15:41",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "16:47",
+        "ended_at": "17:36",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "18:44",
+        "ended_at": "19:52",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "21:34",
+        "ended_at": "22:06",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The PostgreSQL video moved into actual recording, but the production loop did not close: the creator reviewed a take, recorded again, and then returned to the script to improve a technical explanation.",
+      "The query-planner research was not a new content project; it was used to repair a specific explanatory section of the current script.",
+      "Thumbnail exploration began in parallel while recording remained unfinished, creating some cross-stage overlap in the active video pipeline.",
+      "Instagram again combined audience communication with general browsing, and the evening database video was relevant to the niche without being clearly part of the current production.",
+      "The previous Redis video's analytics were checked briefly, but no visible strategic decision followed."
+    ],
+    "priority_alignment": [
+      "The PostgreSQL video remained the main content priority and received the most meaningful work.",
+      "The creator responded to a concrete recording problem by returning to the script rather than forcing the recording forward.",
+      "Packaging work stayed limited, although it began before the recording loop was fully closed."
+    ],
+    "important_uncertainty": [
+      "The reviewed recording indicates a quality check occurred, but the timeline does not reveal exactly what was wrong with the take.",
+      "The later script revision suggests an explanatory issue, but the desktop events cannot establish whether the revised explanation solved it.",
+      "The thumbnail was explored but there is no evidence of a final selected design.",
+      "The analytics check exposes no metrics or decision.",
+      "Offline setup and personal periods are outside desktop observation."
+    ],
+    "possible_next_step": "Record one focused replacement take using the revised explanation, then review the resulting footage before doing more packaging work."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Capture one replacement take",
+      "action_type": "complete_open_loop",
+      "reason": "The active video has moved into recording but a concrete explanatory issue sent the creator back to the script; the next milestone is to test the revised section in a replacement take.",
+      "target": "PostgreSQL Indexes video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the recording problem was technical just because the creator opened a captured file.",
+      "Do not treat the query-planner search as unrelated browsing; it directly supported revision of the current script.",
+      "Do not assume the thumbnail should take priority over getting a usable recording.",
+      "Do not infer that the revised script section is now correct or clear without another recording/review cycle.",
+      "Do not assume the database-performance video influenced today's script.",
+      "Do not interpret Instagram reels browsing as creator work merely because it followed direct-message handling.",
+      "Do not criticize the evening leisure or infer anything from offline periods."
+    ]
+  }
+}

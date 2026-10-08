@@ -1,0 +1,614 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life",
+    "current_work": [
+      "Publishing the Redis/caching follow-up that has been developed since Day 6",
+      "Handling a small sponsorship follow-up and its asset handoff",
+      "Deciding what technical topic should follow the current publishing cycle"
+    ],
+    "priorities": [
+      "Close the Redis video's publishing loop cleanly",
+      "Finish the sponsor handoff without letting administrative work expand",
+      "Use the post-publish period to choose the next content direction rather than immediately starting another full production"
+    ]
+  },
+  "day": {
+    "day_number": 10,
+    "date": "2026-09-10",
+    "day_type": "thursday_redis_publish_and_next-topic_planning",
+    "circumstances": [
+      "The Redis/caching follow-up received a final cut review, footage check, thumbnail confirmation, upload configuration, and publication.",
+      "The creator read comments and viewed the published video after it went live.",
+      "A small sponsor asset/handoff thread was handled in the afternoon.",
+      "The evening was mostly unrelated entertainment and social time.",
+      "A brief late analytics check occurred, but there is no visible associated strategy change."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:34",
+      "last_seen": "22:02",
+      "approx_active_hours": 8.0,
+      "longest_unobserved_gap_minutes": 104
+    }
+  },
+  "raw_events": [
+    {
+      "id": 203,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T08:34:00+05:30",
+      "ended_at": "2026-09-10T08:47:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 204,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T08:47:00+05:30",
+      "ended_at": "2026-09-10T09:03:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Video details",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 205,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T09:03:00+05:30",
+      "ended_at": "2026-09-10T09:27:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Redis caching follow-up — final cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 206,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T09:27:00+05:30",
+      "ended_at": "2026-09-10T09:41:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "redis_followup_final.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 207,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T09:41:00+05:30",
+      "ended_at": "2026-09-10T09:56:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Redis caching follow-up — final cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 208,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T09:56:00+05:30",
+      "ended_at": "2026-09-10T10:14:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Redis Video Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 209,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T10:14:00+05:30",
+      "ended_at": "2026-09-10T10:29:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Upload video",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 210,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T10:29:00+05:30",
+      "ended_at": "2026-09-10T10:51:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Video details",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 211,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T11:16:00+05:30",
+      "ended_at": "2026-09-10T11:42:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 212,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T11:42:00+05:30",
+      "ended_at": "2026-09-10T12:05:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 213,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T12:05:00+05:30",
+      "ended_at": "2026-09-10T12:19:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Redis caching follow-up",
+      "url": "https://www.youtube.com/watch?v=redis-followup-16",
+      "payload": null
+    },
+    {
+      "id": 214,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T14:03:00+05:30",
+      "ended_at": "2026-09-10T14:18:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 215,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T14:18:00+05:30",
+      "ended_at": "2026-09-10T14:35:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com",
+      "url": "https://www.instagram.com/",
+      "payload": null
+    },
+    {
+      "id": 216,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T15:07:00+05:30",
+      "ended_at": "2026-09-10T15:29:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Brand Deliverables",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 217,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T15:29:00+05:30",
+      "ended_at": "2026-09-10T15:44:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship thread",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 218,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T15:44:00+05:30",
+      "ended_at": "2026-09-10T16:02:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "brand-assets",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 219,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T16:02:00+05:30",
+      "ended_at": "2026-09-10T16:18:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship thread",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 220,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T17:11:00+05:30",
+      "ended_at": "2026-09-10T17:27:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 221,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T17:27:00+05:30",
+      "ended_at": "2026-09-10T17:49:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "YouTube series technical topics",
+      "url": "https://www.google.com/search?q=YouTube+series+technical+topics",
+      "payload": null
+    },
+    {
+      "id": 222,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T17:49:00+05:30",
+      "ended_at": "2026-09-10T18:10:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 223,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T19:26:00+05:30",
+      "ended_at": "2026-09-10T20:08:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PC build review",
+      "url": "https://www.youtube.com/watch?v=pc-build-17",
+      "payload": null
+    },
+    {
+      "id": 224,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T20:08:00+05:30",
+      "ended_at": "2026-09-10T20:51:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 225,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T20:51:00+05:30",
+      "ended_at": "2026-09-10T21:11:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 226,
+      "watcher": "desktop",
+      "started_at": "2026-09-10T21:47:00+05:30",
+      "ended_at": "2026-09-10T22:02:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-10-01",
+        "started_at": "08:34",
+        "ended_at": "09:03",
+        "title": "Morning inbox and upload check",
+        "summary": "Checked email and opened the current video's YouTube details before the final review.",
+        "event_ids": [
+          203,
+          204
+        ],
+        "context": "The Redis follow-up had been sitting in upload preparation since Day 9.",
+        "area": "publishing",
+        "intent": "Check incoming communication and prepare to finish publication.",
+        "quality": "routine preparation",
+        "importance": "high"
+      },
+      {
+        "id": "gt-10-02",
+        "started_at": "09:03",
+        "ended_at": "09:56",
+        "title": "Final cut review",
+        "summary": "Watched the final Resolve timeline, reviewed the exported file, and made one final cut adjustment before publishing.",
+        "event_ids": [
+          205,
+          206,
+          207
+        ],
+        "context": "The video had gone through multiple edit and quality-control passes on previous days.",
+        "area": "editing",
+        "intent": "Confirm the final cut is ready for publication.",
+        "quality": "final quality control",
+        "importance": "high"
+      },
+      {
+        "id": "gt-10-03",
+        "started_at": "09:56",
+        "ended_at": "10:51",
+        "title": "Packaging and upload",
+        "summary": "Checked the thumbnail, opened the upload flow, and configured the video's publishing details.",
+        "event_ids": [
+          208,
+          209,
+          210
+        ],
+        "context": "Packaging followed the final cut review rather than replacing it.",
+        "area": "thumbnail_and_publishing",
+        "intent": "Prepare the finished video for publication.",
+        "quality": "focused publishing work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-10-04",
+        "started_at": "10:51",
+        "ended_at": "11:16",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Take a break before publication.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-05",
+        "started_at": "11:16",
+        "ended_at": "12:19",
+        "title": "Publication and immediate audience check",
+        "summary": "Confirmed the Redis follow-up was live, reviewed its comment area, and opened the published video itself.",
+        "event_ids": [
+          211,
+          212,
+          213
+        ],
+        "context": "This closes the production loop that started with the audience-backed idea on Day 6.",
+        "area": "publishing_and_community",
+        "intent": "Confirm publication and inspect immediate audience response.",
+        "quality": "completed publishing milestone",
+        "importance": "high"
+      },
+      {
+        "id": "gt-10-06",
+        "started_at": "12:19",
+        "ended_at": "14:03",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the early afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Lunch and ordinary personal activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-07",
+        "started_at": "14:03",
+        "ended_at": "14:35",
+        "title": "Instagram community and browsing",
+        "summary": "Checked direct messages and then browsed the Instagram feed.",
+        "event_ids": [
+          214,
+          215
+        ],
+        "context": "The platform supports both creator communication and casual browsing.",
+        "area": "community_and_leisure",
+        "intent": "Handle audience messages and browse current content.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-10-08",
+        "started_at": "14:35",
+        "ended_at": "15:07",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Take a break before sponsor administration.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-09",
+        "started_at": "15:07",
+        "ended_at": "16:18",
+        "title": "Sponsor asset handoff",
+        "summary": "Reviewed the sponsor deliverables sheet, checked the sponsorship thread, opened the shared asset folder, and sent the requested handoff message.",
+        "event_ids": [
+          216,
+          217,
+          218,
+          219
+        ],
+        "context": "This is a continuation of the sponsor work that has appeared intermittently since Day 4.",
+        "area": "sponsorship",
+        "intent": "Complete the current sponsor asset handoff.",
+        "quality": "bounded administrative work",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-10-10",
+        "started_at": "16:18",
+        "ended_at": "17:11",
+        "title": "Offline personal time",
+        "summary": "Spent the late afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Take a break and handle ordinary personal activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-11",
+        "started_at": "17:11",
+        "ended_at": "18:10",
+        "title": "Next-topic planning",
+        "summary": "Reviewed the idea list, searched for potential technical-series topics, and refined the backlog without selecting a full production project.",
+        "event_ids": [
+          220,
+          221,
+          222
+        ],
+        "context": "The previous Redis video had just been published, so the creator was deciding what deserved the next serious production cycle.",
+        "area": "ideation",
+        "intent": "Explore and narrow possible next technical topics.",
+        "quality": "exploratory planning",
+        "importance": "high"
+      },
+      {
+        "id": "gt-10-12",
+        "started_at": "18:10",
+        "ended_at": "19:26",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the early evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-13",
+        "started_at": "19:26",
+        "ended_at": "21:11",
+        "title": "Evening entertainment and social time",
+        "summary": "Watched a PC-build review, played Hades, and chatted with friends.",
+        "event_ids": [
+          223,
+          224,
+          225
+        ],
+        "context": "Normal evening leisure after a publication and administrative day.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-14",
+        "started_at": "21:11",
+        "ended_at": "21:47",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Wind down after the day.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-10-15",
+        "started_at": "21:47",
+        "ended_at": "22:02",
+        "title": "Late performance check",
+        "summary": "Briefly checked the published Redis video's analytics before ending desktop use.",
+        "event_ids": [
+          226
+        ],
+        "context": "The video had been published earlier the same day.",
+        "area": "analytics",
+        "intent": "Check the current published video's performance.",
+        "quality": "early post-publish check",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:51",
+        "ended_at": "11:16",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "12:19",
+        "ended_at": "14:03",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "14:35",
+        "ended_at": "15:07",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "16:18",
+        "ended_at": "17:11",
+        "reason": "Offline personal time"
+      },
+      {
+        "started_at": "18:10",
+        "ended_at": "19:26",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "21:11",
+        "ended_at": "21:47",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Redis/caching follow-up reached a genuine completion point: final cut review, packaging, upload configuration, and publication all occurred today.",
+      "The publication closed a multi-day content pipeline that began with audience feedback, moved through research and scripting, and continued through recording and editing.",
+      "After publishing, the creator handled a small sponsor handoff and then spent a distinct planning block exploring what technical topic should come next.",
+      "The next content direction was not fully selected, so the current state is more open-ended than the previous production days.",
+      "A late analytics check occurred, but there is no visible evidence of a decision being made from it."
+    ],
+    "priority_alignment": [
+      "The creator correctly closed the long-running Redis production loop before investing heavily in a new project.",
+      "The sponsor handoff was handled as a bounded external responsibility rather than taking over the day.",
+      "Post-publication planning began only after the main video was actually live."
+    ],
+    "important_uncertainty": [
+      "The published video is confirmed live in the timeline, but the actual audience response and performance numbers are not visible.",
+      "The planning block explored possible topics, but the timeline does not show a final decision about the next production project.",
+      "The sponsor handoff appears complete from the outgoing message and asset access, but there is no evidence of the sponsor's confirmation.",
+      "The late analytics check shows monitoring but not whether it changed the next-topic decision.",
+      "Offline periods remain outside desktop observation."
+    ],
+    "possible_next_step": "Choose one next technical topic from the backlog based on a concrete decision criterion, then leave the other ideas parked rather than beginning several at once."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Choose one next content project",
+      "action_type": "clarify_priority",
+      "reason": "The previous video is now complete and the creator has begun exploring multiple future topics; a single explicit next project would reduce the chance of opening several competing production loops.",
+      "target": "Next technical video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not treat the Redis video as unfinished now that publication has been confirmed.",
+      "Do not infer performance quality from the fact that the video was published and viewed.",
+      "Do not assume the sponsor handoff is fully closed until there is evidence of confirmation from the other side.",
+      "Do not interpret the idea-planning block as commitment to any one future topic.",
+      "Do not treat the late analytics check as automatically useful or useless without knowing the question behind it.",
+      "Do not criticize the evening entertainment or social time.",
+      "Do not infer what happened during offline periods."
+    ]
+  }
+}

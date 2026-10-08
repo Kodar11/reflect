@@ -1,0 +1,424 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "day_number": 18,
+    "date": "2026-09-18",
+    "day_type": "client_feedback_and_delivery_day",
+    "circumstances": [
+      "Substantial progress was made on the active brand identity, including client-requested revisions, presentation work, exports, and delivery preparation. Client approval was not yet established by the end of the day.",
+      "No clear work on the Northstar portfolio case study is visible today.",
+      "No clear social campaign production is visible today.",
+      "YouTube typography learning and Behance browsing could be useful or incidental; the raw events do not establish their value conclusively."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:08",
+      "last_seen": "20:12",
+      "approx_active_hours": 9.5,
+      "longest_unobserved_gap_minutes": 85
+    }
+  },
+  "raw_events": [
+    {
+      "id": 441,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T09:08:00+05:30",
+      "ended_at": "2026-09-18T09:19:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 442,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T09:19:00+05:30",
+      "ended_at": "2026-09-18T09:42:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 443,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T09:42:00+05:30",
+      "ended_at": "2026-09-18T10:18:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 444,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T10:18:00+05:30",
+      "ended_at": "2026-09-18T10:56:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 445,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T10:56:00+05:30",
+      "ended_at": "2026-09-18T11:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 446,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T11:17:00+05:30",
+      "ended_at": "2026-09-18T11:54:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Typography",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 447,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T11:54:00+05:30",
+      "ended_at": "2026-09-18T12:31:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "brand-mark-exploration.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 448,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T12:31:00+05:30",
+      "ended_at": "2026-09-18T12:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 449,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T12:47:00+05:30",
+      "ended_at": "2026-09-18T13:02:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 450,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T13:02:00+05:30",
+      "ended_at": "2026-09-18T13:16:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 451,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T13:16:00+05:30",
+      "ended_at": "2026-09-18T13:41:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 452,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T15:06:00+05:30",
+      "ended_at": "2026-09-18T15:42:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 453,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T15:42:00+05:30",
+      "ended_at": "2026-09-18T16:18:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 454,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T16:18:00+05:30",
+      "ended_at": "2026-09-18T16:32:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "New Brand Identity / Handoff",
+      "url": "https://drive.google.com/drive/",
+      "payload": null
+    },
+    {
+      "id": 455,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T16:41:00+05:30",
+      "ended_at": "2026-09-18T17:03:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "brand-mark-exploration.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 456,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T17:03:00+05:30",
+      "ended_at": "2026-09-18T17:15:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 457,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T17:15:00+05:30",
+      "ended_at": "2026-09-18T17:47:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Logo Directions",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 458,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T17:47:00+05:30",
+      "ended_at": "2026-09-18T18:19:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 459,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T18:19:00+05:30",
+      "ended_at": "2026-09-18T18:37:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 460,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T18:37:00+05:30",
+      "ended_at": "2026-09-18T19:11:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 461,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T19:11:00+05:30",
+      "ended_at": "2026-09-18T19:28:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "New Brand Identity — Checklist",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 462,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T19:28:00+05:30",
+      "ended_at": "2026-09-18T19:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 463,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T19:46:00+05:30",
+      "ended_at": "2026-09-18T20:12:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-18-01",
+        "started_at": "09:08",
+        "ended_at": "13:41",
+        "title": "New brand identity — design work",
+        "summary": "Opened Gmail and read feedback on the new brand identity concept. Opened the current identity file and reviewed the selected logo directions. Adjusted the primary logo proportions and spacing based on client comments. Created alternate lockups and tested the mark at smaller sizes.",
+        "event_ids": [
+          441,
+          442,
+          443,
+          444,
+          445,
+          446,
+          447,
+          448,
+          449,
+          450,
+          451
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-02",
+        "started_at": "15:06",
+        "ended_at": "18:19",
+        "title": "New brand identity — design work",
+        "summary": "Returned to the identity file and continued presentation cleanup. Prepared a concise brand-board page showing logo, typography, and color direction. Created a client delivery folder and organized current identity exports. Exported updated logo files in SVG and PNG formats.",
+        "event_ids": [
+          452,
+          453,
+          454,
+          455,
+          456,
+          457,
+          458
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-03",
+        "started_at": "18:19",
+        "ended_at": "18:37",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Watched a short typography tutorial on YouTube.",
+        "event_ids": [
+          459
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-18-04",
+        "started_at": "18:37",
+        "ended_at": "19:28",
+        "title": "New brand identity — design work",
+        "summary": "Returned to the identity presentation and adjusted type scale and spacing. Updated the project checklist with completed identity deliverables and remaining client approval items.",
+        "event_ids": [
+          460,
+          461
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-18-05",
+        "started_at": "19:28",
+        "ended_at": "19:46",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Browsed Behance identity case studies.",
+        "event_ids": [
+          462
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-18-06",
+        "started_at": "19:46",
+        "ended_at": "20:12",
+        "title": "New brand identity — design work",
+        "summary": "Made minor refinements to the identity case-study presentation layout.",
+        "event_ids": [
+          463
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:41",
+        "ended_at": "15:06",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Most tracked work supported the active brand identity brief.",
+      "Research and reference browsing were followed by concrete design work, so they should not automatically be treated as distraction.",
+      "A late client request was handled within the same project and incorporated into the presentation.",
+      "The day included a short learning session and additional Behance browsing whose contribution cannot be established from desktop events alone.",
+      "There was an offline period during the middle of the day, so untracked work or breaks cannot be inferred."
+    ],
+    "priority_alignment": [],
+    "important_uncertainty": [
+      "Whether the client approved the revised identity after the final variation is not observable.",
+      "Whether the remaining checklist items represent substantive deliverables or only administrative closure is unclear."
+    ],
+    "possible_next_step": "The new identity is close to delivery. Before continuing to refine it, confirm the client approval/remaining deliverables and define a clear stopping point for the current revision cycle."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Confirm approval and define a stopping point",
+      "action_type": "clarify_priority",
+      "reason": "The designer made substantial progress but received another late revision request, creating a risk of an open-ended refinement loop.",
+      "suggested_focus_minutes": null,
+      "target": "New client identity"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

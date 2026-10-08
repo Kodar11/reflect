@@ -1,0 +1,426 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Keeping up with current semester coursework",
+      "Completing the DBMS mini-assignment",
+      "Working with classmates on a semester project"
+    ],
+    "priorities": [
+      "Finish the DBMS mini-assignment",
+      "Keep up with current coursework",
+      "Maintain progress on the semester group project"
+    ]
+  },
+  "day": {
+    "day_number": 9,
+    "date": "2026-09-09",
+    "day_type": "wednesday_dbms_work_and_project_maintenance",
+    "circumstances": [
+      "Wednesday had regular college activity with a long period away from the laptop.",
+      "The DBMS mini-assignment shifted from reading and note-taking into concrete SQL/query work and revision.",
+      "A short interruption from classmates occurred during the DBMS block before the student returned to the same document.",
+      "The semester project received a brief maintenance session rather than a full implementation push.",
+      "The evening was lighter, with entertainment and a final review of the DBMS draft."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:18",
+      "last_seen": "21:24",
+      "approx_active_hours": 6.9,
+      "longest_unobserved_gap_minutes": 186
+    }
+  },
+  "raw_events": [
+    {
+      "id": 161,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T08:18:00+05:30",
+      "ended_at": "2026-09-09T08:31:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 162,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T08:31:00+05:30",
+      "ended_at": "2026-09-09T08:46:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS — Week 4 Materials",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 163,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T11:52:00+05:30",
+      "ended_at": "2026-09-09T12:06:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Submission",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 164,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T12:06:00+05:30",
+      "ended_at": "2026-09-09T12:29:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 165,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T12:29:00+05:30",
+      "ended_at": "2026-09-09T12:47:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "SQL GROUP BY HAVING examples",
+      "url": "https://www.google.com/search?q=SQL+GROUP+BY+HAVING+examples",
+      "payload": null
+    },
+    {
+      "id": 166,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T12:47:00+05:30",
+      "ended_at": "2026-09-09T13:18:00+05:30",
+      "app": "MySQL Workbench",
+      "browser": null,
+      "title": "SQL Editor — dbms_assignment",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 167,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T13:18:00+05:30",
+      "ended_at": "2026-09-09T13:34:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "MySQL nested query column alias scope",
+      "url": "https://www.google.com/search?q=MySQL+nested+query+column+alias+scope",
+      "payload": null
+    },
+    {
+      "id": 168,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T13:34:00+05:30",
+      "ended_at": "2026-09-09T14:02:00+05:30",
+      "app": "MySQL Workbench",
+      "browser": null,
+      "title": "SQL Editor — dbms_assignment",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 169,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T14:02:00+05:30",
+      "ended_at": "2026-09-09T14:16:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 170,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T14:16:00+05:30",
+      "ended_at": "2026-09-09T14:44:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 171,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T14:44:00+05:30",
+      "ended_at": "2026-09-09T14:55:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "SQL Subqueries Tutorial",
+      "url": "https://www.youtube.com/watch?v=example4",
+      "payload": null
+    },
+    {
+      "id": 172,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T14:55:00+05:30",
+      "ended_at": "2026-09-09T15:21:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 173,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T17:09:00+05:30",
+      "ended_at": "2026-09-09T17:20:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 174,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T17:20:00+05:30",
+      "ended_at": "2026-09-09T17:37:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Pull requests",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 175,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T17:37:00+05:30",
+      "ended_at": "2026-09-09T18:05:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — api.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 176,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T18:05:00+05:30",
+      "ended_at": "2026-09-09T18:17:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- api",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 177,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T18:17:00+05:30",
+      "ended_at": "2026-09-09T18:42:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "college fest highlights 2026",
+      "url": "https://www.youtube.com/watch?v=example5",
+      "payload": null
+    },
+    {
+      "id": 178,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T18:42:00+05:30",
+      "ended_at": "2026-09-09T19:28:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 179,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T19:28:00+05:30",
+      "ended_at": "2026-09-09T19:47:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 180,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T21:03:00+05:30",
+      "ended_at": "2026-09-09T21:14:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Submission",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 181,
+      "watcher": "desktop",
+      "started_at": "2026-09-09T21:14:00+05:30",
+      "ended_at": "2026-09-09T21:24:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-09-01",
+        "started_at": "08:18",
+        "ended_at": "08:46",
+        "title": "Morning coursework check",
+        "summary": "Checked email and the DBMS course materials before leaving for college.",
+        "event_ids": [
+          161,
+          162
+        ],
+        "context": "Routine academic review before classes.",
+        "area": "coursework",
+        "intent": "Review notices and current course material.",
+        "quality": "routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-02",
+        "started_at": "11:52",
+        "ended_at": "15:21",
+        "title": "DBMS assignment SQL work",
+        "summary": "Reviewed the submission requirements, edited the written assignment, researched GROUP BY/HAVING and nested-query behavior, tested SQL in MySQL Workbench, and returned to the draft after a brief classmate interruption.",
+        "event_ids": [
+          163,
+          164,
+          165,
+          166,
+          167,
+          168,
+          169,
+          170,
+          171,
+          172
+        ],
+        "context": "The DBMS mini-assignment introduced on Day 8 was now being worked on through concrete query examples rather than only conceptual notes.",
+        "area": "coursework",
+        "intent": "Solve the SQL portions of the assignment and incorporate correct explanations into the submission draft.",
+        "quality": "substantive work with a short interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-09-03",
+        "started_at": "17:09",
+        "ended_at": "18:17",
+        "title": "Semester project maintenance",
+        "summary": "Checked the group discussion and pull requests, reviewed the existing API code, and reran the API tests.",
+        "event_ids": [
+          173,
+          174,
+          175,
+          176
+        ],
+        "context": "The project was active but not today's primary academic task.",
+        "area": "semester_project",
+        "intent": "Review teammate changes and verify that the current API state still passes its tests.",
+        "quality": "useful maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-09-04",
+        "started_at": "18:17",
+        "ended_at": "19:47",
+        "title": "Entertainment and social time",
+        "summary": "Watched college-fest highlights, played Hades, and chatted with friends.",
+        "event_ids": [
+          177,
+          178,
+          179
+        ],
+        "context": "Evening leisure after the coursework and project sessions.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-09-05",
+        "started_at": "21:03",
+        "ended_at": "21:24",
+        "title": "DBMS assignment evening review",
+        "summary": "Reopened the DBMS submission page and assignment draft to check the current state and remaining requirements.",
+        "event_ids": [
+          180,
+          181
+        ],
+        "context": "The assignment was progressing but was not clearly submitted during the observed session.",
+        "area": "coursework",
+        "intent": "Verify remaining requirements before final submission.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:46",
+        "ended_at": "11:52",
+        "reason": "College classes and campus activity away from the laptop"
+      },
+      {
+        "started_at": "15:21",
+        "ended_at": "17:09",
+        "reason": "Lunch, offline study, and personal activity"
+      },
+      {
+        "started_at": "19:47",
+        "ended_at": "21:03",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The DBMS mini-assignment was the dominant academic thread, moving from general research on Day 8 into concrete SQL practice and drafting today.",
+      "The student used MySQL Workbench, web searches, a targeted SQL tutorial, and the same Google Docs draft as parts of one continuing assignment rather than as separate activities.",
+      "The semester project remained active through a shorter maintenance block focused on reviewing changes and rerunning tests.",
+      "The DBMS task was revisited at night but still appears open from the observed laptop evidence."
+    ],
+    "priority_alignment": [
+      "Most observed academic work went toward the DBMS assignment, which is consistent with the current open coursework priority.",
+      "The semester project received enough attention to maintain continuity without becoming the primary task."
+    ],
+    "important_uncertainty": [
+      "The Classroom submission page was opened in the evening, but the observed events do not prove that the DBMS assignment was actually submitted.",
+      "The SQL search and tutorial provide context for the work, but the events do not establish whether every query in the final assignment was correct.",
+      "College classes and offline study are unobserved and cannot be assessed from the laptop timeline."
+    ],
+    "possible_next_step": "Finish the remaining DBMS queries and written explanations, then submit the assignment rather than opening another large project block first."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the DBMS mini-assignment",
+      "action_type": "complete_open_loop",
+      "reason": "The assignment has now progressed through research, SQL testing, drafting, and an evening review but still appears unfinished.",
+      "suggested_focus_minutes": 45,
+      "target": "DBMS Mini Assignment"
+    },
+    "secondary_action": {
+      "title": "Keep project maintenance lightweight",
+      "action_type": "protect_priority",
+      "reason": "The project is moving forward, but the DBMS assignment is the clearer near-term open loop.",
+      "suggested_focus_minutes": 20,
+      "target": "Semester Project API"
+    },
+    "things_not_to_do": [
+      "Do not treat every switch between Docs, search, MySQL Workbench, and YouTube as separate unrelated activities.",
+      "Do not assume the DBMS assignment was submitted merely because the submission page was opened.",
+      "Do not treat the college-fest video, gaming, or friend chat as inherently negative.",
+      "Do not infer what happened during the long offline college period.",
+      "Do not claim that rerunning project tests proves the implementation is fully correct."
+    ]
+  }
+}

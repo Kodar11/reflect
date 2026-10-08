@@ -1,0 +1,544 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while handling production, publishing, community, analytics, sponsorships, and personal life",
+    "current_work": [
+      "Monitoring the newly published API-performance video",
+      "Considering a follow-up based on questions and comments around caching and Redis",
+      "Maintaining a small backlog of future technical topics"
+    ],
+    "priorities": [
+      "Interpret early audience feedback before deciding whether a follow-up is warranted",
+      "Capture the strongest follow-up idea without immediately restarting full production",
+      "Avoid spending the day repeatedly checking analytics without a concrete question"
+    ]
+  },
+  "day": {
+    "day_number": 6,
+    "date": "2026-09-06",
+    "day_type": "sunday_post_publish_feedback_and_next_idea",
+    "circumstances": [
+      "The API-performance video was published after the upload preparation on Day 5.",
+      "The creator reviewed comments and early analytics, then recorded audience questions and possible follow-up angles.",
+      "A Redis/caching follow-up received targeted research and notes, but no new production session was started.",
+      "Instagram included audience communication as well as general reel browsing.",
+      "Analytics were revisited later in the day, creating a repeated-check pattern without an obvious associated change."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:03",
+      "last_seen": "22:40",
+      "approx_active_hours": 7.0,
+      "longest_unobserved_gap_minutes": 78
+    }
+  },
+  "raw_events": [
+    {
+      "id": 114,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T10:03:00+05:30",
+      "ended_at": "2026-09-06T10:16:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 115,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T10:16:00+05:30",
+      "ended_at": "2026-09-06T10:34:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 116,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T10:34:00+05:30",
+      "ended_at": "2026-09-06T10:49:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Video details — Why APIs Feel Slow",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 117,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:21:00+05:30",
+      "ended_at": "2026-09-06T11:46:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments — Why APIs Feel Slow",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 118,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:46:00+05:30",
+      "ended_at": "2026-09-06T12:02:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Why APIs Feel Slow",
+      "url": "https://www.youtube.com/watch?v=api-perf-01",
+      "payload": null
+    },
+    {
+      "id": 119,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T12:02:00+05:30",
+      "ended_at": "2026-09-06T12:18:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Why APIs Feel Slow",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 120,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T12:18:00+05:30",
+      "ended_at": "2026-09-06T12:39:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Content Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 121,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T13:57:00+05:30",
+      "ended_at": "2026-09-06T14:12:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 122,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T14:12:00+05:30",
+      "ended_at": "2026-09-06T14:28:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/reels/",
+      "url": "https://www.instagram.com/reels/",
+      "payload": null
+    },
+    {
+      "id": 123,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T15:36:00+05:30",
+      "ended_at": "2026-09-06T15:58:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "API Video Follow-up Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 124,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T15:58:00+05:30",
+      "ended_at": "2026-09-06T16:17:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Redis caching pitfalls",
+      "url": "https://www.youtube.com/results?search_query=Redis+caching+pitfalls",
+      "payload": null
+    },
+    {
+      "id": 125,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T16:17:00+05:30",
+      "ended_at": "2026-09-06T16:44:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "API Video Follow-up Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 126,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T16:44:00+05:30",
+      "ended_at": "2026-09-06T17:01:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Redis cache stampede examples",
+      "url": "https://www.google.com/search?q=Redis+cache+stampede+examples",
+      "payload": null
+    },
+    {
+      "id": 127,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T17:01:00+05:30",
+      "ended_at": "2026-09-06T17:24:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 128,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T18:41:00+05:30",
+      "ended_at": "2026-09-06T19:02:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 129,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T19:02:00+05:30",
+      "ended_at": "2026-09-06T19:18:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "Explore",
+      "url": "https://www.instagram.com/explore/",
+      "payload": null
+    },
+    {
+      "id": 130,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T20:11:00+05:30",
+      "ended_at": "2026-09-06T20:54:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Tech creator interview",
+      "url": "https://www.youtube.com/watch?v=creator-interview-10",
+      "payload": null
+    },
+    {
+      "id": 131,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T20:54:00+05:30",
+      "ended_at": "2026-09-06T21:38:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 132,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T21:38:00+05:30",
+      "ended_at": "2026-09-06T21:58:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 133,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T22:27:00+05:30",
+      "ended_at": "2026-09-06T22:40:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Why APIs Feel Slow",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-06-01",
+        "started_at": "10:03",
+        "ended_at": "10:49",
+        "title": "Published-video check",
+        "summary": "Checked email, the channel content list, and the newly published API video details.",
+        "event_ids": [
+          114,
+          115,
+          116
+        ],
+        "context": "The main video had been prepared for upload on Day 5 and was now live.",
+        "area": "publishing",
+        "intent": "Confirm the published video's status and catch any immediate publishing issue.",
+        "quality": "routine post-publish check",
+        "importance": "high"
+      },
+      {
+        "id": "gt-06-02",
+        "started_at": "10:49",
+        "ended_at": "11:21",
+        "title": "Offline weekend break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Take a Sunday break.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-03",
+        "started_at": "11:21",
+        "ended_at": "12:39",
+        "title": "Audience feedback and early performance review",
+        "summary": "Read comments on the new video, watched part of the published video, checked early analytics, and recorded the visible numbers in a metrics sheet.",
+        "event_ids": [
+          117,
+          118,
+          119,
+          120
+        ],
+        "context": "The creator is evaluating the first response to the newly published video.",
+        "area": "analytics_and_community",
+        "intent": "Understand the early audience response and collect useful feedback.",
+        "quality": "substantive post-publish review",
+        "importance": "high"
+      },
+      {
+        "id": "gt-06-04",
+        "started_at": "12:39",
+        "ended_at": "13:57",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the midday period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and ordinary Sunday activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-05",
+        "started_at": "13:57",
+        "ended_at": "14:28",
+        "title": "Instagram audience and feed check",
+        "summary": "Replied to Instagram direct messages and then browsed the reels feed.",
+        "event_ids": [
+          121,
+          122
+        ],
+        "context": "The creator uses Instagram both for community work and general social browsing.",
+        "area": "community_and_leisure",
+        "intent": "Handle audience communication and browse current content.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-06-06",
+        "started_at": "14:28",
+        "ended_at": "15:36",
+        "title": "Offline break",
+        "summary": "Spent the afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Take a Sunday break.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-07",
+        "started_at": "15:36",
+        "ended_at": "17:24",
+        "title": "Follow-up topic exploration",
+        "summary": "Captured follow-up notes from the API video, watched Redis caching references, added a cache-stampede example, and updated the idea list.",
+        "event_ids": [
+          123,
+          124,
+          125,
+          126,
+          127
+        ],
+        "context": "Audience questions around caching created a plausible follow-up direction, but it remained an idea rather than a second active production project.",
+        "area": "ideation_and_research",
+        "intent": "Determine whether a caching/Redis follow-up is worth developing.",
+        "quality": "targeted exploratory research",
+        "importance": "high"
+      },
+      {
+        "id": "gt-06-08",
+        "started_at": "17:24",
+        "ended_at": "18:41",
+        "title": "Offline personal time",
+        "summary": "Spent the late afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Handle ordinary Sunday personal activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-09",
+        "started_at": "18:41",
+        "ended_at": "19:18",
+        "title": "Second analytics and social check",
+        "summary": "Reopened YouTube analytics and then browsed Instagram explore without making an observable content change.",
+        "event_ids": [
+          128,
+          129
+        ],
+        "context": "This was a later return to the same post-publish information.",
+        "area": "analytics_and_leisure",
+        "intent": "Check current video performance and browse social content.",
+        "quality": "mixed / low-action-value",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-10",
+        "started_at": "19:18",
+        "ended_at": "20:11",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-11",
+        "started_at": "20:11",
+        "ended_at": "21:58",
+        "title": "Evening learning and recreation",
+        "summary": "Watched a technical creator interview, played Hades, and chatted with friends.",
+        "event_ids": [
+          130,
+          131,
+          132
+        ],
+        "context": "The interview was general creator learning rather than direct work on the current follow-up idea.",
+        "area": "learning_and_leisure",
+        "intent": "Learn casually and relax.",
+        "quality": "mixed",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-12",
+        "started_at": "21:58",
+        "ended_at": "22:27",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Wind down before ending the day.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-13",
+        "started_at": "22:27",
+        "ended_at": "22:40",
+        "title": "Late performance check",
+        "summary": "Briefly reopened the published video's analytics near the end of the day.",
+        "event_ids": [
+          133
+        ],
+        "context": "No associated content change or publishing decision occurred.",
+        "area": "analytics",
+        "intent": "Check the current video's performance state.",
+        "quality": "repeated check with unclear action",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:49",
+        "ended_at": "11:21",
+        "reason": "Offline weekend break"
+      },
+      {
+        "started_at": "12:39",
+        "ended_at": "13:57",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "14:28",
+        "ended_at": "15:36",
+        "reason": "Offline afternoon break"
+      },
+      {
+        "started_at": "17:24",
+        "ended_at": "18:41",
+        "reason": "Offline personal time"
+      },
+      {
+        "started_at": "19:18",
+        "ended_at": "20:11",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "21:58",
+        "ended_at": "22:27",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The API-performance video moved from production into its post-publish stage today: the creator checked the published video, read comments, reviewed early analytics, and recorded metrics.",
+      "Audience feedback appears to have created a concrete follow-up direction around Redis/caching, which then received targeted research and notes without becoming a second full production project.",
+      "The same platforms still represented multiple intentions: Instagram combined direct audience work with general browsing, while YouTube was used for both inspecting the creator's own video and watching unrelated content.",
+      "Analytics were revisited multiple times without a visible associated decision, continuing a pattern already present before publication.",
+      "The creator did not immediately restart production after publishing, leaving the next content direction somewhat open."
+    ],
+    "priority_alignment": [
+      "Post-publish feedback and understanding the response to the new video became the main creator activity.",
+      "The Redis follow-up was explored because of information connected to the published video's audience response, but remained appropriately smaller than a full production commitment.",
+      "No unnecessary second full video was started on the same day."
+    ],
+    "important_uncertainty": [
+      "Comments and analytics are visible as activity, but the timeline does not show the exact feedback themes, metrics, or whether the video is performing above or below the creator's expectations.",
+      "The caching follow-up may have been prompted by audience questions, but the desktop evidence alone does not prove which comment caused the idea.",
+      "The creator's eventual publishing strategy cannot be inferred from a single day's analytics checks.",
+      "The technical interview in the evening could support future content indirectly, but there is no evidence that it changed the follow-up plan.",
+      "Offline periods are outside desktop observation."
+    ],
+    "possible_next_step": "Turn the strongest audience-backed caching question into a small follow-up outline, then wait for another meaningful decision point before investing heavily in production."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Draft the caching follow-up outline",
+      "action_type": "start_focus",
+      "reason": "The new follow-up direction has both audience context and initial technical research, making a small outline a sensible way to test whether it deserves production.",
+      "suggested_focus_minutes": 35,
+      "target": "Redis/caching follow-up"
+    },
+    "secondary_action": {
+      "title": "Use analytics around a question",
+      "action_type": "experiment",
+      "reason": "The creator checked analytics multiple times without a visible action. A question-driven check could make the information more useful without requiring constant monitoring.",
+      "suggested_focus_minutes": null,
+      "target": null
+    },
+    "things_not_to_do": [
+      "Do not infer that the video is performing well or poorly without seeing the actual metrics and creator benchmark.",
+      "Do not assume a specific comment caused the Redis follow-up idea unless the evidence connects them.",
+      "Do not treat all analytics checking as useless; some post-publish monitoring is legitimate.",
+      "Do not classify Instagram as entirely work or entirely distraction when both intentions occurred.",
+      "Do not assume the technical interview directly influenced the next content strategy.",
+      "Do not criticize the creator for taking Sunday leisure time after a multi-day production and publishing cycle.",
+      "Do not infer anything about offline activity."
+    ]
+  }
+}

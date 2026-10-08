@@ -1,0 +1,463 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 22,
+    "date": "2026-09-22",
+    "day_type": "feature_review_and_shared_environment_validation_day",
+    "circumstances": [
+      "The account export implementation is entering focused code review after the main edge cases were covered.",
+      "Shared-environment validation is needed to confirm asynchronous job, download, and expiration behavior outside local tests.",
+      "The engineer has a normal teammate review responsibility and a short QA coordination thread.",
+      "Previously closed webhook and workspace issues remain stable."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:08",
+      "last_seen": "18:29",
+      "approx_active_hours": 7.3,
+      "longest_unobserved_gap_minutes": 73
+    }
+  },
+  "raw_events": [
+    {
+      "id": 517,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T09:08:00+05:30",
+      "ended_at": "2026-09-22T09:31:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #892 — platform-api",
+      "url": "https://github.com/company/platform-api/pull/892",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 892
+      }
+    },
+    {
+      "id": 518,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T09:31:00+05:30",
+      "ended_at": "2026-09-22T09:54:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 519,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T09:54:00+05:30",
+      "ended_at": "2026-09-22T10:17:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportService.ts",
+          "accountExportController.ts"
+        ]
+      }
+    },
+    {
+      "id": 520,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T10:17:00+05:30",
+      "ended_at": "2026-09-22T10:41:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportStorage.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportStorage.ts",
+          "accountExportJob.ts"
+        ]
+      }
+    },
+    {
+      "id": 521,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T10:41:00+05:30",
+      "ended_at": "2026-09-22T11:04:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git diff --check && npm run lint",
+      "url": null,
+      "payload": {
+        "command": "git diff --check && npm run lint"
+      }
+    },
+    {
+      "id": 522,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T11:04:00+05:30",
+      "ended_at": "2026-09-22T11:28:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExport",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExport"
+      }
+    },
+    {
+      "id": 523,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T11:28:00+05:30",
+      "ended_at": "2026-09-22T11:52:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #892 — Files changed",
+      "url": "https://github.com/company/platform-api/pull/892/files",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 892
+      }
+    },
+    {
+      "id": 524,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T11:52:00+05:30",
+      "ended_at": "2026-09-22T12:16:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "comments"
+      }
+    },
+    {
+      "id": 525,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T12:16:00+05:30",
+      "ended_at": "2026-09-22T12:40:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #892 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/892",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 892
+      }
+    },
+    {
+      "id": 526,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T14:13:00+05:30",
+      "ended_at": "2026-09-22T14:36:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Staging — Account export",
+      "url": "https://staging.company.local/settings/export",
+      "payload": {
+        "environment": "staging",
+        "view": "account export"
+      }
+    },
+    {
+      "id": 527,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T14:36:00+05:30",
+      "ended_at": "2026-09-22T15:00:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportDownloadController.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportDownloadController.ts",
+          "accountExportStorage.ts"
+        ]
+      }
+    },
+    {
+      "id": 528,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T15:00:00+05:30",
+      "ended_at": "2026-09-22T15:24:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "curl -I https://staging.company.local/api/account/export/download",
+      "url": null,
+      "payload": {
+        "command": "curl -I https://staging.company.local/api/account/export/download"
+      }
+    },
+    {
+      "id": 529,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T15:24:00+05:30",
+      "ended_at": "2026-09-22T15:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Staging — Account export job status",
+      "url": "https://staging.company.local/settings/export/status",
+      "payload": {
+        "environment": "staging",
+        "view": "export status"
+      }
+    },
+    {
+      "id": 530,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T15:47:00+05:30",
+      "ended_at": "2026-09-22T16:10:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "node scripts/create-test-export.js --expired",
+      "url": null,
+      "payload": {
+        "command": "node scripts/create-test-export.js --expired"
+      }
+    },
+    {
+      "id": 531,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T16:10:00+05:30",
+      "ended_at": "2026-09-22T16:33:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "node scripts/create-test-export.js --failed",
+      "url": null,
+      "payload": {
+        "command": "node scripts/create-test-export.js --failed"
+      }
+    },
+    {
+      "id": 532,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T16:33:00+05:30",
+      "ended_at": "2026-09-22T16:56:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#qa-platform",
+      "url": null,
+      "payload": {
+        "channel": "#qa-platform"
+      }
+    },
+    {
+      "id": 533,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T16:56:00+05:30",
+      "ended_at": "2026-09-22T17:19:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #892 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/892",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 892
+      }
+    },
+    {
+      "id": 534,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T17:19:00+05:30",
+      "ended_at": "2026-09-22T17:42:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportStorage.test.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportStorage.test.ts"
+        ]
+      }
+    },
+    {
+      "id": 535,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T17:42:00+05:30",
+      "ended_at": "2026-09-22T18:05:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExportStorage.test.ts accountExportDownloadController.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExportStorage.test.ts accountExportDownloadController.test.ts"
+      }
+    },
+    {
+      "id": 536,
+      "watcher": "window_activity",
+      "started_at": "2026-09-22T18:05:00+05:30",
+      "ended_at": "2026-09-22T18:29:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #892 — Checks",
+      "url": "https://github.com/company/platform-api/pull/892/checks",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 892
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-22-01",
+        "started_at": "09:08",
+        "ended_at": "12:40",
+        "title": "Account export review preparation",
+        "summary": "Reviewed the account export pull request, tightened service and storage behavior, reran lint and feature tests, and incorporated review context before shared-environment validation.",
+        "event_ids": [
+          517,
+          518,
+          519,
+          520,
+          521,
+          522,
+          523,
+          524,
+          525
+        ],
+        "context": "The implementation was already broad enough for review, but a few API and storage details needed another pass before staging validation.",
+        "area": "account_export",
+        "intent": "prepare_review",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-22-02",
+        "started_at": "14:13",
+        "ended_at": "16:33",
+        "title": "Shared-environment export validation",
+        "summary": "Exercised the account export flow in staging, checked download responses and job status behavior, and created controlled expired and failed export records to validate non-success states.",
+        "event_ids": [
+          526,
+          527,
+          528,
+          529,
+          530,
+          531
+        ],
+        "context": "Local tests could not establish how the storage and API behavior interacted in the deployed environment.",
+        "area": "account_export",
+        "intent": "validate",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-22-03",
+        "started_at": "16:33",
+        "ended_at": "18:29",
+        "title": "Review follow-up and test adjustment",
+        "summary": "Compared staging observations with QA notes, addressed a storage test gap, and reran focused tests before checking the pull request status.",
+        "event_ids": [
+          532,
+          533,
+          534,
+          535,
+          536
+        ],
+        "context": "One staging edge case exposed a test-coverage gap rather than a confirmed production defect.",
+        "area": "account_export",
+        "intent": "refine",
+        "quality": "useful",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:40",
+        "ended_at": "14:13",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The account export pull request moved from local correctness work into meaningful shared-environment validation.",
+      "Status, download, expired-export, and failed-job behavior were exercised outside the unit-test environment.",
+      "A staging observation exposed a missing storage test case, and the gap was addressed without evidence of a new production defect.",
+      "The feature is now in a stronger position for review, but release readiness still depends on reviewer feedback and confidence in deployment-specific storage behavior."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Build account export API",
+        "assessment": "review_and_validation_progress",
+        "evidence": [
+          517,
+          519,
+          520,
+          521,
+          522,
+          526,
+          528,
+          529,
+          530,
+          531,
+          534,
+          535,
+          536
+        ]
+      },
+      {
+        "priority": "Maintain team review responsibilities",
+        "assessment": "partially_completed",
+        "evidence": [
+          523,
+          525,
+          533
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "The staging checks use controlled records and may not represent a large real customer export.",
+      "The exact behavior of storage cleanup under worker delays remains less certain than the request/status path.",
+      "Reviewer feedback may still require changes to the public API contract."
+    ],
+    "possible_next_step": "Let the pull request receive focused review, then resolve concrete API or storage feedback and run one final shared-environment check before release planning."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Account export pull request",
+      "action_type": "complete_open_loop",
+      "target": "Account export pull request",
+      "reason": "The main implementation and staging validation are now in place; the next highest-value action is to move through review rather than continue speculative implementation.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Storage cleanup under delayed or failed worker conditions",
+      "action_type": "experiment",
+      "target": "Storage cleanup under delayed or failed worker conditions",
+      "reason": "This is the remaining operational uncertainty with a clear validation path.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not treat controlled staging records as equivalent to a large production export.",
+      "Do not add broad new functionality before the current pull request is reviewed.",
+      "Do not reopen closed webhook or workspace work based on normal monitoring.",
+      "Do not interpret a test-coverage gap as a confirmed production incident without supporting evidence."
+    ]
+  }
+}

@@ -1,0 +1,430 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Maintaining readiness for the upcoming Data Structures internal assessment",
+      "Handling only concrete semester-project issues that need attention",
+      "Using the weekend for both study and ordinary personal time"
+    ],
+    "priorities": [
+      "Keep the graph-topic review active without turning the weekend into another full study day",
+      "Resolve any concrete project issue that blocks teammates",
+      "Preserve normal weekend rest and social time"
+    ]
+  },
+  "day": {
+    "day_number": 26,
+    "date": "2026-09-26",
+    "day_type": "saturday_light_review_and_project_fix",
+    "circumstances": [
+      "Saturday had much less laptop activity than the preceding assessment-focused weekdays.",
+      "A meaningful study period happened offline with classmates, while the laptop was used for a short follow-up review afterward.",
+      "The semester project produced a concrete route issue that was checked, tested locally, and discussed with teammates.",
+      "The evening was mostly gaming and social time, with a very short academic note check late at night."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:18",
+      "last_seen": "22:03",
+      "approx_active_hours": 4.8,
+      "longest_unobserved_gap_minutes": 152
+    }
+  },
+  "raw_events": [
+    {
+      "id": 491,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T09:18:00+05:30",
+      "ended_at": "2026-09-26T09:31:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 492,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T09:31:00+05:30",
+      "ended_at": "2026-09-26T09:44:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Internal Assessment",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 493,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T12:16:00+05:30",
+      "ended_at": "2026-09-26T12:34:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Revision Sheet",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 494,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T12:34:00+05:30",
+      "ended_at": "2026-09-26T12:52:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 495,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T12:52:00+05:30",
+      "ended_at": "2026-09-26T13:09:00+05:30",
+      "app": "Anki",
+      "browser": null,
+      "title": "Data Structures",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 496,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T13:09:00+05:30",
+      "ended_at": "2026-09-26T13:28:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Dijkstra graph question edge cases",
+      "url": "https://www.google.com/search?q=Dijkstra+graph+question+edge+cases",
+      "payload": null
+    },
+    {
+      "id": 497,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T13:28:00+05:30",
+      "ended_at": "2026-09-26T13:43:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 498,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T15:22:00+05:30",
+      "ended_at": "2026-09-26T15:39:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 499,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T15:39:00+05:30",
+      "ended_at": "2026-09-26T15:56:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — routes.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 500,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T15:56:00+05:30",
+      "ended_at": "2026-09-26T16:08:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 501,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T16:08:00+05:30",
+      "ended_at": "2026-09-26T16:21:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 502,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T18:47:00+05:30",
+      "ended_at": "2026-09-26T19:32:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 503,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T19:32:00+05:30",
+      "ended_at": "2026-09-26T19:54:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Hades runs and builds",
+      "url": "https://www.youtube.com/watch?v=example26",
+      "payload": null
+    },
+    {
+      "id": 504,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T19:54:00+05:30",
+      "ended_at": "2026-09-26T20:14:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 505,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T21:36:00+05:30",
+      "ended_at": "2026-09-26T21:49:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Data Structures — Graphs",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 506,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T21:49:00+05:30",
+      "ended_at": "2026-09-26T22:03:00+05:30",
+      "app": "Spotify",
+      "browser": null,
+      "title": "Liked Songs",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-26-01",
+        "started_at": "09:18",
+        "ended_at": "09:44",
+        "title": "Weekend assessment check",
+        "summary": "Checked email and the current Data Structures assessment information before leaving the laptop.",
+        "event_ids": [
+          491,
+          492
+        ],
+        "context": "The assessment remained an open academic priority, but it was the weekend.",
+        "area": "coursework",
+        "intent": "Check for any new assessment information or course updates.",
+        "quality": "routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-26-02",
+        "started_at": "10:20",
+        "ended_at": "12:16",
+        "title": "Offline peer study session",
+        "summary": "Met classmates to compare graph solutions and work through a small set of Data Structures questions away from the laptop.",
+        "event_ids": [],
+        "context": "This study was conducted in person and is not represented in the laptop event stream.",
+        "area": "coursework",
+        "intent": "Compare understanding and practice graph questions with peers.",
+        "quality": "unobserved offline activity",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-03",
+        "started_at": "12:16",
+        "ended_at": "13:43",
+        "title": "Post-study review",
+        "summary": "Reviewed the revision sheet and graph notes, used flashcards, searched one Dijkstra edge-case question, and returned to notes.",
+        "event_ids": [
+          493,
+          494,
+          495,
+          496,
+          497
+        ],
+        "context": "The laptop review followed the offline peer session and was narrower than the weekday study blocks.",
+        "area": "coursework",
+        "intent": "Record and clarify points that remained after peer practice.",
+        "quality": "targeted follow-up",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-04",
+        "started_at": "13:43",
+        "ended_at": "15:22",
+        "title": "Lunch and weekend time",
+        "summary": "Spent the early afternoon away from the laptop for lunch and personal activity.",
+        "event_ids": [],
+        "context": "No desktop evidence exists for this period.",
+        "area": "personal",
+        "intent": "Handle lunch and ordinary weekend activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-26-05",
+        "started_at": "15:22",
+        "ended_at": "16:21",
+        "title": "Semester project route fix",
+        "summary": "Checked a teammate's report in the project channel, opened the route file, made a small fix, ran the local test command, and confirmed the result back in chat.",
+        "event_ids": [
+          498,
+          499,
+          500,
+          501
+        ],
+        "context": "The issue was concrete and limited; the project did not expand beyond this fix.",
+        "area": "semester_project",
+        "intent": "Resolve a specific route issue blocking the current project state.",
+        "quality": "focused maintenance",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-26-06",
+        "started_at": "16:21",
+        "ended_at": "18:47",
+        "title": "Offline weekend break",
+        "summary": "Spent the late afternoon away from the laptop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Take weekend personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-26-07",
+        "started_at": "18:47",
+        "ended_at": "20:14",
+        "title": "Gaming and social evening",
+        "summary": "Played Hades, watched related videos, and chatted with friends.",
+        "event_ids": [
+          502,
+          503,
+          504
+        ],
+        "context": "The evening was primarily personal time after a comparatively light academic Saturday.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-26-08",
+        "started_at": "20:14",
+        "ended_at": "21:36",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the evening away from the laptop.",
+        "event_ids": [],
+        "context": "No desktop events were observed.",
+        "area": "personal",
+        "intent": "Dinner and ordinary weekend time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-26-09",
+        "started_at": "21:36",
+        "ended_at": "22:03",
+        "title": "Brief graph-note check and music",
+        "summary": "Reopened graph notes for a short final check and then switched to music before ending laptop use.",
+        "event_ids": [
+          505,
+          506
+        ],
+        "context": "The final academic touchpoint was deliberately short rather than a new study block.",
+        "area": "coursework_and_leisure",
+        "intent": "Keep the assessment thread active without starting another full session.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "09:44",
+        "ended_at": "10:20",
+        "reason": "Getting ready and moving to the weekend study location"
+      },
+      {
+        "started_at": "10:20",
+        "ended_at": "12:16",
+        "reason": "Offline peer study session"
+      },
+      {
+        "started_at": "13:43",
+        "ended_at": "15:22",
+        "reason": "Lunch and offline weekend activity"
+      },
+      {
+        "started_at": "16:21",
+        "ended_at": "18:47",
+        "reason": "Weekend break away from the laptop"
+      },
+      {
+        "started_at": "20:14",
+        "ended_at": "21:36",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The day had less observable laptop activity than the recent assessment-heavy weekdays, but there was a substantial offline peer study session that Reflect cannot see.",
+      "The laptop study followed the peer session as a narrow follow-up: notes, flashcards, and one targeted Dijkstra search rather than another broad review.",
+      "The semester project had one concrete maintenance issue, and the student moved from teammate discussion to a small code change and local test before reporting back.",
+      "Most of the evening was personal and social time, with only a short final return to graph notes."
+    ],
+    "priority_alignment": [
+      "Assessment preparation remained active without consuming the entire Saturday.",
+      "The project received attention because there was a specific issue to resolve, and the work stayed bounded.",
+      "The balance between offline study, project maintenance, and weekend leisure differed from the preceding weekdays."
+    ],
+    "important_uncertainty": [
+      "The main peer-study session is completely offline, so the laptop timeline cannot show what was covered or how well the material was understood.",
+      "The Dijkstra search shows that an edge-case question arose, but the event sequence does not reveal the exact question or final resolution.",
+      "The project test command indicates a local check occurred, but the timeline does not prove the fix covered all relevant cases.",
+      "The brief late graph-note check does not establish whether anything new was learned."
+    ],
+    "possible_next_step": "Before the assessment, use one compact mixed-topic practice set and review only missed concepts; avoid turning the weekend into a full restart of the syllabus."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Do one mixed-topic practice set",
+      "action_type": "start_focus",
+      "reason": "The student has had several days of targeted graph review and a peer session; a compact mixed set is a useful final check before deciding what, if anything, still needs attention.",
+      "suggested_focus_minutes": 40,
+      "target": "Data Structures Internal Assessment"
+    },
+    "secondary_action": {
+      "title": "Keep project fixes reactive",
+      "action_type": "protect_priority",
+      "reason": "The route issue was handled efficiently today; project work should continue only when there is a concrete issue while assessment preparation remains the main academic priority.",
+      "suggested_focus_minutes": null,
+      "target": null
+    },
+    "things_not_to_do": [
+      "Do not infer that the student did little academic work from laptop time alone because the peer study session was offline.",
+      "Do not assume the Dijkstra edge case was fully resolved from one search and note review.",
+      "Do not interpret the small route fix as a return to a large project workstream.",
+      "Do not criticize the weekend gaming or social time simply because the assessment is approaching.",
+      "Do not treat the short final note check as evidence of a new study session.",
+      "Do not assume the local test proves the project fix is complete in every scenario."
+    ]
+  }
+}

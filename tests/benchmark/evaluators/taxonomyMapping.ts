@@ -99,6 +99,19 @@ export const TAXONOMY_MAPPING: Record<DatasetDimension, DimensionMapping> = {
   },
 };
 
+/**
+ * The mapping's own spelling of a dataset label. "review", "Review" and
+ * "REVIEW" are one label; anything else is returned as it is and has no
+ * mapping.
+ */
+export function canonicalLabel(dimension: DatasetDimension, label: string | null): string | null {
+  if (label === null) return null;
+  const labels = TAXONOMY_MAPPING[dimension].labels;
+  if (label in labels) return label;
+  const lower = label.trim().toLowerCase();
+  return Object.keys(labels).find((known) => known.toLowerCase() === lower) ?? label;
+}
+
 export interface ReflectTaxonomy {
   areas: { id: string; name: string }[];
   intents: { id: string; name: string }[];

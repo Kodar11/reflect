@@ -1,0 +1,333 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "date": "2026-09-21",
+    "day_number": 21,
+    "day_type": "portfolio_finishing_and_new_inquiry_day"
+  },
+  "raw_events": [
+    {
+      "event_id": 248,
+      "timestamp": "2026-09-21T09:31:00+05:30",
+      "app": "Gmail",
+      "activity": "Read a client reply approving the latest social campaign variation and asking for two additional size adaptations."
+    },
+    {
+      "event_id": 249,
+      "timestamp": "2026-09-21T09:47:00+05:30",
+      "app": "Figma",
+      "activity": "Opened the approved social campaign file and checked the source layout before preparing the requested adaptations."
+    },
+    {
+      "event_id": 250,
+      "timestamp": "2026-09-21T10:06:00+05:30",
+      "app": "Figma",
+      "activity": "Created the first additional campaign size and adjusted the text hierarchy to fit the narrower format."
+    },
+    {
+      "event_id": 251,
+      "timestamp": "2026-09-21T10:29:00+05:30",
+      "app": "Figma",
+      "activity": "Created the second adaptation and checked spacing, image crop, and logo placement against the approved version."
+    },
+    {
+      "event_id": 252,
+      "timestamp": "2026-09-21T10:51:00+05:30",
+      "app": "Google Drive",
+      "activity": "Exported the two campaign adaptations and organized them with the existing client delivery files."
+    },
+    {
+      "event_id": 253,
+      "timestamp": "2026-09-21T11:08:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent the completed social campaign adaptations to the client."
+    },
+    {
+      "event_id": 254,
+      "timestamp": "2026-09-21T11:26:00+05:30",
+      "app": "Figma",
+      "activity": "Opened the Northstar Coffee portfolio case study and reviewed the remaining copy and visual cleanup notes."
+    },
+    {
+      "event_id": 255,
+      "timestamp": "2026-09-21T11:49:00+05:30",
+      "app": "Figma",
+      "activity": "Rewrote the project introduction to explain the original identity problem and the resulting design direction more clearly."
+    },
+    {
+      "event_id": 256,
+      "timestamp": "2026-09-21T12:17:00+05:30",
+      "app": "Figma",
+      "activity": "Adjusted spacing, image scale, and section transitions across the Northstar case study."
+    },
+    {
+      "event_id": 257,
+      "timestamp": "2026-09-21T12:43:00+05:30",
+      "app": "Chrome",
+      "activity": "Looked through several branding portfolio pages for examples of concise project summaries and presentation hierarchy."
+    },
+    {
+      "event_id": 258,
+      "timestamp": "2026-09-21T13:02:00+05:30",
+      "app": "Figma",
+      "activity": "Compared the reference approaches with the current Northstar case study and simplified two dense sections."
+    },
+    {
+      "event_id": 259,
+      "timestamp": "2026-09-21T13:28:00+05:30",
+      "app": "System",
+      "activity": "No tracked desktop activity; offline period begins."
+    },
+    {
+      "event_id": 260,
+      "timestamp": "2026-09-21T14:46:00+05:30",
+      "app": "Gmail",
+      "activity": "Received a new inquiry from a small food business asking about a possible logo and visual identity project."
+    },
+    {
+      "event_id": 261,
+      "timestamp": "2026-09-21T15:02:00+05:30",
+      "app": "Google Drive",
+      "activity": "Opened the inquiry attachments and reviewed the supplied business description and existing visual material."
+    },
+    {
+      "event_id": 262,
+      "timestamp": "2026-09-21T15:21:00+05:30",
+      "app": "Chrome",
+      "activity": "Researched the business category and reviewed a small set of comparable food-brand identities."
+    },
+    {
+      "event_id": 263,
+      "timestamp": "2026-09-21T15:49:00+05:30",
+      "app": "Notion",
+      "activity": "Added the new inquiry to the project list with a note to clarify scope and timeline before proposing work."
+    },
+    {
+      "event_id": 264,
+      "timestamp": "2026-09-21T16:13:00+05:30",
+      "app": "Figma",
+      "activity": "Returned to the Northstar case study and refined the final applications section for consistency with the identity system."
+    },
+    {
+      "event_id": 265,
+      "timestamp": "2026-09-21T16:42:00+05:30",
+      "app": "Figma",
+      "activity": "Reviewed typography, captions, and image alignment across the complete case study."
+    },
+    {
+      "event_id": 266,
+      "timestamp": "2026-09-21T17:11:00+05:30",
+      "app": "Google Fonts",
+      "activity": "Checked the exact typeface names and weights referenced in the Northstar portfolio copy."
+    },
+    {
+      "event_id": 267,
+      "timestamp": "2026-09-21T17:29:00+05:30",
+      "app": "Figma",
+      "activity": "Corrected typography details and made a final pass over the supporting captions."
+    },
+    {
+      "event_id": 268,
+      "timestamp": "2026-09-21T18:04:00+05:30",
+      "app": "YouTube",
+      "activity": "Watched a short video about presenting branding projects in portfolio case studies."
+    },
+    {
+      "event_id": 269,
+      "timestamp": "2026-09-21T18:31:00+05:30",
+      "app": "Figma",
+      "activity": "Revisited the Northstar case study after the video and made a small change to the opening section."
+    },
+    {
+      "event_id": 270,
+      "timestamp": "2026-09-21T19:02:00+05:30",
+      "app": "Notion",
+      "activity": "Updated the project tracker with the approved social adaptations, new food-business inquiry, and Northstar portfolio status."
+    },
+    {
+      "event_id": 271,
+      "timestamp": "2026-09-21T19:24:00+05:30",
+      "app": "System",
+      "activity": "No tracked desktop activity; offline period begins."
+    }
+  ],
+  "ground_truth": {
+    "events": [
+      {
+        "event_id": 248,
+        "project": "social_campaign",
+        "activity_type": "client_feedback",
+        "importance": "medium"
+      },
+      {
+        "event_id": 249,
+        "project": "social_campaign",
+        "activity_type": "review",
+        "importance": "medium"
+      },
+      {
+        "event_id": 250,
+        "project": "social_campaign",
+        "activity_type": "execution",
+        "importance": "medium"
+      },
+      {
+        "event_id": 251,
+        "project": "social_campaign",
+        "activity_type": "execution",
+        "importance": "medium"
+      },
+      {
+        "event_id": 252,
+        "project": "social_campaign",
+        "activity_type": "delivery_prep",
+        "importance": "medium"
+      },
+      {
+        "event_id": 253,
+        "project": "social_campaign",
+        "activity_type": "client_communication",
+        "importance": "medium"
+      },
+      {
+        "event_id": 254,
+        "project": "northstar_portfolio",
+        "activity_type": "review",
+        "importance": "high"
+      },
+      {
+        "event_id": 255,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 256,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 257,
+        "project": "ambiguous_inspiration",
+        "activity_type": "research",
+        "importance": "low"
+      },
+      {
+        "event_id": 258,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "medium"
+      },
+      {
+        "event_id": 259,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      },
+      {
+        "event_id": 260,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_inquiry",
+        "importance": "medium"
+      },
+      {
+        "event_id": 261,
+        "project": "new_brand_inquiry",
+        "activity_type": "file_review",
+        "importance": "medium"
+      },
+      {
+        "event_id": 262,
+        "project": "new_brand_inquiry",
+        "activity_type": "research",
+        "importance": "medium"
+      },
+      {
+        "event_id": 263,
+        "project": "portfolio_and_client_admin",
+        "activity_type": "planning",
+        "importance": "low"
+      },
+      {
+        "event_id": 264,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "high"
+      },
+      {
+        "event_id": 265,
+        "project": "northstar_portfolio",
+        "activity_type": "review",
+        "importance": "high"
+      },
+      {
+        "event_id": 266,
+        "project": "northstar_portfolio",
+        "activity_type": "research",
+        "importance": "low"
+      },
+      {
+        "event_id": 267,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "medium"
+      },
+      {
+        "event_id": 268,
+        "project": "ambiguous_inspiration",
+        "activity_type": "research",
+        "importance": "low"
+      },
+      {
+        "event_id": 269,
+        "project": "northstar_portfolio",
+        "activity_type": "execution",
+        "importance": "medium"
+      },
+      {
+        "event_id": 270,
+        "project": "portfolio_and_client_admin",
+        "activity_type": "planning",
+        "importance": "low"
+      },
+      {
+        "event_id": 271,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      }
+    ],
+    "summary": {
+      "northstar_portfolio": "The Northstar Coffee case study received another substantial finishing block, including copy revision, layout cleanup, application consistency, and typography verification. It appears close to completion, but no publication or final portfolio upload is visible.",
+      "social_campaign": "Two requested size adaptations were produced from an approved campaign design and sent to the client. No further response is visible today.",
+      "new_brand_inquiry": "A new food-business inquiry was reviewed and researched. The available events show qualification and preparation, but no proposal or commitment.",
+      "ambiguity": "Portfolio browsing and the branding video may have informed presentation choices, but the raw events cannot establish how useful they were.",
+      "offline": "There are untracked periods during the day, so activity during those periods cannot be inferred."
+    }
+  },
+  "expected_reflection": {
+    "summary": "The day combined a small amount of completed client production with another focused push toward finishing the Northstar Coffee portfolio case study. A new food-business inquiry also entered the pipeline and received initial research without yet becoming committed work.",
+    "key_observations": [
+      "The social campaign adaptations were a bounded client request and were delivered rather than displacing the rest of the day.",
+      "The Northstar portfolio remained the dominant strategic workstream and received concrete copy, layout, typography, and application refinements.",
+      "The new inquiry was investigated and recorded, but there is not enough evidence to call it an active project yet.",
+      "Reference activity was followed by design changes, although its exact contribution remains uncertain.",
+      "Offline periods limit visibility into the full day."
+    ],
+    "open_questions": [
+      "Whether the client approves the two social adaptations or requests another revision is not yet observable.",
+      "Whether the Northstar case study is published or shared outside the tracked session is not established.",
+      "Whether the food-business inquiry converts into a project is unknown."
+    ]
+  },
+  "expected_coach_outcome": {
+    "should_intervene": true,
+    "message": "The Northstar case study is now in a finishing phase. Prioritize one final focused pass to resolve remaining copy and visual inconsistencies before starting another major portfolio exploration; keep the new inquiry in qualification until its scope is clear.",
+    "reason": "The portfolio has accumulated substantial execution and review work across multiple days, so a defined finishing step is more useful than reopening broad exploration."
+  }
+}

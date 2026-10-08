@@ -1,0 +1,405 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Submitting Theory of Computation Tutorial 2",
+      "Starting a Data Structures problem set",
+      "Maintaining the semester project when needed"
+    ],
+    "priorities": [
+      "Close the Theory of Computation tutorial",
+      "Start the new Data Structures problem set",
+      "Keep the semester project available for teammate follow-up"
+    ]
+  },
+  "day": {
+    "day_number": 18,
+    "date": "2026-09-18",
+    "day_type": "friday_toc_submission_and_new_dsa_work",
+    "circumstances": [
+      "Friday included regular college classes and a long period away from the laptop.",
+      "The Theory of Computation tutorial moved from revision into final checking and submission after work across Days 16–17.",
+      "A new Data Structures problem set appeared and became the main fresh coursework task, with heap operations as the first topic.",
+      "The semester project was only briefly checked through group communication because no concrete new implementation request arrived.",
+      "The evening was mostly personal time, with a longer gaming session and social chat."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:06",
+      "last_seen": "21:09",
+      "approx_active_hours": 5.6,
+      "longest_unobserved_gap_minutes": 189
+    }
+  },
+  "raw_events": [
+    {
+      "id": 331,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T08:06:00+05:30",
+      "ended_at": "2026-09-18T08:21:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "TOC Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 332,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T08:21:00+05:30",
+      "ended_at": "2026-09-18T08:36:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Theory of Computation — Tutorial 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 333,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T08:36:00+05:30",
+      "ended_at": "2026-09-18T08:49:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "TOC Tutorial 2 — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 334,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T08:49:00+05:30",
+      "ended_at": "2026-09-18T09:02:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Theory of Computation — Tutorial 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 335,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T12:11:00+05:30",
+      "ended_at": "2026-09-18T12:24:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Data Structures — Problem Set 4",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 336,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T12:24:00+05:30",
+      "ended_at": "2026-09-18T12:43:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 337,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T12:43:00+05:30",
+      "ended_at": "2026-09-18T13:06:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "heapify max heap example step by step",
+      "url": "https://www.google.com/search?q=heapify+max+heap+example",
+      "payload": null
+    },
+    {
+      "id": 338,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T13:06:00+05:30",
+      "ended_at": "2026-09-18T13:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "ds-problem-set-4 — heap.cpp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 339,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T13:34:00+05:30",
+      "ended_at": "2026-09-18T13:49:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "g++ heap.cpp && ./a.exe",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 340,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T13:49:00+05:30",
+      "ended_at": "2026-09-18T14:02:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "C++ vector priority_queue difference",
+      "url": "https://www.google.com/search?q=C%2B%2B+vector+priority_queue+difference",
+      "payload": null
+    },
+    {
+      "id": 341,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T14:02:00+05:30",
+      "ended_at": "2026-09-18T14:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "ds-problem-set-4 — heap.cpp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 342,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T14:31:00+05:30",
+      "ended_at": "2026-09-18T14:46:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 343,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T14:46:00+05:30",
+      "ended_at": "2026-09-18T15:05:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "ds-problem-set-4 — heap.cpp",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 344,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T17:21:00+05:30",
+      "ended_at": "2026-09-18T17:34:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 345,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T19:18:00+05:30",
+      "ended_at": "2026-09-18T19:33:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "college hostel room cooking ideas",
+      "url": "https://www.youtube.com/watch?v=example15",
+      "payload": null
+    },
+    {
+      "id": 346,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T19:33:00+05:30",
+      "ended_at": "2026-09-18T20:21:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 347,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T20:21:00+05:30",
+      "ended_at": "2026-09-18T20:39:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 348,
+      "watcher": "desktop",
+      "started_at": "2026-09-18T20:59:00+05:30",
+      "ended_at": "2026-09-18T21:09:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DS Problem Set 4 — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-18-01",
+        "started_at": "08:06",
+        "ended_at": "09:02",
+        "title": "Theory of Computation tutorial finalization",
+        "summary": "Reviewed the completed tutorial draft, checked the Classroom submission page twice, and made a final document pass before submission handling.",
+        "event_ids": [
+          331,
+          332,
+          333,
+          334
+        ],
+        "context": "The tutorial had received revision across Days 16–17 and was ready for a final check.",
+        "area": "coursework",
+        "intent": "Finalize the tutorial and submit the completed answers.",
+        "quality": "completion-focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-02",
+        "started_at": "09:02",
+        "ended_at": "12:11",
+        "title": "College classes and offline study",
+        "summary": "Attended regular classes and spent some time working through coursework away from the laptop.",
+        "event_ids": [],
+        "context": "Laptop activity is absent during this period.",
+        "area": "coursework",
+        "intent": "Attend classes and handle coursework offline.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-18-03",
+        "started_at": "12:11",
+        "ended_at": "15:05",
+        "title": "Data Structures problem-set start",
+        "summary": "Read the new problem set, researched max-heap operations, implemented a heap solution in C++, compiled and ran it, checked a C++ container question, and returned to the code after a short WhatsApp interruption.",
+        "event_ids": [
+          335,
+          336,
+          337,
+          338,
+          339,
+          340,
+          341,
+          342,
+          343
+        ],
+        "context": "A new Data Structures problem set became the main fresh academic task after the Theory of Computation tutorial reached completion.",
+        "area": "coursework",
+        "intent": "Understand the heap questions and build a working solution for the first part of the problem set.",
+        "quality": "substantive technical work with brief interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-04",
+        "started_at": "17:21",
+        "ended_at": "17:34",
+        "title": "Semester project message check",
+        "summary": "Briefly checked the project group chat for updates but did not perform implementation work.",
+        "event_ids": [
+          344
+        ],
+        "context": "The project was stable enough that no concrete change was requested today.",
+        "area": "semester_project",
+        "intent": "Check for any immediate teammate request or project update.",
+        "quality": "brief coordination",
+        "importance": "low"
+      },
+      {
+        "id": "gt-18-05",
+        "started_at": "19:18",
+        "ended_at": "20:39",
+        "title": "Friday leisure and social time",
+        "summary": "Watched a hostel-room cooking video for personal interest, played Hades, and chatted with friends.",
+        "event_ids": [
+          345,
+          346,
+          347
+        ],
+        "context": "Ordinary Friday evening personal time.",
+        "area": "leisure",
+        "intent": "Recreation, personal-interest browsing, and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-18-06",
+        "started_at": "20:59",
+        "ended_at": "21:09",
+        "title": "Data Structures note review",
+        "summary": "Briefly reopened the problem-set notes to review the heap work before ending the day.",
+        "event_ids": [
+          348
+        ],
+        "context": "The new problem set had been started earlier that afternoon and remained open.",
+        "area": "coursework",
+        "intent": "Review the current state and identify the next problem to tackle.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "09:02",
+        "ended_at": "12:11",
+        "reason": "College classes and offline coursework"
+      },
+      {
+        "started_at": "15:05",
+        "ended_at": "17:21",
+        "reason": "Lunch, library/campus activity, and personal time"
+      },
+      {
+        "started_at": "17:34",
+        "ended_at": "19:18",
+        "reason": "Offline break, dinner, and personal activity"
+      },
+      {
+        "started_at": "20:39",
+        "ended_at": "20:59",
+        "reason": "Short offline break"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Theory of Computation tutorial moved through its final laptop-based checking stage after several days of work, closing one of the month's longer academic threads.",
+      "The new Data Structures problem set immediately became the main open coursework item, with the student moving from requirements to heap research, C++ implementation, and execution.",
+      "The Data Structures session included several tool switches and a short WhatsApp interruption, but the student repeatedly returned to the same heap implementation.",
+      "The semester project was only checked for messages and did not consume a substantive block today.",
+      "A short evening review returned to the new problem set after separate Friday leisure time."
+    ],
+    "priority_alignment": [
+      "The previous long-running Theory of Computation open loop was brought to a finalization/submission stage.",
+      "The newly posted Data Structures problem set received the day's main substantive work and is now the clearest remaining academic thread.",
+      "The semester project was monitored without displacing the new coursework."
+    ],
+    "important_uncertainty": [
+      "The Classroom submission-page activity strongly suggests submission handling for the Theory of Computation tutorial, but it does not independently prove acceptance or grading.",
+      "The Data Structures code was compiled and run, but the observed events do not prove that the heap solution satisfies every problem-set requirement.",
+      "The project message check provides no evidence of whether teammates made progress offline.",
+      "A substantial part of the day occurred in classes or away from the laptop and is not visible in raw events."
+    ],
+    "possible_next_step": "Continue the Data Structures problem set from the existing heap implementation and finish the remaining questions before reopening the semester project."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Continue Data Structures Problem Set 4",
+      "action_type": "continue_successful_behavior",
+      "reason": "The new problem set already has a concrete heap implementation and test run, making it the clearest next academic step.",
+      "suggested_focus_minutes": 45,
+      "target": "Data Structures Problem Set 4"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the Theory of Computation tutorial was accepted or graded just because the Classroom submission page was opened.",
+      "Do not treat search, terminal, WhatsApp, and VS Code switching as separate unrelated tasks during the heap work.",
+      "Do not assume a successful local run proves the entire Data Structures solution is correct.",
+      "Do not infer that the project was neglected because only a brief message check appeared.",
+      "Do not treat Friday gaming, social chat, or personal-interest YouTube as inherently negative."
+    ]
+  }
+}

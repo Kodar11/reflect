@@ -1,0 +1,529 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while handling research, production, publishing, community, analytics, and occasional sponsorship work",
+    "current_work": [
+      "Closing the API-performance video that has been in production since Day 1",
+      "Finishing the initial sponsorship response and related deliverable details",
+      "Maintaining audience communication around existing content"
+    ],
+    "priorities": [
+      "Finish and prepare the API video for publishing",
+      "Close the sponsorship conversation rather than carrying it as an open loop",
+      "Keep audience and analytics work bounded while the video is near completion"
+    ]
+  },
+  "day": {
+    "day_number": 5,
+    "date": "2026-09-05",
+    "day_type": "saturday_finalization_and_upload_prep",
+    "circumstances": [
+      "The sponsorship inquiry from Day 4 was clarified and the response was sent.",
+      "The API video received a final editing and audio pass, then moved into thumbnail and YouTube upload preparation.",
+      "The creator opened the upload flow and entered details but did not publish the video during the observed desktop period.",
+      "Instagram again mixed audience/community activity with general browsing.",
+      "The evening was mostly leisure, followed by a brief analytics check and idea-list review."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:11",
+      "last_seen": "22:40",
+      "approx_active_hours": 7.6,
+      "longest_unobserved_gap_minutes": 96
+    }
+  },
+  "raw_events": [
+    {
+      "id": 92,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T10:11:00+05:30",
+      "ended_at": "2026-09-05T10:23:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 93,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T10:23:00+05:30",
+      "ended_at": "2026-09-05T10:41:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Sponsorship inquiry",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 94,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T10:41:00+05:30",
+      "ended_at": "2026-09-05T10:56:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "API Sponsorship Brief",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 95,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T10:56:00+05:30",
+      "ended_at": "2026-09-05T11:18:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Draft response",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 96,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T11:43:00+05:30",
+      "ended_at": "2026-09-05T12:16:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 97,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T12:16:00+05:30",
+      "ended_at": "2026-09-05T12:44:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 98,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T12:44:00+05:30",
+      "ended_at": "2026-09-05T12:57:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "audio leveling dialogue tutorial",
+      "url": "https://www.youtube.com/watch?v=audio-level-08",
+      "payload": null
+    },
+    {
+      "id": 99,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T12:57:00+05:30",
+      "ended_at": "2026-09-05T13:28:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 100,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T13:28:00+05:30",
+      "ended_at": "2026-09-05T13:41:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — final audio",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 101,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T15:17:00+05:30",
+      "ended_at": "2026-09-05T15:39:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "YouTube Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 102,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T15:39:00+05:30",
+      "ended_at": "2026-09-05T15:54:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "YouTube thumbnail text safe area",
+      "url": "https://www.google.com/search?q=YouTube+thumbnail+text+safe+area",
+      "payload": null
+    },
+    {
+      "id": 103,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T15:54:00+05:30",
+      "ended_at": "2026-09-05T16:21:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "YouTube Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 104,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T16:21:00+05:30",
+      "ended_at": "2026-09-05T16:34:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Upload video",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 105,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T16:34:00+05:30",
+      "ended_at": "2026-09-05T16:49:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Video details",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 106,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T17:26:00+05:30",
+      "ended_at": "2026-09-05T17:43:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 107,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T17:43:00+05:30",
+      "ended_at": "2026-09-05T18:05:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com",
+      "url": "https://www.instagram.com/",
+      "payload": null
+    },
+    {
+      "id": 108,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T18:05:00+05:30",
+      "ended_at": "2026-09-05T18:19:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Comments",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 109,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T19:52:00+05:30",
+      "ended_at": "2026-09-05T20:31:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "programming podcast interview",
+      "url": "https://www.youtube.com/watch?v=podcast-09",
+      "payload": null
+    },
+    {
+      "id": 110,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T20:31:00+05:30",
+      "ended_at": "2026-09-05T21:12:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 111,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T21:12:00+05:30",
+      "ended_at": "2026-09-05T21:31:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 112,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T22:14:00+05:30",
+      "ended_at": "2026-09-05T22:27:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content analytics",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 113,
+      "watcher": "desktop",
+      "started_at": "2026-09-05T22:27:00+05:30",
+      "ended_at": "2026-09-05T22:40:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-05-01",
+        "started_at": "10:11",
+        "ended_at": "11:18",
+        "title": "Sponsorship decision and response",
+        "summary": "Checked the inbox, reviewed the sponsorship brief, and prepared the response that closed the current sponsor conversation.",
+        "event_ids": [
+          92,
+          93,
+          94,
+          95
+        ],
+        "context": "The sponsor request from Day 4 required a concrete response before the creator could fully return attention to the main video.",
+        "area": "sponsorship",
+        "intent": "Clarify and close the current sponsorship request.",
+        "quality": "focused administrative work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-02",
+        "started_at": "11:18",
+        "ended_at": "11:43",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Take a break before the final edit pass.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-03",
+        "started_at": "11:43",
+        "ended_at": "13:41",
+        "title": "Final video and audio pass",
+        "summary": "Reviewed the current Resolve timeline, adjusted the edit, watched a short audio-leveling tutorial, continued editing, and made a final audio pass.",
+        "event_ids": [
+          96,
+          97,
+          98,
+          99,
+          100
+        ],
+        "context": "The API video had accumulated several editing passes and was now being prepared for upload.",
+        "area": "editing",
+        "intent": "Close remaining edit and audio issues before upload.",
+        "quality": "focused production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-04",
+        "started_at": "13:41",
+        "ended_at": "15:17",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and ordinary weekend activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-05",
+        "started_at": "15:17",
+        "ended_at": "16:49",
+        "title": "Thumbnail finalization and upload setup",
+        "summary": "Iterated the thumbnail, checked a text-safe-area detail, returned to the design, opened the YouTube upload flow, and entered video details.",
+        "event_ids": [
+          101,
+          102,
+          103,
+          104,
+          105
+        ],
+        "context": "This followed the final video edit and was part of preparing the same video for publishing.",
+        "area": "thumbnail_and_publishing",
+        "intent": "Prepare the packaging and upload details for the completed video.",
+        "quality": "substantive production and publishing preparation",
+        "importance": "high"
+      },
+      {
+        "id": "gt-05-06",
+        "started_at": "16:49",
+        "ended_at": "17:26",
+        "title": "Offline break",
+        "summary": "Spent time away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Take a short break before community work.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-07",
+        "started_at": "17:26",
+        "ended_at": "18:19",
+        "title": "Audience communication and comments",
+        "summary": "Checked Instagram direct messages, browsed the main feed, and reviewed YouTube comments.",
+        "event_ids": [
+          106,
+          107,
+          108
+        ],
+        "context": "The creator has ongoing community responsibilities, but not every social-platform session is audience work.",
+        "area": "community",
+        "intent": "Handle audience communication and review reactions to existing content.",
+        "quality": "mixed community and browsing",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-05-08",
+        "started_at": "18:19",
+        "ended_at": "19:52",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the evening meal period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Dinner and ordinary weekend activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-09",
+        "started_at": "19:52",
+        "ended_at": "21:31",
+        "title": "Evening learning and recreation",
+        "summary": "Watched a programming podcast interview, played Hades, and chatted with friends.",
+        "event_ids": [
+          109,
+          110,
+          111
+        ],
+        "context": "The technical interview was general creator interest rather than a visible continuation of the API video.",
+        "area": "learning_and_leisure",
+        "intent": "Learn casually and relax.",
+        "quality": "mixed",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-10",
+        "started_at": "21:31",
+        "ended_at": "22:14",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Wind down before the final checks.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-05-11",
+        "started_at": "22:14",
+        "ended_at": "22:40",
+        "title": "Analytics and idea-list check",
+        "summary": "Briefly checked channel analytics and then reviewed the idea list without starting a new content project.",
+        "event_ids": [
+          112,
+          113
+        ],
+        "context": "The main video was already in upload preparation, while future ideas remained secondary.",
+        "area": "creator_operations",
+        "intent": "Check current channel state and review future ideas.",
+        "quality": "brief maintenance",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "11:18",
+        "ended_at": "11:43",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "13:41",
+        "ended_at": "15:17",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "16:49",
+        "ended_at": "17:26",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "18:19",
+        "ended_at": "19:52",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "21:31",
+        "ended_at": "22:14",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The API-performance video advanced from repeated editing into finalization and upload preparation: the edit and audio were reviewed, the thumbnail was iterated, and YouTube upload details were entered.",
+      "The sponsor thread from Day 4 was also closed today, creating two meaningful but separate workstreams.",
+      "The video appears close to publishing, but the observed timeline ends in the upload-details stage rather than a confirmed publication event.",
+      "Community work included direct messages and YouTube comments, while some Instagram browsing was general rather than clearly creator-related.",
+      "The evening technical interview appears more like general learning than direct production work, and the channel analytics check remained brief."
+    ],
+    "priority_alignment": [
+      "The main API video remained the central creator project and reached a meaningful pre-publication milestone.",
+      "The sponsorship request was closed without becoming a prolonged open loop.",
+      "Audience work was handled, but new ideation remained secondary."
+    ],
+    "important_uncertainty": [
+      "The desktop evidence does not prove whether the video upload finished successfully or whether it was ultimately published later that evening.",
+      "Thumbnail edits and upload details show preparation, but not whether the packaging was final-quality.",
+      "The sponsor response was prepared and sent, but the timeline does not show the recipient's response or whether the sponsorship was fully finalized contractually.",
+      "Some Instagram activity is ambiguous between community work and casual browsing.",
+      "Offline periods remain outside desktop observation."
+    ],
+    "possible_next_step": "Confirm the video's upload/publishing state, then address only the final packaging or publishing step that is actually still open."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the publishing loop",
+      "action_type": "complete_open_loop",
+      "reason": "The video has reached upload preparation after several days of work, so the clearest next step is to verify and complete whatever publishing step remains.",
+      "target": "Why APIs Feel Slow — YouTube video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the video was published simply because the upload flow and details were opened.",
+      "Do not treat the sponsor work as a distraction; it was a separate legitimate obligation that was closed.",
+      "Do not classify all Instagram activity as audience work when the general feed was also browsed.",
+      "Do not assume the thumbnail is final-quality from a few design events alone.",
+      "Do not treat the evening programming interview as part of the API video's production without evidence connecting the two.",
+      "Do not criticize the weekend leisure time as inherently harmful."
+    ]
+  }
+}

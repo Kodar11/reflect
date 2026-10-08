@@ -1,11 +1,12 @@
 import type { Database } from './Database.js';
-import type {
-  ActivityInterpretation,
-  IntelligenceActivity,
-  IntelligenceErrorCategory,
-  IntelligenceRun,
-  IntelligenceRunStatus,
-  ReconcilePlan,
+import {
+  CONTEXT_LOOKBACK_MS,
+  type ActivityInterpretation,
+  type IntelligenceActivity,
+  type IntelligenceErrorCategory,
+  type IntelligenceRun,
+  type IntelligenceRunStatus,
+  type ReconcilePlan,
 } from '../intelligence/IntelligenceModels.js';
 
 /**
@@ -71,6 +72,19 @@ export interface ActivityMembership {
   eventId: number;
   activityId: string;
   userLocked: boolean;
+}
+
+export interface AnalysisWindow {
+  start: string;
+  end: string;
+}
+
+/** What stopped standing when events were removed. */
+export interface RetiredIntelligence {
+  /** Activities that owned a removed event; they are no longer shown. */
+  activityIds: string[];
+  /** Analyses whose result no longer stands and should run again. */
+  windows: AnalysisWindow[];
 }
 
 interface RunRow {
@@ -215,10 +229,10 @@ export class IntelligenceRepository implements IIntelligenceRepository {
       `UPDATE intelligence_activities
        SET started_at = COALESCE((
              SELECT MIN(e.started_at) FROM intelligence_activity_events ae
-             JOIN events e ON e.id = ae.event_id WHERE ae.activity_id = @id), started_at),
+             JOIN events e ON e.id = ae.event_id WHERE ae.activity_id = @id AND e.hidden_at IS NULL), started_at),
            ended_at = COALESCE((
              SELECT MAX(e.ended_at) FROM intelligence_activity_events ae
-             JOIN events e ON e.id = ae.event_id WHERE ae.activity_id = @id), ended_at),
+             JOIN events e ON e.id = ae.event_id WHERE ae.activity_id = @id AND e.hidden_at IS NULL), ended_at),
            updated_at = @now
        WHERE id = @id`,
     );
@@ -410,6 +424,90 @@ export class IntelligenceRepository implements IIntelligenceRepository {
   lockActivitiesForEvents(eventIds: number[], nowIso: string): number {
     if (eventIds.length === 0) return 0;
     return this.lockStmt.run({ event_ids: JSON.stringify(eventIds), now: nowIso }).changes;
+  }
+
+  // --- Event removal ---
+
+  /**
+   * The user hid or deleted these events. Call BEFORE a deletion, while the
+   * memberships still say which activities held them.
+   *
+   * An activity that owned one of them is retired, not trimmed: its title and
+   * summary were written with that event as evidence, so neither can be shown
+   * as though nothing changed. Its remaining events fall back to deterministic
+   * sessions straight away, and the analyses that covered it are superseded so
+   * they run again on what is left. Unlike an analysis, this retires a
+   * user-locked activity too — the user's own removal outranks it.
+   *
+   * `purge` (a permanent deletion) also removes what was only kept as
+   * history: the retired activity rows of that stretch and the stored model
+   * output of every analysis that was shown the events.
+   */
+  retireForEvents(eventIds: number[], range: AnalysisWindow, nowIso: string, options: { purge?: boolean } = {}): RetiredIntelligence {
+    if (eventIds.length === 0) return { activityIds: [], windows: [] };
+    const ids = JSON.stringify(eventIds);
+
+    return this.db.transaction(() => {
+      const owners = this.db
+        .prepare(
+          `SELECT DISTINCT a.id, a.started_at, a.ended_at
+           FROM intelligence_activities a
+           JOIN intelligence_activity_events ae ON ae.activity_id = a.id
+           WHERE a.superseded_at IS NULL
+             AND ae.event_id IN (SELECT value FROM json_each(@ids))`,
+        )
+        .all({ ids }) as Pick<ActivityRow, 'id' | 'started_at' | 'ended_at'>[];
+
+      this.db.prepare(`DELETE FROM intelligence_activity_events WHERE event_id IN (SELECT value FROM json_each(@ids))`).run({ ids });
+
+      const windows = new Map<string, AnalysisWindow>();
+      const retire = this.db.prepare(
+        `UPDATE intelligence_activities SET superseded_at = @now, updated_at = @now WHERE id = @id AND superseded_at IS NULL`,
+      );
+      for (const owner of owners) {
+        retire.run({ id: owner.id, now: nowIso });
+        for (const w of this.supersedeRunsOverlapping({ start: owner.started_at, end: owner.ended_at }, nowIso)) {
+          windows.set(`${w.start}|${w.end}`, w);
+        }
+      }
+
+      if (options.purge) {
+        this.db
+          .prepare(
+            `DELETE FROM intelligence_activities
+             WHERE superseded_at IS NOT NULL
+               AND (id IN (SELECT value FROM json_each(@owners)) OR (started_at <= @end AND ended_at >= @start))`,
+          )
+          .run({ owners: JSON.stringify(owners.map((o) => o.id)), start: range.start, end: range.end });
+        // An analysis is shown its window plus the lookback before it.
+        this.db
+          .prepare(
+            `UPDATE intelligence_runs SET output_json = NULL
+             WHERE output_json IS NOT NULL AND window_end >= @start AND window_start <= @reach`,
+          )
+          .run({ start: range.start, reach: new Date(Date.parse(range.end) + CONTEXT_LOOKBACK_MS).toISOString() });
+      }
+
+      return { activityIds: owners.map((o) => o.id), windows: [...windows.values()] };
+    });
+  }
+
+  /**
+   * Supersede the successful analyses whose window overlaps the range, so the
+   * windows are analysed again. Returns those windows.
+   */
+  supersedeRunsOverlapping(range: AnalysisWindow, nowIso: string): AnalysisWindow[] {
+    return this.db.transaction(() => {
+      const runs = this.db
+        .prepare(
+          `SELECT id, window_start, window_end FROM intelligence_runs
+           WHERE status = 'succeeded' AND window_start <= @end AND window_end >= @start`,
+        )
+        .all({ start: range.start, end: range.end }) as Pick<RunRow, 'id' | 'window_start' | 'window_end'>[];
+      const supersede = this.db.prepare(`UPDATE intelligence_runs SET status = 'superseded', updated_at = @now WHERE id = @id`);
+      for (const run of runs) supersede.run({ id: run.id, now: nowIso });
+      return runs.map((run) => ({ start: run.window_start, end: run.window_end }));
+    });
   }
 }
 

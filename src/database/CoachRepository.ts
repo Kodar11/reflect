@@ -32,6 +32,8 @@ export interface ICoachRepository {
   /** Actions created at or after `sinceIso`, newest first. */
   listActions(sinceIso: string): CoachAction[];
   listActionsByReport(reportId: string): CoachAction[];
+  /** Remove an action and its audit trail for good (the event it was made from was permanently deleted). */
+  deleteAction(id: string): void;
   insertActionEvent(event: CoachActionEvent): void;
   listActionEvents(actionId: string): CoachActionEvent[];
 
@@ -309,6 +311,11 @@ export class CoachRepository implements ICoachRepository {
 
   insertAction(action: CoachAction): void {
     this.insertActionStmt.run(actionParams(action));
+  }
+
+  deleteAction(id: string): void {
+    // Its coach_action_events go with it (ON DELETE CASCADE).
+    this.db.prepare(`DELETE FROM coach_actions WHERE id = ?`).run(id);
   }
 
   updateAction(action: CoachAction): void {

@@ -57,6 +57,16 @@ export interface Event {
 }
 
 /**
+ * An event row as it is stored, including one the user has hidden. Only the
+ * visibility controls (hide / restore / delete) ever see this shape; everything
+ * user-facing works with `Event`, which is always a visible event.
+ */
+export interface StoredEvent extends Event {
+  /** When the user hid the event; null while it is visible. */
+  hiddenAt: string | null;
+}
+
+/**
  * The subset of columns that *define identity* between two observations — if
  * these match, the heartbeat engine treats successive samples as one event and
  * only advances `ended_at`. `payload` is deliberately excluded so

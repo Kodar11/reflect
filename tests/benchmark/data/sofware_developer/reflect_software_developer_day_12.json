@@ -1,0 +1,517 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 12,
+    "date": "2026-09-12",
+    "day_type": "webhook_deep_dive_and_routine_platform_day",
+    "circumstances": [
+      "The workspace latency regression has been closed after the extended production observation window.",
+      "Webhook reliability is now the main unresolved engineering issue, with retry behavior under investigation.",
+      "The engineer has a normal review responsibility and a short team coordination block.",
+      "Billing remains stable and only receives a brief health check."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:11",
+      "last_seen": "18:27",
+      "approx_active_hours": 7.2,
+      "longest_unobserved_gap_minutes": 72
+    }
+  },
+  "raw_events": [
+    {
+      "id": 299,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T09:11:00+05:30",
+      "ended_at": "2026-09-12T09:28:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 300,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T09:28:00+05:30",
+      "ended_at": "2026-09-12T09:49:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-497 — webhook delivery reliability",
+      "url": "https://jira.company.local/browse/PLAT-497",
+      "payload": {
+        "issue": "PLAT-497"
+      }
+    },
+    {
+      "id": 301,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T09:49:00+05:30",
+      "ended_at": "2026-09-12T10:12:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — retries by outcome",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "view": "retries by outcome",
+        "time_range": "7d"
+      }
+    },
+    {
+      "id": 302,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T10:12:00+05:30",
+      "ended_at": "2026-09-12T10:34:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — worker restarts",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "metric": "worker restarts",
+        "time_range": "7d"
+      }
+    },
+    {
+      "id": 303,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T10:34:00+05:30",
+      "ended_at": "2026-09-12T10:56:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookRetry.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookRetry.ts",
+          "webhookDelivery.ts"
+        ]
+      }
+    },
+    {
+      "id": 304,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T10:56:00+05:30",
+      "ended_at": "2026-09-12T11:17:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git log -- webhookRetry.ts && git blame webhookRetry.ts",
+      "url": null,
+      "payload": {
+        "command": "git log -- webhookRetry.ts && git blame webhookRetry.ts"
+      }
+    },
+    {
+      "id": 305,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T11:17:00+05:30",
+      "ended_at": "2026-09-12T11:41:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookRetry.test.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookRetry.test.ts"
+        ]
+      }
+    },
+    {
+      "id": 306,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T11:41:00+05:30",
+      "ended_at": "2026-09-12T12:02:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookRetry.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- webhookRetry.test.ts"
+      }
+    },
+    {
+      "id": 307,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T12:02:00+05:30",
+      "ended_at": "2026-09-12T12:21:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#infra",
+      "url": null,
+      "payload": {
+        "channel": "#infra"
+      }
+    },
+    {
+      "id": 308,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T12:21:00+05:30",
+      "ended_at": "2026-09-12T12:39:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #868 — Files changed",
+      "url": "https://github.com/company/platform-api/pull/868",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 868
+      }
+    },
+    {
+      "id": 309,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T14:00:00+05:30",
+      "ended_at": "2026-09-12T14:22:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — retry latency by attempt",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "metric": "retry latency",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 310,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T14:22:00+05:30",
+      "ended_at": "2026-09-12T14:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Sentry — webhook-worker errors",
+      "url": "https://sentry.company.local/",
+      "payload": {
+        "service": "webhook-worker",
+        "view": "errors"
+      }
+    },
+    {
+      "id": 311,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T14:46:00+05:30",
+      "ended_at": "2026-09-12T15:11:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookDelivery.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookDelivery.ts",
+          "webhookRetry.ts",
+          "webhookProcessor.ts"
+        ]
+      }
+    },
+    {
+      "id": 312,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T15:11:00+05:30",
+      "ended_at": "2026-09-12T15:34:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookDelivery.test.ts webhookProcessor.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- webhookDelivery.test.ts webhookProcessor.test.ts"
+      }
+    },
+    {
+      "id": 313,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T15:34:00+05:30",
+      "ended_at": "2026-09-12T15:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "webhookRetry.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "webhookRetry.ts"
+        ]
+      }
+    },
+    {
+      "id": 314,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T15:58:00+05:30",
+      "ended_at": "2026-09-12T16:19:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- webhookRetry.test.ts --runInBand",
+      "url": null,
+      "payload": {
+        "command": "npm test -- webhookRetry.test.ts --runInBand"
+      }
+    },
+    {
+      "id": 315,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T16:19:00+05:30",
+      "ended_at": "2026-09-12T16:42:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "DM with Arjun - webhook worker",
+      "url": null,
+      "payload": {
+        "participants": [
+          "Arjun"
+        ]
+      }
+    },
+    {
+      "id": 316,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T16:42:00+05:30",
+      "ended_at": "2026-09-12T17:05:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #870 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/870",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 870
+      }
+    },
+    {
+      "id": 317,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T17:05:00+05:30",
+      "ended_at": "2026-09-12T17:24:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-497 — webhook delivery reliability",
+      "url": "https://jira.company.local/browse/PLAT-497",
+      "payload": {
+        "issue": "PLAT-497",
+        "view": "comments"
+      }
+    },
+    {
+      "id": 318,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T17:24:00+05:30",
+      "ended_at": "2026-09-12T17:46:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "billing-api — request errors",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "billing-api",
+        "metric": "request errors",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 319,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T17:46:00+05:30",
+      "ended_at": "2026-09-12T18:06:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#workspace-api",
+      "url": null,
+      "payload": {
+        "channel": "#workspace-api"
+      }
+    },
+    {
+      "id": 320,
+      "watcher": "window_activity",
+      "started_at": "2026-09-12T18:06:00+05:30",
+      "ended_at": "2026-09-12T18:27:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-497 — webhook delivery reliability",
+      "url": "https://jira.company.local/browse/PLAT-497",
+      "payload": {
+        "issue": "PLAT-497",
+        "view": "activity"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-12-01",
+        "started_at": "09:11",
+        "ended_at": "12:39",
+        "title": "Webhook retry-path investigation",
+        "summary": "Reviewed retry outcomes and worker restart data, traced the retry implementation and history, added focused test coverage, coordinated with infrastructure, and reviewed a teammate pull request.",
+        "event_ids": [
+          299,
+          300,
+          301,
+          302,
+          303,
+          304,
+          305,
+          306,
+          307,
+          308
+        ],
+        "context": "The investigation had shifted from acknowledgement latency toward understanding retry behavior and worker lifecycle interactions.",
+        "area": "webhook_reliability",
+        "intent": "investigate",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-02",
+        "started_at": "14:00",
+        "ended_at": "16:19",
+        "title": "Retry behavior validation",
+        "summary": "Compared retry latency with recent errors, inspected delivery and processor paths, and ran focused tests to validate the suspected retry transition.",
+        "event_ids": [
+          309,
+          310,
+          311,
+          312,
+          313,
+          314
+        ],
+        "context": "The engineer tested whether the newly suspected retry behavior could explain the production symptoms without assuming it was already proven.",
+        "area": "webhook_reliability",
+        "intent": "experiment",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-12-03",
+        "started_at": "16:19",
+        "ended_at": "17:24",
+        "title": "Team review and issue update",
+        "summary": "Discussed the investigation with a teammate, reviewed pull request #870, and updated the webhook issue with the latest evidence and remaining questions.",
+        "event_ids": [
+          315,
+          316,
+          317
+        ],
+        "context": "Normal team coordination and explicit documentation of the revised investigation direction.",
+        "area": "team_maintenance",
+        "intent": "coordinate",
+        "quality": "useful",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-12-04",
+        "started_at": "17:24",
+        "ended_at": "18:27",
+        "title": "Routine platform health checks",
+        "summary": "Checked billing error signals and briefly reviewed workspace-api status after the previous day's closure.",
+        "event_ids": [
+          318,
+          319,
+          320
+        ],
+        "context": "Routine operational checks after two recently active platform issues.",
+        "area": "platform_operations",
+        "intent": "monitor",
+        "quality": "appropriate",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:39",
+        "ended_at": "14:00",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The webhook investigation became more focused by moving from the discarded acknowledgement-only explanation toward retry behavior and worker lifecycle evidence.",
+      "The engineer used production metrics, code history, focused tests, and teammate discussion rather than making a broad change based on one signal.",
+      "The workspace performance issue stayed closed and only received a brief health check.",
+      "A normal review responsibility was handled without becoming the main focus of the day."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Understand and fix webhook processing reliability issue",
+        "assessment": "strong_progress_but_root_cause_not_confirmed",
+        "evidence": [
+          301,
+          302,
+          304,
+          305,
+          306,
+          309,
+          310,
+          311,
+          312,
+          313,
+          314,
+          317
+        ]
+      },
+      {
+        "priority": "Maintain stability of recently closed workspace performance work",
+        "assessment": "maintenance_only",
+        "evidence": [
+          319
+        ]
+      },
+      {
+        "priority": "Maintain normal team review responsibilities",
+        "assessment": "completed_secondary_responsibility",
+        "evidence": [
+          308,
+          316
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "The retry path now has stronger supporting evidence, but the production sequence connecting retries to the customer-visible delivery issue is still not fully established.",
+      "Worker restart data may be correlated with retry behavior without being the underlying cause.",
+      "The focused tests validate selected paths but do not reproduce every production timing condition."
+    ],
+    "possible_next_step": "Correlate retry attempts, worker lifecycle events, and individual delivery outcomes in a controlled production slice before deciding whether a code change is justified."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Webhook retry and worker lifecycle correlation",
+      "action_type": "experiment",
+      "target": "Webhook retry and worker lifecycle correlation",
+      "reason": "The investigation has a credible new direction but still needs a bounded production experiment or correlation check before implementation.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Workspace performance closure",
+      "action_type": "protect_priority",
+      "target": "Workspace performance closure",
+      "reason": "Keep the resolved performance issue from becoming another open-ended investigation while attention moves to the webhook problem.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not implement a broad webhook rewrite from the current evidence.",
+      "Do not treat worker restarts as proven root cause merely because they correlate with retry activity.",
+      "Do not reopen the workspace performance issue without new production evidence.",
+      "Do not turn routine review or health checks into artificial coaching priorities."
+    ]
+  }
+}

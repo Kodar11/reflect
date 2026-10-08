@@ -1,0 +1,374 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "day_number": 19,
+    "date": "2026-09-19",
+    "day_type": "identity_completion_and_portfolio_restart_day",
+    "circumstances": [
+      "The active brand identity reached client approval and final delivery today. Requested color and usage changes were implemented, final assets were exported and organized, and the client delivery was sent. The invoice follow-up remains administrative and is not shown as completed.",
+      "The Northstar Coffee portfolio case study was restarted after the identity project was closed, with a project overview, timeline, cover, and selected visuals drafted.",
+      "No clear social campaign production is visible today.",
+      "Portfolio reference browsing may have supported presentation decisions, but the raw events do not establish its value conclusively."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:26",
+      "last_seen": "19:58",
+      "approx_active_hours": 8.1,
+      "longest_unobserved_gap_minutes": 86
+    }
+  },
+  "raw_events": [
+    {
+      "id": 464,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T09:26:00+05:30",
+      "ended_at": "2026-09-19T09:43:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 465,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T09:43:00+05:30",
+      "ended_at": "2026-09-19T10:07:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Concepts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 466,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T10:07:00+05:30",
+      "ended_at": "2026-09-19T10:41:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Color",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 467,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T10:41:00+05:30",
+      "ended_at": "2026-09-19T11:18:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "brand-mark-exploration.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 468,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T11:18:00+05:30",
+      "ended_at": "2026-09-19T11:56:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 469,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T11:56:00+05:30",
+      "ended_at": "2026-09-19T12:10:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 470,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T12:21:00+05:30",
+      "ended_at": "2026-09-19T12:35:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "New Brand Identity / Handoff",
+      "url": "https://drive.google.com/drive/",
+      "payload": null
+    },
+    {
+      "id": 471,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T12:48:00+05:30",
+      "ended_at": "2026-09-19T13:06:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 472,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T14:32:00+05:30",
+      "ended_at": "2026-09-19T15:03:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 473,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T15:03:00+05:30",
+      "ended_at": "2026-09-19T15:37:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "brand-mark-exploration.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 474,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T15:37:00+05:30",
+      "ended_at": "2026-09-19T15:51:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "New Brand Identity / Handoff",
+      "url": "https://drive.google.com/drive/",
+      "payload": null
+    },
+    {
+      "id": 475,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T16:02:00+05:30",
+      "ended_at": "2026-09-19T16:16:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 476,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T16:16:00+05:30",
+      "ended_at": "2026-09-19T16:54:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "New Brand Identity — Presentation Board",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 477,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T16:54:00+05:30",
+      "ended_at": "2026-09-19T17:08:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "New Brand Identity / Handoff",
+      "url": "https://drive.google.com/drive/",
+      "payload": null
+    },
+    {
+      "id": 478,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T17:22:00+05:30",
+      "ended_at": "2026-09-19T17:46:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "New Brand Identity — Checklist",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 479,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T17:46:00+05:30",
+      "ended_at": "2026-09-19T18:00:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 480,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T18:14:00+05:30",
+      "ended_at": "2026-09-19T18:32:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 481,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T18:32:00+05:30",
+      "ended_at": "2026-09-19T19:05:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 482,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T19:05:00+05:30",
+      "ended_at": "2026-09-19T19:23:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 483,
+      "watcher": "desktop",
+      "started_at": "2026-09-19T19:23:00+05:30",
+      "ended_at": "2026-09-19T19:58:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-19-01",
+        "started_at": "09:26",
+        "ended_at": "13:06",
+        "title": "New brand identity — design work",
+        "summary": "Read client reply approving the overall identity direction but asking for final color and usage adjustments. Reviewed the approved identity direction and listed the requested final changes. Adjusted the primary and secondary brand colors and checked contrast across key applications. Updated logo color variants and cleaned the corresponding vector exports.",
+        "event_ids": [
+          464,
+          465,
+          466,
+          467,
+          468,
+          469,
+          470,
+          471
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-19-02",
+        "started_at": "14:32",
+        "ended_at": "18:00",
+        "title": "New brand identity — design work",
+        "summary": "Returned to the identity file and prepared a final presentation page for client confirmation. Exported updated SVG, PDF, and PNG logo variants for the delivery package. Checked filenames, folders, and duplicate exports in the client package. Read client confirmation that the revised colors and usage examples were approved.",
+        "event_ids": [
+          472,
+          473,
+          474,
+          475,
+          476,
+          477,
+          478,
+          479
+        ],
+        "context": "Work",
+        "area": "New client identity",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-19-03",
+        "started_at": "18:14",
+        "ended_at": "19:05",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Opened the Northstar Coffee portfolio case study and reviewed the unfinished sections. Drafted a short project overview and timeline for the Northstar portfolio case study.",
+        "event_ids": [
+          480,
+          481
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-19-04",
+        "started_at": "19:05",
+        "ended_at": "19:23",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Browsed a few branding case studies for portfolio presentation references.",
+        "event_ids": [
+          482
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-19-05",
+        "started_at": "19:23",
+        "ended_at": "19:58",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Reworked the Northstar case-study cover and placed selected project visuals.",
+        "event_ids": [
+          483
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:06",
+        "ended_at": "14:32",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Most of the day was focused on closing the active brand identity rather than exploring new directions.",
+      "The client approval is directly evidenced by the approval message and was followed by final packaging and delivery.",
+      "The designer transitioned to the Northstar portfolio after the client project reached a clear stopping point.",
+      "Branding reference browsing occurred immediately before additional portfolio presentation work, so it may have been relevant rather than automatically distracting.",
+      "Offline periods mean untracked work or breaks cannot be inferred."
+    ],
+    "priority_alignment": [],
+    "important_uncertainty": [
+      "Whether the invoice was subsequently paid is not observable.",
+      "Whether the Northstar portfolio case study will be completed in the next work sessions is not established."
+    ],
+    "possible_next_step": "The new identity has a clear client-approved stopping point. Keep it closed unless new client feedback arrives, and use the next focused block to finish the Northstar portfolio case study while the project context is still fresh."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish the Northstar case study",
+      "action_type": "complete_open_loop",
+      "reason": "The client project is now approved and delivered, creating a natural opportunity to shift effort from refinement to the unfinished portfolio work.",
+      "suggested_focus_minutes": null,
+      "target": "Northstar Coffee portfolio"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

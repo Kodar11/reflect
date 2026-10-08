@@ -1,0 +1,387 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Keeping up with current semester coursework",
+      "Completing a Computer Networks lab task",
+      "Working with classmates on a semester project"
+    ],
+    "priorities": [
+      "Complete the Computer Networks lab task",
+      "Keep up with current coursework",
+      "Make progress on the semester group project"
+    ]
+  },
+  "day": {
+    "day_number": 6,
+    "date": "2026-09-06",
+    "day_type": "light_sunday_lab_completion_day",
+    "circumstances": [
+      "Sunday was lighter than the preceding weekday, with a long offline morning before the student opened the laptop.",
+      "The Computer Networks lab continued from the previous day and reached a submission point after targeted testing and a documentation check.",
+      "The semester project received a short planning session rather than another large implementation block.",
+      "Gaming and social time took a substantial part of the late afternoon.",
+      "The student briefly returned in the evening to verify the coursework page and check email."
+    ],
+    "laptop_usage": {
+      "first_seen": "10:46",
+      "last_seen": "20:47",
+      "approx_active_hours": 6.4,
+      "longest_unobserved_gap_minutes": 136
+    }
+  },
+  "raw_events": [
+    {
+      "id": 105,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T10:46:00+05:30",
+      "ended_at": "2026-09-06T11:05:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 106,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:05:00+05:30",
+      "ended_at": "2026-09-06T11:27:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Computer Networks Lab 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 107,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:27:00+05:30",
+      "ended_at": "2026-09-06T11:58:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "cn-lab-2 — server.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 108,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:58:00+05:30",
+      "ended_at": "2026-09-06T12:13:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python server.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 109,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T12:13:00+05:30",
+      "ended_at": "2026-09-06T12:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Python socket timeout",
+      "url": "https://docs.python.org/3/library/socket.html",
+      "payload": null
+    },
+    {
+      "id": 110,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T12:39:00+05:30",
+      "ended_at": "2026-09-06T13:08:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "cn-lab-2 — server.py",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 111,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T13:08:00+05:30",
+      "ended_at": "2026-09-06T13:21:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "python client.py localhost",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 112,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T13:21:00+05:30",
+      "ended_at": "2026-09-06T13:44:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Computer Networks Lab 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 113,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T15:17:00+05:30",
+      "ended_at": "2026-09-06T15:32:00+05:30",
+      "app": "Discord",
+      "browser": null,
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 114,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T15:32:00+05:30",
+      "ended_at": "2026-09-06T15:51:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Semester project tasks",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 115,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T15:51:00+05:30",
+      "ended_at": "2026-09-06T16:19:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project — issues",
+      "url": "https://github.com/.../issues",
+      "payload": null
+    },
+    {
+      "id": 116,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T16:19:00+05:30",
+      "ended_at": "2026-09-06T16:42:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Project proposal outline",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 117,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T17:09:00+05:30",
+      "ended_at": "2026-09-06T17:31:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Minecraft build ideas",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 118,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T17:31:00+05:30",
+      "ended_at": "2026-09-06T18:16:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 119,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T18:16:00+05:30",
+      "ended_at": "2026-09-06T18:34:00+05:30",
+      "app": "Discord",
+      "browser": null,
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 120,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T20:12:00+05:30",
+      "ended_at": "2026-09-06T20:29:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Computer Networks Lab 2",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 121,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T20:29:00+05:30",
+      "ended_at": "2026-09-06T20:47:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-06-01",
+        "started_at": "10:46",
+        "ended_at": "11:27",
+        "title": "Computer Networks lab review",
+        "summary": "Checked messages from classmates and reopened the Networks lab instructions before continuing the implementation.",
+        "event_ids": [
+          105,
+          106
+        ],
+        "context": "Academic",
+        "area": "Computer Networks",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-06-02",
+        "started_at": "11:27",
+        "ended_at": "13:44",
+        "title": "Computer Networks lab completion",
+        "summary": "Continued the socket server implementation, tested it, checked documentation for timeout behavior, reran the client/server flow, and completed the lab submission steps.",
+        "event_ids": [
+          107,
+          108,
+          109,
+          110,
+          111,
+          112
+        ],
+        "context": "Academic",
+        "area": "Computer Networks",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-06-03",
+        "started_at": "15:17",
+        "ended_at": "16:42",
+        "title": "Semester project planning",
+        "summary": "Discussed the project with teammates, reviewed open issues, and outlined the next project task in a shared document.",
+        "event_ids": [
+          113,
+          114,
+          115,
+          116
+        ],
+        "context": "Academic",
+        "area": "Semester Project",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-06-04",
+        "started_at": "17:09",
+        "ended_at": "18:34",
+        "title": "Sunday leisure and social time",
+        "summary": "Watched gaming-related videos, played a game, and chatted with friends.",
+        "event_ids": [
+          117,
+          118,
+          119
+        ],
+        "context": "Personal",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-06-05",
+        "started_at": "20:12",
+        "ended_at": "20:47",
+        "title": "Coursework submission and email check",
+        "summary": "Rechecked the Networks lab page and course communication after the earlier submission work.",
+        "event_ids": [
+          120,
+          121
+        ],
+        "context": "Academic",
+        "area": "Computer Networks",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "08:30",
+        "ended_at": "10:46",
+        "reason": "Late morning offline / personal activity"
+      },
+      {
+        "started_at": "13:44",
+        "ended_at": "15:17",
+        "reason": "Lunch / offline rest"
+      },
+      {
+        "started_at": "16:42",
+        "ended_at": "17:09",
+        "reason": "Walk / snack / offline"
+      },
+      {
+        "started_at": "18:34",
+        "ended_at": "20:12",
+        "reason": "Dinner / family or personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The main completed thread was the Computer Networks lab, which continued naturally from yesterday's unfinished implementation and reached a submission/review point.",
+      "The semester project was maintained through coordination and planning, but did not receive another substantial implementation session.",
+      "Most of the day was not captured on the laptop, consistent with a lighter Sunday and offline personal time.",
+      "The evening return to the course page was a brief verification rather than a new study block."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Complete the Computer Networks lab task",
+        "assessment": "completed / submission checked"
+      },
+      {
+        "priority": "Keep up with current coursework",
+        "assessment": "meaningful progress"
+      },
+      {
+        "priority": "Make progress on the semester group project",
+        "assessment": "some progress / planning only"
+      }
+    ],
+    "important_uncertainty": [
+      "The final course-page check does not establish that the lab was graded or accepted.",
+      "The long offline periods cannot be interpreted as either study or leisure beyond the stated context.",
+      "The project planning document shows a next step was outlined but does not establish implementation progress."
+    ],
+    "possible_next_step": "Begin the next semester-project implementation task during the next substantial weekday study block."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Start the next project task",
+      "action_type": "start_focus",
+      "reason": "The Networks lab has reached a submission point, while the semester project already has an outlined next step that has not yet moved into implementation.",
+      "suggested_focus_minutes": 60,
+      "target": "Semester Project"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not assume the Networks lab has been graded or accepted just because the submission page was revisited.",
+      "Do not treat Sunday's long offline periods as wasted time.",
+      "Do not criticize the gaming and social block as inherently problematic.",
+      "Do not count project planning as equivalent to implementation.",
+      "Do not infer how much academic work happened away from the laptop."
+    ]
+  }
+}

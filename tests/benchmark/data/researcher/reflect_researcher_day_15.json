@@ -1,0 +1,492 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Developing a research project on improving uncertainty estimation in neural network classifiers",
+      "Preparing a manuscript based on an earlier set of experiments",
+      "Running a smaller replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration"
+    ],
+    "priorities": [
+      "Incorporate final collaborator feedback into the manuscript",
+      "Choose a realistic submission venue based on the contribution and constraints",
+      "Prepare the manuscript for an internal or external review pass",
+      "Keep the replication study parked unless its preprocessing dependency is resolved"
+    ]
+  },
+  "day": {
+    "day_number": 15,
+    "date": "2026-09-15",
+    "day_type": "collaborator_feedback_and_submission_strategy_day",
+    "circumstances": [
+      "The researcher receives the collaborator's detailed review and spends most of the day interpreting and incorporating it. The collaborator is broadly positive about the experimental story but recommends weakening one novelty statement, moving the distribution-shift result into a limitations-oriented subsection, and adding one missing citation. The researcher makes those revisions and then compares two possible submission venues. One venue appears to fit the empirical contribution but has a tighter page limit, while another allows more detail but is more competitive. The researcher does not start new experiments. A short unrelated programming detour occurs when the researcher fixes a small utility script used to generate manuscript tables."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:26",
+      "last_seen": "20:11",
+      "approx_active_hours": 7.8,
+      "longest_unobserved_gap_minutes": 71
+    }
+  },
+  "raw_events": [
+    {
+      "id": 331,
+      "watcher": "Gmail",
+      "started_at": "2026-09-15T09:26:00+05:30",
+      "ended_at": "2026-09-15T09:42:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox (1) — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read collaborator review"
+      }
+    },
+    {
+      "id": 332,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-15T09:42:00+05:30",
+      "ended_at": "2026-09-15T10:03:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Docs — collaborator comments",
+      "url": "https://docs.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "read detailed manuscript comments"
+      }
+    },
+    {
+      "id": 333,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T10:03:00+05:30",
+      "ended_at": "2026-09-15T10:34:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — review_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "review_notes.md",
+        "interaction": "converted collaborator comments into revision checklist"
+      }
+    },
+    {
+      "id": 334,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T10:34:00+05:30",
+      "ended_at": "2026-09-15T11:12:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — introduction.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "introduction.md",
+        "interaction": "reduced novelty wording and revised contribution paragraph"
+      }
+    },
+    {
+      "id": 335,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T11:12:00+05:30",
+      "ended_at": "2026-09-15T11:44:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — discussion.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "discussion.md",
+        "interaction": "moved shift result into limitations-oriented subsection"
+      }
+    },
+    {
+      "id": 336,
+      "watcher": "Google Scholar",
+      "started_at": "2026-09-15T11:44:00+05:30",
+      "ended_at": "2026-09-15T12:02:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Scholar — calibration under covariate shift",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 4,
+        "interaction": "searched for citation supporting collaborator comment"
+      }
+    },
+    {
+      "id": 337,
+      "watcher": "Zotero",
+      "started_at": "2026-09-15T12:02:00+05:30",
+      "ended_at": "2026-09-15T12:18:00+05:30",
+      "app": "Zotero",
+      "browser": null,
+      "title": "Zotero — Uncertainty Calibration",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "interaction": "added citation and note"
+      }
+    },
+    {
+      "id": 338,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T12:18:00+05:30",
+      "ended_at": "2026-09-15T12:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "incorporated revised introduction, discussion, and citation"
+      }
+    },
+    {
+      "id": 339,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T13:57:00+05:30",
+      "ended_at": "2026-09-15T14:22:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — scripts/build_table.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "scripts/build_table.py",
+        "interaction": "fixed table-generation formatting utility"
+      }
+    },
+    {
+      "id": 340,
+      "watcher": "Terminal",
+      "started_at": "2026-09-15T14:22:00+05:30",
+      "ended_at": "2026-09-15T14:39:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/build_table.py --check"
+        ],
+        "output_state": "completed"
+      }
+    },
+    {
+      "id": 341,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T14:39:00+05:30",
+      "ended_at": "2026-09-15T15:08:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "checked table references after utility change"
+      }
+    },
+    {
+      "id": 342,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-15T15:08:00+05:30",
+      "ended_at": "2026-09-15T15:32:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — machine learning conference deadlines 2026",
+      "url": "https://www.google.com/search?q=machine+learning+conference+deadlines+2026",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 7,
+        "interaction": "searched submission deadlines and page limits"
+      }
+    },
+    {
+      "id": 343,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-15T15:32:00+05:30",
+      "ended_at": "2026-09-15T15:56:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Conference submission guidelines — author instructions",
+      "url": "https://example.org/submission-guidelines",
+      "payload": {
+        "window_state": "active",
+        "interaction": "reviewed page limits and supplementary material rules"
+      }
+    },
+    {
+      "id": 344,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T15:56:00+05:30",
+      "ended_at": "2026-09-15T16:28:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — venue_comparison.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "venue_comparison.md",
+        "interaction": "compared fit, page limits, and timing for two venues"
+      }
+    },
+    {
+      "id": 345,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-15T17:39:00+05:30",
+      "ended_at": "2026-09-15T17:58:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — machine learning conference talk",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "video playback"
+      }
+    },
+    {
+      "id": 346,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-15T17:58:00+05:30",
+      "ended_at": "2026-09-15T18:18:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — used monitors 24 inch",
+      "url": "https://www.google.com/search?q=used+monitors+24+inch",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "search results"
+      }
+    },
+    {
+      "id": 347,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T18:18:00+05:30",
+      "ended_at": "2026-09-15T18:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — venue_comparison.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "venue_comparison.md",
+        "interaction": "recorded provisional venue preference and unresolved deadline question"
+      }
+    },
+    {
+      "id": 348,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T18:47:00+05:30",
+      "ended_at": "2026-09-15T19:24:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — full_draft.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "full_draft.md",
+        "interaction": "performed final collaborator-feedback revision pass"
+      }
+    },
+    {
+      "id": 349,
+      "watcher": "Gmail",
+      "started_at": "2026-09-15T19:24:00+05:30",
+      "ended_at": "2026-09-15T19:41:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Compose — Gmail",
+      "url": "https://mail.google.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "sent collaborator updated manuscript and summary of changes"
+      }
+    },
+    {
+      "id": 350,
+      "watcher": "VS Code",
+      "started_at": "2026-09-15T19:41:00+05:30",
+      "ended_at": "2026-09-15T20:11:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — next_steps.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "next_steps.md",
+        "interaction": "recorded venue decision criteria and deferred optional experiments"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-15-01",
+        "started_at": "09:26",
+        "ended_at": "12:46",
+        "title": "Incorporate collaborator review into the manuscript",
+        "summary": "The researcher reviewed detailed collaborator comments, converted them into a revision checklist, weakened the novelty wording, moved the distribution-shift result into a limitations-oriented section, found a supporting citation, and incorporated the revisions into the full draft.",
+        "event_ids": [
+          331,
+          332,
+          333,
+          334,
+          335,
+          336,
+          337,
+          338
+        ],
+        "context": "Continuation of the targeted collaborator review requested on Day 14.",
+        "area": "manuscript",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-15-02",
+        "started_at": "13:57",
+        "ended_at": "15:08",
+        "title": "Fix and verify manuscript table-generation utility",
+        "summary": "The researcher repaired a small formatting utility used for manuscript tables, ran its check command, and verified the resulting table references in the draft. This was research-supporting software maintenance rather than a new experiment.",
+        "event_ids": [
+          339,
+          340,
+          341
+        ],
+        "context": "A small infrastructure issue surfaced during manuscript preparation.",
+        "area": "research software and manuscript",
+        "intent": "maintenance",
+        "quality": "high",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-03",
+        "started_at": "15:08",
+        "ended_at": "16:28",
+        "title": "Compare potential submission venues",
+        "summary": "The researcher searched conference deadlines and author guidelines, then documented the relative fit, page limits, supplementary-material rules, and timing of two possible venues.",
+        "event_ids": [
+          342,
+          343,
+          344
+        ],
+        "context": "Submission planning after collaborator review.",
+        "area": "submission planning",
+        "intent": "planning",
+        "quality": "high",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-15-04",
+        "started_at": "17:39",
+        "ended_at": "18:18",
+        "title": "Mixed learning and unrelated browsing",
+        "summary": "The researcher watched a machine learning conference talk and then searched for used 24-inch monitors. The first activity is topic-adjacent learning; the second is unrelated personal browsing.",
+        "event_ids": [
+          345,
+          346
+        ],
+        "context": "Evening lower-intensity activity.",
+        "area": "learning and unrelated",
+        "intent": "mixed",
+        "quality": "unknown",
+        "importance": "low"
+      },
+      {
+        "id": "gt-15-05",
+        "started_at": "18:18",
+        "ended_at": "20:11",
+        "title": "Finalize collaborator revision and record submission criteria",
+        "summary": "The researcher recorded a provisional venue preference while leaving the exact deadline unresolved, performed a final revision pass based on collaborator feedback, sent the updated manuscript back to the collaborator, and documented that optional experiments should remain deferred.",
+        "event_ids": [
+          347,
+          348,
+          349,
+          350
+        ],
+        "context": "Closing the collaborator-review loop while avoiding new experimental scope.",
+        "area": "manuscript and submission planning",
+        "intent": "revision",
+        "quality": "high",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:46",
+        "ended_at": "13:57",
+        "reason": "offline / lunch"
+      },
+      {
+        "started_at": "16:28",
+        "ended_at": "17:39",
+        "reason": "offline / break"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "Collaborator feedback was broadly positive but led to a meaningful narrowing of the novelty and generalization claims.",
+      "The manuscript now separates the primary calibration result from the distribution-shift observation and includes the missing supporting citation.",
+      "The table-generation utility required a small fix, but no new research experiment was needed.",
+      "Two submission venues were compared; one appears to fit the current empirical contribution better but has tighter space constraints.",
+      "The updated manuscript has been sent back to the collaborator, so the next meaningful dependency is external review rather than more internal experimentation."
+    ],
+    "priority_alignment": [
+      "The day's main priority was collaborator-driven manuscript revision and it was substantially completed.",
+      "Submission planning was started only after the manuscript's claims had been narrowed.",
+      "Optional experiments were explicitly deferred rather than allowed to expand the scope again."
+    ],
+    "important_uncertainty": [
+      "The final venue choice depends partly on the collaborator's assessment of contribution strength.",
+      "The tighter page limit of the preferred venue may require further compression of related work and discussion.",
+      "The collaborator may request another revision after reviewing the updated draft."
+    ],
+    "possible_next_step": "Wait for the collaborator's response, then make the minimum venue-specific changes needed and prepare a near-submission draft rather than reopening the experimental program."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "protect_priority",
+      "title": "Protect the manuscript from new experiments",
+      "reason": "The collaborator feedback has been incorporated and the updated draft is out for review. The remaining uncertainty is about presentation and venue fit, not an unresolved core experiment.",
+      "suggested_focus_minutes": 15,
+      "target": "Manuscript"
+    },
+    "secondary_action": {
+      "action_type": "complete_open_loop",
+      "title": "Prepare a venue-specific compression plan",
+      "reason": "The likely venue has a tighter page limit, so identifying removable or compressible sections now will reduce rework if that venue is selected.",
+      "suggested_focus_minutes": 45,
+      "target": "Submission Planning"
+    },
+    "things_not_to_do": [
+      "Do not add new experiments just to strengthen the novelty claim after it has already been deliberately narrowed.",
+      "Do not repeatedly poll the collaborator for a response while waiting.",
+      "Do not perform extensive venue formatting until the submission venue is confirmed.",
+      "Do not treat the small table utility fix as a reason to expand the research software work."
+    ]
+  }
+}

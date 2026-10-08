@@ -1,0 +1,570 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Developing a visual identity for a local specialty coffee brand",
+      "Preparing social media campaign assets for an existing client",
+      "Building a personal portfolio case study",
+      "Handling client communication and revisions"
+    ],
+    "priorities": [
+      "Complete the coffee brand identity before the client review",
+      "Deliver the social media campaign assets on time",
+      "Build a stronger portfolio with the coffee project",
+      "Maintain existing freelance client relationships"
+    ]
+  },
+  "day": {
+    "day_number": 1,
+    "date": "2026-09-01",
+    "day_type": "normal_mixed_design_workday",
+    "circumstances": [
+      "Started with a client review and planning session",
+      "Spent a substantial uninterrupted period exploring the coffee brand identity",
+      "Had to revisit typography after noticing problems with the initial direction",
+      "An existing client's social media request interrupted planned identity work",
+      "Used online references for both legitimate design research and later casual browsing",
+      "Ended the day with portfolio preparation rather than finishing the full case study"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:18",
+      "last_seen": "21:36",
+      "approx_active_hours": 9.3,
+      "longest_unobserved_gap_minutes": 74
+    }
+  },
+  "raw_events": [
+    {
+      "id": 1,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:18:00+05:30",
+      "ended_at": "2026-09-01T09:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 2,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:31:00+05:30",
+      "ended_at": "2026-09-01T09:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive",
+      "url": "https://drive.google.com/drive/...",
+      "payload": null
+    },
+    {
+      "id": 3,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T09:47:00+05:30",
+      "ended_at": "2026-09-01T10:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Figma",
+      "url": "https://www.figma.com/file/...",
+      "payload": null
+    },
+    {
+      "id": 4,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:03:00+05:30",
+      "ended_at": "2026-09-01T10:11:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/pin/...",
+      "payload": null
+    },
+    {
+      "id": 5,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:11:00+05:30",
+      "ended_at": "2026-09-01T10:29:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Images",
+      "url": "https://www.google.com/search?tbm=isch&q=coffee+packaging...",
+      "payload": null
+    },
+    {
+      "id": 6,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T10:29:00+05:30",
+      "ended_at": "2026-09-01T11:02:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 7,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:02:00+05:30",
+      "ended_at": "2026-09-01T11:19:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 8,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:19:00+05:30",
+      "ended_at": "2026-09-01T11:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 9,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T11:31:00+05:30",
+      "ended_at": "2026-09-01T12:18:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 10,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T12:18:00+05:30",
+      "ended_at": "2026-09-01T12:34:00+05:30",
+      "app": "Adobe Illustrator",
+      "browser": null,
+      "title": "northstar_logo_concepts.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 11,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T12:34:00+05:30",
+      "ended_at": "2026-09-01T12:48:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 12,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T12:48:00+05:30",
+      "ended_at": "2026-09-01T13:02:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Slack",
+      "url": "https://app.slack.com/client/...",
+      "payload": null
+    },
+    {
+      "id": 13,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T13:02:00+05:30",
+      "ended_at": "2026-09-01T13:17:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Instagram September Posts",
+      "url": "https://www.canva.com/design/...",
+      "payload": null
+    },
+    {
+      "id": 14,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T13:17:00+05:30",
+      "ended_at": "2026-09-01T13:42:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Instagram September Posts",
+      "url": "https://www.canva.com/design/...",
+      "payload": null
+    },
+    {
+      "id": 15,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T13:42:00+05:30",
+      "ended_at": "2026-09-01T13:55:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Unsplash",
+      "url": "https://unsplash.com/s/photos/coffee-shop...",
+      "payload": null
+    },
+    {
+      "id": 16,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T13:55:00+05:30",
+      "ended_at": "2026-09-01T14:21:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Instagram September Posts",
+      "url": "https://www.canva.com/design/...",
+      "payload": null
+    },
+    {
+      "id": 17,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T14:21:00+05:30",
+      "ended_at": "2026-09-01T14:35:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 18,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T15:46:00+05:30",
+      "ended_at": "2026-09-01T16:08:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 19,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T16:08:00+05:30",
+      "ended_at": "2026-09-01T16:52:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 20,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T16:52:00+05:30",
+      "ended_at": "2026-09-01T17:06:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "portfolio — Case Studies",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 21,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T17:06:00+05:30",
+      "ended_at": "2026-09-01T17:19:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 22,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T17:19:00+05:30",
+      "ended_at": "2026-09-01T17:44:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "portfolio — Case Studies",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T18:58:00+05:30",
+      "ended_at": "2026-09-01T19:12:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T19:12:00+05:30",
+      "ended_at": "2026-09-01T19:38:00+05:30",
+      "app": "Adobe Photoshop",
+      "browser": null,
+      "title": "coffee_packaging_mockup.psd",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T19:38:00+05:30",
+      "ended_at": "2026-09-01T20:04:00+05:30",
+      "app": "Adobe Photoshop",
+      "browser": null,
+      "title": "coffee_packaging_mockup.psd",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T20:04:00+05:30",
+      "ended_at": "2026-09-01T20:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Dribbble",
+      "url": "https://dribbble.com/",
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T20:21:00+05:30",
+      "ended_at": "2026-09-01T20:47:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "northstar-coffee — Brand Exploration",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T20:47:00+05:30",
+      "ended_at": "2026-09-01T21:02:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Northstar Coffee / Client Review",
+      "url": "https://drive.google.com/drive/...",
+      "payload": null
+    },
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T21:02:00+05:30",
+      "ended_at": "2026-09-01T21:21:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "portfolio — Case Studies",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-09-01T21:21:00+05:30",
+      "ended_at": "2026-09-01T21:36:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-01-01",
+        "started_at": "09:18",
+        "ended_at": "10:03",
+        "title": "Morning client review and project planning",
+        "summary": "Reviewed incoming client material and checked the working files before deciding what to address during the day.",
+        "event_ids": [1, 2, 3],
+        "context": "Work",
+        "area": "Client work",
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-02",
+        "started_at": "10:03",
+        "ended_at": "10:29",
+        "title": "Visual reference research for coffee identity",
+        "summary": "Looked through coffee packaging and visual references to narrow the visual direction before continuing the identity exploration.",
+        "event_ids": [4, 5],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-03",
+        "started_at": "10:29",
+        "ended_at": "12:48",
+        "title": "Northstar Coffee identity exploration",
+        "summary": "Explored several visual directions for the coffee brand, tested layouts and type treatments, and developed initial logo and identity options.",
+        "event_ids": [6, 7, 8, 9, 10, 11],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-04",
+        "started_at": "12:48",
+        "ended_at": "14:35",
+        "title": "Existing client social campaign production",
+        "summary": "Shifted to a social media request from an existing client, selected an appropriate image and produced revisions to several campaign graphics.",
+        "event_ids": [12, 13, 14, 15, 16, 17],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Create",
+        "quality": "Production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-05",
+        "started_at": "15:46",
+        "ended_at": "16:52",
+        "title": "Return to coffee identity after interruption",
+        "summary": "Browsed additional references and then returned to the coffee identity, refining the direction developed earlier in the day.",
+        "event_ids": [18, 19],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Create",
+        "quality": "Mixed",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-06",
+        "started_at": "16:52",
+        "ended_at": "17:44",
+        "title": "Portfolio case study preparation",
+        "summary": "Started arranging material for a portfolio case study and reviewed another designer's work for presentation inspiration.",
+        "event_ids": [20, 21, 22],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-07",
+        "started_at": "18:58",
+        "ended_at": "20:04",
+        "title": "Packaging mockup preparation",
+        "summary": "Watched a short design-related video and then worked on a packaging mockup for the coffee identity.",
+        "event_ids": [23, 24, 25],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-01-08",
+        "started_at": "20:04",
+        "ended_at": "20:21",
+        "title": "Visual reference browsing",
+        "summary": "Browsed interface and branding examples while considering presentation and visual treatment options.",
+        "event_ids": [26],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Research",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-01-09",
+        "started_at": "20:21",
+        "ended_at": "21:02",
+        "title": "Coffee identity refinement and review preparation",
+        "summary": "Returned to the identity work, refined the selected direction, and organized files for the upcoming client review.",
+        "event_ids": [27, 28],
+        "context": "Work",
+        "area": "Northstar Coffee",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-01-10",
+        "started_at": "21:02",
+        "ended_at": "21:36",
+        "title": "Portfolio update and end-of-day communication",
+        "summary": "Made a small portfolio update and checked final messages before ending the workday.",
+        "event_ids": [29, 30],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "14:35",
+        "ended_at": "15:46",
+        "reason": "Lunch and offline personal activity"
+      },
+      {
+        "started_at": "17:44",
+        "ended_at": "18:58",
+        "reason": "Personal activity and dinner"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Northstar Coffee identity received the largest sustained block of work and moved from reference gathering into concrete visual exploration and refinement.",
+      "The existing client's social campaign interrupted the planned identity work, but the identity project was resumed several times rather than being abandoned for the day.",
+      "The coffee project is not finished yet, but the designer now has a more developed direction and files prepared for a client review.",
+      "Portfolio work was started and received some attention, although it remained secondary to client work.",
+      "Reference browsing occurred at several points. Some of it clearly supported the design process, while the later Dribbble session is not sufficiently informative to determine whether it materially changed the work.",
+      "The day involved several project switches, but the switches were largely connected to legitimate competing responsibilities rather than being entirely random."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Complete the coffee brand identity before the client review",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Deliver the social media campaign assets on time",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Build a stronger portfolio with the coffee project",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Maintain existing freelance client relationships",
+        "assessment": "meaningfully progressed"
+      }
+    ],
+    "important_uncertainty": [
+      "The offline periods are completely unobserved, so no conclusion should be drawn about how the designer used that time.",
+      "The Dribbble browsing session may have been legitimate visual research or casual browsing; the observed evidence does not establish which.",
+      "The YouTube session cannot by itself establish whether the video was useful learning or unrelated viewing.",
+      "The desktop evidence shows several identity explorations, but it does not reveal which concepts were ultimately rejected or preferred."
+    ],
+    "possible_next_step": "Protect a longer uninterrupted block for the Northstar Coffee identity and prepare the strongest direction for client review before investing heavily in the portfolio case study."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Protect a focused identity block",
+      "action_type": "protect_priority",
+      "reason": "The coffee identity is the highest-importance ongoing project, has already accumulated substantial exploration, and is approaching client review, while portfolio work can reasonably remain secondary.",
+      "suggested_focus_minutes": 90,
+      "target": "Northstar Coffee"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not classify Pinterest, Google Images, Behance, Dribbble, or YouTube as distractions solely because they were browsing activities.",
+      "Do not claim that the portfolio was neglected; it received a meaningful but smaller block of work.",
+      "Do not treat every application switch as harmful fragmentation.",
+      "Do not infer motivation, stress, confidence, or frustration from the unfinished identity work.",
+      "Do not claim that the offline periods were wasted.",
+      "Do not assume the Dribbble session was unproductive without evidence that it failed to support the design work."
+    ]
+  }
+}

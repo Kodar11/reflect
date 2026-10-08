@@ -1,0 +1,497 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 24,
+    "date": "2026-09-24",
+    "day_type": "account_export_release_and_post_release_validation_day",
+    "circumstances": [
+      "The account export pull request has reached approval and is being prepared for a controlled release.",
+      "The engineer needs to verify the deployment, queue processing, download behavior, and early production signals.",
+      "Normal team review work continues as a secondary responsibility.",
+      "The previously resolved workspace and webhook issues remain stable."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:12",
+      "last_seen": "18:42",
+      "approx_active_hours": 7.5,
+      "longest_unobserved_gap_minutes": 79
+    }
+  },
+  "raw_events": [
+    {
+      "id": 558,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T09:12:00+05:30",
+      "ended_at": "2026-09-24T09:35:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #892 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/892",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 892
+      }
+    },
+    {
+      "id": 559,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T09:35:00+05:30",
+      "ended_at": "2026-09-24T09:59:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#release-coordination",
+      "url": null,
+      "payload": {
+        "channel": "#release-coordination"
+      }
+    },
+    {
+      "id": 560,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T09:59:00+05:30",
+      "ended_at": "2026-09-24T10:22:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "status"
+      }
+    },
+    {
+      "id": 561,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T10:22:00+05:30",
+      "ended_at": "2026-09-24T10:46:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "release checklist — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "release-notes.md",
+          "accountExportController.ts"
+        ]
+      }
+    },
+    {
+      "id": 562,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T10:46:00+05:30",
+      "ended_at": "2026-09-24T11:09:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "git status && git log -5 --oneline",
+      "url": null,
+      "payload": {
+        "command": "git status && git log -5 --oneline"
+      }
+    },
+    {
+      "id": 563,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T11:09:00+05:30",
+      "ended_at": "2026-09-24T11:32:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Actions — platform-api",
+      "url": "https://github.com/company/platform-api/actions",
+      "payload": {
+        "repository": "platform-api",
+        "view": "actions"
+      }
+    },
+    {
+      "id": 564,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T11:32:00+05:30",
+      "ended_at": "2026-09-24T11:56:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 565,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T11:56:00+05:30",
+      "ended_at": "2026-09-24T12:20:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #892 — Checks",
+      "url": "https://github.com/company/platform-api/pull/892/checks",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 892
+      }
+    },
+    {
+      "id": 566,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T12:20:00+05:30",
+      "ended_at": "2026-09-24T12:43:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 567,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T14:02:00+05:30",
+      "ended_at": "2026-09-24T14:26:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Production — account export",
+      "url": "https://app.company.local/settings/export",
+      "payload": {
+        "environment": "production",
+        "view": "account export"
+      }
+    },
+    {
+      "id": 568,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T14:26:00+05:30",
+      "ended_at": "2026-09-24T14:49:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "account-export-worker — queue depth",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "account-export-worker",
+        "metric": "queue depth",
+        "time_range": "1h"
+      }
+    },
+    {
+      "id": 569,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T14:49:00+05:30",
+      "ended_at": "2026-09-24T15:13:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "account-export-worker — job duration",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "account-export-worker",
+        "metric": "job duration",
+        "time_range": "1h"
+      }
+    },
+    {
+      "id": 570,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T15:13:00+05:30",
+      "ended_at": "2026-09-24T15:37:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Production — Account export download",
+      "url": "https://app.company.local/settings/export/download",
+      "payload": {
+        "environment": "production",
+        "view": "download"
+      }
+    },
+    {
+      "id": 571,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T15:37:00+05:30",
+      "ended_at": "2026-09-24T16:01:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#qa-platform",
+      "url": null,
+      "payload": {
+        "channel": "#qa-platform"
+      }
+    },
+    {
+      "id": 572,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T16:01:00+05:30",
+      "ended_at": "2026-09-24T16:25:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #895 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/895",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 895
+      }
+    },
+    {
+      "id": 573,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T16:25:00+05:30",
+      "ended_at": "2026-09-24T16:49:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportStorage.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportStorage.ts",
+          "accountExportService.ts"
+        ]
+      }
+    },
+    {
+      "id": 574,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T16:49:00+05:30",
+      "ended_at": "2026-09-24T17:13:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExportStorage.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExportStorage.test.ts"
+      }
+    },
+    {
+      "id": 575,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T17:13:00+05:30",
+      "ended_at": "2026-09-24T17:37:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 576,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T17:37:00+05:30",
+      "ended_at": "2026-09-24T18:01:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "account-export-worker — errors",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "account-export-worker",
+        "metric": "errors",
+        "time_range": "4h"
+      }
+    },
+    {
+      "id": 577,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T18:01:00+05:30",
+      "ended_at": "2026-09-24T18:22:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "workspace-api — p95 latency",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "workspace-api",
+        "metric": "p95 latency",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 578,
+      "watcher": "window_activity",
+      "started_at": "2026-09-24T18:22:00+05:30",
+      "ended_at": "2026-09-24T18:42:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#release-coordination",
+      "url": null,
+      "payload": {
+        "channel": "#release-coordination"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-24-01",
+        "started_at": "09:12",
+        "ended_at": "12:43",
+        "title": "Account export release preparation",
+        "summary": "Confirmed approval and CI state, prepared the release checklist, checked the final commit state, and coordinated the controlled deployment for PLAT-512.",
+        "event_ids": [
+          558,
+          559,
+          560,
+          561,
+          562,
+          563,
+          564,
+          565,
+          566
+        ],
+        "context": "The account export implementation had completed focused review and was ready for a controlled production release.",
+        "area": "account_export",
+        "intent": "release",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-02",
+        "started_at": "14:02",
+        "ended_at": "16:01",
+        "title": "Post-release account export validation",
+        "summary": "Verified the production export flow, watched queue depth and job duration, exercised the download path, and coordinated QA observations.",
+        "event_ids": [
+          567,
+          568,
+          569,
+          570,
+          571
+        ],
+        "context": "Early production behavior needed observation before considering the feature fully settled.",
+        "area": "account_export",
+        "intent": "validate",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-24-03",
+        "started_at": "16:01",
+        "ended_at": "17:37",
+        "title": "Teammate review and release follow-up",
+        "summary": "Reviewed PR #895, made a small storage cleanup adjustment based on the production validation discussion, reran focused tests, and updated PLAT-512.",
+        "event_ids": [
+          572,
+          573,
+          574,
+          575
+        ],
+        "context": "Production validation exposed a small cleanup concern worth addressing while the feature was still fresh.",
+        "area": "engineering_delivery",
+        "intent": "review_and_refine",
+        "quality": "useful",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-24-04",
+        "started_at": "17:37",
+        "ended_at": "18:42",
+        "title": "Release monitoring",
+        "summary": "Checked export worker errors and workspace latency, then coordinated the next observation window.",
+        "event_ids": [
+          576,
+          577,
+          578
+        ],
+        "context": "The release had no clear failure signal, but the engineer continued a bounded observation window.",
+        "area": "platform_operations",
+        "intent": "monitor",
+        "quality": "appropriate",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:43",
+        "ended_at": "14:02",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The account export API moved from reviewed code into production with a controlled release.",
+      "Initial production validation covered the request, asynchronous job, and download path, with queue and duration metrics showing no immediate abnormal signal.",
+      "A small storage cleanup concern was identified during release follow-up and handled with a focused change rather than expanding scope.",
+      "The feature still benefits from a longer observation window before being considered fully settled."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Ship account export API",
+        "assessment": "released_and_under_observation",
+        "evidence": [
+          558,
+          559,
+          560,
+          563,
+          565,
+          567,
+          568,
+          569,
+          570,
+          575,
+          576,
+          578
+        ]
+      },
+      {
+        "priority": "Maintain team review responsibilities",
+        "assessment": "completed_secondary_responsibility",
+        "evidence": [
+          572
+        ]
+      },
+      {
+        "priority": "Maintain platform stability",
+        "assessment": "stable",
+        "evidence": [
+          577
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "The initial production sample is too small to establish behavior under sustained large-export load.",
+      "The storage cleanup adjustment has been tested but needs observation after deployment.",
+      "No immediate worker error signal is visible, but a longer observation window is still appropriate."
+    ],
+    "possible_next_step": "Keep the account export release under bounded observation, verify cleanup behavior and job outcomes over a longer window, and avoid reopening implementation unless production evidence points to a defect."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Bounded post-release observation of account export jobs and storage cleanup",
+      "action_type": "experiment",
+      "target": "Bounded post-release observation of account export jobs and storage cleanup",
+      "reason": "The feature is live and functioning, but enough production evidence has not accumulated to close the operational loop.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Document release outcome and close PLAT-512 after the observation window",
+      "action_type": "complete_open_loop",
+      "target": "Document release outcome and close PLAT-512 after the observation window",
+      "reason": "The implementation work is essentially complete; the remaining step is evidence-based closure.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not continue changing the implementation without a concrete production signal.",
+      "Do not treat the first few successful exports as proof of behavior under large sustained load.",
+      "Do not reopen the closed workspace or webhook investigations based on normal metrics.",
+      "Do not turn bounded release monitoring into indefinite dashboard watching."
+    ]
+  }
+}

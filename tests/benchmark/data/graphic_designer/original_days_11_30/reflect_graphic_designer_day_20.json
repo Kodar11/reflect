@@ -1,0 +1,90 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "date": "2026-09-20",
+    "day_number": 20,
+    "day_type": "portfolio_deep_work_and_small_client_revision_day"
+  },
+  "raw_events": [
+    {"event_id": 225,"timestamp":"2026-09-20T09:38:00+05:30","app":"Figma","activity":"Opened the Northstar Coffee portfolio case study and reviewed the current cover, project overview, and selected visuals."},
+    {"event_id": 226,"timestamp":"2026-09-20T10:02:00+05:30","app":"Figma","activity":"Reworked the case-study structure into sections for context, visual exploration, identity system, and final applications."},
+    {"event_id": 227,"timestamp":"2026-09-20T10:34:00+05:30","app":"Google Drive","activity":"Located older Northstar presentation exports and reference material from the completed client project."},
+    {"event_id": 228,"timestamp":"2026-09-20T10:51:00+05:30","app":"Figma","activity":"Selected and arranged process screenshots and identity explorations for the case-study narrative."},
+    {"event_id": 229,"timestamp":"2026-09-20T11:27:00+05:30","app":"Figma","activity":"Wrote concise captions explaining the major identity decisions and placed them beside the relevant visuals."},
+    {"event_id": 230,"timestamp":"2026-09-20T12:06:00+05:30","app":"Chrome","activity":"Browsed several designer portfolio case studies to compare ways of presenting process and final outcomes."},
+    {"event_id": 231,"timestamp":"2026-09-20T12:31:00+05:30","app":"Figma","activity":"Applied a more restrained layout approach to the Northstar case study and removed several decorative elements."},
+    {"event_id": 232,"timestamp":"2026-09-20T12:57:00+05:30","app":"System","activity":"No tracked desktop activity; offline period begins."},
+    {"event_id": 233,"timestamp":"2026-09-20T14:18:00+05:30","app":"Gmail","activity":"Read a small client request asking for one additional social campaign graphic based on an existing approved layout."},
+    {"event_id": 234,"timestamp":"2026-09-20T14:29:00+05:30","app":"Figma","activity":"Opened the existing social campaign file and reviewed the approved dimensions and typography."},
+    {"event_id": 235,"timestamp":"2026-09-20T14:52:00+05:30","app":"Figma","activity":"Created the requested campaign variation and adjusted the copy hierarchy for the new format."},
+    {"event_id": 236,"timestamp":"2026-09-20T15:17:00+05:30","app":"Photoshop","activity":"Adjusted the campaign image crop and prepared the asset for the new social format."},
+    {"event_id": 237,"timestamp":"2026-09-20T15:43:00+05:30","app":"Figma","activity":"Checked the campaign variation against the existing approved set and made minor spacing corrections."},
+    {"event_id": 238,"timestamp":"2026-09-20T16:02:00+05:30","app":"Gmail","activity":"Sent the completed social campaign variation to the client for review."},
+    {"event_id": 239,"timestamp":"2026-09-20T16:21:00+05:30","app":"Figma","activity":"Returned to the Northstar portfolio case study and refined the identity-system section using the final approved assets."},
+    {"event_id": 240,"timestamp":"2026-09-20T16:58:00+05:30","app":"Figma","activity":"Added final application mockups and aligned them with the case-study grid."},
+    {"event_id": 241,"timestamp":"2026-09-20T17:26:00+05:30","app":"Google Fonts","activity":"Checked typeface specimen pages to verify the typography details used in the portfolio explanation."},
+    {"event_id": 242,"timestamp":"2026-09-20T17:44:00+05:30","app":"Figma","activity":"Updated the typography section and simplified the supporting text around the selected typefaces."},
+    {"event_id": 243,"timestamp":"2026-09-20T18:11:00+05:30","app":"Chrome","activity":"Watched a short branding presentation video about portfolio storytelling and case-study structure."},
+    {"event_id": 244,"timestamp":"2026-09-20T18:32:00+05:30","app":"Figma","activity":"Reworked the Northstar case-study introduction after the presentation video and compared the result with the existing sections."},
+    {"event_id": 245,"timestamp":"2026-09-20T19:06:00+05:30","app":"Notion","activity":"Updated the project list to record the completed identity delivery, pending social client review, and unfinished Northstar portfolio case study."},
+    {"event_id": 246,"timestamp":"2026-09-20T19:24:00+05:30","app":"Figma","activity":"Reviewed the full Northstar case study from start to finish and marked sections that still need final copy or visual cleanup."},
+    {"event_id": 247,"timestamp":"2026-09-20T19:51:00+05:30","app":"System","activity":"No tracked desktop activity; offline period begins."}
+  ],
+  "ground_truth": {
+    "events": [
+      {"event_id":225,"project":"northstar_portfolio","activity_type":"review","importance":"high"},
+      {"event_id":226,"project":"northstar_portfolio","activity_type":"planning","importance":"high"},
+      {"event_id":227,"project":"northstar_portfolio","activity_type":"file_retrieval","importance":"medium"},
+      {"event_id":228,"project":"northstar_portfolio","activity_type":"execution","importance":"high"},
+      {"event_id":229,"project":"northstar_portfolio","activity_type":"execution","importance":"high"},
+      {"event_id":230,"project":"ambiguous_inspiration","activity_type":"research","importance":"low"},
+      {"event_id":231,"project":"northstar_portfolio","activity_type":"execution","importance":"high"},
+      {"event_id":232,"project":"offline","activity_type":"offline","importance":"low"},
+      {"event_id":233,"project":"social_campaign","activity_type":"client_feedback","importance":"medium"},
+      {"event_id":234,"project":"social_campaign","activity_type":"review","importance":"medium"},
+      {"event_id":235,"project":"social_campaign","activity_type":"execution","importance":"medium"},
+      {"event_id":236,"project":"social_campaign","activity_type":"execution","importance":"medium"},
+      {"event_id":237,"project":"social_campaign","activity_type":"execution","importance":"medium"},
+      {"event_id":238,"project":"social_campaign","activity_type":"client_communication","importance":"medium"},
+      {"event_id":239,"project":"northstar_portfolio","activity_type":"execution","importance":"high"},
+      {"event_id":240,"project":"northstar_portfolio","activity_type":"execution","importance":"high"},
+      {"event_id":241,"project":"northstar_portfolio","activity_type":"research","importance":"low"},
+      {"event_id":242,"project":"northstar_portfolio","activity_type":"execution","importance":"medium"},
+      {"event_id":243,"project":"ambiguous_inspiration","activity_type":"research","importance":"low"},
+      {"event_id":244,"project":"northstar_portfolio","activity_type":"execution","importance":"medium"},
+      {"event_id":245,"project":"portfolio_and_client_admin","activity_type":"planning","importance":"low"},
+      {"event_id":246,"project":"northstar_portfolio","activity_type":"review","importance":"medium"},
+      {"event_id":247,"project":"offline","activity_type":"offline","importance":"low"}
+    ],
+    "summary": {
+      "northstar_portfolio":"The Northstar Coffee case study received the largest share of visible work today. Its structure, process visuals, captions, identity-system section, application mockups, and introduction were developed, leaving a smaller set of copy and visual cleanup tasks.",
+      "social_campaign":"A small client-requested campaign variation was produced and sent for review. No further response is visible today.",
+      "new_brand_identity":"No production work is visible today; the identity was already approved and delivered on the previous day.",
+      "ambiguity":"Portfolio references and a short branding presentation may have informed presentation decisions, but the raw events alone cannot establish exactly how useful either source was.",
+      "offline":"There are untracked periods during the day, so activity during those periods cannot be inferred."
+    }
+  },
+  "expected_reflection": {
+    "summary":"The day shifted toward the unfinished Northstar Coffee portfolio case study after the new client identity had been closed. The case study received sustained structural and visual work, with a small social campaign request handled in the middle of the day. The portfolio now appears substantially further along, although final copy and cleanup remain open.",
+    "key_observations":[
+      "The Northstar portfolio was the dominant visible workstream and received multiple sustained design blocks.",
+      "The social campaign interruption was a concrete client request and was completed and sent for review rather than becoming an open-ended detour.",
+      "Reference browsing was followed by changes to the portfolio presentation, so it may have served the active design task rather than being purely recreational.",
+      "The previously completed brand identity was not reopened for unnecessary refinement.",
+      "Offline periods prevent conclusions about what happened outside tracked desktop activity."
+    ],
+    "open_questions":[
+      "Whether the social campaign variation is approved or requires another revision is not yet observable.",
+      "Whether the remaining Northstar portfolio cleanup is completed outside the tracked session is not established."
+    ]
+  },
+  "expected_coach_outcome": {
+    "should_intervene":true,
+    "message":"The Northstar case study has moved from restarting into a nearly complete draft. Keep the next block focused on the remaining copy and visual cleanup, while treating the social campaign as waiting for client feedback unless a response arrives.",
+    "reason":"The portfolio now has substantial structure and content, making a focused finishing block more valuable than another round of broad exploration."
+  }
+}

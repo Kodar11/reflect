@@ -17,6 +17,7 @@ import {
 import type { VerifiedSessionDto } from '../../timeline/timelineIpc';
 import type { FocusSessionDto } from '../Focus/useFocus';
 import { InlineEditor } from './InlineEditor';
+import { EventPrivacyMenu, useEventPrivacy, type EventPrivacyChange, type EventPrivacyControls } from '../components/EventPrivacy';
 import {
   categoryHueIndex,
   fmtDuration,
@@ -35,6 +36,8 @@ export interface InspectorActions {
   onToggleOffline: (id: string, offline: boolean) => void;
   onNoteChange: (id: string, note: string) => void;
   onCopyDetails: (session: VerifiedSessionDto) => void;
+  /** A raw event of the selected session was hidden, restored or deleted. */
+  onEventsChanged?: (change: EventPrivacyChange) => void;
   onAssignActivity?: (id: string, activityId: string | null) => void;
   onUpdateActivity?: (id: string, name: string, color: string) => void;
   onNavigateToRule?: (ruleId: string) => void;
@@ -67,6 +70,9 @@ interface InspectorPanelProps {
 
 export function InspectorPanel({ sessions, focusSessions, selectedId, isToday, dayLabel, actions, view, onOpenFocus }: InspectorPanelProps) {
   const selected = selectedId ? sessions.find((s) => s.id === selectedId) ?? null : null;
+  // Held here, not in the session detail: hiding an event can regroup the block
+  // it was in, and the "Undo" must outlive the selection that goes with it.
+  const privacy = useEventPrivacy({ onChanged: actions.onEventsChanged });
 
   return (
     <aside
@@ -93,7 +99,7 @@ export function InspectorPanel({ sessions, focusSessions, selectedId, isToday, d
 
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {selected ? (
-          <SessionDetail session={selected} sessions={sessions} isToday={isToday} actions={actions} />
+          <SessionDetail session={selected} sessions={sessions} isToday={isToday} actions={actions} privacy={privacy} />
         ) : view === 'day' ? (
           <EmptyInspector sessions={sessions} focusSessions={focusSessions} onOpenFocus={onOpenFocus} />
         ) : (
@@ -111,6 +117,7 @@ export function InspectorPanel({ sessions, focusSessions, selectedId, isToday, d
           />
         )}
       </div>
+      {privacy.overlay}
     </aside>
   );
 }
@@ -369,11 +376,13 @@ function SessionDetail({
   sessions,
   isToday,
   actions,
+  privacy,
 }: {
   session: VerifiedSessionDto;
   sessions: VerifiedSessionDto[];
   isToday: boolean;
   actions: InspectorActions;
+  privacy: EventPrivacyControls;
 }) {
   const [editing, setEditing] = useState(false);
   const [noteDraft, setNoteDraft] = useState(session.note ?? '');
@@ -395,6 +404,30 @@ function SessionDetail({
   const [clsIntent, setClsIntent] = useState<string | null>(null);
   const [clsquality, setClsquality] = useState<string | null>(null);
   const [clsRemember, setClsRemember] = useState(false);
+
+  // The raw events behind this block, so each can be told apart — and hidden
+  // or deleted on its own. Works on any day: removing an event is not an edit
+  // of the timeline, it is the user's say over what was captured.
+  const [eventDetails, setEventDetails] = useState<Map<number, TrackerEventDto>>(new Map());
+  const eventIdsKey = session.eventIds.join(',');
+  useEffect(() => {
+    let stale = false;
+    if (session.eventIds.length === 0) {
+      setEventDetails(new Map());
+      return;
+    }
+    window.tracker
+      .getByIds(session.eventIds)
+      .then((rows) => {
+        if (!stale) setEventDetails(new Map(rows.map((row) => [row.id, row])));
+      })
+      .catch((e) => console.error('Failed to load session events', e));
+    return () => {
+      stale = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [eventIdsKey]);
+  const visibleEventIds = session.eventIds.filter((id) => !privacy.removedIds.has(id));
 
   const refreshClassification = async () => {
     try {
@@ -796,21 +829,25 @@ function SessionDetail({
       {/* Event List */}
       <Section title="Event List" icon={<Activity size={13} />}>
         <DisclosureButton open={eventsOpen} onClick={() => setEventsOpen((v) => !v)}>
-          {session.eventCount} raw event{session.eventCount === 1 ? '' : 's'}
+          {visibleEventIds.length} raw event{visibleEventIds.length === 1 ? '' : 's'}
         </DisclosureButton>
         {eventsOpen && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 10, maxHeight: 180, overflowY: 'auto', paddingRight: 4 }}>
-            {session.eventIds.length === 0 ? (
+            {visibleEventIds.length === 0 ? (
               <div style={{ fontSize: '12px', color: 'var(--text-faint)', padding: '4px 0' }}>No raw events attached.</div>
-            ) : session.eventIds.map((id, index) => (
-              <div key={id} style={{ display: 'flex', alignItems: 'center', gap: 8, minHeight: 26, padding: '3px 6px', fontSize: '12px', color: 'var(--text-muted)', background: 'var(--bg)', borderRadius: 6, border: '1px solid var(--border)' }}>
-                <span style={{ width: 16, color: 'var(--text-faint)', fontWeight: 600, fontSize: '10px', textAlign: 'right' }}>{index + 1}</span>
-                <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }}>
-                  {session.primaryApp || 'Activity'}{session.primaryTitle ? ` · ${session.primaryTitle}` : ''}
-                </span>
-                <span style={{ color: 'var(--text-faint)', fontVariantNumeric: 'tabular-nums', fontSize: '10px' }}>#{id}</span>
-              </div>
-            ))}
+            ) : visibleEventIds.map((id, index) => {
+              const label = eventLabel(eventDetails.get(id), session);
+              return (
+                <div key={id} style={{ display: 'flex', alignItems: 'center', gap: 8, minHeight: 26, padding: '3px 6px', fontSize: '12px', color: 'var(--text-muted)', background: 'var(--bg)', borderRadius: 6, border: '1px solid var(--border)' }}>
+                  <span style={{ width: 16, color: 'var(--text-faint)', fontWeight: 600, fontSize: '10px', textAlign: 'right' }}>{index + 1}</span>
+                  <span style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontWeight: 500 }} title={label}>
+                    {label}
+                  </span>
+                  <span style={{ color: 'var(--text-faint)', fontVariantNumeric: 'tabular-nums', fontSize: '10px' }}>#{id}</span>
+                  <EventPrivacyMenu size={12} onHide={() => privacy.hide({ id })} onDelete={() => privacy.requestDelete({ id, label })} />
+                </div>
+              );
+            })}
           </div>
         )}
       </Section>
@@ -840,6 +877,13 @@ function SessionDetail({
       </Section>
     </div>
   );
+}
+
+/** What one raw event was; the block's own summary until its details have loaded. */
+function eventLabel(event: TrackerEventDto | undefined, session: VerifiedSessionDto): string {
+  const app = event ? event.app : session.primaryApp;
+  const title = event ? event.title : session.primaryTitle;
+  return [app || 'Activity', title].filter(Boolean).join(' · ');
 }
 
 function Section({ title, icon, children }: { title: string; icon?: React.ReactNode; children: React.ReactNode }) {

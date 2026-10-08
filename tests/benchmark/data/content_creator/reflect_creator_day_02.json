@@ -1,0 +1,609 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while handling research, production, publishing, community, analytics, and personal life",
+    "current_work": [
+      "Producing the API-performance video drafted on Day 1",
+      "Reviewing audience communication and channel performance",
+      "Collecting ideas for later backend-development content"
+    ],
+    "priorities": [
+      "Turn the existing script into usable footage and a rough cut",
+      "Keep production moving despite small setup issues and interruptions",
+      "Keep analytics, community work, and new ideas secondary to the video already in progress"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-09-02",
+    "day_type": "tuesday_recording_and_rough_editing",
+    "circumstances": [
+      "The API-performance video moved from script refinement into recording and editing.",
+      "The creator used the recording application for setup, checking a clip, and multiple takes, so the same app represented different stages of the production process.",
+      "A short chat interruption occurred between recording takes.",
+      "The first rough edit was assembled in DaVinci Resolve, with one short tutorial used to solve an editing detail.",
+      "A thumbnail was started but not finished, while a new PostgreSQL idea was only lightly explored at night."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:07",
+      "last_seen": "22:56",
+      "approx_active_hours": 8.4,
+      "longest_unobserved_gap_minutes": 97
+    }
+  },
+  "raw_events": [
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:07:00+05:30",
+      "ended_at": "2026-09-02T09:19:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:19:00+05:30",
+      "ended_at": "2026-09-02T09:33:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Channel dashboard",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:33:00+05:30",
+      "ended_at": "2026-09-02T10:02:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Why APIs Feel Slow — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T10:02:00+05:30",
+      "ended_at": "2026-09-02T10:18:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "HTTP cache headers max age example",
+      "url": "https://www.google.com/search?q=HTTP+cache+headers+max-age+example",
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T10:18:00+05:30",
+      "ended_at": "2026-09-02T10:47:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Why APIs Feel Slow — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T11:21:00+05:30",
+      "ended_at": "2026-09-02T11:34:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T11:34:00+05:30",
+      "ended_at": "2026-09-02T11:51:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T11:51:00+05:30",
+      "ended_at": "2026-09-02T12:04:00+05:30",
+      "app": "VLC",
+      "browser": null,
+      "title": "2026-09-02_110.mp4",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 31,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T12:18:00+05:30",
+      "ended_at": "2026-09-02T12:49:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 32,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T12:49:00+05:30",
+      "ended_at": "2026-09-02T13:02:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 33,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T13:02:00+05:30",
+      "ended_at": "2026-09-02T13:29:00+05:30",
+      "app": "OBS",
+      "browser": null,
+      "title": "Camera + Screen",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 34,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T15:06:00+05:30",
+      "ended_at": "2026-09-02T15:37:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 35,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T15:37:00+05:30",
+      "ended_at": "2026-09-02T16:08:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 36,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T16:08:00+05:30",
+      "ended_at": "2026-09-02T16:21:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "screen recording cursor zoom tutorial",
+      "url": "https://www.youtube.com/watch?v=edit-tip-02",
+      "payload": null
+    },
+    {
+      "id": 37,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T16:21:00+05:30",
+      "ended_at": "2026-09-02T16:53:00+05:30",
+      "app": "DaVinci Resolve",
+      "browser": null,
+      "title": "Why APIs Feel Slow — rough cut",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 38,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T17:26:00+05:30",
+      "ended_at": "2026-09-02T17:48:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "YouTube Thumbnail",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 39,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T17:48:00+05:30",
+      "ended_at": "2026-09-02T18:01:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 40,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T18:34:00+05:30",
+      "ended_at": "2026-09-02T18:47:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Content analytics",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 41,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T20:11:00+05:30",
+      "ended_at": "2026-09-02T20:54:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Movie essay channel",
+      "url": "https://www.youtube.com/watch?v=essay-03",
+      "payload": null
+    },
+    {
+      "id": 42,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T20:54:00+05:30",
+      "ended_at": "2026-09-02T21:37:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 43,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T21:37:00+05:30",
+      "ended_at": "2026-09-02T21:55:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 44,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T22:24:00+05:30",
+      "ended_at": "2026-09-02T22:41:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 45,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T22:41:00+05:30",
+      "ended_at": "2026-09-02T22:56:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL indexes B-tree example",
+      "url": "https://www.google.com/search?q=PostgreSQL+indexes+B-tree+example",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "09:07",
+        "ended_at": "09:33",
+        "title": "Morning channel and inbox check",
+        "summary": "Checked email and the YouTube channel dashboard before returning to the video work.",
+        "event_ids": [
+          23,
+          24
+        ],
+        "context": "The channel check continued the routine from Day 1.",
+        "area": "creator_operations",
+        "intent": "Review incoming communication and current channel state.",
+        "quality": "routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "09:33",
+        "ended_at": "10:47",
+        "title": "Final script refinement",
+        "summary": "Reworked the main video's draft, checked one HTTP caching detail, and incorporated the relevant example into the script.",
+        "event_ids": [
+          25,
+          26,
+          27
+        ],
+        "context": "The video had been drafted on Day 1 and was now being prepared for recording.",
+        "area": "scripting",
+        "intent": "Make the script concrete enough to record.",
+        "quality": "focused creative work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-03",
+        "started_at": "10:47",
+        "ended_at": "11:21",
+        "title": "Offline setup break",
+        "summary": "Prepared the recording space away from the desktop.",
+        "event_ids": [],
+        "context": "The benchmark cannot observe physical setup activity.",
+        "area": "production",
+        "intent": "Prepare the physical recording setup.",
+        "quality": "unobserved offline activity",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-02-04",
+        "started_at": "11:21",
+        "ended_at": "12:04",
+        "title": "Recording setup and audio check",
+        "summary": "Set up OBS, made a short recording, adjusted the setup, recorded another clip, and reviewed the resulting file.",
+        "event_ids": [
+          28,
+          29,
+          30
+        ],
+        "context": "The creator was checking whether the camera, screen capture, and audio were usable before the main takes.",
+        "area": "recording",
+        "intent": "Validate the recording setup before committing to the main take.",
+        "quality": "technical setup with adjustment",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-05",
+        "started_at": "12:18",
+        "ended_at": "13:29",
+        "title": "Main video recording",
+        "summary": "Recorded the main material in two OBS blocks, with a short Discord interruption between takes.",
+        "event_ids": [
+          31,
+          32,
+          33
+        ],
+        "context": "The recording followed the script work and setup check from the morning.",
+        "area": "recording",
+        "intent": "Capture usable footage for the API-performance video.",
+        "quality": "substantive production with interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-06",
+        "started_at": "13:29",
+        "ended_at": "15:06",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available for this period.",
+        "area": "personal",
+        "intent": "Lunch and ordinary personal activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-07",
+        "started_at": "15:06",
+        "ended_at": "16:53",
+        "title": "Rough video edit",
+        "summary": "Assembled the first rough cut in DaVinci Resolve, briefly watched an editing tutorial for a screen-recording detail, and continued the cut.",
+        "event_ids": [
+          34,
+          35,
+          36,
+          37
+        ],
+        "context": "The creator had usable footage from the earlier recording session.",
+        "area": "editing",
+        "intent": "Turn raw recording into a coherent rough cut.",
+        "quality": "substantive production",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-08",
+        "started_at": "16:53",
+        "ended_at": "17:26",
+        "title": "Offline break",
+        "summary": "Took a short break away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop events were observed.",
+        "area": "personal",
+        "intent": "Take a break between production tasks.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-09",
+        "started_at": "17:26",
+        "ended_at": "18:01",
+        "title": "Thumbnail exploration and audience messages",
+        "summary": "Started a thumbnail concept and then checked Instagram direct messages.",
+        "event_ids": [
+          38,
+          39
+        ],
+        "context": "The thumbnail is part of the same video's production, while the Instagram inbox is routine community work.",
+        "area": "design_and_community",
+        "intent": "Make an initial thumbnail direction and handle audience messages.",
+        "quality": "partial production plus routine community work",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-02-10",
+        "started_at": "18:01",
+        "ended_at": "18:34",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent a short evening period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-11",
+        "started_at": "18:34",
+        "ended_at": "18:47",
+        "title": "Analytics check",
+        "summary": "Opened the channel analytics dashboard and reviewed current metrics without an observable content decision.",
+        "event_ids": [
+          40
+        ],
+        "context": "The creator has been checking analytics regularly but has not yet tied the checks to a specific production decision.",
+        "area": "analytics",
+        "intent": "Check current channel performance.",
+        "quality": "low-action-value check",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-12",
+        "started_at": "18:47",
+        "ended_at": "20:11",
+        "title": "Offline evening time",
+        "summary": "Spent the early evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Personal time before recreation.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-13",
+        "started_at": "20:11",
+        "ended_at": "21:55",
+        "title": "Evening entertainment and social time",
+        "summary": "Watched an unrelated video essay, played Hades, and chatted with friends.",
+        "event_ids": [
+          41,
+          42,
+          43
+        ],
+        "context": "The creator had already completed substantial production work earlier in the day.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-14",
+        "started_at": "21:55",
+        "ended_at": "22:24",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Wind down before a brief return to idea work.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-15",
+        "started_at": "22:24",
+        "ended_at": "22:56",
+        "title": "Future-video idea exploration",
+        "summary": "Opened the idea list and explored a PostgreSQL indexing topic, but did not turn it into a developed concept.",
+        "event_ids": [
+          44,
+          45
+        ],
+        "context": "This is a new idea, while the API-performance video remains unfinished.",
+        "area": "ideation",
+        "intent": "Test whether a PostgreSQL indexing topic is worth revisiting later.",
+        "quality": "exploratory / unfinished",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "10:47",
+        "ended_at": "11:21",
+        "reason": "Physical recording setup away from the desktop"
+      },
+      {
+        "started_at": "13:29",
+        "ended_at": "15:06",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "16:53",
+        "ended_at": "17:26",
+        "reason": "Short offline break"
+      },
+      {
+        "started_at": "18:01",
+        "ended_at": "18:34",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "18:47",
+        "ended_at": "20:11",
+        "reason": "Offline evening personal time"
+      },
+      {
+        "started_at": "21:55",
+        "ended_at": "22:24",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The API-performance video advanced materially today: the script was refined, recording was completed in multiple takes, and a first rough edit was assembled.",
+      "The recording application represented more than one production activity: setup checks, clip review, and main recording were distinct stages despite using the same app.",
+      "A short technical tutorial was used during editing and immediately followed by more editing, making it part of the production workflow rather than a separate learning goal.",
+      "The thumbnail was only started, so the video is farther along than Day 1 but not yet ready to publish.",
+      "Analytics were checked again without an observable decision, and a new PostgreSQL idea was explored only briefly.",
+      "YouTube again served both creator work and unrelated entertainment."
+    ],
+    "priority_alignment": [
+      "Most substantial production time stayed on the API-performance video and moved it from script to recorded footage and rough cut.",
+      "The thumbnail and new PostgreSQL idea remained secondary to the main production task.",
+      "Community communication and analytics remained relatively small compared with recording and editing."
+    ],
+    "important_uncertainty": [
+      "The desktop timeline cannot establish whether the recorded takes are technically usable without more detailed footage/audio metadata.",
+      "The rough-cut events show editing activity but do not reveal how complete or coherent the final cut is.",
+      "The analytics dashboard was opened, but the actual metrics and any interpretation are not visible.",
+      "The thumbnail work was brief and its final state is unclear.",
+      "Offline setup and break periods are outside desktop observation."
+    ],
+    "possible_next_step": "Continue the rough cut toward a watchable first version before spending significant time on the thumbnail or the newer PostgreSQL idea."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Finish a watchable rough cut",
+      "action_type": "complete_open_loop",
+      "reason": "The creator now has recorded footage and an initial edit, so the clearest next production milestone is a complete watchable version rather than more idea exploration.",
+      "target": "Why APIs Feel Slow — video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Delay new idea exploration",
+      "action_type": "protect_priority",
+      "reason": "The main video is already in production while the PostgreSQL idea is only exploratory; advancing the existing video is the clearer near-term priority.",
+      "suggested_focus_minutes": null,
+      "target": null
+    },
+    "things_not_to_do": [
+      "Do not assume the recording setup check and main recording were one undifferentiated activity simply because both used OBS.",
+      "Do not treat the editing tutorial as unrelated browsing when it was followed immediately by continued editing.",
+      "Do not assume the rough cut is nearly finished from elapsed editing time alone.",
+      "Do not infer that analytics checking was useless because no visible decision followed.",
+      "Do not treat the unfinished PostgreSQL idea as a failure; it is simply less developed than the main video.",
+      "Do not criticize the evening entertainment or social time as inherently harmful.",
+      "Do not infer what happened during the offline recording setup or breaks."
+    ]
+  }
+}

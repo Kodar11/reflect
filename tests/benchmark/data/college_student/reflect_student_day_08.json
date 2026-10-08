@@ -1,0 +1,402 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Keeping up with current semester coursework",
+      "Completing a new DBMS mini-assignment",
+      "Working with classmates on a semester project"
+    ],
+    "priorities": [
+      "Close out the Software Engineering mini-assignment",
+      "Start the DBMS mini-assignment due later in the week",
+      "Make steady progress on the semester group project"
+    ]
+  },
+  "day": {
+    "day_number": 8,
+    "date": "2026-09-08",
+    "day_type": "tuesday_coursework_submission_and_new_assignment",
+    "circumstances": [
+      "Tuesday included regular college classes and a short library session, with a substantial part of the day away from the laptop.",
+      "The Software Engineering mini-assignment from Day 7 was finalized and submitted after a morning review.",
+      "A new DBMS mini-assignment became the main fresh coursework thread after its instructions were posted.",
+      "The semester project continued with a smaller implementation/debugging block.",
+      "The evening was mixed: a short social interruption, a brief gaming session, then a final check of the DBMS task."
+    ],
+    "laptop_usage": {
+      "first_seen": "08:12",
+      "last_seen": "21:18",
+      "approx_active_hours": 6.0,
+      "longest_unobserved_gap_minutes": 237
+    }
+  },
+  "raw_events": [
+    {
+      "id": 142,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T08:12:00+05:30",
+      "ended_at": "2026-09-08T08:29:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "SE Mini Assignment — Draft",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 143,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T08:29:00+05:30",
+      "ended_at": "2026-09-08T08:41:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "My Drive — SE Mini Assignment",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 144,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T08:41:00+05:30",
+      "ended_at": "2026-09-08T08:55:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "Software Engineering — Stream",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 145,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T08:55:00+05:30",
+      "ended_at": "2026-09-08T09:07:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 146,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T13:04:00+05:30",
+      "ended_at": "2026-09-08T13:18:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS — Week 4 Materials",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 147,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T13:18:00+05:30",
+      "ended_at": "2026-09-08T13:44:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 148,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T13:44:00+05:30",
+      "ended_at": "2026-09-08T14:09:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "B+ tree insertion example",
+      "url": "https://www.google.com/search?q=B%2B+tree+insertion+example",
+      "payload": null
+    },
+    {
+      "id": 149,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T14:09:00+05:30",
+      "ended_at": "2026-09-08T14:37:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 150,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T14:37:00+05:30",
+      "ended_at": "2026-09-08T14:52:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 151,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T14:52:00+05:30",
+      "ended_at": "2026-09-08T15:17:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 152,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T17:11:00+05:30",
+      "ended_at": "2026-09-08T17:25:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "semester-project",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 153,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T17:25:00+05:30",
+      "ended_at": "2026-09-08T17:49:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project / Pull requests",
+      "url": "https://github.com/",
+      "payload": null
+    },
+    {
+      "id": 154,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T17:49:00+05:30",
+      "ended_at": "2026-09-08T18:28:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — api.js",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 155,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T18:28:00+05:30",
+      "ended_at": "2026-09-08T18:42:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- api",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 156,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T18:42:00+05:30",
+      "ended_at": "2026-09-08T18:55:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Roommate prank compilation",
+      "url": "https://www.youtube.com/watch?v=example3",
+      "payload": null
+    },
+    {
+      "id": 157,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T18:55:00+05:30",
+      "ended_at": "2026-09-08T19:22:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 158,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T19:22:00+05:30",
+      "ended_at": "2026-09-08T19:39:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 159,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T20:57:00+05:30",
+      "ended_at": "2026-09-08T21:06:00+05:30",
+      "app": "Google Classroom",
+      "browser": "Chrome",
+      "title": "DBMS — Week 4 Materials",
+      "url": "https://classroom.google.com/",
+      "payload": null
+    },
+    {
+      "id": 160,
+      "watcher": "desktop",
+      "started_at": "2026-09-08T21:06:00+05:30",
+      "ended_at": "2026-09-08T21:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Mini Assignment — Notes",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-08-01",
+        "started_at": "08:12",
+        "ended_at": "09:07",
+        "title": "Software Engineering assignment finalization and submission check",
+        "summary": "Reviewed the completed Software Engineering document and Drive materials, checked the course stream, and verified email before leaving for college.",
+        "event_ids": [
+          142,
+          143,
+          144,
+          145
+        ],
+        "context": "The assignment had been drafted and substantially developed on Day 7.",
+        "area": "coursework",
+        "intent": "Finalize the completed coursework and verify that the submission materials are ready.",
+        "quality": "completion-oriented",
+        "importance": "high"
+      },
+      {
+        "id": "gt-08-02",
+        "started_at": "13:04",
+        "ended_at": "15:17",
+        "title": "DBMS mini-assignment research and drafting",
+        "summary": "Read the new DBMS task materials, took notes on B+ trees, searched for an insertion example, drafted the response, and returned to the document after a brief WhatsApp interruption.",
+        "event_ids": [
+          146,
+          147,
+          148,
+          149,
+          150,
+          151
+        ],
+        "context": "A new DBMS mini-assignment had appeared while the earlier Software Engineering task was reaching closure.",
+        "area": "coursework",
+        "intent": "Understand the B+ tree topic and begin producing the required written work.",
+        "quality": "substantive progress with brief interruption",
+        "importance": "high"
+      },
+      {
+        "id": "gt-08-03",
+        "started_at": "17:11",
+        "ended_at": "18:42",
+        "title": "Semester project implementation",
+        "summary": "Checked the group discussion and pull requests, edited the API implementation, and ran the related tests.",
+        "event_ids": [
+          152,
+          153,
+          154,
+          155
+        ],
+        "context": "This continues the implementation work that began on Days 7–8 after earlier planning.",
+        "area": "semester_project",
+        "intent": "Implement the agreed API change and verify it with tests.",
+        "quality": "focused technical progress",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-08-04",
+        "started_at": "18:42",
+        "ended_at": "19:39",
+        "title": "Leisure and social time",
+        "summary": "Watched unrelated YouTube entertainment, played Hades, and chatted with friends.",
+        "event_ids": [
+          156,
+          157,
+          158
+        ],
+        "context": "Ordinary evening leisure after coursework and project work.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-08-05",
+        "started_at": "20:57",
+        "ended_at": "21:18",
+        "title": "DBMS coursework review",
+        "summary": "Returned to the DBMS course page and notes to verify the task requirements and current draft.",
+        "event_ids": [
+          159,
+          160
+        ],
+        "context": "The new DBMS mini-assignment remained open after the initial afternoon work.",
+        "area": "coursework",
+        "intent": "Check the remaining requirements and current state of the draft.",
+        "quality": "brief follow-up",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "09:07",
+        "ended_at": "13:04",
+        "reason": "College classes, commuting, and campus activity away from the laptop"
+      },
+      {
+        "started_at": "15:17",
+        "ended_at": "17:11",
+        "reason": "Lunch, library/offline study, and personal activity"
+      },
+      {
+        "started_at": "19:39",
+        "ended_at": "20:57",
+        "reason": "Dinner and offline personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The Software Engineering mini-assignment moved from an open loop to final verification at the start of the day, consistent with the work completed on Day 7.",
+      "A new DBMS mini-assignment became the dominant fresh coursework thread, with research and drafting around B+ trees continuing into the evening.",
+      "The semester project remained active through another implementation-and-test block, but it received less observed time than the new coursework.",
+      "The evening leisure period was clearly separate from the academic blocks and included both entertainment and social interaction."
+    ],
+    "priority_alignment": [
+      "Closing the Software Engineering task and starting the newly posted DBMS work matched the most time-sensitive academic needs visible today.",
+      "The semester project continued progressing without displacing the newer coursework priority."
+    ],
+    "important_uncertainty": [
+      "The morning Classroom/Drive activity strongly suggests final submission handling, but the observed events do not directly prove that the Software Engineering submission was accepted.",
+      "The DBMS draft was reviewed again at night, but the events do not show a final submission.",
+      "Classes, library time, and other offline activity are not represented in the laptop timeline."
+    ],
+    "possible_next_step": "Finish the remaining DBMS mini-assignment requirements and submit it before shifting a larger block back to the semester project."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Close the DBMS mini-assignment",
+      "action_type": "complete_open_loop",
+      "reason": "The new DBMS task received a substantial work block and an evening review, indicating that it is the clearest remaining academic open loop.",
+      "suggested_focus_minutes": 45,
+      "target": "DBMS Mini Assignment"
+    },
+    "secondary_action": {
+      "title": "Keep the project API thread moving",
+      "action_type": "continue_successful_behavior",
+      "reason": "The semester project has now moved across multiple days from coordination into implementation and testing.",
+      "suggested_focus_minutes": 30,
+      "target": "Semester Project API"
+    },
+    "things_not_to_do": [
+      "Do not claim the Software Engineering submission was accepted based only on the morning verification events.",
+      "Do not treat the offline college and library periods as unproductive or missing work.",
+      "Do not classify the B+ tree search as generic browsing when it occurred inside an active DBMS work session.",
+      "Do not treat the evening YouTube, gaming, and friend chat as automatically problematic.",
+      "Do not infer that the semester project API change was fully complete merely because tests were run."
+    ]
+  }
+}

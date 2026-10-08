@@ -1,0 +1,518 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 17,
+    "date": "2026-09-17",
+    "day_type": "webhook_closure_and_new_platform_work_day",
+    "circumstances": [
+      "The webhook retry-path change has now accumulated a sufficiently long production observation window.",
+      "The original workspace performance regression remains closed and stable.",
+      "The engineer has been asked to pick up a new platform task after the webhook investigation reaches a closure decision.",
+      "Normal code review and team coordination continue as secondary responsibilities."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:04",
+      "last_seen": "18:32",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 75
+    }
+  },
+  "raw_events": [
+    {
+      "id": 408,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T09:04:00+05:30",
+      "ended_at": "2026-09-17T09:27:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — delivery outcomes — 48h",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "view": "delivery outcomes",
+        "time_range": "48h"
+      }
+    },
+    {
+      "id": 409,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T09:27:00+05:30",
+      "ended_at": "2026-09-17T09:49:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — retry attempts by outcome — 48h",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "metric": "retry attempts by outcome",
+        "time_range": "48h"
+      }
+    },
+    {
+      "id": 410,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T09:49:00+05:30",
+      "ended_at": "2026-09-17T10:11:00+05:30",
+      "app": "Sentry",
+      "browser": "Chrome",
+      "title": "webhook-worker — issue trends",
+      "url": "https://sentry.company.local/",
+      "payload": {
+        "service": "webhook-worker",
+        "time_range": "48h"
+      }
+    },
+    {
+      "id": 411,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T10:11:00+05:30",
+      "ended_at": "2026-09-17T10:34:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-497 — webhook delivery reliability",
+      "url": "https://jira.company.local/browse/PLAT-497",
+      "payload": {
+        "issue": "PLAT-497",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 412,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T10:34:00+05:30",
+      "ended_at": "2026-09-17T10:56:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 413,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T10:56:00+05:30",
+      "ended_at": "2026-09-17T11:18:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512"
+      }
+    },
+    {
+      "id": 414,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T11:18:00+05:30",
+      "ended_at": "2026-09-17T11:43:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PRD — Account export API",
+      "url": "https://notion.company.local/account-export-api",
+      "payload": {
+        "page": "Account export API"
+      }
+    },
+    {
+      "id": 415,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T11:43:00+05:30",
+      "ended_at": "2026-09-17T12:05:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "platform-api — account export search",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountRepository.ts",
+          "accountService.ts"
+        ]
+      }
+    },
+    {
+      "id": 416,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T12:05:00+05:30",
+      "ended_at": "2026-09-17T12:28:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 417,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T12:28:00+05:30",
+      "ended_at": "2026-09-17T12:46:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #881 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/881",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 881
+      }
+    },
+    {
+      "id": 418,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T14:01:00+05:30",
+      "ended_at": "2026-09-17T14:25:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountService.ts",
+          "accountRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 419,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T14:25:00+05:30",
+      "ended_at": "2026-09-17T14:48:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "rg \"account export|export\" src test",
+      "url": null,
+      "payload": {
+        "command": "rg \"account export|export\" src test"
+      }
+    },
+    {
+      "id": 420,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T14:48:00+05:30",
+      "ended_at": "2026-09-17T15:11:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountRepository.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 421,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T15:11:00+05:30",
+      "ended_at": "2026-09-17T15:35:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountService.test.ts accountRepository.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountService.test.ts accountRepository.test.ts"
+      }
+    },
+    {
+      "id": 422,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T15:35:00+05:30",
+      "ended_at": "2026-09-17T15:58:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#workspace-api",
+      "url": null,
+      "payload": {
+        "channel": "#workspace-api"
+      }
+    },
+    {
+      "id": 423,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T15:58:00+05:30",
+      "ended_at": "2026-09-17T16:21:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #881 — Files changed",
+      "url": "https://github.com/company/platform-api/pull/881",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 881
+      }
+    },
+    {
+      "id": 424,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T16:21:00+05:30",
+      "ended_at": "2026-09-17T16:44:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "comments"
+      }
+    },
+    {
+      "id": 425,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T16:44:00+05:30",
+      "ended_at": "2026-09-17T17:07:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportController.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportController.ts"
+        ]
+      }
+    },
+    {
+      "id": 426,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T17:07:00+05:30",
+      "ended_at": "2026-09-17T17:29:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExportController.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExportController.test.ts"
+      }
+    },
+    {
+      "id": 427,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T17:29:00+05:30",
+      "ended_at": "2026-09-17T17:51:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "workspace-api — p95 latency",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "workspace-api",
+        "metric": "p95 latency",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 428,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T17:51:00+05:30",
+      "ended_at": "2026-09-17T18:12:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "billing-api — errors",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "billing-api",
+        "metric": "errors",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 429,
+      "watcher": "window_activity",
+      "started_at": "2026-09-17T18:12:00+05:30",
+      "ended_at": "2026-09-17T18:32:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "activity"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-17-01",
+        "started_at": "09:04",
+        "ended_at": "10:56",
+        "title": "Webhook closure validation",
+        "summary": "Reviewed 48-hour delivery outcomes, retry distributions, error trends, issue history, and team discussion to determine whether the targeted retry-path change could be considered successful.",
+        "event_ids": [
+          408,
+          409,
+          410,
+          411,
+          412
+        ],
+        "context": "The webhook change had been in broader production exposure long enough to support a closure decision.",
+        "area": "webhook_reliability",
+        "intent": "complete",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-02",
+        "started_at": "10:56",
+        "ended_at": "12:46",
+        "title": "Account export task discovery",
+        "summary": "Reviewed the new account export ticket and product notes, searched the existing codebase for related paths, discussed API expectations with the backend team, and reviewed a teammate pull request.",
+        "event_ids": [
+          413,
+          414,
+          415,
+          416,
+          417
+        ],
+        "context": "A new backend task became the next primary workstream after the webhook issue reached a closure decision.",
+        "area": "account_export",
+        "intent": "plan",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-03",
+        "started_at": "14:01",
+        "ended_at": "17:29",
+        "title": "Account export API implementation",
+        "summary": "Traced the existing account and repository layers, identified reusable data-access paths, implemented the first API/controller slice, and added focused service, repository, and controller tests.",
+        "event_ids": [
+          418,
+          419,
+          420,
+          421,
+          422,
+          423,
+          424,
+          425,
+          426
+        ],
+        "context": "The task was still in early implementation and required understanding existing platform conventions before expanding scope.",
+        "area": "account_export",
+        "intent": "implement",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-17-04",
+        "started_at": "17:29",
+        "ended_at": "18:32",
+        "title": "Routine platform health and task update",
+        "summary": "Confirmed workspace latency and billing remained stable, then updated the account export issue with the current implementation state.",
+        "event_ids": [
+          427,
+          428,
+          429
+        ],
+        "context": "Previously active operational areas remained stable while the new task moved into implementation.",
+        "area": "platform_operations",
+        "intent": "monitor",
+        "quality": "appropriate",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:46",
+        "ended_at": "14:01",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The webhook reliability work reached a defensible closure point after the targeted change remained healthy across a sufficiently long production window.",
+      "The engineer deliberately transitioned to a new account export API task instead of continuing to monitor a resolved issue indefinitely.",
+      "The new task began with product and codebase discovery before implementation, and the first API slice was backed by focused tests.",
+      "Workspace performance and billing remained stable background concerns."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Resolve webhook processing reliability issue",
+        "assessment": "closed_with_evidence",
+        "evidence": [
+          408,
+          409,
+          410,
+          411,
+          412
+        ]
+      },
+      {
+        "priority": "Build account export API",
+        "assessment": "started_with_clear_scope_and_initial_implementation",
+        "evidence": [
+          413,
+          414,
+          415,
+          418,
+          419,
+          420,
+          421,
+          424,
+          425,
+          426,
+          429
+        ]
+      },
+      {
+        "priority": "Maintain normal team review responsibilities",
+        "assessment": "completed_secondary_responsibility",
+        "evidence": [
+          417,
+          423
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "The webhook issue appears resolved based on the observed window, but future traffic patterns could still expose a different failure mode.",
+      "The account export API still has unanswered details around authorization, export size, and response behavior that may affect the implementation.",
+      "The first implementation slice has focused tests but has not yet gone through full review or integration validation."
+    ],
+    "possible_next_step": "Turn the account export requirements into a concrete API contract, then continue implementation with authorization and large-export behavior explicitly validated before opening the work for review."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Account export API contract",
+      "action_type": "clarify_priority",
+      "target": "Account export API contract",
+      "reason": "The webhook issue is now closed and the new workstream needs its boundary conditions clarified before implementation grows around assumptions.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Webhook reliability issue",
+      "action_type": "complete_open_loop",
+      "target": "Webhook reliability issue",
+      "reason": "The production evidence supports closing the old incident and freeing attention for the new platform task.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not keep PLAT-497 open solely for reassurance after the evidence supports closure.",
+      "Do not expand the account export implementation before clarifying authorization and large-export behavior.",
+      "Do not infer that focused unit tests are equivalent to full integration validation.",
+      "Do not reopen stable workspace performance work without a new production signal."
+    ]
+  }
+}

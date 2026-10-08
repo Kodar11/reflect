@@ -27,6 +27,14 @@ import type { OnboardingStatus, UserIntelligenceContext } from '../profile/UserP
 /** Version of the structured output contract. Bump when the shape changes. */
 export const INTELLIGENCE_SCHEMA_VERSION = 1;
 
+/**
+ * How far before the window the evidence reaches. Events in this stretch were
+ * analysed already; they are shown again, with their current activity, so the
+ * new events are judged against what the user was actually doing and earlier
+ * groupings can be revised with hindsight.
+ */
+export const CONTEXT_LOOKBACK_MS = 2 * 60 * 60 * 1000;
+
 // ── User context ────────────────────────────────────────────────────────────
 
 /** The single representation of user context, derived from the saved profile. */

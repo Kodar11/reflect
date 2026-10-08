@@ -1,0 +1,519 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 21,
+    "date": "2026-09-21",
+    "day_type": "export_edge_case_hardening_and_review_preparation_day",
+    "circumstances": [
+      "The account export API has a connected asynchronous flow and is approaching review readiness.",
+      "The remaining engineering work centers on failure states, authorization, download behavior, and cleanup semantics.",
+      "The webhook reliability issue and workspace performance regression remain closed and stable.",
+      "The engineer has one routine pull request review alongside the main feature work."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:02",
+      "last_seen": "18:34",
+      "approx_active_hours": 7.4,
+      "longest_unobserved_gap_minutes": 77
+    }
+  },
+  "raw_events": [
+    {
+      "id": 495,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T09:02:00+05:30",
+      "ended_at": "2026-09-21T09:25:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 496,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T09:25:00+05:30",
+      "ended_at": "2026-09-21T09:48:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PRD — Account export API",
+      "url": "https://notion.company.local/account-export-api",
+      "payload": {
+        "page": "Account export API"
+      }
+    },
+    {
+      "id": 497,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T09:48:00+05:30",
+      "ended_at": "2026-09-21T10:11:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportStatusController.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportStatusController.ts",
+          "accountExportService.ts"
+        ]
+      }
+    },
+    {
+      "id": 498,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T10:11:00+05:30",
+      "ended_at": "2026-09-21T10:35:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportDownloadController.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportDownloadController.ts",
+          "accountExportStorage.ts"
+        ]
+      }
+    },
+    {
+      "id": 499,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T10:35:00+05:30",
+      "ended_at": "2026-09-21T10:58:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExportStatusController.test.ts accountExportDownloadController.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExportStatusController.test.ts accountExportDownloadController.test.ts"
+      }
+    },
+    {
+      "id": 500,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T10:58:00+05:30",
+      "ended_at": "2026-09-21T11:21:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportJob.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportJob.ts",
+          "accountExportService.ts"
+        ]
+      }
+    },
+    {
+      "id": 501,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T11:21:00+05:30",
+      "ended_at": "2026-09-21T11:44:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExportJob.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExportJob.test.ts"
+      }
+    },
+    {
+      "id": 502,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T11:44:00+05:30",
+      "ended_at": "2026-09-21T12:07:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 503,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T12:07:00+05:30",
+      "ended_at": "2026-09-21T12:30:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportStorage.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportStorage.ts"
+        ]
+      }
+    },
+    {
+      "id": 504,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T12:30:00+05:30",
+      "ended_at": "2026-09-21T12:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExportStorage.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExportStorage.test.ts"
+      }
+    },
+    {
+      "id": 505,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T14:08:00+05:30",
+      "ended_at": "2026-09-21T14:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExport.integration.test.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExport.integration.test.ts"
+        ]
+      }
+    },
+    {
+      "id": 506,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T14:31:00+05:30",
+      "ended_at": "2026-09-21T14:55:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExport.integration.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExport.integration.test.ts"
+      }
+    },
+    {
+      "id": 507,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T14:55:00+05:30",
+      "ended_at": "2026-09-21T15:18:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm run test:e2e -- account-export",
+      "url": null,
+      "payload": {
+        "command": "npm run test:e2e -- account-export"
+      }
+    },
+    {
+      "id": 508,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T15:18:00+05:30",
+      "ended_at": "2026-09-21T15:42:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #891 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/891",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 891
+      }
+    },
+    {
+      "id": 509,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T15:42:00+05:30",
+      "ended_at": "2026-09-21T16:05:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#qa-platform",
+      "url": null,
+      "payload": {
+        "channel": "#qa-platform"
+      }
+    },
+    {
+      "id": 510,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T16:05:00+05:30",
+      "ended_at": "2026-09-21T16:28:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportService.ts",
+          "accountExportJob.ts"
+        ]
+      }
+    },
+    {
+      "id": 511,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T16:28:00+05:30",
+      "ended_at": "2026-09-21T16:51:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountExport.integration.test.ts --runInBand",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountExport.integration.test.ts --runInBand"
+      }
+    },
+    {
+      "id": 512,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T16:51:00+05:30",
+      "ended_at": "2026-09-21T17:14:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #891 — Files changed",
+      "url": "https://github.com/company/platform-api/pull/891",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 891
+      }
+    },
+    {
+      "id": 513,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T17:14:00+05:30",
+      "ended_at": "2026-09-21T17:37:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 514,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T17:37:00+05:30",
+      "ended_at": "2026-09-21T17:59:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "workspace-api — p95 latency",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "workspace-api",
+        "metric": "p95 latency",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 515,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T17:59:00+05:30",
+      "ended_at": "2026-09-21T18:17:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "webhook-worker — delivery outcomes",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "webhook-worker",
+        "view": "delivery outcomes",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 516,
+      "watcher": "window_activity",
+      "started_at": "2026-09-21T18:17:00+05:30",
+      "ended_at": "2026-09-21T18:34:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#release-coordination",
+      "url": null,
+      "payload": {
+        "channel": "#release-coordination"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-21-01",
+        "started_at": "09:02",
+        "ended_at": "12:51",
+        "title": "Export status and download hardening",
+        "summary": "Implemented the status and download endpoints, added authorization checks, handled missing and expired export records, and covered job failure behavior and storage interactions with focused tests.",
+        "event_ids": [
+          495,
+          496,
+          497,
+          498,
+          499,
+          500,
+          501,
+          502,
+          503,
+          504
+        ],
+        "context": "The remaining correctness gaps were centered on externally visible export states, access control, and storage lifecycle behavior.",
+        "area": "account_export",
+        "intent": "implement",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-02",
+        "started_at": "14:08",
+        "ended_at": "16:51",
+        "title": "Account export integration and end-to-end validation",
+        "summary": "Expanded integration coverage and ran the account-export end-to-end suite, reviewed a teammate pull request, coordinated QA findings, and made a small service-layer adjustment after validation.",
+        "event_ids": [
+          505,
+          506,
+          507,
+          508,
+          509,
+          510,
+          511
+        ],
+        "context": "The feature needed connected validation beyond isolated unit tests before becoming review-ready.",
+        "area": "account_export",
+        "intent": "validate",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-21-03",
+        "started_at": "16:51",
+        "ended_at": "17:37",
+        "title": "Review and feature status update",
+        "summary": "Reviewed pull request #891 and updated the account export task with the current validation state and remaining review work.",
+        "event_ids": [
+          512,
+          513
+        ],
+        "context": "The account export implementation was approaching a broader code review.",
+        "area": "account_export",
+        "intent": "prepare_review",
+        "quality": "useful",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-21-04",
+        "started_at": "17:37",
+        "ended_at": "18:34",
+        "title": "Routine platform monitoring",
+        "summary": "Checked workspace latency and webhook delivery outcomes, then coordinated the next release/review step.",
+        "event_ids": [
+          514,
+          515,
+          516
+        ],
+        "context": "Previously resolved platform areas remained stable.",
+        "area": "platform_operations",
+        "intent": "monitor",
+        "quality": "appropriate",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:51",
+        "ended_at": "14:08",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The account export feature now covers the main externally visible edge cases around status, authorization, missing or expired exports, and failed jobs.",
+      "Integration and end-to-end tests provide stronger evidence that the asynchronous workflow works as a connected feature rather than only as isolated components.",
+      "The implementation is close to review-ready, with remaining work primarily around review feedback and release validation rather than missing core behavior.",
+      "Webhook and workspace monitoring remained routine and did not reopen closed workstreams."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Build account export API",
+        "assessment": "near_review_ready_with_edge_cases_covered",
+        "evidence": [
+          497,
+          498,
+          499,
+          500,
+          501,
+          503,
+          504,
+          505,
+          506,
+          507,
+          510,
+          511,
+          513
+        ]
+      },
+      {
+        "priority": "Maintain normal team review responsibilities",
+        "assessment": "completed_secondary_responsibility",
+        "evidence": [
+          508,
+          512
+        ]
+      },
+      {
+        "priority": "Maintain platform stability",
+        "assessment": "stable",
+        "evidence": [
+          514,
+          515
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "The end-to-end suite covers the implemented flow but may not reproduce the largest realistic export sizes or slow worker conditions.",
+      "Reviewers may identify API semantics or operational concerns that are not visible from local tests.",
+      "Storage cleanup and expiration behavior has been tested at the application layer but still needs confidence in the deployed environment."
+    ],
+    "possible_next_step": "Open the account export implementation for focused review, address concrete reviewer findings, and validate the final job/download behavior in the shared environment before release."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Account export review readiness",
+      "action_type": "complete_open_loop",
+      "target": "Account export review readiness",
+      "reason": "The main feature behavior and edge cases are implemented and tested; the next useful step is to move into review and resolve concrete findings instead of continuing local refinement indefinitely.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Shared-environment export validation",
+      "action_type": "clarify_priority",
+      "target": "Shared-environment export validation",
+      "reason": "The remaining uncertainty is operational and environment-specific, so it should be validated explicitly before release.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not keep adding speculative edge cases without evidence that they are needed.",
+      "Do not treat passing local end-to-end tests as proof of production readiness.",
+      "Do not reopen the webhook or workspace issues based only on routine dashboard checks.",
+      "Do not delay review in favor of indefinite local polishing."
+    ]
+  }
+}

@@ -28,6 +28,10 @@ export function registerTrackerIpc(
     return repo.getByRange(p.from, p.to);
   });
   ipcMainHandle('tracker:getAll', (p?: { limit?: number }) => repo.getAll(p?.limit));
+  ipcMainHandle('tracker:getByIds', (p?: { ids?: unknown }) => {
+    const ids = Array.isArray(p?.ids) ? p.ids.filter((id): id is number => Number.isInteger(id)) : [];
+    return repo.getByIds(ids.slice(0, 500));
+  });
 
   return {
     notifyNewEvent() {

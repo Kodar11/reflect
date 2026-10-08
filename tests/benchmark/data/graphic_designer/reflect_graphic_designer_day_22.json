@@ -1,0 +1,454 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Northstar Coffee portfolio case study",
+      "Social media campaign assets for an existing client",
+      "New food-business brand inquiry",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Finish and publish the Northstar Coffee case study",
+      "Deliver bounded social campaign revisions",
+      "Qualify the new food-business inquiry",
+      "Maintain client relationships"
+    ]
+  },
+  "day": {
+    "day_number": 22,
+    "date": "2026-09-22",
+    "day_type": "portfolio_publish_and_inquiry_followup_day",
+    "circumstances": [
+      "The Northstar Coffee case study received another substantial finishing pass, including opening-page restructuring, typography cleanup, mockup replacement, metadata preparation, portfolio integration, and preview checks. The events provide evidence that it was moved into the portfolio site, although they do not establish that the case study was publicly announced or fully finished beyond the tracked preview.",
+      "A small client-requested alignment change was completed and the revised campaign adaptations were delivered. No further client response is visible during the tracked period.",
+      "The new food-business inquiry moved from general qualification into a concrete scope-question exchange. The designer sent a structured set of questions, but no confirmed project agreement or proposal is visible.",
+      "Portfolio references and a branding walkthrough may have influenced presentation decisions, but the raw events cannot establish the usefulness of either browsing session.",
+      "There are untracked periods during the day, so activity during those periods cannot be inferred."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:18",
+      "last_seen": "19:13",
+      "approx_active_hours": 8.3,
+      "longest_unobserved_gap_minutes": 87
+    }
+  },
+  "raw_events": [
+    {
+      "id": 527,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T09:18:00+05:30",
+      "ended_at": "2026-09-22T09:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 528,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T09:31:00+05:30",
+      "ended_at": "2026-09-22T09:47:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — September Assets",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 529,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T09:47:00+05:30",
+      "ended_at": "2026-09-22T10:12:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Social Campaign — September Assets",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 530,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T10:12:00+05:30",
+      "ended_at": "2026-09-22T10:25:00+05:30",
+      "app": "File Explorer",
+      "browser": null,
+      "title": "Social Campaign — Exports",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 531,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T10:25:00+05:30",
+      "ended_at": "2026-09-22T10:43:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 532,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T10:43:00+05:30",
+      "ended_at": "2026-09-22T11:02:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 533,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T11:02:00+05:30",
+      "ended_at": "2026-09-22T11:38:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 534,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T11:38:00+05:30",
+      "ended_at": "2026-09-22T12:16:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 535,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T12:16:00+05:30",
+      "ended_at": "2026-09-22T12:37:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 536,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T12:37:00+05:30",
+      "ended_at": "2026-09-22T12:54:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 537,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T14:21:00+05:30",
+      "ended_at": "2026-09-22T14:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 538,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T14:39:00+05:30",
+      "ended_at": "2026-09-22T15:04:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Food Brand Identity — Proposal",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 539,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T15:04:00+05:30",
+      "ended_at": "2026-09-22T15:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 540,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T15:27:00+05:30",
+      "ended_at": "2026-09-22T15:58:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 541,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T15:58:00+05:30",
+      "ended_at": "2026-09-22T16:34:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 542,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T16:34:00+05:30",
+      "ended_at": "2026-09-22T17:02:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 543,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T17:02:00+05:30",
+      "ended_at": "2026-09-22T17:24:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Northstar Coffee — Case Study Notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 544,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T17:24:00+05:30",
+      "ended_at": "2026-09-22T17:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/",
+      "payload": null
+    },
+    {
+      "id": 545,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T17:46:00+05:30",
+      "ended_at": "2026-09-22T18:09:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "portfolio-site — northstar-coffee.html",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 546,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T18:09:00+05:30",
+      "ended_at": "2026-09-22T18:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Search",
+      "url": "https://www.google.com/",
+      "payload": null
+    },
+    {
+      "id": 547,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T18:31:00+05:30",
+      "ended_at": "2026-09-22T18:49:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 548,
+      "watcher": "desktop",
+      "started_at": "2026-09-22T18:49:00+05:30",
+      "ended_at": "2026-09-22T19:13:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Northstar Coffee — Portfolio Case Study",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-22-01",
+        "started_at": "09:18",
+        "ended_at": "10:43",
+        "title": "Social campaign — client communication",
+        "summary": "Read a client message requesting one more minor alignment change to the social campaign size adaptations. Opened the social campaign file and checked the requested alignment against the approved layout. Adjusted spacing and alignment across the requested social campaign adaptations. Exported the revised social campaign sizes for client delivery.",
+        "event_ids": [
+          527,
+          528,
+          529,
+          530,
+          531
+        ],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-22-02",
+        "started_at": "10:43",
+        "ended_at": "12:16",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Opened the Northstar Coffee portfolio case study and reviewed the overall page sequence. Reworked the opening case-study spread to make the project context and final identity easier to scan. Cleaned up typography hierarchy and spacing across several Northstar portfolio sections.",
+        "event_ids": [
+          532,
+          533,
+          534
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-22-03",
+        "started_at": "12:16",
+        "ended_at": "12:37",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Browsed a small set of designer portfolio case studies for presentation and sequencing references.",
+        "event_ids": [
+          535
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-22-04",
+        "started_at": "12:37",
+        "ended_at": "12:54",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Applied a few presentation changes to the Northstar case study after the reference browsing.",
+        "event_ids": [
+          536
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-22-05",
+        "started_at": "14:21",
+        "ended_at": "15:18",
+        "title": "New food-business identity — client communication",
+        "summary": "Reviewed the new food-business inquiry and answered a question about expected deliverables. Drafted a short list of questions covering scope, timeline, audience, existing assets, and required brand applications for the new inquiry. Sent the qualification questions to the prospective client.",
+        "event_ids": [
+          537,
+          538,
+          539
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-22-06",
+        "started_at": "15:27",
+        "ended_at": "18:31",
+        "title": "Northstar portfolio case study — review",
+        "summary": "Returned to the Northstar case study and checked image crops and mockup consistency. Replaced two weak application mockups and adjusted captions in the Northstar case study. Performed a full-page review of the Northstar case study at presentation scale. Added a draft project description and case-study metadata for the Northstar portfolio entry.",
+        "event_ids": [
+          540,
+          541,
+          542,
+          543,
+          544,
+          545,
+          546
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-22-07",
+        "started_at": "18:31",
+        "ended_at": "18:49",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Watched several minutes of a branding portfolio walkthrough; the relation to current work is unclear from the event alone.",
+        "event_ids": [
+          547
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-22-08",
+        "started_at": "18:49",
+        "ended_at": "19:13",
+        "title": "Northstar portfolio case study — design work",
+        "summary": "Made a final small typography adjustment to the Northstar case study after reviewing the portfolio preview.",
+        "event_ids": [
+          548
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:54",
+        "ended_at": "14:21",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The social campaign request remained bounded and was completed without consuming the rest of the visible workday.",
+      "Northstar moved beyond isolated case-study editing into portfolio integration, metadata preparation, and live-preview checking.",
+      "The new food-business inquiry received concrete qualification questions, but the available evidence does not show a confirmed scope or commitment.",
+      "Reference browsing was followed by portfolio changes, although the exact contribution of the research remains uncertain.",
+      "Offline periods limit visibility into the full day."
+    ],
+    "priority_alignment": [],
+    "important_uncertainty": [
+      "Whether the Northstar case study was actually published publicly after the tracked preview is not established.",
+      "Whether the social client accepted the latest adaptation without further changes is unknown.",
+      "Whether the food-business inquiry will convert into a paid project depends on the prospective client's response and is not yet observable."
+    ],
+    "possible_next_step": "Treat the Northstar case study as a finishing-and-release task now: verify the public portfolio version and close it rather than continuing broad refinement. Keep the food-business inquiry in qualification until the client answers the scope questions, while handling any social follow-up as a bounded request."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Verify and close the published case study",
+      "action_type": "complete_open_loop",
+      "reason": "The Northstar case study has accumulated repeated execution and review across many days and has now reached portfolio integration, so continued open-ended polishing risks extending a workstream that is already close to release.",
+      "suggested_focus_minutes": null,
+      "target": "Northstar Coffee portfolio"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

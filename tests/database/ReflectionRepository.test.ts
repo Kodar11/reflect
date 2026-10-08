@@ -403,7 +403,7 @@ suite('Database migration v12 → v13 (reflection)', () => {
 
     const migrated = new Database(dbPath);
     const check = new BetterSqliteDB(dbPath);
-    expect(check.pragma('user_version', { simple: true })).toBe(17);
+    expect(check.pragma('user_version', { simple: true })).toBe(18);
     const tables = (check.prepare(`SELECT name FROM sqlite_master WHERE type = 'table'`).all() as { name: string }[]).map((t) => t.name);
     for (const t of ['reflection_reports', 'reflection_insights', 'reflection_feedback', 'reflection_priorities', 'reflection_activity_annotations']) {
       expect(tables).toContain(t);

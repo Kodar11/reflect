@@ -124,6 +124,7 @@ export function ActivityPage({
           dimensions={dimensions}
           onActivitiesChange={refreshActivitiesAndRules}
           onRulesChange={refreshActivitiesAndRules}
+          onEventsChange={loadEvents}
         />
       )}
 

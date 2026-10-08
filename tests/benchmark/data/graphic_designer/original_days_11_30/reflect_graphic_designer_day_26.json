@@ -1,0 +1,369 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Northstar Coffee portfolio case study",
+      "Social media campaign assets for an existing client",
+      "New food-business brand inquiry",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Convert the new food-business inquiry into a well-scoped identity project",
+      "Begin the new identity project from a clear discovery foundation",
+      "Maintain client relationships and close bounded social work",
+      "Continue selective promotion of completed portfolio work"
+    ]
+  },
+  "day": {
+    "day_number": 26,
+    "date": "2026-09-26",
+    "day_type": "new_client_kickoff_and_early_concept_day",
+    "circumstances": [
+      "The food-business prospect confirmed interest and the designer held a short kickoff/discovery call",
+      "The designer translated the kickoff discussion into project notes and early visual territories rather than producing polished concepts",
+      "The previous social campaign correction was accepted and archived",
+      "Northstar promotion received a small follow-up check",
+      "Reference browsing and a lettering exercise appeared alongside active client work, with their exact contribution not always observable"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:24",
+      "last_seen": "20:18",
+      "approx_active_hours": 7.6,
+      "longest_unobserved_gap_minutes": 89
+    }
+  },
+  "raw_events": [
+    {
+      "event_id": 367,
+      "timestamp": "2026-09-26T09:24:00+05:30",
+      "app": "Gmail",
+      "activity": "Reviewed a reply from the food-business prospect confirming interest and asking to schedule a short kickoff call."
+    },
+    {
+      "event_id": 368,
+      "timestamp": "2026-09-26T09:41:00+05:30",
+      "app": "Google Calendar",
+      "activity": "Checked availability and compared possible kickoff times against existing client commitments."
+    },
+    {
+      "event_id": 369,
+      "timestamp": "2026-09-26T10:03:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent two possible kickoff times and a short list of information needed before identity work begins."
+    },
+    {
+      "event_id": 370,
+      "timestamp": "2026-09-26T10:27:00+05:30",
+      "app": "Notion",
+      "activity": "Created a project page for the food-business identity and copied the agreed scope notes into it."
+    },
+    {
+      "event_id": 371,
+      "timestamp": "2026-09-26T10:52:00+05:30",
+      "app": "Google Docs",
+      "activity": "Drafted a discovery questionnaire covering audience, product range, positioning, competitors, and practical packaging needs."
+    },
+    {
+      "event_id": 372,
+      "timestamp": "2026-09-26T11:21:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent the discovery questionnaire and kickoff details to the new client."
+    },
+    {
+      "event_id": 373,
+      "timestamp": "2026-09-26T11:47:00+05:30",
+      "app": "Pinterest",
+      "activity": "Browsed food-brand identity references and packaging systems for possible discussion during the kickoff."
+    },
+    {
+      "event_id": 374,
+      "timestamp": "2026-09-26T12:16:00+05:30",
+      "app": "Figma",
+      "activity": "Organized the existing food-business moodboard into broader visual territories and removed several duplicate references."
+    },
+    {
+      "event_id": 375,
+      "timestamp": "2026-09-26T12:43:00+05:30",
+      "app": "Figma",
+      "activity": "Added notes comparing two visual territories, including typography, color, and packaging implications."
+    },
+    {
+      "event_id": 376,
+      "timestamp": "2026-09-26T13:02:00+05:30",
+      "app": "System",
+      "activity": "No tracked desktop activity; offline period begins."
+    },
+    {
+      "event_id": 377,
+      "timestamp": "2026-09-26T14:31:00+05:30",
+      "app": "Google Meet",
+      "activity": "Joined a short kickoff call with the food-business client and discussed audience, product positioning, competitors, and expected deliverables."
+    },
+    {
+      "event_id": 378,
+      "timestamp": "2026-09-26T15:12:00+05:30",
+      "app": "Notion",
+      "activity": "Recorded kickoff notes and converted several client comments into open design questions."
+    },
+    {
+      "event_id": 379,
+      "timestamp": "2026-09-26T15:39:00+05:30",
+      "app": "Figma",
+      "activity": "Updated the moodboard using several references mentioned during the kickoff conversation."
+    },
+    {
+      "event_id": 380,
+      "timestamp": "2026-09-26T16:04:00+05:30",
+      "app": "Figma",
+      "activity": "Started three rough logo direction frames using different typographic structures; none was developed to presentation quality."
+    },
+    {
+      "event_id": 381,
+      "timestamp": "2026-09-26T16:36:00+05:30",
+      "app": "Slack",
+      "activity": "Checked for a response from the social campaign client on the corrected story asset."
+    },
+    {
+      "event_id": 382,
+      "timestamp": "2026-09-26T16:49:00+05:30",
+      "app": "Slack",
+      "activity": "Received confirmation that the corrected story asset was acceptable; no additional changes were requested."
+    },
+    {
+      "event_id": 383,
+      "timestamp": "2026-09-26T17:07:00+05:30",
+      "app": "Google Drive",
+      "activity": "Archived the approved social campaign revision and organized the latest export files."
+    },
+    {
+      "event_id": 384,
+      "timestamp": "2026-09-26T17:29:00+05:30",
+      "app": "Notion",
+      "activity": "Reviewed the Northstar Coffee case study checklist and marked several already-completed sections for reference."
+    },
+    {
+      "event_id": 385,
+      "timestamp": "2026-09-26T17:48:00+05:30",
+      "app": "LinkedIn",
+      "activity": "Checked recent reactions to the Northstar portfolio post and opened a few profiles from people who engaged with it."
+    },
+    {
+      "event_id": 386,
+      "timestamp": "2026-09-26T18:16:00+05:30",
+      "app": "YouTube",
+      "activity": "Watched a short video about packaging typography and label hierarchy; its direct relevance to the current project is not observable."
+    },
+    {
+      "event_id": 387,
+      "timestamp": "2026-09-26T18:42:00+05:30",
+      "app": "Illustrator",
+      "activity": "Experimented with two lettering treatments inspired by the packaging typography reference."
+    },
+    {
+      "event_id": 388,
+      "timestamp": "2026-09-26T19:11:00+05:30",
+      "app": "Figma",
+      "activity": "Returned to the food-business identity file and adjusted spacing on one rough wordmark direction."
+    },
+    {
+      "event_id": 389,
+      "timestamp": "2026-09-26T19:34:00+05:30",
+      "app": "Gmail",
+      "activity": "Checked for any additional client response; no new message was visible."
+    },
+    {
+      "event_id": 390,
+      "timestamp": "2026-09-26T19:52:00+05:30",
+      "app": "File Explorer",
+      "activity": "Created a local folder structure for the new identity project, separating references, working files, exports, and client materials."
+    },
+    {
+      "event_id": 391,
+      "timestamp": "2026-09-26T20:18:00+05:30",
+      "app": "System",
+      "activity": "No tracked desktop activity; offline period begins."
+    }
+  ],
+  "ground_truth": {
+    "events": [
+      {
+        "event_id": 367,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 368,
+        "project": "new_brand_inquiry",
+        "activity_type": "planning",
+        "importance": "medium"
+      },
+      {
+        "event_id": 369,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 370,
+        "project": "new_brand_inquiry",
+        "activity_type": "project_setup",
+        "importance": "medium"
+      },
+      {
+        "event_id": 371,
+        "project": "new_brand_inquiry",
+        "activity_type": "discovery",
+        "importance": "high"
+      },
+      {
+        "event_id": 372,
+        "project": "new_brand_inquiry",
+        "activity_type": "client_communication",
+        "importance": "high"
+      },
+      {
+        "event_id": 373,
+        "project": "ambiguous_inspiration",
+        "activity_type": "research",
+        "importance": "low"
+      },
+      {
+        "event_id": 374,
+        "project": "new_brand_inquiry",
+        "activity_type": "reference_organization",
+        "importance": "medium"
+      },
+      {
+        "event_id": 375,
+        "project": "new_brand_inquiry",
+        "activity_type": "concept_evaluation",
+        "importance": "medium"
+      },
+      {
+        "event_id": 376,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      },
+      {
+        "event_id": 377,
+        "project": "new_brand_inquiry",
+        "activity_type": "discovery_call",
+        "importance": "high"
+      },
+      {
+        "event_id": 378,
+        "project": "new_brand_inquiry",
+        "activity_type": "documentation",
+        "importance": "high"
+      },
+      {
+        "event_id": 379,
+        "project": "new_brand_inquiry",
+        "activity_type": "reference_collection",
+        "importance": "medium"
+      },
+      {
+        "event_id": 380,
+        "project": "new_brand_inquiry",
+        "activity_type": "early_exploration",
+        "importance": "medium"
+      },
+      {
+        "event_id": 381,
+        "project": "social_campaign",
+        "activity_type": "status_check",
+        "importance": "low"
+      },
+      {
+        "event_id": 382,
+        "project": "social_campaign",
+        "activity_type": "client_approval",
+        "importance": "medium"
+      },
+      {
+        "event_id": 383,
+        "project": "social_campaign",
+        "activity_type": "file_organization",
+        "importance": "low"
+      },
+      {
+        "event_id": 384,
+        "project": "northstar_portfolio",
+        "activity_type": "review",
+        "importance": "low"
+      },
+      {
+        "event_id": 385,
+        "project": "northstar_portfolio",
+        "activity_type": "promotion",
+        "importance": "low"
+      },
+      {
+        "event_id": 386,
+        "project": "ambiguous_video",
+        "activity_type": "video",
+        "importance": "low"
+      },
+      {
+        "event_id": 387,
+        "project": "personal_exploration",
+        "activity_type": "practice",
+        "importance": "low"
+      },
+      {
+        "event_id": 388,
+        "project": "new_brand_inquiry",
+        "activity_type": "early_exploration",
+        "importance": "medium"
+      },
+      {
+        "event_id": 389,
+        "project": "new_brand_inquiry",
+        "activity_type": "waiting",
+        "importance": "low"
+      },
+      {
+        "event_id": 390,
+        "project": "new_brand_inquiry",
+        "activity_type": "file_organization",
+        "importance": "low"
+      },
+      {
+        "event_id": 391,
+        "project": "offline",
+        "activity_type": "offline",
+        "importance": "low"
+      }
+    ],
+    "summary": {
+      "new_brand_inquiry": "The prospect moved from proposal discussion into an active kickoff/discovery stage. The call clarified audience, positioning, competitors, and practical needs, and the designer created project documentation plus a small amount of early visual exploration. The evidence supports meaningful project initiation, but not completion or polished concept delivery.",
+      "social_campaign": "The requested story correction was accepted and the latest files were organized. This supports closure of that bounded revision, while the broader campaign status is not established by these events.",
+      "northstar_portfolio": "The completed case study received a brief promotion/engagement check, but there was no substantive portfolio production during the day.",
+      "ambiguity": "Pinterest and YouTube sessions may have supported the active design work or general learning, but the raw events do not establish their exact necessity or value.",
+      "offline": "An untracked period around the middle of the day limits visibility into any activity performed away from the tracked desktop."
+    }
+  },
+  "expected_reflection": {
+    "summary": "The day marked a clear transition for the new food-business inquiry from proposal stage into actual discovery and project setup. Most meaningful progress came from clarifying the brief, documenting the kickoff, and establishing early visual territories rather than producing finished design work. The social campaign correction was accepted and closed at the revision level, while the Northstar portfolio was only lightly revisited. Some research and lettering activity may have supported the design process, but their contribution is not fully observable.",
+    "project_status": {
+      "new_brand_inquiry": "Initiated and materially clarified; early exploration started, but no polished concept is evidenced.",
+      "social_campaign": "Latest requested correction accepted and archived; broader campaign closure not established.",
+      "northstar_portfolio": "Promotion/check-in only; no substantive case-study production evidenced."
+    },
+    "key_observation": "The strongest forward movement was converting a prospect into a structured project with documented discovery inputs and initial visual exploration.",
+    "uncertainty": [
+      "The raw events do not show whether all discovery questions were answered during or after the call.",
+      "The research and lettering sessions may have supported the new identity work, but the evidence cannot establish how necessary they were.",
+      "Offline activity is unobserved."
+    ]
+  },
+  "expected_coach_outcome": {
+    "coach": "Protect the next focused block for turning the kickoff notes into a small, reviewable set of identity directions rather than expanding the reference board indefinitely.",
+    "reason": "The new project now has enough discovery context to move from preparation into concrete concept development, while further portfolio promotion can remain secondary.",
+    "intervention_confidence": "medium"
+  }
+}

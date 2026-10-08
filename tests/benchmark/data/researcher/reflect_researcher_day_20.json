@@ -1,0 +1,400 @@
+{
+  "persona": {
+    "id": "researcher_01",
+    "type": "researcher",
+    "role": "PhD student and machine learning researcher",
+    "research_domain": "machine learning",
+    "current_work": [
+      "Running a bounded replication study of a calibration method from a recent paper",
+      "Maintaining research code and experiment infrastructure",
+      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Considering the next research direction after manuscript submission"
+    ],
+    "priorities": [
+      "Run the single controlled evaluation-subset comparison identified on Day 19",
+      "Decide whether the replication discrepancy can be explained without undocumented assumptions",
+      "Document the replication result and stopping decision clearly",
+      "Avoid allowing the replication to expand into an open-ended benchmark"
+    ]
+  },
+  "day": {
+    "day_number": 20,
+    "date": "2026-09-20",
+    "day_type": "controlled_replication_follow_up_and_stopping_day",
+    "circumstances": [
+      "The researcher runs the one controlled evaluation-subset comparison planned on Day 19. The alternative subset brings one reported metric closer to the reference result, but the overall pattern still does not reproduce exactly. A final code/configuration audit finds no remaining obvious implementation mismatch, while the paper leaves enough evaluation detail unspecified that further reconstruction would require assumptions. The researcher documents the partial reproduction and pauses the replication rather than continuing to chase an exact match. The day also includes a small amount of literature reading about reproducibility and evaluation reporting, plus a long offline period."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:41",
+      "last_seen": "18:36",
+      "approx_active_hours": 6.2,
+      "longest_unobserved_gap_minutes": 96
+    }
+  },
+  "raw_events": [
+    {
+      "id": 423,
+      "watcher": "VS Code",
+      "started_at": "2026-09-20T09:41:00+05:30",
+      "ended_at": "2026-09-20T10:05:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_decision.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_decision.md",
+        "interaction": "reviewed controlled subset comparison and stopping rule"
+      }
+    },
+    {
+      "id": 424,
+      "watcher": "VS Code",
+      "started_at": "2026-09-20T10:05:00+05:30",
+      "ended_at": "2026-09-20T10:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_subset_eval.py",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_subset_eval.py",
+        "interaction": "prepared the predefined alternative evaluation subset"
+      }
+    },
+    {
+      "id": 425,
+      "watcher": "Terminal",
+      "started_at": "2026-09-20T10:29:00+05:30",
+      "ended_at": "2026-09-20T10:46:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python scripts/validate_subset_eval.py"
+        ],
+        "output_state": "completed",
+        "visible_text": "subset counts and label distribution checks passed"
+      }
+    },
+    {
+      "id": 426,
+      "watcher": "Terminal",
+      "started_at": "2026-09-20T10:46:00+05:30",
+      "ended_at": "2026-09-20T11:18:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python run_replication.py --config configs/replication_subset.yaml --seed 19"
+        ],
+        "output_state": "running"
+      }
+    },
+    {
+      "id": 427,
+      "watcher": "Terminal",
+      "started_at": "2026-09-20T11:18:00+05:30",
+      "ended_at": "2026-09-20T12:01:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "bash — ~/projects/uncertainty",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "commands_visible": [
+          "python run_replication.py --config configs/replication_subset.yaml --seed 19"
+        ],
+        "output_state": "completed",
+        "visible_text": "run completed; results written to outputs/replication/subset_seed19"
+      }
+    },
+    {
+      "id": 428,
+      "watcher": "VS Code",
+      "started_at": "2026-09-20T12:01:00+05:30",
+      "ended_at": "2026-09-20T12:31:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_analysis.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_analysis.ipynb",
+        "interaction": "compared original and alternative evaluation subsets"
+      }
+    },
+    {
+      "id": 429,
+      "watcher": "VS Code",
+      "started_at": "2026-09-20T12:31:00+05:30",
+      "ended_at": "2026-09-20T13:02:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_analysis.ipynb",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_analysis.ipynb",
+        "interaction": "checked metric-by-metric differences and uncertainty intervals"
+      }
+    },
+    {
+      "id": 430,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-20T13:02:00+05:30",
+      "ended_at": "2026-09-20T13:26:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Paper supplementary material — calibration method",
+      "url": "https://example.org/supplement",
+      "payload": {
+        "window_state": "active",
+        "interaction": "rechecked implementation and evaluation details"
+      }
+    },
+    {
+      "id": 431,
+      "watcher": "VS Code",
+      "started_at": "2026-09-20T13:26:00+05:30",
+      "ended_at": "2026-09-20T13:51:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_notes.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_notes.md",
+        "interaction": "recorded partial reproduction and remaining ambiguity"
+      }
+    },
+    {
+      "id": 432,
+      "watcher": "Google Scholar",
+      "started_at": "2026-09-20T13:51:00+05:30",
+      "ended_at": "2026-09-20T14:18:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Scholar — reproducibility evaluation reporting machine learning",
+      "url": "https://scholar.google.com/",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 6,
+        "interaction": "searched for reproducibility discussions related to evaluation reporting"
+      }
+    },
+    {
+      "id": 433,
+      "watcher": "VS Code",
+      "started_at": "2026-09-20T14:18:00+05:30",
+      "ended_at": "2026-09-20T14:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — replication_decision.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "replication_decision.md",
+        "interaction": "applied stopping rule and marked replication paused"
+      }
+    },
+    {
+      "id": 434,
+      "watcher": "VS Code",
+      "started_at": "2026-09-20T16:23:00+05:30",
+      "ended_at": "2026-09-20T16:51:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "listed possible follow-up questions without selecting one"
+      }
+    },
+    {
+      "id": 435,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-20T16:51:00+05:30",
+      "ended_at": "2026-09-20T17:16:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "Google Search — uncertainty calibration benchmark datasets",
+      "url": "https://www.google.com/search?q=uncertainty+calibration+benchmark+datasets",
+      "payload": {
+        "window_state": "active",
+        "tabs_visible": 5,
+        "interaction": "opened benchmark dataset pages and skimmed descriptions"
+      }
+    },
+    {
+      "id": 436,
+      "watcher": "VS Code",
+      "started_at": "2026-09-20T17:16:00+05:30",
+      "ended_at": "2026-09-20T17:45:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "uncertainty-project — research_ideas.md",
+      "url": null,
+      "payload": {
+        "window_state": "active",
+        "workspace": "uncertainty-project",
+        "file": "research_ideas.md",
+        "interaction": "added notes on benchmark possibilities and parked them for later"
+      }
+    },
+    {
+      "id": 437,
+      "watcher": "Google Chrome",
+      "started_at": "2026-09-20T17:45:00+05:30",
+      "ended_at": "2026-09-20T18:36:00+05:30",
+      "app": "Google Chrome",
+      "browser": "Chrome",
+      "title": "YouTube — recorded ML seminar",
+      "url": "https://www.youtube.com/",
+      "payload": {
+        "window_state": "active",
+        "interaction": "watched recorded seminar on uncertainty estimation"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-20-01",
+        "started_at": "09:41",
+        "ended_at": "13:02",
+        "title": "Run the controlled evaluation-subset comparison",
+        "summary": "The researcher reviewed the predefined comparison, prepared and validated the alternative subset, ran the controlled replication, and compared the resulting metrics with the original replication. One metric moved closer to the reference result, but the overall result still did not reproduce exactly.",
+        "event_ids": [
+          423,
+          424,
+          425,
+          426,
+          427,
+          428,
+          429
+        ],
+        "context": "Single follow-up explicitly justified on Day 19.",
+        "area": "replication study",
+        "intent": "experiment",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-20-02",
+        "started_at": "13:02",
+        "ended_at": "14:47",
+        "title": "Document and evaluate the partial reproduction",
+        "summary": "The researcher checked the supplementary material again, documented the remaining discrepancy, searched reproducibility discussions for context, and applied the predefined stopping rule. The replication was paused rather than extended with additional undocumented variants.",
+        "event_ids": [
+          430,
+          431,
+          432,
+          433
+        ],
+        "context": "The controlled comparison reduced but did not resolve the discrepancy.",
+        "area": "replication study",
+        "intent": "analysis",
+        "quality": "high",
+        "importance": "high"
+      },
+      {
+        "id": "gt-20-03",
+        "started_at": "16:23",
+        "ended_at": "17:45",
+        "title": "Survey possible next research directions",
+        "summary": "After a long offline period, the researcher listed several possible follow-up questions, briefly browsed calibration benchmark datasets, and parked the ideas without selecting a new project.",
+        "event_ids": [
+          434,
+          435,
+          436
+        ],
+        "context": "Post-submission exploration after closing the replication loop.",
+        "area": "research planning",
+        "intent": "exploration",
+        "quality": "medium",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-20-04",
+        "started_at": "17:45",
+        "ended_at": "18:36",
+        "title": "Watch a recorded research seminar",
+        "summary": "The researcher watched a recorded seminar on uncertainty estimation. It may inform future work, but no concrete research decision was made during the session.",
+        "event_ids": [
+          437
+        ],
+        "context": "Low-pressure post-submission learning.",
+        "area": "learning",
+        "intent": "learning",
+        "quality": "medium",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "14:47",
+        "ended_at": "16:23",
+        "reason": "offline / lunch and personal time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The controlled evaluation-subset comparison changed the replication result in the expected direction for one metric but did not produce an exact reproduction of the reference result.",
+      "The remaining discrepancy is not explained by an obvious preprocessing or implementation mismatch.",
+      "The researcher followed the predefined stopping rule and paused the replication instead of adding undocumented reconstruction variants.",
+      "The replication now provides a partial reproduction with an explicit unresolved evaluation-procedure ambiguity.",
+      "Possible next research directions were collected but deliberately not selected on the same day as closing the replication."
+    ],
+    "priority_alignment": [
+      "The main priority was completed: the single controlled follow-up was run and interpreted.",
+      "The replication was closed at the intended boundary rather than expanding into a broad benchmark.",
+      "Post-submission exploration began only after the replication decision was documented."
+    ],
+    "important_uncertainty": [
+      "The exact evaluation procedure used for the reference result remains partly unrecoverable from the available materials.",
+      "It is unclear whether a more exact reconstruction would materially change the scientific conclusion.",
+      "No next research question has yet been chosen, so the list of ideas should not automatically become a new project queue."
+    ],
+    "possible_next_step": "Write a concise replication conclusion and then evaluate the parked research ideas against the broader uncertainty-calibration research direction before committing to a new experiment."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "action_type": "complete_open_loop",
+      "title": "Close the replication",
+      "reason": "The predefined controlled comparison was completed and the stopping rule was reached; the remaining discrepancy is documented rather than actionable without new assumptions.",
+      "suggested_focus_minutes": 30,
+      "target": "Replication Study"
+    },
+    "secondary_action": {
+      "action_type": "clarify_priority",
+      "title": "Choose the next question deliberately",
+      "reason": "Several ideas were collected after the manuscript submission, but none has yet earned priority over the others.",
+      "suggested_focus_minutes": 45,
+      "target": "Research Direction"
+    },
+    "things_not_to_do": [
+      "Do not add more evaluation-subset variants to chase an exact reproduction.",
+      "Do not turn the benchmark dataset search into a new experiment before selecting a research question.",
+      "Do not treat the parked research ideas as committed projects.",
+      "Do not reopen the submitted manuscript solely because the replication was partial."
+    ]
+  }
+}

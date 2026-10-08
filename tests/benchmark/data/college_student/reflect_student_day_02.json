@@ -1,0 +1,438 @@
+{
+  "persona": {
+    "id": "college_student_01",
+    "type": "college_student",
+    "role": "Full-time undergraduate student",
+    "age": 21,
+    "year": 3,
+    "field": "Computer Science and Engineering",
+    "context": "College student balancing coursework, projects, learning, social life, gaming, and personal responsibilities",
+    "current_work": [
+      "Keeping up with current semester coursework",
+      "Completing a DBMS assignment",
+      "Working with classmates on a semester project"
+    ],
+    "priorities": [
+      "Complete the DBMS assignment due later this week",
+      "Keep up with coursework",
+      "Make progress on the semester group project"
+    ]
+  },
+  "day": {
+    "day_number": 2,
+    "date": "2026-09-02",
+    "day_type": "assignment_submission_and_project_day",
+    "circumstances": [
+      "Classes occupied a substantial unobserved part of the morning.",
+      "The DBMS assignment moved from active drafting to submission after a long review and revision block.",
+      "The semester project received concrete group-work time through a meeting and a small repository change.",
+      "An upcoming Operating Systems quiz created a new academic thread in the evening.",
+      "Leisure included both unrelated YouTube content and a short gaming session."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:10",
+      "last_seen": "20:42",
+      "approx_active_hours": 6.6,
+      "longest_unobserved_gap_minutes": 138
+    }
+  },
+  "raw_events": [
+    {
+      "id": 23,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:10:00+05:30",
+      "ended_at": "2026-09-02T09:32:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 24,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T09:32:00+05:30",
+      "ended_at": "2026-09-02T09:48:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Moodle — DBMS Assignment 1",
+      "url": "https://moodle.example.edu/mod/assign/view.php?id=1842",
+      "payload": null
+    },
+    {
+      "id": 25,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T12:06:00+05:30",
+      "ended_at": "2026-09-02T12:22:00+05:30",
+      "app": "WhatsApp",
+      "browser": "Chrome",
+      "title": "WhatsApp Web",
+      "url": "https://web.whatsapp.com/",
+      "payload": null
+    },
+    {
+      "id": 26,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T12:22:00+05:30",
+      "ended_at": "2026-09-02T12:48:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "DBMS Assignment 1 answers",
+      "url": "https://docs.google.com/document/...",
+      "payload": null
+    },
+    {
+      "id": 27,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T12:48:00+05:30",
+      "ended_at": "2026-09-02T13:19:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Database Normalization — worked examples",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 28,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T13:19:00+05:30",
+      "ended_at": "2026-09-02T13:47:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "dbms-assignment — schema.sql",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 29,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T13:47:00+05:30",
+      "ended_at": "2026-09-02T14:01:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Stack Overflow",
+      "url": "https://stackoverflow.com/questions/...",
+      "payload": null
+    },
+    {
+      "id": 30,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T14:01:00+05:30",
+      "ended_at": "2026-09-02T14:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "dbms-assignment — answers.md",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 31,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T14:29:00+05:30",
+      "ended_at": "2026-09-02T14:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Moodle — DBMS Assignment 1",
+      "url": "https://moodle.example.edu/mod/assign/view.php?id=1842",
+      "payload": null
+    },
+    {
+      "id": 32,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T15:32:00+05:30",
+      "ended_at": "2026-09-02T15:53:00+05:30",
+      "app": "Google Meet",
+      "browser": "Chrome",
+      "title": "Semester project meeting",
+      "url": "https://meet.google.com/...",
+      "payload": null
+    },
+    {
+      "id": 33,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T15:53:00+05:30",
+      "ended_at": "2026-09-02T16:21:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "semester-project repository",
+      "url": "https://github.com/...",
+      "payload": null
+    },
+    {
+      "id": 34,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T16:21:00+05:30",
+      "ended_at": "2026-09-02T16:39:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "semester-project — api/client.ts",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 35,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T17:11:00+05:30",
+      "ended_at": "2026-09-02T17:27:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "Funny hostel moments",
+      "url": "https://www.youtube.com/watch?v=...",
+      "payload": null
+    },
+    {
+      "id": 36,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T17:27:00+05:30",
+      "ended_at": "2026-09-02T17:48:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 37,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T18:42:00+05:30",
+      "ended_at": "2026-09-02T19:01:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "College portal — OS quiz notice",
+      "url": "https://portal.example.edu/notices",
+      "payload": null
+    },
+    {
+      "id": 38,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T19:01:00+05:30",
+      "ended_at": "2026-09-02T19:29:00+05:30",
+      "app": "OneNote",
+      "browser": null,
+      "title": "Operating Systems notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 39,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T19:29:00+05:30",
+      "ended_at": "2026-09-02T19:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Banker's algorithm deadlock examples",
+      "url": "https://www.google.com/search?q=bankers+algorithm+deadlock+examples",
+      "payload": null
+    },
+    {
+      "id": 40,
+      "watcher": "desktop",
+      "started_at": "2026-09-02T20:11:00+05:30",
+      "ended_at": "2026-09-02T20:42:00+05:30",
+      "app": "Moodle",
+      "browser": "Chrome",
+      "title": "DBMS Assignment 1 submission",
+      "url": "https://moodle.example.edu/mod/assign/view.php?id=1842",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-02-01",
+        "started_at": "09:10",
+        "ended_at": "09:48",
+        "title": "Morning academic review",
+        "summary": "Checked course communication and revisited the DBMS assignment page before the day's classes.",
+        "event_ids": [
+          23,
+          24
+        ],
+        "context": "Academic",
+        "area": "Planning",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-02-02",
+        "started_at": "12:06",
+        "ended_at": "14:47",
+        "title": "DBMS assignment completion",
+        "summary": "Discussed the assignment with classmates, reviewed written answers, used a normalization tutorial to resolve an example, updated the SQL/schema and answers, and checked the submission requirements.",
+        "event_ids": [
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "context": "Academic",
+        "area": "DBMS",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-03",
+        "started_at": "15:32",
+        "ended_at": "16:39",
+        "title": "Semester project group work",
+        "summary": "Joined a group meeting, reviewed the repository, and made a small change to the project API client based on the discussion.",
+        "event_ids": [
+          32,
+          33,
+          34
+        ],
+        "context": "Academic",
+        "area": "Semester Project",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-02-04",
+        "started_at": "17:11",
+        "ended_at": "17:27",
+        "title": "Unrelated YouTube entertainment",
+        "summary": "Watched unrelated hostel and comedy content.",
+        "event_ids": [
+          35
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-05",
+        "started_at": "17:27",
+        "ended_at": "17:48",
+        "title": "Gaming",
+        "summary": "Played a game for leisure.",
+        "event_ids": [
+          36
+        ],
+        "context": "Leisure",
+        "area": null,
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low"
+      },
+      {
+        "id": "gt-02-06",
+        "started_at": "18:42",
+        "ended_at": "19:46",
+        "title": "Operating Systems quiz preparation",
+        "summary": "Noticed an upcoming OS quiz announcement, reviewed notes, and searched for an example to clarify deadlock avoidance.",
+        "event_ids": [
+          37,
+          38,
+          39
+        ],
+        "context": "Academic",
+        "area": "Operating Systems",
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-02-07",
+        "started_at": "20:11",
+        "ended_at": "20:42",
+        "title": "DBMS assignment submission",
+        "summary": "Returned to the Moodle submission page and submitted the DBMS assignment after the earlier review and editing work.",
+        "event_ids": [
+          40
+        ],
+        "context": "Academic",
+        "area": "DBMS",
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "09:48",
+        "ended_at": "12:06",
+        "reason": "Classes / campus activity"
+      },
+      {
+        "started_at": "14:47",
+        "ended_at": "15:32",
+        "reason": "Lunch / offline"
+      },
+      {
+        "started_at": "16:39",
+        "ended_at": "17:11",
+        "reason": "Snack / walk / personal activity"
+      },
+      {
+        "started_at": "17:48",
+        "ended_at": "18:42",
+        "reason": "Dinner / offline"
+      },
+      {
+        "started_at": "19:46",
+        "ended_at": "20:11",
+        "reason": "Personal activity / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The DBMS assignment was the main completed academic thread: the student revised it across several tools, used a tutorial to clarify a concept, and eventually submitted it.",
+      "The semester project progressed beyond communication into a small implementation change after the group meeting.",
+      "A new Operating Systems quiz became relevant late in the day, and the student immediately did a small amount of preparation.",
+      "The laptop record also contains ordinary leisure in the middle of the day, while classes and other offline activity remain unobserved."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Complete the DBMS assignment due later this week",
+        "assessment": "completed / submitted"
+      },
+      {
+        "priority": "Keep up with coursework",
+        "assessment": "meaningful progress / OS quiz preparation started"
+      },
+      {
+        "priority": "Make progress on the semester group project",
+        "assessment": "meaningful progress / group discussion translated into a small code change"
+      }
+    ],
+    "important_uncertainty": [
+      "The laptop data cannot establish what happened during morning classes or other offline periods.",
+      "Submission is observable, but the correctness or grading outcome of the DBMS assignment is not.",
+      "The short OS study block shows preparation started, not that the student is ready for the quiz."
+    ],
+    "possible_next_step": "Shift the main academic attention from the submitted DBMS assignment toward the new OS quiz while keeping the semester project moving in small increments."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Start a focused OS revision block",
+      "action_type": "start_focus",
+      "reason": "The DBMS assignment has reached a submission point, while the OS quiz is a new open academic loop that already received an initial review.",
+      "suggested_focus_minutes": 60,
+      "target": "Operating Systems"
+    },
+    "secondary_action": {
+      "title": "Continue the semester project",
+      "action_type": "continue_successful_behavior",
+      "reason": "Today's meeting produced a concrete code change, so a short follow-up session can maintain project momentum without reopening the completed DBMS work.",
+      "suggested_focus_minutes": 45,
+      "target": "Semester Project"
+    },
+    "things_not_to_do": [
+      "Do not treat the morning classes or other offline periods as unproductive because they are not captured.",
+      "Do not claim the submitted DBMS assignment was correct merely because it was reviewed and uploaded.",
+      "Do not treat gaming or unrelated YouTube as a failure simply because academic work was also present.",
+      "Do not assume the OS quiz preparation was sufficient based on one short evening session.",
+      "Do not infer that the student should remove leisure from the day after completing a substantial assignment."
+    ]
+  }
+}

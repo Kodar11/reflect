@@ -56,13 +56,24 @@ electron.contextBridge.exposeInMainWorld('background', {
   },
 } satisfies Window['background']);
 
-// Tracker IPC surface (read-only queries for the raw event viewer).
+// Tracker IPC surface: queries for the raw event viewer, and the user's
+// control over what stays captured (hide / restore / delete an event).
 electron.contextBridge.exposeInMainWorld('tracker', {
   getToday: (): Promise<TrackerEventDto[]> => electron.ipcRenderer.invoke('tracker:getToday'),
   getRange: (from: string, to: string): Promise<TrackerEventDto[]> =>
     electron.ipcRenderer.invoke('tracker:getRange', { from, to }),
   getAll: (limit?: number): Promise<TrackerEventDto[]> =>
     electron.ipcRenderer.invoke('tracker:getAll', { limit }),
+  getByIds: (ids: number[]): Promise<TrackerEventDto[]> =>
+    electron.ipcRenderer.invoke('tracker:getByIds', { ids }),
+  hideEvents: (eventIds: number[]): Promise<EventVisibilityResultDto> =>
+    electron.ipcRenderer.invoke('tracker:hideEvents', { eventIds }),
+  unhideEvents: (eventIds: number[]): Promise<EventVisibilityResultDto> =>
+    electron.ipcRenderer.invoke('tracker:unhideEvents', { eventIds }),
+  deleteEvents: (eventIds: number[]): Promise<EventVisibilityResultDto> =>
+    electron.ipcRenderer.invoke('tracker:deleteEvents', { eventIds }),
+  listHiddenEvents: (limit?: number): Promise<HiddenEventDto[]> =>
+    electron.ipcRenderer.invoke('tracker:listHidden', { limit }),
 } satisfies Window['tracker']);
 
 // Session IPC surface (derived sessions — in-memory, never persisted).

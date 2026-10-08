@@ -1,0 +1,277 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer"
+  },
+  "day": {
+    "day_number": 13,
+    "date": "2026-09-13",
+    "day_type": "client_revision_and_portfolio_day",
+    "primary_priorities": [
+      "Advance the new brand identity brief",
+      "Handle recurring social campaign work",
+      "Continue the Northstar Coffee portfolio case study"
+    ]
+  },
+  "raw_events": [
+    {
+      "event_id": 226,
+      "timestamp": "2026-09-13T09:12:00+05:30",
+      "app": "Figma",
+      "activity": "Reviewed client feedback and compared the two remaining identity directions",
+      "project": "new_brand_identity",
+      "details": "Feedback favored the simpler wordmark direction but requested one more type treatment comparison."
+    },
+    {
+      "event_id": 227,
+      "timestamp": "2026-09-13T09:24:00+05:30",
+      "app": "Gmail",
+      "activity": "Read client email with requested revisions",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 228,
+      "timestamp": "2026-09-13T09:37:00+05:30",
+      "app": "Figma",
+      "activity": "Adjusted wordmark proportions and spacing",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 229,
+      "timestamp": "2026-09-13T09:58:00+05:30",
+      "app": "Google Fonts",
+      "activity": "Compared typefaces for secondary typography",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 230,
+      "timestamp": "2026-09-13T10:21:00+05:30",
+      "app": "Figma",
+      "activity": "Built three typography pairings for the selected direction",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 231,
+      "timestamp": "2026-09-13T10:48:00+05:30",
+      "app": "Figma",
+      "activity": "Refined logo lockup and tested small-size rendering",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 232,
+      "timestamp": "2026-09-13T11:16:00+05:30",
+      "app": "Pinterest",
+      "activity": "Browsed packaging and editorial identity references",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 233,
+      "timestamp": "2026-09-13T11:34:00+05:30",
+      "app": "Figma",
+      "activity": "Applied a restrained reference approach to the brand layout",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 234,
+      "timestamp": "2026-09-13T11:57:00+05:30",
+      "app": "Slack",
+      "activity": "Checked social campaign request and delivery timing",
+      "project": "social_campaign"
+    },
+    {
+      "event_id": 235,
+      "timestamp": "2026-09-13T12:08:00+05:30",
+      "app": "Figma",
+      "activity": "Opened existing social campaign assets and listed remaining formats",
+      "project": "social_campaign"
+    },
+    {
+      "event_id": 236,
+      "timestamp": "2026-09-13T12:31:00+05:30",
+      "app": "Figma",
+      "activity": "Produced two resized campaign variants",
+      "project": "social_campaign"
+    },
+    {
+      "event_id": 237,
+      "timestamp": "2026-09-13T12:54:00+05:30",
+      "app": "Chrome",
+      "activity": "Read an article about accessible color contrast",
+      "project": "personal_research"
+    },
+    {
+      "event_id": 238,
+      "timestamp": "2026-09-13T13:18:00+05:30",
+      "app": "YouTube",
+      "activity": "Watched a graphic design workflow video",
+      "project": "ambiguous"
+    },
+    {
+      "event_id": 239,
+      "timestamp": "2026-09-13T13:43:00+05:30",
+      "app": "Offline",
+      "activity": "No desktop activity detected",
+      "project": "offline",
+      "details": "Lunch / away from computer"
+    },
+    {
+      "event_id": 240,
+      "timestamp": "2026-09-13T15:02:00+05:30",
+      "app": "Figma",
+      "activity": "Returned to new identity and tested monochrome applications",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 241,
+      "timestamp": "2026-09-13T15:31:00+05:30",
+      "app": "Figma",
+      "activity": "Created a compact presentation page showing logo, type, and color direction",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 242,
+      "timestamp": "2026-09-13T16:07:00+05:30",
+      "app": "Figma",
+      "activity": "Polished alignment and spacing across presentation page",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 243,
+      "timestamp": "2026-09-13T16:41:00+05:30",
+      "app": "Gmail",
+      "activity": "Sent revised identity direction to client for review",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 244,
+      "timestamp": "2026-09-13T16:53:00+05:30",
+      "app": "Figma",
+      "activity": "Prepared alternate export views for client presentation",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 245,
+      "timestamp": "2026-09-13T17:18:00+05:30",
+      "app": "Google Drive",
+      "activity": "Organized identity exports and source files",
+      "project": "new_brand_identity"
+    },
+    {
+      "event_id": 246,
+      "timestamp": "2026-09-13T17:42:00+05:30",
+      "app": "Offline",
+      "activity": "No desktop activity detected",
+      "project": "offline",
+      "details": "Short break / away from computer"
+    },
+    {
+      "event_id": 247,
+      "timestamp": "2026-09-13T18:21:00+05:30",
+      "app": "Figma",
+      "activity": "Worked on Northstar Coffee portfolio case study layout",
+      "project": "northstar_portfolio"
+    },
+    {
+      "event_id": 248,
+      "timestamp": "2026-09-13T18:54:00+05:30",
+      "app": "Figma",
+      "activity": "Added final identity rationale and selected project images",
+      "project": "northstar_portfolio"
+    },
+    {
+      "event_id": 249,
+      "timestamp": "2026-09-13T19:22:00+05:30",
+      "app": "Notion",
+      "activity": "Drafted case study project summary",
+      "project": "northstar_portfolio"
+    },
+    {
+      "event_id": 250,
+      "timestamp": "2026-09-13T19:47:00+05:30",
+      "app": "YouTube",
+      "activity": "Opened design references and watched short videos",
+      "project": "ambiguous"
+    },
+    {
+      "event_id": 251,
+      "timestamp": "2026-09-13T20:06:00+05:30",
+      "app": "Figma",
+      "activity": "Returned to portfolio and adjusted case study hierarchy",
+      "project": "northstar_portfolio"
+    },
+    {
+      "event_id": 252,
+      "timestamp": "2026-09-13T20:34:00+05:30",
+      "app": "Figma",
+      "activity": "Saved portfolio draft with remaining copy/layout gaps",
+      "project": "northstar_portfolio"
+    },
+    {
+      "event_id": 253,
+      "timestamp": "2026-09-13T21:02:00+05:30",
+      "app": "Figma",
+      "activity": "Reviewed new identity presentation once more before closing",
+      "project": "new_brand_identity"
+    }
+  ],
+  "ground_truth": {
+    "completed_outcomes": [
+      "New brand identity direction was revised and sent to the client for review.",
+      "Social campaign received a small amount of production progress.",
+      "Northstar Coffee portfolio case study received meaningful layout and copy progress but was not finished."
+    ],
+    "open_threads": [
+      "Awaiting client response on the revised new-brand identity direction.",
+      "Northstar Coffee portfolio case study still has copy/layout gaps."
+    ],
+    "ambiguities": [
+      "YouTube activity at 13:18 and 19:47 cannot be classified from raw events alone as either useful design learning/reference gathering or distraction.",
+      "Pinterest reference browsing was followed by design work, but its exact value to the identity direction is not directly observable."
+    ],
+    "ground_truth_events": [
+      226,
+      227,
+      228,
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      235,
+      236,
+      237,
+      238,
+      239,
+      240,
+      241,
+      242,
+      243,
+      244,
+      245,
+      246,
+      247,
+      248,
+      249,
+      250,
+      251,
+      252,
+      253
+    ]
+  },
+  "expected_reflection": {
+    "summary": "The new brand identity was the main productive thread: the designer incorporated client feedback, compared typography, refined the selected direction, and sent a revised presentation for review. Social campaign work progressed in a smaller block. The Northstar Coffee portfolio case study also moved forward with layout, rationale, and copy work, but remained unfinished. Some browsing and video activity is intentionally ambiguous.",
+    "observations": [
+      "The new identity moved from exploration toward a client-review state.",
+      "The Northstar portfolio case study received a sustained evening block rather than being abandoned.",
+      "Social campaign work was handled without overtaking the entire day.",
+      "The day contains a meaningful waiting state after the revised identity was sent to the client."
+    ]
+  },
+  "expected_coach_outcome": {
+    "action": "Protect a dedicated portfolio completion block while waiting for the new identity client response.",
+    "rationale": "The client revision is currently waiting on external feedback, so additional speculative refinement may have diminishing value. The portfolio case study has identifiable remaining work and can progress independently.",
+    "intervention_confidence": "medium"
+  }
+}

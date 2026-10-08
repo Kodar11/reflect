@@ -19,6 +19,7 @@ import {
   refreshLabel,
   shortMetricLabel,
   staleMessage,
+  staleNote,
   carryStatusLine,
   timelineTargetFor,
   type TimelineTarget,
@@ -147,7 +148,7 @@ function ReportBody({
     <>
       {report.status === 'stale' && (
         <div className="reflection-banner" role="status">
-          <span>{staleMessage(report.staleReason)} It still describes what Reflect saw at the time.</span>
+          <span>{staleMessage(report.staleReason)} {staleNote(report.staleReason)}</span>
         </div>
       )}
       {failed && view.generation.message && (
@@ -286,7 +287,7 @@ function DailyBody({ view, report, coach, refreshButton, generating, onFeedback,
     <>
       {report.status === 'stale' && (
         <div className="reflection-banner" role="status">
-          <span>{staleMessage(report.staleReason)} It still describes what Reflect saw at the time.</span>
+          <span>{staleMessage(report.staleReason)} {staleNote(report.staleReason)}</span>
         </div>
       )}
       {failed && view.generation.message && (

@@ -1,0 +1,600 @@
+{
+  "persona": {
+    "id": "content_creator_01",
+    "type": "content_creator",
+    "role": "Technical content creator",
+    "age": 27,
+    "niche": "Practical software-engineering and backend-development content",
+    "primary_channels": [
+      "YouTube",
+      "Instagram"
+    ],
+    "context": "Semi-professional creator building a small technical audience while balancing production, publishing, community, analytics, sponsorships, learning, and personal life",
+    "current_work": [
+      "Selecting the next technical video after publishing the Redis/caching follow-up",
+      "Developing a PostgreSQL indexing topic from idea into an outline",
+      "Maintaining channel and audience operations"
+    ],
+    "priorities": [
+      "Choose and develop one concrete next-video concept",
+      "Ground the PostgreSQL idea in technically useful examples rather than broad browsing",
+      "Keep analytics and packaging work secondary to clarifying the actual content"
+    ]
+  },
+  "day": {
+    "day_number": 11,
+    "date": "2026-09-11",
+    "day_type": "friday_new_topic_research_and_outline",
+    "circumstances": [
+      "The creator selected a PostgreSQL indexing topic from the backlog and moved it into research and outlining.",
+      "The work involved several search and YouTube reference sessions, with the same Google Docs file used throughout the outline process.",
+      "Instagram mixed direct audience replies with general browsing.",
+      "The creator checked the previous video's analytics twice and also updated a metrics sheet, but no visible strategy change followed.",
+      "Thumbnail exploration for the new PostgreSQL topic began before the content outline was completely finalized."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:18",
+      "last_seen": "22:18",
+      "approx_active_hours": 8.3,
+      "longest_unobserved_gap_minutes": 105
+    }
+  },
+  "raw_events": [
+    {
+      "id": 227,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T09:18:00+05:30",
+      "ended_at": "2026-09-11T09:31:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 228,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T09:31:00+05:30",
+      "ended_at": "2026-09-11T09:48:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 229,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T09:48:00+05:30",
+      "ended_at": "2026-09-11T10:07:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 230,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T10:07:00+05:30",
+      "ended_at": "2026-09-11T10:28:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL indexing common mistakes",
+      "url": "https://www.google.com/search?q=PostgreSQL+indexing+common+mistakes",
+      "payload": null
+    },
+    {
+      "id": 231,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T10:28:00+05:30",
+      "ended_at": "2026-09-11T10:52:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "PostgreSQL indexing explained",
+      "url": "https://www.youtube.com/results?search_query=PostgreSQL+indexing+explained",
+      "payload": null
+    },
+    {
+      "id": 232,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T10:52:00+05:30",
+      "ended_at": "2026-09-11T11:21:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 233,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T11:21:00+05:30",
+      "ended_at": "2026-09-11T11:44:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "Postgres index scan vs seq scan",
+      "url": "https://www.google.com/search?q=Postgres+index+scan+vs+seq+scan",
+      "payload": null
+    },
+    {
+      "id": 234,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T11:44:00+05:30",
+      "ended_at": "2026-09-11T12:18:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 235,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T12:18:00+05:30",
+      "ended_at": "2026-09-11T12:31:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "creator-chat",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 236,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T12:31:00+05:30",
+      "ended_at": "2026-09-11T12:57:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "PostgreSQL Indexes — Outline",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 237,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T14:42:00+05:30",
+      "ended_at": "2026-09-11T14:58:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/direct/inbox",
+      "url": "https://www.instagram.com/direct/inbox/",
+      "payload": null
+    },
+    {
+      "id": 238,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T14:58:00+05:30",
+      "ended_at": "2026-09-11T15:19:00+05:30",
+      "app": "Instagram",
+      "browser": "Chrome",
+      "title": "instagram.com/explore/",
+      "url": "https://www.instagram.com/explore/",
+      "payload": null
+    },
+    {
+      "id": 239,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T15:44:00+05:30",
+      "ended_at": "2026-09-11T16:06:00+05:30",
+      "app": "Google Search",
+      "browser": "Chrome",
+      "title": "PostgreSQL benchmark index performance",
+      "url": "https://www.google.com/search?q=PostgreSQL+benchmark+index+performance",
+      "payload": null
+    },
+    {
+      "id": 240,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T16:06:00+05:30",
+      "ended_at": "2026-09-11T16:32:00+05:30",
+      "app": "Google Sheets",
+      "browser": "Chrome",
+      "title": "Content Metrics",
+      "url": "https://docs.google.com/spreadsheets/",
+      "payload": null
+    },
+    {
+      "id": 241,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T16:32:00+05:30",
+      "ended_at": "2026-09-11T16:51:00+05:30",
+      "app": "YouTube Studio",
+      "browser": "Chrome",
+      "title": "Analytics — Redis caching follow-up",
+      "url": "https://studio.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 242,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T17:37:00+05:30",
+      "ended_at": "2026-09-11T17:55:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Video Thumbnail Ideas",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 243,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T17:55:00+05:30",
+      "ended_at": "2026-09-11T18:18:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "PostgreSQL Video Thumbnail Ideas",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 244,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T19:28:00+05:30",
+      "ended_at": "2026-09-11T20:11:00+05:30",
+      "app": "YouTube",
+      "browser": "Chrome",
+      "title": "coding conference keynote",
+      "url": "https://www.youtube.com/watch?v=conference-18",
+      "payload": null
+    },
+    {
+      "id": 245,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T20:11:00+05:30",
+      "ended_at": "2026-09-11T20:53:00+05:30",
+      "app": "Steam",
+      "browser": null,
+      "title": "Hades",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 246,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T20:53:00+05:30",
+      "ended_at": "2026-09-11T21:12:00+05:30",
+      "app": "Discord",
+      "browser": "Discord",
+      "title": "friends",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 247,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T21:47:00+05:30",
+      "ended_at": "2026-09-11T22:06:00+05:30",
+      "app": "Notion",
+      "browser": "Chrome",
+      "title": "Video ideas",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 248,
+      "watcher": "desktop",
+      "started_at": "2026-09-11T22:06:00+05:30",
+      "ended_at": "2026-09-11T22:18:00+05:30",
+      "app": "Gmail",
+      "browser": "Chrome",
+      "title": "Inbox",
+      "url": "https://mail.google.com/",
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-11-01",
+        "started_at": "09:18",
+        "ended_at": "09:48",
+        "title": "Morning inbox and published-video check",
+        "summary": "Checked email and reviewed the current analytics for the recently published Redis follow-up.",
+        "event_ids": [
+          227,
+          228
+        ],
+        "context": "The previous video's publication loop is closed, but early performance can still inform future planning.",
+        "area": "creator_operations",
+        "intent": "Review incoming communication and current channel performance.",
+        "quality": "routine",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-11-02",
+        "started_at": "09:48",
+        "ended_at": "11:21",
+        "title": "PostgreSQL topic research and outline start",
+        "summary": "Reviewed the idea list, researched PostgreSQL indexing mistakes and indexing behavior, watched a reference video, and started an outline.",
+        "event_ids": [
+          229,
+          230,
+          231,
+          232
+        ],
+        "context": "The PostgreSQL idea had been lightly explored earlier in the month but was now selected as the next serious topic.",
+        "area": "content_research_and_scripting",
+        "intent": "Determine the angle and structure of the next technical video.",
+        "quality": "focused research and planning",
+        "importance": "high"
+      },
+      {
+        "id": "gt-11-03",
+        "started_at": "11:21",
+        "ended_at": "12:18",
+        "title": "Technical example research",
+        "summary": "Looked up index scans versus sequential scans and added the relevant technical example to the outline.",
+        "event_ids": [
+          233,
+          234
+        ],
+        "context": "The creator was narrowing the video toward concrete database behavior rather than a generic index overview.",
+        "area": "content_research_and_scripting",
+        "intent": "Find a concrete example that can support the planned explanation.",
+        "quality": "targeted research",
+        "importance": "high"
+      },
+      {
+        "id": "gt-11-04",
+        "started_at": "12:18",
+        "ended_at": "12:31",
+        "title": "Creator communication interruption",
+        "summary": "Checked the creator chat briefly before returning to the outline.",
+        "event_ids": [
+          235
+        ],
+        "context": "The interruption was short and occurred inside the broader planning period.",
+        "area": "communication",
+        "intent": "Handle an incoming creator-group message.",
+        "quality": "brief interruption",
+        "importance": "low"
+      },
+      {
+        "id": "gt-11-05",
+        "started_at": "12:31",
+        "ended_at": "12:57",
+        "title": "Outline refinement",
+        "summary": "Returned to the PostgreSQL outline and refined the sequence after the technical research.",
+        "event_ids": [
+          236
+        ],
+        "context": "This continued the same planning activity after the brief chat interruption.",
+        "area": "scripting",
+        "intent": "Shape the technical examples into a coherent video structure.",
+        "quality": "focused creative work",
+        "importance": "high"
+      },
+      {
+        "id": "gt-11-06",
+        "started_at": "12:57",
+        "ended_at": "14:42",
+        "title": "Lunch and offline personal time",
+        "summary": "Spent the midday period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop evidence is available.",
+        "area": "personal",
+        "intent": "Lunch and ordinary personal activity.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-11-07",
+        "started_at": "14:42",
+        "ended_at": "15:19",
+        "title": "Instagram community and browsing",
+        "summary": "Checked direct messages and then browsed the Instagram explore feed.",
+        "event_ids": [
+          237,
+          238
+        ],
+        "context": "The same platform supports both audience work and casual browsing.",
+        "area": "community_and_leisure",
+        "intent": "Handle audience communication and browse current content.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-11-08",
+        "started_at": "15:19",
+        "ended_at": "15:44",
+        "title": "Offline break",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was captured.",
+        "area": "personal",
+        "intent": "Take a break before another planning block.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-11-09",
+        "started_at": "15:44",
+        "ended_at": "16:51",
+        "title": "Database example and metrics review",
+        "summary": "Searched for PostgreSQL performance examples, updated the content metrics sheet, and reviewed the prior video's analytics.",
+        "event_ids": [
+          239,
+          240,
+          241
+        ],
+        "context": "The creator mixed next-video research with post-publish analysis during this shorter block.",
+        "area": "research_and_analytics",
+        "intent": "Find useful evidence for the next video and inspect current channel performance.",
+        "quality": "mixed",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-11-10",
+        "started_at": "16:51",
+        "ended_at": "17:37",
+        "title": "Offline break and personal time",
+        "summary": "Spent the late afternoon away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was observed.",
+        "area": "personal",
+        "intent": "Take a break before packaging exploration.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-11-11",
+        "started_at": "17:37",
+        "ended_at": "18:18",
+        "title": "Thumbnail exploration",
+        "summary": "Started two thumbnail concepts for the PostgreSQL video.",
+        "event_ids": [
+          242,
+          243
+        ],
+        "context": "Packaging exploration began even though the outline was still being refined.",
+        "area": "thumbnail_design",
+        "intent": "Explore a visual direction for the new topic.",
+        "quality": "partial production",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-11-12",
+        "started_at": "18:18",
+        "ended_at": "19:28",
+        "title": "Dinner and offline personal time",
+        "summary": "Spent the early evening away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Dinner and ordinary personal time.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-11-13",
+        "started_at": "19:28",
+        "ended_at": "20:11",
+        "title": "General technical learning",
+        "summary": "Watched a programming conference keynote unrelated to the active PostgreSQL video.",
+        "event_ids": [
+          244
+        ],
+        "context": "The creator often consumes technical material that is useful generally without being part of a current production project.",
+        "area": "creator_learning",
+        "intent": "Learn about broader software-engineering topics.",
+        "quality": "general learning",
+        "importance": "low"
+      },
+      {
+        "id": "gt-11-14",
+        "started_at": "20:11",
+        "ended_at": "21:12",
+        "title": "Evening recreation and social time",
+        "summary": "Played Hades and chatted with friends.",
+        "event_ids": [
+          245,
+          246
+        ],
+        "context": "Normal evening leisure after a research-heavy day.",
+        "area": "leisure",
+        "intent": "Recreation and social interaction.",
+        "quality": "deliberate leisure",
+        "importance": "low"
+      },
+      {
+        "id": "gt-11-15",
+        "started_at": "21:12",
+        "ended_at": "21:47",
+        "title": "Offline wind-down",
+        "summary": "Spent a short period away from the desktop.",
+        "event_ids": [],
+        "context": "No desktop activity was recorded.",
+        "area": "personal",
+        "intent": "Wind down before ending the day.",
+        "quality": "unobserved offline activity",
+        "importance": "low"
+      },
+      {
+        "id": "gt-11-16",
+        "started_at": "21:47",
+        "ended_at": "22:18",
+        "title": "Idea backlog and inbox review",
+        "summary": "Reviewed the video backlog and checked email without starting another content project.",
+        "event_ids": [
+          247,
+          248
+        ],
+        "context": "The PostgreSQL topic remains the selected next project, while other ideas were kept in the backlog.",
+        "area": "creator_operations",
+        "intent": "Review open ideas and late communication.",
+        "quality": "brief maintenance",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:57",
+        "ended_at": "14:42",
+        "reason": "Lunch and offline personal time"
+      },
+      {
+        "started_at": "15:19",
+        "ended_at": "15:44",
+        "reason": "Offline break"
+      },
+      {
+        "started_at": "16:51",
+        "ended_at": "17:37",
+        "reason": "Offline break and personal time"
+      },
+      {
+        "started_at": "18:18",
+        "ended_at": "19:28",
+        "reason": "Dinner and offline personal time"
+      },
+      {
+        "started_at": "21:12",
+        "ended_at": "21:47",
+        "reason": "Offline wind-down"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The creator moved from post-publish planning into a concrete next topic: PostgreSQL indexing received focused research and was turned into a substantial outline.",
+      "The research became increasingly specific, moving from broad indexing mistakes to index-scan behavior and performance examples.",
+      "The work was more fragmented than the earlier production days: a short creator-chat interruption, analytics review, Instagram use, and thumbnail exploration all appeared around the central outline work.",
+      "Thumbnail exploration began before the content structure was fully closed, so the new project has progressed in parallel across content and packaging rather than in a strictly linear order.",
+      "The previous Redis video's analytics were reviewed again, but the visible timeline does not show a resulting strategy change."
+    ],
+    "priority_alignment": [
+      "The PostgreSQL topic became the single selected next project rather than opening several new production threads.",
+      "Most of the substantive morning work was directed toward research and outlining the new video.",
+      "The previous video's analytics and community tasks remained secondary to deciding what to create next."
+    ],
+    "important_uncertainty": [
+      "The outline is clearly more developed, but the timeline does not establish whether the topic has been narrowed enough for recording or whether further research is still needed.",
+      "The PostgreSQL performance search may provide useful evidence, but the actual benchmark results and their role in the eventual script are not visible.",
+      "Thumbnail exploration is observable, but its quality and whether it represents a chosen design direction are unclear.",
+      "Analytics were reviewed and recorded, but the actual metrics and decision criteria are not visible.",
+      "Offline periods are outside desktop observation."
+    ],
+    "possible_next_step": "Finish the PostgreSQL outline around one or two concrete examples, then decide whether it is ready for scripting before doing more thumbnail exploration."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Lock the next-video angle",
+      "action_type": "clarify_priority",
+      "reason": "The PostgreSQL topic has substantial research and an outline, but packaging has started before the content angle is fully closed. A clear angle should reduce parallel work.",
+      "target": "PostgreSQL indexing video",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not treat the Google Search and YouTube references as unrelated browsing when they form one research chain.",
+      "Do not assume the PostgreSQL topic is fully ready for recording because an outline exists.",
+      "Do not treat thumbnail exploration as proof that the video's content structure is settled.",
+      "Do not infer any strategy change from the analytics checks without the underlying metrics or decision context.",
+      "Do not classify Instagram as entirely work or entirely distraction.",
+      "Do not criticize the evening technical talk, gaming, or social time as inherently harmful.",
+      "Do not infer what happened during offline periods."
+    ]
+  }
+}

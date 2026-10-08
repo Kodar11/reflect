@@ -1,0 +1,480 @@
+{
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Northstar Coffee portfolio case study",
+      "Social media campaign assets for an existing client",
+      "New food-business brand inquiry",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Convert the new food-business inquiry into a well-scoped identity project",
+      "Begin the new identity project from a clear discovery foundation",
+      "Maintain client relationships and close bounded social work",
+      "Continue selective promotion of completed portfolio work"
+    ]
+  },
+  "day": {
+    "day_number": 26,
+    "date": "2026-09-26",
+    "day_type": "new_client_kickoff_and_early_concept_day",
+    "circumstances": [
+      "The food-business prospect confirmed interest and the designer held a short kickoff/discovery call",
+      "The designer translated the kickoff discussion into project notes and early visual territories rather than producing polished concepts",
+      "The previous social campaign correction was accepted and archived",
+      "Northstar promotion received a small follow-up check",
+      "Reference browsing and a lettering exercise appeared alongside active client work, with their exact contribution not always observable"
+    ],
+    "laptop_usage": {
+      "first_seen": "09:24",
+      "last_seen": "20:06",
+      "approx_active_hours": 7.9,
+      "longest_unobserved_gap_minutes": 89
+    }
+  },
+  "raw_events": [
+    {
+      "id": 612,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T09:24:00+05:30",
+      "ended_at": "2026-09-26T09:41:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 613,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T09:41:00+05:30",
+      "ended_at": "2026-09-26T10:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Calendar",
+      "url": "https://calendar.google.com/",
+      "payload": null
+    },
+    {
+      "id": 614,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T10:03:00+05:30",
+      "ended_at": "2026-09-26T10:17:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 615,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T10:27:00+05:30",
+      "ended_at": "2026-09-26T10:52:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Food Brand — Project Notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 616,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T10:52:00+05:30",
+      "ended_at": "2026-09-26T11:21:00+05:30",
+      "app": "Google Docs",
+      "browser": "Chrome",
+      "title": "Food Brand Identity — Proposal",
+      "url": "https://docs.google.com/document/",
+      "payload": null
+    },
+    {
+      "id": 617,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T11:21:00+05:30",
+      "ended_at": "2026-09-26T11:35:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 618,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T11:47:00+05:30",
+      "ended_at": "2026-09-26T12:01:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Pinterest",
+      "url": "https://www.pinterest.com/",
+      "payload": null
+    },
+    {
+      "id": 619,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T12:16:00+05:30",
+      "ended_at": "2026-09-26T12:43:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 620,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T12:43:00+05:30",
+      "ended_at": "2026-09-26T13:02:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Discovery",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 621,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T14:31:00+05:30",
+      "ended_at": "2026-09-26T14:56:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Meet",
+      "url": "https://meet.google.com/",
+      "payload": null
+    },
+    {
+      "id": 622,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T15:12:00+05:30",
+      "ended_at": "2026-09-26T15:39:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Food Brand — Project Notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 623,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T15:39:00+05:30",
+      "ended_at": "2026-09-26T16:04:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Discovery",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 624,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T16:04:00+05:30",
+      "ended_at": "2026-09-26T16:36:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Concept Presentation",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 625,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T16:36:00+05:30",
+      "ended_at": "2026-09-26T16:49:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "social-client",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 626,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T16:49:00+05:30",
+      "ended_at": "2026-09-26T17:07:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "social-client",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 627,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T17:07:00+05:30",
+      "ended_at": "2026-09-26T17:29:00+05:30",
+      "app": "Google Drive",
+      "browser": "Chrome",
+      "title": "Social Campaign / Handoff",
+      "url": "https://drive.google.com/drive/",
+      "payload": null
+    },
+    {
+      "id": 628,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T17:29:00+05:30",
+      "ended_at": "2026-09-26T17:48:00+05:30",
+      "app": "Notion",
+      "browser": null,
+      "title": "Northstar Coffee — Case Study Notes",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 629,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T17:48:00+05:30",
+      "ended_at": "2026-09-26T18:02:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "LinkedIn",
+      "url": "https://www.linkedin.com/",
+      "payload": null
+    },
+    {
+      "id": 630,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T18:16:00+05:30",
+      "ended_at": "2026-09-26T18:30:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 631,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T18:42:00+05:30",
+      "ended_at": "2026-09-26T19:11:00+05:30",
+      "app": "Illustrator",
+      "browser": null,
+      "title": "lettering-study-03.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 632,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T19:11:00+05:30",
+      "ended_at": "2026-09-26T19:34:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Food Brand Identity — Logo",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 633,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T19:34:00+05:30",
+      "ended_at": "2026-09-26T19:52:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 634,
+      "watcher": "desktop",
+      "started_at": "2026-09-26T19:52:00+05:30",
+      "ended_at": "2026-09-26T20:06:00+05:30",
+      "app": "File Explorer",
+      "browser": null,
+      "title": "Food Brand Identity — Exports",
+      "url": null,
+      "payload": null
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-26-01",
+        "started_at": "09:24",
+        "ended_at": "11:35",
+        "title": "New food-business identity — design work",
+        "summary": "Reviewed a reply from the food-business prospect confirming interest and asking to schedule a short kickoff call. Checked availability and compared possible kickoff times against existing client commitments. Sent two possible kickoff times and a short list of information needed before identity work begins. Created a project page for the food-business identity and copied the agreed scope notes into it.",
+        "event_ids": [
+          612,
+          613,
+          614,
+          615,
+          616,
+          617
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-02",
+        "started_at": "11:47",
+        "ended_at": "12:01",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Browsed food-brand identity references and packaging systems for possible discussion during the kickoff.",
+        "event_ids": [
+          618
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-26-03",
+        "started_at": "12:16",
+        "ended_at": "13:02",
+        "title": "New food-business identity — reference research",
+        "summary": "Organized the existing food-business moodboard into broader visual territories and removed several duplicate references. Added notes comparing two visual territories, including typography, color, and packaging implications.",
+        "event_ids": [
+          619,
+          620
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-26-04",
+        "started_at": "14:31",
+        "ended_at": "16:36",
+        "title": "New food-business identity — design work",
+        "summary": "Joined a short kickoff call with the food-business client and discussed audience, product positioning, competitors, and expected deliverables. Recorded kickoff notes and converted several client comments into open design questions. Updated the moodboard using several references mentioned during the kickoff conversation. Started three rough logo direction frames using different typographic structures; none was developed to presentation quality.",
+        "event_ids": [
+          621,
+          622,
+          623,
+          624
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high"
+      },
+      {
+        "id": "gt-26-05",
+        "started_at": "16:36",
+        "ended_at": "17:29",
+        "title": "Social campaign — files and delivery",
+        "summary": "Checked for a response from the social campaign client on the corrected story asset. Received confirmation that the corrected story asset was acceptable; no additional changes were requested. Archived the approved social campaign revision and organized the latest export files.",
+        "event_ids": [
+          625,
+          626,
+          627
+        ],
+        "context": "Work",
+        "area": "Social campaign",
+        "intent": "Manage",
+        "quality": "Focused",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-26-06",
+        "started_at": "17:29",
+        "ended_at": "18:02",
+        "title": "Northstar portfolio case study — review",
+        "summary": "Reviewed the Northstar Coffee case study checklist and marked several already-completed sections for reference. Checked recent reactions to the Northstar portfolio post and opened a few profiles from people who engaged with it.",
+        "event_ids": [
+          628,
+          629
+        ],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-26-07",
+        "started_at": "18:16",
+        "ended_at": "18:30",
+        "title": "Reference browsing and video — purpose not observable",
+        "summary": "Watched a short video about packaging typography and label hierarchy; its direct relevance to the current project is not observable.",
+        "event_ids": [
+          630
+        ],
+        "context": "Uncertain",
+        "area": "Reference / research",
+        "intent": "Consume",
+        "quality": "Ambiguous",
+        "importance": "low"
+      },
+      {
+        "id": "gt-26-08",
+        "started_at": "18:42",
+        "ended_at": "19:11",
+        "title": "Personal lettering practice — design work",
+        "summary": "Experimented with two lettering treatments inspired by the packaging typography reference.",
+        "event_ids": [
+          631
+        ],
+        "context": "Personal",
+        "area": "Personal exploration",
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "low"
+      },
+      {
+        "id": "gt-26-09",
+        "started_at": "19:11",
+        "ended_at": "20:06",
+        "title": "New food-business identity — design work",
+        "summary": "Returned to the food-business identity file and adjusted spacing on one rough wordmark direction. Checked for any additional client response; no new message was visible. Created a local folder structure for the new identity project, separating references, working files, exports, and client materials.",
+        "event_ids": [
+          632,
+          633,
+          634
+        ],
+        "context": "Work",
+        "area": "New brand inquiry",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:02",
+        "ended_at": "14:31",
+        "reason": "Offline / no desktop activity recorded"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The strongest forward movement was converting a prospect into a structured project with documented discovery inputs and initial visual exploration."
+    ],
+    "priority_alignment": [
+      "New brand inquiry: Initiated and materially clarified; early exploration started, but no polished concept is evidenced.",
+      "Social campaign: Latest requested correction accepted and archived; broader campaign closure not established.",
+      "Northstar portfolio: Promotion/check-in only; no substantive case-study production evidenced."
+    ],
+    "important_uncertainty": [
+      "The raw events do not show whether all discovery questions were answered during or after the call.",
+      "The research and lettering sessions may have supported the new identity work, but the evidence cannot establish how necessary they were.",
+      "Offline activity is unobserved."
+    ],
+    "possible_next_step": "Protect the next focused block for turning the kickoff notes into a small, reviewable set of identity directions rather than expanding the reference board indefinitely."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Turn the kickoff notes into reviewable directions",
+      "action_type": "protect_priority",
+      "reason": "The new project now has enough discovery context to move from preparation into concrete concept development, while further portfolio promotion can remain secondary.",
+      "suggested_focus_minutes": null,
+      "target": "New food-business identity"
+    },
+    "secondary_action": null,
+    "things_not_to_do": []
+  }
+}

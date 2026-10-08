@@ -1,0 +1,505 @@
+{
+  "persona": {
+    "id": "software_developer_01",
+    "type": "software_developer",
+    "role": "Backend software engineer at a B2B SaaS company",
+    "team": "Core Platform Engineering",
+    "environment": {
+      "company_context": "Mid-sized B2B SaaS product",
+      "primary_product": "Customer workspace and billing platform",
+      "primary_stack": [
+        "TypeScript",
+        "Node.js",
+        "PostgreSQL",
+        "Redis",
+        "React"
+      ],
+      "primary_repository": "platform-api",
+      "team_structure": "Six-person backend/platform team working with product, frontend, QA, and infrastructure engineers"
+    }
+  },
+  "day": {
+    "day_number": 18,
+    "date": "2026-09-18",
+    "day_type": "api_contract_design_and_export_implementation_day",
+    "circumstances": [
+      "The webhook reliability issue was closed on the previous day after a sufficiently long production observation window.",
+      "The account export API is now the primary engineering task.",
+      "The engineer needs to clarify authorization, export scope, and large-result behavior before the implementation expands.",
+      "Normal code review and platform health checks remain secondary responsibilities."
+    ],
+    "laptop_usage": {
+      "first_seen": "09:09",
+      "last_seen": "18:36",
+      "approx_active_hours": 7.3,
+      "longest_unobserved_gap_minutes": 76
+    }
+  },
+  "raw_events": [
+    {
+      "id": 430,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T09:09:00+05:30",
+      "ended_at": "2026-09-18T09:31:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 431,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T09:31:00+05:30",
+      "ended_at": "2026-09-18T09:55:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PRD — Account export API",
+      "url": "https://notion.company.local/account-export-api",
+      "payload": {
+        "page": "Account export API"
+      }
+    },
+    {
+      "id": 432,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T09:55:00+05:30",
+      "ended_at": "2026-09-18T10:18:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 433,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T10:18:00+05:30",
+      "ended_at": "2026-09-18T10:42:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "DM with Priya - account export",
+      "url": null,
+      "payload": {
+        "participants": [
+          "Priya"
+        ]
+      }
+    },
+    {
+      "id": 434,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T10:42:00+05:30",
+      "ended_at": "2026-09-18T11:06:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportController.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportController.ts",
+          "accountService.ts"
+        ]
+      }
+    },
+    {
+      "id": 435,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T11:06:00+05:30",
+      "ended_at": "2026-09-18T11:29:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountRepository.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountRepository.ts",
+          "accountService.ts"
+        ]
+      }
+    },
+    {
+      "id": 436,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T11:29:00+05:30",
+      "ended_at": "2026-09-18T11:52:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "rg \"permission|role|workspaceId|accountId\" src",
+      "url": null,
+      "payload": {
+        "command": "rg \"permission|role|workspaceId|accountId\" src"
+      }
+    },
+    {
+      "id": 437,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T11:52:00+05:30",
+      "ended_at": "2026-09-18T12:15:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#workspace-api",
+      "url": null,
+      "payload": {
+        "channel": "#workspace-api"
+      }
+    },
+    {
+      "id": 438,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T12:15:00+05:30",
+      "ended_at": "2026-09-18T12:38:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #884 — Conversation",
+      "url": "https://github.com/company/platform-api/pull/884",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 884
+      }
+    },
+    {
+      "id": 439,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T14:00:00+05:30",
+      "ended_at": "2026-09-18T14:24:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountExportController.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountExportController.ts",
+          "accountService.ts"
+        ]
+      }
+    },
+    {
+      "id": 440,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T14:24:00+05:30",
+      "ended_at": "2026-09-18T14:48:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountService.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountService.ts",
+          "accountRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 441,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T14:48:00+05:30",
+      "ended_at": "2026-09-18T15:12:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountService.test.ts accountExportController.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountService.test.ts accountExportController.test.ts"
+      }
+    },
+    {
+      "id": 442,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T15:12:00+05:30",
+      "ended_at": "2026-09-18T15:35:00+05:30",
+      "app": "VS Code",
+      "browser": null,
+      "title": "accountRepository.ts — platform-api",
+      "url": null,
+      "payload": {
+        "workspace": "platform-api",
+        "files": [
+          "accountRepository.ts"
+        ]
+      }
+    },
+    {
+      "id": 443,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T15:35:00+05:30",
+      "ended_at": "2026-09-18T15:58:00+05:30",
+      "app": "Terminal",
+      "browser": null,
+      "title": "npm test -- accountRepository.test.ts",
+      "url": null,
+      "payload": {
+        "command": "npm test -- accountRepository.test.ts"
+      }
+    },
+    {
+      "id": 444,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T15:58:00+05:30",
+      "ended_at": "2026-09-18T16:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "PostgreSQL EXPLAIN — export query draft",
+      "url": "https://db-console.company.local/",
+      "payload": {
+        "view": "query plan",
+        "query_context": "account export"
+      }
+    },
+    {
+      "id": 445,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T16:21:00+05:30",
+      "ended_at": "2026-09-18T16:44:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#platform-backend",
+      "url": null,
+      "payload": {
+        "channel": "#platform-backend"
+      }
+    },
+    {
+      "id": 446,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T16:44:00+05:30",
+      "ended_at": "2026-09-18T17:07:00+05:30",
+      "app": "GitHub",
+      "browser": "Chrome",
+      "title": "Pull request #884 — Files changed",
+      "url": "https://github.com/company/platform-api/pull/884",
+      "payload": {
+        "repository": "platform-api",
+        "pull_request": 884
+      }
+    },
+    {
+      "id": 447,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T17:07:00+05:30",
+      "ended_at": "2026-09-18T17:29:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "workspace-api — p95 latency",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "workspace-api",
+        "metric": "p95 latency",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 448,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T17:29:00+05:30",
+      "ended_at": "2026-09-18T17:51:00+05:30",
+      "app": "Datadog",
+      "browser": null,
+      "title": "billing-api — errors",
+      "url": "https://app.datadoghq.com/",
+      "payload": {
+        "service": "billing-api",
+        "metric": "errors",
+        "time_range": "24h"
+      }
+    },
+    {
+      "id": 449,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T17:51:00+05:30",
+      "ended_at": "2026-09-18T18:14:00+05:30",
+      "app": "Jira",
+      "browser": "Chrome",
+      "title": "PLAT-512 — account export API",
+      "url": "https://jira.company.local/browse/PLAT-512",
+      "payload": {
+        "issue": "PLAT-512",
+        "view": "activity"
+      }
+    },
+    {
+      "id": 450,
+      "watcher": "window_activity",
+      "started_at": "2026-09-18T18:14:00+05:30",
+      "ended_at": "2026-09-18T18:36:00+05:30",
+      "app": "Slack",
+      "browser": null,
+      "title": "#release-coordination",
+      "url": null,
+      "payload": {
+        "channel": "#release-coordination"
+      }
+    }
+  ],
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-18-01",
+        "started_at": "09:09",
+        "ended_at": "12:38",
+        "title": "Account export contract clarification",
+        "summary": "Reviewed the account export requirements, discussed authorization and export scope with the team, traced existing permission checks in the codebase, and reviewed a teammate pull request.",
+        "event_ids": [
+          430,
+          431,
+          432,
+          433,
+          434,
+          435,
+          436,
+          437,
+          438
+        ],
+        "context": "The new API needed explicit boundaries around who can request an export and what data the export should contain.",
+        "area": "account_export",
+        "intent": "plan",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-02",
+        "started_at": "14:00",
+        "ended_at": "16:44",
+        "title": "Account export implementation",
+        "summary": "Refined the controller and service flow, added authorization-aware behavior, expanded focused tests, adjusted repository access, and inspected the database query plan for larger account datasets.",
+        "event_ids": [
+          439,
+          440,
+          441,
+          442,
+          443,
+          444,
+          445
+        ],
+        "context": "Implementation followed the clarified contract, with attention to both permission boundaries and query behavior.",
+        "area": "account_export",
+        "intent": "implement",
+        "quality": "strong",
+        "importance": "high"
+      },
+      {
+        "id": "gt-18-03",
+        "started_at": "16:44",
+        "ended_at": "17:07",
+        "title": "Code review responsibility",
+        "summary": "Reviewed pull request #884 and checked the implementation changes in the context of existing platform conventions.",
+        "event_ids": [
+          446
+        ],
+        "context": "Normal team review responsibility.",
+        "area": "team_maintenance",
+        "intent": "review",
+        "quality": "useful",
+        "importance": "medium"
+      },
+      {
+        "id": "gt-18-04",
+        "started_at": "17:07",
+        "ended_at": "18:36",
+        "title": "Routine platform checks and task update",
+        "summary": "Confirmed workspace and billing remained stable, updated the account export issue with implementation progress, and coordinated release-team awareness of the upcoming API work.",
+        "event_ids": [
+          447,
+          448,
+          449,
+          450
+        ],
+        "context": "Operational areas remained stable while the new API moved toward a reviewable state.",
+        "area": "platform_operations",
+        "intent": "monitor",
+        "quality": "appropriate",
+        "importance": "low"
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "12:38",
+        "ended_at": "14:00",
+        "reason": "lunch and offline time"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The account export API moved from broad discovery into a more explicit contract around authorization and data scope.",
+      "Implementation progressed across controller, service, repository, and tests, with database query-plan inspection beginning to address larger exports.",
+      "The work is becoming reviewable, but large-export behavior and the final API response strategy still need validation.",
+      "The previously resolved webhook, workspace, and billing concerns stayed out of the critical path."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Build account export API",
+        "assessment": "strong_progress_with_contract_clarified_and_initial_implementation",
+        "evidence": [
+          430,
+          431,
+          433,
+          434,
+          435,
+          436,
+          439,
+          440,
+          441,
+          442,
+          443,
+          444,
+          449
+        ]
+      },
+      {
+        "priority": "Maintain normal team review responsibilities",
+        "assessment": "completed_secondary_responsibility",
+        "evidence": [
+          438,
+          446
+        ]
+      },
+      {
+        "priority": "Maintain platform stability",
+        "assessment": "stable",
+        "evidence": [
+          447,
+          448
+        ]
+      }
+    ],
+    "important_uncertainty": [
+      "The exact response mechanism for large exports may need a background job or object-storage flow rather than a synchronous response.",
+      "The current query plan was inspected but does not by itself establish acceptable behavior at the largest expected account sizes.",
+      "Authorization requirements were clarified at a high level but still need to be represented consistently at the API boundary and covered by tests."
+    ],
+    "possible_next_step": "Resolve the large-export delivery strategy with the product and infrastructure constraints, then finish the authorization and repository tests and open the account export change for review."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Account export large-result delivery strategy",
+      "action_type": "clarify_priority",
+      "target": "Account export large-result delivery strategy",
+      "reason": "The implementation is progressing, but the choice between synchronous and asynchronous export behavior could materially change the architecture and should be settled before more code is added.",
+      "suggested_focus_minutes": null
+    },
+    "secondary_action": {
+      "title": "Account export authorization coverage",
+      "action_type": "complete_open_loop",
+      "target": "Account export authorization coverage",
+      "reason": "The permission boundary has been investigated and can now be turned into explicit tests before the API is opened for broader review.",
+      "suggested_focus_minutes": null
+    },
+    "things_not_to_do": [
+      "Do not continue implementing large-export behavior based on an unstated synchronous-response assumption.",
+      "Do not treat the query plan inspection as proof that all export sizes will perform acceptably.",
+      "Do not reopen the closed webhook reliability issue without new evidence.",
+      "Do not infer that routine platform checks competed with the account export work."
+    ]
+  }
+}
