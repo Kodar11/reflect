@@ -31,9 +31,22 @@ import { priorityKey } from './ReflectionPriorities.js';
  * model's self-reported confidence is only a floor, never the reason an
  * insight is believed.
  *
- * `ok` means the response is acceptable exactly as returned. Otherwise the
- * caller retries with `errors` as feedback; `salvaged` is what remains after
- * removing every unsupported insight, usable only once retries are exhausted.
+ * Two kinds of problem are told apart:
+ *
+ *   an INVALID CLAIM — a number nothing holds, an activity that does not
+ *   exist, a cause, a judgment, a pattern said again unchanged — is removed
+ *   with the insight it sits in. Nothing makes such a claim acceptable.
+ *
+ *   a PRESENTATION PROBLEM in something that is true — a comparison cited by
+ *   the key its row is listed under, a headline or a narrative sentence that
+ *   cannot stand as written — is repaired: the citation is completed from the
+ *   very entry that holds the quoted value, the sentence is replaced or left
+ *   out. A repair never adds evidence and never changes what is claimed.
+ *
+ * `ok` means every claim stands (repairs, if any, are listed). Otherwise
+ * `issues` locates each problem (field, insight, values); `salvaged` is what
+ * remains after removing every unsupported insight, and the caller decides
+ * whether that is enough or the model is asked again.
  */
 
 const MIN_CONFIDENCE = 0.4;
@@ -138,9 +151,66 @@ export interface ValidatedReflection {
   carryForward: ReflectionCarryForward | null;
 }
 
+/** Which rule a problem broke. Stable: the retry instructions and the logs are keyed by it. */
+export type ReflectionIssueCode =
+  | 'schema'
+  | 'period'
+  | 'headline_empty'
+  | 'headline_language'
+  | 'headline_number'
+  | 'narrative_language'
+  | 'narrative_number'
+  | 'insight_type'
+  | 'insight_empty'
+  | 'insight_unknown_evidence'
+  | 'insight_no_evidence'
+  | 'insight_needs_comparison'
+  | 'insight_needs_priority_metric'
+  | 'insight_needs_other_days'
+  | 'insight_language'
+  | 'insight_uncited_comparison'
+  | 'insight_number'
+  | 'insight_disputed'
+  | 'insight_repeat'
+  | 'insight_citation'
+  | 'too_many_insights'
+  | 'carry_forward';
+
+/**
+ * One problem, located. `resolution` says what became of it:
+ *
+ *   fatal     the response cannot be used as a whole (wrong period, wrong shape)
+ *   removed   the claim it sits in was taken out; what is left is still true
+ *   repaired  how something was WRITTEN was put right without touching what is claimed
+ *             (a citation completed from the row the model was shown, a headline or a
+ *             narrative sentence replaced or left out) — never a claim made supportable
+ */
+export interface ReflectionIssue {
+  code: ReflectionIssueCode;
+  field: 'response' | 'headline' | 'narrative' | 'insight' | 'carryForward';
+  /** 0-based position of the insight in the model's response; null elsewhere. */
+  index: number | null;
+  /** The offending values (numbers, keys, wording), when the rule names any. */
+  values: string[];
+  message: string;
+  resolution: 'fatal' | 'removed' | 'repaired';
+}
+
 export type ReflectionValidation =
-  | { ok: true; reflection: ValidatedReflection }
-  | { ok: false; errors: string[]; salvaged: ValidatedReflection | null };
+  | { ok: true; reflection: ValidatedReflection; repairs?: ReflectionIssue[] }
+  | {
+      ok: false;
+      errors: string[];
+      /** Every problem behind `errors`, located (same order), followed by what was repaired. */
+      issues: ReflectionIssue[];
+      /** What fully validated, when at least one insight (or an honest "nothing") is left. */
+      salvaged: ValidatedReflection | null;
+      /**
+       * The headline and narrative that validated, with whatever insights survived — offered even when
+       * every proposed insight fell. `null` only when the response is unusable as a whole.
+       */
+      remainder: ValidatedReflection | null;
+    };
 
 // ── Language rules ──────────────────────────────────────────────────────────
 
@@ -409,22 +479,58 @@ export function createEvidenceToolkit(ctx: EvidenceContext): EvidenceToolkit {
   };
 }
 
+// ── Citations ───────────────────────────────────────────────────────────────
+
+/** The members of a COMPARISONS row, which the prompt lists under the row's plain key. */
+const ROW_PREFIXES = ['delta.', 'prev.', 'weekday.', 'baseline.'] as const;
+
+/** The comparison entries of the row `key` heads, most specific first. */
+function comparisonRow(key: string, all: MetricSet): Metric[] {
+  if (isComparisonKey(key)) return [];
+  return ROW_PREFIXES.map((prefix) => all[prefix + key]).filter((m): m is Metric => m !== undefined);
+}
+
+/**
+ * Other measurements of the SAME subject as `key` (`priority.<id>.minutes` → `.share`, `.sessions`). Only keys
+ * that name a subject have siblings; the period-wide groups (`time.*`, `behavior.*`) do not.
+ */
+function siblingMetrics(key: string, all: MetricSet): Metric[] {
+  const base = key.replace(COMPARISON_PREFIX, '');
+  const family = base.slice(0, base.lastIndexOf('.') + 1);
+  if (family.split('.').length < 3) return [];
+  return Object.values(all).filter((m) => m.key !== base && m.key.startsWith(family) && !m.key.slice(family.length).includes('.'));
+}
+
+/** The plainest true headline there is: the period's own total. Never an interpretation. */
+export function plainHeadline(metrics: MetricSet): string {
+  const tracked = metrics['time.tracked_minutes'];
+  return tracked ? `${tracked.label}: ${tracked.display}.` : 'Nothing could be stated about this period with enough evidence.';
+}
+
+const SENTENCE_BREAK = /(?<=[.!?])\s+(?=[A-Z“"'(])/;
+
 // ── Validation ──────────────────────────────────────────────────────────────
 
 export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidationContext): ReflectionValidation {
   const parsed = outputSchema.safeParse(raw);
   if (!parsed.success) {
-    return {
-      ok: false,
-      errors: parsed.error.issues.slice(0, 10).map((i) => `schema: ${i.path.join('.') || '(root)'} — ${i.message}`),
-      salvaged: null,
-    };
+    const issues: ReflectionIssue[] = parsed.error.issues.slice(0, 10).map((i) => ({
+      code: 'schema',
+      field: 'response',
+      index: null,
+      values: [i.path.join('.') || '(root)'],
+      message: `schema: ${i.path.join('.') || '(root)'} — ${i.message}`,
+      resolution: 'fatal',
+    }));
+    return { ok: false, errors: issues.map((i) => i.message), issues, salvaged: null, remainder: null };
   }
   const output = parsed.data;
   /** Problems that make the whole response unusable. */
-  const fatal: string[] = [];
+  const fatal: ReflectionIssue[] = [];
   /** Problems confined to one insight (it is removed) or to the carry-forward. */
-  const errors: string[] = [];
+  const removed: ReflectionIssue[] = [];
+  /** What was put right without changing any claim. */
+  const repairs: ReflectionIssue[] = [];
 
   // Period: must be exactly the one requested.
   if (
@@ -432,9 +538,14 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     Date.parse(output.periodStart) !== Date.parse(ctx.period.start) ||
     Date.parse(output.periodEnd) !== Date.parse(ctx.period.end)
   ) {
-    fatal.push(
-      `period: expected ${ctx.period.type} ${ctx.period.start} → ${ctx.period.end}, got ${output.periodType} ${output.periodStart} → ${output.periodEnd}`,
-    );
+    fatal.push({
+      code: 'period',
+      field: 'response',
+      index: null,
+      values: [],
+      message: `period: expected ${ctx.period.type} ${ctx.period.start} → ${ctx.period.end}, got ${output.periodType} ${output.periodStart} → ${output.periodEnd}`,
+      resolution: 'fatal',
+    });
   }
 
   const priorityIds = new Set(ctx.priorities.map((p) => p.id));
@@ -444,10 +555,12 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
   const valid: (ValidatedInsight & { allowed: Set<string>; keySet: Set<string> })[] = [];
   output.insights.forEach((draft, index) => {
     const label = `insight ${index + 1}`;
-    const problems: string[] = [];
+    const problems: ReflectionIssue[] = [];
+    const problem = (code: ReflectionIssueCode, message: string, values: string[] = []) =>
+      problems.push({ code, field: 'insight', index, values, message: `${label}: ${message}`, resolution: 'removed' });
 
     if (!(REFLECTION_INSIGHT_TYPES as readonly string[]).includes(draft.type)) {
-      problems.push(`${label}: unsupported insight type "${draft.type}"`);
+      problem('insight_type', `unsupported insight type "${draft.type}"`, [draft.type]);
     }
     const type = draft.type as ReflectionInsightType;
 
@@ -456,48 +569,99 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     const interpretation = clean(draft.interpretation, LIMITS.interpretation);
     const relevance = draft.relevance ? clean(draft.relevance, LIMITS.relevance) || null : null;
 
-    if (title.length < 4) problems.push(`${label}: title is empty`);
-    if (observation.length < 15) problems.push(`${label}: observation is empty or meaningless`);
-    if (interpretation.length < 10) problems.push(`${label}: interpretation is empty or meaningless`);
+    if (title.length < 4) problem('insight_empty', 'title is empty');
+    if (observation.length < 15) problem('insight_empty', 'observation is empty or meaningless');
+    if (interpretation.length < 10) problem('insight_empty', 'interpretation is empty or meaningless');
 
-    const { metrics, activities } = resolve(draft.metricKeys, draft.activityRefs, label, problems);
+    const unknown: string[] = [];
+    const resolved = resolve(draft.metricKeys, draft.activityRefs, label, unknown);
+    for (const message of unknown) problems.push({ code: 'insight_unknown_evidence', field: 'insight', index, values: [], message, resolution: 'removed' });
+    const activities = resolved.activities;
     const citedPriorities = [...new Set(draft.priorityIds)];
     for (const id of citedPriorities) {
-      if (!priorityIds.has(id)) problems.push(`${label}: priority "${id}" does not exist`);
+      if (!priorityIds.has(id)) problem('insight_unknown_evidence', `priority "${id}" does not exist`, [id]);
     }
-    if (metrics.length === 0 && activities.length === 0) {
-      problems.push(`${label}: cites no evidence — every insight must cite at least one metric or activity`);
-    }
-
-    const hasComparison = metrics.some((m) => isComparisonKey(m.key));
-    if ((type === 'change_over_time' || type === 'unexpected') && !hasComparison) {
-      problems.push(`${label}: a ${type} insight must cite a comparison (prev.*, delta.*, baseline.*, weekday.* or change.*)`);
-    }
-    // A project that happens to serve a priority is not, by itself, evidence about the priority.
-    if (type === 'priority_alignment' && !metrics.some((m) => m.priorityId && !/(^|\.)thread\./.test(m.key)) && citedPriorities.length === 0) {
-      problems.push(`${label}: a priority_alignment insight must cite a priority metric`);
-    }
-    // One day cannot show a habit. Such a claim needs evidence from other days.
-    if (ctx.period.type === 'day' && MULTI_DAY_TYPES.includes(type) && !metrics.some((m) => MULTI_DAY_KEY.test(m.key))) {
-      problems.push(`${label}: a ${type} insight about a single day must cite evidence from other days (recent.*, weekday.*, baseline.*, trajectory.* or carry.*)`);
+    if (resolved.metrics.length === 0 && activities.length === 0) {
+      problem('insight_no_evidence', 'cites no evidence — every insight must cite at least one metric or activity');
     }
 
     const claim = `${title} ${observation} ${interpretation}`;
     const everything = `${claim} ${relevance ?? ''}`;
-    const judgment = findPattern(everything, JUDGMENT_PATTERNS);
-    if (judgment) problems.push(`${label}: contains ${judgment}; describe, do not judge`);
-    const psychology = findPattern(everything, PSYCHOLOGY_PATTERNS);
-    if (psychology) problems.push(`${label}: contains ${psychology}; Reflect has no evidence for it`);
-    const causal = findPattern(claim, CAUSAL_PATTERNS);
-    if (causal) problems.push(`${label}: uses causal language (${causal}); describe what coincided, not what caused what`);
-    if (!hasComparison && COMPARATIVE_PATTERN.test(`${observation} ${interpretation}`)) {
-      problems.push(`${label}: states a comparison without citing a comparison metric`);
+    const needsComparison = type === 'change_over_time' || type === 'unexpected';
+    const comparative = COMPARATIVE_PATTERN.test(`${observation} ${interpretation}`);
+
+    /** What the cited evidence fails to carry: a comparison that is stated, and numbers that are quoted. */
+    const gaps = (metrics: Metric[]) => {
+      const hasComparison = metrics.some((m) => isComparisonKey(m.key));
+      return {
+        hasComparison,
+        typeNeedsComparison: needsComparison && !hasComparison,
+        uncitedComparison: comparative && !hasComparison,
+        numbers: unsupportedNumbers(everything, allowedFor(metrics, activities)),
+      };
+    };
+    const open = (g: ReturnType<typeof gaps>) => g.typeNeedsComparison || g.uncitedComparison || g.numbers.length > 0;
+
+    // A COMPARISONS row is listed under one key, and a subject's measurements sit side by side. A claim that
+    // quotes the row's "previous" or "change", or a sibling value of the subject it cites, IS supported by what
+    // Reflect supplied — only the citation is incomplete. It is completed when, and only when, that settles
+    // every gap; nothing is added to evidence that does not hold the number or the comparison the text states.
+    let metrics = resolved.metrics;
+    let gap = gaps(metrics);
+    if (open(gap) && metrics.length > 0) {
+      const cited = new Set(metrics.map((m) => m.key));
+      const added: Metric[] = [];
+      const candidates = [...metrics.flatMap((m) => comparisonRow(m.key, ctx.metrics)), ...metrics.flatMap((m) => siblingMetrics(m.key, ctx.metrics))];
+      let missing = new Set(gap.numbers);
+      for (const candidate of candidates) {
+        if (missing.size === 0) break;
+        if (cited.has(candidate.key)) continue;
+        const numbers = numbersOfMetric(candidate);
+        if (![...missing].some((n) => numbers.has(n))) continue;
+        cited.add(candidate.key);
+        added.push(candidate);
+        missing = new Set(gaps([...metrics, ...added]).numbers);
+      }
+      // A comparison is only ever completed through a value the text quotes from the row ("22m longer", "up
+      // from 36m"). Wording alone ("more than last week") names no entry, so it is left as it was: uncited.
+      const completed = [...metrics, ...added];
+      if (added.length > 0 && !open(gaps(completed))) {
+        metrics = completed;
+        gap = gaps(metrics);
+        repairs.push({
+          code: 'insight_citation',
+          field: 'insight',
+          index,
+          values: added.map((m) => m.key),
+          message: `${label}: citation completed with ${added.map((m) => m.key).join(', ')} — the entries that hold what it states`,
+          resolution: 'repaired',
+        });
+      }
     }
 
+    if (gap.typeNeedsComparison) {
+      problem('insight_needs_comparison', `a ${type} insight must cite a comparison (prev.*, delta.*, baseline.*, weekday.* or change.*)`);
+    }
+    // A project that happens to serve a priority is not, by itself, evidence about the priority.
+    if (type === 'priority_alignment' && !metrics.some((m) => m.priorityId && !/(^|\.)thread\./.test(m.key)) && citedPriorities.length === 0) {
+      problem('insight_needs_priority_metric', 'a priority_alignment insight must cite a priority metric');
+    }
+    // One day cannot show a habit. Such a claim needs evidence from other days.
+    if (ctx.period.type === 'day' && MULTI_DAY_TYPES.includes(type) && !metrics.some((m) => MULTI_DAY_KEY.test(m.key))) {
+      problem('insight_needs_other_days', `a ${type} insight about a single day must cite evidence from other days (recent.*, weekday.*, baseline.*, trajectory.* or carry.*)`);
+    }
+
+    const judgment = findPattern(everything, JUDGMENT_PATTERNS);
+    if (judgment) problem('insight_language', `contains ${judgment}; describe, do not judge`, [judgment]);
+    const psychology = findPattern(everything, PSYCHOLOGY_PATTERNS);
+    if (psychology) problem('insight_language', `contains ${psychology}; Reflect has no evidence for it`, [psychology]);
+    const causal = findPattern(claim, CAUSAL_PATTERNS);
+    if (causal) problem('insight_language', `uses causal language (${causal}); describe what coincided, not what caused what`, [causal]);
+    if (gap.uncitedComparison) problem('insight_uncited_comparison', 'states a comparison without citing a comparison metric');
+
     const allowed = allowedFor(metrics, activities);
-    const bad = unsupportedNumbers(everything, allowed);
-    if (bad.length > 0) {
-      problems.push(`${label}: number(s) ${bad.map((n) => `"${n}"`).join(', ')} not found in its cited evidence`);
+    if (gap.numbers.length > 0) {
+      problem('insight_number', `number(s) ${gap.numbers.map((n) => `"${n}"`).join(', ')} not found in its cited evidence`, gap.numbers);
     }
 
     const metricKeys = metrics.map((m) => m.key);
@@ -512,20 +676,21 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     const continuity = continuityOf({ identityKey, subjectKey: subject.subjectKey, pattern, magnitude }, ctx.history ?? []);
 
     if (ctx.disputedIdentities?.has(identityKey)) {
-      problems.push(`${label}: you marked this same claim "not accurate" and the evidence behind it has not changed — leave it out`);
+      problem('insight_disputed', 'you marked this same claim "not accurate" and the evidence behind it has not changed — leave it out');
     }
     // What must not simply be said again: a standing pattern, work that is
     // lagging, and the general "your time went across your priorities" — new
     // progress on one body of work is still news and may recur.
     const repeatsItself = continuity.state === 'continuing' && continuity.timesBefore >= REPEAT_THRESHOLD;
-    if (repeatsItself && (PATTERN_INSIGHT_TYPES.includes(type) || pattern === 'lagging' || isCollectiveSubject(subject.subjectKey)) && !hasComparison) {
-      problems.push(
-        `${label}: this pattern was already surfaced in ${continuity.timesBefore} recent reports and has not changed; repeat it only with a comparison showing what changed`,
+    if (repeatsItself && (PATTERN_INSIGHT_TYPES.includes(type) || pattern === 'lagging' || isCollectiveSubject(subject.subjectKey)) && !gap.hasComparison) {
+      problem(
+        'insight_repeat',
+        `this pattern was already surfaced in ${continuity.timesBefore} recent reports and has not changed; repeat it only with a comparison showing what changed`,
       );
     }
 
     if (problems.length > 0) {
-      errors.push(...problems);
+      removed.push(...problems);
       return;
     }
     if (draft.confidence < MIN_CONFIDENCE) return; // weakly supported: quietly left out
@@ -571,7 +736,14 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
   // ── Count ──
   let selected = unique;
   if (unique.length > ctx.maxInsights) {
-    errors.push(`too many insights: ${unique.length} returned, at most ${ctx.maxInsights} allowed — keep only the most meaningful`);
+    removed.push({
+      code: 'too_many_insights',
+      field: 'response',
+      index: null,
+      values: [String(unique.length)],
+      message: `too many insights: ${unique.length} returned, at most ${ctx.maxInsights} allowed — keep only the most meaningful`,
+      resolution: 'removed',
+    });
     selected = selectComplementary(unique, ctx.maxInsights);
   }
 
@@ -596,8 +768,9 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     const bad = unsupportedNumbers(text, allowedFor(metrics, activities));
     if (bad.length > 0) problems.push(`carryForward: number(s) ${bad.map((n) => `"${n}"`).join(', ')} not found in its cited evidence`);
 
-    if (problems.length > 0) errors.push(...problems);
-    else {
+    if (problems.length > 0) {
+      removed.push(...problems.map((message): ReflectionIssue => ({ code: 'carry_forward', field: 'carryForward', index: null, values: [], message, resolution: 'removed' })));
+    } else {
       carryForward = {
         text,
         subjectKey: insightSubject(metrics, activities, []).subjectKey,
@@ -608,45 +781,75 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     }
   }
 
-  // ── Headline ──
-  const headline = clean(output.headline, LIMITS.headline);
-  if (headline.length < 8) fatal.push('headline: empty or meaningless');
-  const headlineIssue =
-    findPattern(headline, JUDGMENT_PATTERNS) ?? findPattern(headline, PSYCHOLOGY_PATTERNS) ?? findPattern(headline, CAUSAL_PATTERNS);
-  if (headlineIssue) fatal.push(`headline: contains ${headlineIssue}`);
+  // ── What the headline and the narrative may quote ──
+  // The period's plain totals are measurements in their own right: stating one needs no insight behind it.
   const headlineNumbers = new Set(globalNumbers);
+  for (const key of NARRATIVE_METRIC_KEYS) {
+    const metric = ctx.metrics[key];
+    if (metric) for (const n of numbersOfMetric(metric)) headlineNumbers.add(n);
+  }
   for (const insight of selected) for (const n of insight.allowed) headlineNumbers.add(n);
+
+  // ── Headline ──
+  // A headline is one sentence ABOUT the insights. When it cannot be kept as written — empty, worded as a
+  // judgment or a cause, or quoting a number nothing behind it holds — it is replaced by the title of the
+  // strongest validated insight, or by the period's plain total. The claim it made is never kept.
+  let headline = clean(output.headline, LIMITS.headline);
+  const headlineLanguage =
+    findPattern(headline, JUDGMENT_PATTERNS) ?? findPattern(headline, PSYCHOLOGY_PATTERNS) ?? findPattern(headline, CAUSAL_PATTERNS);
   const badHeadline = unsupportedNumbers(headline, headlineNumbers);
-  // An unsupported number in the headline is asked to be corrected like any
-  // other problem. When no correction comes, the salvaged reflection carries
-  // the title of its strongest validated insight instead — losing the whole
-  // day (and the coaching written with it) over one number helps nobody.
-  const fallbackHeadline = badHeadline.length > 0 && selected.length > 0 ? selected[0].title : null;
-  if (badHeadline.length > 0) {
-    (fallbackHeadline ? errors : fatal).push(`headline: number(s) ${badHeadline.map((n) => `"${n}"`).join(', ')} not found in the insights' evidence`);
+  const headlineProblem: { code: ReflectionIssueCode; message: string; values: string[] } | null =
+    headline.length < 8
+      ? { code: 'headline_empty', message: 'headline: empty or meaningless', values: [] }
+      : headlineLanguage
+        ? { code: 'headline_language', message: `headline: contains ${headlineLanguage}`, values: [headlineLanguage] }
+        : badHeadline.length > 0
+          ? { code: 'headline_number', message: `headline: number(s) ${badHeadline.map((n) => `"${n}"`).join(', ')} not found in the insights' evidence`, values: badHeadline }
+          : null;
+  if (headlineProblem) {
+    repairs.push({ ...headlineProblem, field: 'headline', index: null, resolution: 'repaired' });
+    headline = selected.length > 0 ? selected[0].title : plainHeadline(ctx.metrics);
   }
 
-  // ── Narrative: "what happened", bound by the same rules as the headline ──
+  // ── Narrative: "what happened", in order ──
+  // It tells the period's story, so besides the totals and what the insights cite it may quote the activities
+  // themselves (when one started, how long it ran). A sentence that states anything else, or that judges or
+  // explains, is left out; the sentences around it stand on their own evidence.
   let narrative = output.narrative ? clean(output.narrative, LIMITS.narrative) || null : null;
   if (narrative) {
-    const issue =
-      findPattern(narrative, JUDGMENT_PATTERNS) ?? findPattern(narrative, PSYCHOLOGY_PATTERNS) ?? findPattern(narrative, CAUSAL_PATTERNS);
-    // The day's plain totals may be stated without a separate insight behind them.
     const narrativeNumbers = new Set(headlineNumbers);
-    for (const key of NARRATIVE_METRIC_KEYS) {
-      const metric = ctx.metrics[key];
-      if (metric) for (const n of numbersOfMetric(metric)) narrativeNumbers.add(n);
+    narrativeNumbers.add(String(ctx.activityByRef.size));
+    for (const activity of ctx.activityByRef.values()) for (const n of numbersOfActivity(activity)) narrativeNumbers.add(n);
+    const kept: string[] = [];
+    const badNumbers = new Set<string>();
+    const badWording = new Set<string>();
+    for (const sentence of narrative.split(SENTENCE_BREAK)) {
+      const issue =
+        findPattern(sentence, JUDGMENT_PATTERNS) ?? findPattern(sentence, PSYCHOLOGY_PATTERNS) ?? findPattern(sentence, CAUSAL_PATTERNS);
+      const bad = unsupportedNumbers(sentence, narrativeNumbers);
+      if (issue) badWording.add(issue);
+      else if (bad.length > 0) for (const n of bad) badNumbers.add(n);
+      else kept.push(sentence);
     }
-    const badNarrative = unsupportedNumbers(narrative, narrativeNumbers);
-    if (issue) errors.push(`narrative: contains ${issue}`);
-    else if (badNarrative.length > 0) {
-      errors.push(`narrative: number(s) ${badNarrative.map((n) => `"${n}"`).join(', ')} not found in the insights' evidence`);
+    if (badWording.size > 0) {
+      repairs.push({ code: 'narrative_language', field: 'narrative', index: null, values: [...badWording], message: `narrative: contains ${[...badWording].join(', ')}`, resolution: 'repaired' });
     }
-    if (issue || badNarrative.length > 0 || narrative.length < 20) narrative = null;
+    if (badNumbers.size > 0) {
+      repairs.push({
+        code: 'narrative_number',
+        field: 'narrative',
+        index: null,
+        values: [...badNumbers],
+        message: `narrative: number(s) ${[...badNumbers].map((n) => `"${n}"`).join(', ')} not found in the period's evidence`,
+        resolution: 'repaired',
+      });
+    }
+    narrative = kept.join(' ');
+    if (narrative.length < 20) narrative = null;
   }
 
   const reflection: ValidatedReflection = {
-    headline: fallbackHeadline ?? headline,
+    headline,
     narrative,
     insights: selected.map((full) => {
       const { allowed: _allowed, keySet: _keySet, ...insight } = full;
@@ -655,12 +858,20 @@ export function validateReflectionOutput(raw: unknown, ctx: ReflectionValidation
     carryForward,
   };
 
-  if (fatal.length === 0 && errors.length === 0) return { ok: true, reflection };
+  if (fatal.length === 0 && removed.length === 0) return repairs.length > 0 ? { ok: true, reflection, repairs } : { ok: true, reflection };
 
   // Salvage keeps only what fully validated. It is not offered when the
-  // response is unusable as a whole, or when every proposed insight fell.
-  const salvageable = fatal.length === 0 && (reflection.insights.length > 0 || output.insights.length === 0);
-  return { ok: false, errors: [...fatal, ...errors], salvaged: salvageable ? reflection : null };
+  // response is unusable as a whole, or when every proposed insight fell —
+  // then `remainder` still holds the headline and narrative that validated.
+  const usable = fatal.length === 0;
+  const salvageable = usable && (reflection.insights.length > 0 || output.insights.length === 0);
+  return {
+    ok: false,
+    errors: [...fatal, ...removed].map((i) => i.message),
+    issues: [...fatal, ...removed, ...repairs],
+    salvaged: salvageable ? reflection : null,
+    remainder: usable ? reflection : null,
+  };
 }
 
 /**

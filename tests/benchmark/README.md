@@ -6,8 +6,10 @@ Runs a 30-day simulated user through the **real** Reflect pipeline and the **rea
 
 ```
 tests/benchmark/
-├── data/founder_freelancer/reflect_day_01.json … reflect_day_30.json   the one persona that runs end to end
-├── data/<persona>/reflect_<persona>_day_NN.json   five more personas; all validate, none has been run yet — see AUDIT.md
+├── data/<persona>/reflect[_<persona>]_day_NN.json   six personas × 30 days: raw events, profile changes, answer key
+├── data/<persona>/persona_key.json   the persona's work streams (answer key; never sent to Reflect)
+├── data/keys/<persona>.mjs   source of truth for streams, dated profile changes and the stream-level coach key
+├── data/keys/build.mjs       applies data/keys to the day files and derives labels and user responses (--write / --check)
 ├── data/normalize.mjs        repairs mechanical drift in the persona day files (dry run unless --write)
 ├── AUDIT.md                  state of all six personas and of the evaluators
 ├── data/coach_scenarios/<scenario>/reflect_day_NN.json   twenty-two small Coach scenarios (+ generate.mjs)
@@ -21,11 +23,23 @@ tests/benchmark/
 ├── evaluators.test.ts evaluator unit tests — runs with the ordinary suite
 ├── benchmark.test.ts  the end-to-end run — only with REFLECT_BENCHMARK=1
 ├── coachScenarios.test.ts   scenario validation (always) + the live scenario run (REFLECT_COACH_SCENARIOS=1)
-├── cli.mjs            launcher
-└── results/latest/ , results/archived/<run id>/
+├── evaluators/streams.ts   what a recommendation is aimed at, read from its wording, its evidence and its priority
+├── profileReplay.test.ts   dated profile replay against the real priority model (no Gemini)
+├── cli.mjs            launcher for one persona
+├── all.mjs            every persona, then the combined report: `npm run benchmark:all`
+├── tools/combined.mjs  combined report over a results directory (JSON, Markdown, HTML)
+└── results/latest/ , results/archived/<run id>/ , results/v2/<persona>/
 ```
 
 ## Running it
+
+```bash
+npm run benchmark:all
+```
+
+All six personas, thirty days each, and the combined report — one command. It validates every dataset and answer key, checks that the day files hold what `data/keys` says, runs each persona on its own fresh database (profile changes replayed on their day, the simulated user answering recommendations), scores each run and writes `results/v2/<persona>/latest/` plus `results/v2/combined.{json,md,html}`. Real Gemini requests: about 3,000 for the full set. `-- --days 3` runs a short pass, `-- --personas a,b` a subset, `-- --parallel 2` fewer at once, `-- --report-only` rebuilds the combined report from the runs already there, and `-- --baseline <results dir>` adds a before/after table.
+
+The commands below run or inspect one persona.
 
 ```bash
 npm run benchmark:validate
@@ -84,14 +98,30 @@ Reads the stored run in `results/latest` (or `--run <dir>`) and writes `coach_di
 3. Create an **isolated database** — a fresh temporary file, run through the normal migrations. The app's own database is never opened.
 4. **Onboard** as the persona through `UserProfileRepository` (roles, description, current work, priorities).
 5. For each day, on the **same database**:
+   - replay what the user changed in their profile that morning (`profile_updates` with `at: "start"`), with the clock just before the first event;
    - insert the day's raw events through `EventRepository`;
    - move the simulated clock to the end of the day;
-   - run **one** production cycle: `IntelligenceScheduler.runCycle()` → `ReflectionScheduler.runCycle()` → `CoachService.observe()` — the order `main.ts` runs them in;
+   - run **one** production cycle: `IntelligenceScheduler.runCycle()` → (the evening's profile changes, `at: "end"`) → `ReflectionScheduler.runCycle()` → `CoachService.observe()` — the order `main.ts` runs them in;
    - capture the timeline, AI activities, report, coach actions, memory;
    - evaluate against that day's answer key and write `results/latest/days/day_NN.json`.
 6. Aggregate into `summary.json`, `report.md`, `review.md` and `manifest.json`; copy the run to `results/archived/<run id>/`.
 
 The service graph in `runner/runtime.ts` is constructed the way `src/electron/main.ts` constructs it. The only substitutions are seams production code already exposes: the database path, the `now` clock, and scheduler timers (inert, so nothing fires on its own).
+
+### Profile changes are replayed on their day
+
+A persona's priorities do not stand still for a month: an assignment is submitted, a video is published, a new ticket arrives. Reflect is onboarded with day 1's profile, and from then on each day file may carry `profile_updates` — what the user changed in their profile that day, in the order they changed it:
+
+```json
+"profile_updates": [
+  { "at": "end", "op": "complete", "priority": "Complete the DBMS assignment due later this week" },
+  { "at": "end", "op": "add", "priority": "Prepare for the Operating Systems quiz" }
+]
+```
+
+`op` is `add`, `remove`, `complete`, `pause`, `resume`, `rename` (with `to`) or `set_current_work` (with `current_work[]`); `at` is `start` (before the day's first event) or `end` (in the evening, before the day is reflected on). The harness replays each change through the calls the app's own profile form and priority list make (`UserProfileRepository.updateProfile` + the profile-changed notification, `ReflectionService.setPriorityStatus`) with the simulated clock at that moment, so the priority's own history records it there — and nothing about it exists in Reflect's database before. A completed or paused priority stays in the record; it is closed, not erased.
+
+These changes are **input**: they are part of `inputVersion`, they are worded as a user would word them, and a test asserts none of them copies what a later day's answer key says the day was about. The validator replays them and rejects a change that could not have been made (a priority that is not there, a sixth priority, text longer than the profile field).
 
 ### When the day's cycle runs
 
@@ -143,6 +173,8 @@ Strict accuracy counts only labels with a single Reflect twin; lenient accuracy 
 
 **Reflection** (`evaluators/reflection.ts`) — A: deterministic checks (generated, well-formed, every cited activity and metric exists, every cited activity is anchored to raw events of the block it names, every insight has a backend-owned subject and continuity, carried work agrees with priority state and recent activity, measurements agree with the raw events, no impossible numbers, no answer-key wording). B: answer-key criteria as PASS / PARTIAL / FAIL — key observations, priority alignment, uncertainty, next step.
 
+**Work streams** (`persona_key.json`, `evaluators/streams.ts`) — every persona's answer key names its bodies of work by a stable key (`dbms`, `pg_partial_video`, `Own SaaS`), labels each ground-truth activity with its stream, and states each expected move against a stream. Nothing in the evaluator recognises a project by the words one persona's files use for it. What a recommendation is aimed at is read, in this order, from what it **names** (a stream's aliases, as whole words, in its title, task or description), from the **evidence** it cites (the tracked events behind the activities it cites belong, in the answer key, to that stream), and from the **priority** it is linked to. The first that says anything decides, and the verdict says which one it was.
+
 **Coach** — two layers.
 
 `evaluators/coach.ts`: thirteen criteria as PASS / PARTIAL / FAIL / NOT_APPLICABLE. They mostly ask "did the Coach avoid doing something wrong?" — and a Coach that never says anything passes most of them, which is exactly how thirty days with zero actions once scored 70%.
@@ -159,7 +191,9 @@ Strict accuracy counts only labels with a single Reflect twin; lenient accuracy 
 Three of these need a word:
 
 - **Opportunity precision / false opportunity rate** are counted over DAYS on which the Coach said something: on how many did what it said answer an opportunity the day really held (verdict correct or partially correct), and on how many did it answer nothing the day called for (wrong or unnecessary). Action precision asks the same of each ACTION and is stricter (a repeat, a generic or an ungrounded action is not justified even on the right day). Recall can be bought with volume; these two are what volume costs.
-- **Not a repeat** does not count two actions that share a frame but name different things ("address the open comments on the budget justification" / "…on the project description"), nor a step offered again after it could not happen for an outside reason. A rewording, or the same item with an adjective added, is still a repeat.
+- **Not a repeat** depends on what became of the first time, not on the calendar. The same move said again is a repeat when the earlier one was carried out, turned down, reported as not working, or not done for a reason about the action itself — or when today no longer calls for it. Said again while it is still unanswered, on a day that still calls for it, it is *restated while open*: reported, never counted against the Coach. Two actions that share a frame but name different things are two actions; a step that could not happen for an outside reason may be offered again.
+- **Closed work.** An action linked to a priority the user marked completed or paused, or aimed only at streams the day's key lists under `forbidden_streams` (submitted, handed off, deliberately parked), is not justified whatever else is right about it.
+- **Silence.** A day whose `action_opportunity.strength` is `none` expects no recommendation: silence is `correct_null`, any action `unnecessary`. Five of the six personas have such days (the founder key has optional days only). "Silence kept" is reported next to recall and precision.
 
 - **Fully / partially correct.** On the 30-day set "partially correct" almost always means *the action was aimed at the day's secondary work stream instead of its primary one* — a question of which priority was chosen, not of how specific the sentence is. The key cannot tell "Continue the assignment" from "Finish the query-plan section" beyond the kind of action; that distinction is enforced in production (`CoachValidator`: a project is not a next action) and pinned by unit tests.
 - **Concentration on one target** is the share of all actions aimed at the single most-recommended priority. It is reported, not scored: a user with one real priority should see it high.
@@ -185,7 +219,7 @@ The replay (`runner/coachReplay.ts`) runs the Coach's deterministic half — sit
 
 ### Coach answer key
 
-`expected_coach_outcome` keeps `primary_action`, `secondary_action` and `things_not_to_do`, and may add:
+`expected_coach_outcome` keeps `primary_action`, `secondary_action` and `things_not_to_do`. Each expected action carries `target_stream` (the stream key it is aimed at — this, not the wording of `target`, is what an action is matched against), and the outcome may add `acceptable_streams` (other work a good recommendation could equally be aimed at: full credit), `forbidden_streams` (work that is finished or parked that day), `response_by_stream` (what the simulated user does with a recommendation aimed at each stream), and:
 
 ```json
 "action_opportunity": { "should_exist": true, "strength": "strong", "reason": "…", "priority": "…", "type": "complete_open_loop" },
@@ -199,7 +233,11 @@ Both live only in the answer key. `splitDataset` does not copy them into `Reflec
 
 For the 30-day set the two annotations are derived by `data/annotate_coach.mjs` from what the key already states (the expected actions, and the next day's ground-truth activities and priority assessments). That set has 24 strong and 6 moderate days and **no** null day, and its simulated user accepts and carries out everything. It therefore cannot tell a good Coach from a talkative one, and a Coach tuned to it would learn to always say something. Treat its recall as one reading among several: appropriate-null, rejection, postponement, failure, "too difficult", external-constraint handling and the choice among competing priorities are measured by the scenario set, which is the check against overfitting to this one.
 
-The other five 30-day personas carry neither annotation; `KNOWN_TARGETS`, the work-stream matching in `evaluators/text.ts` and `data/annotate_coach.mjs` are written for the founder persona. Until then the student persona is covered by eleven of the scenarios.
+For the other five personas `data/keys/<persona>.mjs` states, per day, the primary and secondary stream and the strength; `build.mjs` applies them. A day whose own expected "action" in the original key is to wait, hold or defer is restated as `none` (or as an optional day that names which other work is acceptable); the original actions are kept under `original_actions` and never scored. The user's response is derived from the **next day's ground truth** for each work stream — ninety minutes or more on it: accepted, done, worked; a short return: partial; none on a light day: "not now"; none while another stream took the day: rejected for a different priority; a closed stream: rejected as not relevant — so a recommendation aimed somewhere the user did not go is declined or left undone, whatever the day's expected move was. The simulated user therefore mostly accepts what the key expects; its rejections and postponements arise where the Coach points elsewhere.
+
+**Classification labels.** Four personas' keys described `context`, `intent` and `quality` in free text. `build.mjs` restates them in the canonical vocabulary (Work / Leisure / Personal; the intents; Focused / Routine / Break-Idle) by fixed rules read from the key's own words — the first verb of its intent sentence, the first cue in its quality phrase — and keeps the original under `label_notes`. A label the key itself calls uncertain, ambiguous or mixed is left as it is: that time is not scored on that dimension, and every accuracy is reported next to the share of time it covers. These labels are rule-derived, not individually hand-labelled; treat a classification difference of a few points as within that noise.
+
+**Uncertain activities and boundaries.** Where a key says of a stretch that its purpose cannot be told from the screen (context `Uncertain` / `Ambiguous` / `Mixed`), it asserts no activity boundary there. For segmentation that stretch is taken out of the comparison on both sides, and two pieces of one work stream separated only by it count as one activity. A key with no such activity is scored exactly as before.
 
 ### Coach scenario set
 
@@ -225,6 +263,7 @@ The harness itself is deterministic: no randomness, fixed ordering, deterministi
 | Flag | Default | Alternative |
 | --- | --- | --- |
 | `--intelligence-window` | `hour` — production cadence | `day` — one whole-day request; cheaper, but not how the app runs |
-| `--action-policy` | `none` — the user never answers, so suggestions expire | `scenario` — the simulated user answers as the day's `execution_scenario` says · `accept_all` — every suggestion is accepted |
+| `--action-policy` | `none` — the user never answers, so suggestions expire | `scenario` — the simulated user answers as the answer key says for the work the action is aimed at (`npm run benchmark:all` uses this) · `accept_all` — every suggestion is accepted |
+| `--same-events` (with `--reevaluate`) | off | score a run made before the dataset replayed profile changes, when its raw events are the ones on disk — old model output, today's key and evaluator |
 | `--url-mode` | `domain` — what the tracker stores | `raw` |
 | `--iou`, `--boundary-tolerance-ms`, `--min-overlap-ms` | 0.5, 60 s, 60 s | |

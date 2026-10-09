@@ -11,7 +11,7 @@ import {
  * the wording or the input layout changes so persisted reports stay
  * attributable to the prompt that produced them.
  */
-export const REFLECTION_PROMPT_VERSION = 'reflect-reflection-v3';
+export const REFLECTION_PROMPT_VERSION = 'reflect-reflection-v4';
 
 /**
  * What the Coach adds to a day's request so reflection and coaching are ONE
@@ -70,12 +70,13 @@ PRINCIPLES
 
 EVIDENCE RULES
 - Every insight must cite its evidence: metricKeys (a "key" from METRICS, WHAT CHANGED VERSUS HISTORY, HOW YOUR WORK MOVED or CARRIED WORK; or for a comparison "prev.<key>", "delta.<key>", "baseline.<key>" or "weekday.<key>" using a key from COMPARISONS), activityRefs (a "ref" from ACTIVITIES) and priorityIds (an "id" from CURRENT PRIORITIES). Cite only what exists.
+- Citing the plain key of a COMPARISONS row cites the whole row: its current value, "previous", "change", "baseline" and "sameWeekday".
 - Cite the narrowest evidence that carries the claim: the day, the activity or the project it is about — not a total for the whole period.
 - Never write a priority id or a project name of your own. Which priority and project an insight belongs to is taken from the evidence you cite.
 - Every number you write must be copied exactly from the value of something that insight cites. Never add, subtract, average, round or convert a number yourself. To mention a number, cite the metric that contains it.
 - Only state a comparison (more, fewer, increased, longer, than usual) when you cite the comparison entry that shows it ("prev.", "delta.", "baseline.", "weekday." or a "change." entry). If there is no such entry, do not compare.
 - "sameWeekday" is the user's average on earlier days of the same weekday. For a day, prefer it over the plain baseline when both exist: a Monday is best compared with other Mondays.
-- The headline may use only numbers that appear in the insights' evidence.
+- The headline may use only numbers that appear in the insights' evidence, or the period's plain totals (tracked time, focused time, context switches, longest block, Focus sessions).
 - A time linked to a priority counts only the activities Reflect linked to it. Say "linked to" or "went toward"; do not claim it is everything the user did for that priority.
 
 LANGUAGE RULES
@@ -107,7 +108,7 @@ STRUCTURE OF AN INSIGHT
 Choose insights that complement each other (for example progress + alignment + a pattern + a change), not several variations of one observation.
 
 NARRATIVE
-For a DAY, write "narrative": two to four plain sentences on what happened, in order — the story of the day, not a list of numbers. It may quote the day's plain totals (tracked time, focused time, context switches, longest block, Focus sessions) and any number the insights cite; nothing else. For a week, month or year, use null.
+For a DAY, write "narrative": two to four plain sentences on what happened, in order — the story of the day, not a list of numbers. It may quote the day's plain totals (tracked time, focused time, context switches, longest block, Focus sessions), when a listed activity started or how long it ran, and any number the insights cite; nothing else. For a week, month or year, use null.
 
 NOVELTY
 PREVIOUSLY SURFACED lists what Reflect already told the user in recent periods, by what it was about. Do not repeat one unless this period shows a meaningful change in it — and then say what changed, citing the comparison. The same observation in new words is still the same observation. Reflect itself labels each insight as new, continuing or resolved; do not write those labels.
@@ -209,7 +210,7 @@ export function buildReflectionPrompt(input: ReflectionInput, coach?: CoachPromp
     `METRICS (deterministic; cite by key, quote the value exactly)\n${lines(input.metrics)}`,
 
     input.comparisons.length > 0
-      ? 'COMPARISONS (cite as prev.<key>, delta.<key>, baseline.<key> or weekday.<key>)\n' +
+      ? 'COMPARISONS (cite a row by its key — that cites every value in the row; prev.<key>, delta.<key>, baseline.<key> or weekday.<key> cite one of them)\n' +
         '"previous" is the period just before this one; "baseline" is the user\'s own recent average; "sameWeekday" is their average on earlier days of this weekday.\n' +
         lines(input.comparisons)
       : 'COMPARISONS\nNone available. Do not compare this period with any other.',
@@ -284,6 +285,61 @@ export function buildReflectionRetryFeedback(errors: string[]): string {
     errors.slice(0, 10).map((e) => `- ${e}`).join('\n') +
     '\nProduce a corrected response. Drop any claim you cannot support with the cited evidence.'
   );
+}
+
+/** What the model is asked to do about one kind of problem — the correction, not just the complaint. */
+const RETRY_INSTRUCTIONS: Record<string, string> = {
+  schema: 'Return JSON in exactly the requested shape.',
+  period: 'Copy periodType, periodStart and periodEnd exactly as given under PERIOD.',
+  insight_type: 'Use one of the listed insight types.',
+  insight_empty: 'Fill the title, observation and interpretation, or leave the insight out.',
+  insight_unknown_evidence: 'Cite only keys, refs and ids that appear in this request, or leave the insight out.',
+  insight_no_evidence: 'Cite the metric or activity it rests on, or leave the insight out.',
+  insight_needs_comparison: 'Cite the COMPARISONS row or "change." entry that shows the change, or use another insight type.',
+  insight_needs_priority_metric: 'Cite a "priority." metric, or use another insight type.',
+  insight_needs_other_days: 'Cite evidence from other days, or describe only this day.',
+  insight_language: 'Reword it as a plain description of what was observed.',
+  insight_uncited_comparison: 'Cite the COMPARISONS row that shows it, or describe this period alone without comparing.',
+  insight_number: 'Replace each of those numbers with a value copied from an entry this insight cites, or cite the entry that holds it. Do not introduce any other number.',
+  insight_disputed: 'Leave it out.',
+  insight_repeat: 'Replace it with a DIFFERENT observation the evidence supports, or leave it out. Rewording it is not enough.',
+  too_many_insights: 'Keep only the most meaningful ones.',
+  carry_forward: 'Correct it or use null.',
+};
+
+/** One problem of the reflection half, as the retry needs it: where, what, and what to do. */
+export interface RetryIssue {
+  code: string;
+  message: string;
+}
+
+/**
+ * Appended to the prompt when a previous attempt could not be used as it was.
+ *
+ * It names each problem with the correction for it and nothing else, and says
+ * which half is settled: `null` for a half means it was accepted and is kept
+ * whatever the next response says, so the model is told to leave it alone
+ * rather than invited to "drop any claim" from something that was fine.
+ */
+export function buildTargetedRetryFeedback(input: { reflection: RetryIssue[] | null; coach: string[] | null }): string {
+  const out: string[] = ['YOUR PREVIOUS RESPONSE WAS REJECTED'];
+  if (input.reflection === null) {
+    out.push('The reflection part (headline, narrative, insights) was ACCEPTED. Return it exactly as before; do not change, shorten or drop any of it.');
+  } else if (input.reflection.length > 0) {
+    out.push('REFLECTION — correct only these:');
+    for (const issue of input.reflection.slice(0, 10)) {
+      const instruction = RETRY_INSTRUCTIONS[issue.code];
+      out.push(`- ${issue.message}${instruction ? ` → ${instruction}` : ''}`);
+    }
+    out.push('Keep every part of the reflection that is not listed. If no observation can be supported, return an empty insights list and a plain headline.');
+  }
+  if (input.coach === null) {
+    if (input.reflection !== null) out.push('The coach part was ACCEPTED. Return it exactly as before.');
+  } else if (input.coach.length > 0) {
+    out.push('COACH — correct only these:');
+    for (const problem of input.coach.slice(0, 10)) out.push(`- ${problem}`);
+  }
+  return out.join('\n');
 }
 
 /**

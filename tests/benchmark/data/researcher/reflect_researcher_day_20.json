@@ -7,7 +7,7 @@
     "current_work": [
       "Running a bounded replication study of a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Reading and synthesizing uncertainty calibration literature",
       "Considering the next research direction after manuscript submission"
     ],
     "priorities": [
@@ -289,11 +289,17 @@
           428,
           429
         ],
-        "context": "Single follow-up explicitly justified on Day 19.",
+        "context": "Work",
         "area": "replication study",
-        "intent": "experiment",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "replication",
+        "label_notes": {
+          "context": "Single follow-up explicitly justified on Day 19.",
+          "intent": "experiment",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-20-02",
@@ -307,11 +313,17 @@
           432,
           433
         ],
-        "context": "The controlled comparison reduced but did not resolve the discrepancy.",
+        "context": "Work",
         "area": "replication study",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "replication",
+        "label_notes": {
+          "context": "The controlled comparison reduced but did not resolve the discrepancy.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-20-03",
@@ -324,11 +336,17 @@
           435,
           436
         ],
-        "context": "Post-submission exploration after closing the replication loop.",
+        "context": "Work",
         "area": "research planning",
-        "intent": "exploration",
-        "quality": "medium",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "next_question",
+        "label_notes": {
+          "context": "Post-submission exploration after closing the replication loop.",
+          "intent": "exploration",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-20-04",
@@ -339,11 +357,17 @@
         "event_ids": [
           437
         ],
-        "context": "Low-pressure post-submission learning.",
+        "context": "Work",
         "area": "learning",
-        "intent": "learning",
-        "quality": "medium",
-        "importance": "low"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "low",
+        "stream": "learning",
+        "label_notes": {
+          "context": "Low-pressure post-submission learning.",
+          "intent": "learning",
+          "quality": "medium"
+        }
       }
     ],
     "unobserved_periods": [
@@ -381,20 +405,91 @@
       "title": "Close the replication",
       "reason": "The predefined controlled comparison was completed and the stopping rule was reached; the remaining discrepancy is documented rather than actionable without new assumptions.",
       "suggested_focus_minutes": 30,
-      "target": "Replication Study"
+      "target": "Replication Study",
+      "target_stream": "replication"
     },
     "secondary_action": {
       "action_type": "clarify_priority",
       "title": "Choose the next question deliberately",
       "reason": "Several ideas were collected after the manuscript submission, but none has yet earned priority over the others.",
       "suggested_focus_minutes": 45,
-      "target": "Research Direction"
+      "target": "Research Direction",
+      "target_stream": "next_question"
     },
     "things_not_to_do": [
       "Do not add more evaluation-subset variants to chase an exact reproduction.",
       "Do not turn the benchmark dataset search into a new experiment before selecting a research question.",
       "Do not treat the parked research ideas as committed projects.",
       "Do not reopen the submitted manuscript solely because the replication was partial."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The predefined controlled comparison was completed and the stopping rule was reached; the remaining discrepancy is documented rather than actionable without new assumptions.",
+      "priority": "Complete the replication study before deciding to extend it",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "manuscript"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 21 shows 129 min on this work.",
+        "reason_code": null
+      },
+      "next_question": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 21 shows 347 min on this work.",
+        "reason_code": null
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 21 went to other work (next_question, 347 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 21 went to other work (next_question, 347 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 21 went to other work (next_question, 347 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 21 shows 129 min on this work.",
+      "reason_code": null
+    }
   }
 }

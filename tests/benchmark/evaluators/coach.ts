@@ -5,6 +5,7 @@ import type { SemanticConfig } from '../runner/config';
 import type { EvaluationOnlyDay } from '../runner/dataset';
 import { ACTION_TYPE_MAPPING, KNOWN_TARGETS, assessCoach, matchExpected, opportunityOf, targetMatches, type CoachAssessment } from './coachDimensions';
 import { actionText, coachText, reflectionText, streamOfAction } from './corpus';
+import { aimOfAction, hasStreams, type StreamContext } from './streams';
 import {
   GENERIC_ADVICE,
   HEDGE,
@@ -47,6 +48,8 @@ export interface CoachEvaluationContext {
   workVideoEventIds: number[];
   /** Dataset event id → the Reflect classification of the block that owns it. */
   predictedByEvent: Map<number, { area: string | null; quality: string | null; blockTitle: string }>;
+  /** The persona's work streams and the day's evidence against them, when the answer key has them. */
+  streams?: StreamContext;
 }
 
 export interface CoachEvaluation {
@@ -149,7 +152,11 @@ export function evaluateCoach(captured: CapturedDay, answer: EvaluationOnlyDay, 
   const metricKeys = new Set(Object.keys(report?.metricsSnapshot ?? {}));
   const criteria: Criterion[] = [];
   const opportunity = opportunityOf(expected);
-  const assessment = assessCoach(captured, answer, { semantic: ctx.semantic, knownBlockIds: ctx.knownBlockIds, previousProcessedAt: ctx.previousProcessedAt ?? null });
+  const assessment = assessCoach(captured, answer, { semantic: ctx.semantic, knownBlockIds: ctx.knownBlockIds, previousProcessedAt: ctx.previousProcessedAt ?? null, streams: ctx.streams });
+  /** Whether the action is about a body of work the persona has: by stream when the key has streams, else by the founder set's words. */
+  const registry = hasStreams(ctx.streams) ? ctx.streams : null;
+  const onAStream = (a: (typeof actions)[number]) =>
+    registry ? aimOfAction(a, captured.priorities, registry).streams.some((key) => registry.streams[key].kind === 'work') : streamOfAction(a, captured.priorities) !== null;
 
   const labels = {
     c1: '1. Recognised the important issue',
@@ -249,7 +256,7 @@ export function evaluateCoach(captured: CapturedDay, answer: EvaluationOnlyDay, 
   // ── 3. Aligned with priorities ──
   {
     const aligned = actions.filter(
-      (a) => a.priorityId !== null || a.targetKey?.startsWith('p:') || streamOfAction(a, captured.priorities) !== null || targetMatches(opportunity.priority, a, captured.priorities),
+      (a) => a.priorityId !== null || a.targetKey?.startsWith('p:') || onAStream(a) || targetMatches(opportunity.priority, a, captured.priorities),
     );
     criteria.push({
       id: 'coach_c3',

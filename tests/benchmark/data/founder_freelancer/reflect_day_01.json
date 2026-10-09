@@ -574,7 +574,8 @@
       "action_type": "protect_priority",
       "reason": "Client work unexpectedly consumed a significant portion of the planned product time.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": null,
     "things_not_to_do": [

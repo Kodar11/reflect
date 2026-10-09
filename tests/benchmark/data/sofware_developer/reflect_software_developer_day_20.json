@@ -373,11 +373,17 @@
           481,
           482
         ],
-        "context": "The asynchronous architecture had been selected and the next step was to connect it into a coherent API surface.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "implement",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The asynchronous architecture had been selected and the next step was to connect it into a coherent API surface.",
+          "intent": "implement",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-20-02",
@@ -392,11 +398,17 @@
           486,
           487
         ],
-        "context": "The engineer moved beyond isolated unit tests to validate the asynchronous path as a connected workflow.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "validate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The engineer moved beyond isolated unit tests to validate the asynchronous path as a connected workflow.",
+          "intent": "validate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-20-03",
@@ -409,11 +421,17 @@
           489,
           490
         ],
-        "context": "The implementation was approaching a reviewable state and needed alignment with existing worker conventions.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "coordinate",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The implementation was approaching a reviewable state and needed alignment with existing worker conventions.",
+          "intent": "coordinate",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-20-04",
@@ -427,11 +445,17 @@
           493,
           494
         ],
-        "context": "Previously active reliability areas remained stable and did not require reopening.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "Previously active reliability areas remained stable and did not require reopening.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -499,20 +523,101 @@
       "action_type": "complete_open_loop",
       "target": "Account export end-to-end coverage",
       "reason": "The main asynchronous flow is connected, so the highest-value next step is closing the remaining correctness gaps before review rather than adding more unrelated functionality.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "account_export"
     },
-    "secondary_action": {
-      "title": "Export download and cleanup semantics",
-      "action_type": "clarify_priority",
-      "target": "Export download and cleanup semantics",
-      "reason": "These externally visible behaviors still need explicit agreement and coverage before the feature can be considered complete.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not treat the happy-path integration test as complete coverage.",
       "Do not add unrelated export features before failure, authorization, and cleanup behavior are settled.",
       "Do not reopen the closed webhook reliability investigation from routine monitoring data.",
       "Do not infer that database-plan inspection proves large exports are production-ready."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Account export end-to-end coverage",
+        "action_type": "complete_open_loop",
+        "target": "Account export end-to-end coverage",
+        "reason": "The main asynchronous flow is connected, so the highest-value next step is closing the remaining correctness gaps before review rather than adding more unrelated functionality.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Export download and cleanup semantics",
+        "action_type": "clarify_priority",
+        "target": "Export download and cleanup semantics",
+        "reason": "These externally visible behaviors still need explicit agreement and coverage before the feature can be considered complete.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The main asynchronous flow is connected, so the highest-value next step is closing the remaining correctness gaps before review rather than adding more unrelated functionality.",
+      "priority": "Build the account export API",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "did_not_work",
+        "reason": "Day 21 shows 438 min on this work, most of it a retry, a failure or a blocker.",
+        "reason_code": "other"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 21 went to other work (account_export, 438 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 21 went to other work (account_export, 438 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 21 shows 57 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "did_not_work",
+      "reason": "Day 21 shows 438 min on this work, most of it a retry, a failure or a blocker.",
+      "reason_code": "other"
+    }
   }
 }

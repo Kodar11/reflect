@@ -339,11 +339,17 @@
           524,
           525
         ],
-        "context": "The implementation was already broad enough for review, but a few API and storage details needed another pass before staging validation.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "prepare_review",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The implementation was already broad enough for review, but a few API and storage details needed another pass before staging validation.",
+          "intent": "prepare_review",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-22-02",
@@ -359,11 +365,17 @@
           530,
           531
         ],
-        "context": "Local tests could not establish how the storage and API behavior interacted in the deployed environment.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "validate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "Local tests could not establish how the storage and API behavior interacted in the deployed environment.",
+          "intent": "validate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-22-03",
@@ -378,11 +390,17 @@
           535,
           536
         ],
-        "context": "One staging edge case exposed a test-coverage gap rather than a confirmed production defect.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "refine",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "One staging edge case exposed a test-coverage gap rather than a confirmed production defect.",
+          "intent": "refine",
+          "quality": "useful"
+        }
       }
     ],
     "unobserved_periods": [
@@ -444,20 +462,101 @@
       "action_type": "complete_open_loop",
       "target": "Account export pull request",
       "reason": "The main implementation and staging validation are now in place; the next highest-value action is to move through review rather than continue speculative implementation.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "account_export"
     },
-    "secondary_action": {
-      "title": "Storage cleanup under delayed or failed worker conditions",
-      "action_type": "experiment",
-      "target": "Storage cleanup under delayed or failed worker conditions",
-      "reason": "This is the remaining operational uncertainty with a clear validation path.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not treat controlled staging records as equivalent to a large production export.",
       "Do not add broad new functionality before the current pull request is reviewed.",
       "Do not reopen closed webhook or workspace work based on normal monitoring.",
       "Do not interpret a test-coverage gap as a confirmed production incident without supporting evidence."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Account export pull request",
+        "action_type": "complete_open_loop",
+        "target": "Account export pull request",
+        "reason": "The main implementation and staging validation are now in place; the next highest-value action is to move through review rather than continue speculative implementation.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Storage cleanup under delayed or failed worker conditions",
+        "action_type": "experiment",
+        "target": "Storage cleanup under delayed or failed worker conditions",
+        "reason": "This is the remaining operational uncertainty with a clear validation path.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The main implementation and staging validation are now in place; the next highest-value action is to move through review rather than continue speculative implementation.",
+      "priority": "Build the account export API",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "did_not_work",
+        "reason": "Day 23 shows 309 min on this work, most of it a retry, a failure or a blocker.",
+        "reason_code": "other"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 23 went to other work (account_export, 309 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 23 shows 120 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 23 shows 61 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "did_not_work",
+      "reason": "Day 23 shows 309 min on this work, most of it a retry, a failure or a blocker.",
+      "reason_code": "other"
+    }
   }
 }

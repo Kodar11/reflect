@@ -418,7 +418,8 @@
       "action_type": "continue_successful_behavior",
       "reason": "Client work legitimately displaced planned product work today, so the next useful step is to deliberately return to the SaaS rather than adding more planning or optimization.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": null,
     "things_not_to_do": [

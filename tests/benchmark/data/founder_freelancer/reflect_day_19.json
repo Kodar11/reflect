@@ -434,14 +434,16 @@
       "action_type": "start_focus",
       "reason": "The product has moved from fixing an onboarding issue to collecting behavioral evidence, so a focused review can determine what should be addressed next.",
       "suggested_focus_minutes": 60,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Close the small client change",
       "action_type": "complete_open_loop",
       "reason": "The client change already passed staging and tests, so confirming the final handoff would close the current freelance loop without requiring a larger work block.",
       "suggested_focus_minutes": 20,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat analytics setup as evidence of product-market fit.",

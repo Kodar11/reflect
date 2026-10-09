@@ -285,7 +285,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-15-02",
@@ -301,7 +302,8 @@
         "area": "Social campaign",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-15-03",
@@ -319,7 +321,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-15-04",
@@ -335,7 +338,8 @@
         "area": "Social campaign",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-15-05",
@@ -350,7 +354,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-15-06",
@@ -366,7 +375,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-15-07",
@@ -381,7 +391,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-15-08",
@@ -398,7 +409,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       }
     ],
     "unobserved_periods": [
@@ -434,9 +446,78 @@
       "action_type": "complete_open_loop",
       "reason": "The identity work is converging into a concrete review package. Keep the next step bounded to the agreed application examples and client feedback rather than reopening the selected direction. The Northstar case study is also close enough to warrant a protected finishing block instead of repeatedly leaving it for late evening.",
       "suggested_focus_minutes": null,
-      "target": "New client identity"
+      "target": "New client identity",
+      "target_stream": "new_identity"
     },
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The identity work is converging into a concrete review package. Keep the next step bounded to the agreed application examples and client feedback rather than reopening the selected direction. The Northstar case study is also close enough to warrant a protected finishing block instead of repeatedly leaving it for late evening.",
+      "priority": "Develop the brand identity for the new client",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 175 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 327 min on this work.",
+        "reason_code": null
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (new_identity, 327 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 96 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (new_identity, 327 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 16 shows 22 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 16 shows 327 min on this work.",
+      "reason_code": null
+    }
   }
 }

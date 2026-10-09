@@ -557,14 +557,16 @@
       "action_type": "complete_open_loop",
       "reason": "The external access blocker has cleared and the work has already reached integration tests and staging verification, making final delivery the clearest near-term freelance milestone.",
       "suggested_focus_minutes": 60,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Wait for the next SaaS beta signal",
       "action_type": "continue_successful_behavior",
       "reason": "The onboarding simplification has been implemented and checked, so gathering another comparable user signal is more valuable than immediately making another product change.",
       "suggested_focus_minutes": 45,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat the missing client credential as wasted work; it was an external dependency visible in communication.",

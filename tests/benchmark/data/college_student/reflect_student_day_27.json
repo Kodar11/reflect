@@ -247,11 +247,17 @@
           507,
           508
         ],
-        "context": "The assessment was now close and remained the main academic priority.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Check for any updated assessment information.",
-        "quality": "routine",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The assessment was now close and remained the main academic priority.",
+          "intent": "Check for any updated assessment information.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-27-02",
@@ -260,11 +266,17 @@
         "title": "Offline handwritten review",
         "summary": "Reviewed graph concepts and worked through examples by hand without using the laptop.",
         "event_ids": [],
-        "context": "The final-weekend review included offline material that Reflect cannot observe.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Practice recall and worked reasoning away from the laptop.",
-        "quality": "unobserved offline activity",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Break-Idle",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The final-weekend review included offline material that Reflect cannot observe.",
+          "intent": "Practice recall and worked reasoning away from the laptop.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-27-03",
@@ -279,11 +291,17 @@
           512,
           513
         ],
-        "context": "This was a final consolidation pass over topics reviewed throughout the previous week.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Consolidate the graph material before the assessment.",
-        "quality": "focused review",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "This was a final consolidation pass over topics reviewed throughout the previous week.",
+          "intent": "Consolidate the graph material before the assessment.",
+          "quality": "focused review"
+        }
       },
       {
         "id": "gt-27-04",
@@ -292,11 +310,16 @@
         "title": "Lunch and offline Sunday time",
         "summary": "Spent the early afternoon away from the laptop for lunch and personal activity.",
         "event_ids": [],
-        "context": "No laptop evidence is available for this period.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Take a normal Sunday break.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No laptop evidence is available for this period.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-27-05",
@@ -310,11 +333,17 @@
           516,
           517
         ],
-        "context": "The student used another recall check rather than adding a new subject.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Identify and close the remaining graph-topic gaps.",
-        "quality": "targeted consolidation",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The student used another recall check rather than adding a new subject.",
+          "intent": "Identify and close the remaining graph-topic gaps.",
+          "quality": "targeted consolidation"
+        }
       },
       {
         "id": "gt-27-06",
@@ -323,11 +352,17 @@
         "title": "Offline mock-test review",
         "summary": "Worked through a short mixed graph mock test on paper and compared answers with classmates without using the laptop.",
         "event_ids": [],
-        "context": "The desktop timeline does not capture this in-person review.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Test recall and compare solutions before the assessment.",
-        "quality": "unobserved offline activity",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Break-Idle",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The desktop timeline does not capture this in-person review.",
+          "intent": "Test recall and compare solutions before the assessment.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-27-07",
@@ -340,11 +375,17 @@
           519,
           520
         ],
-        "context": "The project remained secondary because no concrete blocker required code changes.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Check whether teammates need action before the assessment.",
-        "quality": "brief coordination",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The project remained secondary because no concrete blocker required code changes.",
+          "intent": "Check whether teammates need action before the assessment.",
+          "quality": "brief coordination"
+        }
       },
       {
         "id": "gt-27-08",
@@ -353,11 +394,16 @@
         "title": "Dinner and offline personal time",
         "summary": "Spent the evening away from the laptop before returning for recreation.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and ordinary Sunday activity.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-27-09",
@@ -369,11 +415,17 @@
           521,
           522
         ],
-        "context": "Personal time after a review-heavy weekend day.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Personal time after a review-heavy weekend day.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-27-10",
@@ -385,11 +437,17 @@
           523,
           524
         ],
-        "context": "This was a short closing check rather than a new study session.",
+        "context": "Work",
         "area": "coursework_and_leisure",
-        "intent": "Close the review loop without starting another broad session.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "This was a short closing check rather than a new study session.",
+          "intent": "Close the review loop without starting another broad session.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -447,13 +505,7 @@
     "possible_next_step": "Use the next available review window only for the concepts actually missed in the mixed test; otherwise stop adding material and preserve the current preparation."
   },
   "expected_coach_outcome": {
-    "primary_action": {
-      "title": "Review only missed concepts",
-      "action_type": "protect_priority",
-      "reason": "The student has already covered the major graph topics through several rounds of practice and a mock test; the next useful step is targeted correction rather than another broad review.",
-      "suggested_focus_minutes": 30,
-      "target": "Data Structures Internal Assessment"
-    },
+    "primary_action": null,
     "secondary_action": null,
     "things_not_to_do": [
       "Do not infer assessment readiness from the amount of review material opened.",
@@ -462,6 +514,88 @@
       "Do not recommend opening a new unrelated academic topic at the last minute without evidence of a need.",
       "Do not treat the project status check as a distraction or as evidence of project neglect.",
       "Do not criticize the Sunday gaming and social time simply because the assessment is close."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Review only missed concepts",
+        "action_type": "protect_priority",
+        "reason": "The student has already covered the major graph topics through several rounds of practice and a mock test; the next useful step is targeted correction rather than another broad review.",
+        "suggested_focus_minutes": 30,
+        "target": "Data Structures Internal Assessment"
+      },
+      "secondary_action": null
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "The eve of the assessment after several rounds of practice and a mock test. The key's own advice is conditional on results Reflect cannot see (\"only the concepts actually missed … otherwise stop adding material\"); with no such evidence, staying silent is right.",
+      "priority": null,
+      "type": null
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering",
+      "theory_of_computation"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 28 shows 50 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 28 shows 195 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 28 shows 12 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    }
   }
 }

@@ -10,11 +10,12 @@ import { intersectionLength, normalize, temporalIou, totalLength } from './evalu
 import { buildLeakDetector } from './evaluators/leakage';
 import { evaluateReflection, progressLevel } from './evaluators/reflection';
 import { boundariesOf, evaluateSegmentation, segmentFromEvents, type TimedEvent } from './evaluators/segmentation';
-import { resolveMapping } from './evaluators/taxonomyMapping';
+import { buildStreamContext } from './evaluators/streams';
+import { resolveMapping, streamAreaLabels } from './evaluators/taxonomyMapping';
 import { coverage, stem, streamOfText, verdictFromCoverage } from './evaluators/text';
 import type { CapturedBlock, CapturedDay, CapturedTaxonomy } from './runner/capture';
 import { replayCoachSignals } from './runner/coachReplay';
-import type { EvaluationOnly, EvaluationOnlyDay, ReflectInput } from './runner/dataset';
+import type { DatasetWorkStream, EvaluationOnly, EvaluationOnlyDay, ReflectInput } from './runner/dataset';
 
 /**
  * The evaluators are the benchmark's measuring instruments, so they are
@@ -900,8 +901,15 @@ describe('coach dimensions — opportunity, precision, null, follow-through, ada
     const earlier = action({ id: 'earlier', actionType: 'close_open_loop', title: 'Address the open comments on the project description', createdAt: iso(780 - 24 * 60) });
     const today = assess(captured({ earlierActions: [earlier], actions: [action({ id: 'today', actionType: 'close_open_loop', title: 'Address the open comments on the budget justification' })] })).actions[0];
     expect(today.repeated).toBe(false);
-    // The same section named again is a repeat, as before.
-    expect(assess(captured({ earlierActions: [earlier], actions: [action({ id: 'today', actionType: 'close_open_loop', title: 'Address the open comments on the project description' })] })).actions[0].repeated).toBe(true);
+    // The same section named again. Whether that is a fault depends on what became of the first time:
+    const again = (state: Partial<CoachAction>) =>
+      assess(captured({ earlierActions: [{ ...earlier, ...state }], actions: [action({ id: 'today', actionType: 'close_open_loop', title: 'Address the open comments on the project description' })] })).actions[0];
+    // …never answered, and the day still calls for it: restated, not a fault.
+    expect(again({})).toMatchObject({ repeated: false, restated: true, justified: true });
+    // …already carried out, turned down, or reported as not working: saying it again adds nothing.
+    expect(again({ status: 'closed', acceptedAt: iso(0), execution: 'done', executionSource: 'user', outcome: 'worked' })).toMatchObject({ repeated: true, restated: false, justified: false });
+    expect(again({ status: 'rejected', rejectedAt: iso(0), reasonCode: 'different_priority' })).toMatchObject({ repeated: true, restated: false });
+    expect(again({ status: 'closed', acceptedAt: iso(0), execution: 'done', executionSource: 'user', outcome: 'did_not_work' }).notes.join(' ')).toContain('reported as not working');
   });
 
   it('"do not recommend the same block again" is about repetition: a shorter block that mentions the long one is not it', () => {
@@ -1006,5 +1014,169 @@ describe('coach diagnostics — why a day was not answered', () => {
     expect(covered.signals[covered.signals.length - 1].priorityId).toBe('pr-leads');
     // A day without a report has nothing to replay.
     expect(replayCoachSignals([captured({ report: null, actions: [] })])[0]).toMatchObject({ replayed: false, signals: [] });
+  });
+});
+
+// ── Work streams: targets by what the work is, not by what a persona's files call it ──
+
+describe('coach targets by work stream — no persona vocabulary in the evaluator', () => {
+  // A student's month, named with none of the founder set's words.
+  const STREAMS: Record<string, DatasetWorkStream> = {
+    dbms: { title: 'DBMS coursework', kind: 'work', aliases: ['dbms', 'sql'], priorities: ['Complete the DBMS assignment due later this week'] },
+    semester_project: { title: 'Semester group project', kind: 'work', aliases: ['semester project', 'parser'], priorities: ['Make progress on the semester group project'] },
+    operating_systems: { title: 'Operating Systems quiz', kind: 'work', aliases: ['operating systems'], priorities: ['Prepare for the Operating Systems quiz'] },
+    leisure: { title: 'Leisure', kind: 'leisure', aliases: [], priorities: [] },
+  };
+  const STUDENT_PRIORITIES = [
+    { id: 'pr-dbms', text: 'Complete the DBMS assignment due later this week', status: 'active' as const },
+    { id: 'pr-project', text: 'Make progress on the semester group project', status: 'active' as const },
+    { id: 'pr-os', text: 'Prepare for the Operating Systems quiz', status: 'active' as const },
+  ];
+  /** Events 1–3 are DBMS work, 4–5 the semester project. */
+  const answer = (over: Partial<EvaluationOnlyDay['expectedCoachOutcome']> = {}, strength: 'strong' | 'moderate' | 'none' = 'strong'): EvaluationOnlyDay => ({
+    ...ANSWER,
+    groundTruth: {
+      ...ANSWER.groundTruth,
+      activities: [
+        { ...ANSWER.groundTruth.activities[0], title: 'Assignment query work', area: 'coursework', stream: 'dbms' },
+        { ...ANSWER.groundTruth.activities[1], title: 'Group work on the tokenizer', area: 'semester_project', stream: 'semester_project' },
+      ],
+    },
+    expectedCoachOutcome: {
+      primary_action: strength === 'none' ? null : { title: 'Finish the DBMS assignment', action_type: 'complete_open_loop', reason: 'Still open at the end of the day.', suggested_focus_minutes: 60, target: 'DBMS', target_stream: 'dbms' },
+      secondary_action: null,
+      things_not_to_do: [],
+      action_opportunity: { should_exist: strength === 'strong', strength, reason: 'test', priority: null, type: strength === 'none' ? null : 'complete_open_loop' },
+      ...over,
+    },
+  });
+  const day = (actions: CoachAction[], over: { priorities?: typeof STUDENT_PRIORITIES; earlierActions?: CoachAction[] } = {}): CapturedDay => ({
+    ...captured({ actions, earlierActions: over.earlierActions, timeline: [block('b1', [1, 2, 3], { priorityId: null, thread: null }), block('b2', [4, 5], { priorityId: null, thread: null })] }),
+    priorities: over.priorities ?? STUDENT_PRIORITIES,
+  });
+  const assessOn = (capturedDay: CapturedDay, key: EvaluationOnlyDay) =>
+    assessCoach(capturedDay, key, { semantic: SEMANTIC, knownBlockIds: new Set(['b1', 'b2']), previousProcessedAt: iso(0), streams: buildStreamContext(STREAMS, capturedDay, key) });
+  const student = (over: Partial<CoachAction>) =>
+    action({ actionType: 'close_open_loop', priorityId: null, thread: null, focusTask: null, targetKey: 'i:item', sourceMetricKeys: [], sourceActivityIds: ['b1'], rationale: 'The work was still open when the day ended.', ...over });
+
+  it('reads the target from what the action NAMES: the key says "DBMS", the action says "SQL"', () => {
+    const result = assessOn(day([student({ title: 'Finish the remaining SQL queries in a morning block' })]), answer());
+    expect(result.verdict).toBe('correct');
+    expect(result.actions[0]).toMatchObject({ matches: 'primary', aim: { streams: ['dbms'], by: 'wording' } });
+    expect(result.why).toContain('read from its wording');
+  });
+
+  it('reads the target from the EVIDENCE when the action names nothing the key knows', () => {
+    // "the remaining written answers" is in no alias list. What it cites is the day's DBMS activity.
+    const cited = assessOn(day([student({ title: 'Complete the remaining written answers before lunch', sourceActivityIds: ['b1'] })]), answer());
+    expect(cited.actions[0]).toMatchObject({ matches: 'primary', aim: { streams: ['dbms'], by: 'evidence' } });
+    expect(cited.verdict).toBe('correct');
+    // The same sentence citing the project's activity is about the project: not what the day called for.
+    const other = assessOn(day([student({ title: 'Complete the remaining written answers before lunch', sourceActivityIds: ['b2'] })]), answer());
+    expect(other.actions[0]).toMatchObject({ matches: null, aim: { streams: ['semester_project'], by: 'evidence' } });
+    expect(other.verdict).toBe('wrong');
+    expect(other.why).toContain('it is about semester_project, read from its evidence');
+  });
+
+  it('falls back to the stated priority the action is linked to', () => {
+    const linked = assessOn(day([student({ title: 'Use the first free hour tomorrow for the open item', sourceActivityIds: [], sourceMetricKeys: ['priority.pr-saas.minutes'], priorityId: 'pr-dbms' })]), answer());
+    expect(linked.actions[0]).toMatchObject({ matches: 'primary', aim: { streams: ['dbms'], by: 'priority' } });
+  });
+
+  it('what the action names outranks what it cites: naming finished work is not rescued by citing live work', () => {
+    const key = answer({ primary_action: { title: 'Continue the parser task', action_type: 'complete_open_loop', reason: 'Open.', suggested_focus_minutes: 60, target: 'Semester Project', target_stream: 'semester_project' }, forbidden_streams: ['dbms'] });
+    const result = assessOn(day([student({ title: 'Review the SQL deadlock problems again', sourceActivityIds: ['b2'] })]), key);
+    expect(result.actions[0]).toMatchObject({ matches: null, closed: true, justified: false, aim: { streams: ['dbms'], by: 'wording' } });
+    expect(result.verdict).toBe('wrong');
+    expect(result.actions[0].notes.join(' ')).toContain('finished or parked today');
+  });
+
+  it('does not use the founder set\'s words once a persona has streams', () => {
+    // "client", "proposal", "launch" decide nothing here: this persona has no such stream.
+    const result = assessOn(day([student({ title: 'Send the client proposal and plan the product launch', sourceActivityIds: [] })]), answer());
+    expect(result.actions[0].aim).toEqual({ streams: [], by: 'none' });
+    expect(result.actions[0].matches).toBeNull();
+  });
+
+  it('accepts another move the key allows for the day, and a secondary one in part', () => {
+    const key = answer({ acceptable_streams: ['operating_systems'], secondary_action: { title: 'Continue the parser task', action_type: 'continue_successful_behavior', reason: 'Moving.', suggested_focus_minutes: 45, target: 'Semester Project', target_stream: 'semester_project' } });
+    const alternative = assessOn(day([student({ title: 'Start the Operating Systems revision with one past paper', sourceActivityIds: [], sourceMetricKeys: ['priority.pr-saas.minutes'] })]), key);
+    expect(alternative).toMatchObject({ verdict: 'correct', actions: [{ matches: 'acceptable' }] });
+    expect(alternative.why).toContain('a target the answer key accepts for the day');
+    const secondary = assessOn(day([student({ title: 'Keep the parser moving with one small change', actionType: 'continue_behavior', sourceActivityIds: ['b2'] })]), key);
+    expect(secondary.verdict).toBe('partially_correct');
+  });
+
+  it('never recommends into a priority the user has closed', () => {
+    const closedByUser = STUDENT_PRIORITIES.map((p) => (p.id === 'pr-dbms' ? { ...p, status: 'completed' as const } : p));
+    const result = assessOn(day([student({ title: 'Finish the remaining SQL queries', priorityId: 'pr-dbms' })], { priorities: closedByUser }), answer());
+    expect(result.actions[0]).toMatchObject({ closed: true, justified: false });
+    expect(result.actions[0].notes.join(' ')).toContain('which the user marked completed');
+    expect(result.verdict).toBe('wrong');
+  });
+
+  it('silence: right on a day that calls for nothing, a miss on a day that calls for a move, and fine on a day that holds', () => {
+    const none = answer({}, 'none');
+    expect(assessOn(day([]), none).verdict).toBe('correct_null');
+    expect(assessOn(day([student({ title: 'Finish the remaining SQL queries' })]), none).verdict).toBe('unnecessary');
+    expect(assessOn(day([]), answer()).verdict).toBe('missed');
+    // "Hold; other open work is fine": no move of the key's own, one stream it accepts, one it rules out.
+    const hold = answer({ primary_action: null, acceptable_streams: ['semester_project'], forbidden_streams: ['dbms'] }, 'moderate');
+    expect(assessOn(day([]), hold).verdict).toBe('acceptable_null');
+    expect(assessOn(day([student({ title: 'Keep the parser moving with one small change', sourceActivityIds: ['b2'] })]), hold).verdict).toBe('correct');
+    expect(assessOn(day([student({ title: 'Finish the remaining SQL queries' })]), hold).verdict).toBe('unnecessary');
+    const summary = summarizeCoachDimensions([assessOn(day([]), none), assessOn(day([student({ title: 'Finish the remaining SQL queries' })]), none), assessOn(day([]), answer())]);
+    expect(summary).toMatchObject({ daysExpectedNull: 2, appropriateNull: { numerator: 1, denominator: 2 }, opportunityRecall: { numerator: 0, denominator: 1 } });
+  });
+
+  it('classification "area" is the stream, judged against the priorities it serves that day — with its coverage', () => {
+    const labels = streamAreaLabels(STREAMS);
+    expect(labels.dbms).toMatchObject({ kind: 'ambiguous', accept: ['Complete the DBMS assignment due later this week'] });
+    expect(labels.leisure).toMatchObject({ kind: 'ambiguous', accept: [null] });
+    const used = { context: ['Work'], area: ['dbms', 'operating_systems', 'leisure'], intent: ['Create'], quality: ['Focused'] };
+    // The quiz priority is not stated yet on this day: that stream cannot be judged today, and says so.
+    const today = resolveMapping({ areas: TAXONOMY.areas, intents: TAXONOMY.intents, qualities: TAXONOMY.qualities, priorities: STUDENT_PRIORITIES.slice(0, 2) }, used, STREAMS);
+    expect(today.issues).toEqual([]);
+    expect(today.dimensions.area.labels.get('dbms')).toMatchObject({ kind: 'ambiguous', acceptIds: ['pr-dbms'] });
+    expect(today.dimensions.area.labels.get('operating_systems')).toMatchObject({ kind: 'unmappable', acceptIds: [] });
+    const predicted = (priorityId: string | null): PredictedLabels => ({ areaId: 'area_work', intentId: 'intent_create', qualityId: 'quality_focused', priorityId, contextName: null, names: { area: 'Work', intent: 'Create', quality: 'Focused', priority: null } });
+    const sample = (area: string, priorityId: string | null, weight: number): ClassificationSample => ({ groundTruth: { context: 'Work', area, intent: 'Create', quality: 'Focused' }, predicted: predicted(priorityId), weight });
+    const scores = scoreClassification([sample('dbms', 'pr-dbms', 60), sample('dbms', 'pr-project', 20), sample('operating_systems', null, 20)], today);
+    // 80 of 100 minutes can be judged; of those, 60 are right. The 20 unjudged minutes are reported, not hidden.
+    expect(scores.area).toMatchObject({ evaluated: 80, correct: 60, accuracy: 0.75, unmappable: 20 });
+  });
+});
+
+describe('segmentation — the key\'s own "cannot tell" is not a boundary', () => {
+  const STREAMS: Record<string, DatasetWorkStream> = { identity: { title: 'Identity', kind: 'work', aliases: [], priorities: [] }, portfolio: { title: 'Portfolio', kind: 'work', aliases: [], priorities: [] } };
+  const key = (activities: [string, number[], string, string | null][]): EvaluationOnlyDay => ({
+    ...ANSWER,
+    groundTruth: {
+      ...ANSWER.groundTruth,
+      activities: activities.map(([id, event_ids, context, stream]) => ({ ...ANSWER.groundTruth.activities[0], id, event_ids, context, area: stream, stream })),
+    },
+  });
+  const run = (answer: EvaluationOnlyDay, blocks: CapturedBlock[]) =>
+    evaluateDay(captured({ timeline: blocks }), answer, { config: { matching: MATCHING, semantic: SEMANTIC }, taxonomy: TAXONOMY, knownBlockIds: new Set(), hasHistory: false, findLeaks: () => [], streams: STREAMS });
+
+  it('an unattributable interlude inside one piece of work is scored as that one piece, joined or not', () => {
+    // Identity work, ten "purpose not observable" minutes of reference browsing, identity work again.
+    const uncertain = key([['g1', [1], 'Work', 'identity'], ['g2', [2], 'Uncertain', null], ['g3', [3], 'Work', 'identity'], ['g4', [4, 5], 'Work', 'portfolio']]);
+    const joined = run(uncertain, [block('b1', [1, 2, 3]), block('b2', [4, 5])]);
+    expect(joined.softBoundaries).toMatchObject({ uncertainActivities: 1, merged: 1 });
+    expect(joined.timeline.segmentation.metrics).toMatchObject({ groundTruthCount: 2, predictedCount: 2, matchedCount: 2, f1: 1 });
+    // Keeping the interlude apart is just as right: the block that holds only it is neither counted nor missed.
+    const apart = run(uncertain, [block('b1', [1]), block('bx', [2]), block('b3', [3]), block('b2', [4, 5])]);
+    expect(apart.timeline.segmentation.metrics).toMatchObject({ groundTruthCount: 2, predictedCount: 3 });
+  });
+
+  it('changes nothing for a key that is sure, and never joins two different pieces of work', () => {
+    const sure = key([['g1', [1], 'Work', 'identity'], ['g2', [2], 'Work', 'portfolio'], ['g3', [3], 'Work', 'identity'], ['g4', [4, 5], 'Work', 'portfolio']]);
+    const result = run(sure, [block('b1', [1, 2, 3]), block('b2', [4, 5])]);
+    expect(result.softBoundaries).toMatchObject({ uncertainActivities: 0, merged: 0 });
+    expect(result.timeline.segmentation.metrics).toMatchObject({ groundTruthCount: 4, matchedCount: 1 });
+    // An unattributable stretch between DIFFERENT work leaves both sides separate.
+    const between = key([['g1', [1], 'Work', 'identity'], ['g2', [2], 'Ambiguous', null], ['g3', [3], 'Work', 'portfolio'], ['g4', [4, 5], 'Work', 'portfolio']]);
+    expect(run(between, [block('b1', [1, 2, 3]), block('b2', [4, 5])]).softBoundaries).toMatchObject({ uncertainActivities: 1, merged: 0 });
   });
 });

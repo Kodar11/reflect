@@ -5,17 +5,17 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
-      "Complete the next round of experiments for the main uncertainty estimation project",
-      "Move the manuscript from exploratory notes toward a coherent results section",
-      "Resolve whether the current experimental setup is measuring calibration fairly",
-      "Complete the replication study before deciding whether it is worth extending"
+      "Complete the next experiments for the uncertainty project",
+      "Move the manuscript from notes to a coherent results section",
+      "Resolve whether the setup measures calibration fairly",
+      "Complete the replication study before deciding to extend it"
     ]
   },
   "day": {
@@ -341,11 +341,17 @@
           267,
           268
         ],
-        "context": "Direct continuation of the stopping rule established on Day 10.",
+        "context": "Work",
         "area": "main research project",
-        "intent": "experiment",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "main_experiment",
+        "label_notes": {
+          "context": "Direct continuation of the stopping rule established on Day 10.",
+          "intent": "experiment",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-11-02",
@@ -361,11 +367,17 @@
           273,
           274
         ],
-        "context": "Manuscript update based on the completed generalization test.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Manuscript update based on the completed generalization test.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-11-03",
@@ -377,11 +389,17 @@
           275,
           276
         ],
-        "context": "Closes the experimental loop and transitions toward manuscript completion.",
+        "context": "Work",
         "area": "project planning and manuscript",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Closes the experimental loop and transitions toward manuscript completion.",
+          "intent": "planning",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-11-04",
@@ -394,11 +412,17 @@
           278,
           279
         ],
-        "context": "Evening work after the main experimental loop has largely closed.",
+        "context": "Work",
         "area": "manuscript and learning",
-        "intent": "planning",
-        "quality": "medium",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Evening work after the main experimental loop has largely closed.",
+          "intent": "planning",
+          "quality": "medium"
+        }
       }
     ],
     "unobserved_periods": [
@@ -446,19 +470,113 @@
       "title": "Shift from experimentation to manuscript completion",
       "reason": "The pre-specified generalization test has closed the current experimental loop. Continuing to add experiments risks delaying the manuscript without addressing a clearly defined unresolved question.",
       "suggested_focus_minutes": 120,
-      "target": "Manuscript"
+      "target": "Manuscript",
+      "target_stream": "manuscript"
     },
-    "secondary_action": {
-      "action_type": "protect_priority",
-      "title": "Keep optional experiments out of the core work queue",
-      "reason": "The researcher has identified several possible extensions, but none is currently necessary for the stated contribution.",
-      "suggested_focus_minutes": 15,
-      "target": "Main Research Project"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not treat the small subgroup's wide confidence interval as evidence for a separate failure mode.",
       "Do not add another experiment merely because additional datasets or shifts are available.",
       "Do not let optional follow-up ideas displace the manuscript pass now that the planned evidence-gathering loop is complete."
-    ]
-  }
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "schedule_change",
+        "title": "Shift from experimentation to manuscript completion",
+        "reason": "The pre-specified generalization test has closed the current experimental loop. Continuing to add experiments risks delaying the manuscript without addressing a clearly defined unresolved question.",
+        "suggested_focus_minutes": 120,
+        "target": "Manuscript"
+      },
+      "secondary_action": {
+        "action_type": "protect_priority",
+        "title": "Keep optional experiments out of the core work queue",
+        "reason": "The researcher has identified several possible extensions, but none is currently necessary for the stated contribution.",
+        "suggested_focus_minutes": 15,
+        "target": "Main Research Project"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The pre-specified generalization test has closed the current experimental loop. Continuing to add experiments risks delaying the manuscript without addressing a clearly defined unresolved question.",
+      "priority": "Move the manuscript from notes to a coherent results section",
+      "type": "schedule_change"
+    },
+    "forbidden_streams": [
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (manuscript, 410 min).",
+        "reason_code": "different_priority"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 12 shows 410 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (manuscript, 410 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (manuscript, 410 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (manuscript, 410 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (manuscript, 410 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 12 shows 410 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Complete the next experiments for the uncertainty project"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Writing the manuscript for the uncertainty project",
+        "Maintaining research code and experiment infrastructure"
+      ]
+    }
+  ]
 }

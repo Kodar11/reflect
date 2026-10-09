@@ -287,7 +287,8 @@
         "area": "New brand inquiry",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "food_identity"
       },
       {
         "id": "gt-28-02",
@@ -302,7 +303,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-28-03",
@@ -317,7 +323,8 @@
         "area": "New brand inquiry",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "food_identity"
       },
       {
         "id": "gt-28-04",
@@ -336,7 +343,8 @@
         "area": "Social campaign",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-28-05",
@@ -354,7 +362,8 @@
         "area": "New brand inquiry",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "food_identity"
       },
       {
         "id": "gt-28-06",
@@ -370,7 +379,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "low"
+        "importance": "low",
+        "stream": "portfolio"
       },
       {
         "id": "gt-28-07",
@@ -385,7 +395,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-28-08",
@@ -400,7 +415,8 @@
         "area": "Personal exploration",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal_practice"
       }
     ],
     "unobserved_periods": [
@@ -435,14 +451,84 @@
     "possible_next_step": "Wait for the client response before making another broad identity pass; if feedback arrives, turn it into a bounded revision checklist and close the selected direction toward finalization."
   },
   "expected_coach_outcome": {
-    "primary_action": {
-      "title": "Wait for the client response",
-      "action_type": "defer_new_commitment",
-      "reason": "The main identity has moved into a feedback-driven revision loop, so the next high-value step depends on client response rather than additional open-ended exploration.",
-      "suggested_focus_minutes": null,
-      "target": "New food-business identity"
-    },
+    "primary_action": null,
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "original_actions": {
+      "primary_action": {
+        "title": "Wait for the client response",
+        "action_type": "defer_new_commitment",
+        "reason": "The main identity has moved into a feedback-driven revision loop, so the next high-value step depends on client response rather than additional open-ended exploration.",
+        "suggested_focus_minutes": null,
+        "target": "New food-business identity"
+      },
+      "secondary_action": null
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "The identity is waiting on the client's response; another broad pass before it arrives is not called for. Other open work may reasonably be picked up.",
+      "priority": null,
+      "type": null
+    },
+    "acceptable_streams": [
+      "portfolio",
+      "social_campaign"
+    ],
+    "forbidden_streams": [
+      "northstar_identity",
+      "new_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 29 shows 56 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "food_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 29 shows 236 min on this work.",
+        "reason_code": null
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 29 shows 106 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 29 went to other work (food_identity, 236 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 29 shows 35 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    }
   }
 }

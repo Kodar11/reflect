@@ -270,11 +270,17 @@
           311,
           312
         ],
-        "context": "Routine morning academic review after starting the tutorial on Day 16.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review current tutorial requirements and any course updates.",
-        "quality": "routine",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Routine morning academic review after starting the tutorial on Day 16.",
+          "intent": "Review current tutorial requirements and any course updates.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-17-02",
@@ -291,11 +297,17 @@
           318,
           319
         ],
-        "context": "The student had studied parts of the tutorial offline in the library before returning to the laptop.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Improve the grammar answers and make the derivations internally consistent.",
-        "quality": "substantive revision with brief interruption",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "theory_of_computation",
+        "label_notes": {
+          "context": "The student had studied parts of the tutorial offline in the library before returning to the laptop.",
+          "intent": "Improve the grammar answers and make the derivations internally consistent.",
+          "quality": "substantive revision with brief interruption"
+        }
       },
       {
         "id": "gt-17-03",
@@ -304,11 +316,17 @@
         "title": "Offline Theory of Computation problem solving",
         "summary": "Worked through parse trees and grammar questions on paper in the library without using the laptop.",
         "event_ids": [],
-        "context": "Offline library study occurred before the laptop-based revision session.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Solve tutorial questions manually and compare derivations.",
-        "quality": "unobserved offline study",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "theory_of_computation",
+        "label_notes": {
+          "context": "Offline library study occurred before the laptop-based revision session.",
+          "intent": "Solve tutorial questions manually and compare derivations.",
+          "quality": "unobserved offline study"
+        }
       },
       {
         "id": "gt-17-04",
@@ -324,11 +342,17 @@
           324,
           325
         ],
-        "context": "The semester project needed a small database-layer adjustment after recent API integration work.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Implement the database-layer change and verify the affected tests.",
-        "quality": "focused implementation and verification",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The semester project needed a small database-layer adjustment after recent API integration work.",
+          "intent": "Implement the database-layer change and verify the affected tests.",
+          "quality": "focused implementation and verification"
+        }
       },
       {
         "id": "gt-17-05",
@@ -341,11 +365,17 @@
           327,
           328
         ],
-        "context": "Ordinary personal time after the project work.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation, personal-interest browsing, and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Ordinary personal time after the project work.",
+          "intent": "Recreation, personal-interest browsing, and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-17-06",
@@ -357,11 +387,17 @@
           329,
           330
         ],
-        "context": "The tutorial had received substantial revision but remained open.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Check remaining requirements and prepare the next work session.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "theory_of_computation",
+        "label_notes": {
+          "context": "The tutorial had received substantial revision but remained open.",
+          "intent": "Check remaining requirements and prepare the next work session.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -414,14 +450,16 @@
       "action_type": "complete_open_loop",
       "reason": "The tutorial has now received both offline and laptop-based work across two days and remains the clearest unfinished academic thread.",
       "suggested_focus_minutes": 45,
-      "target": "Theory of Computation Tutorial 2"
+      "target": "Theory of Computation Tutorial 2",
+      "target_stream": "theory_of_computation"
     },
     "secondary_action": {
       "title": "Keep project database work bounded",
       "action_type": "protect_priority",
       "reason": "The database-layer change received a complete implementation/test pass today; the tutorial is the more obvious remaining open loop.",
       "suggested_focus_minutes": 20,
-      "target": "Semester Project database layer"
+      "target": "Semester Project database layer",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not infer that the laptop timeline captures all Theory of Computation work; some study occurred offline in the library.",
@@ -429,6 +467,84 @@
       "Do not assume the tutorial is complete because the document was revised repeatedly.",
       "Do not assume the semester project database change is fully correct because targeted tests passed.",
       "Do not treat the gaming and social period as inherently negative."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The tutorial has now received both offline and laptop-based work across two days and remains the clearest unfinished academic thread.",
+      "priority": "Do the Theory of Computation tutorial",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 18 shows 56 min on this work.",
+        "reason_code": null
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 18 shows 184 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 18 shows 13 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 18 went to other work (data_structures, 184 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "Day 18 shows 56 min on this work.",
+      "reason_code": null
+    }
   }
 }

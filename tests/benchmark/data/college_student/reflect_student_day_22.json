@@ -325,11 +325,17 @@
           400,
           401
         ],
-        "context": "The assessment had become the main near-term academic priority on Day 21.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review assessment information before classes.",
-        "quality": "routine",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The assessment had become the main near-term academic priority on Day 21.",
+          "intent": "Review assessment information before classes.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-22-02",
@@ -351,11 +357,17 @@
           412,
           413
         ],
-        "context": "This continues the assessment preparation from Day 21 and shifts it toward active problem solving.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Practice graph algorithms and identify topics that need further review before the assessment.",
-        "quality": "substantive practice with a short interruption",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "This continues the assessment preparation from Day 21 and shifts it toward active problem solving.",
+          "intent": "Practice graph algorithms and identify topics that need further review before the assessment.",
+          "quality": "substantive practice with a short interruption"
+        }
       },
       {
         "id": "gt-22-03",
@@ -364,11 +376,17 @@
         "title": "Offline classes and campus activity",
         "summary": "Attended classes and handled campus activity away from the laptop.",
         "event_ids": [],
-        "context": "No laptop events were captured during this period.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Attend scheduled classes and campus responsibilities.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "No laptop events were captured during this period.",
+          "intent": "Attend scheduled classes and campus responsibilities.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-22-04",
@@ -377,11 +395,16 @@
         "title": "Offline break and personal time",
         "summary": "Took lunch and spent time away from the laptop before returning in the evening.",
         "event_ids": [],
-        "context": "The laptop was inactive during this period.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Handle ordinary personal and weekend-adjacent downtime.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "The laptop was inactive during this period.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-22-05",
@@ -396,11 +419,17 @@
           417,
           418
         ],
-        "context": "A concrete response issue surfaced while the project was in maintenance mode.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Investigate the reported response issue and verify the narrow fix.",
-        "quality": "focused debugging and coordination",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "A concrete response issue surfaced while the project was in maintenance mode.",
+          "intent": "Investigate the reported response issue and verify the narrow fix.",
+          "quality": "focused debugging and coordination"
+        }
       },
       {
         "id": "gt-22-06",
@@ -413,11 +442,17 @@
           420,
           421
         ],
-        "context": "Ordinary evening leisure after academic and project work.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Ordinary evening leisure after academic and project work.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-22-07",
@@ -430,11 +465,17 @@
           423,
           424
         ],
-        "context": "Assessment preparation remained the main open academic thread.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review current preparation state and identify what to continue next.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "Assessment preparation remained the main open academic thread.",
+          "intent": "Review current preparation state and identify what to continue next.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -488,14 +529,16 @@
       "action_type": "start_focus",
       "reason": "Preparation has progressed from passive review into implementation and practice, making timed problem solving the most direct next step toward the upcoming assessment.",
       "suggested_focus_minutes": 45,
-      "target": "Data Structures Internal Assessment"
+      "target": "Data Structures Internal Assessment",
+      "target_stream": "data_structures"
     },
     "secondary_action": {
       "title": "Recheck only the project response path",
       "action_type": "continue_successful_behavior",
       "reason": "The project issue was handled with a narrow change and targeted tests; any follow-up should stay limited to that path.",
       "suggested_focus_minutes": 20,
-      "target": "Semester Project response handling"
+      "target": "Semester Project response handling",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not treat the algorithm tutorial, search, coding, and HackerRank sessions as unrelated activities.",
@@ -504,6 +547,85 @@
       "Do not treat the project issue as evidence that the entire semester project needs attention.",
       "Do not infer what happened during the offline college period.",
       "Do not criticize the evening gaming and social time as inherently harmful."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "Preparation has progressed from passive review into implementation and practice, making timed problem solving the most direct next step toward the upcoming assessment.",
+      "priority": "Finish Data Structures Problem Set 4",
+      "type": "start_focus"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering",
+      "theory_of_computation"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 23 shows 332 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 23 shows 44 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 23 went to other work (data_structures, 332 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 23 shows 332 min on this work.",
+      "reason_code": null
+    }
   }
 }

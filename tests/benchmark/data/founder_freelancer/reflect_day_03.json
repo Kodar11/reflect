@@ -558,14 +558,16 @@
       "action_type": "continue_successful_behavior",
       "reason": "The SaaS received sustained attention across implementation, design, testing, and debugging, making continuation more valuable than changing direction.",
       "suggested_focus_minutes": 120,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Send the next freelance follow-up",
       "action_type": "complete_open_loop",
       "reason": "A proposal and lead-generation work were started but no completed follow-up is visible in the captured activity.",
       "suggested_focus_minutes": 20,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat the scheduled client meeting as fragmentation or distraction.",

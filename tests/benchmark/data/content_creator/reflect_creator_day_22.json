@@ -340,11 +340,17 @@
           504,
           505
         ],
-        "context": "The video was scheduled on Day 21.",
+        "context": "Work",
         "area": "creator_operations_and_publishing",
-        "intent": "Confirm the planned release state before reviewing performance.",
-        "quality": "focused start",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The video was scheduled on Day 21.",
+          "intent": "Confirm the planned release state before reviewing performance.",
+          "quality": "focused start"
+        }
       },
       {
         "id": "gt-22-02",
@@ -356,11 +362,17 @@
           506,
           507
         ],
-        "context": "The older PostgreSQL video provides the main comparison point before today's scheduled release.",
+        "context": "Work",
         "area": "analytics",
-        "intent": "Capture current baseline and understand early channel context.",
-        "quality": "useful maintenance",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The older PostgreSQL video provides the main comparison point before today's scheduled release.",
+          "intent": "Capture current baseline and understand early channel context.",
+          "quality": "useful maintenance"
+        }
       },
       {
         "id": "gt-22-03",
@@ -372,11 +384,17 @@
           508,
           509
         ],
-        "context": "A recurring audience question appears to be pushing the creator toward practical failure cases.",
+        "context": "Work",
         "area": "community_and_ideation",
-        "intent": "Translate audience feedback into a possible next content direction.",
-        "quality": "high-signal audience work",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "A recurring audience question appears to be pushing the creator toward practical failure cases.",
+          "intent": "Translate audience feedback into a possible next content direction.",
+          "quality": "high-signal audience work"
+        }
       },
       {
         "id": "gt-22-04",
@@ -385,11 +403,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Break before validating the new idea.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Break before validating the new idea.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-22-05",
@@ -403,11 +427,17 @@
           512,
           513
         ],
-        "context": "This idea is related to the current PostgreSQL content thread but is narrower and more example-driven.",
+        "context": "Work",
         "area": "research_and_outlining",
-        "intent": "Test whether the indexing-mistakes angle has enough concrete material for a video.",
-        "quality": "targeted exploratory research",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "This idea is related to the current PostgreSQL content thread but is narrower and more example-driven.",
+          "intent": "Test whether the indexing-mistakes angle has enough concrete material for a video.",
+          "quality": "targeted exploratory research"
+        }
       },
       {
         "id": "gt-22-06",
@@ -416,11 +446,16 @@
         "title": "Offline lunch",
         "summary": "Spent the midday period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Lunch and personal time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-22-07",
@@ -433,11 +468,17 @@
           515,
           516
         ],
-        "context": "The creator is validating a practical teaching angle rather than committing to production immediately.",
+        "context": "Work",
         "area": "outlining_and_research",
-        "intent": "Shape a potential next video around specific mistakes and consequences.",
-        "quality": "substantive pre-production",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The creator is validating a practical teaching angle rather than committing to production immediately.",
+          "intent": "Shape a potential next video around specific mistakes and consequences.",
+          "quality": "substantive pre-production"
+        }
       },
       {
         "id": "gt-22-08",
@@ -448,11 +489,17 @@
         "event_ids": [
           517
         ],
-        "context": "Exact discussion purpose is not observable.",
+        "context": "Work",
         "area": "community",
-        "intent": "Peer or social interaction.",
+        "intent": "Consume",
         "quality": "ambiguous communication",
-        "importance": "low"
+        "importance": "low",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "Exact discussion purpose is not observable.",
+          "intent": "Peer or social interaction.",
+          "quality": "ambiguous communication"
+        }
       },
       {
         "id": "gt-22-09",
@@ -461,11 +508,17 @@
         "title": "Offline break",
         "summary": "Spent a period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Break between content ideation and sponsor administration.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "intent": "Break between content ideation and sponsor administration.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-22-10",
@@ -479,11 +532,17 @@
           520,
           521
         ],
-        "context": "This is follow-up to the sponsor delivery completed on Day 21.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Resolve a small post-delivery revision request.",
-        "quality": "contained commercial work",
-        "importance": "medium"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "This is follow-up to the sponsor delivery completed on Day 21.",
+          "intent": "Resolve a small post-delivery revision request.",
+          "quality": "contained commercial work"
+        }
       },
       {
         "id": "gt-22-11",
@@ -492,11 +551,16 @@
         "title": "Offline break and transition",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Transition into evening community and analytics work.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-22-12",
@@ -510,11 +574,17 @@
           524,
           525
         ],
-        "context": "The scheduled video has now moved into its post-release feedback window.",
+        "context": "Work",
         "area": "community_and_analytics",
-        "intent": "Handle audience communication and inspect early release performance.",
+        "intent": "Communicate",
         "quality": "mixed-intent but relevant",
-        "importance": "high"
+        "importance": "high",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The scheduled video has now moved into its post-release feedback window.",
+          "intent": "Handle audience communication and inspect early release performance.",
+          "quality": "mixed-intent but relevant"
+        }
       },
       {
         "id": "gt-22-13",
@@ -523,11 +593,16 @@
         "title": "Offline dinner",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and normal evening time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-22-14",
@@ -539,11 +614,17 @@
           526,
           527
         ],
-        "context": "The reference search is adjacent to the active idea and does not establish a separate project.",
+        "context": "Work",
         "area": "ideation_and_research",
-        "intent": "Test and strengthen the candidate follow-up concept.",
-        "quality": "focused exploratory work",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The reference search is adjacent to the active idea and does not establish a separate project.",
+          "intent": "Test and strengthen the candidate follow-up concept.",
+          "quality": "focused exploratory work"
+        }
       },
       {
         "id": "gt-22-15",
@@ -555,11 +636,17 @@
           528,
           529
         ],
-        "context": "Normal evening leisure.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Normal evening leisure.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-22-16",
@@ -570,11 +657,17 @@
         "event_ids": [
           530
         ],
-        "context": "The candidate is promising but not yet recorded.",
+        "context": "Work",
         "area": "outlining",
-        "intent": "Save the next decision point without starting production late at night.",
-        "quality": "useful closeout",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The candidate is promising but not yet recorded.",
+          "intent": "Save the next decision point without starting production late at night.",
+          "quality": "useful closeout"
+        }
       }
     ],
     "unobserved_periods": [
@@ -636,7 +729,8 @@
       "action_type": "decide_next_content_project",
       "reason": "The creator has completed the release loop and now has one promising candidate outline; the next step should be a deliberate go/no-go decision rather than another round of broad ideation.",
       "target": "Indexing Mistakes candidate",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "indexing_mistakes_video"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -647,6 +741,112 @@
       "Do not classify Instagram Explore as work or distraction without stronger evidence.",
       "Do not interpret analytics activity as a successful strategy by itself.",
       "Do not infer offline activity."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The creator has completed the release loop and now has one promising candidate outline; the next step should be a deliberate go/no-go decision rather than another round of broad ideation.",
+      "priority": "Make measurable progress on the next big technical video",
+      "type": "decide_next_content_project"
+    },
+    "acceptable_streams": [
+      "next_video_planning"
+    ],
+    "forbidden_streams": [
+      "api_video",
+      "redis_video",
+      "pg_indexes_video",
+      "pg_partial_video"
+    ],
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "redis_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_indexes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_partial_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 23 shows 377 min on this work.",
+        "reason_code": null
+      },
+      "background_jobs_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 23 went to other work (indexing_mistakes_video, 377 min).",
+        "reason_code": "different_priority"
+      },
+      "sponsorship": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 23 shows 18 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 23 shows 74 min on this work.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 23 shows 119 min on this work.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 23 went to other work (indexing_mistakes_video, 377 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 23 shows 377 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Developing a video on common PostgreSQL indexing mistakes",
+        "Maintaining the YouTube channel and audience responses",
+        "Collecting ideas for future backend-development videos"
+      ]
+    }
+  ]
 }

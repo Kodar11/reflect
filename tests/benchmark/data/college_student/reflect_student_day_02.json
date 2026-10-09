@@ -248,11 +248,15 @@
           23,
           24
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Planning",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-02-02",
@@ -269,11 +273,15 @@
           30,
           31
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "DBMS",
         "intent": "Complete",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-02-03",
@@ -286,11 +294,15 @@
           33,
           34
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Semester Project",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-02-04",
@@ -305,7 +317,8 @@
         "area": null,
         "intent": "Consume",
         "quality": "Break-Idle",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure"
       },
       {
         "id": "gt-02-05",
@@ -320,7 +333,8 @@
         "area": null,
         "intent": "Consume",
         "quality": "Break-Idle",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure"
       },
       {
         "id": "gt-02-06",
@@ -333,11 +347,15 @@
           38,
           39
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Operating Systems",
         "intent": "Learn",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "operating_systems",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-02-07",
@@ -348,11 +366,15 @@
         "event_ids": [
           40
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "DBMS",
         "intent": "Complete",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "Academic"
+        }
       }
     ],
     "unobserved_periods": [
@@ -418,14 +440,16 @@
       "action_type": "start_focus",
       "reason": "The DBMS assignment has reached a submission point, while the OS quiz is a new open academic loop that already received an initial review.",
       "suggested_focus_minutes": 60,
-      "target": "Operating Systems"
+      "target": "Operating Systems",
+      "target_stream": "operating_systems"
     },
     "secondary_action": {
       "title": "Continue the semester project",
       "action_type": "continue_successful_behavior",
       "reason": "Today's meeting produced a concrete code change, so a short follow-up session can maintain project momentum without reopening the completed DBMS work.",
       "suggested_focus_minutes": 45,
-      "target": "Semester Project"
+      "target": "Semester Project",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not treat the morning classes or other offline periods as unproductive because they are not captured.",
@@ -433,6 +457,90 @@
       "Do not treat gaming or unrelated YouTube as a failure simply because academic work was also present.",
       "Do not assume the OS quiz preparation was sufficient based on one short evening session.",
       "Do not infer that the student should remove leisure from the day after completing a substantial assignment."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The DBMS assignment has reached a submission point, while the OS quiz is a new open academic loop that already received an initial review.",
+      "priority": "Prepare for the Operating Systems quiz",
+      "type": "start_focus"
+    },
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 3 went to other work (operating_systems, 239 min).",
+        "reason_code": "different_priority"
+      },
+      "operating_systems": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 3 shows 239 min on this work.",
+        "reason_code": null
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 3 went to other work (operating_systems, 239 min).",
+        "reason_code": "different_priority"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 3 went to other work (operating_systems, 239 min).",
+        "reason_code": "different_priority"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 3 went to other work (operating_systems, 239 min).",
+        "reason_code": "different_priority"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 3 went to other work (operating_systems, 239 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 3 shows 132 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 3 shows 33 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 3 shows 239 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Complete the DBMS assignment due later this week"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Prepare for the Operating Systems quiz"
+    }
+  ]
 }

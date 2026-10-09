@@ -354,11 +354,17 @@
           565,
           566
         ],
-        "context": "The account export implementation had completed focused review and was ready for a controlled production release.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "release",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The account export implementation had completed focused review and was ready for a controlled production release.",
+          "intent": "release",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-24-02",
@@ -373,11 +379,17 @@
           570,
           571
         ],
-        "context": "Early production behavior needed observation before considering the feature fully settled.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "validate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "Early production behavior needed observation before considering the feature fully settled.",
+          "intent": "validate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-24-03",
@@ -391,11 +403,17 @@
           574,
           575
         ],
-        "context": "Production validation exposed a small cleanup concern worth addressing while the feature was still fresh.",
+        "context": "Work",
         "area": "engineering_delivery",
-        "intent": "review_and_refine",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "Production validation exposed a small cleanup concern worth addressing while the feature was still fresh.",
+          "intent": "review_and_refine",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-24-04",
@@ -408,11 +426,17 @@
           577,
           578
         ],
-        "context": "The release had no clear failure signal, but the engineer continued a bounded observation window.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "The release had no clear failure signal, but the engineer continued a bounded observation window.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -478,20 +502,101 @@
       "action_type": "experiment",
       "target": "Bounded post-release observation of account export jobs and storage cleanup",
       "reason": "The feature is live and functioning, but enough production evidence has not accumulated to close the operational loop.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "account_export"
     },
-    "secondary_action": {
-      "title": "Document release outcome and close PLAT-512 after the observation window",
-      "action_type": "complete_open_loop",
-      "target": "Document release outcome and close PLAT-512 after the observation window",
-      "reason": "The implementation work is essentially complete; the remaining step is evidence-based closure.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not continue changing the implementation without a concrete production signal.",
       "Do not treat the first few successful exports as proof of behavior under large sustained load.",
       "Do not reopen the closed workspace or webhook investigations based on normal metrics.",
       "Do not turn bounded release monitoring into indefinite dashboard watching."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Bounded post-release observation of account export jobs and storage cleanup",
+        "action_type": "experiment",
+        "target": "Bounded post-release observation of account export jobs and storage cleanup",
+        "reason": "The feature is live and functioning, but enough production evidence has not accumulated to close the operational loop.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Document release outcome and close PLAT-512 after the observation window",
+        "action_type": "complete_open_loop",
+        "target": "Document release outcome and close PLAT-512 after the observation window",
+        "reason": "The implementation work is essentially complete; the remaining step is evidence-based closure.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The feature is live and functioning, but enough production evidence has not accumulated to close the operational loop.",
+      "priority": "Build the account export API",
+      "type": "experiment"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 25 shows 367 min on this work.",
+        "reason_code": null
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 25 went to other work (account_export, 367 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 25 shows 120 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 25 went to other work (account_export, 367 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 25 shows 367 min on this work.",
+      "reason_code": null
+    }
   }
 }

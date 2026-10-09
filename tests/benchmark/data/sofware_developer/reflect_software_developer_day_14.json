@@ -374,11 +374,17 @@
           350,
           351
         ],
-        "context": "The targeted retry-path change needed code review and a controlled production validation before wider release.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "validate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The targeted retry-path change needed code review and a controlled production validation before wider release.",
+          "intent": "validate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-14-02",
@@ -395,11 +401,17 @@
           357,
           358
         ],
-        "context": "Canary evidence was encouraging enough for release preparation but still required careful review of the adjacent delivery path.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "prepare_release",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "Canary evidence was encouraging enough for release preparation but still required careful review of the adjacent delivery path.",
+          "intent": "prepare_release",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-14-03",
@@ -411,11 +423,17 @@
           359,
           360
         ],
-        "context": "The webhook change was approaching release while the workspace issue remained stable.",
+        "context": "Work",
         "area": "release_validation",
-        "intent": "verify",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The webhook change was approaching release while the workspace issue remained stable.",
+          "intent": "verify",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-14-04",
@@ -428,11 +446,17 @@
           362,
           363
         ],
-        "context": "Routine monitoring and explicit coordination before the next release step.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "coordinate",
-        "quality": "appropriate",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "Routine monitoring and explicit coordination before the next release step.",
+          "intent": "coordinate",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -499,20 +523,100 @@
       "action_type": "complete_open_loop",
       "target": "Webhook retry-path change",
       "reason": "The change has passed focused testing and canary validation; the next useful step is controlled broader release followed by outcome-based verification.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "webhook_reliability"
     },
-    "secondary_action": {
-      "title": "Workspace performance stability",
-      "action_type": "protect_priority",
-      "target": "Workspace performance stability",
-      "reason": "The workspace issue is stable and should remain monitoring-only while the webhook release is completed.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not declare the webhook reliability issue fully resolved from canary results alone.",
       "Do not expand the change into unrelated webhook architecture work before broader validation.",
       "Do not reopen the workspace performance issue without a new signal.",
       "Do not treat routine billing monitoring as a major competing priority."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Webhook retry-path change",
+        "action_type": "complete_open_loop",
+        "target": "Webhook retry-path change",
+        "reason": "The change has passed focused testing and canary validation; the next useful step is controlled broader release followed by outcome-based verification.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Workspace performance stability",
+        "action_type": "protect_priority",
+        "target": "Workspace performance stability",
+        "reason": "The workspace issue is stable and should remain monitoring-only while the webhook release is completed.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The change has passed focused testing and canary validation; the next useful step is controlled broader release followed by outcome-based verification.",
+      "priority": "Understand and fix the recurring webhook processing issue",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 15 shows 442 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (webhook_reliability, 442 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (webhook_reliability, 442 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 15 shows 47 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (webhook_reliability, 442 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 15 shows 442 min on this work.",
+      "reason_code": null
+    }
   }
 }

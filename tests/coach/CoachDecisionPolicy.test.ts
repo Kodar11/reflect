@@ -321,17 +321,47 @@ describe('unified daily intelligence → coach action → history → adaptation
 
   it('a retry asked for by the reflection does not re-roll a coaching decision that was already sound', async () => {
     const h = harness();
-    // First response: a valid action, but the headline quotes a number nothing supports.
-    const first = modelDay(day, { actions: [modelAction()] }, { headline: 'You spent 9999 minutes on Project X today.' });
+    // First response: a valid action, but the only insight quotes a number nothing supports — nothing of the
+    // reflection is left, so it is asked for again.
+    const unsupported = [{ type: 'progress', title: 'Project X got the morning', observation: 'You spent 9999 minutes on Project X today.', interpretation: 'Most of your sustained attention went to one thread.', relevance: null, metricKeys: ['thread.project-x.minutes'], activityRefs: [], priorityIds: [], confidence: 0.9 }];
+    const first = modelDay(day, { actions: [modelAction()] }, { insights: unsupported });
     // The retry fixes the reflection — and, as the old run showed, quietly drops the action.
     const second = modelDay(day, { actions: [], noActionReason: 'Your time was aligned with your priorities.' });
     h.gemini.push(first, second);
     const result = await h.service.generate(day, { trigger: 'scheduled' });
     expect(result).toMatchObject({ status: 'succeeded', attempts: 2 });
+    // The retry was told which half to leave alone.
+    expect(h.gemini.requests[1].prompt).toContain('The coach part was ACCEPTED. Return it exactly as before.');
     const report = h.repo.getCurrentReport('day', day.key)!;
-    expect(report.headline).not.toContain('9999');
+    expect(JSON.stringify(report.insights)).not.toContain('9999');
     expect(h.coachRepo.listActionsByReport(report.id).map((a) => a.title)).toEqual(['Run one 45-minute Focus session on Project X before switching threads']);
     expect(report.coach!.noActionReason).toBeNull();
+  });
+
+  it('a retry asked for by the coaching does not re-roll a reflection that was already sound', async () => {
+    const h = harness();
+    // First response: a sound reflection beside an action that cites a metric that does not exist.
+    const first = modelDay(day, { actions: [modelAction({ metricKeys: ['thread.made-up.minutes'] })] });
+    // The retry fixes the action — and rewrites the reflection into something that would not validate.
+    const second = modelDay(day, { actions: [modelAction()] }, { headline: 'A different day entirely.', narrative: null, insights: [] });
+    h.gemini.push(first, second);
+    expect(await h.service.generate(day, { trigger: 'scheduled' })).toMatchObject({ status: 'succeeded', attempts: 2, insightCount: 1 });
+    expect(h.gemini.requests[1].prompt).toContain('The reflection part (headline, narrative, insights) was ACCEPTED. Return it exactly as before');
+    expect(h.gemini.requests[1].prompt).not.toContain('Drop any claim you cannot support');
+    const report = h.repo.getCurrentReport('day', day.key)!;
+    // What was accepted in the first response is what is stored.
+    expect(report.headline).toBe('Project X took your morning; the afternoon moved between threads.');
+    expect(report.insights.map((i) => i.title)).toEqual(['Project X got the morning']);
+    expect(h.coachRepo.listActionsByReport(report.id)).toHaveLength(1);
+  });
+
+  it('an unsupported headline costs no retry: it is replaced and the day is kept', async () => {
+    const h = harness();
+    h.gemini.push(modelDay(day, { actions: [modelAction()] }, { headline: 'You spent 9999 minutes on Project X today.' }));
+    expect(await h.service.generate(day, { trigger: 'scheduled' })).toMatchObject({ status: 'succeeded', attempts: 1 });
+    const report = h.repo.getCurrentReport('day', day.key)!;
+    expect(report.headline).toBe('Project X got the morning');
+    expect(h.coachRepo.listActionsByReport(report.id)).toHaveLength(1);
   });
 
   it('tracks decision, execution and outcome separately, then adapts the next recommendation to them', async () => {

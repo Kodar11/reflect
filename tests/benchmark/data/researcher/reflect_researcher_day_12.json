@@ -5,11 +5,11 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
       "Move the manuscript from exploratory notes toward a coherent full draft",
@@ -327,11 +327,17 @@
           283,
           284
         ],
-        "context": "Direct continuation of the completed experimental loop from Day 11.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Direct continuation of the completed experimental loop from Day 11.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-12-02",
@@ -343,11 +349,17 @@
           285,
           286
         ],
-        "context": "Citation cleanup while converting exploratory notes into a coherent draft.",
+        "context": "Work",
         "area": "literature",
-        "intent": "writing",
-        "quality": "medium",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Citation cleanup while converting exploratory notes into a coherent draft.",
+          "intent": "writing",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-12-03",
@@ -364,11 +376,17 @@
           292,
           293
         ],
-        "context": "The project has moved from evidence gathering toward manuscript completion.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "The project has moved from evidence gathering toward manuscript completion.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-12-04",
@@ -379,11 +397,17 @@
         "event_ids": [
           294
         ],
-        "context": "Draft quality-control pass.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "review",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Draft quality-control pass.",
+          "intent": "review",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-12-05",
@@ -395,11 +419,17 @@
           295,
           296
         ],
-        "context": "Evening browsing after the main manuscript work.",
+        "context": "Personal",
         "area": "unrelated",
-        "intent": "leisure",
+        "intent": "Consume",
         "quality": "unknown",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Evening browsing after the main manuscript work.",
+          "intent": "leisure",
+          "quality": "unknown"
+        }
       },
       {
         "id": "gt-12-06",
@@ -410,11 +440,17 @@
         "event_ids": [
           297
         ],
-        "context": "Return to the primary work after unrelated browsing.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Return to the primary work after unrelated browsing.",
+          "intent": "writing",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -462,19 +498,99 @@
       "title": "Do one end-to-end manuscript pass",
       "reason": "The manuscript now exists as a single draft, so the highest-value next step is to identify structural gaps and unsupported claims before returning to optional experiments.",
       "suggested_focus_minutes": 120,
-      "target": "Full Manuscript Draft"
+      "target": "Full Manuscript Draft",
+      "target_stream": "manuscript"
     },
-    "secondary_action": {
-      "action_type": "protect_priority",
-      "title": "Keep the experimental scope frozen",
-      "reason": "Today's work produced a coherent draft without needing new experiments; reopening the experimental loop now would interrupt manuscript consolidation.",
-      "suggested_focus_minutes": 10,
-      "target": "Main Research Project"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not treat the corrected figure labels as evidence that the underlying experiment needs to be rerun.",
       "Do not reopen the parked replication study during the manuscript consolidation pass.",
       "Do not fill unresolved claims with stronger language merely to make the draft read more confidently."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Do one end-to-end manuscript pass",
+        "reason": "The manuscript now exists as a single draft, so the highest-value next step is to identify structural gaps and unsupported claims before returning to optional experiments.",
+        "suggested_focus_minutes": 120,
+        "target": "Full Manuscript Draft"
+      },
+      "secondary_action": {
+        "action_type": "protect_priority",
+        "title": "Keep the experimental scope frozen",
+        "reason": "Today's work produced a coherent draft without needing new experiments; reopening the experimental loop now would interrupt manuscript consolidation.",
+        "suggested_focus_minutes": 10,
+        "target": "Main Research Project"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The manuscript now exists as a single draft, so the highest-value next step is to identify structural gaps and unsupported claims before returning to optional experiments.",
+      "priority": "Move the manuscript from notes to a coherent results section",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 13 shows 283 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 13 went to other work (manuscript, 283 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 13 went to other work (manuscript, 283 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 13 went to other work (manuscript, 283 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 13 went to other work (manuscript, 283 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 13 shows 283 min on this work.",
+      "reason_code": null
+    }
   }
 }

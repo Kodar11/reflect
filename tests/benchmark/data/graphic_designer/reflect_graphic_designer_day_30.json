@@ -323,7 +323,8 @@
         "area": "New brand inquiry",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "food_identity"
       },
       {
         "id": "gt-30-02",
@@ -343,7 +344,8 @@
         "area": "Social campaign",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-30-03",
@@ -361,7 +363,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-30-04",
@@ -376,7 +379,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-30-05",
@@ -391,7 +399,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       },
       {
         "id": "gt-30-06",
@@ -406,7 +415,8 @@
         "area": "Personal exploration",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal_practice"
       },
       {
         "id": "gt-30-07",
@@ -421,7 +431,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-30-08",
@@ -436,7 +451,8 @@
         "area": "Portfolio",
         "intent": "Manage",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       }
     ],
     "unobserved_periods": [
@@ -476,9 +492,21 @@
       "action_type": "complete_open_loop",
       "reason": "The highest-priority client identity deliverable reached handoff, removing the need for further open-ended design work there. The clearest unfinished high-value item visible in the day is the Northstar portfolio case study.",
       "suggested_focus_minutes": null,
-      "target": "Northstar Coffee portfolio"
+      "target": "Northstar Coffee portfolio",
+      "target_stream": "portfolio"
     },
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The highest-priority client identity deliverable reached handoff, removing the need for further open-ended design work there. The clearest unfinished high-value item visible in the day is the Northstar portfolio case study.",
+      "priority": "Build a stronger portfolio with the coffee project",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity",
+      "new_identity"
+    ]
   }
 }

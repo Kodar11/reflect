@@ -11,14 +11,14 @@
     ],
     "context": "Semi-professional creator building a small technical audience while handling research, production, publishing, community, analytics, and personal life",
     "current_work": [
-      "Developing a practical video about why APIs become slow in real applications",
-      "Maintaining the existing YouTube channel and audience responses",
+      "Developing a practical video on why real APIs become slow",
+      "Maintaining the YouTube channel and audience responses",
       "Collecting ideas for future backend-development videos"
     ],
     "priorities": [
-      "Make measurable progress on the next substantial technical video",
+      "Make measurable progress on the next big technical video",
       "Keep audience/community maintenance lightweight",
-      "Avoid letting idea collection and analytics replace production work"
+      "Keep idea collection and analytics from replacing production"
     ]
   },
   "day": {
@@ -295,11 +295,17 @@
           1,
           2
         ],
-        "context": "The creator keeps a small existing channel and periodically checks for new messages and channel activity.",
+        "context": "Work",
         "area": "creator_operations",
-        "intent": "Review incoming communication and the current channel state.",
-        "quality": "routine",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The creator keeps a small existing channel and periodically checks for new messages and channel activity.",
+          "intent": "Review incoming communication and the current channel state.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-01-02",
@@ -312,11 +318,17 @@
           4,
           5
         ],
-        "context": "The next substantial video is about practical reasons APIs become slow.",
+        "context": "Work",
         "area": "content_research",
-        "intent": "Gather examples and explanations for the planned video.",
-        "quality": "focused research",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "api_video",
+        "label_notes": {
+          "context": "The next substantial video is about practical reasons APIs become slow.",
+          "intent": "Gather examples and explanations for the planned video.",
+          "quality": "focused research"
+        }
       },
       {
         "id": "gt-01-03",
@@ -329,11 +341,17 @@
           7,
           8
         ],
-        "context": "Research was being converted into a concrete draft rather than remaining only as browsing.",
+        "context": "Work",
         "area": "scripting",
-        "intent": "Turn the collected material into a usable video draft.",
-        "quality": "substantive creative work",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "api_video",
+        "label_notes": {
+          "context": "Research was being converted into a concrete draft rather than remaining only as browsing.",
+          "intent": "Turn the collected material into a usable video draft.",
+          "quality": "substantive creative work"
+        }
       },
       {
         "id": "gt-01-04",
@@ -345,11 +363,17 @@
           9,
           10
         ],
-        "context": "The same Instagram account is used for both community work and general browsing.",
+        "context": "Work",
         "area": "community",
-        "intent": "Respond to audience messages.",
-        "quality": "useful but short",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The same Instagram account is used for both community work and general browsing.",
+          "intent": "Respond to audience messages.",
+          "quality": "useful but short"
+        }
       },
       {
         "id": "gt-01-05",
@@ -358,11 +382,16 @@
         "title": "Offline lunch and personal time",
         "summary": "Spent the midday period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available for this period.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Lunch and ordinary personal activity.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available for this period.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-01-06",
@@ -375,11 +404,17 @@
           12,
           13
         ],
-        "context": "The creator was still building the same video rather than starting a new production thread.",
+        "context": "Work",
         "area": "scripting",
-        "intent": "Strengthen the draft with a clearer technical example and sequence.",
-        "quality": "focused creative work",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "api_video",
+        "label_notes": {
+          "context": "The creator was still building the same video rather than starting a new production thread.",
+          "intent": "Strengthen the draft with a clearer technical example and sequence.",
+          "quality": "focused creative work"
+        }
       },
       {
         "id": "gt-01-07",
@@ -390,11 +425,17 @@
         "event_ids": [
           14
         ],
-        "context": "The check did not produce an observable content change.",
+        "context": "Work",
         "area": "analytics",
-        "intent": "Check current channel performance.",
+        "intent": "Review",
         "quality": "ambiguous utility",
-        "importance": "low"
+        "importance": "low",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The check did not produce an observable content change.",
+          "intent": "Check current channel performance.",
+          "quality": "ambiguous utility"
+        }
       },
       {
         "id": "gt-01-08",
@@ -405,11 +446,17 @@
         "event_ids": [
           15
         ],
-        "context": "The account is also used for ordinary social browsing.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Browse social content.",
-        "quality": "general browsing",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "The account is also used for ordinary social browsing.",
+          "intent": "Browse social content.",
+          "quality": "general browsing"
+        }
       },
       {
         "id": "gt-01-09",
@@ -418,11 +465,16 @@
         "title": "Offline break and errands",
         "summary": "Spent the late afternoon away from the desktop.",
         "event_ids": [],
-        "context": "The benchmark cannot observe offline activity.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Handle ordinary personal tasks.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "The benchmark cannot observe offline activity.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-01-10",
@@ -435,11 +487,17 @@
           17,
           18
         ],
-        "context": "This is a second content thread competing with the main video draft.",
+        "context": "Work",
         "area": "ideation",
-        "intent": "Explore whether a Redis-related topic is worth developing later.",
-        "quality": "partial / unfinished",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "This is a second content thread competing with the main video draft.",
+          "intent": "Explore whether a Redis-related topic is worth developing later.",
+          "quality": "partial / unfinished"
+        }
       },
       {
         "id": "gt-01-11",
@@ -448,11 +506,16 @@
         "title": "Dinner and offline personal time",
         "summary": "Spent the early evening away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and ordinary evening activity.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-01-12",
@@ -465,11 +528,17 @@
           20,
           21
         ],
-        "context": "The evening was separate from the creator's main production work.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "The evening was separate from the creator's main production work.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-01-13",
@@ -480,11 +549,17 @@
         "event_ids": [
           22
         ],
-        "context": "The timeline does not show an associated content change or decision after this check.",
+        "context": "Work",
         "area": "analytics",
-        "intent": "Check the current channel state.",
-        "quality": "repeated check with unclear action",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The timeline does not show an associated content change or decision after this check.",
+          "intent": "Check the current channel state.",
+          "quality": "repeated check with unclear action"
+        }
       }
     ],
     "unobserved_periods": [
@@ -538,15 +613,10 @@
       "action_type": "complete_open_loop",
       "reason": "The API-performance video already has research and a substantial draft, making it the clearest open loop to advance toward recording.",
       "target": "API-performance video",
-      "suggested_focus_minutes": null
-    },
-    "secondary_action": {
-      "title": "Experiment with fewer analytics checks",
-      "action_type": "experiment",
-      "reason": "The channel dashboard was checked twice without an observable associated decision; reducing checks until there is a specific question to answer could protect production time.",
       "suggested_focus_minutes": null,
-      "target": null
+      "target_stream": "api_video"
     },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not classify all YouTube use as either work or distraction without considering the surrounding activity.",
       "Do not treat Instagram as inherently distracting because it also contained genuine audience communication.",
@@ -554,6 +624,108 @@
       "Do not treat the unfinished Redis idea as wasted work; it remains a legitimate but lower-priority exploratory thread.",
       "Do not infer what happened during the long offline periods.",
       "Do not criticize the evening gaming and social activity as inherently harmful."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Finish the video draft",
+        "action_type": "complete_open_loop",
+        "reason": "The API-performance video already has research and a substantial draft, making it the clearest open loop to advance toward recording.",
+        "target": "API-performance video",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Experiment with fewer analytics checks",
+        "action_type": "experiment",
+        "reason": "The channel dashboard was checked twice without an observable associated decision; reducing checks until there is a specific question to answer could protect production time.",
+        "suggested_focus_minutes": null,
+        "target": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The API-performance video already has research and a substantial draft, making it the clearest open loop to advance toward recording.",
+      "priority": "Make measurable progress on the next big technical video",
+      "type": "complete_open_loop"
+    },
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 2 shows 330 min on this work.",
+        "reason_code": null
+      },
+      "redis_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (api_video, 330 min).",
+        "reason_code": "different_priority"
+      },
+      "pg_indexes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (api_video, 330 min).",
+        "reason_code": "different_priority"
+      },
+      "pg_partial_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (api_video, 330 min).",
+        "reason_code": "different_priority"
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (api_video, 330 min).",
+        "reason_code": "different_priority"
+      },
+      "background_jobs_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (api_video, 330 min).",
+        "reason_code": "different_priority"
+      },
+      "sponsorship": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (api_video, 330 min).",
+        "reason_code": "different_priority"
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 2 shows 32 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 2 shows 39 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (api_video, 330 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 2 shows 330 min on this work.",
+      "reason_code": null
+    }
   }
 }

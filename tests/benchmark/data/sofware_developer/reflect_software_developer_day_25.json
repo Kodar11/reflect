@@ -342,11 +342,17 @@
           583,
           584
         ],
-        "context": "The feature was live and needed evidence over more than the initial release sample before closure.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "monitor",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The feature was live and needed evidence over more than the initial release sample before closure.",
+          "intent": "monitor",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-25-02",
@@ -359,11 +365,17 @@
           586,
           587
         ],
-        "context": "The production release created a need for concise operational guidance and explicit verification of the cleanup path.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "document_and_validate",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The production release created a need for concise operational guidance and explicit verification of the cleanup path.",
+          "intent": "document_and_validate",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-25-03",
@@ -378,11 +390,17 @@
           591,
           592
         ],
-        "context": "The queue question was investigated as a bounded follow-up and did not produce evidence of an account export failure.",
+        "context": "Work",
         "area": "engineering_delivery",
-        "intent": "review_and_verify",
-        "quality": "appropriate",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "The queue question was investigated as a bounded follow-up and did not produce evidence of an account export failure.",
+          "intent": "review_and_verify",
+          "quality": "appropriate"
+        }
       },
       {
         "id": "gt-25-04",
@@ -398,11 +416,17 @@
           597,
           598
         ],
-        "context": "The available evidence was becoming sufficient for closure, pending confirmation that no late failures appeared.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "close",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The available evidence was becoming sufficient for closure, pending confirmation that no late failures appeared.",
+          "intent": "close",
+          "quality": "strong"
+        }
       }
     ],
     "unobserved_periods": [
@@ -466,20 +490,101 @@
       "action_type": "complete_open_loop",
       "target": "PLAT-512 account export API",
       "reason": "The feature has accumulated sufficient implementation, review, staging, and post-release evidence to close the current workstream without unnecessary additional polishing.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "account_export"
     },
-    "secondary_action": {
-      "title": "Next platform engineering task",
-      "action_type": "clarify_priority",
-      "target": "Next platform engineering task",
-      "reason": "Once the export work is closed, the next priority should be selected explicitly rather than allowing continued monitoring to consume the workday.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not keep the feature open indefinitely just to observe every possible workload shape.",
       "Do not reopen the queue investigation without a concrete failure signal.",
       "Do not treat the absence of errors as proof that every extreme export size has been validated.",
       "Do not let routine dashboard monitoring replace selecting the next engineering priority."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "PLAT-512 account export API",
+        "action_type": "complete_open_loop",
+        "target": "PLAT-512 account export API",
+        "reason": "The feature has accumulated sufficient implementation, review, staging, and post-release evidence to close the current workstream without unnecessary additional polishing.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Next platform engineering task",
+        "action_type": "clarify_priority",
+        "target": "Next platform engineering task",
+        "reason": "Once the export work is closed, the next priority should be selected explicitly rather than allowing continued monitoring to consume the workday.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "The feature has enough evidence to close; closing it is bookkeeping the engineer was already doing.",
+      "priority": "Build the account export API",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 26 shows 120 min on this work.",
+        "reason_code": null
+      },
+      "admin_audit": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 26 shows 240 min on this work.",
+        "reason_code": null
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 26 shows 128 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 26 shows no time on this work.",
+        "reason_code": "other"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 26 shows 120 min on this work.",
+      "reason_code": null
+    }
   }
 }

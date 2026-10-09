@@ -403,14 +403,16 @@
       "action_type": "complete_open_loop",
       "reason": "The authentication work has already passed through implementation, testing, and staging verification, so the next useful step is to close the first deliverable.",
       "suggested_focus_minutes": 75,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Choose one SaaS beta change",
       "action_type": "clarify_priority",
       "reason": "The SaaS has accumulated several days of beta feedback, analytics, and research; the next product block should turn that evidence into one explicit decision rather than more open-ended observation.",
       "suggested_focus_minutes": 45,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not classify the YouTube activation video as entertainment based only on the domain.",

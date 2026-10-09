@@ -344,11 +344,17 @@
           602,
           603
         ],
-        "context": "The account export feature had completed implementation, review, release, and post-release observation.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "close",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The account export feature had completed implementation, review, release, and post-release observation.",
+          "intent": "close",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-26-02",
@@ -362,11 +368,17 @@
           606,
           607
         ],
-        "context": "The next platform task required understanding whether an existing audit model could be extended instead of introducing a parallel mechanism.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "discover",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Manage",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The next platform task required understanding whether an existing audit model could be extended instead of introducing a parallel mechanism.",
+          "intent": "discover",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-26-03",
@@ -382,11 +394,17 @@
           612,
           613
         ],
-        "context": "Initial discovery suggested the existing audit event shape could support the requirement, but retention and actor metadata still needed clarification.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "implement",
-        "quality": "useful",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "Initial discovery suggested the existing audit event shape could support the requirement, but retention and actor metadata still needed clarification.",
+          "intent": "implement",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-26-04",
@@ -401,11 +419,17 @@
           617,
           618
         ],
-        "context": "The new audit work was started but was not yet sufficiently specified to finish the entire feature in one day.",
+        "context": "Work",
         "area": "engineering_delivery",
-        "intent": "coordinate",
-        "quality": "appropriate",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "The new audit work was started but was not yet sufficiently specified to finish the entire feature in one day.",
+          "intent": "coordinate",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -472,20 +496,127 @@
       "action_type": "clarify_priority",
       "target": "PLAT-531 audit retention and actor metadata contract",
       "reason": "The initial implementation depends on unresolved product and data semantics; clarifying these now avoids building the wrong persistence behavior.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "admin_audit"
     },
-    "secondary_action": {
-      "title": "Initial admin audit service slice",
-      "action_type": "complete_open_loop",
-      "target": "Initial admin audit service slice",
-      "reason": "The first implementation and focused test should be left in a coherent state while the contract is clarified.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not reopen the completed account export workstream without new production evidence.",
       "Do not build broad audit integrations before retention and actor semantics are settled.",
       "Do not create a second audit persistence model without confirming the existing one cannot support the requirement.",
       "Do not infer a platform incident from the normal 5xx dashboard check."
-    ]
-  }
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "PLAT-531 audit retention and actor metadata contract",
+        "action_type": "clarify_priority",
+        "target": "PLAT-531 audit retention and actor metadata contract",
+        "reason": "The initial implementation depends on unresolved product and data semantics; clarifying these now avoids building the wrong persistence behavior.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Initial admin audit service slice",
+        "action_type": "complete_open_loop",
+        "target": "Initial admin audit service slice",
+        "reason": "The first implementation and focused test should be left in a coherent state while the contract is clarified.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The initial implementation depends on unresolved product and data semantics; clarifying these now avoids building the wrong persistence behavior.",
+      "priority": "Add an audit trail for admin actions",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability",
+      "account_export"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "admin_audit": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 27 shows 288 min on this work.",
+        "reason_code": null
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 27 shows 144 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 27 shows 61 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 27 shows 288 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Build the account export API"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Fix the workspace API latency regression"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Add an audit trail for admin actions"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Adding an audit trail for admin actions",
+        "Reviewing a teammate's pull request"
+      ]
+    }
+  ]
 }

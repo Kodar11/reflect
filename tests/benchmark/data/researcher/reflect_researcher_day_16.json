@@ -5,11 +5,11 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
       "Prepare a near-submission manuscript after collaborator review",
@@ -315,11 +315,17 @@
           355,
           356
         ],
-        "context": "Continuation of venue comparison and manuscript preparation from Day 15.",
+        "context": "Work",
         "area": "manuscript and submission planning",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Continuation of venue comparison and manuscript preparation from Day 15.",
+          "intent": "revision",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-16-02",
@@ -335,11 +341,17 @@
           361,
           362
         ],
-        "context": "Collaborator requested preservation of methodological detail.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Collaborator requested preservation of methodological detail.",
+          "intent": "revision",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-16-03",
@@ -350,11 +362,17 @@
         "event_ids": [
           363
         ],
-        "context": "The manuscript is approaching a review-ready state.",
+        "context": "Work",
         "area": "submission planning",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "The manuscript is approaching a review-ready state.",
+          "intent": "planning",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-16-04",
@@ -366,11 +384,17 @@
           364,
           365
         ],
-        "context": "Evening lower-intensity activity.",
+        "context": "Personal",
         "area": "learning and unrelated",
         "intent": "mixed",
         "quality": "unknown",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Evening lower-intensity activity.",
+          "intent": "mixed",
+          "quality": "unknown"
+        }
       },
       {
         "id": "gt-16-05",
@@ -383,11 +407,17 @@
           367,
           368
         ],
-        "context": "Closing the day's manuscript compression work.",
+        "context": "Work",
         "area": "manuscript and collaboration",
-        "intent": "review",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Closing the day's manuscript compression work.",
+          "intent": "review",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -430,19 +460,99 @@
       "title": "Lock venue and finish submission checklist",
       "reason": "The manuscript has been compressed, rendered, and checked, so the highest-value remaining work is to resolve the small set of venue-specific submission tasks.",
       "suggested_focus_minutes": 90,
-      "target": "Submission"
+      "target": "Submission",
+      "target_stream": "manuscript"
     },
-    "secondary_action": {
-      "action_type": "protect_priority",
-      "title": "Preserve methodological detail",
-      "reason": "Today's compression attempt showed that the evaluation protocol is important enough to retain even under a tight page limit.",
-      "suggested_focus_minutes": 10,
-      "target": "Manuscript"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not cut evaluation-protocol details solely to gain a small amount of page space.",
       "Do not begin new experiments while the near-submission draft is still being finalized.",
       "Do not spend substantial time on unrelated software learning until the submission checklist is closed."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Lock venue and finish submission checklist",
+        "reason": "The manuscript has been compressed, rendered, and checked, so the highest-value remaining work is to resolve the small set of venue-specific submission tasks.",
+        "suggested_focus_minutes": 90,
+        "target": "Submission"
+      },
+      "secondary_action": {
+        "action_type": "protect_priority",
+        "title": "Preserve methodological detail",
+        "reason": "Today's compression attempt showed that the evaluation protocol is important enough to retain even under a tight page limit.",
+        "suggested_focus_minutes": 10,
+        "target": "Manuscript"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The manuscript has been compressed, rendered, and checked, so the highest-value remaining work is to resolve the small set of venue-specific submission tasks.",
+      "priority": "Move the manuscript from notes to a coherent results section",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 17 shows 428 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (manuscript, 428 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (manuscript, 428 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (manuscript, 428 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (manuscript, 428 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 17 shows 428 min on this work.",
+      "reason_code": null
+    }
   }
 }

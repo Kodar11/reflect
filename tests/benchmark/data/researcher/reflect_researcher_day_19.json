@@ -7,7 +7,7 @@
     "current_work": [
       "Running a bounded replication study of a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Reading and synthesizing uncertainty calibration literature",
       "Considering the next research direction after manuscript submission"
     ],
     "priorities": [
@@ -27,7 +27,7 @@
     "laptop_usage": {
       "first_seen": "09:16",
       "last_seen": "20:02",
-      "approx_active_hours": 8.0,
+      "approx_active_hours": 8,
       "longest_unobserved_gap_minutes": 77
     }
   },
@@ -321,11 +321,17 @@
           411,
           412
         ],
-        "context": "Direct execution of the bounded replication plan created on Day 18.",
+        "context": "Work",
         "area": "replication study",
-        "intent": "experiment",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "replication",
+        "label_notes": {
+          "context": "Direct execution of the bounded replication plan created on Day 18.",
+          "intent": "experiment",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-19-02",
@@ -338,11 +344,17 @@
           414,
           415
         ],
-        "context": "Unexpected replication result required interpretation before any further run.",
+        "context": "Work",
         "area": "replication study",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "replication",
+        "label_notes": {
+          "context": "Unexpected replication result required interpretation before any further run.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-19-03",
@@ -356,11 +368,17 @@
           418,
           419
         ],
-        "context": "Follow-up analysis of the reference implementation ambiguity.",
+        "context": "Work",
         "area": "replication and literature",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "replication",
+        "label_notes": {
+          "context": "Follow-up analysis of the reference implementation ambiguity.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-19-04",
@@ -373,11 +391,17 @@
           421,
           422
         ],
-        "context": "Closing the day's unexpected-result investigation.",
+        "context": "Work",
         "area": "replication study",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "replication",
+        "label_notes": {
+          "context": "Closing the day's unexpected-result investigation.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -420,20 +444,100 @@
       "title": "Run the controlled subset comparison",
       "reason": "The replication produced a meaningful discrepancy and the researcher has identified one concrete, testable source of variation without needing to broaden the study.",
       "suggested_focus_minutes": 90,
-      "target": "Replication Study"
+      "target": "Replication Study",
+      "target_stream": "replication"
     },
-    "secondary_action": {
-      "action_type": "stop_recurring_pattern",
-      "title": "Do not chase an exact reproduction indefinitely",
-      "reason": "The reference evaluation procedure is partly underspecified. A bounded comparison is justified, but repeated reconstruction under undocumented assumptions would turn the replication into an open-ended investigation.",
-      "suggested_focus_minutes": 10,
-      "target": "Replication Study"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not alter multiple preprocessing or evaluation choices simultaneously.",
       "Do not treat the weaker result as proof that the reference paper is incorrect.",
       "Do not keep adding reconstruction variants after the predefined subset comparison if the discrepancy remains unexplained.",
       "Do not restart the main submitted manuscript project solely because the replication result differs."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Run the controlled subset comparison",
+        "reason": "The replication produced a meaningful discrepancy and the researcher has identified one concrete, testable source of variation without needing to broaden the study.",
+        "suggested_focus_minutes": 90,
+        "target": "Replication Study"
+      },
+      "secondary_action": {
+        "action_type": "stop_recurring_pattern",
+        "title": "Do not chase an exact reproduction indefinitely",
+        "reason": "The reference evaluation procedure is partly underspecified. A bounded comparison is justified, but repeated reconstruction under undocumented assumptions would turn the replication into an open-ended investigation.",
+        "suggested_focus_minutes": 10,
+        "target": "Replication Study"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The replication produced a meaningful discrepancy and the researcher has identified one concrete, testable source of variation without needing to broaden the study.",
+      "priority": "Complete the replication study before deciding to extend it",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "manuscript"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 20 shows 306 min on this work.",
+        "reason_code": null
+      },
+      "next_question": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 82 min on this work.",
+        "reason_code": null
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (replication, 306 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (replication, 306 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 51 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 20 shows 306 min on this work.",
+      "reason_code": null
+    }
   }
 }

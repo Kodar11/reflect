@@ -297,7 +297,8 @@
         "area": "Social campaign",
         "intent": "Communicate",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-22-02",
@@ -314,7 +315,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-22-03",
@@ -329,7 +331,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-22-04",
@@ -344,7 +351,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       },
       {
         "id": "gt-22-05",
@@ -361,7 +369,8 @@
         "area": "New brand inquiry",
         "intent": "Communicate",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "food_identity"
       },
       {
         "id": "gt-22-06",
@@ -382,7 +391,8 @@
         "area": "Portfolio",
         "intent": "Review",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-22-07",
@@ -397,7 +407,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-22-08",
@@ -412,7 +427,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       }
     ],
     "unobserved_periods": [
@@ -446,9 +462,79 @@
       "action_type": "complete_open_loop",
       "reason": "The Northstar case study has accumulated repeated execution and review across many days and has now reached portfolio integration, so continued open-ended polishing risks extending a workstream that is already close to release.",
       "suggested_focus_minutes": null,
-      "target": "Northstar Coffee portfolio"
+      "target": "Northstar Coffee portfolio",
+      "target_stream": "portfolio"
     },
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The Northstar case study has accumulated repeated execution and review across many days and has now reached portfolio integration, so continued open-ended polishing risks extending a workstream that is already close to release.",
+      "priority": "Build a stronger portfolio with the coffee project",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity",
+      "new_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 23 shows 130 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "food_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 23 shows 148 min on this work.",
+        "reason_code": null
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 23 shows 99 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 23 shows 25 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 23 shows 28 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 23 shows 130 min on this work.",
+      "reason_code": null
+    }
   }
 }

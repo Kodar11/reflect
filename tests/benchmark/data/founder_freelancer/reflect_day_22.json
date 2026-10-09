@@ -558,14 +558,16 @@
       "action_type": "protect_priority",
       "reason": "The experiment has now been reviewed and a small related refinement made; gathering another comparable signal is more useful than immediately changing the hypothesis again.",
       "suggested_focus_minutes": 45,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Send the scoped freelance follow-up",
       "action_type": "complete_open_loop",
       "reason": "The new prospect progressed into a concrete scope conversation, so a clear estimate or next-step message is the highest-value follow-up currently visible.",
       "suggested_focus_minutes": 30,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not claim the activation experiment improved conversion from the available events.",

@@ -30,7 +30,7 @@
     "laptop_usage": {
       "first_seen": "09:18",
       "last_seen": "20:36",
-      "approx_active_hours": 8.0,
+      "approx_active_hours": 8,
       "longest_unobserved_gap_minutes": 74
     }
   },
@@ -282,8 +282,12 @@
         "context": "Work",
         "area": "New client identity",
         "intent": "Plan",
-        "quality": "Necessary setup",
-        "importance": "high"
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "new_identity",
+        "label_notes": {
+          "quality": "Necessary setup"
+        }
       },
       {
         "id": "gt-08-02",
@@ -301,9 +305,14 @@
         ],
         "context": "Work",
         "area": "New client identity",
-        "intent": "Explore and develop",
-        "quality": "Strong progress",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Explore and develop",
+          "quality": "Strong progress"
+        }
       },
       {
         "id": "gt-08-03",
@@ -318,9 +327,14 @@
         ],
         "context": "Work",
         "area": "Client work",
-        "intent": "Revise and communicate",
-        "quality": "Necessary interruption",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "social_campaign",
+        "label_notes": {
+          "intent": "Revise and communicate",
+          "quality": "Necessary interruption"
+        }
       },
       {
         "id": "gt-08-04",
@@ -336,9 +350,14 @@
         ],
         "context": "Work",
         "area": "New client identity",
-        "intent": "Refine",
-        "quality": "Meaningful progress",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Refine",
+          "quality": "Meaningful progress"
+        }
       },
       {
         "id": "gt-08-05",
@@ -352,9 +371,14 @@
         ],
         "context": "Work",
         "area": "Portfolio",
-        "intent": "Maintain and organize",
-        "quality": "Some progress",
-        "importance": "medium"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "portfolio",
+        "label_notes": {
+          "intent": "Maintain and organize",
+          "quality": "Some progress"
+        }
       },
       {
         "id": "gt-08-06",
@@ -370,9 +394,14 @@
         ],
         "context": "Work",
         "area": "New client identity",
-        "intent": "Refine and communicate",
-        "quality": "Meaningful progress",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Refine and communicate",
+          "quality": "Meaningful progress"
+        }
       }
     ],
     "unobserved_periods": [
@@ -428,7 +457,8 @@
       "action_type": "complete_open_loop",
       "reason": "The new identity has moved beyond broad exploration into a stronger route; the next useful step is to make that direction presentable rather than continuing indefinite exploration.",
       "suggested_focus_minutes": 90,
-      "target": "New client brand identity"
+      "target": "New client brand identity",
+      "target_stream": "new_identity"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -437,6 +467,74 @@
       "Do not assume the preferred identity direction is approved by the client.",
       "Do not claim the Northstar portfolio case study was abandoned; it received a smaller maintenance block.",
       "Do not infer motivation, stress, or psychological state from the long design sessions."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The new identity has moved beyond broad exploration into a stronger route; the next useful step is to make that direction presentable rather than continuing indefinite exploration.",
+      "priority": "Develop the brand identity for the new client",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 9 shows 35 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 9 shows 370 min on this work.",
+        "reason_code": null
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 9 went to other work (new_identity, 370 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 9 shows 102 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 9 went to other work (new_identity, 370 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 9 shows 23 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 9 shows 370 min on this work.",
+      "reason_code": null
+    }
   }
 }

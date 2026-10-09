@@ -287,7 +287,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-16-02",
@@ -304,7 +305,8 @@
         "area": "Social campaign",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-16-03",
@@ -322,7 +324,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-16-04",
@@ -337,7 +340,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-16-05",
@@ -355,7 +363,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-16-06",
@@ -371,7 +380,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       }
     ],
     "unobserved_periods": [
@@ -407,9 +417,78 @@
       "action_type": "complete_open_loop",
       "reason": "The new identity is effectively through the requested revision and into delivery preparation. Prioritize completing the handoff cleanly rather than reopening approved design decisions. The Northstar case study is also at a finishing stage, so give it a bounded finalization block and publish or explicitly mark the remaining work instead of continuing open-ended refinement.",
       "suggested_focus_minutes": null,
-      "target": "New client identity"
+      "target": "New client identity",
+      "target_stream": "new_identity"
     },
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The new identity is effectively through the requested revision and into delivery preparation. Prioritize completing the handoff cleanly rather than reopening approved design decisions. The Northstar case study is also at a finishing stage, so give it a bounded finalization block and publish or explicitly mark the remaining work instead of continuing open-ended refinement.",
+      "priority": "Develop the brand identity for the new client",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 17 shows 106 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 17 shows 278 min on this work.",
+        "reason_code": null
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (new_identity, 278 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 17 shows 52 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (new_identity, 278 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 17 shows 12 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 17 shows 278 min on this work.",
+      "reason_code": null
+    }
   }
 }

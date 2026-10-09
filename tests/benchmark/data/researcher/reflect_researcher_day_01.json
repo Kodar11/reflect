@@ -5,20 +5,19 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
-      "Complete the next round of experiments for the main uncertainty estimation project",
-      "Move the manuscript from exploratory notes toward a coherent results section",
-      "Resolve whether the current experimental setup is measuring calibration fairly",
-      "Complete the replication study before deciding whether it is worth extending"
+      "Complete the next experiments for the uncertainty project",
+      "Move the manuscript from notes to a coherent results section",
+      "Resolve whether the setup measures calibration fairly",
+      "Complete the replication study before deciding to extend it"
     ]
   },
-
   "day": {
     "day_number": 1,
     "date": "2026-09-01",
@@ -34,11 +33,10 @@
     "laptop_usage": {
       "first_seen": "09:18",
       "last_seen": "21:36",
-      "approx_active_hours": 9.0,
+      "approx_active_hours": 9,
       "longest_unobserved_gap_minutes": 86
     }
   },
-
   "raw_events": [
     {
       "id": 1,
@@ -172,7 +170,6 @@
       "url": null,
       "payload": null
     },
-
     {
       "id": 13,
       "watcher": "desktop",
@@ -261,7 +258,6 @@
       "url": "https://github.com/.../uncertainty-project",
       "payload": null
     },
-
     {
       "id": 21,
       "watcher": "desktop",
@@ -306,7 +302,6 @@
       "url": null,
       "payload": null
     },
-
     {
       "id": 25,
       "watcher": "desktop",
@@ -396,7 +391,6 @@
       "payload": null
     }
   ],
-
   "ground_truth": {
     "activities": [
       {
@@ -410,7 +404,8 @@
         "area": "Main Research Project",
         "intent": "Review",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "main_experiment"
       },
       {
         "id": "gt-01-02",
@@ -423,7 +418,8 @@
         "area": "Literature Review",
         "intent": "Learn",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "main_experiment"
       },
       {
         "id": "gt-01-03",
@@ -436,7 +432,8 @@
         "area": "Collaboration",
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "research_admin"
       },
       {
         "id": "gt-01-04",
@@ -449,7 +446,8 @@
         "area": "Main Research Project",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "main_experiment"
       },
       {
         "id": "gt-01-05",
@@ -460,9 +458,13 @@
         "event_ids": [25, 26, 27],
         "context": "Work",
         "area": "Main Paper",
-        "intent": "Write",
+        "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "intent": "Write"
+        }
       },
       {
         "id": "gt-01-06",
@@ -475,7 +477,11 @@
         "area": "Learning",
         "intent": "Learn",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "learning",
+        "label_notes": {
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-01-07",
@@ -486,9 +492,13 @@
         "event_ids": [29, 30, 31],
         "context": "Work",
         "area": "Main Research Project",
-        "intent": "Analyze",
+        "intent": "Research",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "main_experiment",
+        "label_notes": {
+          "intent": "Analyze"
+        }
       },
       {
         "id": "gt-01-08",
@@ -499,9 +509,13 @@
         "event_ids": [32],
         "context": "Work",
         "area": "Main Paper",
-        "intent": "Write",
+        "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "intent": "Write"
+        }
       }
     ],
     "unobserved_periods": [
@@ -517,7 +531,6 @@
       }
     ]
   },
-
   "expected_reflection": {
     "period": "today",
     "key_observations": [
@@ -529,19 +542,19 @@
     ],
     "priority_alignment": [
       {
-        "priority": "Complete the next round of experiments for the main uncertainty estimation project",
+        "priority": "Complete the next experiments for the uncertainty project",
         "assessment": "meaningful preparation and partial progress"
       },
       {
-        "priority": "Move the manuscript from exploratory notes toward a coherent results section",
+        "priority": "Move the manuscript from notes to a coherent results section",
         "assessment": "some progress"
       },
       {
-        "priority": "Resolve whether the current experimental setup is measuring calibration fairly",
+        "priority": "Resolve whether the setup measures calibration fairly",
         "assessment": "meaningfully progressed"
       },
       {
-        "priority": "Complete the replication study before deciding whether it is worth extending",
+        "priority": "Complete the replication study before deciding to extend it",
         "assessment": "no meaningful progress observed today"
       }
     ],
@@ -552,14 +565,14 @@
     ],
     "possible_next_step": "Run and inspect the newly prepared evaluation configuration before investing further time in manuscript interpretation."
   },
-
   "expected_coach_outcome": {
     "primary_action": {
       "title": "Complete the evaluation run",
       "action_type": "complete_open_loop",
       "reason": "The evaluation pipeline reached a runnable state after debugging, leaving a concrete unresolved experiment that can provide evidence for the methodological question.",
       "suggested_focus_minutes": 90,
-      "target": "Main Research Project"
+      "target": "Main Research Project",
+      "target_stream": "main_experiment"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -569,6 +582,71 @@
       "Do not claim that the manuscript is behind schedule without evidence of a deadline.",
       "Do not infer frustration, stress, motivation, or confidence from the debugging activity.",
       "Do not recommend abandoning the manuscript merely because experimental work received more attention today."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The evaluation pipeline reached a runnable state after debugging, leaving a concrete unresolved experiment that can provide evidence for the methodological question.",
+      "priority": "Complete the next experiments for the uncertainty project",
+      "type": "complete_open_loop"
+    },
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 2 shows 593 min on this work.",
+        "reason_code": null
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 2 shows 25 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (main_experiment, 593 min).",
+        "reason_code": "different_priority"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (main_experiment, 593 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (main_experiment, 593 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 2 shows 12 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (main_experiment, 593 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 2 shows 593 min on this work.",
+      "reason_code": null
+    }
   }
 }

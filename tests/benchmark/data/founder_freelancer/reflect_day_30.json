@@ -516,14 +516,16 @@
       "action_type": "continue_successful_behavior",
       "reason": "The product work moved from feedback to a measured refinement without broadening scope, so the most useful next step is to observe the resulting signal before making another change.",
       "suggested_focus_minutes": 60,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Send the new freelance estimate",
       "action_type": "complete_open_loop",
       "reason": "A new inquiry progressed through discovery and produced a concrete estimate, leaving a clear commercial follow-up that can be completed without reopening the closed client project.",
       "suggested_focus_minutes": 25,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat the client acceptance as evidence that no future maintenance work can occur.",

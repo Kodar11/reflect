@@ -237,11 +237,15 @@
           105,
           106
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Computer Networks",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "networks",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-06-02",
@@ -257,11 +261,15 @@
           111,
           112
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Computer Networks",
         "intent": "Complete",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "networks",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-06-03",
@@ -275,11 +283,15 @@
           115,
           116
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Semester Project",
         "intent": "Plan",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-06-04",
@@ -296,7 +308,8 @@
         "area": null,
         "intent": "Consume",
         "quality": "Break-Idle",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure"
       },
       {
         "id": "gt-06-05",
@@ -308,11 +321,15 @@
           120,
           121
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Computer Networks",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "networks",
+        "label_notes": {
+          "context": "Academic"
+        }
       }
     ],
     "unobserved_periods": [
@@ -373,7 +390,8 @@
       "action_type": "start_focus",
       "reason": "The Networks lab has reached a submission point, while the semester project already has an outlined next step that has not yet moved into implementation.",
       "suggested_focus_minutes": 60,
-      "target": "Semester Project"
+      "target": "Semester Project",
+      "target_stream": "semester_project"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -382,6 +400,89 @@
       "Do not criticize the gaming and social block as inherently problematic.",
       "Do not count project planning as equivalent to implementation.",
       "Do not infer how much academic work happened away from the laptop."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The Networks lab has reached a submission point, while the semester project already has an outlined next step that has not yet moved into implementation.",
+      "priority": "Make progress on the semester group project",
+      "type": "start_focus"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 7 went to other work (software_engineering, 166 min).",
+        "reason_code": "different_priority"
+      },
+      "software_engineering": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 7 shows 166 min on this work.",
+        "reason_code": null
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 7 went to other work (software_engineering, 166 min).",
+        "reason_code": "different_priority"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 7 went to other work (software_engineering, 166 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 7 shows 94 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 7 shows 69 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 7 shows 94 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Finish the Computer Networks lab"
+    }
+  ]
 }

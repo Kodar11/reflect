@@ -183,19 +183,24 @@ describe('narrative — "what happened"', () => {
     expect(validate(null)).toMatchObject({ ok: true, reflection: { narrative: null } });
   });
 
-  it('rejects a number nothing supports, a cause, a judgment — and drops the narrative from what is kept', () => {
-    // 55m exists as a metric, but no insight cites it and it is not one of the day's plain totals.
+  it('leaves out a sentence that states a number nothing supports, a cause or a judgment — the report is kept', () => {
+    // 55m exists as a metric, but no insight cites it, it is not one of the day's plain totals and no activity ran 55m.
     const number = validate('You spent 55m on Project Y after lunch.');
-    expect(number.ok).toBe(false);
-    if (number.ok) return;
-    expect(number.errors).toEqual(['narrative: number(s) "55" not found in the insights\' evidence']);
-    expect(number.salvaged).toMatchObject({ narrative: null, headline: 'Project X received most of your tracked time this period.' });
+    expect(number).toMatchObject({ ok: true, reflection: { narrative: null, headline: 'Project X received most of your tracked time this period.' } });
+    expect(number.ok && number.repairs).toEqual([
+      { code: 'narrative_number', field: 'narrative', index: null, values: ['55'], message: 'narrative: number(s) "55" not found in the period\'s evidence', resolution: 'repaired' },
+    ]);
 
     for (const text of ['The afternoon fragmented because you were distracted by video.', 'You wasted most of the afternoon on videos again.']) {
       const result = validate(text);
-      expect(result.ok).toBe(false);
-      expect(!result.ok && result.salvaged?.narrative).toBeNull();
+      expect(result).toMatchObject({ ok: true, reflection: { narrative: null } });
+      expect(result.ok && result.repairs?.[0].code).toBe('narrative_language');
     }
+  });
+
+  it('removes only the unsupported sentence of a narrative', () => {
+    const result = validate('You tracked 4h 32m today, with 6 context switches. You spent 55m on Project Y after lunch. Project X took the morning.');
+    expect(result).toMatchObject({ ok: true, reflection: { narrative: 'You tracked 4h 32m today, with 6 context switches. Project X took the morning.' } });
   });
 });
 

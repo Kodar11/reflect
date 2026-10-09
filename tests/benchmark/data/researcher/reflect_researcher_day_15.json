@@ -5,11 +5,11 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
       "Incorporate final collaborator feedback into the manuscript",
@@ -358,11 +358,17 @@
           337,
           338
         ],
-        "context": "Continuation of the targeted collaborator review requested on Day 14.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Continuation of the targeted collaborator review requested on Day 14.",
+          "intent": "revision",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-15-02",
@@ -375,11 +381,17 @@
           340,
           341
         ],
-        "context": "A small infrastructure issue surfaced during manuscript preparation.",
+        "context": "Work",
         "area": "research software and manuscript",
-        "intent": "maintenance",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "A small infrastructure issue surfaced during manuscript preparation.",
+          "intent": "maintenance",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-15-03",
@@ -392,11 +404,17 @@
           343,
           344
         ],
-        "context": "Submission planning after collaborator review.",
+        "context": "Work",
         "area": "submission planning",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Submission planning after collaborator review.",
+          "intent": "planning",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-15-04",
@@ -408,11 +426,17 @@
           345,
           346
         ],
-        "context": "Evening lower-intensity activity.",
+        "context": "Personal",
         "area": "learning and unrelated",
         "intent": "mixed",
         "quality": "unknown",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Evening lower-intensity activity.",
+          "intent": "mixed",
+          "quality": "unknown"
+        }
       },
       {
         "id": "gt-15-05",
@@ -426,11 +450,17 @@
           349,
           350
         ],
-        "context": "Closing the collaborator-review loop while avoiding new experimental scope.",
+        "context": "Work",
         "area": "manuscript and submission planning",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Closing the collaborator-review loop while avoiding new experimental scope.",
+          "intent": "revision",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -473,20 +503,100 @@
       "title": "Protect the manuscript from new experiments",
       "reason": "The collaborator feedback has been incorporated and the updated draft is out for review. The remaining uncertainty is about presentation and venue fit, not an unresolved core experiment.",
       "suggested_focus_minutes": 15,
-      "target": "Manuscript"
+      "target": "Manuscript",
+      "target_stream": "manuscript"
     },
-    "secondary_action": {
-      "action_type": "complete_open_loop",
-      "title": "Prepare a venue-specific compression plan",
-      "reason": "The likely venue has a tighter page limit, so identifying removable or compressible sections now will reduce rework if that venue is selected.",
-      "suggested_focus_minutes": 45,
-      "target": "Submission Planning"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not add new experiments just to strengthen the novelty claim after it has already been deliberately narrowed.",
       "Do not repeatedly poll the collaborator for a response while waiting.",
       "Do not perform extensive venue formatting until the submission venue is confirmed.",
       "Do not treat the small table utility fix as a reason to expand the research software work."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "protect_priority",
+        "title": "Protect the manuscript from new experiments",
+        "reason": "The collaborator feedback has been incorporated and the updated draft is out for review. The remaining uncertainty is about presentation and venue fit, not an unresolved core experiment.",
+        "suggested_focus_minutes": 15,
+        "target": "Manuscript"
+      },
+      "secondary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Prepare a venue-specific compression plan",
+        "reason": "The likely venue has a tighter page limit, so identifying removable or compressible sections now will reduce rework if that venue is selected.",
+        "suggested_focus_minutes": 45,
+        "target": "Submission Planning"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The collaborator feedback has been incorporated and the updated draft is out for review. The remaining uncertainty is about presentation and venue fit, not an unresolved core experiment.",
+      "priority": "Move the manuscript from notes to a coherent results section",
+      "type": "protect_priority"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 445 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (manuscript, 445 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (manuscript, 445 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (manuscript, 445 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (manuscript, 445 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 16 shows 445 min on this work.",
+      "reason_code": null
+    }
   }
 }

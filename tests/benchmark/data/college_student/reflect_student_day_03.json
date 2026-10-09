@@ -291,11 +291,15 @@
           41,
           42
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Planning",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-03-02",
@@ -313,11 +317,15 @@
           49,
           50
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Operating Systems",
         "intent": "Learn",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "operating_systems",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-03-03",
@@ -332,11 +340,15 @@
           54,
           55
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Semester Project",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-03-04",
@@ -353,7 +365,11 @@
         "area": null,
         "intent": "Consume",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Mixed"
+        }
       },
       {
         "id": "gt-03-05",
@@ -368,7 +384,8 @@
         "area": null,
         "intent": "Consume",
         "quality": "Break-Idle",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure"
       },
       {
         "id": "gt-03-06",
@@ -381,11 +398,15 @@
           61,
           62
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Operating Systems",
         "intent": "Learn",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "operating_systems",
+        "label_notes": {
+          "context": "Academic"
+        }
       }
     ],
     "unobserved_periods": [
@@ -452,14 +473,16 @@
       "action_type": "complete_open_loop",
       "reason": "The student returned to the same OS topic after an earlier long study block, indicating a concrete unresolved area that can be addressed directly.",
       "suggested_focus_minutes": 45,
-      "target": "Operating Systems"
+      "target": "Operating Systems",
+      "target_stream": "operating_systems"
     },
     "secondary_action": {
       "title": "Continue the parser task",
       "action_type": "continue_successful_behavior",
       "reason": "The semester project moved from group discussion and issue review into implementation, so a short follow-up can preserve continuity.",
       "suggested_focus_minutes": 45,
-      "target": "Semester Project"
+      "target": "Semester Project",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not treat the long morning offline period as missing productivity; classes were outside observation.",
@@ -467,6 +490,81 @@
       "Do not assume the student has mastered deadlock avoidance because they completed one practice program.",
       "Do not criticize the evening entertainment simply because the quiz is approaching.",
       "Do not infer motivation or stress from the repeated return to OS notes."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The student returned to the same OS topic after an earlier long study block, indicating a concrete unresolved area that can be addressed directly.",
+      "priority": "Prepare for the Operating Systems quiz",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "dbms"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 4 shows 224 min on this work.",
+        "reason_code": null
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 4 went to other work (operating_systems, 224 min).",
+        "reason_code": "different_priority"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 4 went to other work (operating_systems, 224 min).",
+        "reason_code": "different_priority"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 4 went to other work (operating_systems, 224 min).",
+        "reason_code": "different_priority"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 4 went to other work (operating_systems, 224 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 4 shows 153 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 4 shows 33 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 4 shows 224 min on this work.",
+      "reason_code": null
+    }
   }
 }

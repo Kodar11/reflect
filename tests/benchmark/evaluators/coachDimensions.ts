@@ -5,6 +5,7 @@ import type { CapturedDay } from '../runner/capture';
 import type { SemanticConfig } from '../runner/config';
 import type { DatasetActionOpportunity, DatasetExpectedAction, EvaluationOnlyDay, OpportunityStrength } from '../runner/dataset';
 import { actionText, streamOfAction } from './corpus';
+import { aimOfAction, hasStreams, type ActionAim, type StreamContext } from './streams';
 import { GENERIC_ADVICE, conceptsOf, coverage, normalizeText } from './text';
 
 /**
@@ -64,7 +65,10 @@ export const ACTION_TYPE_MAPPING: Record<string, { exact: string[]; compatible: 
   retain_longitudinal_context: { exact: [], compatible: ['close_open_loop', 'continue_behavior'] },
 };
 
-/** Work streams the founder/freelancer answer key names instead of a priority. */
+/**
+ * Work streams an answer key WITHOUT a stream registry may name instead of a priority (the Coach scenario set's
+ * founder scenarios). A persona that has `persona_key.json` states its targets by stream key and never comes here.
+ */
 export const KNOWN_TARGETS = ['Own SaaS', 'Freelance'];
 
 export function opportunityOf(expected: EvaluationOnlyDay['expectedCoachOutcome']): DatasetActionOpportunity {
@@ -96,11 +100,19 @@ export function typeFit(expectedType: string, actionType: string): TypeFit {
   return mapping?.exact.includes(actionType) ? 'exact' : mapping?.compatible.includes(actionType) ? 'compatible' : 'different';
 }
 
-/** How well one actual action answers one expected action. */
-export function matchExpected(expected: DatasetExpectedAction, action: CoachAction, priorities: { id: string; text: string }[]) {
+/**
+ * How well one actual action answers one expected action.
+ *
+ * With a stream registry the target is a question about WORK, not words: the expected move names a stream, and
+ * `aim` says which streams the action is about (what it names, what it cites, the priority it serves). Without
+ * one, the older reading applies: the target is a priority's text or a known founder stream.
+ */
+export function matchExpected(expected: DatasetExpectedAction, action: CoachAction, priorities: { id: string; text: string }[], aim: ActionAim | null = null) {
   const type = typeFit(expected.action_type, action.actionType);
+  const byStream = aim !== null && expected.target_stream !== undefined;
   // A day-wide action (rest, fewer switches) has no target to hit: the kind of action is the match.
-  const target = expected.target === null ? type !== 'different' : targetMatches(expected.target, action, priorities);
+  const dayWide = byStream ? expected.target_stream === null : expected.target === null;
+  const target = dayWide ? type !== 'different' : byStream ? aim!.streams.includes(expected.target_stream as string) : targetMatches(expected.target, action, priorities);
   const wording = coverage(`${expected.title}. ${expected.reason}`, actionText(action)).score;
   return { type, target, wording, rank: (target ? 2 : 0) + (type === 'exact' ? 2 : type === 'compatible' ? 1 : 0) + wording };
 }
@@ -113,8 +125,12 @@ export interface ActionAssessment {
   actionType: string;
   strategyKey: string;
   targetKey: string | null;
-  /** Which expected action it answers, if either. */
-  matches: 'primary' | 'secondary' | null;
+  /** Which expected action it answers, if either — or `acceptable`: another move the answer key accepts for the day. */
+  matches: 'primary' | 'secondary' | 'acceptable' | null;
+  /** The work streams it is aimed at and how that was read; null when the persona has no stream registry. */
+  aim: ActionAim | null;
+  /** Aimed at work the user has closed (a completed or paused priority) or the answer key marks as finished or parked today. */
+  closed: boolean;
   typeFit: TypeFit | null;
   /** Its cited metrics / activities exist, and it has a rationale. */
   grounded: boolean;
@@ -128,8 +144,13 @@ export interface ActionAssessment {
   generic: boolean;
   /** Resembles something the answer key says must not be recommended. */
   prohibited: boolean;
-  /** Says the same thing as an action of the previous few days, in the same words. */
+  /**
+   * Says the same thing as an action of the previous few days when saying it again adds nothing: the earlier one
+   * was carried out, turned down or reported as not working — or today's day does not call for it any more.
+   */
   repeated: boolean;
+  /** Says the same thing as an earlier action that is STILL open, on a day that still calls for it. Not a fault. */
+  restated: boolean;
   /** The day called for (or allowed) an action, and this one holds up on every count above. */
   justified: boolean;
   notes: string[];
@@ -178,7 +199,16 @@ export interface AdaptationCheck {
 }
 
 export interface CoachAssessment {
-  opportunity: { strength: OpportunityStrength; reason: string; type: string | null; target: string | null };
+  opportunity: {
+    strength: OpportunityStrength;
+    reason: string;
+    type: string | null;
+    target: string | null;
+    /** The expected move's work stream, when the answer key states one. */
+    targetStream?: string | null;
+    /** The stated priorities that stream serves (their text) — null when the key has no streams. */
+    targetPriorities?: string[] | null;
+  };
   expectedPrimary: string | null;
   expectedSecondary: string | null;
   actual: string[];
@@ -196,6 +226,8 @@ export interface CoachDimensionContext {
   knownBlockIds: Set<string>;
   /** When the previous day was captured; earlier actions settled after it are "newly settled". */
   previousProcessedAt: string | null;
+  /** The persona's work streams and the day's evidence against them. Absent: targets are matched the older way. */
+  streams?: StreamContext;
 }
 
 const GENERIC_VERBS = /^(focus|work|study|be|stay|keep|try|improve|manage|do|get)\b/i;
@@ -241,10 +273,24 @@ function assessAction(
   const text = actionText(action);
 
   // ── Which expected action does it answer? ──
-  const primary = expected.primary_action ? matchExpected(expected.primary_action, action, captured.priorities) : null;
-  const secondary = expected.secondary_action ? matchExpected(expected.secondary_action, action, captured.priorities) : null;
-  const matches: ActionAssessment['matches'] = primary?.target ? 'primary' : secondary?.target ? 'secondary' : null;
-  const fit = matches === 'primary' ? primary!.type : matches === 'secondary' ? secondary!.type : null;
+  const aim = hasStreams(ctx.streams) ? aimOfAction(action, captured.priorities, ctx.streams) : null;
+  const primary = expected.primary_action ? matchExpected(expected.primary_action, action, captured.priorities, aim) : null;
+  const secondary = expected.secondary_action ? matchExpected(expected.secondary_action, action, captured.priorities, aim) : null;
+  const acceptable = aim !== null && (expected.acceptable_streams ?? []).some((key) => aim.streams.includes(key));
+  const matches: ActionAssessment['matches'] = primary?.target ? 'primary' : acceptable ? 'acceptable' : secondary?.target ? 'secondary' : null;
+  // Another move the key accepts is judged on its target; the key prescribes no kind of action for it.
+  const fit = matches === 'primary' ? primary!.type : matches === 'secondary' ? secondary!.type : matches === 'acceptable' ? 'compatible' : null;
+
+  // ── Is it aimed at something already closed? ──
+  // The user's own word comes first: a priority they marked completed or paused is not where the next move is.
+  // Then the answer key's: work that was handed off, submitted or deliberately parked by this day.
+  const linked = action.priorityId ? captured.priorities.find((p) => p.id === action.priorityId) : undefined;
+  const closedByUser = linked !== undefined && (linked.status === 'completed' || linked.status === 'paused');
+  const forbidden = expected.forbidden_streams ?? [];
+  const closedByKey = aim !== null && matches === null && aim.streams.length > 0 && aim.streams.every((key) => forbidden.includes(key));
+  const closed = closedByUser || closedByKey;
+  if (closedByUser) notes.push(`aimed at "${linked!.text}", which the user marked ${linked!.status}`);
+  else if (closedByKey) notes.push(`aimed at work that is finished or parked today (${aim!.streams.join(', ')})`);
 
   // ── Grounding ──
   const missingMetrics = action.sourceMetricKeys.filter((k) => !metricKeys.has(k));
@@ -294,12 +340,12 @@ function assessAction(
   // time of day, size) for the same target as an earlier action. A SHORTER block that mentions the long one it replaces
   // shares its words and is the opposite of what the key rules out.
   const sameStrategyAgain = captured.coach.earlierActions.some((e) => e.status !== 'withdrawn' && e.targetKey === action.targetKey && e.strategyKey === action.strategyKey);
-  const forbidden = prohibitedRecommendations(expected.things_not_to_do)
+  const ruledOut = prohibitedRecommendations(expected.things_not_to_do)
     .map((item) => ({ item, score: coverage(item, text).score }))
     .filter((f) => f.score >= ctx.semantic.passCoverage)
     .filter((f) => !/\bsame\b.*\bagain\b/i.test(f.item) || sameStrategyAgain);
-  const prohibited = forbidden.length > 0;
-  if (prohibited) notes.push(`resembles a recommendation the answer key rules out: "${forbidden[0].item}"`);
+  const prohibited = ruledOut.length > 0;
+  if (prohibited) notes.push(`resembles a recommendation the answer key rules out: "${ruledOut[0].item}"`);
 
   // The same sentence as a recent action: whatever happened to that one, saying it again adds nothing.
   const recentSince = Date.parse(action.createdAt) - 3 * 86_400_000;
@@ -317,8 +363,21 @@ function assessAction(
       // A step that could not happen for an outside reason is still the next step: offering it again is not a repeat.
       !(e.execution === 'not_done' && e.reasonCode === 'external_constraint'),
   );
-  const repeated = twin !== undefined;
-  if (twin) notes.push(`says the same thing as "${twin.title}" suggested on ${twin.originDayKey}`);
+  // Whether saying it again is a fault depends on what became of the first time, not on the calendar:
+  //   still open (never answered, accepted but not yet done, postponed) AND today still calls for it → restated
+  //   carried out, turned down, reported as not working, or not done for a reason about the action   → repeated
+  //   open, but today's day calls for something else                                                 → repeated
+  const settled =
+    twin !== undefined &&
+    (twin.execution === 'done' || twin.execution === 'partial' || twin.execution === 'not_done' || twin.status === 'rejected' || twin.outcome === 'did_not_work' || twin.outcome === 'worked' || twin.outcome === 'partly_worked');
+  const stillCalledFor = matches !== null && !closed;
+  const restated = twin !== undefined && !settled && stillCalledFor;
+  const repeated = twin !== undefined && !restated;
+  if (twin && repeated) {
+    notes.push(
+      `says the same thing as "${twin.title}" suggested on ${twin.originDayKey}${settled ? `, which was ${twin.status === 'rejected' ? 'turned down' : twin.outcome === 'did_not_work' ? 'reported as not working' : twin.execution === 'not_done' ? 'not done' : 'already carried out'}` : ''}`,
+    );
+  }
 
   // On a strong day an action must answer one of the expected moves; on a moderate day any well-founded, aligned action is acceptable.
   const answersTheDay = strength === 'strong' ? matches !== null : strength === 'moderate' ? matches !== null || aligned : false;
@@ -332,6 +391,8 @@ function assessAction(
     strategyKey: action.strategyKey,
     targetKey: action.targetKey,
     matches,
+    aim,
+    closed,
     typeFit: fit,
     grounded,
     aligned,
@@ -340,7 +401,8 @@ function assessAction(
     generic,
     prohibited,
     repeated,
-    justified: answersTheDay && grounded && !generic && !prohibited && !repeated,
+    restated,
+    justified: answersTheDay && grounded && !generic && !prohibited && !repeated && !closed,
     notes,
   };
 }
@@ -485,7 +547,7 @@ function adaptationChecks(captured: CapturedDay, ctx: CoachDimensionContext): Ad
 
 // ── The day ─────────────────────────────────────────────────────────────────
 
-const describeExpected = (a: DatasetExpectedAction | null) => (a ? `[${a.action_type} → ${a.target ?? 'general'}] ${a.title} — ${a.reason}` : null);
+const describeExpected = (a: DatasetExpectedAction | null) => (a ? `[${a.action_type} → ${a.target_stream ?? a.target ?? 'general'}] ${a.title} — ${a.reason}` : null);
 
 export function assessCoach(captured: CapturedDay, answer: EvaluationOnlyDay, ctx: CoachDimensionContext): CoachAssessment {
   const expected = answer.expectedCoachOutcome;
@@ -496,7 +558,7 @@ export function assessCoach(captured: CapturedDay, answer: EvaluationOnlyDay, ct
 
   let verdict: OpportunityVerdict;
   let why: string;
-  const primaryHit = actions.find((a) => a.matches === 'primary' && a.justified);
+  const primaryHit = actions.find((a) => (a.matches === 'primary' || a.matches === 'acceptable') && a.justified);
   const secondaryHit = actions.find((a) => a.matches === 'secondary' && a.justified);
   const firstProblem = actions.find((a) => !a.justified);
 
@@ -515,7 +577,7 @@ export function assessCoach(captured: CapturedDay, answer: EvaluationOnlyDay, ct
   } else if (primaryHit) {
     verdict = primaryHit.typeFit !== 'different' ? 'correct' : 'partially_correct';
     why =
-      `"${primaryHit.title}" is aimed at the expected target` +
+      `"${primaryHit.title}" is aimed at ${primaryHit.matches === 'acceptable' ? 'a target the answer key accepts for the day' : 'the expected target'}${primaryHit.aim ? ` (read from its ${primaryHit.aim.by})` : ''}` +
       (primaryHit.typeFit === 'exact' ? ' with the expected kind of action' : primaryHit.typeFit === 'compatible' ? ' with a compatible kind of action' : `, as ${primaryHit.actionType} where ${expected.primary_action?.action_type} was expected`) +
       (primaryHit.specific ? '' : '; it is not specific enough to act on') +
       (firstProblem ? `; "${firstProblem.title}" does not hold up (${firstProblem.notes[0] ?? 'unjustified'})` : '');
@@ -530,11 +592,19 @@ export function assessCoach(captured: CapturedDay, answer: EvaluationOnlyDay, ct
     verdict = opportunity.strength === 'moderate' ? 'unnecessary' : 'wrong';
     why = matched
       ? `"${matched.title}" is aimed at the right target but does not hold up: ${matched.notes.join('; ') || 'unjustified'}`
-      : `"${actions[0].title}" is not aimed at what the day called for (${expected.primary_action?.target ?? 'no target'}): ${actions[0].notes.join('; ') || 'unrelated'}`;
+      : `"${actions[0].title}" is not aimed at what the day called for (${expected.primary_action?.target_stream ?? expected.primary_action?.target ?? 'no target'}${actions[0].aim ? `; it is about ${actions[0].aim.streams.join(', ') || 'no stream of the answer key'}, read from its ${actions[0].aim.by}` : ''}): ${actions[0].notes.join('; ') || 'unrelated'}`;
   }
 
   return {
-    opportunity: { strength: opportunity.strength, reason: opportunity.reason, type: opportunity.type, target: opportunity.priority },
+    opportunity: {
+      strength: opportunity.strength,
+      reason: opportunity.reason,
+      type: opportunity.type,
+      target: opportunity.priority,
+      ...(hasStreams(ctx.streams)
+        ? { targetStream: expected.primary_action?.target_stream ?? null, targetPriorities: ctx.streams.streams[expected.primary_action?.target_stream ?? '']?.priorities ?? null }
+        : {}),
+    },
     expectedPrimary: describeExpected(expected.primary_action),
     expectedSecondary: describeExpected(expected.secondary_action),
     actual: captured.coach.actions.map((a) => `[${a.actionType} → ${a.targetKey ?? 'general'}] ${a.title} — ${a.rationale}`),
@@ -593,8 +663,10 @@ export interface CoachDimensionSummary {
   evidenceGrounding: Ratio;
   feasibility: Ratio;
   nonGeneric: Ratio;
-  /** Actions that do not restate an action of the previous few days. */
+  /** Actions that do not restate an action of the previous few days where restating it added nothing (see `ActionAssessment.repeated`). */
   notRepeated: Ratio;
+  /** Actions that restate one still open, on a day that still calls for it — reported, never counted against the Coach. */
+  restatedWhileOpen: number;
   /** No-opportunity days on which nothing was recommended. */
   appropriateNull: Ratio;
   verdicts: Record<OpportunityVerdict, number>;
@@ -693,6 +765,7 @@ export function summarizeCoachDimensions(days: CoachAssessment[], finalStates: A
     feasibility: ratio(count((a) => a.feasible), actions.length),
     nonGeneric: ratio(count((a) => !a.generic), actions.length),
     notRepeated: ratio(count((a) => !a.repeated), actions.length),
+    restatedWhileOpen: count((a) => a.restated),
     appropriateNull: ratio(none.filter((d) => d.verdict === 'correct_null').length, none.length),
     verdicts,
     lifecycle: {

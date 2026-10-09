@@ -371,11 +371,17 @@
           394,
           395
         ],
-        "context": "The retry-path change had accumulated additional production exposure and needed a longer evidence review before closure.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "validate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The retry-path change had accumulated additional production exposure and needed a longer evidence review before closure.",
+          "intent": "validate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-16-02",
@@ -392,11 +398,17 @@
           401,
           402
         ],
-        "context": "The main behavior was improving, but a small amount of code cleanup and evidence gathering remained useful while the production window matured.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "refine",
-        "quality": "strong",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The main behavior was improving, but a small amount of code cleanup and evidence gathering remained useful while the production window matured.",
+          "intent": "refine",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-16-03",
@@ -407,11 +419,17 @@
         "event_ids": [
           403
         ],
-        "context": "The team needed a common understanding of the validation threshold.",
+        "context": "Work",
         "area": "team_coordination",
-        "intent": "coordinate",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "The team needed a common understanding of the validation threshold.",
+          "intent": "coordinate",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-16-04",
@@ -425,11 +443,17 @@
           406,
           407
         ],
-        "context": "Previously resolved areas remained stable while the webhook issue approached a closure decision.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "Previously resolved areas remained stable while the webhook issue approached a closure decision.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -493,20 +517,100 @@
       "action_type": "complete_open_loop",
       "target": "Webhook reliability validation",
       "reason": "The issue is nearing closure and the most useful action is to define a concrete evidence threshold for closing it rather than repeatedly inspecting the same dashboards.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "webhook_reliability"
     },
-    "secondary_action": {
-      "title": "Stable platform areas",
-      "action_type": "protect_priority",
-      "target": "Stable platform areas",
-      "reason": "Workspace performance and billing are healthy and should remain low-touch while the final webhook validation is completed.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not keep adding code changes simply because the issue remains open.",
       "Do not treat every remaining webhook error as evidence that the targeted fix failed.",
       "Do not close the issue solely because no obvious failure occurred during a short window.",
       "Do not reopen stable workspace performance work without a new signal."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Webhook reliability validation",
+        "action_type": "complete_open_loop",
+        "target": "Webhook reliability validation",
+        "reason": "The issue is nearing closure and the most useful action is to define a concrete evidence threshold for closing it rather than repeatedly inspecting the same dashboards.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Stable platform areas",
+        "action_type": "protect_priority",
+        "target": "Stable platform areas",
+        "reason": "Workspace performance and billing are healthy and should remain low-touch while the final webhook validation is completed.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The issue is nearing closure and the most useful action is to define a concrete evidence threshold for closing it rather than repeatedly inspecting the same dashboards.",
+      "priority": "Understand and fix the recurring webhook processing issue",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 17 shows 112 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 17 shows 318 min on this work.",
+        "reason_code": null
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (account_export, 318 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (account_export, 318 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 17 shows 63 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 17 shows 112 min on this work.",
+      "reason_code": null
+    }
   }
 }

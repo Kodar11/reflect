@@ -356,11 +356,17 @@
           544,
           545
         ],
-        "context": "Review identified concrete edge-case and API-behavior questions rather than a need for a new feature slice.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "refine",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "Review identified concrete edge-case and API-behavior questions rather than a need for a new feature slice.",
+          "intent": "refine",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-23-02",
@@ -374,11 +380,17 @@
           548,
           549
         ],
-        "context": "The goal was to confirm that review changes preserved the deployed behavior and did not introduce a regression in the download path.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "validate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The goal was to confirm that review changes preserved the deployed behavior and did not introduce a regression in the download path.",
+          "intent": "validate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-23-03",
@@ -393,11 +405,17 @@
           553,
           554
         ],
-        "context": "The export change was nearing approval while normal team review work continued.",
+        "context": "Work",
         "area": "engineering_delivery",
-        "intent": "review",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "The export change was nearing approval while normal team review work continued.",
+          "intent": "review",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-23-04",
@@ -410,11 +428,17 @@
           556,
           557
         ],
-        "context": "Previously resolved platform issues were monitored without new evidence requiring investigation.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "Previously resolved platform issues were monitored without new evidence requiring investigation.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -481,20 +505,101 @@
       "action_type": "complete_open_loop",
       "target": "Account export review and approval",
       "reason": "The implementation and staging validation are substantially complete, so the highest-value next step is to close the review loop and move toward a controlled release.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "account_export"
     },
-    "secondary_action": {
-      "title": "Release monitoring expectations for account exports",
-      "action_type": "clarify_priority",
-      "target": "Release monitoring expectations for account exports",
-      "reason": "The remaining uncertainty is primarily operational and should be made explicit before deployment.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not add unrelated functionality while the pull request is awaiting approval.",
       "Do not interpret stable workspace or webhook dashboards as a reason to reopen those workstreams.",
       "Do not claim production-scale export behavior is proven by staging tests alone.",
       "Do not delay release indefinitely for hypothetical edge cases without supporting evidence."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Account export review and approval",
+        "action_type": "complete_open_loop",
+        "target": "Account export review and approval",
+        "reason": "The implementation and staging validation are substantially complete, so the highest-value next step is to close the review loop and move toward a controlled release.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Release monitoring expectations for account exports",
+        "action_type": "clarify_priority",
+        "target": "Release monitoring expectations for account exports",
+        "reason": "The remaining uncertainty is primarily operational and should be made explicit before deployment.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The implementation and staging validation are substantially complete, so the highest-value next step is to close the review loop and move toward a controlled release.",
+      "priority": "Build the account export API",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 24 shows 330 min on this work.",
+        "reason_code": null
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 24 went to other work (account_export, 330 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 24 shows 96 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 24 shows 65 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 24 shows 330 min on this work.",
+      "reason_code": null
+    }
   }
 }

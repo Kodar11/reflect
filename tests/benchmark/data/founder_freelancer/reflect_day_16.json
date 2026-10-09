@@ -552,14 +552,16 @@
       "action_type": "complete_open_loop",
       "reason": "The SaaS has moved through implementation, deployment, staging, launch preparation, and demo creation; the next useful step is to close the remaining release-readiness checklist rather than expand scope.",
       "suggested_focus_minutes": 60,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Keep freelance communication contained",
       "action_type": "protect_priority",
       "reason": "Client work was light today, so a small communication window can preserve responsiveness without allowing routine messages to fragment the main product push.",
       "suggested_focus_minutes": 20,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not assume the SaaS is publicly launched just because staging and launch preparation activity occurred.",

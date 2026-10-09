@@ -259,8 +259,12 @@
         "context": "Work",
         "area": "New client identity",
         "intent": "Communicate",
-        "quality": "Necessary client work",
-        "importance": "medium"
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "new_identity",
+        "label_notes": {
+          "quality": "Necessary client work"
+        }
       },
       {
         "id": "gt-10-02",
@@ -273,9 +277,14 @@
         ],
         "context": "Work",
         "area": "New client identity",
-        "intent": "Consolidate",
-        "quality": "Strong progress",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Consolidate",
+          "quality": "Strong progress"
+        }
       },
       {
         "id": "gt-10-03",
@@ -290,7 +299,12 @@
         "area": "Reference / research",
         "intent": "Research",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-10-04",
@@ -304,9 +318,14 @@
         ],
         "context": "Work",
         "area": "New client identity",
-        "intent": "Explore and refine",
-        "quality": "Substantial progress",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Explore and refine",
+          "quality": "Substantial progress"
+        }
       },
       {
         "id": "gt-10-05",
@@ -321,9 +340,14 @@
         ],
         "context": "Work",
         "area": "New client identity",
-        "intent": "Prepare and communicate",
-        "quality": "Strong progress",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Prepare and communicate",
+          "quality": "Strong progress"
+        }
       },
       {
         "id": "gt-10-06",
@@ -338,9 +362,14 @@
         ],
         "context": "Work",
         "area": "New client identity",
-        "intent": "Consolidate and communicate",
-        "quality": "Meaningful progress",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Consolidate and communicate",
+          "quality": "Meaningful progress"
+        }
       },
       {
         "id": "gt-10-07",
@@ -355,9 +384,14 @@
         ],
         "context": "Work",
         "area": "Client work",
-        "intent": "Produce and communicate",
-        "quality": "Necessary client work",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "social_campaign",
+        "label_notes": {
+          "intent": "Produce and communicate",
+          "quality": "Necessary client work"
+        }
       },
       {
         "id": "gt-10-08",
@@ -372,7 +406,13 @@
         "area": "Reference / research",
         "intent": "Unknown",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "intent": "Unknown",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-10-09",
@@ -386,9 +426,14 @@
         ],
         "context": "Work",
         "area": "Portfolio",
-        "intent": "Build portfolio",
-        "quality": "Meaningful progress",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "portfolio",
+        "label_notes": {
+          "intent": "Build portfolio",
+          "quality": "Meaningful progress"
+        }
       },
       {
         "id": "gt-10-10",
@@ -403,7 +448,13 @@
         "area": "Reference / learning",
         "intent": "Unknown",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "intent": "Unknown",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-10-11",
@@ -416,9 +467,14 @@
         ],
         "context": "Work",
         "area": "New client identity",
-        "intent": "Refine",
-        "quality": "Useful refinement",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Refine",
+          "quality": "Useful refinement"
+        }
       }
     ],
     "unobserved_periods": [
@@ -475,14 +531,16 @@
       "action_type": "complete_open_loop",
       "reason": "The identity exploration has been narrowed into two differentiated routes; the next useful step is to get focused client feedback and avoid reopening the entire concept space.",
       "suggested_focus_minutes": 30,
-      "target": "New client brand identity"
+      "target": "New client brand identity",
+      "target_stream": "new_identity"
     },
     "secondary_action": {
       "title": "Finish the Northstar case study draft",
       "action_type": "scheduled_focus",
       "reason": "The portfolio work is gaining momentum and benefits from another uninterrupted block before it becomes an indefinite open loop.",
       "suggested_focus_minutes": 75,
-      "target": "Northstar Coffee portfolio"
+      "target": "Northstar Coffee portfolio",
+      "target_stream": "portfolio"
     },
     "things_not_to_do": [
       "Do not treat the reference browsing as distraction without stronger evidence.",
@@ -490,6 +548,74 @@
       "Do not frame the social campaign work as an interruption that should have been ignored; it was legitimate client work.",
       "Do not claim the Northstar case study is complete merely because a coherent draft exists.",
       "Do not infer motivation, stress, or psychology from the fragmented schedule."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The identity exploration has been narrowed into two differentiated routes; the next useful step is to get focused client feedback and avoid reopening the entire concept space.",
+      "priority": "Develop the brand identity for the new client",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 11 shows 102 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 11 shows 499 min on this work.",
+        "reason_code": null
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (new_identity, 499 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (new_identity, 499 min).",
+        "reason_code": "different_priority"
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (new_identity, 499 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (new_identity, 499 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 11 shows 499 min on this work.",
+      "reason_code": null
+    }
   }
 }

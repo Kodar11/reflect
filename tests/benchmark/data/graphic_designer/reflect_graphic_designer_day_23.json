@@ -297,7 +297,8 @@
         "area": "Social campaign",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-23-02",
@@ -318,7 +319,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-23-03",
@@ -338,7 +340,8 @@
         "area": "New brand inquiry",
         "intent": "Communicate",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "food_identity"
       },
       {
         "id": "gt-23-04",
@@ -353,7 +356,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-23-05",
@@ -368,7 +376,8 @@
         "area": "New brand inquiry",
         "intent": "Research",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "food_identity"
       },
       {
         "id": "gt-23-06",
@@ -383,7 +392,8 @@
         "area": "Administration",
         "intent": "Plan",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "client_admin"
       },
       {
         "id": "gt-23-07",
@@ -398,7 +408,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       }
     ],
     "unobserved_periods": [
@@ -437,9 +452,96 @@
       "action_type": "clarify_priority",
       "reason": "The new inquiry is becoming concrete. Before starting visual exploration, confirm scope, deliverables, timeline, and commercial terms so research and reference collection do not run ahead of a defined brief.",
       "suggested_focus_minutes": null,
-      "target": "New brand inquiry"
+      "target": "New brand inquiry",
+      "target_stream": "food_identity"
     },
     "secondary_action": null,
-    "things_not_to_do": []
-  }
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The new inquiry is becoming concrete. Before starting visual exploration, confirm scope, deliverables, timeline, and commercial terms so research and reference collection do not run ahead of a defined brief.",
+      "priority": "Scope and start the food-business brand identity",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "northstar_identity",
+      "new_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 24 went to other work (food_identity, 278 min).",
+        "reason_code": "different_priority"
+      },
+      "new_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "food_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 24 shows 278 min on this work.",
+        "reason_code": null
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 24 shows 77 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 24 shows 23 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 24 shows 28 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 24 shows 278 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Scope and start the food-business brand identity"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Scoping a brand identity for a food business",
+        "Preparing social media campaign assets for a client",
+        "Building a personal portfolio case study",
+        "Handling client communication and revisions"
+      ]
+    }
+  ]
 }

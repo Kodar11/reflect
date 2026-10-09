@@ -582,14 +582,16 @@
       "action_type": "complete_open_loop",
       "reason": "A potential freelance opportunity is active, the reply has been reviewed, and a follow-up response remains visibly unfinished.",
       "suggested_focus_minutes": 20,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Protect a focused SaaS block",
       "action_type": "protect_priority",
       "reason": "The client deadline legitimately displaced much of today's product time, while the evening SaaS block showed that progress can resume when the client work is stable.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not criticize the client work for displacing the SaaS priority when the client issue required attention.",

@@ -5,17 +5,17 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
-      "Complete the next round of experiments for the main uncertainty estimation project",
-      "Move the manuscript from exploratory notes toward a coherent results section",
-      "Resolve whether the current experimental setup is measuring calibration fairly",
-      "Complete the replication study before deciding whether it is worth extending"
+      "Complete the next experiments for the uncertainty project",
+      "Move the manuscript from notes to a coherent results section",
+      "Resolve whether the setup measures calibration fairly",
+      "Complete the replication study before deciding to extend it"
     ]
   },
   "day": {
@@ -329,11 +329,17 @@
           249,
           250
         ],
-        "context": "Builds directly on the distribution-shift interpretation developed during Days 5–9.",
+        "context": "Work",
         "area": "literature review",
-        "intent": "synthesis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Builds directly on the distribution-shift interpretation developed during Days 5–9.",
+          "intent": "synthesis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-10-02",
@@ -346,11 +352,17 @@
           252,
           253
         ],
-        "context": "Manuscript framing is updated after the literature synthesis.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Manuscript framing is updated after the literature synthesis.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-10-03",
@@ -362,11 +374,17 @@
           254,
           255
         ],
-        "context": "A possible submission timeline creates a practical constraint on further experimentation.",
+        "context": "Work",
         "area": "project planning",
-        "intent": "planning",
-        "quality": "medium",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "A possible submission timeline creates a practical constraint on further experimentation.",
+          "intent": "planning",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-10-04",
@@ -378,11 +396,17 @@
           256,
           257
         ],
-        "context": "The replication remains blocked on reference preprocessing.",
+        "context": "Work",
         "area": "replication and learning",
-        "intent": "maintenance",
-        "quality": "medium",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "replication",
+        "label_notes": {
+          "context": "The replication remains blocked on reference preprocessing.",
+          "intent": "maintenance",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-10-05",
@@ -393,11 +417,17 @@
         "event_ids": [
           258
         ],
-        "context": "Short unrelated evening browsing.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "leisure",
+        "intent": "Consume",
         "quality": "unknown",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Short unrelated evening browsing.",
+          "intent": "leisure",
+          "quality": "unknown"
+        }
       },
       {
         "id": "gt-10-06",
@@ -409,11 +439,17 @@
           259,
           260
         ],
-        "context": "Final writing block after the evening interruption.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Final writing block after the evening interruption.",
+          "intent": "revision",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -460,19 +496,89 @@
       "title": "Do the one planned generalization test",
       "reason": "The literature and manuscript work have narrowed the contribution and the stopping rule now defines a bounded final evidence-gathering step.",
       "suggested_focus_minutes": 90,
-      "target": "Main Research Project"
+      "target": "Main Research Project",
+      "target_stream": "main_experiment"
     },
     "secondary_action": {
       "action_type": "continue_successful_behavior",
       "title": "Keep the research question narrow",
       "reason": "The strongest progress today came from aligning the literature, experiments, and manuscript around a defensible claim instead of broadening the project.",
       "suggested_focus_minutes": 30,
-      "target": "Manuscript"
+      "target": "Manuscript",
+      "target_stream": "manuscript"
     },
     "things_not_to_do": [
       "Do not expand the literature search indefinitely after the core related-work gap has been mapped.",
       "Do not add a large experiment matrix before running the single pre-specified generalization test.",
       "Do not revive the replication study without resolving its reference preprocessing dependency."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The literature and manuscript work have narrowed the contribution and the stopping rule now defines a bounded final evidence-gathering step.",
+      "priority": "Complete the next experiments for the uncertainty project",
+      "type": "protect_priority"
+    },
+    "forbidden_streams": [
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 11 shows 184 min on this work.",
+        "reason_code": null
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 11 shows 271 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (manuscript, 271 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (manuscript, 271 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (manuscript, 271 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (manuscript, 271 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 11 shows 184 min on this work.",
+      "reason_code": null
+    }
   }
 }

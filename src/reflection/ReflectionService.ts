@@ -6,7 +6,7 @@ import type { UserContextProvider } from '../intelligence/IntelligenceModels.js'
 import { activitySignature } from './ReflectionActivities.js';
 import type { ReflectionAnnotator } from './ReflectionAnnotator.js';
 import { EVENTS_REMOVED_REASON } from './ReflectionChanges.js';
-import type { DailyCoachSession, ReflectionCoachHook } from './ReflectionCoachHook.js';
+import type { CoachCheck, DailyCoachSession, ReflectionCoachHook } from './ReflectionCoachHook.js';
 import { assessSufficiency, findMeaningfulDifference, selectSupportingMetrics, staleReasonFor } from './ReflectionMetrics.js';
 import { prioritiesFingerprint, type ReflectionMetricsService } from './ReflectionMetricsService.js';
 import {
@@ -52,9 +52,10 @@ import {
   buildReflectionPrompt,
   buildReflectionResponseSchema,
   buildReflectionRetryFeedback,
+  buildTargetedRetryFeedback,
   buildReflectionSystemInstruction,
 } from './ReflectionPrompt.js';
-import { createEvidenceToolkit, validateReflectionOutput, type ValidatedReflection } from './ReflectionValidator.js';
+import { createEvidenceToolkit, plainHeadline, validateReflectionOutput, type ReflectionIssue, type ValidatedReflection } from './ReflectionValidator.js';
 
 /**
  * `ReflectionService` owns the reflection pipeline and its read model:
@@ -75,6 +76,10 @@ import { createEvidenceToolkit, validateReflectionOutput, type ValidatedReflecti
 /** One initial attempt + two retries. */
 const MAX_ATTEMPTS = 3;
 const RETRY_DELAYS_MS = [1_000, 4_000];
+/** Appended to the measured total when no observation of the model's survived validation. */
+const FALLBACK_SUFFIX = 'No further observation passed Reflect’s evidence checks.';
+/** Stored with such a report, so it is never mistaken for a day on which nothing was worth saying. */
+const FALLBACK_NOTE = 'No generated observation passed Reflect’s evidence checks for this period; only measured totals are shown.';
 const REJECTION_CATEGORIES: ReflectionErrorCategory[] = ['malformed_output', 'validation'];
 const FEEDBACK_LOOKBACK_MS = 90 * 86_400_000;
 const DAY_MS = 86_400_000;
@@ -899,13 +904,20 @@ export class ReflectionService {
 
       type Accepted = { reflection: ValidatedReflection; coach: unknown; model: string };
       let accepted: Accepted | null = null;
-      let salvage: Accepted | null = null;
       let lastError: { category: ReflectionErrorCategory; message: string } = { category: 'internal', message: 'No attempt was made' };
-      let feedback: string[] | null = null;
+      let feedback: string | null = null;
+      // The two halves of a day's response are judged, and settled, separately. A retry asked for because of one
+      // half must not re-roll — or talk the model out of — a half that had nothing wrong with it: once a half is
+      // settled, what later responses say for it is ignored.
+      //
+      // The reflection is settled as soon as a response leaves something true to show: it validated as written,
+      // or its unsupported claims were removed and at least one insight (or an honest "nothing stood out") is
+      // left. A smaller true report is preferred to asking again.
+      let settledReflection: { reflection: ValidatedReflection; model: string } | null = null;
+      // The headline and narrative that validated in a response none of whose insights did — kept in case no
+      // later attempt does better.
+      let remainder: { reflection: ValidatedReflection; model: string } | null = null;
       // The coaching half of the first response in which it validated cleanly.
-      // A retry is asked for because of the reflection ("drop any claim you
-      // cannot support"); it must not also re-roll, or talk the model out of,
-      // a coaching decision that had nothing wrong with it.
       let settledCoach: { value: unknown } | null = null;
       // When no attempt's coaching validated cleanly, the subset that kept the most is what survives — not merely
       // the last one. (An action that passed every check in attempt 2 is not lost because attempt 3 kept nothing.)
@@ -923,7 +935,7 @@ export class ReflectionService {
         try {
           const response = await gemini.generateJson({
             systemInstruction,
-            prompt: feedback ? `${basePrompt}\n\n${buildReflectionRetryFeedback(feedback)}` : basePrompt,
+            prompt: feedback ? `${basePrompt}\n\n${feedback}` : basePrompt,
             responseJsonSchema,
           });
 
@@ -932,38 +944,56 @@ export class ReflectionService {
             rawOutput = JSON.parse(response.text);
           } catch {
             lastError = { category: 'malformed_output', message: 'Response was not valid JSON' };
-            feedback = ['The response was not valid JSON.'];
+            feedback = buildReflectionRetryFeedback(['The response was not valid JSON.']);
             this.log.warn('[REFLECTION] Malformed structured output (not JSON).');
             continue;
           }
 
-          const validation = validateReflectionOutput(rawOutput, {
-            period,
-            metrics: dataset.metrics,
-            activityByRef: prepared.activityByRef,
-            priorities: dataset.priorities,
-            maxInsights: this.config.maxInsights[period.type],
-            history: prepared.history,
-            disputedIdentities,
-            mutedIdentities: prepared.mutedIdentities,
-            periodLabel,
-          });
+          let reflectionIssues: ReflectionIssue[] = [];
+          if (!settledReflection) {
+            const validation = validateReflectionOutput(rawOutput, {
+              period,
+              metrics: dataset.metrics,
+              activityByRef: prepared.activityByRef,
+              priorities: dataset.priorities,
+              maxInsights: this.config.maxInsights[period.type],
+              history: prepared.history,
+              disputedIdentities,
+              mutedIdentities: prepared.mutedIdentities,
+              periodLabel,
+            });
+            const kept = validation.ok ? validation.reflection : validation.salvaged;
+            const issues = validation.ok ? (validation.repairs ?? []) : validation.issues;
+            const repaired = issues.filter((i) => i.resolution === 'repaired');
+            const removed = issues.filter((i) => i.resolution === 'removed');
+            if (repaired.length > 0) this.log.info(`[REFLECTION] Repaired ${repaired.length} presentation problem(s): ${repaired.map((i) => i.message).join('; ')}`);
+            if (kept) {
+              settledReflection = { reflection: kept, model: response.modelVersion };
+              if (removed.length > 0) {
+                this.log.warn(`[REFLECTION] Removed ${removed.length} unsupported claim(s), kept ${kept.insights.length} insight(s): ${removed.slice(0, 5).map((i) => i.message).join('; ')}`);
+              }
+            } else {
+              reflectionIssues = issues.filter((i) => i.resolution !== 'repaired');
+              if (!validation.ok && validation.remainder && (!remainder || (validation.remainder.narrative !== null && remainder.reflection.narrative === null))) {
+                remainder = { reflection: validation.remainder, model: response.modelVersion };
+              }
+            }
+          }
+
           // The coaching half is checked against the same evidence. Its valid
           // subset is always usable, so it can never sink a good reflection.
-          const coachCheck = coach ? coach.validate((rawOutput as { coach?: unknown } | null)?.coach, evidence) : null;
-          if (coachCheck?.ok && !settledCoach) settledCoach = { value: coachCheck.value };
-          const coachProblems = settledCoach || !coachCheck || coachCheck.ok ? [] : coachCheck.errors;
+          const coachCheck: CoachCheck | null = coach && !settledCoach ? coach.validate((rawOutput as { coach?: unknown } | null)?.coach, evidence) : null;
+          if (coachCheck?.ok) settledCoach = { value: coachCheck.value };
+          const coachProblems = coachCheck && !coachCheck.ok ? coachCheck.errors : [];
           if (coachCheck && !coachCheck.ok && (!bestCoach || (coachCheck.weight ?? 0) > bestCoach.weight)) bestCoach = { value: coachCheck.value, weight: coachCheck.weight ?? 0 };
-          const coachValue = settledCoach ? settledCoach.value : coachCheck ? (coachCheck.ok ? coachCheck.value : bestCoach!.value) : null;
-          const problems = [...(validation.ok ? [] : validation.errors), ...coachProblems];
-          const reflection = validation.ok ? validation.reflection : validation.salvaged;
-          if (problems.length === 0 && reflection) {
-            accepted = { reflection, coach: coachValue, model: response.modelVersion };
+
+          if (settledReflection && (!coach || settledCoach)) {
+            accepted = { reflection: settledReflection.reflection, coach: settledCoach?.value ?? null, model: settledReflection.model };
             break;
           }
+          const problems = [...reflectionIssues.map((i) => i.message), ...coachProblems];
           lastError = { category: 'validation', message: problems.slice(0, 5).join('; ') };
-          feedback = problems;
-          if (reflection) salvage = { reflection, coach: coachValue, model: response.modelVersion };
+          feedback = buildTargetedRetryFeedback({ reflection: settledReflection ? null : reflectionIssues, coach: settledCoach || !coach ? null : coachProblems });
           this.log.warn(`[REFLECTION] Validation failed: ${problems.length} problem(s). ${lastError.message}`);
         } catch (err) {
           if (!(err instanceof GeminiError)) throw err;
@@ -973,11 +1003,27 @@ export class ReflectionService {
         }
       }
 
-      // Retries exhausted: keep what fully validated rather than nothing —
-      // every unsupported insight has already been removed from it.
-      if (!accepted && salvage && lastError.category === 'validation') {
-        accepted = salvage;
-        this.log.warn(`[REFLECTION] Accepting the validated subset (${salvage.reflection.insights.length} insight(s)) after ${attempts} attempts.`);
+      // Attempts exhausted with a reflection that stands: it is kept, with whatever coaching validated.
+      if (!accepted && settledReflection) {
+        accepted = { reflection: settledReflection.reflection, coach: bestCoach?.value ?? null, model: settledReflection.model };
+        this.log.warn(`[REFLECTION] Accepting the reflection with the validated part of the coaching after ${attempts} attempts.`);
+      }
+
+      // The model answered in the right shape, for the right period, and not one observation it offered held up.
+      // That is a statement about the period's evidence, not an outage — so when the period has no report yet
+      // it still gets one: what Reflect measured, said plainly, with any sentence of the narrative that
+      // validated, and nothing else. No meaning is added. An existing report is never replaced by this, and a
+      // response that was unusable as a whole (not JSON, wrong shape, wrong period) stays a failed, retryable
+      // generation exactly as before.
+      let notes = prepared.snapshot.notes;
+      if (!accepted && remainder && lastError.category === 'validation' && repo.getCurrentReport(period.type, period.key) === null) {
+        accepted = {
+          reflection: { headline: `${plainHeadline(dataset.metrics)} ${FALLBACK_SUFFIX}`, narrative: remainder.reflection.narrative, insights: [], carryForward: null },
+          coach: settledCoach?.value ?? bestCoach?.value ?? null,
+          model: remainder.model,
+        };
+        notes = [...notes, FALLBACK_NOTE];
+        this.log.warn(`[REFLECTION] No insight passed validation in ${attempts} attempt(s) (${lastError.message}); writing the measured summary only.`);
       }
 
       if (!accepted) {
@@ -1009,7 +1055,7 @@ export class ReflectionService {
           coach: coachPlan?.block ?? null,
           alongside: coachPlan?.apply,
           insights,
-          dataSnapshot: prepared.snapshot,
+          dataSnapshot: notes === prepared.snapshot.notes ? prepared.snapshot : { ...prepared.snapshot, notes },
           metricsSnapshot: dataset.metrics,
           nowIso: createdAt,
         });

@@ -1,3 +1,24 @@
+# Benchmark v2 — state as of 2026-10-09
+
+All six personas now run end to end with `npm run benchmark:all`. Results of the first v2 run are in `results/v2/` (`combined.md`, `combined.html`); the audit below this section describes the state BEFORE v2 and is kept for the record.
+
+What v2 changed, and what of the older audit it supersedes:
+
+- **3.1 profile limit** — the day-1 texts were shortened; all six onboard.
+- **3.2 classification** — labels restated in the canonical vocabulary by rules in `data/keys/build.mjs` (originals kept in `label_notes`); labels the key calls uncertain stay unscored. Coverage is reported beside every accuracy.
+- **3.3 stale priorities** — day files carry dated `profile_updates`, replayed through the production profile and priority calls. The daily restated `persona.priorities` remain answer-key context and still never reach Reflect.
+- **3.4 coach annotations** — every persona has work streams (`persona_key.json`), stream-level targets, `action_opportunity` for every day (seven days expect silence; none for the founder) and user responses derived from the next day's ground truth.
+- **Section 5, coach target matching** — by work stream: what the action names, then what it cites, then its priority. No founder vocabulary on that path.
+- **Section 5, multi-persona run and report** — `all.mjs` and `tools/combined.mjs`.
+
+Corrections to earlier statements:
+
+- The designer's higher boundary error on days 11–30 does not come from estimated event end times: blocks and activities are compared on the same events. It comes from "purpose not observable" stretches written as separate activities. Such stretches now define no boundary.
+- The developer's low activity score is not caused by its evenly spaced events. Reflect splits one stretch of work by application and interleaves the pieces; with profile replay the block names are right and the score is unchanged (45.5%). This is a product finding and stays in the score.
+
+Still open: reflection meaning is judged by word overlap; no recommendation failed or was postponed in 180 days, so failure handling is covered only by the scenario set; classification labels for four personas are rule-derived; profile changes are authored; no Focus sessions, corrections or learned rules in any dataset.
+
+---
 # Intelligence Lab audit — six personas × 30 days
 
 Audited 2026-10-08 against the working tree on `main` (commit `1dacff8` plus uncommitted work under `src/`).

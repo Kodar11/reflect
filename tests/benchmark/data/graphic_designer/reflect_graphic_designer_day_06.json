@@ -1,34 +1,488 @@
 {
-  "persona": {"id":"freelance_brand_designer_01","type":"graphic_designer","role":"Freelance brand and visual identity designer","current_work":["Social media campaign assets for an existing client","Personal portfolio case study around the completed Northstar Coffee project","New small brand inquiry awaiting scope confirmation","Client communication and revisions"],"priorities":["Deliver social campaign work","Build a stronger portfolio with the Northstar Coffee project","Convert and clarify promising freelance opportunities","Maintain client relationships"]},
-  "day": {"day_number":6,"date":"2026-09-06","day_type":"low_intensity_admin_and_exploration_day","circumstances":["No major Northstar production work was required because the identity had already been handed off","A small social campaign revision arrived during the morning","The new brand inquiry required reviewing references and clarifying scope rather than immediate design execution","Portfolio work continued in a shorter block","The day included a deliberately lighter personal design exploration period"],"laptop_usage":{"first_seen":"11:02","last_seen":"18:47","approx_active_hours":4.9,"longest_unobserved_gap_minutes":96}},
+  "persona": {
+    "id": "freelance_brand_designer_01",
+    "type": "graphic_designer",
+    "role": "Freelance brand and visual identity designer",
+    "current_work": [
+      "Social media campaign assets for an existing client",
+      "Personal portfolio case study around the completed Northstar Coffee project",
+      "New small brand inquiry awaiting scope confirmation",
+      "Client communication and revisions"
+    ],
+    "priorities": [
+      "Deliver social campaign work",
+      "Build a stronger portfolio with the Northstar Coffee project",
+      "Convert and clarify promising freelance opportunities",
+      "Maintain client relationships"
+    ]
+  },
+  "day": {
+    "day_number": 6,
+    "date": "2026-09-06",
+    "day_type": "low_intensity_admin_and_exploration_day",
+    "circumstances": [
+      "No major Northstar production work was required because the identity had already been handed off",
+      "A small social campaign revision arrived during the morning",
+      "The new brand inquiry required reviewing references and clarifying scope rather than immediate design execution",
+      "Portfolio work continued in a shorter block",
+      "The day included a deliberately lighter personal design exploration period"
+    ],
+    "laptop_usage": {
+      "first_seen": "11:02",
+      "last_seen": "18:47",
+      "approx_active_hours": 4.9,
+      "longest_unobserved_gap_minutes": 96
+    }
+  },
   "raw_events": [
-    {"id":139,"watcher":"desktop","started_at":"2026-09-06T11:02:00+05:30","ended_at":"2026-09-06T11:18:00+05:30","app":"Chrome","browser":"Chrome","title":"Gmail","url":"https://mail.google.com/","payload":null},
-    {"id":140,"watcher":"desktop","started_at":"2026-09-06T11:18:00+05:30","ended_at":"2026-09-06T11:42:00+05:30","app":"Canva","browser":"Chrome","title":"Instagram carousel — September campaign","url":"https://www.canva.com/","payload":null},
-    {"id":141,"watcher":"desktop","started_at":"2026-09-06T11:42:00+05:30","ended_at":"2026-09-06T11:57:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Drive","url":"https://drive.google.com/","payload":null},
-    {"id":142,"watcher":"desktop","started_at":"2026-09-06T11:57:00+05:30","ended_at":"2026-09-06T12:16:00+05:30","app":"Chrome","browser":"Chrome","title":"Gmail","url":"https://mail.google.com/","payload":null},
-    {"id":143,"watcher":"desktop","started_at":"2026-09-06T12:16:00+05:30","ended_at":"2026-09-06T12:39:00+05:30","app":"Chrome","browser":"Chrome","title":"Behance","url":"https://www.behance.net/","payload":null},
-    {"id":144,"watcher":"desktop","started_at":"2026-09-06T12:39:00+05:30","ended_at":"2026-09-06T13:04:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Images","url":"https://www.google.com/search?tbm=isch","payload":null},
-    {"id":145,"watcher":"desktop","started_at":"2026-09-06T13:04:00+05:30","ended_at":"2026-09-06T13:21:00+05:30","app":"Chrome","browser":"Chrome","title":"Gmail","url":"https://mail.google.com/","payload":null},
-    {"id":146,"watcher":"desktop","started_at":"2026-09-06T14:57:00+05:30","ended_at":"2026-09-06T15:19:00+05:30","app":"Figma","browser":null,"title":"Portfolio — Northstar Coffee Case Study","url":null,"payload":null},
-    {"id":147,"watcher":"desktop","started_at":"2026-09-06T15:19:00+05:30","ended_at":"2026-09-06T15:47:00+05:30","app":"Figma","browser":null,"title":"Portfolio — Northstar Coffee Case Study","url":null,"payload":null},
-    {"id":148,"watcher":"desktop","started_at":"2026-09-06T15:47:00+05:30","ended_at":"2026-09-06T16:06:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Fonts","url":"https://fonts.google.com/","payload":null},
-    {"id":149,"watcher":"desktop","started_at":"2026-09-06T16:06:00+05:30","ended_at":"2026-09-06T16:28:00+05:30","app":"Figma","browser":null,"title":"Portfolio — Northstar Coffee Case Study","url":null,"payload":null},
-    {"id":150,"watcher":"desktop","started_at":"2026-09-06T16:28:00+05:30","ended_at":"2026-09-06T16:41:00+05:30","app":"Chrome","browser":"Chrome","title":"Notion","url":"https://www.notion.so/","payload":null},
-    {"id":151,"watcher":"desktop","started_at":"2026-09-06T16:41:00+05:30","ended_at":"2026-09-06T17:03:00+05:30","app":"Chrome","browser":"Chrome","title":"Behance","url":"https://www.behance.net/","payload":null},
-    {"id":152,"watcher":"desktop","started_at":"2026-09-06T17:03:00+05:30","ended_at":"2026-09-06T17:31:00+05:30","app":"Adobe Illustrator","browser":null,"title":"lettering-study-02.ai","url":null,"payload":null},
-    {"id":153,"watcher":"desktop","started_at":"2026-09-06T17:31:00+05:30","ended_at":"2026-09-06T17:46:00+05:30","app":"Chrome","browser":"Chrome","title":"YouTube","url":"https://www.youtube.com/","payload":null},
-    {"id":154,"watcher":"desktop","started_at":"2026-09-06T17:46:00+05:30","ended_at":"2026-09-06T18:17:00+05:30","app":"Adobe Illustrator","browser":null,"title":"lettering-study-02.ai","url":null,"payload":null},
-    {"id":155,"watcher":"desktop","started_at":"2026-09-06T18:17:00+05:30","ended_at":"2026-09-06T18:31:00+05:30","app":"Chrome","browser":"Chrome","title":"Gmail","url":"https://mail.google.com/","payload":null},
-    {"id":156,"watcher":"desktop","started_at":"2026-09-06T18:31:00+05:30","ended_at":"2026-09-06T18:47:00+05:30","app":"Chrome","browser":"Chrome","title":"Google Drive","url":"https://drive.google.com/","payload":null}
+    {
+      "id": 139,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:02:00+05:30",
+      "ended_at": "2026-09-06T11:18:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 140,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:18:00+05:30",
+      "ended_at": "2026-09-06T11:42:00+05:30",
+      "app": "Canva",
+      "browser": "Chrome",
+      "title": "Instagram carousel — September campaign",
+      "url": "https://www.canva.com/",
+      "payload": null
+    },
+    {
+      "id": 141,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:42:00+05:30",
+      "ended_at": "2026-09-06T11:57:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive",
+      "url": "https://drive.google.com/",
+      "payload": null
+    },
+    {
+      "id": 142,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T11:57:00+05:30",
+      "ended_at": "2026-09-06T12:16:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 143,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T12:16:00+05:30",
+      "ended_at": "2026-09-06T12:39:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 144,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T12:39:00+05:30",
+      "ended_at": "2026-09-06T13:04:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Images",
+      "url": "https://www.google.com/search?tbm=isch",
+      "payload": null
+    },
+    {
+      "id": 145,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T13:04:00+05:30",
+      "ended_at": "2026-09-06T13:21:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 146,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T14:57:00+05:30",
+      "ended_at": "2026-09-06T15:19:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Portfolio — Northstar Coffee Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 147,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T15:19:00+05:30",
+      "ended_at": "2026-09-06T15:47:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Portfolio — Northstar Coffee Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 148,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T15:47:00+05:30",
+      "ended_at": "2026-09-06T16:06:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Fonts",
+      "url": "https://fonts.google.com/",
+      "payload": null
+    },
+    {
+      "id": 149,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T16:06:00+05:30",
+      "ended_at": "2026-09-06T16:28:00+05:30",
+      "app": "Figma",
+      "browser": null,
+      "title": "Portfolio — Northstar Coffee Case Study",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 150,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T16:28:00+05:30",
+      "ended_at": "2026-09-06T16:41:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Notion",
+      "url": "https://www.notion.so/",
+      "payload": null
+    },
+    {
+      "id": 151,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T16:41:00+05:30",
+      "ended_at": "2026-09-06T17:03:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Behance",
+      "url": "https://www.behance.net/",
+      "payload": null
+    },
+    {
+      "id": 152,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T17:03:00+05:30",
+      "ended_at": "2026-09-06T17:31:00+05:30",
+      "app": "Adobe Illustrator",
+      "browser": null,
+      "title": "lettering-study-02.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 153,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T17:31:00+05:30",
+      "ended_at": "2026-09-06T17:46:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "YouTube",
+      "url": "https://www.youtube.com/",
+      "payload": null
+    },
+    {
+      "id": 154,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T17:46:00+05:30",
+      "ended_at": "2026-09-06T18:17:00+05:30",
+      "app": "Adobe Illustrator",
+      "browser": null,
+      "title": "lettering-study-02.ai",
+      "url": null,
+      "payload": null
+    },
+    {
+      "id": 155,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T18:17:00+05:30",
+      "ended_at": "2026-09-06T18:31:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Gmail",
+      "url": "https://mail.google.com/",
+      "payload": null
+    },
+    {
+      "id": 156,
+      "watcher": "desktop",
+      "started_at": "2026-09-06T18:31:00+05:30",
+      "ended_at": "2026-09-06T18:47:00+05:30",
+      "app": "Chrome",
+      "browser": "Chrome",
+      "title": "Google Drive",
+      "url": "https://drive.google.com/",
+      "payload": null
+    }
   ],
-  "ground_truth": {"activities":[
-    {"id":"gt-06-01","started_at":"11:02","ended_at":"11:57","title":"Handling the social campaign revision","summary":"Reviewed the incoming request, adjusted the Instagram carousel, and checked the campaign files before sending the updated version.","event_ids":[139,140,141],"context":"Work","area":"Client work","intent":"Revise and deliver","quality":"Meaningful progress","importance":"medium"},
-    {"id":"gt-06-02","started_at":"11:57","ended_at":"13:21","title":"Reviewing a new brand inquiry","summary":"Read the inquiry and researched visual references to understand the prospective client's direction before responding with questions about scope.","event_ids":[142,143,144,145],"context":"Work","area":"Freelance pipeline","intent":"Research and clarify","quality":"Useful exploratory work","importance":"medium"},
-    {"id":"gt-06-03","started_at":"14:57","ended_at":"16:28","title":"Continuing the Northstar portfolio case study","summary":"Refined the case-study layout, adjusted typography, and organized the project narrative after the identity had been delivered.","event_ids":[146,147,148,149],"context":"Work","area":"Portfolio","intent":"Create and refine","quality":"Meaningful progress","importance":"high"},
-    {"id":"gt-06-04","started_at":"16:28","ended_at":"16:41","title":"Updating project notes","summary":"Recorded a few portfolio and project follow-up notes in Notion.","event_ids":[150],"context":"Work","area":"Administration","intent":"Organize","quality":"Routine","importance":"low"},
-    {"id":"gt-06-05","started_at":"16:41","ended_at":"17:03","title":"Reference browsing before personal lettering practice","summary":"Looked through lettering and identity examples before starting a personal typography exercise.","event_ids":[151],"context":"Personal","area":"Skill development","intent":"Research","quality":"Legitimate exploration","importance":"low"},
-    {"id":"gt-06-06","started_at":"17:03","ended_at":"18:17","title":"Personal lettering experiment","summary":"Practiced custom lettering treatments in Illustrator, with a short YouTube session between two design passes.","event_ids":[152,153,154],"context":"Personal","area":"Skill development","intent":"Learn and experiment","quality":"Meaningful personal practice","importance":"low"},
-    {"id":"gt-06-07","started_at":"18:17","ended_at":"18:47","title":"Closing communication and file review","summary":"Checked for any new client messages and verified the latest project files before stopping work.","event_ids":[155,156],"context":"Work","area":"Freelance","intent":"Close out","quality":"Routine","importance":"low"}],"unobserved_periods":[{"started_at":"13:21","ended_at":"14:57","reason":"Lunch / offline"}]},
-  "expected_reflection":{"period":"today","key_observations":["The day shifted from completed Northstar delivery into portfolio and pipeline work rather than reopening the finished identity project.","The social campaign revision was handled early and did not consume the entire day.","The new brand inquiry involved genuine reference research and clarification rather than immediate execution.","The Northstar portfolio case study continued to receive focused attention, though it remains unfinished.","The evening Illustrator session was consistent with a personal lettering exercise; the short YouTube segment remains less certain in isolation."],"priority_alignment":[{"priority":"Deliver social campaign work","assessment":"meaningfully progressed"},{"priority":"Build a stronger portfolio with the Northstar Coffee project","assessment":"meaningfully progressed"},{"priority":"Convert and clarify promising freelance opportunities","assessment":"some progress"},{"priority":"Maintain client relationships","assessment":"maintained"}],"important_uncertainty":["The new inquiry research cannot establish whether the prospective client will actually proceed.","The YouTube session is not sufficiently specific to determine whether it supported the lettering exercise.","The offline afternoon period is unobserved."],"possible_next_step":"Continue the Northstar case study toward a publishable draft while following up on the new inquiry once its scope is clarified."},
-  "expected_coach_outcome":{"primary_action":{"title":"Push the Northstar case study toward a draft","action_type":"complete_open_loop","reason":"The portfolio case study has now received meaningful attention on consecutive days but remains unfinished.","suggested_focus_minutes":75,"target":"Northstar Coffee portfolio case study"},"secondary_action":null,"things_not_to_do":["Do not treat the new brand inquiry as confirmed work before the scope is agreed.","Do not characterize Behance research as procrastination merely because it preceded personal practice.","Do not classify YouTube as entertainment or learning without stronger evidence.","Do not imply that the lighter weekend schedule was a productivity problem.","Do not reopen the completed Northstar client identity unless new client feedback requires it."]}
+  "ground_truth": {
+    "activities": [
+      {
+        "id": "gt-06-01",
+        "started_at": "11:02",
+        "ended_at": "11:57",
+        "title": "Handling the social campaign revision",
+        "summary": "Reviewed the incoming request, adjusted the Instagram carousel, and checked the campaign files before sending the updated version.",
+        "event_ids": [139, 140, 141],
+        "context": "Work",
+        "area": "Client work",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "social_campaign",
+        "label_notes": {
+          "intent": "Revise and deliver",
+          "quality": "Meaningful progress"
+        }
+      },
+      {
+        "id": "gt-06-02",
+        "started_at": "11:57",
+        "ended_at": "13:21",
+        "title": "Reviewing a new brand inquiry",
+        "summary": "Read the inquiry and researched visual references to understand the prospective client's direction before responding with questions about scope.",
+        "event_ids": [142, 143, 144, 145],
+        "context": "Work",
+        "area": "Freelance pipeline",
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "new_identity",
+        "label_notes": {
+          "intent": "Research and clarify",
+          "quality": "Useful exploratory work"
+        }
+      },
+      {
+        "id": "gt-06-03",
+        "started_at": "14:57",
+        "ended_at": "16:28",
+        "title": "Continuing the Northstar portfolio case study",
+        "summary": "Refined the case-study layout, adjusted typography, and organized the project narrative after the identity had been delivered.",
+        "event_ids": [146, 147, 148, 149],
+        "context": "Work",
+        "area": "Portfolio",
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "portfolio",
+        "label_notes": {
+          "intent": "Create and refine",
+          "quality": "Meaningful progress"
+        }
+      },
+      {
+        "id": "gt-06-04",
+        "started_at": "16:28",
+        "ended_at": "16:41",
+        "title": "Updating project notes",
+        "summary": "Recorded a few portfolio and project follow-up notes in Notion.",
+        "event_ids": [150],
+        "context": "Work",
+        "area": "Administration",
+        "intent": "Organize",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "client_admin"
+      },
+      {
+        "id": "gt-06-05",
+        "started_at": "16:41",
+        "ended_at": "17:03",
+        "title": "Reference browsing before personal lettering practice",
+        "summary": "Looked through lettering and identity examples before starting a personal typography exercise.",
+        "event_ids": [151],
+        "context": "Personal",
+        "area": "Skill development",
+        "intent": "Research",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal_practice",
+        "label_notes": {
+          "quality": "Legitimate exploration"
+        }
+      },
+      {
+        "id": "gt-06-06",
+        "started_at": "17:03",
+        "ended_at": "18:17",
+        "title": "Personal lettering experiment",
+        "summary": "Practiced custom lettering treatments in Illustrator, with a short YouTube session between two design passes.",
+        "event_ids": [152, 153, 154],
+        "context": "Personal",
+        "area": "Skill development",
+        "intent": "Learn",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal_practice",
+        "label_notes": {
+          "intent": "Learn and experiment",
+          "quality": "Meaningful personal practice"
+        }
+      },
+      {
+        "id": "gt-06-07",
+        "started_at": "18:17",
+        "ended_at": "18:47",
+        "title": "Closing communication and file review",
+        "summary": "Checked for any new client messages and verified the latest project files before stopping work.",
+        "event_ids": [155, 156],
+        "context": "Work",
+        "area": "Freelance",
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "client_admin",
+        "label_notes": {
+          "intent": "Close out"
+        }
+      }
+    ],
+    "unobserved_periods": [
+      {
+        "started_at": "13:21",
+        "ended_at": "14:57",
+        "reason": "Lunch / offline"
+      }
+    ]
+  },
+  "expected_reflection": {
+    "period": "today",
+    "key_observations": [
+      "The day shifted from completed Northstar delivery into portfolio and pipeline work rather than reopening the finished identity project.",
+      "The social campaign revision was handled early and did not consume the entire day.",
+      "The new brand inquiry involved genuine reference research and clarification rather than immediate execution.",
+      "The Northstar portfolio case study continued to receive focused attention, though it remains unfinished.",
+      "The evening Illustrator session was consistent with a personal lettering exercise; the short YouTube segment remains less certain in isolation."
+    ],
+    "priority_alignment": [
+      {
+        "priority": "Deliver social campaign work",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Build a stronger portfolio with the Northstar Coffee project",
+        "assessment": "meaningfully progressed"
+      },
+      {
+        "priority": "Convert and clarify promising freelance opportunities",
+        "assessment": "some progress"
+      },
+      {
+        "priority": "Maintain client relationships",
+        "assessment": "maintained"
+      }
+    ],
+    "important_uncertainty": [
+      "The new inquiry research cannot establish whether the prospective client will actually proceed.",
+      "The YouTube session is not sufficiently specific to determine whether it supported the lettering exercise.",
+      "The offline afternoon period is unobserved."
+    ],
+    "possible_next_step": "Continue the Northstar case study toward a publishable draft while following up on the new inquiry once its scope is clarified."
+  },
+  "expected_coach_outcome": {
+    "primary_action": {
+      "title": "Push the Northstar case study toward a draft",
+      "action_type": "complete_open_loop",
+      "reason": "The portfolio case study has now received meaningful attention on consecutive days but remains unfinished.",
+      "suggested_focus_minutes": 75,
+      "target": "Northstar Coffee portfolio case study",
+      "target_stream": "portfolio"
+    },
+    "secondary_action": null,
+    "things_not_to_do": [
+      "Do not treat the new brand inquiry as confirmed work before the scope is agreed.",
+      "Do not characterize Behance research as procrastination merely because it preceded personal practice.",
+      "Do not classify YouTube as entertainment or learning without stronger evidence.",
+      "Do not imply that the lighter weekend schedule was a productivity problem.",
+      "Do not reopen the completed Northstar client identity unless new client feedback requires it."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The portfolio case study has now received meaningful attention on consecutive days but remains unfinished.",
+      "priority": "Build a stronger portfolio with the coffee project",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 7 shows 48 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 7 shows 342 min on this work.",
+        "reason_code": null
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 7 went to other work (new_identity, 342 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 7 shows 65 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 7 went to other work (new_identity, 342 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 7 went to other work (new_identity, 342 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "Day 7 shows 48 min on this work.",
+      "reason_code": null
+    }
+  }
 }

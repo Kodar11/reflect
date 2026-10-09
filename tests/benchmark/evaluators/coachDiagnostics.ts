@@ -144,7 +144,9 @@ const MULTI_DAY_TYPES = new Set(['protect_priority', 'stop_recurring_pattern', '
 
 const describeSignal = (s: CoachOpportunity) => `${s.kind}:${s.strength}${s.days && s.days > 1 ? `:${s.days}d` : ''}${s.record ? `→${s.record.standing}` : ''}`;
 
-function expectedPriorityIds(target: string | null, priorities: { id: string; text: string }[]): string[] {
+function expectedPriorityIds(target: string | null, priorities: { id: string; text: string }[], served: string[] | null = null): string[] {
+  // With a stream registry: the stated priorities the expected stream serves.
+  if (served !== null) return priorities.filter((p) => served.includes(p.text)).map((p) => p.id);
   if (target === null) return [];
   if (KNOWN_TARGETS.includes(target)) return priorities.filter((p) => streamOfPriority(p.text) === target).map((p) => p.id);
   return priorities.filter((p) => p.text === target).map((p) => p.id);
@@ -152,7 +154,7 @@ function expectedPriorityIds(target: string | null, priorities: { id: string; te
 
 export function diagnoseDay(captured: CapturedDay, assessment: CoachAssessment, pipelineLog: string[], replay: ReplayedDay | undefined): DayDiagnosis {
   const attempts = parseDecisionAttempts(pipelineLog);
-  const targetIds = expectedPriorityIds(assessment.opportunity.target, captured.priorities);
+  const targetIds = expectedPriorityIds(assessment.opportunity.target, captured.priorities, assessment.opportunity.targetPriorities ?? null);
   // A day-wide move (rest, fewer switches) has no target: every day-wide signal is "its" signal.
   const forTarget = (replay?.signals ?? []).filter((s) => (targetIds.length > 0 ? s.priorityId !== null && targetIds.includes(s.priorityId) : s.priorityId === null));
   const measured = forTarget.filter((s) => s.kind !== 'tried_before' && s.kind !== 'momentum');

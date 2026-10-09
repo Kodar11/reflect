@@ -359,11 +359,17 @@
           437,
           438
         ],
-        "context": "The new API needed explicit boundaries around who can request an export and what data the export should contain.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "plan",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The new API needed explicit boundaries around who can request an export and what data the export should contain.",
+          "intent": "plan",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-18-02",
@@ -380,11 +386,17 @@
           444,
           445
         ],
-        "context": "Implementation followed the clarified contract, with attention to both permission boundaries and query behavior.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "implement",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "Implementation followed the clarified contract, with attention to both permission boundaries and query behavior.",
+          "intent": "implement",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-18-03",
@@ -395,11 +407,17 @@
         "event_ids": [
           446
         ],
-        "context": "Normal team review responsibility.",
+        "context": "Work",
         "area": "team_maintenance",
-        "intent": "review",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "Normal team review responsibility.",
+          "intent": "review",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-18-04",
@@ -413,11 +431,17 @@
           449,
           450
         ],
-        "context": "Operational areas remained stable while the new API moved toward a reviewable state.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "Operational areas remained stable while the new API moved toward a reviewable state.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -486,20 +510,101 @@
       "action_type": "clarify_priority",
       "target": "Account export large-result delivery strategy",
       "reason": "The implementation is progressing, but the choice between synchronous and asynchronous export behavior could materially change the architecture and should be settled before more code is added.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "account_export"
     },
-    "secondary_action": {
-      "title": "Account export authorization coverage",
-      "action_type": "complete_open_loop",
-      "target": "Account export authorization coverage",
-      "reason": "The permission boundary has been investigated and can now be turned into explicit tests before the API is opened for broader review.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not continue implementing large-export behavior based on an unstated synchronous-response assumption.",
       "Do not treat the query plan inspection as proof that all export sizes will perform acceptably.",
       "Do not reopen the closed webhook reliability issue without new evidence.",
       "Do not infer that routine platform checks competed with the account export work."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Account export large-result delivery strategy",
+        "action_type": "clarify_priority",
+        "target": "Account export large-result delivery strategy",
+        "reason": "The implementation is progressing, but the choice between synchronous and asynchronous export behavior could materially change the architecture and should be settled before more code is added.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Account export authorization coverage",
+        "action_type": "complete_open_loop",
+        "target": "Account export authorization coverage",
+        "reason": "The permission boundary has been investigated and can now be turned into explicit tests before the API is opened for broader review.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The implementation is progressing, but the choice between synchronous and asynchronous export behavior could materially change the architecture and should be settled before more code is added.",
+      "priority": "Build the account export API",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 19 shows 411 min on this work.",
+        "reason_code": null
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 19 went to other work (account_export, 411 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 19 went to other work (account_export, 411 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 19 shows 84 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 19 shows 411 min on this work.",
+      "reason_code": null
+    }
   }
 }

@@ -5,17 +5,17 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
-      "Complete the next round of experiments for the main uncertainty estimation project",
-      "Move the manuscript from exploratory notes toward a coherent results section",
-      "Resolve whether the current experimental setup is measuring calibration fairly",
-      "Complete the replication study before deciding whether it is worth extending"
+      "Complete the next experiments for the uncertainty project",
+      "Move the manuscript from notes to a coherent results section",
+      "Resolve whether the setup measures calibration fairly",
+      "Complete the replication study before deciding to extend it"
     ]
   },
   "day": {
@@ -364,11 +364,17 @@
           229,
           230
         ],
-        "context": "Direct follow-up to the metric discrepancy discovered on Day 8.",
+        "context": "Work",
         "area": "research infrastructure and methodology",
-        "intent": "methodology",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "main_experiment",
+        "label_notes": {
+          "context": "Direct follow-up to the metric discrepancy discovered on Day 8.",
+          "intent": "methodology",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-09-02",
@@ -382,11 +388,17 @@
           233,
           234
         ],
-        "context": "Manuscript work depends on the frozen evaluation protocol.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Manuscript work depends on the frozen evaluation protocol.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-09-03",
@@ -399,11 +411,17 @@
           236,
           237
         ],
-        "context": "External feedback arrives after the corrected analysis is incorporated.",
+        "context": "Work",
         "area": "manuscript and collaboration",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "External feedback arrives after the corrected analysis is incorporated.",
+          "intent": "revision",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-09-04",
@@ -414,11 +432,17 @@
         "event_ids": [
           238
         ],
-        "context": "Maintains the parked replication thread without allowing it to compete with the main project.",
+        "context": "Work",
         "area": "replication study",
-        "intent": "administrative",
-        "quality": "medium",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "replication",
+        "label_notes": {
+          "context": "Maintains the parked replication thread without allowing it to compete with the main project.",
+          "intent": "administrative",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-09-05",
@@ -431,11 +455,17 @@
           240,
           241
         ],
-        "context": "Lower-intensity evening activity followed by a concrete documentation task.",
+        "context": "Personal",
         "area": "learning and research documentation",
-        "intent": "documentation",
-        "quality": "medium",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Lower-intensity evening activity followed by a concrete documentation task.",
+          "intent": "documentation",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-09-06",
@@ -446,11 +476,17 @@
         "event_ids": [
           242
         ],
-        "context": "Administrative closeout of the day's methodology work.",
+        "context": "Work",
         "area": "research software",
-        "intent": "maintenance",
-        "quality": "medium",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "main_experiment",
+        "label_notes": {
+          "context": "Administrative closeout of the day's methodology work.",
+          "intent": "maintenance",
+          "quality": "medium"
+        }
       }
     ],
     "unobserved_periods": [
@@ -492,19 +528,96 @@
       "title": "Finish the protocol-to-manuscript handoff",
       "reason": "The main methodological uncertainty has been resolved enough that another broad debugging cycle is unnecessary; the next value comes from completing the reproducible methods and results narrative.",
       "suggested_focus_minutes": 60,
-      "target": "Manuscript"
+      "target": "Manuscript",
+      "target_stream": "manuscript"
     },
     "secondary_action": {
       "action_type": "clarify_priority",
       "title": "Set a stopping rule for additional experiments",
       "reason": "The project has accumulated several controlled comparisons. A clear criterion for when to stop expanding the experiment set would prevent open-ended experimentation.",
       "suggested_focus_minutes": 20,
-      "target": "Main Research Project"
+      "target": "Main Research Project",
+      "target_stream": "main_experiment"
     },
     "things_not_to_do": [
       "Do not reintroduce the excluded exploratory run into the main comparison without reconstructing its evaluation settings.",
       "Do not restart the replication study while its reference preprocessing dependency remains unresolved.",
       "Do not add another metric implementation unless the frozen protocol exposes a specific unresolved methodological issue."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The main methodological uncertainty has been resolved enough that another broad debugging cycle is unnecessary; the next value comes from completing the reproducible methods and results narrative.",
+      "priority": "Move the manuscript from notes to a coherent results section",
+      "type": "protect_priority"
+    },
+    "forbidden_streams": [
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 10 went to other work (manuscript, 377 min).",
+        "reason_code": "different_priority"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 10 shows 377 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 10 went to other work (manuscript, 377 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 10 went to other work (manuscript, 377 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 10 went to other work (manuscript, 377 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 10 went to other work (manuscript, 377 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 10 shows 377 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Resolve whether the setup measures calibration fairly"
+    }
+  ]
 }

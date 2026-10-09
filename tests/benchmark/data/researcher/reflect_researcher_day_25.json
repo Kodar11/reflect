@@ -335,11 +335,17 @@
           515,
           516
         ],
-        "context": "Follow-up explicitly planned after the non-monotonic aggregate result on Day 24.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Follow-up explicitly planned after the non-monotonic aggregate result on Day 24.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-25-02",
@@ -353,11 +359,17 @@
           519,
           520
         ],
-        "context": "Additional seed was used only after the targeted diagnostic produced a specific pattern worth checking.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "experiment",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Additional seed was used only after the targeted diagnostic produced a specific pattern worth checking.",
+          "intent": "experiment",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-25-03",
@@ -370,11 +382,17 @@
           522,
           523
         ],
-        "context": "Interpretation of the repeated class-level effect.",
+        "context": "Work",
         "area": "new calibration pilot and literature",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Interpretation of the repeated class-level effect.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-25-04",
@@ -389,11 +407,17 @@
           527,
           528
         ],
-        "context": "Transition from exploratory pilot result to a more focused research question.",
+        "context": "Work",
         "area": "research design",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Transition from exploratory pilot result to a more focused research question.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -431,20 +455,102 @@
       "title": "Validate the revised research question",
       "reason": "The pilot now has a repeatable directional signal, but the mechanism and generality are uncertain. A small method-level comparison can establish whether the observation is specific to the current method before broader expansion.",
       "suggested_focus_minutes": 90,
-      "target": "Noisy Prevalence Calibration Study"
+      "target": "Noisy Prevalence Calibration Study",
+      "target_stream": "prevalence_pilot"
     },
-    "secondary_action": {
-      "action_type": "protect_priority",
-      "title": "Keep the dataset fixed for now",
-      "reason": "The current evidence does not yet justify a broader benchmark. Preserving the existing dataset makes the next comparison easier to interpret.",
-      "suggested_focus_minutes": 10,
-      "target": "Noisy Prevalence Calibration Study"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not claim that class imbalance causes the observed calibration effect.",
       "Do not add multiple datasets before checking whether the effect appears across methods.",
       "Do not expand the noise model or prevalence regimes yet.",
       "Do not turn the exploratory pilot into a full paper project before the revised question is validated."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "clarify_priority",
+        "title": "Validate the revised research question",
+        "reason": "The pilot now has a repeatable directional signal, but the mechanism and generality are uncertain. A small method-level comparison can establish whether the observation is specific to the current method before broader expansion.",
+        "suggested_focus_minutes": 90,
+        "target": "Noisy Prevalence Calibration Study"
+      },
+      "secondary_action": {
+        "action_type": "protect_priority",
+        "title": "Keep the dataset fixed for now",
+        "reason": "The current evidence does not yet justify a broader benchmark. Preserving the existing dataset makes the next comparison easier to interpret.",
+        "suggested_focus_minutes": 10,
+        "target": "Noisy Prevalence Calibration Study"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The pilot now has a repeatable directional signal, but the mechanism and generality are uncertain. A small method-level comparison can establish whether the observation is specific to the current method before broader expansion.",
+      "priority": "Run a small pilot on calibration under noisy prevalence",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication",
+      "manuscript",
+      "next_question"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "prevalence_pilot": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 26 shows 489 min on this work.",
+        "reason_code": null
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 26 went to other work (prevalence_pilot, 489 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 26 went to other work (prevalence_pilot, 489 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 26 shows 489 min on this work.",
+      "reason_code": null
+    }
   }
 }

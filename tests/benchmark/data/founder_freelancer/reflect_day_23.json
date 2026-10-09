@@ -527,14 +527,16 @@
       "action_type": "complete_open_loop",
       "reason": "The prospect has progressed through scope, estimate, and follow-up conversation, so the clearest immediate step is to obtain a decision or send the final concrete next step.",
       "suggested_focus_minutes": 30,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Protect the next SaaS build block",
       "action_type": "protect_priority",
       "reason": "Product work was appropriately reduced today by a real commercial opportunity; the next useful move is to restore a defined product block rather than letting proposal work continue indefinitely.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat the proposal stage as a signed client commitment.",

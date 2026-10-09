@@ -1,0 +1,84 @@
+{
+  "work_streams": {
+    "billing_api": {
+      "title": "Workspace billing settings API change (through release)",
+      "kind": "work",
+      "aliases": [
+        "billing"
+      ],
+      "priorities": [
+        "Ship the billing settings API change"
+      ]
+    },
+    "webhook_reliability": {
+      "title": "Intermittent webhook processing issue (PLAT-497)",
+      "kind": "work",
+      "aliases": [
+        "webhook",
+        "retry-path",
+        "retry path",
+        "plat-497"
+      ],
+      "priorities": [
+        "Understand and fix the recurring webhook processing issue"
+      ]
+    },
+    "workspace_performance": {
+      "title": "Workspace API latency / database performance regression",
+      "kind": "work",
+      "aliases": [
+        "workspace",
+        "latency",
+        "database performance"
+      ],
+      "priorities": [
+        "Fix the workspace API latency regression"
+      ]
+    },
+    "account_export": {
+      "title": "Account export API (PLAT-512)",
+      "kind": "work",
+      "aliases": [
+        "account export",
+        "export",
+        "plat-512"
+      ],
+      "priorities": [
+        "Build the account export API"
+      ]
+    },
+    "admin_audit": {
+      "title": "Admin action audit trail (PLAT-531)",
+      "kind": "work",
+      "aliases": [
+        "audit",
+        "plat-531"
+      ],
+      "priorities": [
+        "Add an audit trail for admin actions"
+      ]
+    },
+    "code_review": {
+      "title": "Reviewing teammates' pull requests and QA follow-up",
+      "kind": "work",
+      "aliases": [
+        "teammate",
+        "teammate's pull request",
+        "code review"
+      ],
+      "priorities": [
+        "Keep the team's pending pull requests moving"
+      ]
+    },
+    "platform_ops": {
+      "title": "Standups, team coordination and routine platform health checks",
+      "kind": "work",
+      "aliases": [
+        "standup",
+        "platform health",
+        "health check"
+      ],
+      "priorities": []
+    }
+  }
+}

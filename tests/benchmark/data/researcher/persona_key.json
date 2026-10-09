@@ -1,0 +1,100 @@
+{
+  "work_streams": {
+    "main_experiment": {
+      "title": "Uncertainty-estimation experiments and their evaluation protocol",
+      "kind": "work",
+      "aliases": [
+        "experiment",
+        "experiments",
+        "evaluation",
+        "generalization test",
+        "distribution-shift",
+        "protocol"
+      ],
+      "priorities": [
+        "Complete the next experiments for the uncertainty project",
+        "Resolve whether the setup measures calibration fairly"
+      ]
+    },
+    "manuscript": {
+      "title": "Manuscript: drafting, collaborator review and submission",
+      "kind": "work",
+      "aliases": [
+        "manuscript",
+        "paper",
+        "draft",
+        "citation",
+        "submission",
+        "venue",
+        "results section"
+      ],
+      "priorities": [
+        "Move the manuscript from notes to a coherent results section"
+      ]
+    },
+    "replication": {
+      "title": "Replication study of a published calibration method",
+      "kind": "work",
+      "aliases": [
+        "replication",
+        "reproduction",
+        "reproduce"
+      ],
+      "priorities": [
+        "Complete the replication study before deciding to extend it"
+      ]
+    },
+    "next_question": {
+      "title": "Choosing the next research question",
+      "kind": "work",
+      "aliases": [
+        "next research question",
+        "research question",
+        "research direction",
+        "literature gap"
+      ],
+      "priorities": [
+        "Choose the next research question to pursue"
+      ]
+    },
+    "prevalence_pilot": {
+      "title": "Noisy-prevalence calibration pilot and its methods note",
+      "kind": "work",
+      "aliases": [
+        "pilot",
+        "prevalence",
+        "class-level",
+        "class-conditional",
+        "method comparison",
+        "methods note"
+      ],
+      "priorities": [
+        "Run a small pilot on calibration under noisy prevalence",
+        "Write up the pilot as a short methods note"
+      ]
+    },
+    "research_admin": {
+      "title": "Lab meetings, collaborator messages and research housekeeping",
+      "kind": "work",
+      "aliases": [
+        "lab meeting"
+      ],
+      "priorities": []
+    },
+    "learning": {
+      "title": "Talks, seminars and topic-adjacent learning",
+      "kind": "work",
+      "aliases": [
+        "seminar",
+        "research talk"
+      ],
+      "priorities": []
+    },
+    "personal": {
+      "title": "Unrelated browsing and personal time",
+      "kind": "personal",
+      "aliases": [],
+      "priorities": []
+    }
+  }
+}

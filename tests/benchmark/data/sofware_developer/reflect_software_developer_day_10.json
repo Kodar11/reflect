@@ -384,11 +384,17 @@
           261,
           262
         ],
-        "context": "The workspace change was under observation after controlled deployment, while billing documentation needed a small cleanup after release.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "verify",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "The workspace change was under observation after controlled deployment, while billing documentation needed a small cleanup after release.",
+          "intent": "verify",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-10-02",
@@ -404,11 +410,17 @@
           267,
           268
         ],
-        "context": "A new production data point did not cleanly match the earlier acknowledgement-only hypothesis.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "investigate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "A new production data point did not cleanly match the earlier acknowledgement-only hypothesis.",
+          "intent": "investigate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-10-03",
@@ -420,11 +432,17 @@
           269,
           270
         ],
-        "context": "Normal team review responsibility.",
+        "context": "Work",
         "area": "team_maintenance",
-        "intent": "review",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "Normal team review responsibility.",
+          "intent": "review",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-10-04",
@@ -438,11 +456,17 @@
           273,
           274
         ],
-        "context": "The workspace deployment had accumulated enough observation time to support a more confident status update, while billing documentation remained a small release follow-up.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "The workspace deployment had accumulated enough observation time to support a more confident status update, while billing documentation remained a small release follow-up.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       }
     ],
     "unobserved_periods": [
@@ -509,20 +533,90 @@
       "action_type": "complete_open_loop",
       "target": "Workspace database performance regression",
       "reason": "The issue has received repeated investigation, controlled deployment, and a longer observation window; it is now close to a clear resolution decision.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "workspace_performance"
     },
     "secondary_action": {
       "title": "Webhook reliability root cause",
       "action_type": "clarify_priority",
       "target": "Webhook reliability root cause",
       "reason": "The latest production evidence does not cleanly support the earlier acknowledgement-only hypothesis, so the next investigation should explicitly account for that contradiction.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "webhook_reliability"
     },
     "things_not_to_do": [
       "Do not declare the workspace issue permanently resolved from a single 24-hour latency view.",
       "Do not continue modifying webhook delivery code solely to reinforce the earlier acknowledgement hypothesis.",
       "Do not treat the documentation work or bounded code review as unnecessary context switching.",
       "Do not interpret the lunch gap as a productivity problem."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The issue has received repeated investigation, controlled deployment, and a longer observation window; it is now close to a clear resolution decision.",
+      "priority": "Fix the workspace API latency regression",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 11 shows 178 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 11 shows 272 min on this work.",
+        "reason_code": null
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (workspace_performance, 272 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (workspace_performance, 272 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 11 shows 42 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 11 went to other work (workspace_performance, 272 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 11 shows 272 min on this work.",
+      "reason_code": null
+    }
   }
 }

@@ -4,7 +4,21 @@ import os from 'node:os';
 import path from 'node:path';
 import { checkAnswerKeyVocabulary } from './evaluators/index';
 import { loadConfig, personaDatasetDirs } from './runner/config';
-import { DatasetValidationError, loadDataset, splitDataset, validateDataset, type DatasetDayFile } from './runner/dataset';
+import { spawnSync } from 'node:child_process';
+import { buildLeakDetector } from './evaluators/leakage';
+import {
+  DatasetValidationError,
+  PERSONA_KEY_FILE,
+  applyProfileUpdate,
+  initialProfileState,
+  loadDataset,
+  profileByDay,
+  splitDataset,
+  validateDataset,
+  type DatasetDayFile,
+  type DatasetProfileUpdate,
+  type ProfileState,
+} from './runner/dataset';
 
 /**
  * Dataset validation. Needs no database and no Gemini, so it runs with the
@@ -50,11 +64,11 @@ describe.each(datasets)('benchmark dataset on disk — $name', ({ name, dir }) =
     if (!result.dataset) return;
     const { input, evaluation } = splitDataset(result.dataset);
     expect(Object.keys(input).sort()).toEqual(['days', 'persona', 'utcOffset']);
-    expect(Object.keys(input.days[0]).sort()).toEqual(['date', 'dayNumber', 'rawEvents']);
+    expect(Object.keys(input.days[0]).sort()).toEqual(['date', 'dayNumber', 'profileUpdates', 'rawEvents']);
     expect(Object.keys(input.days[0].rawEvents[0]).sort()).toEqual(['app', 'browser', 'datasetId', 'endedAt', 'startedAt', 'title', 'url', 'watcher']);
     const serialized = JSON.stringify(input);
     // As field names: a window title may well say "Expected Calibration Error".
-    for (const forbidden of ['ground_truth', 'groundTruth', 'expected_reflection', 'expectedReflection', 'expected_coach_outcome', 'expectedCoachOutcome', 'day_type', 'dayType', 'circumstances', 'things_not_to_do', 'importance', 'statedPriorities']) {
+    for (const forbidden of ['ground_truth', 'groundTruth', 'expected_reflection', 'expectedReflection', 'expected_coach_outcome', 'expectedCoachOutcome', 'day_type', 'dayType', 'circumstances', 'things_not_to_do', 'importance', 'statedPriorities', 'profilePriorities', 'stream', 'target_stream', 'work_streams', 'label_notes', 'acceptable_streams', 'forbidden_streams', 'action_opportunity', 'execution_scenario', 'aliases']) {
       expect(serialized).not.toContain(`"${forbidden}":`);
     }
     // Only day 1's profile is Reflect's: what a later file says the day was about stays in the answer key.
@@ -243,5 +257,221 @@ describe('dataset validator', () => {
     expect(vocabulary.warnings.join('\n')).toMatch(/intent "Daydream".*1 activity is left out/);
     expect(vocabulary.classification.intent).toEqual({ activities: 4, unmapped: 1 });
     expect(vocabulary.classification.quality).toEqual({ activities: 4, unmapped: 0 });
+  });
+});
+
+// ── Benchmark v2: dated profile changes, work streams, and what must never reach Reflect ──
+
+describe('profile replay — what the user changed, on the day they changed it', () => {
+  const start = (): ProfileState => initialProfileState({ current_work: ['Building a SaaS'], priorities: ['Ship the SaaS MVP', 'Complete existing client work'] });
+  const apply = (state: ProfileState, update: DatasetProfileUpdate) => applyProfileUpdate(state, update);
+  const ok = (state: ProfileState, update: DatasetProfileUpdate): ProfileState => {
+    const result = apply(state, update);
+    if ('error' in result) throw new Error(result.error);
+    return result.state;
+  };
+
+  it('a priority is introduced, completed, paused, resumed, reworded and removed — and each keeps its place in the record', () => {
+    let state = ok(start(), { at: 'end', op: 'add', priority: 'Generate new freelance leads' });
+    expect(state.priorities.map((p) => p.text)).toEqual(['Ship the SaaS MVP', 'Complete existing client work', 'Generate new freelance leads']);
+    state = ok(state, { at: 'end', op: 'complete', priority: 'Complete existing client work' });
+    state = ok(state, { at: 'end', op: 'pause', priority: 'Generate new freelance leads' });
+    // Completed and paused priorities are still there: they are closed, not erased.
+    expect(state.priorities).toEqual([
+      { text: 'Ship the SaaS MVP', status: 'active' },
+      { text: 'Complete existing client work', status: 'completed' },
+      { text: 'Generate new freelance leads', status: 'paused' },
+    ]);
+    state = ok(state, { at: 'start', op: 'resume', priority: 'Generate new freelance leads' });
+    state = ok(state, { at: 'start', op: 'rename', priority: 'Ship the SaaS MVP', to: 'Ship the SaaS beta' });
+    state = ok(state, { at: 'start', op: 'remove', priority: 'Complete existing client work' });
+    expect(state.priorities).toEqual([
+      { text: 'Ship the SaaS beta', status: 'active' },
+      { text: 'Generate new freelance leads', status: 'active' },
+    ]);
+    expect(ok(state, { at: 'end', op: 'set_current_work', current_work: ['Running the beta'] }).currentWork).toEqual(['Running the beta']);
+  });
+
+  it('refuses what a user could not do: act on a priority that is not there, overfill the list, or exceed a field', () => {
+    const state = start();
+    expect(apply(state, { at: 'end', op: 'complete', priority: 'Something never stated' })).toEqual({ error: 'the priority "Something never stated" is not stated at this point' });
+    expect(apply(state, { at: 'end', op: 'add', priority: 'Ship the SaaS MVP' })).toEqual({ error: 'the priority "Ship the SaaS MVP" is already stated' });
+    expect(apply(state, { at: 'end', op: 'resume', priority: 'Ship the SaaS MVP' })).toMatchObject({ error: expect.stringContaining('nothing to resume') });
+    expect(apply(state, { at: 'end', op: 'add', priority: 'x'.repeat(61) })).toMatchObject({ error: expect.stringContaining('at most 60 characters') });
+    let full = state;
+    for (const text of ['Third', 'Fourth', 'Fifth']) full = ok(full, { at: 'end', op: 'add', priority: `${text} priority` });
+    expect(apply(full, { at: 'end', op: 'add', priority: 'A sixth priority' })).toMatchObject({ error: expect.stringContaining('already holds 5 priorities') });
+    // The state passed in is never changed.
+    expect(state.priorities).toHaveLength(2);
+  });
+
+  it('replays day by day: nothing from a later day is in an earlier day\'s profile', () => {
+    const days = [1, 2, 3, 4].map((n) => ({ persona: n === 1 ? { current_work: [], priorities: ['Priority A'] } : {}, profile_updates: undefined as DatasetProfileUpdate[] | undefined }));
+    days[1].profile_updates = [{ at: 'end', op: 'complete', priority: 'Priority A' }, { at: 'end', op: 'add', priority: 'Priority B' }];
+    days[3].profile_updates = [{ at: 'start', op: 'add', priority: 'Priority C' }];
+    const byDay = profileByDay(days as Parameters<typeof profileByDay>[0]);
+    expect(byDay.map((s) => s.priorities.map((p) => `${p.text}:${p.status}`))).toEqual([
+      ['Priority A:active'],
+      ['Priority A:completed', 'Priority B:active'],
+      ['Priority A:completed', 'Priority B:active'],
+      ['Priority A:completed', 'Priority B:active', 'Priority C:active'],
+    ]);
+  });
+});
+
+describe('dataset validator — profile changes and work streams', () => {
+  let dir: string;
+  afterEach(() => fs.rmSync(dir, { recursive: true, force: true }));
+
+  const KEY = { work_streams: { saas: { title: 'The SaaS', kind: 'work', aliases: ['saas'], priorities: ['Ship the SaaS MVP'] }, freelance: { title: 'Client work', kind: 'work', aliases: ['client'], priorities: [] } } };
+  function validate(change: (days: DatasetDayFile[]) => void, key: unknown = KEY) {
+    dir = fs.mkdtempSync(path.join(os.tmpdir(), 'reflect-bench-v2-'));
+    const days = [makeDay(1), makeDay(2)];
+    change(days);
+    days.forEach((d, i) => fs.writeFileSync(path.join(dir, `reflect_day_0${i + 1}.json`), JSON.stringify(d)));
+    if (key !== null) fs.writeFileSync(path.join(dir, PERSONA_KEY_FILE), JSON.stringify(key));
+    return validateDataset(dir, 2);
+  }
+  const codesOf = (result: ReturnType<typeof validate>) => result.errors.map((e) => e.code);
+
+  it('accepts dated changes that are possible, and hands them to Reflect\'s side on their own day only', () => {
+    const result = validate((days) => {
+      days[1].profile_updates = [{ at: 'start', op: 'add', priority: 'Generate new freelance leads' }, { at: 'end', op: 'complete', priority: 'Ship the SaaS MVP' }];
+      days[1].ground_truth.activities[0].stream = 'saas';
+      days[1].expected_coach_outcome.primary_action!.target_stream = 'saas';
+      days[1].expected_coach_outcome.forbidden_streams = ['freelance'];
+    });
+    expect(codesOf(result)).toEqual([]);
+    const { input, evaluation } = splitDataset(result.dataset!);
+    // Day 1 knows nothing of what is changed on day 2.
+    expect(input.days[0].profileUpdates).toEqual([]);
+    expect(JSON.stringify(input.days[0])).not.toContain('Generate new freelance leads');
+    expect(input.days[1].profileUpdates).toEqual([{ at: 'start', op: 'add', priority: 'Generate new freelance leads' }, { at: 'end', op: 'complete', priority: 'Ship the SaaS MVP' }]);
+    // The evaluator is told what the profile was at the end of each day.
+    expect(evaluation.days.map((d) => d.profilePriorities)).toEqual([
+      [{ text: 'Ship the SaaS MVP', status: 'active' }],
+      [{ text: 'Ship the SaaS MVP', status: 'completed' }, { text: 'Generate new freelance leads', status: 'active' }],
+    ]);
+    // The work-stream registry is answer key: it is in the evaluation half and nowhere in the input half.
+    expect(Object.keys(evaluation.streams)).toEqual(['saas', 'freelance']);
+    for (const secret of ['work_streams', 'aliases', '"saas"', 'target_stream', 'forbidden_streams', '"stream"']) expect(JSON.stringify(input)).not.toContain(secret);
+    // A profile change is part of what Reflect is given, so it is part of the input version.
+    const before = result.dataset!.inputVersion;
+    const without = validate(() => {});
+    expect(without.dataset!.inputVersion).not.toBe(before);
+  });
+
+  it('rejects a change that could not have been made, or is out of order', () => {
+    expect(codesOf(validate((days) => (days[1].profile_updates = [{ at: 'end', op: 'complete', priority: 'Never stated' }])))).toEqual(['profile_update_impossible']);
+    expect(codesOf(validate((days) => (days[1].profile_updates = [{ at: 'end', op: 'add', priority: 'A' }, { at: 'start', op: 'add', priority: 'B' }])))).toContain('profile_update_order');
+    expect(codesOf(validate((days) => (days[1].profile_updates = [{ at: 'noon', op: 'add', priority: 'A' }] as unknown as DatasetProfileUpdate[])))).toEqual(['profile_update_shape']);
+    // A priority cannot be acted on before the day it is added.
+    expect(
+      codesOf(
+        validate((days) => {
+          days[0].profile_updates = [{ at: 'end', op: 'complete', priority: 'Generate new freelance leads' }];
+          days[1].profile_updates = [{ at: 'end', op: 'add', priority: 'Generate new freelance leads' }];
+        }),
+      ),
+    ).toEqual(['profile_update_impossible']);
+  });
+
+  it('rejects a reference to a work stream that does not exist, and a registry that names a priority never stated', () => {
+    expect(codesOf(validate((days) => (days[0].ground_truth.activities[0].stream = 'nope')))).toEqual(['stream_reference']);
+    expect(codesOf(validate((days) => (days[0].expected_coach_outcome.primary_action!.target_stream = 'nope')))).toEqual(['stream_reference']);
+    expect(codesOf(validate((days) => (days[0].expected_coach_outcome.acceptable_streams = ['saas', 'nope'])))).toEqual(['stream_reference']);
+    expect(codesOf(validate((days) => (days[0].ground_truth.activities[0].stream = 'saas'), null))).toEqual(['stream_reference']);
+    expect(codesOf(validate(() => {}, { work_streams: { saas: { title: 'x', kind: 'work', aliases: ['saas'], priorities: ['A priority nobody stated'] } } }))).toEqual(['persona_key']);
+    expect(codesOf(validate(() => {}, { work_streams: { saas: { title: 'x', kind: 'hobby', aliases: [], priorities: [] } } }))).toEqual(['persona_key']);
+  });
+
+  it('a silent day needs no action; an optional day may hold instead of naming one', () => {
+    const silent = (days: DatasetDayFile[]) => {
+      days[0].expected_coach_outcome.primary_action = null;
+      days[0].expected_coach_outcome.action_opportunity = { should_exist: false, strength: 'none', reason: 'Nothing is open.', priority: null, type: null };
+    };
+    expect(codesOf(validate(silent))).toEqual([]);
+    const hold = (acceptable?: string[]) => (days: DatasetDayFile[]) => {
+      days[0].expected_coach_outcome.primary_action = null;
+      days[0].expected_coach_outcome.action_opportunity = { should_exist: false, strength: 'moderate', reason: 'Waiting on a reply.', priority: null, type: null };
+      if (acceptable) days[0].expected_coach_outcome.acceptable_streams = acceptable;
+    };
+    expect(codesOf(validate(hold(['saas'])))).toEqual([]);
+    expect(codesOf(validate(hold()))).toEqual(['action_opportunity_conflict']);
+  });
+});
+
+describe('the six personas — answer keys the evaluator can read', () => {
+  const personas = personaDatasetDirs().map((dir) => ({ name: path.basename(dir), dir }));
+
+  it.each(personas)('$name: streams, opportunities and responses are stated for every day', ({ dir }) => {
+    const { dataset } = loadDataset(dir, 30);
+    const { evaluation } = splitDataset(dataset);
+    const streams = Object.keys(evaluation.streams);
+    expect(streams.length).toBeGreaterThan(1);
+    for (const day of evaluation.days) {
+      const coach = day.expectedCoachOutcome;
+      // Every day says whether the Coach should speak.
+      expect(coach.action_opportunity, `day ${day.dayNumber}`).toBeDefined();
+      // Every expected move is stated against a stream, never only against a name.
+      for (const action of [coach.primary_action, coach.secondary_action]) if (action) expect(action.target_stream, `day ${day.dayNumber}`).toBeDefined();
+      // Every tracked activity that is work belongs to a stream.
+      for (const activity of day.groundTruth.activities) {
+        if (activity.event_ids.length > 0 && activity.context === 'Work' && activity.area !== null) expect(streams, `day ${day.dayNumber} ${activity.id}`).toContain(activity.stream ?? activity.area);
+      }
+    }
+  });
+
+  it.each(personas)('$name: at least three quarters of the scored activities carry a label the evaluator can score, in every dimension but the priority link', ({ dir }) => {
+    const { dataset } = loadDataset(dir, 30);
+    const { classification } = checkAnswerKeyVocabulary(splitDataset(dataset).evaluation);
+    for (const dimension of ['context', 'intent', 'quality'] as const) {
+      const { activities, unmapped } = classification[dimension];
+      // What is left out is what the key itself calls uncertain or mixed — never counted as right or wrong.
+      expect(1 - unmapped / activities, dimension).toBeGreaterThanOrEqual(0.75);
+    }
+  });
+
+  it('every persona has days that call for silence or leave it open — the Coach can be wrong by speaking', () => {
+    const quiet = personas.map(({ name, dir }) => {
+      const days = splitDataset(loadDataset(dir, 30).dataset).evaluation.days;
+      return { name, none: days.filter((d) => d.expectedCoachOutcome.action_opportunity?.strength === 'none').length, moderate: days.filter((d) => d.expectedCoachOutcome.action_opportunity?.strength === 'moderate').length };
+    });
+    for (const persona of quiet) expect(persona.none + persona.moderate, persona.name).toBeGreaterThan(0);
+    // Stated plainly, because it is a limit of the set: the founder key has optional days but none that requires silence.
+    expect(quiet.find((p) => p.name === 'founder_freelancer')).toMatchObject({ none: 0 });
+    expect(quiet.filter((p) => p.none > 0).map((p) => p.name).sort()).toEqual(['college_student', 'content_creator', 'graphic_designer', 'researcher', 'sofware_developer']);
+  });
+
+  it.each(personas)('$name: nothing of the answer key is in what Reflect is given, and no day carries a later day\'s profile', ({ dir }) => {
+    const { dataset } = loadDataset(dir, 30);
+    const { input, evaluation } = splitDataset(dataset);
+    const detector = buildLeakDetector(evaluation, input);
+    // The input half, as text, trips none of the answer key's own wording.
+    expect(detector.findLeaks(JSON.stringify(input))).toEqual([]);
+    // …while a sentence of the key, or a day-type slug, is caught the moment it appears.
+    const reason = evaluation.days.find((d) => d.expectedCoachOutcome.action_opportunity?.reason.split(' ').length! >= 12)!.expectedCoachOutcome.action_opportunity!.reason;
+    expect(detector.findLeaks(`Context for the model: ${reason}`).length).toBeGreaterThan(0);
+    // A profile change is visible from its own day on, never before.
+    const firstSeen = new Map<string, number>();
+    input.days.forEach((day, index) => {
+      for (const update of day.profileUpdates) for (const text of [update.priority, update.to, ...(update.current_work ?? [])]) if (text && !firstSeen.has(text)) firstSeen.set(text, index);
+    });
+    const initial = new Set([...input.persona.priorities, ...input.persona.current_work]);
+    for (const [text, index] of firstSeen) {
+      if (initial.has(text)) continue;
+      expect(JSON.stringify(input.days.slice(0, index)), text).not.toContain(JSON.stringify(text));
+    }
+    // Every raw event of a day lies on that day or just past its midnight: no day is handed another day's events.
+    input.days.forEach((day, index) => {
+      const next = input.days[index + 1];
+      for (const event of day.rawEvents) if (next) expect(Date.parse(event.startedAt)).toBeLessThan(Date.parse(next.rawEvents[0].startedAt));
+    });
+  });
+
+  it('the day files hold exactly what data/keys says (run build.mjs --write after editing a key)', () => {
+    const result = spawnSync(process.execPath, [path.join(path.dirname(personas[0].dir), 'keys', 'build.mjs'), '--check'], { encoding: 'utf8' });
+    expect(result.stdout.trim().split('\n').pop()).toBe('Up to date.');
+    expect(result.status).toBe(0);
   });
 });

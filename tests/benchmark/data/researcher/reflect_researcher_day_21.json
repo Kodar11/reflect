@@ -7,7 +7,7 @@
     "current_work": [
       "Closing documentation for a bounded replication study of a calibration method",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Reading and synthesizing uncertainty calibration literature",
       "Selecting a focused next research question after manuscript submission"
     ],
     "priorities": [
@@ -347,11 +347,17 @@
           441,
           442
         ],
-        "context": "The bounded replication reached its stopping rule on Day 20.",
+        "context": "Work",
         "area": "replication study",
-        "intent": "documentation",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "replication",
+        "label_notes": {
+          "context": "The bounded replication reached its stopping rule on Day 20.",
+          "intent": "documentation",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-21-02",
@@ -370,11 +376,17 @@
           450,
           451
         ],
-        "context": "Post-submission transition after closing the replication.",
+        "context": "Work",
         "area": "research planning and literature",
-        "intent": "exploration",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "next_question",
+        "label_notes": {
+          "context": "Post-submission transition after closing the replication.",
+          "intent": "exploration",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-21-03",
@@ -388,9 +400,15 @@
         ],
         "context": "Mixed-purpose afternoon session.",
         "area": "research planning",
-        "intent": "planning",
-        "quality": "medium",
-        "importance": "low"
+        "intent": "Plan",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Mixed-purpose afternoon session.",
+          "intent": "planning",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-21-04",
@@ -403,11 +421,17 @@
           455,
           456
         ],
-        "context": "Transition from broad idea generation to a deliberately small next step.",
+        "context": "Work",
         "area": "research planning",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "next_question",
+        "label_notes": {
+          "context": "Transition from broad idea generation to a deliberately small next step.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -445,20 +469,125 @@
       "title": "Validate the new research question",
       "reason": "The replication is closed and one candidate direction has emerged, but its novelty and experimental scope are not established yet.",
       "suggested_focus_minutes": 90,
-      "target": "Next Research Question"
+      "target": "Next Research Question",
+      "target_stream": "next_question"
     },
-    "secondary_action": {
-      "action_type": "protect_priority",
-      "title": "Keep implementation paused",
-      "reason": "Starting a new experiment before the literature gap and evaluation setup are clear would recreate the exploratory expansion the researcher just avoided in the replication study.",
-      "suggested_focus_minutes": 10,
-      "target": "Next Research Question"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not begin coding the new calibration experiment before reviewing the relevant literature.",
       "Do not revive subgroup calibration merely because it is easy to implement.",
       "Do not reopen the completed replication unless new evidence changes the documented stopping decision.",
       "Do not turn the candidate dataset list into a broad benchmark project yet."
-    ]
-  }
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "clarify_priority",
+        "title": "Validate the new research question",
+        "reason": "The replication is closed and one candidate direction has emerged, but its novelty and experimental scope are not established yet.",
+        "suggested_focus_minutes": 90,
+        "target": "Next Research Question"
+      },
+      "secondary_action": {
+        "action_type": "protect_priority",
+        "title": "Keep implementation paused",
+        "reason": "Starting a new experiment before the literature gap and evaluation setup are clear would recreate the exploratory expansion the researcher just avoided in the replication study.",
+        "suggested_focus_minutes": 10,
+        "target": "Next Research Question"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The replication is closed and one candidate direction has emerged, but its novelty and experimental scope are not established yet.",
+      "priority": "Choose the next research question to pursue",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "manuscript"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 22 went to other work (next_question, 492 min).",
+        "reason_code": "different_priority"
+      },
+      "next_question": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 22 shows 492 min on this work.",
+        "reason_code": null
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 22 went to other work (next_question, 492 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 22 went to other work (next_question, 492 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 22 went to other work (next_question, 492 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 22 shows 492 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Complete the replication study before deciding to extend it"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Complete the next experiments for the uncertainty project"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Choose the next research question to pursue"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Choosing the next research direction",
+        "Maintaining research code and experiment infrastructure"
+      ]
+    }
+  ]
 }

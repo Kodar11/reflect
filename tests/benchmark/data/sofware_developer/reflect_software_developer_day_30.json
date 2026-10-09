@@ -344,11 +344,17 @@
           687,
           688
         ],
-        "context": "The first review pass identified bounded implementation gaps rather than requiring a redesign of the audit feature.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "refine",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The first review pass identified bounded implementation gaps rather than requiring a redesign of the audit feature.",
+          "intent": "refine",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-30-02",
@@ -363,11 +369,17 @@
           692,
           693
         ],
-        "context": "Review raised a reasonable concern about query behavior as retained audit data grows, so a bounded database check was performed rather than speculative optimization.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "validate_and_optimize",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "Review raised a reasonable concern about query behavior as retained audit data grows, so a bounded database check was performed rather than speculative optimization.",
+          "intent": "validate_and_optimize",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-30-03",
@@ -381,11 +393,17 @@
           696,
           697
         ],
-        "context": "The implementation was approaching approval after concrete review findings were addressed.",
+        "context": "Work",
         "area": "engineering_delivery",
-        "intent": "prepare_review",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The implementation was approaching approval after concrete review findings were addressed.",
+          "intent": "prepare_review",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-30-04",
@@ -397,11 +415,17 @@
           698,
           699
         ],
-        "context": "No new platform incident was indicated by the routine metric check.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "No new platform incident was indicated by the routine metric check.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -467,20 +491,44 @@
       "action_type": "complete_open_loop",
       "target": "PLAT-531 final review and approval",
       "reason": "The main implementation gaps are addressed and the feature has meaningful integration and performance evidence; the next value is closing review rather than adding more speculative work.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "admin_audit"
     },
-    "secondary_action": {
-      "title": "Post-release audit query and write-path monitoring",
-      "action_type": "experiment",
-      "target": "Post-release audit query and write-path monitoring",
-      "reason": "The new index and additional write path should be validated with production evidence after deployment.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not continue broad implementation after the agreed review scope is satisfied.",
       "Do not claim the query is proven for indefinite audit retention from one bounded EXPLAIN check.",
       "Do not reopen account export or older platform issues without new evidence.",
       "Do not optimize unrelated audit query shapes before production data shows a need."
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "PLAT-531 final review and approval",
+        "action_type": "complete_open_loop",
+        "target": "PLAT-531 final review and approval",
+        "reason": "The main implementation gaps are addressed and the feature has meaningful integration and performance evidence; the next value is closing review rather than adding more speculative work.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Post-release audit query and write-path monitoring",
+        "action_type": "experiment",
+        "target": "Post-release audit query and write-path monitoring",
+        "reason": "The new index and additional write path should be validated with production evidence after deployment.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The main implementation gaps are addressed and the feature has meaningful integration and performance evidence; the next value is closing review rather than adding more speculative work.",
+      "priority": "Add an audit trail for admin actions",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability",
+      "account_export"
     ]
   }
 }

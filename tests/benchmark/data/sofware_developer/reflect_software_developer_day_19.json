@@ -373,11 +373,17 @@
           459,
           460
         ],
-        "context": "The large-export decision was resolved in favor of an asynchronous job flow using existing worker infrastructure.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "plan",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The large-export decision was resolved in favor of an asynchronous job flow using existing worker infrastructure.",
+          "intent": "plan",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-19-02",
@@ -392,11 +398,17 @@
           464,
           465
         ],
-        "context": "The implementation followed existing asynchronous job and storage patterns rather than introducing a new worker mechanism.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "implement",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The implementation followed existing asynchronous job and storage patterns rather than introducing a new worker mechanism.",
+          "intent": "implement",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-19-03",
@@ -409,11 +421,17 @@
           467,
           468
         ],
-        "context": "The new design needed to be visible to the team before the implementation expanded further.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "coordinate",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The new design needed to be visible to the team before the implementation expanded further.",
+          "intent": "coordinate",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-19-04",
@@ -427,11 +445,17 @@
           471,
           472
         ],
-        "context": "Previously active platform areas remained stable.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "Previously active platform areas remained stable.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -501,20 +525,101 @@
       "action_type": "clarify_priority",
       "target": "Account export job-status and download contract",
       "reason": "The architecture is now chosen, but the externally visible API behavior still needs explicit definition before the controller and worker flow are coupled more tightly.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "account_export"
     },
-    "secondary_action": {
-      "title": "Account export job and storage tests",
-      "action_type": "complete_open_loop",
-      "target": "Account export job and storage tests",
-      "reason": "The core asynchronous pieces exist and should be consolidated into reliable coverage before more surface area is added.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not invent a new queue or worker mechanism when existing infrastructure already fits the task.",
       "Do not treat unit tests for the job and storage layers as proof of end-to-end correctness.",
       "Do not expand the API surface before defining job status and download semantics.",
       "Do not reopen closed webhook or workspace investigations without new evidence."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Account export job-status and download contract",
+        "action_type": "clarify_priority",
+        "target": "Account export job-status and download contract",
+        "reason": "The architecture is now chosen, but the externally visible API behavior still needs explicit definition before the controller and worker flow are coupled more tightly.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Account export job and storage tests",
+        "action_type": "complete_open_loop",
+        "target": "Account export job and storage tests",
+        "reason": "The core asynchronous pieces exist and should be consolidated into reliable coverage before more surface area is added.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The architecture is now chosen, but the externally visible API behavior still needs explicit definition before the controller and worker flow are coupled more tightly.",
+      "priority": "Build the account export API",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 20 shows 403 min on this work.",
+        "reason_code": null
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (account_export, 403 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (account_export, 403 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 88 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 20 shows 403 min on this work.",
+      "reason_code": null
+    }
   }
 }

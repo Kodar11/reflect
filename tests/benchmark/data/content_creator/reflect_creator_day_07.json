@@ -318,11 +318,17 @@
           135,
           136
         ],
-        "context": "The previous day's audience review had produced the Redis/caching follow-up direction.",
+        "context": "Work",
         "area": "community_and_ideation",
-        "intent": "Use recent audience feedback to decide what to develop next.",
-        "quality": "useful planning",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The previous day's audience review had produced the Redis/caching follow-up direction.",
+          "intent": "Use recent audience feedback to decide what to develop next.",
+          "quality": "useful planning"
+        }
       },
       {
         "id": "gt-07-02",
@@ -334,11 +340,17 @@
           137,
           138
         ],
-        "context": "The research was directly related to the follow-up idea identified on Day 6.",
+        "context": "Work",
         "area": "content_research",
-        "intent": "Validate technical examples for the follow-up.",
-        "quality": "focused research",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "redis_video",
+        "label_notes": {
+          "context": "The research was directly related to the follow-up idea identified on Day 6.",
+          "intent": "Validate technical examples for the follow-up.",
+          "quality": "focused research"
+        }
       },
       {
         "id": "gt-07-03",
@@ -354,11 +366,17 @@
           143,
           144
         ],
-        "context": "The Redis/caching topic moved from a loose idea into the beginnings of a real production asset.",
+        "context": "Work",
         "area": "scripting",
-        "intent": "Develop a recording-ready script for the follow-up video.",
-        "quality": "substantive creative work with brief interruption",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "redis_video",
+        "label_notes": {
+          "context": "The Redis/caching topic moved from a loose idea into the beginnings of a real production asset.",
+          "intent": "Develop a recording-ready script for the follow-up video.",
+          "quality": "substantive creative work with brief interruption"
+        }
       },
       {
         "id": "gt-07-04",
@@ -367,11 +385,16 @@
         "title": "Lunch and offline personal time",
         "summary": "Spent the midday period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was captured.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Lunch and ordinary personal time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was captured.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-07-05",
@@ -385,11 +408,17 @@
           147,
           148
         ],
-        "context": "This continued the sponsorship thread first addressed on Day 4 and closed on Day 5, with a new follow-up now arriving.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Handle a concrete sponsor follow-up request.",
-        "quality": "bounded administrative work",
-        "importance": "medium"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "This continued the sponsorship thread first addressed on Day 4 and closed on Day 5, with a new follow-up now arriving.",
+          "intent": "Handle a concrete sponsor follow-up request.",
+          "quality": "bounded administrative work"
+        }
       },
       {
         "id": "gt-07-06",
@@ -398,11 +427,16 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Take a break between sponsor work and scripting.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-07-07",
@@ -415,11 +449,17 @@
           150,
           151
         ],
-        "context": "The creator returned to the same script after the sponsor interruption rather than starting a new topic.",
+        "context": "Work",
         "area": "scripting",
-        "intent": "Turn the follow-up script into a more concrete recording plan.",
-        "quality": "focused production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "redis_video",
+        "label_notes": {
+          "context": "The creator returned to the same script after the sponsor interruption rather than starting a new topic.",
+          "intent": "Turn the follow-up script into a more concrete recording plan.",
+          "quality": "focused production"
+        }
       },
       {
         "id": "gt-07-08",
@@ -428,11 +468,16 @@
         "title": "Dinner and offline personal time",
         "summary": "Spent the early evening away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and personal time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-07-09",
@@ -444,11 +489,17 @@
           152,
           153
         ],
-        "context": "The platform again supports both creator communication and casual browsing.",
+        "context": "Work",
         "area": "community_and_leisure",
-        "intent": "Handle audience communication and browse social content.",
+        "intent": "Communicate",
         "quality": "mixed",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The platform again supports both creator communication and casual browsing.",
+          "intent": "Handle audience communication and browse social content.",
+          "quality": "mixed"
+        }
       },
       {
         "id": "gt-07-10",
@@ -457,11 +508,17 @@
         "title": "Offline personal time",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Personal time before evening recreation.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "intent": "Personal time before evening recreation.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-07-11",
@@ -472,11 +529,17 @@
         "event_ids": [
           154
         ],
-        "context": "This was related to production generally, not clearly to the caching video's specific content.",
+        "context": "Work",
         "area": "creator_learning",
-        "intent": "Explore recording setup considerations.",
-        "quality": "general learning",
-        "importance": "low"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "low",
+        "stream": "learning",
+        "label_notes": {
+          "context": "This was related to production generally, not clearly to the caching video's specific content.",
+          "intent": "Explore recording setup considerations.",
+          "quality": "general learning"
+        }
       },
       {
         "id": "gt-07-12",
@@ -488,11 +551,17 @@
           155,
           156
         ],
-        "context": "Normal evening leisure after a scripting-heavy day.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Normal evening leisure after a scripting-heavy day.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-07-13",
@@ -501,11 +570,17 @@
         "title": "Offline wind-down",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was captured.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Wind down before ending the day.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was captured.",
+          "intent": "Wind down before ending the day.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-07-14",
@@ -516,11 +591,17 @@
         "event_ids": [
           157
         ],
-        "context": "The Redis follow-up remained the active content project.",
+        "context": "Work",
         "area": "ideation",
-        "intent": "Review future possibilities without committing to another project.",
-        "quality": "brief maintenance",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The Redis follow-up remained the active content project.",
+          "intent": "Review future possibilities without committing to another project.",
+          "quality": "brief maintenance"
+        }
       }
     ],
     "unobserved_periods": [
@@ -580,7 +661,8 @@
       "action_type": "complete_open_loop",
       "reason": "The follow-up has now moved through feedback, research, outline, and substantial scripting; the next concrete milestone is to finish the script and prepare for recording.",
       "target": "Redis/caching follow-up",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "redis_video"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -590,6 +672,95 @@
       "Do not infer that the Redis follow-up must be produced just because audience questions suggested it; the creator still needs to decide the final scope.",
       "Do not criticize Instagram browsing or evening recreation as inherently harmful.",
       "Do not infer what happened during offline periods."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The follow-up has now moved through feedback, research, outline, and substantial scripting; the next concrete milestone is to finish the script and prepare for recording.",
+      "priority": "Make measurable progress on the next big technical video",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "api_video"
+    ],
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "redis_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 8 shows 314 min on this work.",
+        "reason_code": null
+      },
+      "pg_indexes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (redis_video, 314 min).",
+        "reason_code": "different_priority"
+      },
+      "pg_partial_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (redis_video, 314 min).",
+        "reason_code": "different_priority"
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (redis_video, 314 min).",
+        "reason_code": "different_priority"
+      },
+      "background_jobs_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (redis_video, 314 min).",
+        "reason_code": "different_priority"
+      },
+      "sponsorship": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (redis_video, 314 min).",
+        "reason_code": "different_priority"
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 8 shows 30 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 8 shows 72 min on this work.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (redis_video, 314 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 8 shows 314 min on this work.",
+      "reason_code": null
+    }
   }
 }

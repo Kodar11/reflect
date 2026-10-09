@@ -504,14 +504,16 @@
       "action_type": "complete_open_loop",
       "reason": "The SaaS dashboard is already the dominant thread and has reached a meaningful implementation checkpoint, so completing the remaining milestone is a clearer next step than starting another broad feature.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Run a small launch-content experiment",
       "action_type": "experiment",
       "reason": "A LinkedIn draft and Product Hunt research now provide a concrete base for testing one launch message without treating preparation as proof of demand.",
       "suggested_focus_minutes": 30,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat the dashboard milestone as evidence of product-market fit or improved user outcomes.",

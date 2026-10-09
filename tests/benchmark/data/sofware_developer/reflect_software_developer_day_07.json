@@ -400,11 +400,17 @@
           181,
           182
         ],
-        "context": "Billing settings API had moved into production and needed a short verification window.",
+        "context": "Work",
         "area": "billing",
-        "intent": "verify",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "context": "Billing settings API had moved into production and needed a short verification window.",
+          "intent": "verify",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-07-02",
@@ -422,11 +428,17 @@
           189,
           190
         ],
-        "context": "The workspace service still required evidence separating latency behavior from the earlier customer-facing issue.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "investigate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "The workspace service still required evidence separating latency behavior from the earlier customer-facing issue.",
+          "intent": "investigate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-07-03",
@@ -437,11 +449,17 @@
         "event_ids": [
           191
         ],
-        "context": "Scheduled technical discussion with the platform team.",
+        "context": "Work",
         "area": "team_maintenance",
-        "intent": "coordinate",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "Scheduled technical discussion with the platform team.",
+          "intent": "coordinate",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-07-04",
@@ -457,11 +475,17 @@
           196,
           197
         ],
-        "context": "The acknowledgement path remained the strongest current hypothesis for the webhook issue, but production evidence was incomplete.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "investigate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The acknowledgement path remained the strongest current hypothesis for the webhook issue, but production evidence was incomplete.",
+          "intent": "investigate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-07-05",
@@ -477,11 +501,17 @@
           202,
           203
         ],
-        "context": "The engineer maintained normal team review duties while confirming the state of the newly released billing work.",
+        "context": "Work",
         "area": "billing",
-        "intent": "complete",
-        "quality": "useful",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "context": "The engineer maintained normal team review duties while confirming the state of the newly released billing work.",
+          "intent": "complete",
+          "quality": "useful"
+        }
       }
     ],
     "unobserved_periods": [
@@ -551,20 +581,103 @@
       "action_type": "complete_open_loop",
       "target": "Billing post-release verification",
       "reason": "The feature has moved through implementation and release; explicitly closing the verification loop would prevent an otherwise completed workstream from remaining administratively open.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "billing_api"
     },
     "secondary_action": {
       "title": "Webhook reliability investigation",
       "action_type": "protect_priority",
       "target": "Webhook reliability investigation",
       "reason": "The afternoon debugging block produced the clearest new evidence of the remaining reliability issue and is now a focused technical thread worth preserving.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "webhook_reliability"
     },
     "things_not_to_do": [
       "Do not claim billing is fully stable based on a short post-release observation window.",
       "Do not treat repeated query inspection as proof that the workspace latency problem is fixed.",
       "Do not promote the webhook acknowledgement hypothesis to confirmed root cause without production evidence.",
       "Do not characterize the architecture discussion, code review, or lunch gap as wasted time."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The feature has moved through implementation and release; explicitly closing the verification loop would prevent an otherwise completed workstream from remaining administratively open.",
+      "priority": "Ship the billing settings API change",
+      "type": "complete_open_loop"
+    },
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (workspace_performance, 324 min).",
+        "reason_code": "different_priority"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 8 shows 126 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 8 shows 324 min on this work.",
+        "reason_code": null
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (workspace_performance, 324 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (workspace_performance, 324 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 8 shows 18 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (workspace_performance, 324 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "rejected",
+      "execution": "not_applicable",
+      "outcome": "not_applicable",
+      "reason": "Day 8 went to other work (workspace_performance, 324 min).",
+      "reason_code": "different_priority"
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Ship the billing settings API change"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Fixing a workspace API latency regression",
+        "Investigating an intermittent webhook processing issue",
+        "Reviewing a teammate's pull request"
+      ]
+    }
+  ]
 }

@@ -5,11 +5,11 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
       "Finish the manuscript consistency pass",
@@ -342,11 +342,17 @@
           317,
           318
         ],
-        "context": "Continuation of the manuscript consistency pass from Day 13.",
+        "context": "Work",
         "area": "manuscript and methodology",
-        "intent": "review",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Continuation of the manuscript consistency pass from Day 13.",
+          "intent": "review",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-14-02",
@@ -358,11 +364,17 @@
           319,
           320
         ],
-        "context": "Targeted external review after the consistency audit.",
+        "context": "Work",
         "area": "collaboration",
-        "intent": "review",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Targeted external review after the consistency audit.",
+          "intent": "review",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-14-03",
@@ -378,11 +390,17 @@
           325,
           326
         ],
-        "context": "Collaborator feedback arrived after the morning review request.",
+        "context": "Work",
         "area": "manuscript and submission planning",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Collaborator feedback arrived after the morning review request.",
+          "intent": "revision",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-14-04",
@@ -394,11 +412,17 @@
           327,
           328
         ],
-        "context": "Personal interruption before returning to the manuscript.",
+        "context": "Personal",
         "area": "unrelated",
-        "intent": "leisure",
+        "intent": "Consume",
         "quality": "unknown",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Personal interruption before returning to the manuscript.",
+          "intent": "leisure",
+          "quality": "unknown"
+        }
       },
       {
         "id": "gt-14-05",
@@ -410,11 +434,17 @@
           329,
           330
         ],
-        "context": "Finalization after incorporating collaborator feedback.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "review",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Finalization after incorporating collaborator feedback.",
+          "intent": "review",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -452,25 +482,91 @@
     "possible_next_step": "Wait for and incorporate the final collaborator review, then choose the submission venue and perform only the formatting or evidence changes that are justified by that decision."
   },
   "expected_coach_outcome": {
-    "primary_action": {
-      "action_type": "schedule_change",
-      "title": "Pause broad manuscript edits pending collaborator review",
-      "reason": "The consistency pass is complete and a targeted draft has been sent for review. More rewriting before receiving that feedback risks duplicating work.",
-      "suggested_focus_minutes": 15,
-      "target": "Manuscript"
-    },
-    "secondary_action": {
-      "action_type": "clarify_priority",
-      "title": "Choose the submission venue after feedback",
-      "reason": "Formatting and page limits have been checked, but the venue decision should follow the collaborator's assessment of the contribution rather than drive premature formatting work.",
-      "suggested_focus_minutes": 30,
-      "target": "Submission Planning"
-    },
+    "primary_action": null,
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not start another experiment while waiting for collaborator feedback.",
       "Do not repeatedly check email for a response during focused work periods.",
       "Do not spend substantial time formatting for a venue before the venue choice is settled.",
       "Do not revive the replication study merely because the main manuscript work has temporarily paused."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "schedule_change",
+        "title": "Pause broad manuscript edits pending collaborator review",
+        "reason": "The consistency pass is complete and a targeted draft has been sent for review. More rewriting before receiving that feedback risks duplicating work.",
+        "suggested_focus_minutes": 15,
+        "target": "Manuscript"
+      },
+      "secondary_action": {
+        "action_type": "clarify_priority",
+        "title": "Choose the submission venue after feedback",
+        "reason": "Formatting and page limits have been checked, but the venue decision should follow the collaborator's assessment of the contribution rather than drive premature formatting work.",
+        "suggested_focus_minutes": 30,
+        "target": "Submission Planning"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "The consistency pass is complete and the draft is with the collaborator; the key's own move is to pause until that review returns. Nothing useful can be started before it does.",
+      "priority": null,
+      "type": null
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 15 shows 464 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (manuscript, 464 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (manuscript, 464 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (manuscript, 464 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (manuscript, 464 min).",
+        "reason_code": "different_priority"
+      }
+    }
   }
 }

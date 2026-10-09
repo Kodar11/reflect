@@ -7,8 +7,8 @@
     "current_work": [
       "Preparing a manuscript on uncertainty estimation in neural network classifiers",
       "Maintaining the research code and experiment infrastructure used for the manuscript",
-      "Running a smaller replication study of a calibration method from a recent paper",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Replicating a calibration method from a recent paper",
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
       "Lock the submission venue and complete the near-submission checklist",
@@ -336,11 +336,17 @@
           374,
           375
         ],
-        "context": "Continuation of the near-submission workflow established on Days 15–16.",
+        "context": "Work",
         "area": "submission",
-        "intent": "preparation",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Continuation of the near-submission workflow established on Days 15–16.",
+          "intent": "preparation",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-17-02",
@@ -354,11 +360,17 @@
           378,
           379
         ],
-        "context": "Final collaborator review after the compressed draft.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Final collaborator review after the compressed draft.",
+          "intent": "revision",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-17-03",
@@ -372,11 +384,17 @@
           382,
           383
         ],
-        "context": "Quality-control pass on the rendered manuscript.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "review",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Quality-control pass on the rendered manuscript.",
+          "intent": "review",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-17-04",
@@ -388,11 +406,17 @@
           384,
           385
         ],
-        "context": "Evening learning unrelated to the active research project.",
+        "context": "Personal",
         "area": "unrelated learning",
-        "intent": "learning",
+        "intent": "Learn",
         "quality": "unknown",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Evening learning unrelated to the active research project.",
+          "intent": "learning",
+          "quality": "unknown"
+        }
       },
       {
         "id": "gt-17-05",
@@ -404,11 +428,17 @@
           386,
           387
         ],
-        "context": "Closing the current manuscript preparation loop.",
+        "context": "Work",
         "area": "submission",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Closing the current manuscript preparation loop.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -451,19 +481,99 @@
       "title": "Finish the submission",
       "reason": "The manuscript has passed collaborator review, venue checks, citation checks, and a final PDF inspection. The remaining work is administrative and should close the current loop.",
       "suggested_focus_minutes": 45,
-      "target": "Submission"
+      "target": "Submission",
+      "target_stream": "manuscript"
     },
-    "secondary_action": {
-      "action_type": "schedule_change",
-      "title": "Create a post-submission decision point",
-      "reason": "Once the manuscript is submitted, the researcher should explicitly choose whether the next priority is the parked replication study or another research question rather than drifting back into experiments.",
-      "suggested_focus_minutes": 20,
-      "target": "Research Planning"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not add experiments to a manuscript that is already submission-ready unless a concrete submission requirement exposes a gap.",
       "Do not keep polishing wording indefinitely after the final review has passed.",
       "Do not automatically resume the replication study without revisiting its unresolved preprocessing dependency."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Finish the submission",
+        "reason": "The manuscript has passed collaborator review, venue checks, citation checks, and a final PDF inspection. The remaining work is administrative and should close the current loop.",
+        "suggested_focus_minutes": 45,
+        "target": "Submission"
+      },
+      "secondary_action": {
+        "action_type": "schedule_change",
+        "title": "Create a post-submission decision point",
+        "reason": "Once the manuscript is submitted, the researcher should explicitly choose whether the next priority is the parked replication study or another research question rather than drifting back into experiments.",
+        "suggested_focus_minutes": 20,
+        "target": "Research Planning"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The manuscript has passed collaborator review, venue checks, citation checks, and a final PDF inspection. The remaining work is administrative and should close the current loop.",
+      "priority": "Move the manuscript from notes to a coherent results section",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 18 shows 67 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 18 went to other work (replication, 407 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 18 went to other work (replication, 407 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 18 went to other work (replication, 407 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 18 went to other work (replication, 407 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "Day 18 shows 67 min on this work.",
+      "reason_code": null
+    }
   }
 }

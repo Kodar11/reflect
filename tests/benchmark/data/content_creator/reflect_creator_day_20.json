@@ -319,11 +319,17 @@
           451,
           452
         ],
-        "context": "Sunday workload is lighter, but the creator is still following the published video's response.",
+        "context": "Work",
         "area": "creator_operations_and_community",
-        "intent": "Handle current communication and reconnect with the active project.",
-        "quality": "focused but brief",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "Sunday workload is lighter, but the creator is still following the published video's response.",
+          "intent": "Handle current communication and reconnect with the active project.",
+          "quality": "focused but brief"
+        }
       },
       {
         "id": "gt-20-02",
@@ -336,11 +342,17 @@
           454,
           455
         ],
-        "context": "The video had only been an initial rough edit at the end of Day 19.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Turn separate edited sections into one complete reviewable cut.",
-        "quality": "substantive production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The video had only been an initial rough edit at the end of Day 19.",
+          "intent": "Turn separate edited sections into one complete reviewable cut.",
+          "quality": "substantive production"
+        }
       },
       {
         "id": "gt-20-03",
@@ -349,11 +361,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Brief break before the final rough-cut adjustments.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "quality": "unobserved offline activity",
+          "intent": "Brief break before the final rough-cut adjustments."
+        }
       },
       {
         "id": "gt-20-04",
@@ -366,11 +384,17 @@
           457,
           458
         ],
-        "context": "The complete rough cut exposed a minor wording or sequencing issue rather than a need for another full recording session.",
+        "context": "Work",
         "area": "editing_and_scripting",
-        "intent": "Close the main structural issues before moving attention to the sponsor.",
-        "quality": "useful focused refinement",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The complete rough cut exposed a minor wording or sequencing issue rather than a need for another full recording session.",
+          "intent": "Close the main structural issues before moving attention to the sponsor.",
+          "quality": "useful focused refinement"
+        }
       },
       {
         "id": "gt-20-05",
@@ -379,11 +403,16 @@
         "title": "Offline lunch and weekend break",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity is available.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Lunch and weekend recovery.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity is available.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-20-06",
@@ -398,11 +427,17 @@
           462,
           463
         ],
-        "context": "The sponsor has now supplied a concrete Monday handoff expectation, making this more urgent than earlier exploratory admin.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Prepare a short-form deliverable for the commercial deadline.",
-        "quality": "deadline-driven business work",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The sponsor has now supplied a concrete Monday handoff expectation, making this more urgent than earlier exploratory admin.",
+          "intent": "Prepare a short-form deliverable for the commercial deadline.",
+          "quality": "deadline-driven business work"
+        }
       },
       {
         "id": "gt-20-07",
@@ -411,11 +446,17 @@
         "title": "Offline recording preparation",
         "summary": "Prepared the recording setup away from the desktop.",
         "event_ids": [],
-        "context": "The physical setup is not observable.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Get ready to record the sponsor short.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The physical setup is not observable.",
+          "intent": "Get ready to record the sponsor short.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-20-08",
@@ -428,11 +469,17 @@
           465,
           466
         ],
-        "context": "The concrete deadline makes the sponsor recording a legitimate competing priority.",
+        "context": "Work",
         "area": "sponsorship_and_recording",
-        "intent": "Capture a usable sponsored short-form video.",
-        "quality": "substantive commercial production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The concrete deadline makes the sponsor recording a legitimate competing priority.",
+          "intent": "Capture a usable sponsored short-form video.",
+          "quality": "substantive commercial production"
+        }
       },
       {
         "id": "gt-20-09",
@@ -441,11 +488,17 @@
         "title": "Offline recording adjustment",
         "summary": "Made a brief physical setup adjustment before the second sponsor take.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Correct or improve the setup for another take.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "intent": "Correct or improve the setup for another take.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-20-10",
@@ -457,11 +510,17 @@
           467,
           468
         ],
-        "context": "The second take follows an explicit review of the first capture.",
+        "context": "Work",
         "area": "sponsorship_and_recording",
-        "intent": "Capture a cleaner sponsor version before editing.",
-        "quality": "iterative production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The second take follows an explicit review of the first capture.",
+          "intent": "Capture a cleaner sponsor version before editing.",
+          "quality": "iterative production"
+        }
       },
       {
         "id": "gt-20-11",
@@ -470,11 +529,16 @@
         "title": "Offline dinner transition",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and evening transition.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-20-12",
@@ -486,11 +550,17 @@
           469,
           470
         ],
-        "context": "The sponsor short is recorded but the final edit is not yet complete.",
+        "context": "Work",
         "area": "sponsorship_and_community",
-        "intent": "Move the sponsor deliverable into editing and handle audience messages.",
-        "quality": "productive but split focus",
-        "importance": "medium"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The sponsor short is recorded but the final edit is not yet complete.",
+          "intent": "Move the sponsor deliverable into editing and handle audience messages.",
+          "quality": "productive but split focus"
+        }
       },
       {
         "id": "gt-20-13",
@@ -502,11 +572,17 @@
           471,
           472
         ],
-        "context": "The published video continues to collect data, but no visible action follows the analytics check.",
+        "context": "Work",
         "area": "analytics_and_ideation",
-        "intent": "Maintain channel awareness and future options.",
-        "quality": "light maintenance",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The published video continues to collect data, but no visible action follows the analytics check.",
+          "intent": "Maintain channel awareness and future options.",
+          "quality": "light maintenance"
+        }
       },
       {
         "id": "gt-20-14",
@@ -518,11 +594,17 @@
           473,
           474
         ],
-        "context": "Normal weekend leisure after two production workstreams.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Normal weekend leisure after two production workstreams.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-20-15",
@@ -533,11 +615,17 @@
         "event_ids": [
           475
         ],
-        "context": "The main video now has a complete rough cut but still needs final polish before publication.",
+        "context": "Work",
         "area": "scripting_and_project_management",
-        "intent": "Record the next edit action before ending the day.",
-        "quality": "useful closeout",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The main video now has a complete rough cut but still needs final polish before publication.",
+          "intent": "Record the next edit action before ending the day.",
+          "quality": "useful closeout"
+        }
       }
     ],
     "unobserved_periods": [
@@ -600,14 +688,16 @@
       "action_type": "deadline_driven_completion",
       "reason": "The commercial deliverable has a concrete near-term handoff while the personal video is still at a reviewable rough-cut stage.",
       "target": "Database-tool sponsored short",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "sponsorship"
     },
     "secondary_action": {
       "title": "Keep one note for the PostgreSQL polish pass",
       "action_type": "preserve_open_loop",
       "reason": "The main video only needs a small clarity correction according to today's review, so preserving the note is enough while the sponsor takes priority.",
       "target": "PostgreSQL Partial Indexes follow-up",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "pg_partial_video"
     },
     "things_not_to_do": [
       "Do not assume the second sponsor take is final without comparing it inside the edit.",
@@ -617,6 +707,97 @@
       "Do not infer performance from another analytics check without visible evidence.",
       "Do not criticize weekend leisure.",
       "Do not infer offline setup details."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The commercial deliverable has a concrete near-term handoff while the personal video is still at a reviewable rough-cut stage.",
+      "priority": "Deliver the sponsored database-tool short on time",
+      "type": "deadline_driven_completion"
+    },
+    "forbidden_streams": [
+      "api_video",
+      "redis_video",
+      "pg_indexes_video"
+    ],
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "redis_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_indexes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_partial_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 21 shows 276 min on this work.",
+        "reason_code": null
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 21 went to other work (pg_partial_video, 276 min).",
+        "reason_code": "different_priority"
+      },
+      "background_jobs_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 21 went to other work (pg_partial_video, 276 min).",
+        "reason_code": "different_priority"
+      },
+      "sponsorship": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 21 shows 149 min on this work.",
+        "reason_code": null
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 21 shows 36 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 21 shows 81 min on this work.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 21 went to other work (pg_partial_video, 276 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 21 shows 149 min on this work.",
+      "reason_code": null
+    }
   }
 }

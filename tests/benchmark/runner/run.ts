@@ -7,12 +7,13 @@ import { diagnoseRun, renderDiagnostics } from '../evaluators/coachDiagnostics';
 import { stateOf } from '../evaluators/coachDimensions';
 import { EVALUATOR_VERSION, checkAnswerKeyVocabulary, evaluateDay, summarize, type BenchmarkSummary, type DayEvaluation } from '../evaluators/index';
 import { buildLeakDetector, scanDatabaseForLeaks } from '../evaluators/leakage';
+import { buildStreamContext } from '../evaluators/streams';
 import { captureDay, captureTaxonomy, type CapturedDay } from './capture';
 import { SimulatedClock } from './clock';
 import { REPO_ROOT, applyTimezone, type BenchmarkConfig } from './config';
 import { loadDataset, splitDataset, type EvaluationOnlyDay } from './dataset';
 import { applyActionPolicy, processDay, type DayProcessing } from './day';
-import { PRODUCTION_WATCHER, initializeProfile, type IngestionMapping } from './ingest';
+import { PRODUCTION_WATCHER, initializeProfile, replayProfileUpdates, type IngestionMapping } from './ingest';
 import { RANDOMNESS_NOTE, describeEnvironment, describeVersions, type RunManifest } from './manifest';
 import { MeteredGemini, summarizeCalls, type GeminiCallRecord } from './meteredGemini';
 import { renderCoachReview, renderReport, renderReviewPacket } from './report';
@@ -143,6 +144,16 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
       const day = input.days[index];
       const logMark = pipelineLog.length;
       gemini.dayNumber = day.dayNumber;
+      const dayLabel = `day ${String(day.dayNumber).padStart(2, '0')}`;
+
+      // ── What the user changed in their profile before the day began ──
+      const morning = day.profileUpdates.filter((u) => u.at === 'start');
+      if (morning.length > 0) {
+        // Shortly before the first tracked event — and never earlier than the clock already stands.
+        const firstStart = Math.min(...day.rawEvents.map((e) => Date.parse(e.startedAt)));
+        clock.set(new Date(Math.max(firstStart - 5 * 60_000, clock.peek().getTime() + 60_000)));
+        say(`${dayLabel}: profile (morning) — ${replayProfileUpdates(runtime, morning).join('; ')}`);
+      }
 
       // ── Reflect's side: raw events in, one production cycle ──
       const processing = await processDay(runtime, clock, day, {
@@ -153,6 +164,9 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
         cycleRetryDelayMs: config.cycleRetryDelayMs,
         log: say,
         beforeReflection: async () => {
+          // What the user changed in their profile during the day: in place before the day is reflected on.
+          const evening = day.profileUpdates.filter((u) => u.at === 'end');
+          if (evening.length > 0) say(`${dayLabel}: profile (evening) — ${replayProfileUpdates(runtime, evening).join('; ')}`);
           // Yesterday's accepted action: Reflect looks for it, then the user says what it could not see.
           for (const pending of pendingFollowThrough) {
             const record = await followThrough(runtime, pending);
@@ -190,6 +204,7 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
         hasHistory: processed.some((p) => p.captured.reflection.report !== null),
         previousProcessedAt: processed[processed.length - 1]?.captured.processedAt ?? null,
         findLeaks: detector.findLeaks,
+        streams: evaluation.streams,
       });
       processed.push({ processing, captured, evaluation: dayEvaluation, answer, calls });
 
@@ -213,7 +228,8 @@ export async function runBenchmark(config: BenchmarkConfig, log: (message: strin
 
       // ── The simulated user's decision on today's suggestions (none by default) ──
       if (config.actionPolicy === 'scenario') {
-        const pending = await decideOnDay(runtime, day.dayNumber, captured.coach.actions, answer, captured.priorities);
+        const streams = Object.keys(evaluation.streams).length > 0 ? buildStreamContext(evaluation.streams, captured, answer) : null;
+        const pending = await decideOnDay(runtime, day.dayNumber, captured.coach.actions, answer, captured.priorities, streams);
         if (pending) pendingFollowThrough.push(pending);
       } else {
         await applyActionPolicy(

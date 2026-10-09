@@ -68,7 +68,60 @@ export interface DatasetGroundTruthActivity {
   intent: string;
   quality: string;
   importance: string;
+  /** Key of the persona's work stream this activity belongs to (`persona_key.json`); null for none. Optional. */
+  stream?: string | null;
+  /** The key's original free-text labels, kept where canonical ones replaced them. Never read by the evaluator. */
+  label_notes?: Record<string, string | null>;
 }
+
+/**
+ * A change the user made to their own profile on this day — what a real user
+ * does in Reflect's settings when a piece of work is finished or a new one
+ * arrives. It is INPUT: the harness replays it through the production profile
+ * and priority APIs at the simulated moment, and Reflect sees nothing of it
+ * before that moment. It never says what the day's evidence shows.
+ *
+ *   add / remove       the priority enters or leaves the stated list
+ *   complete / pause   the user marks it done or sets it aside; it stays in the record
+ *   resume             a paused or completed priority is taken up again
+ *   rename             the same priority, reworded (`to`)
+ *   set_current_work   the "currently working on" list is replaced
+ */
+export const PROFILE_UPDATE_OPS = ['add', 'remove', 'complete', 'pause', 'resume', 'rename', 'set_current_work'] as const;
+export interface DatasetProfileUpdate {
+  /** `start`: before the day's first tracked event. `end`: in the evening, before the day is reflected on. */
+  at: 'start' | 'end';
+  op: (typeof PROFILE_UPDATE_OPS)[number];
+  /** Text of the stated priority the change concerns (every op but `set_current_work`). */
+  priority?: string;
+  /** The new wording, for `rename`. */
+  to?: string;
+  current_work?: string[];
+}
+
+/**
+ * A body of work (or of time) the persona's month contains — the answer key's
+ * stable name for "what this is about". Activities, coach targets and the
+ * priority a piece of work serves are all stated against these keys, so nothing
+ * in the evaluator has to recognise a project by the words a particular
+ * persona's files happen to use for it. Benchmark metadata only: no production
+ * code ever sees a stream key.
+ */
+export interface DatasetWorkStream {
+  title: string;
+  kind: 'work' | 'leisure' | 'personal';
+  /** Names by which the work shows up in titles and recommendations ("DBMS", "Northstar"). Lower-case, matched as whole words. */
+  aliases: string[];
+  /** Stated priorities (their text at any point of the month) that this work serves. */
+  priorities: string[];
+}
+
+/** `persona_key.json`: the persona-level part of the answer key. Never sent to Reflect. */
+export interface DatasetPersonaKey {
+  work_streams: Record<string, DatasetWorkStream>;
+}
+
+export const PERSONA_KEY_FILE = 'persona_key.json';
 
 export interface DatasetUnobservedPeriod {
   started_at: string;
@@ -82,6 +135,8 @@ export interface DatasetExpectedAction {
   reason: string;
   suggested_focus_minutes: number | null;
   target: string | null;
+  /** The work stream the move is aimed at, by key. When present it — not the wording of `target` — is what an action is matched against. */
+  target_stream?: string | null;
 }
 
 /**
@@ -184,11 +239,25 @@ export interface DatasetDayFile {
     action_opportunity?: DatasetActionOpportunity;
     /** Optional. Absent: the simulated user never answers. */
     execution_scenario?: DatasetExecutionScenario;
+    /**
+     * Optional. What the simulated user does with a recommendation aimed at each work stream — the same three facts
+     * as `execution_scenario`, for whichever body of work the Coach actually pointed at. With it, a recommendation
+     * aimed somewhere other than the expected move still gets the response that work really had the next day.
+     */
+    response_by_stream?: Record<string, DatasetExecutionScenario>;
+    /** Optional. The key's actions as first written, kept where a day's expectation was restated as "say nothing". Never scored. */
+    original_actions?: { primary_action: DatasetExpectedAction | null; secondary_action: DatasetExpectedAction | null };
+    /** Optional. Other work streams a good recommendation could equally be aimed at today (full credit). */
+    acceptable_streams?: string[];
+    /** Optional. Work streams a recommendation must NOT be aimed at today: finished, handed off, or deliberately parked. */
+    forbidden_streams?: string[];
   };
   /** Optional; evaluation-only when present. */
   evaluation_objectives?: unknown;
   /** Optional. Recommendations made the evening before this day, with the user's answer to each. */
   coach_history?: DatasetSeedAction[];
+  /** Optional. Changes the user made to their profile on this day. Input, replayed at its simulated time. */
+  profile_updates?: DatasetProfileUpdate[];
 }
 
 // ── The two halves ──────────────────────────────────────────────────────────
@@ -211,6 +280,8 @@ export interface ReflectDayInput {
   /** Local calendar date, `YYYY-MM-DD`. */
   date: string;
   rawEvents: RawEventInput[];
+  /** What the user changed in their profile on this day, in file order. */
+  profileUpdates: DatasetProfileUpdate[];
 }
 
 /** Everything Reflect is allowed to receive. */
@@ -228,8 +299,10 @@ export interface EvaluationOnlyDay {
   utcOffset: string;
   dayType: string;
   circumstances: string[];
-  /** The priorities this day's file states (day 1's where it states none). Reflect itself only ever has day 1's. */
+  /** The priorities this day's file states (day 1's where it states none) — the answer key's own view of the day. */
   statedPriorities: string[];
+  /** The stated priorities as the profile replay leaves them at the end of this day: text → status. What Reflect was told. */
+  profilePriorities: { text: string; status: 'active' | 'completed' | 'paused' }[];
   laptopUsage: DatasetDayFile['day']['laptop_usage'];
   /** The day's raw events as the dataset states them (for interval math). */
   events: { datasetId: number; startMs: number; endMs: number; app: string | null; title: string | null; url: string | null }[];
@@ -244,6 +317,8 @@ export interface EvaluationOnlyDay {
 export interface EvaluationOnly {
   /** Every priority any day's file states. */
   priorities: string[];
+  /** The persona's work streams, by key. Empty when the persona has no `persona_key.json`. */
+  streams: Record<string, DatasetWorkStream>;
   days: EvaluationOnlyDay[];
 }
 
@@ -255,6 +330,8 @@ export interface LoadedDataset {
   version: string;
   files: { name: string; sha256: string }[];
   days: DatasetDayFile[];
+  /** `persona_key.json`, when the persona has one. */
+  personaKey: DatasetPersonaKey | null;
 }
 
 // ── Validation ──────────────────────────────────────────────────────────────
@@ -295,7 +372,7 @@ const CLOCK = /^([01]\d|2[0-3]):[0-5]\d$/;
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 const TOP_LEVEL_KEYS = ['persona', 'day', 'raw_events', 'ground_truth', 'expected_reflection', 'expected_coach_outcome'] as const;
-const OPTIONAL_TOP_LEVEL_KEYS = ['evaluation_objectives', 'coach_history'];
+const OPTIONAL_TOP_LEVEL_KEYS = ['evaluation_objectives', 'coach_history', 'profile_updates'];
 const EVENT_KEYS = ['id', 'watcher', 'started_at', 'ended_at', 'app', 'browser', 'title', 'url', 'payload'];
 const ACTIVITY_KEYS = ['id', 'started_at', 'ended_at', 'title', 'summary', 'event_ids', 'context', 'area', 'intent', 'quality', 'importance'];
 const ACTION_KEYS = ['title', 'action_type', 'reason', 'suggested_focus_minutes', 'target'];
@@ -316,6 +393,74 @@ const isStringArray = (v: unknown): v is string[] => Array.isArray(v) && v.every
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const nullableString = (v: unknown) => v === null || isString(v);
 
+// ── Profile replay (pure) ───────────────────────────────────────────────────
+
+/** The stated profile at one moment of the simulated month. */
+export interface ProfileState {
+  /** In the order the user's list shows them. */
+  priorities: { text: string; status: 'active' | 'completed' | 'paused' }[];
+  currentWork: string[];
+}
+
+export function initialProfileState(persona: { current_work?: string[]; priorities?: string[] }): ProfileState {
+  return { priorities: (persona.priorities ?? []).map((text) => ({ text, status: 'active' as const })), currentWork: [...(persona.current_work ?? [])] };
+}
+
+/**
+ * Apply one profile change. Returns the new state, or a message saying why the
+ * change is impossible (a priority that is not there, a list longer than the
+ * profile takes, text longer than a field holds). Pure: the same rules the
+ * validator checks the files with are the ones the harness replays with.
+ */
+export function applyProfileUpdate(state: ProfileState, update: DatasetProfileUpdate): { state: ProfileState } | { error: string } {
+  const priorities = state.priorities.map((p) => ({ ...p }));
+  const fits = (text: unknown): text is string => isString(text) && text.trim().length > 0 && text.length <= PROFILE_LIMITS.tagLength;
+  const index = priorities.findIndex((p) => p.text === update.priority);
+  const done = (next: ProfileState) => ({ state: next });
+
+  if (update.op === 'set_current_work') {
+    if (!isStringArray(update.current_work) || update.current_work.length > PROFILE_LIMITS.currentWork || !update.current_work.every(fits)) {
+      return { error: `set_current_work needs current_work[] of at most ${PROFILE_LIMITS.currentWork} entries of at most ${PROFILE_LIMITS.tagLength} characters` };
+    }
+    return done({ priorities, currentWork: [...update.current_work] });
+  }
+  if (!fits(update.priority)) return { error: `"${update.op}" needs the priority's text (at most ${PROFILE_LIMITS.tagLength} characters)` };
+
+  if (update.op === 'add') {
+    if (index !== -1) return { error: `the priority "${update.priority}" is already stated` };
+    if (priorities.length >= PROFILE_LIMITS.priorities) return { error: `the profile already holds ${PROFILE_LIMITS.priorities} priorities; remove one first` };
+    priorities.push({ text: update.priority, status: 'active' });
+    return done({ priorities, currentWork: state.currentWork });
+  }
+  if (index === -1) return { error: `the priority "${update.priority}" is not stated at this point` };
+  const current = priorities[index];
+  if (update.op === 'remove') priorities.splice(index, 1);
+  else if (update.op === 'complete' || update.op === 'pause') {
+    if (current.status !== 'active') return { error: `the priority "${update.priority}" is already ${current.status}` };
+    current.status = update.op === 'complete' ? 'completed' : 'paused';
+  } else if (update.op === 'resume') {
+    if (current.status === 'active') return { error: `the priority "${update.priority}" is active; there is nothing to resume` };
+    current.status = 'active';
+  } else if (update.op === 'rename') {
+    if (!fits(update.to)) return { error: `"rename" needs the new wording in "to" (at most ${PROFILE_LIMITS.tagLength} characters)` };
+    if (priorities.some((p) => p.text === update.to)) return { error: `the priority "${update.to}" is already stated` };
+    current.text = update.to;
+  }
+  return done({ priorities, currentWork: state.currentWork });
+}
+
+/** The profile at the end of each day (index = position in `days`), replaying every day's updates in order. Invalid updates are skipped. */
+export function profileByDay(days: Pick<DatasetDayFile, 'persona' | 'profile_updates'>[]): ProfileState[] {
+  let state = initialProfileState(days[0]?.persona ?? {});
+  return days.map((day) => {
+    for (const update of day.profile_updates ?? []) {
+      const result = applyProfileUpdate(state, update);
+      if ('state' in result) state = result.state;
+    }
+    return state;
+  });
+}
+
 /** Read every day file. Throws only when the directory or a file is unreadable JSON-wise is reported by `validate`. */
 export function readDatasetFiles(dir: string): { name: string; text: string }[] {
   if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
@@ -323,7 +468,7 @@ export function readDatasetFiles(dir: string): { name: string; text: string }[] 
   }
   return fs
     .readdirSync(dir)
-    .filter((name) => name.toLowerCase().endsWith('.json'))
+    .filter((name) => name.toLowerCase().endsWith('.json') && name !== PERSONA_KEY_FILE)
     .sort()
     .map((name) => ({ name, text: fs.readFileSync(path.join(dir, name), 'utf8') }));
 }
@@ -719,7 +864,11 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
           err('action_opportunity_strength', `${where}.strength`, `Expected one of ${OPPORTUNITY_STRENGTHS.join(' | ')}`);
         } else {
           if (o.should_exist !== (o.strength === 'strong')) err('action_opportunity_conflict', where, 'should_exist must be true exactly when strength is "strong"');
-          if (o.strength !== 'none' && coach.primary_action === null) err('action_opportunity_conflict', where, `strength "${o.strength}" needs a primary_action describing the useful action`);
+          // An optional day may name no move of its own — "hold; other open work is fine" — when it says which work that is.
+          const holds = o.strength === 'moderate' && isStringArray(coach.acceptable_streams) && coach.acceptable_streams.length > 0;
+          if (o.strength !== 'none' && coach.primary_action === null && !holds) {
+            err('action_opportunity_conflict', where, `strength "${o.strength}" needs a primary_action describing the useful action (or, for "moderate", acceptable_streams)`);
+          }
           if (o.strength === 'none' && coach.primary_action !== null) err('action_opportunity_conflict', where, 'strength "none" contradicts a non-null primary_action');
         }
       }
@@ -752,6 +901,114 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
     add('error', 'mixed_utc_offsets', '(dataset)', '', `Timestamps use more than one UTC offset: ${[...offsets].join(', ')}`);
   }
 
+  // ── Profile replay: every change must be possible at the moment it is made ──
+  const everStated = new Set<string>();
+  if (parsed.length > 0 && isObject(parsed[0].data.persona)) {
+    let state = initialProfileState(parsed[0].data.persona);
+    for (const p of state.priorities) everStated.add(p.text);
+    for (const { name, data } of parsed) {
+      const updates = (data as { profile_updates?: unknown }).profile_updates;
+      if (updates === undefined) continue;
+      if (!Array.isArray(updates)) {
+        add('error', 'profile_update_shape', name, 'profile_updates', 'Expected an array');
+        continue;
+      }
+      let endSeen = false;
+      updates.forEach((update, i) => {
+        const where = `profile_updates[${i}]`;
+        if (!isObject(update) || !(PROFILE_UPDATE_OPS as readonly unknown[]).includes(update.op) || (update.at !== 'start' && update.at !== 'end')) {
+          add('error', 'profile_update_shape', name, where, `Expected { at: "start" | "end", op: ${PROFILE_UPDATE_OPS.join(' | ')}, … }`);
+          return;
+        }
+        // Replayed in file order, so a morning change cannot be listed after an evening one.
+        if (update.at === 'end') endSeen = true;
+        else if (endSeen) add('error', 'profile_update_order', name, where, 'A change made at the start of the day is listed after one made at its end');
+        const result = applyProfileUpdate(state, update as unknown as DatasetProfileUpdate);
+        if ('error' in result) add('error', 'profile_update_impossible', name, where, result.error);
+        else {
+          state = result.state;
+          for (const p of state.priorities) everStated.add(p.text);
+        }
+      });
+    }
+  }
+
+  // ── Persona key: work streams, and every reference to one ──
+  let personaKey: DatasetPersonaKey | null = null;
+  const keyPath = path.join(dir, PERSONA_KEY_FILE);
+  if (fs.existsSync(keyPath)) {
+    const keyErr = (where: string, message: string) => add('error', 'persona_key', PERSONA_KEY_FILE, where, message);
+    let raw: unknown = null;
+    try {
+      raw = JSON.parse(fs.readFileSync(keyPath, 'utf8'));
+    } catch (err) {
+      keyErr('', `Not valid JSON: ${err instanceof Error ? err.message : String(err)}`);
+    }
+    if (raw !== null) {
+      if (!isObject(raw) || !isObject(raw.work_streams)) keyErr('work_streams', 'Expected { work_streams: { <key>: { title, kind, aliases[], priorities[] } } }');
+      else {
+        let shapeOk = true;
+        for (const [key, stream] of Object.entries(raw.work_streams)) {
+          const where = `work_streams.${key}`;
+          if (!isObject(stream) || !isString(stream.title) || !['work', 'leisure', 'personal'].includes(stream.kind as string) || !isStringArray(stream.aliases) || !isStringArray(stream.priorities)) {
+            keyErr(where, 'Expected { title, kind: work | leisure | personal, aliases[], priorities[] }');
+            shapeOk = false;
+            continue;
+          }
+          for (const alias of stream.aliases) if (alias !== alias.toLowerCase() || alias.trim().length < 3) keyErr(`${where}.aliases`, `"${alias}" must be lower-case and at least 3 characters`);
+          for (const text of stream.priorities) {
+            if (!everStated.has(text)) keyErr(`${where}.priorities`, `"${text}" is never a stated priority of this persona (day 1's profile or a profile update)`);
+          }
+        }
+        if (shapeOk) personaKey = raw as unknown as DatasetPersonaKey;
+      }
+    }
+  }
+  const streamKeys = personaKey ? new Set(Object.keys(personaKey.work_streams)) : null;
+  for (const { name, data } of parsed) {
+    const checkStream = (where: string, value: unknown) => {
+      if (value === undefined || value === null) return;
+      if (!isString(value)) add('error', 'stream_reference', name, where, 'Expected a work-stream key or null');
+      else if (!streamKeys) add('error', 'stream_reference', name, where, `Names the work stream "${value}", but the persona has no ${PERSONA_KEY_FILE}`);
+      else if (!streamKeys.has(value)) add('error', 'stream_reference', name, where, `"${value}" is not a work stream in ${PERSONA_KEY_FILE}`);
+    };
+    const activities = isObject(data.ground_truth) && Array.isArray(data.ground_truth.activities) ? data.ground_truth.activities : [];
+    activities.forEach((a, i) => isObject(a) && checkStream(`ground_truth.activities[${i}].stream`, a.stream));
+    const coach = data.expected_coach_outcome as unknown;
+    if (!isObject(coach)) continue;
+    for (const key of ['primary_action', 'secondary_action']) {
+      const action = coach[key];
+      if (isObject(action)) checkStream(`expected_coach_outcome.${key}.target_stream`, action.target_stream);
+    }
+    if (coach.response_by_stream !== undefined) {
+      if (!isObject(coach.response_by_stream)) add('error', 'stream_reference', name, 'expected_coach_outcome.response_by_stream', 'Expected { <stream>: { user_decision, execution, outcome, reason } }');
+      else {
+        for (const [key, x] of Object.entries(coach.response_by_stream)) {
+          const where = `expected_coach_outcome.response_by_stream.${key}`;
+          checkStream(where, key);
+          if (
+            !isObject(x) ||
+            !isString(x.reason) ||
+            !(SCENARIO_DECISIONS as readonly unknown[]).includes(x.user_decision) ||
+            !(SCENARIO_EXECUTIONS as readonly unknown[]).includes(x.execution) ||
+            !(SCENARIO_OUTCOMES as readonly unknown[]).includes(x.outcome)
+          ) {
+            add('error', 'execution_scenario_shape', name, where, 'Expected { user_decision, execution, outcome, reason }');
+          } else {
+            if (x.user_decision !== 'accepted' && x.execution !== 'not_applicable') add('error', 'execution_scenario_conflict', name, where, 'Only an accepted action can be carried out; use execution "not_applicable"');
+            if (x.execution !== 'done' && x.execution !== 'partial' && x.outcome !== 'not_applicable') add('error', 'execution_scenario_conflict', name, where, 'Only an action that was carried out has an outcome; use outcome "not_applicable"');
+          }
+        }
+      }
+    }
+    for (const key of ['acceptable_streams', 'forbidden_streams']) {
+      const list = coach[key];
+      if (list === undefined) continue;
+      if (!isStringArray(list)) add('error', 'stream_reference', name, `expected_coach_outcome.${key}`, 'Expected string[]');
+      else list.forEach((value, i) => checkStream(`expected_coach_outcome.${key}[${i}]`, value));
+    }
+  }
+
   const errors = issues.filter((i) => i.severity === 'error');
   const warnings = issues.filter((i) => i.severity === 'warning');
   const ordered = [...parsed].sort((a, b) => a.number - b.number);
@@ -781,6 +1038,7 @@ export function validateDataset(dir: string, expectedDays: number): ValidationRe
             inputVersion: inputVersionOf(ordered.map((p) => p.data)),
             files: fileHashes,
             days: ordered.map((p) => p.data),
+            personaKey,
           }
         : null,
   };
@@ -794,6 +1052,8 @@ export function inputVersionOf(days: DatasetDayFile[]): string {
     hash.update(JSON.stringify([day.day.day_number, day.day.date, day.raw_events]));
     // Seeded history reaches Reflect too (as stored actions), so it is part of the input.
     if (day.coach_history && day.coach_history.length > 0) hash.update(JSON.stringify(day.coach_history));
+    // So do the user's own profile changes.
+    if (day.profile_updates && day.profile_updates.length > 0) hash.update(JSON.stringify(day.profile_updates));
   }
   return `sha256:${hash.digest('hex').slice(0, 16)}`;
 }
@@ -836,18 +1096,28 @@ export function splitDataset(dataset: LoadedDataset): { input: ReflectInput; eva
         title: e.title,
         url: e.url,
       })),
+      profileUpdates: (d.profile_updates ?? []).map((u) => ({
+        at: u.at,
+        op: u.op,
+        ...(u.priority !== undefined ? { priority: u.priority } : {}),
+        ...(u.to !== undefined ? { to: u.to } : {}),
+        ...(u.current_work !== undefined ? { current_work: [...u.current_work] } : {}),
+      })),
     })),
   };
+  const profiles = profileByDay(dataset.days);
 
   const evaluation: EvaluationOnly = {
     priorities: [...new Set(dataset.days.flatMap((d) => d.persona.priorities ?? []))],
-    days: dataset.days.map((d) => ({
+    streams: dataset.personaKey?.work_streams ?? {},
+    days: dataset.days.map((d, index) => ({
       dayNumber: d.day.day_number,
       date: d.day.date,
       utcOffset,
       dayType: d.day.day_type,
       circumstances: d.day.circumstances,
       statedPriorities: [...(d.persona.priorities ?? first.persona.priorities ?? [])],
+      profilePriorities: profiles[index].priorities,
       laptopUsage: d.day.laptop_usage,
       events: d.raw_events.map((e) => ({
         datasetId: e.id,

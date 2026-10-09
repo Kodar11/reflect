@@ -552,14 +552,16 @@
       "action_type": "complete_open_loop",
       "reason": "The client feedback has already been translated into an implementation and staging verification, so the clearest next move is to confirm the deliverable rather than keep expanding the change.",
       "suggested_focus_minutes": 45,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Let the SaaS experiment run",
       "action_type": "protect_priority",
       "reason": "The latest product change has been implemented and checked, so another immediate change would reduce the value of observing a comparable beta signal.",
       "suggested_focus_minutes": 60,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat staging verification as proof of client acceptance.",

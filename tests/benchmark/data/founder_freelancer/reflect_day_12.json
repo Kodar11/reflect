@@ -356,14 +356,16 @@
       "action_type": "start_focus",
       "reason": "The dashboard received the strongest focused work of the day and already has implementation plus roadmap continuity.",
       "suggested_focus_minutes": 120,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Confirm the client scope update",
       "action_type": "complete_open_loop",
       "reason": "The client provided feedback and a change was implemented, but the captured events do not show a final confirmation.",
       "suggested_focus_minutes": 15,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat the large offline periods as wasted or unproductive time.",

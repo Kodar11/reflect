@@ -319,11 +319,17 @@
           567,
           568
         ],
-        "context": "A confirmation run was justified by the possibility that the class-level reversal could materially affect interpretation.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "experiment",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "A confirmation run was justified by the possibility that the class-level reversal could materially affect interpretation.",
+          "intent": "experiment",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-28-02",
@@ -338,11 +344,17 @@
           572,
           573
         ],
-        "context": "Testing whether the surprising Day 27 result was robust enough to support a broader claim.",
+        "context": "Work",
         "area": "analysis",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Testing whether the surprising Day 27 result was robust enough to support a broader claim.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-28-03",
@@ -354,11 +366,17 @@
           574,
           575
         ],
-        "context": "Capturing the current evidence before deciding whether the pilot warrants expansion.",
+        "context": "Work",
         "area": "research documentation",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Capturing the current evidence before deciding whether the pilot warrants expansion.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-28-04",
@@ -372,9 +390,15 @@
         ],
         "context": "Mixed research-adjacent and personal browsing.",
         "area": "mixed / incidental",
-        "intent": "exploration",
+        "intent": "Research",
         "quality": "mixed",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Mixed research-adjacent and personal browsing.",
+          "intent": "exploration",
+          "quality": "mixed"
+        }
       },
       {
         "id": "gt-28-05",
@@ -387,11 +411,17 @@
           579,
           580
         ],
-        "context": "Decision after the confirmation run weakened the strongest interpretation of the initial result.",
+        "context": "Work",
         "area": "research planning",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Decision after the confirmation run weakened the strongest interpretation of the initial result.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -429,20 +459,102 @@
       "title": "Decide the pilot stopping point",
       "reason": "The confirmation run weakened the strongest interpretation, so the next useful action is to decide whether the current evidence is enough for a bounded note rather than automatically adding more experiments.",
       "suggested_focus_minutes": 45,
-      "target": "Noisy Prevalence Calibration Study"
+      "target": "Noisy Prevalence Calibration Study",
+      "target_stream": "prevalence_pilot"
     },
-    "secondary_action": {
-      "action_type": "complete_open_loop",
-      "title": "Finish the methods note",
-      "reason": "The standardized protocol and limitations are already documented; consolidating them will preserve the result even if the pilot is stopped.",
-      "suggested_focus_minutes": 30,
-      "target": "Noisy Prevalence Calibration Study"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not add a second dataset simply because the class-level effect weakened.",
       "Do not describe the confirmation result as proof of a stable method ranking.",
       "Do not keep searching for implementations or papers until a preferred interpretation appears.",
       "Do not turn the laptop-storage browsing into a recurring research interruption."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "clarify_priority",
+        "title": "Decide the pilot stopping point",
+        "reason": "The confirmation run weakened the strongest interpretation, so the next useful action is to decide whether the current evidence is enough for a bounded note rather than automatically adding more experiments.",
+        "suggested_focus_minutes": 45,
+        "target": "Noisy Prevalence Calibration Study"
+      },
+      "secondary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Finish the methods note",
+        "reason": "The standardized protocol and limitations are already documented; consolidating them will preserve the result even if the pilot is stopped.",
+        "suggested_focus_minutes": 30,
+        "target": "Noisy Prevalence Calibration Study"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The confirmation run weakened the strongest interpretation, so the next useful action is to decide whether the current evidence is enough for a bounded note rather than automatically adding more experiments.",
+      "priority": "Run a small pilot on calibration under noisy prevalence",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication",
+      "manuscript",
+      "next_question"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "prevalence_pilot": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 29 shows 512 min on this work.",
+        "reason_code": null
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 29 went to other work (prevalence_pilot, 512 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 29 went to other work (prevalence_pilot, 512 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 29 shows 512 min on this work.",
+      "reason_code": null
+    }
   }
 }

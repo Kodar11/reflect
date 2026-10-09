@@ -1,0 +1,93 @@
+{
+  "work_streams": {
+    "northstar_identity": {
+      "title": "Northstar Coffee brand identity (through client handoff)",
+      "kind": "work",
+      "aliases": [
+        "coffee identity",
+        "coffee brand identity",
+        "northstar identity",
+        "northstar handoff",
+        "coffee brand review"
+      ],
+      "priorities": [
+        "Complete the coffee brand identity before the client review"
+      ]
+    },
+    "portfolio": {
+      "title": "Portfolio: the Northstar Coffee case study",
+      "kind": "work",
+      "aliases": [
+        "portfolio",
+        "case study"
+      ],
+      "priorities": [
+        "Build a stronger portfolio with the coffee project"
+      ]
+    },
+    "new_identity": {
+      "title": "New client brand identity (brief through delivery)",
+      "kind": "work",
+      "aliases": [
+        "new identity",
+        "new client identity",
+        "new brand identity",
+        "identity directions",
+        "identity brief",
+        "identity direction"
+      ],
+      "priorities": [
+        "Develop the brand identity for the new client"
+      ]
+    },
+    "food_identity": {
+      "title": "Food-business brand inquiry and identity",
+      "kind": "work",
+      "aliases": [
+        "food-business",
+        "food business",
+        "new inquiry",
+        "inquiry",
+        "proposal"
+      ],
+      "priorities": [
+        "Scope and start the food-business brand identity"
+      ]
+    },
+    "social_campaign": {
+      "title": "Recurring social media campaign for an existing client",
+      "kind": "work",
+      "aliases": [
+        "social campaign",
+        "social media campaign",
+        "campaign"
+      ],
+      "priorities": [
+        "Deliver the social media campaign assets on time"
+      ]
+    },
+    "client_admin": {
+      "title": "Client messages, files and studio administration",
+      "kind": "work",
+      "aliases": [
+        "invoice",
+        "file organization"
+      ],
+      "priorities": [
+        "Maintain existing freelance client relationships"
+      ]
+    },
+    "reference": {
+      "title": "Reference browsing and tutorials with no single project",
+      "kind": "work",
+      "aliases": [],
+      "priorities": []
+    },
+    "personal_practice": {
+      "title": "Personal lettering, typography and exploration",
+      "kind": "personal",
+      "aliases": [],
+      "priorities": []
+    }
+  }
+}

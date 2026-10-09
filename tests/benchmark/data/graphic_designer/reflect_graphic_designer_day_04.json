@@ -5,7 +5,7 @@
     "role": "Freelance brand and visual identity designer",
     "current_work": [
       "Finishing the Northstar Coffee brand identity and handoff",
-      "Preparing social media campaign assets for an existing client",
+      "Preparing social media campaign assets for a client",
       "Building a personal portfolio case study around the coffee project",
       "Maintaining freelance client communication and pipeline"
     ],
@@ -32,7 +32,7 @@
     "laptop_usage": {
       "first_seen": "09:26",
       "last_seen": "21:29",
-      "approx_active_hours": 8.0,
+      "approx_active_hours": 8,
       "longest_unobserved_gap_minutes": 96
     }
   },
@@ -337,7 +337,8 @@
         "area": "Northstar Coffee",
         "intent": "Review",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "northstar_identity"
       },
       {
         "id": "gt-04-02",
@@ -350,7 +351,8 @@
         "area": "Northstar Coffee",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "northstar_identity"
       },
       {
         "id": "gt-04-03",
@@ -362,8 +364,12 @@
         "context": "Work",
         "area": "Social campaign",
         "intent": "Create",
-        "quality": "Production",
-        "importance": "high"
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "social_campaign",
+        "label_notes": {
+          "quality": "Production"
+        }
       },
       {
         "id": "gt-04-04",
@@ -376,7 +382,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       },
       {
         "id": "gt-04-05",
@@ -389,7 +396,8 @@
         "area": "Portfolio",
         "intent": "Organize",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       },
       {
         "id": "gt-04-06",
@@ -402,7 +410,11 @@
         "area": "Personal exploration",
         "intent": "Research",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal_practice",
+        "label_notes": {
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-04-07",
@@ -413,9 +425,14 @@
         "event_ids": [111],
         "context": "Personal",
         "area": "Personal exploration",
-        "intent": "Experiment",
-        "quality": "Exploratory",
-        "importance": "low"
+        "intent": "Research",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal_practice",
+        "label_notes": {
+          "intent": "Experiment",
+          "quality": "Exploratory"
+        }
       },
       {
         "id": "gt-04-08",
@@ -428,7 +445,11 @@
         "area": null,
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": null,
+        "label_notes": {
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-04-09",
@@ -441,7 +462,8 @@
         "area": "Administration",
         "intent": "Organize",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "client_admin"
       }
     ],
     "unobserved_periods": [
@@ -499,7 +521,8 @@
       "action_type": "protect_priority",
       "reason": "The Northstar project has received several days of sustained client attention, while the related portfolio case study has repeatedly received shorter blocks and remains unfinished.",
       "suggested_focus_minutes": 75,
-      "target": "Portfolio"
+      "target": "Portfolio",
+      "target_stream": "portfolio"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -509,6 +532,71 @@
       "Do not claim the Northstar project is fully complete unless client approval is observed.",
       "Do not infer motivation, stress, frustration, or confidence from the unfinished portfolio work.",
       "Do not treat file organization as equivalent to creative production, but also do not dismiss it when it supports ongoing work."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The Northstar project has received several days of sustained client attention, while the related portfolio case study has repeatedly received shorter blocks and remains unfinished.",
+      "priority": "Build a stronger portfolio with the coffee project",
+      "type": "protect_priority"
+    },
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 5 shows 130 min on this work.",
+        "reason_code": null
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 5 shows 190 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (portfolio, 190 min).",
+        "reason_code": "different_priority"
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (portfolio, 190 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 5 shows 30 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 5 shows 25 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "reference": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (portfolio, 190 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 5 shows 190 min on this work.",
+      "reason_code": null
+    }
   }
 }

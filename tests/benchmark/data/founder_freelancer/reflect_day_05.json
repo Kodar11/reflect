@@ -356,14 +356,16 @@
       "action_type": "complete_open_loop",
       "reason": "The prospect progressed from a reply to a discovery call and revised proposal, creating a concrete next communication point.",
       "suggested_focus_minutes": 15,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Protect one focused SaaS block",
       "action_type": "protect_priority",
       "reason": "The SaaS authentication issue moved from research through implementation and testing, so a focused continuation is more useful than adding more planning.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat the large offline portions of Saturday as lost productivity.",

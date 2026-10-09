@@ -4,6 +4,7 @@ import type { CoachAction, CoachActionType, CoachDaypart, CoachReasonCode } from
 import { COACH_ACTION_TYPES, COACH_DAYPARTS, COACH_REASON_CODES } from '../../../src/coach/CoachModels';
 import { periodContaining, shiftPeriod } from '../../../src/reflection/ReflectionPeriods';
 import { matchExpected } from '../evaluators/coachDimensions';
+import { aimOfAction, type StreamContext } from '../evaluators/streams';
 import type { DatasetExecutionScenario, EvaluationOnlyDay } from './dataset';
 import type { BenchmarkRuntime } from './runtime';
 
@@ -133,12 +134,30 @@ const reasonOf = (code: string | null | undefined): CoachReasonCode | null =>
   code && (COACH_REASON_CODES as readonly string[]).includes(code) ? (code as CoachReasonCode) : null;
 
 /** The recommendation the day's scenario is about: the one that best answers the expected action, else the Coach's own first choice. */
-function pickAction(actions: CoachAction[], answer: EvaluationOnlyDay, priorities: { id: string; text: string }[]): CoachAction | null {
+function pickAction(actions: CoachAction[], answer: EvaluationOnlyDay, priorities: { id: string; text: string }[], streams: StreamContext | null): CoachAction | null {
   const open = actions.filter((a) => a.status === 'suggested');
   if (open.length === 0) return null;
   const expected = answer.expectedCoachOutcome.primary_action;
   if (!expected) return [...open].sort((a, b) => b.confidence - a.confidence)[0];
-  return [...open].sort((a, b) => matchExpected(expected, b, priorities).rank - matchExpected(expected, a, priorities).rank || b.confidence - a.confidence)[0];
+  const rank = (a: CoachAction) => matchExpected(expected, a, priorities, streams ? aimOfAction(a, priorities, streams) : null).rank;
+  return [...open].sort((a, b) => rank(b) - rank(a) || b.confidence - a.confidence)[0];
+}
+
+/**
+ * What the user does with THIS recommendation. Where the answer key says how each body of work fared the next day
+ * (`response_by_stream`), the response is the one for the work the action is actually aimed at — an action that
+ * points somewhere the user did not go is declined or left undone, whatever the day's expected move was. Without
+ * that table, the day's single `execution_scenario` applies to whichever action was picked.
+ */
+function scenarioFor(action: CoachAction, answer: EvaluationOnlyDay, priorities: { id: string; text: string }[], streams: StreamContext | null): DatasetExecutionScenario | null {
+  const expected = answer.expectedCoachOutcome;
+  if (expected.response_by_stream && streams) {
+    const aim = aimOfAction(action, priorities, streams);
+    const key = aim.streams.find((stream) => expected.response_by_stream![stream] !== undefined);
+    // An action about nothing the user has as work gets no answer: it is simply left on the panel.
+    return key ? expected.response_by_stream[key] : null;
+  }
+  return expected.execution_scenario ?? null;
 }
 
 /** Evening of day N: accept, reject or postpone. Returns what to follow up tomorrow, if anything. */
@@ -148,11 +167,12 @@ export async function decideOnDay(
   actions: CoachAction[],
   answer: EvaluationOnlyDay,
   priorities: { id: string; text: string }[],
+  streams: StreamContext | null = null,
 ): Promise<PendingFollowThrough | null> {
-  const scenario = answer.expectedCoachOutcome.execution_scenario;
-  if (!scenario || scenario.user_decision === 'not_applicable') return null;
-  const action = pickAction(actions, answer, priorities);
+  const action = pickAction(actions, answer, priorities, streams);
   if (!action) return null;
+  const scenario = scenarioFor(action, answer, priorities, streams);
+  if (!scenario || scenario.user_decision === 'not_applicable') return null;
 
   if (scenario.user_decision === 'accepted') runtime.coachService.decide(action.id, 'accept');
   else if (scenario.user_decision === 'rejected') runtime.coachService.decide(action.id, 'reject', { reasonCode: reasonOf(scenario.reason_code) });

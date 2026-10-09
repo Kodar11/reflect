@@ -339,11 +339,17 @@
           587,
           588
         ],
-        "context": "Reproducibility check before deciding whether the pilot is sufficient for a bounded note.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Reproducibility check before deciding whether the pilot is sufficient for a bounded note.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-29-02",
@@ -358,11 +364,17 @@
           592,
           593
         ],
-        "context": "Turning the current pilot evidence into a scoped research artifact.",
+        "context": "Work",
         "area": "methods note",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Turning the current pilot evidence into a scoped research artifact.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-29-03",
@@ -374,11 +386,17 @@
           594,
           595
         ],
-        "context": "Future validation remains possible but is not necessary to complete the current artifact.",
+        "context": "Work",
         "area": "research planning",
-        "intent": "planning",
-        "quality": "medium",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Future validation remains possible but is not necessary to complete the current artifact.",
+          "intent": "planning",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-29-04",
@@ -391,11 +409,17 @@
           597,
           598
         ],
-        "context": "Closing the current pilot as a bounded result while leaving a clean basis for future work.",
+        "context": "Work",
         "area": "documentation and reproducibility",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Closing the current pilot as a bounded result while leaving a clean basis for future work.",
+          "intent": "writing",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -433,20 +457,119 @@
       "title": "Finish and circulate the bounded note",
       "reason": "The core analysis, interpretation, limitations, and reproduction instructions are now in place; the remaining useful work is to finish the artifact rather than expand the study.",
       "suggested_focus_minutes": 45,
-      "target": "Noisy Prevalence Calibration Study"
+      "target": "Noisy Prevalence Calibration Study",
+      "target_stream": "prevalence_pilot"
     },
-    "secondary_action": {
-      "action_type": "protect_priority",
-      "title": "Park broader validation",
-      "reason": "The researcher already checked whether another dataset is necessary and found that it is outside the current bounded scope.",
-      "suggested_focus_minutes": 5,
-      "target": "Noisy Prevalence Calibration Study"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not treat the stale export discrepancy as evidence of a scientific effect after the export was corrected.",
       "Do not add another dataset before circulating the current note.",
       "Do not strengthen the wording beyond what two seeds on one dataset support.",
       "Do not turn future validation into an unbounded experiment queue."
-    ]
-  }
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Finish and circulate the bounded note",
+        "reason": "The core analysis, interpretation, limitations, and reproduction instructions are now in place; the remaining useful work is to finish the artifact rather than expand the study.",
+        "suggested_focus_minutes": 45,
+        "target": "Noisy Prevalence Calibration Study"
+      },
+      "secondary_action": {
+        "action_type": "protect_priority",
+        "title": "Park broader validation",
+        "reason": "The researcher already checked whether another dataset is necessary and found that it is outside the current bounded scope.",
+        "suggested_focus_minutes": 5,
+        "target": "Noisy Prevalence Calibration Study"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The core analysis, interpretation, limitations, and reproduction instructions are now in place; the remaining useful work is to finish the artifact rather than expand the study.",
+      "priority": "Run a small pilot on calibration under noisy prevalence",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication",
+      "manuscript",
+      "next_question"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "prevalence_pilot": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 30 shows 499 min on this work.",
+        "reason_code": null
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 30 went to other work (prevalence_pilot, 499 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 30 went to other work (prevalence_pilot, 499 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 30 shows 499 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Run a small pilot on calibration under noisy prevalence"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Complete the replication study before deciding to extend it"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Write up the pilot as a short methods note"
+    }
+  ]
 }

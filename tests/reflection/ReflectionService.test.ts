@@ -153,17 +153,59 @@ describe('ReflectionService.generate', () => {
     expect(view.live!.metrics[0]).toEqual({ key: 'time.tracked_minutes', label: 'Total tracked time', display: '22h 40m' });
   });
 
-  it('retries with the validation problems as feedback', async () => {
+  it('keeps a smaller true report rather than asking again: an unsupported insight is removed, the rest stands', async () => {
     const h = harness();
     const bad = weekly(week42, h.priorityId);
     (bad.insights as Record<string, unknown>[])[0].observation = 'You spent 99h on Project X.';
-    h.gemini.push(bad, weekly(week42, h.priorityId));
+    h.gemini.push(bad);
+
+    const result = await h.service.generate(week42, { trigger: 'scheduled' });
+    expect(result).toMatchObject({ status: 'succeeded', attempts: 1, insightCount: 2 });
+    expect(h.sleeps).toEqual([]);
+    expect(JSON.stringify(h.repo.getCurrentReport('week', week42.key)!.insights)).not.toContain('99h');
+  });
+
+  it('asks again only when nothing is left, and says exactly what to correct', async () => {
+    const h = harness();
+    const none = weekly(week42, h.priorityId);
+    const insights = none.insights as Record<string, unknown>[];
+    insights[0].observation = 'You spent 99h on Project X.';
+    insights[1].metricKeys = ['priority.unknown.share'];
+    insights[2].interpretation = 'Sustained work clustered in your mornings because you were tired later.';
+    h.gemini.push(none, weekly(week42, h.priorityId));
 
     const result = await h.service.generate(week42, { trigger: 'scheduled' });
     expect(result).toMatchObject({ status: 'succeeded', attempts: 2, insightCount: 3 });
     expect(h.sleeps).toEqual([1000]);
-    expect(h.gemini.requests[1].prompt).toContain('YOUR PREVIOUS RESPONSE WAS REJECTED');
-    expect(h.gemini.requests[1].prompt).toContain('number(s) "99" not found in its cited evidence');
+    const retry = h.gemini.requests[1].prompt;
+    expect(retry).toContain('YOUR PREVIOUS RESPONSE WAS REJECTED');
+    // Each problem is named with the correction for it — not a general "try again".
+    expect(retry).toContain(
+      '- insight 1: number(s) "99" not found in its cited evidence → Replace each of those numbers with a value copied from an entry this insight cites, or cite the entry that holds it. Do not introduce any other number.',
+    );
+    expect(retry).toContain('- insight 2: metric "priority.unknown.share" does not exist → Cite only keys, refs and ids that appear in this request, or leave the insight out.');
+    expect(retry).toContain('→ Reword it as a plain description of what was observed.');
+    expect(retry).toContain('Keep every part of the reflection that is not listed.');
+    expect(retry).not.toContain('Drop any claim you cannot support');
+  });
+
+  it('when no observation ever holds up, the period still gets what was measured — and nothing invented', async () => {
+    const h = harness();
+    const none = () => {
+      const r = weekly(week42, h.priorityId);
+      for (const insight of r.insights as Record<string, unknown>[]) insight.observation = 'You spent 99h on something this week.';
+      return { ...r, headline: 'A remarkable 99h week.' };
+    };
+    h.gemini.push(none(), none(), none());
+
+    const result = await h.service.generate(week42, { trigger: 'scheduled' });
+    expect(result).toMatchObject({ status: 'succeeded', attempts: 3, insightCount: 0 });
+    const report = h.repo.getCurrentReport('week', week42.key)!;
+    expect(report.headline).toBe('Total tracked time: 22h 40m. No further observation passed Reflect’s evidence checks.');
+    expect(report.insights).toEqual([]);
+    expect(report.narrative).toBeNull();
+    expect(JSON.stringify(report)).not.toContain('99h');
+    expect(report.dataSnapshot!.notes).toContain('No generated observation passed Reflect’s evidence checks for this period; only measured totals are shown.');
   });
 
   it('retries malformed JSON', async () => {
@@ -172,17 +214,17 @@ describe('ReflectionService.generate', () => {
     expect(await h.service.generate(week42, { trigger: 'scheduled' })).toMatchObject({ status: 'succeeded', attempts: 2 });
   });
 
-  it('after exhausting retries, keeps only the insights that fully validated', async () => {
+  it('keeps only the insights that fully validated', async () => {
     const h = harness();
     const bad = () => {
       const r = weekly(week42, h.priorityId);
       (r.insights as Record<string, unknown>[])[2].interpretation = 'You were tired in the afternoons.';
       return r;
     };
-    h.gemini.push(bad(), bad(), bad());
+    h.gemini.push(bad());
 
     const result = await h.service.generate(week42, { trigger: 'scheduled' });
-    expect(result).toMatchObject({ status: 'succeeded', attempts: 3, insightCount: 2 });
+    expect(result).toMatchObject({ status: 'succeeded', attempts: 1, insightCount: 2 });
     const report = h.repo.getCurrentReport('week', week42.key)!;
     expect(report.insights.map((i) => i.type)).toEqual(['progress', 'priority_alignment']);
     expect(JSON.stringify(report.insights)).not.toContain('tired');

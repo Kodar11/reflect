@@ -1,0 +1,135 @@
+{
+  "work_streams": {
+    "api_video": {
+      "title": "Video: \"Why APIs Feel Slow\"",
+      "kind": "work",
+      "aliases": [
+        "apis feel slow",
+        "api video",
+        "api-performance",
+        "api performance"
+      ],
+      "priorities": [
+        "Make measurable progress on the next big technical video"
+      ]
+    },
+    "redis_video": {
+      "title": "Video: Redis / caching follow-up",
+      "kind": "work",
+      "aliases": [
+        "redis",
+        "cache stampede"
+      ],
+      "priorities": [
+        "Make measurable progress on the next big technical video"
+      ]
+    },
+    "pg_indexes_video": {
+      "title": "Video: PostgreSQL indexes",
+      "kind": "work",
+      "aliases": [
+        "postgresql indexes",
+        "indexes video",
+        "indexing video",
+        "query planner"
+      ],
+      "priorities": [
+        "Make measurable progress on the next big technical video"
+      ]
+    },
+    "pg_partial_video": {
+      "title": "Video: PostgreSQL partial-index follow-up",
+      "kind": "work",
+      "aliases": [
+        "partial index",
+        "partial-index",
+        "partial indexes"
+      ],
+      "priorities": [
+        "Make measurable progress on the next big technical video"
+      ]
+    },
+    "indexing_mistakes_video": {
+      "title": "Video: PostgreSQL indexing mistakes",
+      "kind": "work",
+      "aliases": [
+        "indexing mistakes",
+        "indexing-mistakes"
+      ],
+      "priorities": [
+        "Make measurable progress on the next big technical video"
+      ]
+    },
+    "background_jobs_video": {
+      "title": "Video: background jobs / idempotency",
+      "kind": "work",
+      "aliases": [
+        "background jobs",
+        "background-jobs",
+        "idempotency"
+      ],
+      "priorities": [
+        "Make measurable progress on the next big technical video"
+      ]
+    },
+    "sponsorship": {
+      "title": "Sponsor inquiries and the sponsored database-tool short",
+      "kind": "work",
+      "aliases": [
+        "sponsor",
+        "sponsored",
+        "sponsorship"
+      ],
+      "priorities": [
+        "Deliver the sponsored database-tool short on time"
+      ]
+    },
+    "next_video_planning": {
+      "title": "Choosing and validating the next video",
+      "kind": "work",
+      "aliases": [
+        "next video",
+        "next project",
+        "backlog",
+        "composite-index",
+        "composite index",
+        "candidate topic"
+      ],
+      "priorities": [
+        "Keep idea collection and analytics from replacing production",
+        "Make measurable progress on the next big technical video"
+      ]
+    },
+    "channel_ops": {
+      "title": "Channel upkeep: inbox, comments, community, analytics",
+      "kind": "work",
+      "aliases": [
+        "analytics",
+        "comments",
+        "community",
+        "inbox"
+      ],
+      "priorities": [
+        "Keep audience/community maintenance lightweight"
+      ]
+    },
+    "learning": {
+      "title": "General technical and creator learning",
+      "kind": "work",
+      "aliases": [],
+      "priorities": []
+    },
+    "leisure": {
+      "title": "Entertainment and social browsing",
+      "kind": "leisure",
+      "aliases": [],
+      "priorities": []
+    },
+    "personal": {
+      "title": "Personal and offline time",
+      "kind": "personal",
+      "aliases": [],
+      "priorities": []
+    }
+  }
+}

@@ -51,13 +51,16 @@ function segmentationRows(timeline: SegmentationSummary, baseline: SegmentationS
 
 function classificationRows(scores: ClassificationScores, unit: 'pairs' | 'time'): (string | number)[][] {
   const amount = (value: number) => (unit === 'time' ? `${(value / 3_600_000).toFixed(1)} h` : String(value));
-  const row = (name: string, s: DimensionScore) => [name, pct(s.accuracy), pct(s.strictAccuracy), amount(s.evaluated), amount(s.ambiguous), amount(s.unmappable)];
+  // "Scorable" is the share of the tracked time (or pairs) the answer key could be judged on at all: an accuracy
+  // is a statement about that share only, and is never to be read without it.
+  const scorable = (s: DimensionScore) => (s.evaluated + s.unmappable > 0 ? pct(s.evaluated / (s.evaluated + s.unmappable), 0) : '—');
+  const row = (name: string, s: DimensionScore) => [name, pct(s.accuracy), pct(s.strictAccuracy), scorable(s), amount(s.evaluated), amount(s.ambiguous), amount(s.unmappable)];
   return [
     row('Context (dataset) → Reflect Area', scores.context),
     row('Area (dataset) → Reflect priority link', scores.area),
     row('Intent', scores.intent),
     row('Quality', scores.quality),
-    ['**Full classification** (every mappable dimension)', pct(scores.full.accuracy), '—', amount(scores.full.evaluated), '—', '—'],
+    ['**Full classification** (every mappable dimension)', pct(scores.full.accuracy), '—', '—', amount(scores.full.evaluated), '—', '—'],
   ];
 }
 
@@ -123,15 +126,15 @@ export function renderReport({ manifest, summary, days }: ReportInput): string {
     '',
     '**Timeline, by tracked time** (independent of matching)',
     '',
-    table(['Dimension', 'Accuracy', 'Strict', 'Evaluated', 'Ambiguous', 'Unmappable'], classificationRows(summary.classification.timeline.byTime, 'time')),
+    table(['Dimension', 'Accuracy', 'Strict', 'Scorable', 'Evaluated', 'Ambiguous', 'Unmappable'], classificationRows(summary.classification.timeline.byTime, 'time')),
     '',
     '**Timeline, matched pairs**',
     '',
-    table(['Dimension', 'Accuracy', 'Strict', 'Evaluated', 'Ambiguous', 'Unmappable'], classificationRows(summary.classification.timeline.matched, 'pairs')),
+    table(['Dimension', 'Accuracy', 'Strict', 'Scorable', 'Evaluated', 'Ambiguous', 'Unmappable'], classificationRows(summary.classification.timeline.matched, 'pairs')),
     '',
     '**Sessionizer + rules only, by tracked time** (the seeded rules assign a Context only, so without AI activities Area, Intent and Quality are empty)',
     '',
-    table(['Dimension', 'Accuracy', 'Strict', 'Evaluated', 'Ambiguous', 'Unmappable'], classificationRows(summary.classification.deterministic.byTime, 'time')),
+    table(['Dimension', 'Accuracy', 'Strict', 'Scorable', 'Evaluated', 'Ambiguous', 'Unmappable'], classificationRows(summary.classification.deterministic.byTime, 'time')),
     '',
     `Reflect's own Context dimension (no dataset counterpart; tracked hours): ${Object.entries(summary.classification.reflectContextMs)
       .sort((a, b) => b[1] - a[1])
@@ -298,7 +301,8 @@ export function coachDimensionRows(d: CoachDimensionSummary): [string, string, s
     ['Recommendation — evidence grounding', frac(d.evidenceGrounding), 'cited evidence exists'],
     ['Recommendation — feasibility', frac(d.feasibility), 'one sitting, window still ahead'],
     ['Recommendation — not generic', frac(d.nonGeneric), ''],
-    ['Recommendation — not a repeat', frac(d.notRepeated), 'does not restate an action of the previous three days'],
+    ['Recommendation — not a repeat', frac(d.notRepeated), 'does not say again what was carried out, turned down or reported as not working — or what the day no longer calls for'],
+    ['Recommendation — restated while still open', String(d.restatedWhileOpen ?? 0), 'the same move offered again while unanswered, on a day that still calls for it (reported, not a fault)'],
     ['Recommendation — concentration on one target', frac(d.targetConcentration), 'share of all actions aimed at the single most-recommended target (lower = more balanced)'],
     ['**Recommendation — appropriate null**', frac(d.appropriateNull), 'no-opportunity days left alone'],
     ['Adherence — decisions recorded', `accepted ${l.accepted}, rejected ${l.rejected}, deferred ${l.deferred}, undecided ${l.undecided} (of ${l.suggested})`, 'what the user chose — not a quality score'],

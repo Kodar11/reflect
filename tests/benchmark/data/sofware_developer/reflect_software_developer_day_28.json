@@ -347,11 +347,17 @@
           646,
           647
         ],
-        "context": "The main write paths were implemented and needed composition-level validation before review.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "validate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The main write paths were implemented and needed composition-level validation before review.",
+          "intent": "validate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-28-02",
@@ -366,11 +372,17 @@
           651,
           652
         ],
-        "context": "The read surface was still underspecified, so the implementation remained intentionally narrow around the agreed administrative use case.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "implement",
-        "quality": "useful",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The read surface was still underspecified, so the implementation remained intentionally narrow around the agreed administrative use case.",
+          "intent": "implement",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-28-03",
@@ -384,11 +396,17 @@
           655,
           656
         ],
-        "context": "The audit feature was moving toward review readiness but still had contract details to settle around filtering and pagination.",
+        "context": "Work",
         "area": "engineering_delivery",
-        "intent": "refine",
-        "quality": "strong",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The audit feature was moving toward review readiness but still had contract details to settle around filtering and pagination.",
+          "intent": "refine",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-28-04",
@@ -400,11 +418,17 @@
           657,
           658
         ],
-        "context": "No new operational issue was indicated by the routine health check.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "No new operational issue was indicated by the routine health check.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -471,20 +495,102 @@
       "action_type": "clarify_priority",
       "target": "Audit query filtering and pagination contract",
       "reason": "The core write path is validated, and the main remaining ambiguity is in the read surface. Settling it now prevents unnecessary rework.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "admin_audit"
     },
-    "secondary_action": {
-      "title": "PLAT-531 review preparation",
-      "action_type": "complete_open_loop",
-      "target": "PLAT-531 review preparation",
-      "reason": "Once the query contract is confirmed, the implementation is close enough to consolidate tests and request review.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not add broad audit analytics or reporting before the basic query contract is stable.",
       "Do not claim complete administrative coverage from representative integration tests alone.",
       "Do not reopen account export or older platform issues without new evidence.",
       "Do not continue implementation indefinitely without requesting stakeholder review."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Audit query filtering and pagination contract",
+        "action_type": "clarify_priority",
+        "target": "Audit query filtering and pagination contract",
+        "reason": "The core write path is validated, and the main remaining ambiguity is in the read surface. Settling it now prevents unnecessary rework.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "PLAT-531 review preparation",
+        "action_type": "complete_open_loop",
+        "target": "PLAT-531 review preparation",
+        "reason": "Once the query contract is confirmed, the implementation is close enough to consolidate tests and request review.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The core write path is validated, and the main remaining ambiguity is in the read surface. Settling it now prevents unnecessary rework.",
+      "priority": "Add an audit trail for admin actions",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability",
+      "account_export"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "admin_audit": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 29 shows 456 min on this work.",
+        "reason_code": null
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 29 went to other work (admin_audit, 456 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 29 shows 35 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 29 shows 456 min on this work.",
+      "reason_code": null
+    }
   }
 }

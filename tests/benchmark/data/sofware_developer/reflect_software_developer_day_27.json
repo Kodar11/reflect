@@ -346,11 +346,17 @@
           626,
           627
         ],
-        "context": "The previous day's discovery identified contract ambiguity that needed to be resolved before broader implementation.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "implement",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The previous day's discovery identified contract ambiguity that needed to be resolved before broader implementation.",
+          "intent": "implement",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-27-02",
@@ -363,11 +369,17 @@
           629,
           630
         ],
-        "context": "The agreed audit event shape was reused across multiple administrative write paths rather than creating separate mechanisms.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "implement",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The agreed audit event shape was reused across multiple administrative write paths rather than creating separate mechanisms.",
+          "intent": "implement",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-27-03",
@@ -383,11 +395,17 @@
           635,
           636
         ],
-        "context": "The audit implementation needed confidence at both service and persistence boundaries while normal team review work continued.",
+        "context": "Work",
         "area": "engineering_delivery",
-        "intent": "review_and_verify",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "The audit implementation needed confidence at both service and persistence boundaries while normal team review work continued.",
+          "intent": "review_and_verify",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-27-04",
@@ -399,11 +417,17 @@
           637,
           638
         ],
-        "context": "No new platform incident was indicated by the routine metric check.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "No new platform incident was indicated by the routine metric check.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -470,20 +494,102 @@
       "action_type": "complete_open_loop",
       "target": "PLAT-531 administrative write-path coverage",
       "reason": "The contract is sufficiently clear to continue implementation, and the next useful milestone is broad representative coverage rather than more discovery.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "admin_audit"
     },
-    "secondary_action": {
-      "title": "Request-to-database audit integration test",
-      "action_type": "experiment",
-      "target": "Request-to-database audit integration test",
-      "reason": "An end-to-end test would validate that controller, service, and repository behavior compose correctly.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not reopen the completed account export workstream without new evidence.",
       "Do not create separate audit models for each administrative area.",
       "Do not claim complete audit coverage from the currently tested write paths.",
       "Do not expand into a complex audit query UI before the event-generation contract is stable."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "PLAT-531 administrative write-path coverage",
+        "action_type": "complete_open_loop",
+        "target": "PLAT-531 administrative write-path coverage",
+        "reason": "The contract is sufficiently clear to continue implementation, and the next useful milestone is broad representative coverage rather than more discovery.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Request-to-database audit integration test",
+        "action_type": "experiment",
+        "target": "Request-to-database audit integration test",
+        "reason": "An end-to-end test would validate that controller, service, and repository behavior compose correctly.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The contract is sufficiently clear to continue implementation, and the next useful milestone is broad representative coverage rather than more discovery.",
+      "priority": "Add an audit trail for admin actions",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability",
+      "account_export"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "admin_audit": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 28 shows 432 min on this work.",
+        "reason_code": null
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 28 went to other work (admin_audit, 432 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 28 shows 60 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 28 shows 432 min on this work.",
+      "reason_code": null
+    }
   }
 }

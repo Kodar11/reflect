@@ -303,11 +303,17 @@
           377,
           378
         ],
-        "context": "Routine Monday review after the graph work on the weekend.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review current coursework status and requirements.",
-        "quality": "routine",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Routine Monday review after the graph work on the weekend.",
+          "intent": "Review current coursework status and requirements.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-21-02",
@@ -323,11 +329,17 @@
           383,
           384
         ],
-        "context": "The problem set had accumulated heap and graph work over Days 18–20.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Complete the remaining write-up and submit Problem Set 4.",
-        "quality": "completion-focused",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The problem set had accumulated heap and graph work over Days 18–20.",
+          "intent": "Complete the remaining write-up and submit Problem Set 4.",
+          "quality": "completion-focused"
+        }
       },
       {
         "id": "gt-21-03",
@@ -336,11 +348,17 @@
         "title": "Offline classes and campus activity",
         "summary": "Attended classes and handled campus activities away from the laptop.",
         "event_ids": [],
-        "context": "The laptop was inactive during this period.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Attend scheduled classes and campus responsibilities.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "The laptop was inactive during this period.",
+          "intent": "Attend scheduled classes and campus responsibilities.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-21-04",
@@ -358,11 +376,17 @@
           391,
           392
         ],
-        "context": "The internal assessment schedule seen on Sunday made Data Structures the next concrete preparation target.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review heap and graph concepts for the upcoming Data Structures assessment.",
-        "quality": "focused study with one short interruption",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The internal assessment schedule seen on Sunday made Data Structures the next concrete preparation target.",
+          "intent": "Review heap and graph concepts for the upcoming Data Structures assessment.",
+          "quality": "focused study with one short interruption"
+        }
       },
       {
         "id": "gt-21-05",
@@ -374,11 +398,17 @@
           393,
           394
         ],
-        "context": "Coursework and assessment preparation were taking precedence over project work.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Check whether a new project issue requires immediate action.",
-        "quality": "brief coordination",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Coursework and assessment preparation were taking precedence over project work.",
+          "intent": "Check whether a new project issue requires immediate action.",
+          "quality": "brief coordination"
+        }
       },
       {
         "id": "gt-21-06",
@@ -390,11 +420,17 @@
           395,
           396
         ],
-        "context": "Ordinary evening leisure after coursework.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Ordinary evening leisure after coursework.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-21-07",
@@ -407,11 +443,17 @@
           398,
           399
         ],
-        "context": "The assessment had become an active near-term priority after the weekend schedule check.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review the current assessment scope and note what to continue tomorrow.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The assessment had become an active near-term priority after the weekend schedule check.",
+          "intent": "Review the current assessment scope and note what to continue tomorrow.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -455,7 +497,8 @@
       "action_type": "continue_successful_behavior",
       "reason": "The student completed the prior problem set and began a focused assessment-preparation cycle using existing notes and targeted references.",
       "suggested_focus_minutes": 45,
-      "target": "Data Structures Internal Assessment"
+      "target": "Data Structures Internal Assessment",
+      "target_stream": "data_structures"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -464,6 +507,102 @@
       "Do not infer mastery from reviewing heap and graph notes.",
       "Do not treat the long offline class period as unproductive or empty.",
       "Do not criticize the evening gaming and social period as inherently problematic."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The student completed the prior problem set and began a focused assessment-preparation cycle using existing notes and targeted references.",
+      "priority": "Finish Data Structures Problem Set 4",
+      "type": "continue_successful_behavior"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering",
+      "theory_of_computation"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 22 shows 296 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 22 shows 90 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 22 went to other work (data_structures, 296 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 22 shows 296 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Finish Data Structures Problem Set 4"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Do the Theory of Computation tutorial"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Prepare for the Data Structures assessment"
+    }
+  ]
 }

@@ -2,7 +2,7 @@ import type { WatcherName } from '../../../src/models/Event';
 import { PRESET_ROLES, type UserProfileInput } from '../../../src/profile/UserProfile';
 import { getDomain } from '../../../src/tracker/browserUrl';
 import type { UrlMode } from './config';
-import type { DatasetPersona, RawEventInput, ReflectDayInput } from './dataset';
+import type { DatasetPersona, DatasetProfileUpdate, RawEventInput, ReflectDayInput } from './dataset';
 import type { BenchmarkRuntime } from './runtime';
 
 /**
@@ -79,6 +79,58 @@ export function profileFromPersona(persona: DatasetPersona): UserProfileInput {
     interests: [],
     additionalContext: null,
   };
+}
+
+/**
+ * Replay what the user changed in their profile, through the calls the app's
+ * own profile form and priority list make: the profile is saved (and the
+ * priorities reconciled, as a save does in the app), or one priority is marked
+ * completed / paused / active. The simulated clock is already at the moment of
+ * the change, so the priority's history records it at the right time — and
+ * nothing about it exists in Reflect's database before then.
+ *
+ * Returns one line per change for the run log. Throws when Reflect does not
+ * hold what the dataset says it should: the files were validated, so that is a
+ * harness fault, never something to paper over.
+ */
+export function replayProfileUpdates(runtime: Pick<BenchmarkRuntime, 'userProfileRepo' | 'reflectionService'>, updates: readonly DatasetProfileUpdate[]): string[] {
+  const done: string[] = [];
+  const saveProfile = (patch: { priorities?: string[]; currentWork?: string[] }, what: string) => {
+    const saved = runtime.userProfileRepo.updateProfile(patch);
+    for (const [field, wanted] of Object.entries(patch) as ['priorities' | 'currentWork', string[]][]) {
+      const stored = saved[field];
+      if (stored.length !== wanted.length || stored.some((text, i) => text !== wanted[i])) {
+        throw new Error(`Profile update "${what}" does not fit Reflect's profile limits unchanged.\n  wanted: ${JSON.stringify(wanted)}\n  stored: ${JSON.stringify(stored)}`);
+      }
+    }
+    runtime.reflectionService.notifyDataChanged({ kind: 'profile' });
+  };
+  for (const update of updates) {
+    const stated = runtime.userProfileRepo.getProfile().priorities;
+    const text = update.priority ?? '';
+    if (update.op === 'set_current_work') {
+      saveProfile({ currentWork: [...(update.current_work ?? [])] }, 'set_current_work');
+      done.push('current work replaced');
+    } else if (update.op === 'add') {
+      saveProfile({ priorities: [...stated, text] }, `add ${text}`);
+      done.push(`added "${text}"`);
+    } else if (update.op === 'remove') {
+      saveProfile({ priorities: stated.filter((p) => p !== text) }, `remove ${text}`);
+      done.push(`removed "${text}"`);
+    } else if (update.op === 'rename') {
+      saveProfile({ priorities: stated.map((p) => (p === text ? (update.to ?? '') : p)) }, `rename ${text}`);
+      done.push(`reworded "${text}" as "${update.to}"`);
+    } else {
+      const priority = runtime.reflectionService.syncPriorities().find((p) => p.text === text && p.status !== 'archived');
+      if (!priority) throw new Error(`Profile update "${update.op} ${text}": Reflect holds no such priority`);
+      const status = update.op === 'complete' ? 'completed' : update.op === 'pause' ? 'paused' : 'active';
+      runtime.reflectionService.setPriorityStatus(priority.id, status);
+      const after = runtime.reflectionService.syncPriorities().find((p) => p.id === priority.id);
+      if (after?.status !== status) throw new Error(`Profile update "${update.op} ${text}": the priority is ${after?.status ?? 'missing'}, not ${status}`);
+      done.push(`${update.op === 'complete' ? 'completed' : update.op === 'pause' ? 'paused' : 'resumed'} "${text}"`);
+    }
+  }
+  return done;
 }
 
 /**

@@ -5,17 +5,17 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
-      "Complete the next round of experiments for the main uncertainty estimation project",
-      "Move the manuscript from exploratory notes toward a coherent results section",
-      "Resolve whether the current experimental setup is measuring calibration fairly",
-      "Complete the replication study before deciding whether it is worth extending"
+      "Complete the next experiments for the uncertainty project",
+      "Move the manuscript from notes to a coherent results section",
+      "Resolve whether the setup measures calibration fairly",
+      "Complete the replication study before deciding to extend it"
     ]
   },
   "day": {
@@ -399,11 +399,17 @@
           138,
           139
         ],
-        "context": "Follow-up to the controlled experiment prepared on Day 4.",
+        "context": "Work",
         "area": "main research project",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "main_experiment",
+        "label_notes": {
+          "context": "Follow-up to the controlled experiment prepared on Day 4.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-05-02",
@@ -417,11 +423,17 @@
           142,
           143
         ],
-        "context": "Continuation of the replication study discrepancy identified on Day 4.",
+        "context": "Work",
         "area": "replication study",
-        "intent": "debugging",
-        "quality": "medium",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "replication",
+        "label_notes": {
+          "context": "Continuation of the replication study discrepancy identified on Day 4.",
+          "intent": "debugging",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-05-03",
@@ -434,11 +446,17 @@
           145,
           146
         ],
-        "context": "Uses the completed controlled experiment as the basis for manuscript revision.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Uses the completed controlled experiment as the basis for manuscript revision.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-05-04",
@@ -450,11 +468,17 @@
           147,
           148
         ],
-        "context": "Figure work directly supports the revised results section.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Figure work directly supports the revised results section.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-05-05",
@@ -465,11 +489,17 @@
         "event_ids": [
           149
         ],
-        "context": "Topic-adjacent learning/exploration.",
+        "context": "Work",
         "area": "literature and learning",
-        "intent": "learning",
+        "intent": "Learn",
         "quality": "unknown",
-        "importance": "low"
+        "importance": "low",
+        "stream": "learning",
+        "label_notes": {
+          "context": "Topic-adjacent learning/exploration.",
+          "intent": "learning",
+          "quality": "unknown"
+        }
       },
       {
         "id": "gt-05-06",
@@ -483,11 +513,17 @@
           152,
           153
         ],
-        "context": "Closes the day by documenting the interpretation rather than immediately launching another experiment.",
+        "context": "Work",
         "area": "main research project",
-        "intent": "synthesis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "main_experiment",
+        "label_notes": {
+          "context": "Closes the day by documenting the interpretation rather than immediately launching another experiment.",
+          "intent": "synthesis",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -533,19 +569,105 @@
       "title": "Test the distribution-shift hypothesis",
       "reason": "The completed experiment narrowed the central uncertainty enough to justify one focused follow-up rather than a broad sweep of new variants.",
       "suggested_focus_minutes": 60,
-      "target": "Main Research Project"
+      "target": "Main Research Project",
+      "target_stream": "main_experiment"
     },
-    "secondary_action": {
-      "action_type": "schedule_change",
-      "title": "Park the replication until the reference preprocessing is clarified",
-      "reason": "The replication discrepancy remains ambiguous and could consume substantial time without resolving the main research question.",
-      "suggested_focus_minutes": 10,
-      "target": "Replication Study"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not launch a large grid of new experiments before testing whether the distribution-shift effect survives one controlled comparison.",
       "Do not treat the replication discrepancy as resolved merely because a preprocessing difference was found.",
       "Do not rewrite the manuscript as if the method has failed completely; the in-distribution result remains informative."
-    ]
-  }
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Test the distribution-shift hypothesis",
+        "reason": "The completed experiment narrowed the central uncertainty enough to justify one focused follow-up rather than a broad sweep of new variants.",
+        "suggested_focus_minutes": 60,
+        "target": "Main Research Project"
+      },
+      "secondary_action": {
+        "action_type": "schedule_change",
+        "title": "Park the replication until the reference preprocessing is clarified",
+        "reason": "The replication discrepancy remains ambiguous and could consume substantial time without resolving the main research question.",
+        "suggested_focus_minutes": 10,
+        "target": "Replication Study"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The completed experiment narrowed the central uncertainty enough to justify one focused follow-up rather than a broad sweep of new variants.",
+      "priority": "Complete the next experiments for the uncertainty project",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "did_not_work",
+        "reason": "Day 6 shows 332 min on this work, most of it a retry, a failure or a blocker.",
+        "reason_code": "other"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 6 shows 55 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 6 went to other work (main_experiment, 332 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 6 went to other work (main_experiment, 332 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 6 went to other work (main_experiment, 332 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 6 shows 116 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "did_not_work",
+      "reason": "Day 6 shows 332 min on this work, most of it a retry, a failure or a blocker.",
+      "reason_code": "other"
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "pause",
+      "priority": "Complete the replication study before deciding to extend it"
+    }
+  ]
 }

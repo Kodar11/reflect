@@ -351,11 +351,17 @@
           320,
           321
         ],
-        "context": "The PostgreSQL video is the main unfinished production project.",
+        "context": "Work",
         "area": "creator_operations",
-        "intent": "Review incoming work and current channel state before production.",
-        "quality": "focused start",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The PostgreSQL video is the main unfinished production project.",
+          "intent": "Review incoming work and current channel state before production.",
+          "quality": "focused start"
+        }
       },
       {
         "id": "gt-15-02",
@@ -368,11 +374,17 @@
           323,
           324
         ],
-        "context": "The previous day established the first real rough cut.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Find issues in the cut before polishing or publishing.",
-        "quality": "high-value review",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_indexes_video",
+        "label_notes": {
+          "context": "The previous day established the first real rough cut.",
+          "intent": "Find issues in the cut before polishing or publishing.",
+          "quality": "high-value review"
+        }
       },
       {
         "id": "gt-15-03",
@@ -381,11 +393,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Brief break between edit review and correction.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "intent": "Brief break between edit review and correction.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-15-04",
@@ -397,11 +415,17 @@
           325,
           326
         ],
-        "context": "The creator is correcting a specific clarity problem rather than rewriting the whole video.",
+        "context": "Work",
         "area": "scripting_and_research",
-        "intent": "Find a concrete example that makes the explanation clearer.",
-        "quality": "targeted improvement",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "pg_indexes_video",
+        "label_notes": {
+          "context": "The creator is correcting a specific clarity problem rather than rewriting the whole video.",
+          "intent": "Find a concrete example that makes the explanation clearer.",
+          "quality": "targeted improvement"
+        }
       },
       {
         "id": "gt-15-05",
@@ -410,11 +434,17 @@
         "title": "Offline recording preparation",
         "summary": "Prepared the recording setup away from the desktop.",
         "event_ids": [],
-        "context": "The exact physical setup steps are not observable.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Prepare for a short replacement take.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Learn",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "pg_indexes_video",
+        "label_notes": {
+          "context": "The exact physical setup steps are not observable.",
+          "intent": "Prepare for a short replacement take.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-15-06",
@@ -426,11 +456,17 @@
           327,
           328
         ],
-        "context": "This is a focused re-record prompted by the morning review.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Capture a clearer version of one problematic explanation.",
-        "quality": "efficient corrective production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_indexes_video",
+        "label_notes": {
+          "context": "This is a focused re-record prompted by the morning review.",
+          "intent": "Capture a clearer version of one problematic explanation.",
+          "quality": "efficient corrective production"
+        }
       },
       {
         "id": "gt-15-07",
@@ -443,11 +479,17 @@
           330,
           331
         ],
-        "context": "The recording correction is now being integrated into the edit.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Repair the weak section and improve overall flow.",
-        "quality": "substantive production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_indexes_video",
+        "label_notes": {
+          "context": "The recording correction is now being integrated into the edit.",
+          "intent": "Repair the weak section and improve overall flow.",
+          "quality": "substantive production"
+        }
       },
       {
         "id": "gt-15-08",
@@ -458,11 +500,17 @@
         "event_ids": [
           332
         ],
-        "context": "Packaging is being developed before final publication.",
+        "context": "Work",
         "area": "thumbnail_design",
-        "intent": "Create a viable thumbnail concept.",
-        "quality": "productive packaging",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "pg_indexes_video",
+        "label_notes": {
+          "context": "Packaging is being developed before final publication.",
+          "intent": "Create a viable thumbnail concept.",
+          "quality": "productive packaging"
+        }
       },
       {
         "id": "gt-15-09",
@@ -474,11 +522,17 @@
           333,
           334
         ],
-        "context": "The search is directly related to the active thumbnail rather than general browsing.",
+        "context": "Work",
         "area": "thumbnail_design",
-        "intent": "Improve legibility at small display sizes.",
-        "quality": "targeted packaging work",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "pg_indexes_video",
+        "label_notes": {
+          "context": "The search is directly related to the active thumbnail rather than general browsing.",
+          "intent": "Improve legibility at small display sizes.",
+          "quality": "targeted packaging work"
+        }
       },
       {
         "id": "gt-15-10",
@@ -489,11 +543,17 @@
         "event_ids": [
           335
         ],
-        "context": "Community activity is part of the creator's normal workload.",
+        "context": "Work",
         "area": "community",
-        "intent": "Handle audience messages.",
-        "quality": "brief communication",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "Community activity is part of the creator's normal workload.",
+          "intent": "Handle audience messages.",
+          "quality": "brief communication"
+        }
       },
       {
         "id": "gt-15-11",
@@ -502,11 +562,16 @@
         "title": "Offline break",
         "summary": "Spent a period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Break between work blocks.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-15-12",
@@ -519,11 +584,17 @@
           337,
           338
         ],
-        "context": "The reference search may help presentation, but the majority of time stayed in the editor.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Polish the current cut and validate explanation/presentation choices.",
-        "quality": "mostly focused production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_indexes_video",
+        "label_notes": {
+          "context": "The reference search may help presentation, but the majority of time stayed in the editor.",
+          "intent": "Polish the current cut and validate explanation/presentation choices.",
+          "quality": "mostly focused production"
+        }
       },
       {
         "id": "gt-15-13",
@@ -532,11 +603,16 @@
         "title": "Offline personal time",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "The tracker cannot observe offline activity.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Normal evening transition and personal time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "The tracker cannot observe offline activity.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-15-14",
@@ -547,11 +623,17 @@
         "event_ids": [
           339
         ],
-        "context": "The single Drive event does not reveal which asset was inspected or whether anything was changed.",
+        "context": "Work",
         "area": "creator_operations",
-        "intent": "Check available production assets.",
+        "intent": "Review",
         "quality": "ambiguous maintenance",
-        "importance": "low"
+        "importance": "low",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The single Drive event does not reveal which asset was inspected or whether anything was changed.",
+          "intent": "Check available production assets.",
+          "quality": "ambiguous maintenance"
+        }
       },
       {
         "id": "gt-15-15",
@@ -565,11 +647,17 @@
           342,
           343
         ],
-        "context": "The analytics check is tied to an existing published video, but no major strategy change is visible.",
+        "context": "Work",
         "area": "analytics_and_ideation",
-        "intent": "Maintain channel records and review possible future content.",
-        "quality": "light maintenance with limited visible action",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The analytics check is tied to an existing published video, but no major strategy change is visible.",
+          "intent": "Maintain channel records and review possible future content.",
+          "quality": "light maintenance with limited visible action"
+        }
       },
       {
         "id": "gt-15-16",
@@ -581,11 +669,17 @@
           344,
           345
         ],
-        "context": "The documentary is technically relevant to the creator's interests, but the evidence does not establish it as deliberate content research.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and general technical interest.",
+        "intent": "Consume",
         "quality": "mixed leisure/learning ambiguity",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "The documentary is technically relevant to the creator's interests, but the evidence does not establish it as deliberate content research.",
+          "intent": "Recreation and general technical interest.",
+          "quality": "mixed leisure/learning ambiguity"
+        }
       },
       {
         "id": "gt-15-17",
@@ -594,11 +688,17 @@
         "title": "Offline wind-down",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Wind down before final project notes.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Wind down before final project notes.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-15-18",
@@ -610,11 +710,17 @@
           346,
           347
         ],
-        "context": "The PostgreSQL video is closer to final but is not yet clearly published.",
+        "context": "Work",
         "area": "creator_operations_and_project_management",
-        "intent": "Close the day with a status check and preserve next-step notes.",
-        "quality": "useful closeout",
-        "importance": "medium"
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The PostgreSQL video is closer to final but is not yet clearly published.",
+          "intent": "Close the day with a status check and preserve next-step notes.",
+          "quality": "useful closeout"
+        }
       }
     ],
     "unobserved_periods": [
@@ -680,7 +786,8 @@
       "action_type": "complete_open_loop",
       "reason": "The recording problem has been specifically addressed and the cut is now near final; the highest-value next step is to verify and close the production loop.",
       "target": "PostgreSQL Indexes video",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "pg_indexes_video"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -690,6 +797,97 @@
       "Do not treat the Instagram inbox check as distraction without evidence of intent.",
       "Do not infer anything about the offline recording setup.",
       "Do not criticize leisure activity."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The recording problem has been specifically addressed and the cut is now near final; the highest-value next step is to verify and close the production loop.",
+      "priority": "Make measurable progress on the next big technical video",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "api_video",
+      "redis_video",
+      "sponsorship"
+    ],
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "redis_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_indexes_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 178 min on this work.",
+        "reason_code": null
+      },
+      "pg_partial_video": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 16 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 16 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "background_jobs_video": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 16 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "sponsorship": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 100 min on this work.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 175 min on this work.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 16 shows no time on this work.",
+        "reason_code": "other"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 16 shows 178 min on this work.",
+      "reason_code": null
+    }
   }
 }

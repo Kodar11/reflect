@@ -351,11 +351,17 @@
           476,
           477
         ],
-        "context": "The sponsor work became time-bound over the weekend.",
+        "context": "Work",
         "area": "creator_operations_and_sponsorship",
-        "intent": "Confirm what needs to be delivered and by when.",
-        "quality": "focused administrative start",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The sponsor work became time-bound over the weekend.",
+          "intent": "Confirm what needs to be delivered and by when.",
+          "quality": "focused administrative start"
+        }
       },
       {
         "id": "gt-21-02",
@@ -368,11 +374,17 @@
           479,
           480
         ],
-        "context": "The short was recorded and roughly edited on Day 20.",
+        "context": "Work",
         "area": "sponsorship_and_editing",
-        "intent": "Reach a handoff-ready version of the commercial deliverable.",
-        "quality": "substantive deadline-driven production",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The short was recorded and roughly edited on Day 20.",
+          "intent": "Reach a handoff-ready version of the commercial deliverable.",
+          "quality": "substantive deadline-driven production"
+        }
       },
       {
         "id": "gt-21-03",
@@ -381,11 +393,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Brief break after finalizing the export.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Complete",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Brief break after finalizing the export.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-21-04",
@@ -398,11 +416,17 @@
           482,
           483
         ],
-        "context": "This closes the commercial workstream that interrupted the prior two production days.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Deliver the agreed sponsored asset and associated files.",
-        "quality": "successful business completion",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "This closes the commercial workstream that interrupted the prior two production days.",
+          "intent": "Deliver the agreed sponsored asset and associated files.",
+          "quality": "successful business completion"
+        }
       },
       {
         "id": "gt-21-05",
@@ -414,11 +438,17 @@
           484,
           485
         ],
-        "context": "The personal video had reached complete rough-cut stage on Day 20.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Verify the complete cut before publication.",
-        "quality": "high-value quality control",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The personal video had reached complete rough-cut stage on Day 20.",
+          "intent": "Verify the complete cut before publication.",
+          "quality": "high-value quality control"
+        }
       },
       {
         "id": "gt-21-06",
@@ -427,11 +457,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Brief break before final polish.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Brief break before final polish.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-21-07",
@@ -443,11 +479,17 @@
           486,
           487
         ],
-        "context": "The review did not trigger another recording session.",
+        "context": "Work",
         "area": "editing_and_scripting",
-        "intent": "Close remaining quality issues before upload.",
-        "quality": "focused production",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The review did not trigger another recording session.",
+          "intent": "Close remaining quality issues before upload.",
+          "quality": "focused production"
+        }
       },
       {
         "id": "gt-21-08",
@@ -456,11 +498,16 @@
         "title": "Offline lunch and personal time",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Lunch and recovery between work blocks.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-21-09",
@@ -473,11 +520,17 @@
           489,
           490
         ],
-        "context": "The creator is finishing packaging for the already-completed core edit.",
+        "context": "Work",
         "area": "editing_and_thumbnail_design",
-        "intent": "Remove the last small ambiguity and prepare publication assets.",
-        "quality": "targeted final polish",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The creator is finishing packaging for the already-completed core edit.",
+          "intent": "Remove the last small ambiguity and prepare publication assets.",
+          "quality": "targeted final polish"
+        }
       },
       {
         "id": "gt-21-10",
@@ -486,11 +539,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Brief transition before upload.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Complete",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Brief transition before upload.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-21-11",
@@ -504,11 +563,17 @@
           493,
           494
         ],
-        "context": "This completes the production loop but delays public release to a later scheduled time.",
+        "context": "Work",
         "area": "publishing",
-        "intent": "Prepare and schedule the finished video for publication.",
-        "quality": "successful completion",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "This completes the production loop but delays public release to a later scheduled time.",
+          "intent": "Prepare and schedule the finished video for publication.",
+          "quality": "successful completion"
+        }
       },
       {
         "id": "gt-21-12",
@@ -517,11 +582,17 @@
         "title": "Offline break and personal time",
         "summary": "Spent a period away from the desktop after scheduling the video.",
         "event_ids": [],
-        "context": "No desktop activity is available.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Break after completing the publishing loop.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Complete",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity is available.",
+          "intent": "Break after completing the publishing loop.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-21-13",
@@ -535,11 +606,17 @@
           497,
           498
         ],
-        "context": "The creator is following both audience communication and the performance of existing content.",
+        "context": "Work",
         "area": "community_and_analytics",
-        "intent": "Handle audience activity and maintain channel performance records.",
+        "intent": "Manage",
         "quality": "mixed-intent maintenance",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The creator is following both audience communication and the performance of existing content.",
+          "intent": "Handle audience activity and maintain channel performance records.",
+          "quality": "mixed-intent maintenance"
+        }
       },
       {
         "id": "gt-21-14",
@@ -548,11 +625,16 @@
         "title": "Offline dinner",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and normal evening time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-21-15",
@@ -564,11 +646,17 @@
           499,
           500
         ],
-        "context": "The newly scheduled video is the current active content commitment.",
+        "context": "Work",
         "area": "ideation_and_research",
-        "intent": "Keep future options visible and collect possible follow-up material.",
-        "quality": "light exploratory work",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The newly scheduled video is the current active content commitment.",
+          "intent": "Keep future options visible and collect possible follow-up material.",
+          "quality": "light exploratory work"
+        }
       },
       {
         "id": "gt-21-16",
@@ -580,11 +668,17 @@
           501,
           502
         ],
-        "context": "Normal evening leisure.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Social interaction and recreation.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Normal evening leisure.",
+          "intent": "Social interaction and recreation.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-21-17",
@@ -595,11 +689,17 @@
         "event_ids": [
           503
         ],
-        "context": "The video is scheduled rather than immediately published.",
+        "context": "Work",
         "area": "project_management",
-        "intent": "Record what to revisit after the scheduled release.",
-        "quality": "useful closeout",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The video is scheduled rather than immediately published.",
+          "intent": "Record what to revisit after the scheduled release.",
+          "quality": "useful closeout"
+        }
       }
     ],
     "unobserved_periods": [
@@ -660,13 +760,7 @@
     "possible_next_step": "Let the scheduled PostgreSQL video publish, then evaluate comments and early performance before deciding whether to develop another PostgreSQL follow-up or return to a different backlog item."
   },
   "expected_coach_outcome": {
-    "primary_action": {
-      "title": "Wait for the scheduled release signal",
-      "action_type": "defer_new_commitment",
-      "reason": "Two major deliverables were closed today; the next useful information will come from audience response to the newly scheduled video.",
-      "target": "PostgreSQL Partial Indexes video",
-      "suggested_focus_minutes": null
-    },
+    "primary_action": null,
     "secondary_action": null,
     "things_not_to_do": [
       "Do not assume sponsor approval simply because the asset was emailed.",
@@ -676,6 +770,107 @@
       "Do not infer the exact effect of the wording search on the final edit.",
       "Do not criticize evening recreation.",
       "Do not infer offline activity."
-    ]
-  }
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Wait for the scheduled release signal",
+        "action_type": "defer_new_commitment",
+        "reason": "Two major deliverables were closed today; the next useful information will come from audience response to the newly scheduled video.",
+        "target": "PostgreSQL Partial Indexes video",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": null
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "Two deliverables were closed today; the next useful information is the audience response to the scheduled video. The key says not to start another project before it.",
+      "priority": null,
+      "type": null
+    },
+    "forbidden_streams": [
+      "api_video",
+      "redis_video",
+      "pg_indexes_video"
+    ],
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "redis_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_indexes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_partial_video": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 22 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 22 shows 95 min on this work.",
+        "reason_code": null
+      },
+      "background_jobs_video": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 22 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "sponsorship": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 22 shows 76 min on this work.",
+        "reason_code": null
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 22 shows 196 min on this work.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 22 shows 160 min on this work.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 22 shows no time on this work.",
+        "reason_code": "other"
+      }
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Deliver the sponsored database-tool short on time"
+    }
+  ]
 }

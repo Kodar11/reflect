@@ -3,6 +3,7 @@ import type { CapturedDay } from '../runner/capture';
 import type { SemanticConfig } from '../runner/config';
 import type { EvaluationOnlyDay } from '../runner/dataset';
 import { coachText, reflectionText, streamOfAction, uncertaintyText } from './corpus';
+import { aimOfAction, hasStreams, streamsNamedIn, type StreamContext } from './streams';
 import {
   HEDGE,
   bestSentence,
@@ -33,6 +34,8 @@ export interface ReflectionEvaluationContext {
   /** Ids of every timeline block Reflect has shown up to and including this day. */
   knownBlockIds: Set<string>;
   findLeaks: (text: string) => string[];
+  /** The persona's work streams and the day's evidence against them, when the answer key has them. */
+  streams?: StreamContext;
 }
 
 export interface ReflectionEvaluation {
@@ -435,8 +438,21 @@ function semanticChecks(captured: CapturedDay, answer: EvaluationOnlyDay, ctx: R
     const actions = captured.coach.actions;
     const next = [...actions.map((a) => [a.title, a.description, a.rationale, a.focusTask].filter(Boolean).join(' ')), report?.carryForward?.text ?? ''].join('\n');
     const c = coverage(expected.possible_next_step, next);
-    const wantStream = streamOfText(expected.possible_next_step);
-    const sameStream = wantStream !== null && actions.some((a) => streamOfAction(a, captured.priorities) === wantStream);
+    // Which body of work the key's next step concerns: the stream the day's expected move is aimed at, else the
+    // stream its sentence names; without a registry, the founder set's two streams by their words.
+    let sameStream: boolean;
+    let wantLabel: string;
+    if (hasStreams(ctx.streams)) {
+      const registry = ctx.streams;
+      const keyed = answer.expectedCoachOutcome.primary_action?.target_stream;
+      const want = keyed ? [keyed] : streamsNamedIn(expected.possible_next_step, registry.streams);
+      sameStream = want.length > 0 && actions.some((a) => aimOfAction(a, captured.priorities, registry).streams.some((key) => want.includes(key)));
+      wantLabel = want.join(' / ') || 'unclear';
+    } else {
+      const wantStream = streamOfText(expected.possible_next_step);
+      sameStream = wantStream !== null && actions.some((a) => streamOfAction(a, captured.priorities) === wantStream);
+      wantLabel = wantStream ?? 'unclear';
+    }
     const verdict = !report
       ? 'FAIL'
       : next.trim() === ''
@@ -457,7 +473,7 @@ function semanticChecks(captured: CapturedDay, answer: EvaluationOnlyDay, ctx: R
       detail:
         next.trim() === ''
           ? `no recommendation was made${report?.coach?.noActionReason ? ` ("${report.coach.noActionReason}")` : ''}`
-          : `concept coverage ${(c.score * 100).toFixed(0)}%; expected work stream ${wantStream ?? 'unclear'}, ${sameStream ? 'an action targets it' : 'no action targets it'}`,
+          : `concept coverage ${(c.score * 100).toFixed(0)}%; expected work stream ${wantLabel}, ${sameStream ? 'an action targets it' : 'no action targets it'}`,
       evidence: actions.map((a) => a.title),
     });
   }

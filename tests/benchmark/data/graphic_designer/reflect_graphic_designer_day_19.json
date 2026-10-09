@@ -265,7 +265,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-19-02",
@@ -287,7 +288,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-19-03",
@@ -303,7 +305,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       },
       {
         "id": "gt-19-04",
@@ -318,7 +321,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-19-05",
@@ -333,7 +341,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       }
     ],
     "unobserved_periods": [
@@ -366,9 +375,99 @@
       "action_type": "complete_open_loop",
       "reason": "The client project is now approved and delivered, creating a natural opportunity to shift effort from refinement to the unfinished portfolio work.",
       "suggested_focus_minutes": null,
-      "target": "Northstar Coffee portfolio"
+      "target": "Northstar Coffee portfolio",
+      "target_stream": "portfolio"
     },
     "secondary_action": null,
-    "things_not_to_do": []
-  }
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The client project is now approved and delivered, creating a natural opportunity to shift effort from refinement to the unfinished portfolio work.",
+      "priority": "Build a stronger portfolio with the coffee project",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 20 shows 345 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (portfolio, 345 min).",
+        "reason_code": "different_priority"
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (portfolio, 345 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 20 shows 123 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 18 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 35 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 20 shows 345 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Develop the brand identity for the new client"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Complete the coffee brand identity before the client review"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Preparing social media campaign assets for a client",
+        "Building a personal portfolio case study",
+        "Handling client communication and revisions"
+      ]
+    }
+  ]
 }

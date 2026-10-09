@@ -520,14 +520,16 @@
       "action_type": "complete_open_loop",
       "reason": "The strongest product thread progressed across research, implementation, build, and verification but ended with a small API issue still under investigation.",
       "suggested_focus_minutes": 60,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Follow up on the active freelance opportunity",
       "action_type": "complete_open_loop",
       "reason": "A proposal was revised and the lead thread remains active, so a concise follow-up would keep the opportunity moving without taking over the day.",
       "suggested_focus_minutes": 15,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat the offline periods as missing productivity.",

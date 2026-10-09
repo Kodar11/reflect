@@ -292,11 +292,15 @@
           63,
           64
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Planning",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-04-02",
@@ -312,11 +316,15 @@
           69,
           70
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Operating Systems",
         "intent": "Learn",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "operating_systems",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-04-03",
@@ -332,11 +340,15 @@
           75,
           76
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Semester Project",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-04-04",
@@ -353,7 +365,8 @@
         "area": null,
         "intent": "Consume",
         "quality": "Break-Idle",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure"
       },
       {
         "id": "gt-04-05",
@@ -367,11 +380,15 @@
           82,
           83
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Operating Systems",
         "intent": "Learn",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "operating_systems",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-04-06",
@@ -382,11 +399,15 @@
         "event_ids": [
           84
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Semester Project",
         "intent": "Plan",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Academic"
+        }
       }
     ],
     "unobserved_periods": [
@@ -452,14 +473,16 @@
       "action_type": "start_focus",
       "reason": "The student returned to weak-topic notes and practice questions late in the day, making targeted revision more useful than restarting the whole syllabus.",
       "suggested_focus_minutes": 45,
-      "target": "Operating Systems"
+      "target": "Operating Systems",
+      "target_stream": "operating_systems"
     },
     "secondary_action": {
       "title": "Prepare the parser change for group review",
       "action_type": "complete_open_loop",
       "reason": "The project implementation reached a natural checkpoint after documentation and teammate clarification, leaving a clear review-ready state to finish.",
       "suggested_focus_minutes": 30,
-      "target": "Semester Project"
+      "target": "Semester Project",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not treat the unobserved class and paper-study periods as inactive time.",
@@ -467,6 +490,81 @@
       "Do not treat the project chat interruption as a separate distraction when it directly supported the implementation.",
       "Do not criticize the gaming or social block simply because the quiz is approaching.",
       "Do not assume the parser implementation is finalized before group review."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The student returned to weak-topic notes and practice questions late in the day, making targeted revision more useful than restarting the whole syllabus.",
+      "priority": "Prepare for the Operating Systems quiz",
+      "type": "start_focus"
+    },
+    "forbidden_streams": [
+      "dbms"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 5 shows 32 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "networks": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 5 shows 254 min on this work.",
+        "reason_code": null
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (networks, 254 min).",
+        "reason_code": "different_priority"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (networks, 254 min).",
+        "reason_code": "different_priority"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (networks, 254 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 5 shows 88 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (networks, 254 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "partial",
+      "outcome": "partly_worked",
+      "reason": "Day 5 shows 32 min on this work: a short return to it.",
+      "reason_code": null
+    }
   }
 }

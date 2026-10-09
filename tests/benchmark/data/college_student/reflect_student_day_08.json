@@ -32,7 +32,7 @@
     "laptop_usage": {
       "first_seen": "08:12",
       "last_seen": "21:18",
-      "approx_active_hours": 6.0,
+      "approx_active_hours": 6,
       "longest_unobserved_gap_minutes": 237
     }
   },
@@ -261,11 +261,17 @@
           144,
           145
         ],
-        "context": "The assignment had been drafted and substantially developed on Day 7.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Finalize the completed coursework and verify that the submission materials are ready.",
-        "quality": "completion-oriented",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "The assignment had been drafted and substantially developed on Day 7.",
+          "intent": "Finalize the completed coursework and verify that the submission materials are ready.",
+          "quality": "completion-oriented"
+        }
       },
       {
         "id": "gt-08-02",
@@ -281,11 +287,17 @@
           150,
           151
         ],
-        "context": "A new DBMS mini-assignment had appeared while the earlier Software Engineering task was reaching closure.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Understand the B+ tree topic and begin producing the required written work.",
-        "quality": "substantive progress with brief interruption",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "A new DBMS mini-assignment had appeared while the earlier Software Engineering task was reaching closure.",
+          "intent": "Understand the B+ tree topic and begin producing the required written work.",
+          "quality": "substantive progress with brief interruption"
+        }
       },
       {
         "id": "gt-08-03",
@@ -299,11 +311,17 @@
           154,
           155
         ],
-        "context": "This continues the implementation work that began on Days 7–8 after earlier planning.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Implement the agreed API change and verify it with tests.",
-        "quality": "focused technical progress",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "This continues the implementation work that began on Days 7–8 after earlier planning.",
+          "intent": "Implement the agreed API change and verify it with tests.",
+          "quality": "focused technical progress"
+        }
       },
       {
         "id": "gt-08-04",
@@ -316,11 +334,17 @@
           157,
           158
         ],
-        "context": "Ordinary evening leisure after coursework and project work.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Ordinary evening leisure after coursework and project work.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-08-05",
@@ -332,11 +356,17 @@
           159,
           160
         ],
-        "context": "The new DBMS mini-assignment remained open after the initial afternoon work.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Check the remaining requirements and current state of the draft.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "The new DBMS mini-assignment remained open after the initial afternoon work.",
+          "intent": "Check the remaining requirements and current state of the draft.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -382,14 +412,16 @@
       "action_type": "complete_open_loop",
       "reason": "The new DBMS task received a substantial work block and an evening review, indicating that it is the clearest remaining academic open loop.",
       "suggested_focus_minutes": 45,
-      "target": "DBMS Mini Assignment"
+      "target": "DBMS Mini Assignment",
+      "target_stream": "dbms"
     },
     "secondary_action": {
       "title": "Keep the project API thread moving",
       "action_type": "continue_successful_behavior",
       "reason": "The semester project has now moved across multiple days from coordination into implementation and testing.",
       "suggested_focus_minutes": 30,
-      "target": "Semester Project API"
+      "target": "Semester Project API",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not claim the Software Engineering submission was accepted based only on the morning verification events.",
@@ -397,6 +429,99 @@
       "Do not classify the B+ tree search as generic browsing when it occurred inside an active DBMS work session.",
       "Do not treat the evening YouTube, gaming, and friend chat as automatically problematic.",
       "Do not infer that the semester project API change was fully complete merely because tests were run."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The new DBMS task received a substantial work block and an evening review, indicating that it is the clearest remaining academic open loop.",
+      "priority": "Complete the DBMS assignment due later this week",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "operating_systems",
+      "networks"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 9 shows 230 min on this work.",
+        "reason_code": null
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 9 went to other work (dbms, 230 min).",
+        "reason_code": "different_priority"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 9 went to other work (dbms, 230 min).",
+        "reason_code": "different_priority"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 9 went to other work (dbms, 230 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 9 shows 68 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 9 shows 28 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 9 shows 230 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Finish the Software Engineering mini-assignment"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Finish the Computer Networks lab"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Do the DBMS mini-assignment"
+    }
+  ]
 }

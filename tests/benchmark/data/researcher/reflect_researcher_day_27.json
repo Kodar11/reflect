@@ -320,11 +320,17 @@
           552,
           553
         ],
-        "context": "Direct continuation of the controlled comparison planned on Day 26.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "experiment",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Direct continuation of the controlled comparison planned on Day 26.",
+          "intent": "experiment",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-27-02",
@@ -339,11 +345,17 @@
           557,
           558
         ],
-        "context": "Interpreting the standardized comparison before expanding the study.",
+        "context": "Work",
         "area": "analysis and literature",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Interpreting the standardized comparison before expanding the study.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-27-03",
@@ -354,11 +366,17 @@
         "event_ids": [
           559
         ],
-        "context": "Capturing the current evidence before deciding on further experiments.",
+        "context": "Work",
         "area": "research documentation",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Capturing the current evidence before deciding on further experiments.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-27-04",
@@ -372,11 +390,17 @@
           562,
           563
         ],
-        "context": "Turning the pilot output into interpretable evidence and an explicit next decision.",
+        "context": "Work",
         "area": "analysis and research planning",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Turning the pilot output into interpretable evidence and an explicit next decision.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -414,20 +438,102 @@
       "title": "Apply the pilot stopping criteria",
       "reason": "The comparison now has enough structure to decide whether another confirmation run is justified, but the evidence does not yet support broad expansion.",
       "suggested_focus_minutes": 45,
-      "target": "Noisy Prevalence Calibration Study"
+      "target": "Noisy Prevalence Calibration Study",
+      "target_stream": "prevalence_pilot"
     },
-    "secondary_action": {
-      "action_type": "protect_priority",
-      "title": "Keep aggregate and class-level results together",
-      "reason": "The aggregate ranking hides an important class-level reversal, so future evaluation should preserve both views.",
-      "suggested_focus_minutes": 10,
-      "target": "Noisy Prevalence Calibration Study"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not claim a stable method ranking at high noise when uncertainty intervals overlap.",
       "Do not add a second dataset before applying the existing stopping criteria.",
       "Do not discard the class-level reversal because the aggregate metric looks cleaner.",
       "Do not keep iterating on the figure as a substitute for deciding whether the evidence warrants another experiment."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "clarify_priority",
+        "title": "Apply the pilot stopping criteria",
+        "reason": "The comparison now has enough structure to decide whether another confirmation run is justified, but the evidence does not yet support broad expansion.",
+        "suggested_focus_minutes": 45,
+        "target": "Noisy Prevalence Calibration Study"
+      },
+      "secondary_action": {
+        "action_type": "protect_priority",
+        "title": "Keep aggregate and class-level results together",
+        "reason": "The aggregate ranking hides an important class-level reversal, so future evaluation should preserve both views.",
+        "suggested_focus_minutes": 10,
+        "target": "Noisy Prevalence Calibration Study"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The comparison now has enough structure to decide whether another confirmation run is justified, but the evidence does not yet support broad expansion.",
+      "priority": "Run a small pilot on calibration under noisy prevalence",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication",
+      "manuscript",
+      "next_question"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "prevalence_pilot": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 28 shows 476 min on this work.",
+        "reason_code": null
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 28 went to other work (prevalence_pilot, 476 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 28 went to other work (prevalence_pilot, 476 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 28 shows 476 min on this work.",
+      "reason_code": null
+    }
   }
 }

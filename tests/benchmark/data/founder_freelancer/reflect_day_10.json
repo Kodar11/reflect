@@ -523,14 +523,16 @@
       "action_type": "start_focus",
       "reason": "The authentication thread has reached a reasonable stopping point and the new dashboard work already has concrete design and implementation momentum.",
       "suggested_focus_minutes": 120,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Define the next freelance deliverable",
       "action_type": "clarify_priority",
       "reason": "The new client project has moved into implementation, so establishing the next concrete deliverable can prevent the growing client thread from remaining open-ended.",
       "suggested_focus_minutes": 20,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not keep recommending more authentication debugging when the observed thread has already reached a practical stopping point.",

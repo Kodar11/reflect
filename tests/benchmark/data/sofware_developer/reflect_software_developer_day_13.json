@@ -359,11 +359,17 @@
           328,
           329
         ],
-        "context": "The investigation needed production correlation before deciding whether a code change was warranted.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "investigate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The investigation needed production correlation before deciding whether a code change was warranted.",
+          "intent": "investigate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-13-02",
@@ -378,11 +384,17 @@
           333,
           334
         ],
-        "context": "The evidence supported a bounded implementation change but did not justify a broader webhook architecture change.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "implement",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The evidence supported a bounded implementation change but did not justify a broader webhook architecture change.",
+          "intent": "implement",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-13-03",
@@ -396,11 +408,17 @@
           337,
           338
         ],
-        "context": "The targeted change required review and a controlled validation path before release.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "validate",
-        "quality": "useful",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The targeted change required review and a controlled validation path before release.",
+          "intent": "validate",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-13-04",
@@ -413,11 +431,17 @@
           340,
           341
         ],
-        "context": "Previously active platform areas remained stable and did not require reopening.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "Previously active platform areas remained stable and did not require reopening.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -482,20 +506,100 @@
       "action_type": "complete_open_loop",
       "target": "Webhook retry-path change validation",
       "reason": "The investigation has reached a concrete, bounded implementation and the next valuable action is controlled validation rather than more speculative debugging.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "webhook_reliability"
     },
-    "secondary_action": {
-      "title": "Workspace performance stability",
-      "action_type": "protect_priority",
-      "target": "Workspace performance stability",
-      "reason": "The previously resolved performance issue should remain a monitoring-only concern unless new evidence appears.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not declare the webhook issue resolved before post-change production evidence is available.",
       "Do not expand the targeted retry change into a broad worker rewrite without new evidence.",
       "Do not reopen the workspace performance investigation based on routine monitoring.",
       "Do not treat normal code review and QA coordination as distractions from the primary engineering work."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Webhook retry-path change validation",
+        "action_type": "complete_open_loop",
+        "target": "Webhook retry-path change validation",
+        "reason": "The investigation has reached a concrete, bounded implementation and the next valuable action is controlled validation rather than more speculative debugging.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Workspace performance stability",
+        "action_type": "protect_priority",
+        "target": "Workspace performance stability",
+        "reason": "The previously resolved performance issue should remain a monitoring-only concern unless new evidence appears.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The investigation has reached a concrete, bounded implementation and the next valuable action is controlled validation rather than more speculative debugging.",
+      "priority": "Understand and fix the recurring webhook processing issue",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 14 shows 430 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 14 went to other work (webhook_reliability, 430 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 14 went to other work (webhook_reliability, 430 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 14 went to other work (webhook_reliability, 430 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 14 shows 69 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 14 shows 430 min on this work.",
+      "reason_code": null
+    }
   }
 }

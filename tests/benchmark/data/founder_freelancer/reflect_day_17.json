@@ -554,14 +554,16 @@
       "action_type": "continue_successful_behavior",
       "reason": "The first beta rollout produced an actionable feedback-to-fix loop, which is currently more valuable than adding unrelated product scope.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Keep the freelance delivery on its current cadence",
       "action_type": "continue_successful_behavior",
       "reason": "The client work progressed normally without creating a major escalation, so there is no evidence that the workflow needs a larger intervention.",
       "suggested_focus_minutes": 45,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat the beta rollout as evidence of product-market fit or successful conversion.",

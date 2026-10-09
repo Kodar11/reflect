@@ -282,11 +282,17 @@
           274,
           275
         ],
-        "context": "Routine Tuesday start after the practical had been opened on Day 14.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review current coursework information and requirements.",
-        "quality": "routine",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Routine Tuesday start after the practical had been opened on Day 14.",
+          "intent": "Review current coursework information and requirements.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-15-02",
@@ -305,11 +311,17 @@
           283,
           284
         ],
-        "context": "This continues the practical assignment started on Day 14 and adds concrete database-programming tasks.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Complete the practical's database queries and procedural examples and document the results.",
-        "quality": "substantive but somewhat fragmented",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "This continues the practical assignment started on Day 14 and adds concrete database-programming tasks.",
+          "intent": "Complete the practical's database queries and procedural examples and document the results.",
+          "quality": "substantive but somewhat fragmented"
+        }
       },
       {
         "id": "gt-15-03",
@@ -324,11 +336,17 @@
           288,
           289
         ],
-        "context": "The recent project response fix had been merged and now needed a quick follow-up verification.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Verify the merged response-handling change and report whether further action is needed.",
-        "quality": "focused maintenance",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The recent project response fix had been merged and now needed a quick follow-up verification.",
+          "intent": "Verify the merged response-handling change and report whether further action is needed.",
+          "quality": "focused maintenance"
+        }
       },
       {
         "id": "gt-15-04",
@@ -339,11 +357,17 @@
         "event_ids": [
           290
         ],
-        "context": "The presentation work had already gone through review and revision on previous days.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Confirm the current shared presentation state.",
-        "quality": "brief verification",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "The presentation work had already gone through review and revision on previous days.",
+          "intent": "Confirm the current shared presentation state.",
+          "quality": "brief verification"
+        }
       },
       {
         "id": "gt-15-05",
@@ -355,11 +379,17 @@
           291,
           292
         ],
-        "context": "Ordinary evening leisure after the afternoon project check.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Ordinary evening leisure after the afternoon project check.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-15-06",
@@ -371,11 +401,17 @@
           293,
           294
         ],
-        "context": "The practical remained open after the afternoon research and drafting.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review what remains before the next work session.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "The practical remained open after the afternoon research and drafting.",
+          "intent": "Review what remains before the next work session.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -429,14 +465,16 @@
       "action_type": "complete_open_loop",
       "reason": "The practical has carried across two days and now has research, tested SQL, documentation, and a persistent draft, but it still appears open.",
       "suggested_focus_minutes": 45,
-      "target": "DBMS Practical 3"
+      "target": "DBMS Practical 3",
+      "target_stream": "dbms"
     },
     "secondary_action": {
       "title": "Leave project maintenance bounded",
       "action_type": "protect_priority",
       "reason": "The semester project received an appropriate verification pass today; the DBMS practical is the clearer remaining priority.",
       "suggested_focus_minutes": 20,
-      "target": "Semester Project response handling"
+      "target": "Semester Project response handling",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not treat every switch between DBMS Docs, documentation, search, WhatsApp, YouTube, and Workbench as a separate academic task.",
@@ -444,6 +482,82 @@
       "Do not reopen the Software Engineering presentation for large-scale changes without new feedback.",
       "Do not infer that the merged project change is fully correct from one targeted test run.",
       "Do not treat gaming and friend communication as inherently problematic."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The practical has carried across two days and now has research, tested SQL, documentation, and a persistent draft, but it still appears open.",
+      "priority": "Complete the DBMS assignment due later this week",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "operating_systems",
+      "networks"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 16 shows 67 min on this work.",
+        "reason_code": null
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (theory_of_computation, 135 min).",
+        "reason_code": "different_priority"
+      },
+      "theory_of_computation": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 135 min on this work.",
+        "reason_code": null
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (theory_of_computation, 135 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 16 shows 11 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (theory_of_computation, 135 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "Day 16 shows 67 min on this work.",
+      "reason_code": null
+    }
   }
 }

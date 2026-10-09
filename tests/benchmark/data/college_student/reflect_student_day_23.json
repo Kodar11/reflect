@@ -314,11 +314,17 @@
           425,
           426
         ],
-        "context": "The assessment had been the main academic priority since the schedule was posted on Day 20.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review the current assessment information.",
-        "quality": "routine",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The assessment had been the main academic priority since the schedule was posted on Day 20.",
+          "intent": "Review the current assessment information.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-23-02",
@@ -327,11 +333,17 @@
         "title": "Offline classes and campus activity",
         "summary": "Attended classes and handled campus activities away from the laptop.",
         "event_ids": [],
-        "context": "The laptop was inactive during this period.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Attend scheduled classes and campus responsibilities.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "The laptop was inactive during this period.",
+          "intent": "Attend scheduled classes and campus responsibilities.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-23-03",
@@ -350,11 +362,17 @@
           434,
           435
         ],
-        "context": "The previous days had focused on graph traversal and general assessment preparation; today's practice exposed a narrower topic to revisit.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Diagnose and strengthen a weak graph-algorithm concept before the assessment.",
-        "quality": "focused corrective study with brief interruption",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The previous days had focused on graph traversal and general assessment preparation; today's practice exposed a narrower topic to revisit.",
+          "intent": "Diagnose and strengthen a weak graph-algorithm concept before the assessment.",
+          "quality": "focused corrective study with brief interruption"
+        }
       },
       {
         "id": "gt-23-04",
@@ -363,11 +381,16 @@
         "title": "Offline lunch and personal time",
         "summary": "Spent time away from the laptop for lunch and personal activity.",
         "event_ids": [],
-        "context": "No desktop events were captured during this period.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Handle ordinary midday activity away from the laptop.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop events were captured during this period.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-23-05",
@@ -382,11 +405,17 @@
           439,
           440
         ],
-        "context": "The student moved from the diagnosed shortest-path gap into another graph topic likely relevant to the same assessment.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Practice MST concepts and verify an implementation approach.",
-        "quality": "substantive technical practice",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The student moved from the diagnosed shortest-path gap into another graph topic likely relevant to the same assessment.",
+          "intent": "Practice MST concepts and verify an implementation approach.",
+          "quality": "substantive technical practice"
+        }
       },
       {
         "id": "gt-23-06",
@@ -399,11 +428,17 @@
           442,
           443
         ],
-        "context": "The project remained in maintenance mode while assessment preparation took priority.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Check for urgent teammate requests without opening unrelated project work.",
-        "quality": "brief coordination",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The project remained in maintenance mode while assessment preparation took priority.",
+          "intent": "Check for urgent teammate requests without opening unrelated project work.",
+          "quality": "brief coordination"
+        }
       },
       {
         "id": "gt-23-07",
@@ -416,11 +451,17 @@
           445,
           446
         ],
-        "context": "Evening personal time after the assessment-focused afternoon.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Evening personal time after the assessment-focused afternoon.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-23-08",
@@ -432,11 +473,17 @@
           447,
           448
         ],
-        "context": "Assessment preparation remained the dominant academic thread.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review the current preparation state and identify the next topic.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "Assessment preparation remained the dominant academic thread.",
+          "intent": "Review the current preparation state and identify the next topic.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -494,7 +541,8 @@
       "action_type": "start_focus",
       "reason": "The student has moved from general review into targeted graph practice; a timed set can distinguish which topics still need work before the assessment.",
       "suggested_focus_minutes": 45,
-      "target": "Data Structures Internal Assessment"
+      "target": "Data Structures Internal Assessment",
+      "target_stream": "data_structures"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -504,6 +552,85 @@
       "Do not treat the project status check as a failure to make project progress.",
       "Do not infer what happened during classes or other offline periods.",
       "Do not criticize the evening gaming and social time as inherently harmful."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The student has moved from general review into targeted graph practice; a timed set can distinguish which topics still need work before the assessment.",
+      "priority": "Finish Data Structures Problem Set 4",
+      "type": "start_focus"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering",
+      "theory_of_computation"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 24 shows 268 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 24 shows 45 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 24 went to other work (data_structures, 268 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 24 shows 268 min on this work.",
+      "reason_code": null
+    }
   }
 }

@@ -404,9 +404,13 @@
         ],
         "context": "Work",
         "area": "Workspace Performance",
-        "intent": "Investigate",
+        "intent": "Research",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "intent": "Investigate"
+        }
       },
       {
         "id": "gt-03-02",
@@ -422,7 +426,8 @@
         "area": "Team Communication",
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "platform_ops"
       },
       {
         "id": "gt-03-03",
@@ -435,9 +440,13 @@
         ],
         "context": "Work",
         "area": "Billing API",
-        "intent": "Verify",
+        "intent": "Review",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "intent": "Verify"
+        }
       },
       {
         "id": "gt-03-04",
@@ -453,7 +462,8 @@
         "area": "Billing API",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api"
       },
       {
         "id": "gt-03-05",
@@ -469,7 +479,8 @@
         "area": "Billing API",
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api"
       },
       {
         "id": "gt-03-06",
@@ -483,9 +494,13 @@
         ],
         "context": "Work",
         "area": "Workspace Performance",
-        "intent": "Investigate",
+        "intent": "Research",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "intent": "Investigate"
+        }
       },
       {
         "id": "gt-03-07",
@@ -500,9 +515,13 @@
         ],
         "context": "Work",
         "area": "Workspace Performance",
-        "intent": "Investigate",
+        "intent": "Research",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "intent": "Investigate"
+        }
       },
       {
         "id": "gt-03-08",
@@ -518,7 +537,8 @@
         "area": "Workspace Performance",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "workspace_performance"
       },
       {
         "id": "gt-03-09",
@@ -532,8 +552,12 @@
         "context": "Work",
         "area": "Webhook Reliability",
         "intent": "Communicate",
-        "quality": "Blocked",
-        "importance": "high"
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "quality": "Blocked"
+        }
       },
       {
         "id": "gt-03-10",
@@ -549,7 +573,8 @@
         "area": "Code Review",
         "intent": "Review",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "code_review"
       },
       {
         "id": "gt-03-11",
@@ -565,7 +590,8 @@
         "area": "Workspace Performance",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "workspace_performance"
       },
       {
         "id": "gt-03-12",
@@ -579,9 +605,13 @@
         ],
         "context": "Work",
         "area": "Workspace Performance",
-        "intent": "Test",
+        "intent": "Review",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "intent": "Test"
+        }
       },
       {
         "id": "gt-03-13",
@@ -598,7 +628,8 @@
         "area": "Billing API",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api"
       },
       {
         "id": "gt-03-14",
@@ -612,9 +643,14 @@
         ],
         "context": "Work",
         "area": "Webhook Reliability",
-        "intent": "Investigate",
-        "quality": "Blocked",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "intent": "Investigate",
+          "quality": "Blocked"
+        }
       },
       {
         "id": "gt-03-15",
@@ -629,7 +665,8 @@
         "area": "Workspace Performance",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "workspace_performance"
       },
       {
         "id": "gt-03-16",
@@ -645,7 +682,8 @@
         "area": "Team Communication",
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "platform_ops"
       },
       {
         "id": "gt-03-17",
@@ -658,9 +696,14 @@
         ],
         "context": "Work",
         "area": "Billing API",
-        "intent": "Verify",
-        "quality": "Waiting",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "billing_api",
+        "label_notes": {
+          "intent": "Verify",
+          "quality": "Waiting"
+        }
       }
     ],
     "unobserved_periods": [
@@ -709,14 +752,16 @@
       "action_type": "complete_open_loop",
       "reason": "The billing change is in review after three days of work and only a small round of reviewer feedback stands between it and merge.",
       "suggested_focus_minutes": 45,
-      "target": "Billing API"
+      "target": "Billing API",
+      "target_stream": "billing_api"
     },
     "secondary_action": {
       "title": "Verify the workspace query change beyond local runs",
       "action_type": "experiment",
       "reason": "The query change has a regression test but only local evidence; one check against staging and recent latency data would show whether it addresses the reported slowdown.",
       "suggested_focus_minutes": 45,
-      "target": "Workspace API latency"
+      "target": "Workspace API latency",
+      "target_stream": "workspace_performance"
     },
     "things_not_to_do": [
       "Do not describe the workspace latency issue as fixed.",
@@ -727,6 +772,88 @@
       "Do not treat reading documentation as distraction.",
       "Do not treat the lunch gap as unproductive time.",
       "Do not infer stress or frustration from the number of work streams."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The billing change is in review after three days of work and only a small round of reviewer feedback stands between it and merge.",
+      "priority": "Ship the billing settings API change",
+      "type": "complete_open_loop"
+    },
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 4 shows 288 min on this work.",
+        "reason_code": null
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 4 shows 111 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 4 shows 93 min on this work.",
+        "reason_code": null
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 4 went to other work (billing_api, 288 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 4 went to other work (billing_api, 288 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 4 went to other work (billing_api, 288 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 4 went to other work (billing_api, 288 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 4 shows 288 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Fix the workspace API latency regression"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Implementing an API change for workspace billing settings",
+        "Investigating an intermittent webhook processing issue",
+        "Fixing a workspace API latency regression",
+        "Reviewing a teammate's pull request"
+      ]
+    }
+  ]
 }

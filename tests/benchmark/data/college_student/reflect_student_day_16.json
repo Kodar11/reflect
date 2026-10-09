@@ -229,11 +229,17 @@
           298,
           299
         ],
-        "context": "The DBMS practical had remained open across Days 14–15.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Verify the remaining work and submit the practical.",
-        "quality": "completion-focused",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "The DBMS practical had remained open across Days 14–15.",
+          "intent": "Verify the remaining work and submit the practical.",
+          "quality": "completion-focused"
+        }
       },
       {
         "id": "gt-16-02",
@@ -242,11 +248,17 @@
         "title": "College classes and Software Engineering presentation",
         "summary": "Attended classes and delivered the Software Engineering group presentation in person, away from the laptop.",
         "event_ids": [],
-        "context": "The presentation had gone through drafting, rehearsal, revision, and review across the previous week.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Complete the scheduled Software Engineering presentation.",
-        "quality": "completed offline and not directly observable",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Break-Idle",
+        "importance": "high",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "The presentation had gone through drafting, rehearsal, revision, and review across the previous week.",
+          "intent": "Complete the scheduled Software Engineering presentation.",
+          "quality": "completed offline and not directly observable"
+        }
       },
       {
         "id": "gt-16-03",
@@ -262,11 +274,17 @@
           304,
           305
         ],
-        "context": "A new Theory of Computation tutorial became relevant after the Software Engineering presentation milestone.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Understand the grammar questions and begin producing the tutorial answers.",
-        "quality": "substantive start",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "theory_of_computation",
+        "label_notes": {
+          "context": "A new Theory of Computation tutorial became relevant after the Software Engineering presentation milestone.",
+          "intent": "Understand the grammar questions and begin producing the tutorial answers.",
+          "quality": "substantive start"
+        }
       },
       {
         "id": "gt-16-04",
@@ -277,11 +295,17 @@
         "event_ids": [
           306
         ],
-        "context": "The project had been active during the previous week but was not today's main priority.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Check whether teammates need any immediate response.",
-        "quality": "brief coordination",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The project had been active during the previous week but was not today's main priority.",
+          "intent": "Check whether teammates need any immediate response.",
+          "quality": "brief coordination"
+        }
       },
       {
         "id": "gt-16-05",
@@ -294,11 +318,17 @@
           308,
           309
         ],
-        "context": "Evening personal time after a presentation-heavy college day.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Evening personal time after a presentation-heavy college day.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-16-06",
@@ -309,11 +339,17 @@
         "event_ids": [
           310
         ],
-        "context": "The tutorial had only been started that afternoon and remained open.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Check the current state of the tutorial draft before the next work session.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "theory_of_computation",
+        "label_notes": {
+          "context": "The tutorial had only been started that afternoon and remained open.",
+          "intent": "Check the current state of the tutorial draft before the next work session.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -362,7 +398,8 @@
       "action_type": "start_focus",
       "reason": "The tutorial is the clearest new open coursework thread after the DBMS submission and presentation milestone.",
       "suggested_focus_minutes": 45,
-      "target": "Theory of Computation Tutorial 2"
+      "target": "Theory of Computation Tutorial 2",
+      "target_stream": "theory_of_computation"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -371,6 +408,99 @@
       "Do not treat the Theory of Computation search and YouTube session as unrelated browsing; both occurred inside the same tutorial workflow.",
       "Do not assume the semester project was neglected simply because it was not implemented today.",
       "Do not frame the Hades and social period as a productivity failure."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The tutorial is the clearest new open coursework thread after the DBMS submission and presentation milestone.",
+      "priority": "Do the Theory of Computation tutorial",
+      "type": "start_focus"
+    },
+    "forbidden_streams": [
+      "operating_systems",
+      "networks"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (theory_of_computation, 173 min).",
+        "reason_code": "different_priority"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (theory_of_computation, 173 min).",
+        "reason_code": "different_priority"
+      },
+      "theory_of_computation": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 17 shows 173 min on this work.",
+        "reason_code": null
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 17 went to other work (theory_of_computation, 173 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 17 shows 112 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 17 shows 28 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 17 shows 173 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Complete DBMS Practical 3"
+    },
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Prepare the Software Engineering presentation"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Do the Theory of Computation tutorial"
+    }
+  ]
 }

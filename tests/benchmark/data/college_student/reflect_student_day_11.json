@@ -270,11 +270,17 @@
           202,
           203
         ],
-        "context": "Routine Friday academic check.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review new course information and presentation requirements.",
-        "quality": "routine",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "Routine Friday academic check.",
+          "intent": "Review new course information and presentation requirements.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-11-02",
@@ -291,11 +297,17 @@
           209,
           210
         ],
-        "context": "The presentation task started on Day 10 and was now moving into rehearsal-oriented preparation.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Improve the group's presentation structure and make the UML material easier to explain.",
-        "quality": "substantive collaborative progress with brief interruptions",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "The presentation task started on Day 10 and was now moving into rehearsal-oriented preparation.",
+          "intent": "Improve the group's presentation structure and make the UML material easier to explain.",
+          "quality": "substantive collaborative progress with brief interruptions"
+        }
       },
       {
         "id": "gt-11-03",
@@ -311,11 +323,17 @@
           215,
           216
         ],
-        "context": "A teammate surfaced an integration issue while the project was moving toward a shared implementation.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Investigate and patch the reported integration issue, then verify the relevant route behavior.",
-        "quality": "focused debugging and coordination",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "A teammate surfaced an integration issue while the project was moving toward a shared implementation.",
+          "intent": "Investigate and patch the reported integration issue, then verify the relevant route behavior.",
+          "quality": "focused debugging and coordination"
+        }
       },
       {
         "id": "gt-11-04",
@@ -328,11 +346,17 @@
           218,
           219
         ],
-        "context": "Evening leisure after collaborative academic work.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Evening leisure after collaborative academic work.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-11-05",
@@ -344,11 +368,17 @@
           220,
           221
         ],
-        "context": "A short end-of-day verification rather than a new presentation work block.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Confirm that the latest presentation materials are present before the next group review.",
-        "quality": "brief verification",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "A short end-of-day verification rather than a new presentation work block.",
+          "intent": "Confirm that the latest presentation materials are present before the next group review.",
+          "quality": "brief verification"
+        }
       }
     ],
     "unobserved_periods": [
@@ -395,14 +425,16 @@
       "action_type": "complete_open_loop",
       "reason": "The presentation has progressed through multiple revisions and reviews, but the observed day still shows it as an active open loop.",
       "suggested_focus_minutes": 45,
-      "target": "Software Engineering presentation"
+      "target": "Software Engineering presentation",
+      "target_stream": "software_engineering"
     },
     "secondary_action": {
       "title": "Recheck the project integration fix",
       "action_type": "continue_successful_behavior",
       "reason": "The reported integration issue was investigated and tested today; a short follow-up can confirm the same narrow area without reopening unrelated project work.",
       "suggested_focus_minutes": 20,
-      "target": "Semester Project routes integration"
+      "target": "Semester Project routes integration",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not treat the academic YouTube tutorial and the evening sports video as the same type of browsing.",
@@ -410,6 +442,83 @@
       "Do not assume the project issue was completely solved from targeted tests alone.",
       "Do not treat the long offline group meeting period as unproductive simply because the laptop was inactive.",
       "Do not frame gaming or social time as a problem merely because it occurred after project work."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The presentation has progressed through multiple revisions and reviews, but the observed day still shows it as an active open loop.",
+      "priority": "Finish the Software Engineering mini-assignment",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 12 shows 92 min on this work.",
+        "reason_code": null
+      },
+      "theory_of_computation": {
+        "user_decision": "deferred",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 was a light day (138 min of tracked work) with none of it on this.",
+        "reason_code": null
+      },
+      "data_structures": {
+        "user_decision": "deferred",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 was a light day (138 min of tracked work) with none of it on this.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 12 shows 46 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "deferred",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 was a light day (138 min of tracked work) with none of it on this.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 12 shows 92 min on this work.",
+      "reason_code": null
+    }
   }
 }

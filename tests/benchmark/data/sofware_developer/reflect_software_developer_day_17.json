@@ -366,11 +366,17 @@
           411,
           412
         ],
-        "context": "The webhook change had been in broader production exposure long enough to support a closure decision.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The webhook change had been in broader production exposure long enough to support a closure decision.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-17-02",
@@ -385,11 +391,17 @@
           416,
           417
         ],
-        "context": "A new backend task became the next primary workstream after the webhook issue reached a closure decision.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "plan",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "A new backend task became the next primary workstream after the webhook issue reached a closure decision.",
+          "intent": "plan",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-17-03",
@@ -408,11 +420,17 @@
           425,
           426
         ],
-        "context": "The task was still in early implementation and required understanding existing platform conventions before expanding scope.",
+        "context": "Work",
         "area": "account_export",
-        "intent": "implement",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "account_export",
+        "label_notes": {
+          "context": "The task was still in early implementation and required understanding existing platform conventions before expanding scope.",
+          "intent": "implement",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-17-04",
@@ -425,11 +443,17 @@
           428,
           429
         ],
-        "context": "Previously active operational areas remained stable while the new task moved into implementation.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "Previously active operational areas remained stable while the new task moved into implementation.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -499,20 +523,116 @@
       "action_type": "clarify_priority",
       "target": "Account export API contract",
       "reason": "The webhook issue is now closed and the new workstream needs its boundary conditions clarified before implementation grows around assumptions.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "account_export"
     },
     "secondary_action": {
       "title": "Webhook reliability issue",
       "action_type": "complete_open_loop",
       "target": "Webhook reliability issue",
       "reason": "The production evidence supports closing the old incident and freeing attention for the new platform task.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "webhook_reliability"
     },
     "things_not_to_do": [
       "Do not keep PLAT-497 open solely for reassurance after the evidence supports closure.",
       "Do not expand the account export implementation before clarifying authorization and large-export behavior.",
       "Do not infer that focused unit tests are equivalent to full integration validation.",
       "Do not reopen stable workspace performance work without a new production signal."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The webhook issue is now closed and the new workstream needs its boundary conditions clarified before implementation grows around assumptions.",
+      "priority": "Build the account export API",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 18 went to other work (account_export, 373 min).",
+        "reason_code": "different_priority"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 18 shows 373 min on this work.",
+        "reason_code": null
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 18 went to other work (account_export, 373 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 18 shows 23 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 18 shows 89 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 18 shows 373 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Understand and fix the recurring webhook processing issue"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Ship the billing settings API change"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Build the account export API"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Building an account export API",
+        "Reviewing a teammate's pull request"
+      ]
+    }
+  ]
 }

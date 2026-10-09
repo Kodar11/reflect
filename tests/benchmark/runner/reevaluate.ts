@@ -48,21 +48,24 @@ export function reevaluate(config: BenchmarkConfig, runDir = path.join(config.re
   // The answer key may have gained annotations since the run; what Reflect was
   // GIVEN must not have changed. Runs made before `inputVersion` existed are
   // checked event by event against what they stored.
+  const sameRawEvents = () =>
+    fs
+      .readdirSync(path.join(runDir, 'days'))
+      .filter((f) => /^day_\d{2}\.json$/.test(f))
+      .every((file) => {
+        const stored = readJson<StoredDay>(path.join(runDir, 'days', file));
+        const day = input.days.find((d) => d.dayNumber === stored.dayNumber);
+        return (
+          day !== undefined &&
+          day.rawEvents.length === stored.captured.events.length &&
+          day.rawEvents.every((e, i) => stored.captured.events[i].datasetId === e.datasetId && Date.parse(stored.captured.events[i].startedAt) === Date.parse(e.startedAt))
+        );
+      });
+  // `--same-events`: the run was made before the dataset replayed the user's profile changes. Its raw events are
+  // the ones on disk, so what Reflect produced from them can still be scored against today's answer key — as long
+  // as that is said: Reflect was given a different (staler) profile than the one the files now describe.
   const sameInput =
-    manifest.dataset.inputVersion !== undefined
-      ? manifest.dataset.inputVersion === dataset.inputVersion
-      : fs
-          .readdirSync(path.join(runDir, 'days'))
-          .filter((f) => /^day_\d{2}\.json$/.test(f))
-          .every((file) => {
-            const stored = readJson<StoredDay>(path.join(runDir, 'days', file));
-            const day = input.days.find((d) => d.dayNumber === stored.dayNumber);
-            return (
-              day !== undefined &&
-              day.rawEvents.length === stored.captured.events.length &&
-              day.rawEvents.every((e, i) => stored.captured.events[i].datasetId === e.datasetId && Date.parse(stored.captured.events[i].startedAt) === Date.parse(e.startedAt))
-            );
-          });
+    manifest.dataset.inputVersion !== undefined && manifest.dataset.inputVersion === dataset.inputVersion ? true : (manifest.dataset.inputVersion === undefined || config.rescoreSameEvents) && sameRawEvents();
   if (dataset.version !== manifest.dataset.version && !sameInput) {
     throw new Error(`The stored run was made from dataset ${manifest.dataset.version}; the raw events on disk (${dataset.version}) are not the ones it was given. Re-scoring it would not be the same run.`);
   }
@@ -89,6 +92,7 @@ export function reevaluate(config: BenchmarkConfig, runDir = path.join(config.re
       hasHistory,
       previousProcessedAt,
       findLeaks: detector.findLeaks,
+      streams: evaluation.streams,
     });
     hasHistory ||= stored.captured.reflection.report !== null;
     previousProcessedAt = stored.captured.processedAt;

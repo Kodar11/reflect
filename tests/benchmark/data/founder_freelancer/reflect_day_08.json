@@ -482,14 +482,16 @@
       "action_type": "complete_open_loop",
       "reason": "The strongest new opportunity advanced through a discovery call and notes, but the next communication step is not visible in the captured activity.",
       "suggested_focus_minutes": 20,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Protect the next SaaS verification block",
       "action_type": "protect_priority",
       "reason": "The SaaS authentication thread has continued across several days but repeatedly ends with verification or investigation rather than a clearly completed closure.",
       "suggested_focus_minutes": 60,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat the discovery call as a distraction from the SaaS; it directly advanced the freelance-lead priority.",

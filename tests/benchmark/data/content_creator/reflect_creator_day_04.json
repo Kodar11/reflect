@@ -307,11 +307,17 @@
           70,
           71
         ],
-        "context": "A small sponsorship request arrived while the main API video was still unfinished.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Understand the sponsor request and decide what work it requires.",
-        "quality": "useful administrative work",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "A small sponsorship request arrived while the main API video was still unfinished.",
+          "intent": "Understand the sponsor request and decide what work it requires.",
+          "quality": "useful administrative work"
+        }
       },
       {
         "id": "gt-04-02",
@@ -324,11 +330,17 @@
           73,
           74
         ],
-        "context": "The sponsor work was concrete enough to require action but still relatively small.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Clarify the deliverable and prepare a professional response.",
-        "quality": "focused administrative work",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The sponsor work was concrete enough to require action but still relatively small.",
+          "intent": "Clarify the deliverable and prepare a professional response.",
+          "quality": "focused administrative work"
+        }
       },
       {
         "id": "gt-04-03",
@@ -337,11 +349,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was captured.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Take a break before returning to production.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was captured.",
+          "intent": "Take a break before returning to production.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-04-04",
@@ -355,11 +373,17 @@
           77,
           78
         ],
-        "context": "The API video was already in rough-cut form and remained the main creator project.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Bring the current video closer to a finished watchable cut.",
-        "quality": "focused production",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "api_video",
+        "label_notes": {
+          "context": "The API video was already in rough-cut form and remained the main creator project.",
+          "intent": "Bring the current video closer to a finished watchable cut.",
+          "quality": "focused production"
+        }
       },
       {
         "id": "gt-04-05",
@@ -368,11 +392,16 @@
         "title": "Lunch and offline personal time",
         "summary": "Spent the midday period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Lunch and ordinary personal activity.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-04-06",
@@ -385,11 +414,17 @@
           80,
           81
         ],
-        "context": "The creator temporarily shifted from personal production to a concrete external deliverable.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Prepare the requested sponsor asset and response.",
-        "quality": "bounded deliverable work",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The creator temporarily shifted from personal production to a concrete external deliverable.",
+          "intent": "Prepare the requested sponsor asset and response.",
+          "quality": "bounded deliverable work"
+        }
       },
       {
         "id": "gt-04-07",
@@ -398,11 +433,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Take a break between external-work and creator-work blocks.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Take a break between external-work and creator-work blocks.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-04-08",
@@ -414,11 +455,17 @@
           82,
           83
         ],
-        "context": "The creator returned to the main video after completing the sponsor response work.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Continue closing the main video edit.",
-        "quality": "focused production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "api_video",
+        "label_notes": {
+          "context": "The creator returned to the main video after completing the sponsor response work.",
+          "intent": "Continue closing the main video edit.",
+          "quality": "focused production"
+        }
       },
       {
         "id": "gt-04-09",
@@ -427,11 +474,17 @@
         "title": "Offline transition",
         "summary": "Spent time away from the desktop before routine channel checks.",
         "event_ids": [],
-        "context": "No desktop activity was captured.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Transition between work and routine channel maintenance.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was captured.",
+          "intent": "Transition between work and routine channel maintenance.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-04-10",
@@ -444,11 +497,17 @@
           85,
           86
         ],
-        "context": "These platforms support both legitimate creator operations and ordinary social browsing.",
+        "context": "Work",
         "area": "community_and_analytics",
-        "intent": "Handle audience maintenance and inspect current channel state.",
+        "intent": "Manage",
         "quality": "mixed",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "These platforms support both legitimate creator operations and ordinary social browsing.",
+          "intent": "Handle audience maintenance and inspect current channel state.",
+          "quality": "mixed"
+        }
       },
       {
         "id": "gt-04-11",
@@ -457,11 +516,16 @@
         "title": "Dinner and offline personal time",
         "summary": "Spent the early evening away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and personal time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-04-12",
@@ -474,11 +538,17 @@
           88,
           89
         ],
-        "context": "This was ordinary evening leisure after sponsor administration and video editing.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "This was ordinary evening leisure after sponsor administration and video editing.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-04-13",
@@ -487,11 +557,17 @@
         "title": "Offline wind-down",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Wind down before the final light check.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Wind down before the final light check.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-04-14",
@@ -503,11 +579,17 @@
           90,
           91
         ],
-        "context": "No new content project was started.",
+        "context": "Work",
         "area": "creator_operations",
-        "intent": "Review open ideas and any late incoming communication.",
-        "quality": "brief maintenance",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "No new content project was started.",
+          "intent": "Review open ideas and any late incoming communication.",
+          "quality": "brief maintenance"
+        }
       }
     ],
     "unobserved_periods": [
@@ -572,14 +654,16 @@
       "action_type": "protect_priority",
       "reason": "The API video has progressed through multiple days and survived a legitimate sponsor interruption; one protected block should help close the remaining edit loop.",
       "suggested_focus_minutes": 75,
-      "target": "Why APIs Feel Slow — video"
+      "target": "Why APIs Feel Slow — video",
+      "target_stream": "api_video"
     },
     "secondary_action": {
       "title": "Close the sponsor decision",
       "action_type": "complete_open_loop",
       "reason": "The sponsorship work is concrete and partly prepared, so leaving its status unresolved could keep competing with creator production.",
       "suggested_focus_minutes": null,
-      "target": null
+      "target": null,
+      "target_stream": "sponsorship"
     },
     "things_not_to_do": [
       "Do not assume the sponsorship work was a distraction from creator work; it was a separate legitimate responsibility.",
@@ -589,6 +673,92 @@
       "Do not infer the sponsorship outcome or acceptance from the draft response alone.",
       "Do not assume the API video is finished because it received another long edit block.",
       "Do not criticize the evening leisure as inherently harmful."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The API video has progressed through multiple days and survived a legitimate sponsor interruption; one protected block should help close the remaining edit loop.",
+      "priority": "Make measurable progress on the next big technical video",
+      "type": "protect_priority"
+    },
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 5 shows 210 min on this work.",
+        "reason_code": null
+      },
+      "redis_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (api_video, 210 min).",
+        "reason_code": "different_priority"
+      },
+      "pg_indexes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (api_video, 210 min).",
+        "reason_code": "different_priority"
+      },
+      "pg_partial_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (api_video, 210 min).",
+        "reason_code": "different_priority"
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (api_video, 210 min).",
+        "reason_code": "different_priority"
+      },
+      "background_jobs_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (api_video, 210 min).",
+        "reason_code": "different_priority"
+      },
+      "sponsorship": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 5 shows 67 min on this work.",
+        "reason_code": null
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 5 shows 26 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 5 shows 53 min on this work.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 5 went to other work (api_video, 210 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 5 shows 210 min on this work.",
+      "reason_code": null
+    }
   }
 }

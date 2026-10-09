@@ -19,6 +19,8 @@
     "test:integration": "npm rebuild better-sqlite3 && vitest run tests/database && npm run rebuild",
     "benchmark": "node tests/benchmark/cli.mjs",
     "benchmark:validate": "node tests/benchmark/cli.mjs --validate",
+    "benchmark:all": "node tests/benchmark/all.mjs",
+    "benchmark:keys": "node tests/benchmark/data/keys/build.mjs",
     "dist:win": "npm run rebuild && npm run transpile:electron && npm run build && electron-builder --win --x64"
   },
   "dependencies": {

@@ -196,11 +196,17 @@
           352,
           353
         ],
-        "context": "The heap portion of the Data Structures problem set had been started on Friday.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Continue the problem set by implementing and checking the next priority-queue solution.",
-        "quality": "focused technical progress",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The heap portion of the Data Structures problem set had been started on Friday.",
+          "intent": "Continue the problem set by implementing and checking the next priority-queue solution.",
+          "quality": "focused technical progress"
+        }
       },
       {
         "id": "gt-19-02",
@@ -209,11 +215,17 @@
         "title": "Offline social and personal time",
         "summary": "Spent the afternoon away from the laptop with friends, lunch, errands, and personal activities.",
         "event_ids": [],
-        "context": "Saturday offline time is not captured by desktop tracking.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Handle ordinary weekend social and personal activities.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Saturday offline time is not captured by desktop tracking.",
+          "intent": "Handle ordinary weekend social and personal activities.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-19-03",
@@ -225,11 +237,17 @@
           354,
           355
         ],
-        "context": "The project was stable enough that no implementation work was required today.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Check for any immediate issue or teammate request.",
-        "quality": "brief coordination",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The project was stable enough that no implementation work was required today.",
+          "intent": "Check for any immediate issue or teammate request.",
+          "quality": "brief coordination"
+        }
       },
       {
         "id": "gt-19-04",
@@ -245,11 +263,17 @@
           360,
           361
         ],
-        "context": "Saturday evening recreation after a relatively light academic day.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation, gaming-related browsing, and social interaction.",
-        "quality": "extended leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Saturday evening recreation after a relatively light academic day.",
+          "intent": "Recreation, gaming-related browsing, and social interaction.",
+          "quality": "extended leisure"
+        }
       }
     ],
     "unobserved_periods": [
@@ -291,7 +315,8 @@
       "action_type": "continue_successful_behavior",
       "reason": "The student completed a concrete implementation-and-test cycle today and the problem set remains open.",
       "suggested_focus_minutes": 40,
-      "target": "Data Structures Problem Set 4"
+      "target": "Data Structures Problem Set 4",
+      "target_stream": "data_structures"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -300,6 +325,85 @@
       "Do not interpret the brief project status check as evidence that the semester project was neglected.",
       "Do not classify gaming-related YouTube and unrelated academic videos using the same meaning solely because both use YouTube.",
       "Do not criticize the extended Saturday gaming session as inherently problematic."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "A light Saturday: the problem set is open and moving, and continuing it is the obvious next thing with or without a nudge.",
+      "priority": "Finish Data Structures Problem Set 4",
+      "type": "continue_successful_behavior"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering",
+      "theory_of_computation"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 20 shows 156 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 27 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 28 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 20 shows 156 min on this work.",
+      "reason_code": null
+    }
   }
 }

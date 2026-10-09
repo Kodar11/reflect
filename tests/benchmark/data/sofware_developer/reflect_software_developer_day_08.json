@@ -406,11 +406,17 @@
           213,
           214
         ],
-        "context": "Repeated verification had narrowed the workspace latency issue enough to justify a focused code change.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "Repeated verification had narrowed the workspace latency issue enough to justify a focused code change.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-08-02",
@@ -426,11 +432,17 @@
           219,
           220
         ],
-        "context": "The webhook issue was still waiting for stronger production evidence, but the acknowledgement path remained the leading hypothesis.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "investigate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The webhook issue was still waiting for stronger production evidence, but the acknowledgement path remained the leading hypothesis.",
+          "intent": "investigate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-08-03",
@@ -441,11 +453,17 @@
         "event_ids": [
           221
         ],
-        "context": "Normal team responsibility during an otherwise focused engineering day.",
+        "context": "Work",
         "area": "team_maintenance",
-        "intent": "review",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "Normal team responsibility during an otherwise focused engineering day.",
+          "intent": "review",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-08-04",
@@ -461,11 +479,17 @@
           226,
           227
         ],
-        "context": "The workspace change needed a final pass before being considered ready for broader verification.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "The workspace change needed a final pass before being considered ready for broader verification.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       }
     ],
     "unobserved_periods": [
@@ -535,20 +559,90 @@
       "action_type": "continue_successful_behavior",
       "target": "Workspace performance investigation",
       "reason": "The work shifted from broad debugging to a focused, test-backed change with a clear next verification point.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "workspace_performance"
     },
     "secondary_action": {
       "title": "Webhook reliability investigation",
       "action_type": "protect_priority",
       "target": "Webhook reliability investigation",
       "reason": "The webhook thread has a useful hypothesis but remains dependent on production evidence, so keeping the investigation bounded avoids unnecessary code churn.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "webhook_reliability"
     },
     "things_not_to_do": [
       "Do not claim the workspace latency issue is resolved before the focused change has production or staging verification.",
       "Do not expand the webhook implementation based only on the acknowledgement hypothesis.",
       "Do not interpret the code review as a distraction from engineering priorities.",
       "Do not treat the lunch gap as a productivity problem."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The work shifted from broad debugging to a focused, test-backed change with a clear next verification point.",
+      "priority": "Fix the workspace API latency regression",
+      "type": "continue_successful_behavior"
+    },
+    "forbidden_streams": [
+      "billing_api"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 9 shows 122 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 9 shows 343 min on this work.",
+        "reason_code": null
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 9 went to other work (workspace_performance, 343 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 9 went to other work (workspace_performance, 343 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 9 shows 22 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 9 went to other work (workspace_performance, 343 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 9 shows 343 min on this work.",
+      "reason_code": null
+    }
   }
 }

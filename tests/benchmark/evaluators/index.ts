@@ -1,6 +1,6 @@
 import type { CapturedBlock, CapturedDay, CapturedTaxonomy } from '../runner/capture';
 import type { BenchmarkConfig } from '../runner/config';
-import type { EvaluationOnly, EvaluationOnlyDay } from '../runner/dataset';
+import type { DatasetWorkStream, EvaluationOnly, EvaluationOnlyDay } from '../runner/dataset';
 import {
   mergeClassificationScores,
   scoreClassification,
@@ -13,6 +13,7 @@ import { ACTION_TYPE_MAPPING, evaluateCoach, type CoachEvaluation } from './coac
 import { summarizeCoachDimensions, type ActionStateRecord, type CoachDimensionSummary } from './coachDimensions';
 import { evaluateReflection, progressLevel, type ReflectionEvaluation } from './reflection';
 import { evaluateSegmentation, segmentFromEvents, type Segment, type SegmentationMetrics, type SegmentationResult, type TimedEvent } from './segmentation';
+import { buildStreamContext, streamOfActivity } from './streams';
 import { NULL_LABEL, TAXONOMY_MAPPING, canonicalLabel, resolveMapping, type DatasetDimension } from './taxonomyMapping';
 import type { Criterion, Verdict } from './text';
 
@@ -23,7 +24,7 @@ import type { Criterion, Verdict } from './text';
  */
 
 /** Bump when a metric's definition changes, so old and new results are not compared blindly. */
-export const EVALUATOR_VERSION = 'reflect-benchmark-eval-v3';
+export const EVALUATOR_VERSION = 'reflect-benchmark-eval-v4';
 
 export interface TrackEvaluation {
   segmentation: SegmentationResult;
@@ -37,6 +38,8 @@ export interface DayEvaluation {
   timeline: TrackEvaluation;
   /** Stage-2 sessionizer + rule classification alone. The no-AI baseline. */
   deterministic: TrackEvaluation;
+  /** Activities the key itself marks as unattributable, and what that did to the segmentation ground truth. */
+  softBoundaries?: SoftBoundaries;
   /** Tracked time per Reflect Context — reported only; the dataset has no counterpart. */
   reflectContextMs: Record<string, number>;
   reflection: ReflectionEvaluation;
@@ -53,9 +56,65 @@ export interface DayEvaluationContext {
   /** When the previous day was captured (null on the first day). */
   previousProcessedAt?: string | null;
   findLeaks: (text: string) => string[];
+  /** The persona's work streams (`EvaluationOnly.streams`). Empty or absent: the answer key names no streams. */
+  streams?: Record<string, DatasetWorkStream>;
 }
 
 const VIDEO = /youtube|vimeo|\bvideo\b|tutorial/i;
+
+/** The answer key's own word, in an activity's context, for "what this time was cannot be told from the screen". */
+const UNDECIDED_CONTEXT = /^(uncertain|ambiguous|unknown|mixed|unresolved|unclear)\b/i;
+
+export interface SoftBoundaries {
+  /** Ground-truth activities the key itself could not attribute; they define no boundary. */
+  uncertainActivities: number;
+  /** Their share of the day's tracked time. */
+  uncertainShare: number;
+  /** Neighbouring activities of one work stream that only such an interlude separated, scored as one. */
+  merged: number;
+}
+
+/**
+ * Ground truth for SEGMENTATION, with the key's stated uncertainty taken at its word.
+ *
+ * Where the key says of a stretch "purpose not observable" (reference browsing in the middle of a design
+ * session, an unclear video), it is not asserting an activity boundary there — only that it could not tell.
+ * Scoring Reflect against that boundary as if it were exact would punish it for joining, or for splitting, on a
+ * question the key does not answer. So such a stretch is taken out of the comparison on both sides, and the two
+ * pieces of one work stream it separated count as one activity. Everything the key IS sure of is scored exactly as
+ * before; a key with no such activity is untouched.
+ */
+function segmentationGroundTruth(
+  observed: EvaluationOnlyDay['groundTruth']['activities'],
+  streams: Record<string, DatasetWorkStream>,
+  eventsById: Map<number, TimedEvent>,
+): { activities: { id: string; eventIds: number[] }[]; softEventIds: Set<number>; soft: SoftBoundaries } {
+  const softEventIds = new Set<number>();
+  const activities: { id: string; eventIds: number[]; stream: string | null }[] = [];
+  let softSince = false;
+  let merged = 0;
+  let uncertain = 0;
+  for (const activity of observed) {
+    if (UNDECIDED_CONTEXT.test(String(activity.context).trim())) {
+      for (const id of activity.event_ids) softEventIds.add(id);
+      softSince = true;
+      uncertain++;
+      continue;
+    }
+    const stream = streamOfActivity(activity, streams);
+    const previous = activities[activities.length - 1];
+    if (softSince && previous && stream !== null && previous.stream === stream) {
+      previous.eventIds.push(...activity.event_ids);
+      merged++;
+    } else {
+      activities.push({ id: activity.id, eventIds: [...activity.event_ids], stream });
+    }
+    softSince = false;
+  }
+  const ms = (ids: Iterable<number>) => [...ids].reduce((sum, id) => sum + ((eventsById.get(id)?.endMs ?? 0) - (eventsById.get(id)?.startMs ?? 0)), 0);
+  const total = ms(observed.flatMap((a) => a.event_ids));
+  return { activities, softEventIds, soft: { uncertainActivities: uncertain, uncertainShare: total > 0 ? ms(softEventIds) / total : 0, merged } };
+}
 
 function predictedLabels(block: CapturedBlock, priorities: { id: string; text: string }[]): PredictedLabels {
   return {
@@ -80,11 +139,15 @@ export function evaluateDay(captured: CapturedDay, answer: EvaluationOnlyDay, ct
 
   // Time away from the screen that the key tells as an activity owns no events: there is nothing Reflect could have reconstructed.
   const observed = answer.groundTruth.activities.filter((a) => a.event_ids.length > 0);
-  const groundTruth: Segment[] = observed.map((a) => segmentFromEvents(a.id, a.event_ids, eventsById));
+  const streams = ctx.streams ?? {};
+  const byStream = Object.keys(streams).length > 0;
+  const scored = segmentationGroundTruth(observed, streams, eventsById);
+  const groundTruth: Segment[] = scored.activities.map((a) => segmentFromEvents(a.id, a.eventIds, eventsById));
+  const scoredEvents = events.filter((e) => !scored.softEventIds.has(e.id));
   const labelsOf = new Map<string, GroundTruthLabels>(
     observed.map((a) => [
       a.id,
-      { context: canonicalLabel('context', a.context), area: canonicalLabel('area', a.area), intent: canonicalLabel('intent', a.intent), quality: canonicalLabel('quality', a.quality) },
+      { context: canonicalLabel('context', a.context), area: byStream ? streamOfActivity(a, streams) : canonicalLabel('area', a.area), intent: canonicalLabel('intent', a.intent), quality: canonicalLabel('quality', a.quality) },
     ]),
   );
   const ownerOf = new Map<number, string>();
@@ -95,13 +158,19 @@ export function evaluateDay(captured: CapturedDay, answer: EvaluationOnlyDay, ct
   const mapping = resolveMapping(
     { areas: ctx.taxonomy.areas, intents: ctx.taxonomy.intents, qualities: ctx.taxonomy.qualities, priorities: captured.priorities },
     used,
+    streams,
   );
+  const streamContext = byStream ? buildStreamContext(streams, captured, answer) : undefined;
 
   const evaluateTrack = (blocks: CapturedBlock[]): TrackEvaluation => {
     const toDataset = (block: CapturedBlock) => block.eventIds.map((id) => datasetIdOf.get(id)).filter((id): id is number => id !== undefined);
-    const predicted = blocks.map((b) => segmentFromEvents(b.id, toDataset(b), eventsById));
+    // A block is compared on the events the key is sure of; one made only of time the key could not attribute is neither right nor wrong.
+    const predicted = blocks
+      .map((b) => ({ id: b.id, eventIds: toDataset(b).filter((id) => !scored.softEventIds.has(id)) }))
+      .filter((b) => b.eventIds.length > 0)
+      .map((b) => segmentFromEvents(b.id, b.eventIds, eventsById));
     const blockById = new Map(blocks.map((b) => [b.id, b]));
-    const segmentation = evaluateSegmentation(groundTruth, predicted, events, ctx.config.matching);
+    const segmentation = evaluateSegmentation(groundTruth, predicted, scoredEvents, ctx.config.matching);
 
     const matched: ClassificationSample[] = segmentation.matches.map((m) => ({
       groundTruth: labelsOf.get(m.groundTruthId)!,
@@ -145,8 +214,9 @@ export function evaluateDay(captured: CapturedDay, answer: EvaluationOnlyDay, ct
     date: answer.date,
     timeline: evaluateTrack(captured.timeline),
     deterministic: evaluateTrack(captured.deterministicSessions),
+    softBoundaries: scored.soft,
     reflectContextMs,
-    reflection: evaluateReflection(captured, answer, { semantic: ctx.config.semantic, knownBlockIds: ctx.knownBlockIds, findLeaks: ctx.findLeaks }),
+    reflection: evaluateReflection(captured, answer, { semantic: ctx.config.semantic, knownBlockIds: ctx.knownBlockIds, findLeaks: ctx.findLeaks, streams: streamContext }),
     coach: evaluateCoach(captured, answer, {
       semantic: ctx.config.semantic,
       knownBlockIds: ctx.knownBlockIds,
@@ -154,6 +224,7 @@ export function evaluateDay(captured: CapturedDay, answer: EvaluationOnlyDay, ct
       previousProcessedAt: ctx.previousProcessedAt ?? null,
       workVideoEventIds,
       predictedByEvent,
+      streams: streamContext,
     }),
     mappingIssues: mapping.issues,
   };
@@ -188,9 +259,14 @@ export function checkAnswerKeyVocabulary(evaluation: EvaluationOnly): Vocabulary
     for (const activity of day.groundTruth.activities) {
       if (activity.event_ids.length === 0) continue; // off-screen time: not scored
       for (const dimension of ['context', 'area', 'intent', 'quality'] as const) {
-        const label = canonicalLabel(dimension, activity[dimension]) ?? NULL_LABEL;
+        const byStream = dimension === 'area' && Object.keys(evaluation.streams).length > 0;
+        const label = (byStream ? streamOfActivity(activity, evaluation.streams) : canonicalLabel(dimension, activity[dimension])) ?? NULL_LABEL;
         classification[dimension].activities++;
-        if (!(label in TAXONOMY_MAPPING[dimension].labels) && !(dimension === 'area' && evaluation.priorities.includes(label))) {
+        // A stream of work that no stated priority covers cannot be judged against a priority link.
+        const known = byStream
+          ? label === NULL_LABEL || evaluation.streams[label].kind !== 'work' || evaluation.streams[label].priorities.length > 0
+          : label in TAXONOMY_MAPPING[dimension].labels || (dimension === 'area' && evaluation.priorities.includes(label));
+        if (!known) {
           classification[dimension].unmapped++;
           const key = `${dimension} "${label.length > 60 ? `${label.slice(0, 57)}…` : label}"`;
           unmappedLabels.set(key, (unmappedLabels.get(key) ?? 0) + 1);

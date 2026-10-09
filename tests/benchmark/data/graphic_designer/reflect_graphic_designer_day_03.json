@@ -4,8 +4,8 @@
     "type": "graphic_designer",
     "role": "Freelance brand and visual identity designer",
     "current_work": [
-      "Developing a visual identity for a local specialty coffee brand",
-      "Preparing social media campaign assets for an existing client",
+      "Developing a visual identity for a specialty coffee brand",
+      "Preparing social media campaign assets for a client",
       "Building a personal portfolio case study",
       "Handling client communication and revisions"
     ],
@@ -370,7 +370,8 @@
         "area": "Northstar Coffee",
         "intent": "Plan",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "northstar_identity"
       },
       {
         "id": "gt-03-02",
@@ -383,7 +384,8 @@
         "area": "Northstar Coffee",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "northstar_identity"
       },
       {
         "id": "gt-03-03",
@@ -396,7 +398,8 @@
         "area": "Northstar Coffee",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "northstar_identity"
       },
       {
         "id": "gt-03-04",
@@ -408,8 +411,12 @@
         "context": "Work",
         "area": "Social campaign",
         "intent": "Create",
-        "quality": "Production",
-        "importance": "high"
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "social_campaign",
+        "label_notes": {
+          "quality": "Production"
+        }
       },
       {
         "id": "gt-03-05",
@@ -422,7 +429,8 @@
         "area": "Northstar Coffee",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "northstar_identity"
       },
       {
         "id": "gt-03-06",
@@ -435,7 +443,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       },
       {
         "id": "gt-03-07",
@@ -448,7 +457,11 @@
         "area": null,
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": null,
+        "label_notes": {
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-03-08",
@@ -461,7 +474,8 @@
         "area": "Northstar Coffee",
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "northstar_identity"
       }
     ],
     "unobserved_periods": [
@@ -519,14 +533,16 @@
       "action_type": "complete_open_loop",
       "reason": "The identity has moved into production and a preliminary handoff exists, so confirming the remaining client requirements is more valuable than starting another broad exploration cycle.",
       "suggested_focus_minutes": 30,
-      "target": "Northstar Coffee"
+      "target": "Northstar Coffee",
+      "target_stream": "northstar_identity"
     },
     "secondary_action": {
       "title": "Protect portfolio time",
       "action_type": "protect_priority",
       "reason": "The portfolio case study has begun receiving consistent attention and can now build directly on the nearly completed client project.",
       "suggested_focus_minutes": 60,
-      "target": "Portfolio"
+      "target": "Portfolio",
+      "target_stream": "portfolio"
     },
     "things_not_to_do": [
       "Do not treat the urgent social request as inherently harmful to the main project.",
@@ -535,6 +551,71 @@
       "Do not infer that the YouTube session was unproductive.",
       "Do not assume offline time was wasted.",
       "Do not recommend abandoning portfolio work merely because client work is currently more urgent."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The identity has moved into production and a preliminary handoff exists, so confirming the remaining client requirements is more valuable than starting another broad exploration cycle.",
+      "priority": "Complete the coffee brand identity before the client review",
+      "type": "complete_open_loop"
+    },
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 4 shows 211 min on this work.",
+        "reason_code": null
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 4 shows 90 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 4 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "food_identity": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 4 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 4 shows 139 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 4 shows 25 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 4 shows no time on this work.",
+        "reason_code": "other"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 4 shows 211 min on this work.",
+      "reason_code": null
+    }
   }
 }

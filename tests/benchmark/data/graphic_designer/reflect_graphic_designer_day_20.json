@@ -274,7 +274,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-20-02",
@@ -289,7 +290,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-20-03",
@@ -304,7 +310,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-20-04",
@@ -324,7 +331,8 @@
         "area": "Social campaign",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-20-05",
@@ -342,7 +350,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-20-06",
@@ -357,7 +366,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-20-07",
@@ -372,7 +386,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       },
       {
         "id": "gt-20-08",
@@ -387,7 +402,8 @@
         "area": "Administration",
         "intent": "Plan",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "client_admin"
       },
       {
         "id": "gt-20-09",
@@ -402,7 +418,8 @@
         "area": "Portfolio",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       }
     ],
     "unobserved_periods": [
@@ -435,9 +452,79 @@
       "action_type": "complete_open_loop",
       "reason": "The portfolio now has substantial structure and content, making a focused finishing block more valuable than another round of broad exploration.",
       "suggested_focus_minutes": null,
-      "target": "Northstar Coffee portfolio"
+      "target": "Northstar Coffee portfolio",
+      "target_stream": "portfolio"
     },
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The portfolio now has substantial structure and content, making a focused finishing block more valuable than another round of broad exploration.",
+      "priority": "Build a stronger portfolio with the coffee project",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "northstar_identity",
+      "new_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 21 shows 245 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "food_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 21 shows 49 min on this work.",
+        "reason_code": null
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 21 shows 115 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 21 shows 46 min on this work.",
+        "reason_code": null
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 21 shows 33 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 21 shows 245 min on this work.",
+      "reason_code": null
+    }
   }
 }

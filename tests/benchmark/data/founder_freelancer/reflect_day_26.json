@@ -425,14 +425,16 @@
       "action_type": "complete_open_loop",
       "reason": "The new client has moved into real implementation and testing, making completion of the initial authentication slice the clearest near-term freelance milestone.",
       "suggested_focus_minutes": 90,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Keep the SaaS in observation mode",
       "action_type": "protect_priority",
       "reason": "The beta is producing feedback and analytics that have already shaped recent changes, so another broad feature cycle should wait for more evidence.",
       "suggested_focus_minutes": 45,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat the older client's acceptance email as proof that all administrative closeout is complete.",

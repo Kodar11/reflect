@@ -281,11 +281,17 @@
           470,
           471
         ],
-        "context": "The internal assessment had been the dominant academic priority throughout the week.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Check current assessment and course information.",
-        "quality": "routine",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The internal assessment had been the dominant academic priority throughout the week.",
+          "intent": "Check current assessment and course information.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-25-02",
@@ -294,11 +300,17 @@
         "title": "Classes and offline peer review",
         "summary": "Attended classes and spent part of the morning reviewing Data Structures material with peers away from the laptop.",
         "event_ids": [],
-        "context": "The desktop timeline cannot observe the in-person review period.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Attend classes and compare understanding of assessment topics with peers.",
-        "quality": "unobserved offline activity",
-        "importance": "high"
+        "intent": "Communicate",
+        "quality": "Break-Idle",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The desktop timeline cannot observe the in-person review period.",
+          "intent": "Attend classes and compare understanding of assessment topics with peers.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-25-03",
@@ -314,11 +326,17 @@
           476,
           477
         ],
-        "context": "The student had already covered Dijkstra, MST, traversal, and topology topics on preceding days.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Check recall and resolve remaining graph weak spots.",
-        "quality": "focused consolidation",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The student had already covered Dijkstra, MST, traversal, and topology topics on preceding days.",
+          "intent": "Check recall and resolve remaining graph weak spots.",
+          "quality": "focused consolidation"
+        }
       },
       {
         "id": "gt-25-04",
@@ -327,11 +345,16 @@
         "title": "Lunch and offline campus time",
         "summary": "Spent the early afternoon away from the laptop for lunch and ordinary campus activity.",
         "event_ids": [],
-        "context": "No desktop events were captured during this period.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Handle lunch and campus activity offline.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop events were captured during this period.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-25-05",
@@ -345,11 +368,17 @@
           480,
           481
         ],
-        "context": "This was a bounded implementation check inside the broader assessment review rather than a new project.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Verify the MST approach and consolidate the written revision material.",
-        "quality": "targeted technical review",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "This was a bounded implementation check inside the broader assessment review rather than a new project.",
+          "intent": "Verify the MST approach and consolidate the written revision material.",
+          "quality": "targeted technical review"
+        }
       },
       {
         "id": "gt-25-06",
@@ -360,11 +389,17 @@
         "event_ids": [
           482
         ],
-        "context": "The interruption was brief and not directly tied to the assessment.",
+        "context": "Work",
         "area": "communication",
-        "intent": "Handle incoming messages.",
-        "quality": "brief interruption",
-        "importance": "low"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "The interruption was brief and not directly tied to the assessment.",
+          "intent": "Handle incoming messages.",
+          "quality": "brief interruption"
+        }
       },
       {
         "id": "gt-25-07",
@@ -376,11 +411,17 @@
           483,
           484
         ],
-        "context": "Assessment preparation remained the higher-priority thread.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Check for urgent teammate requests without expanding project scope.",
-        "quality": "brief coordination",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Assessment preparation remained the higher-priority thread.",
+          "intent": "Check for urgent teammate requests without expanding project scope.",
+          "quality": "brief coordination"
+        }
       },
       {
         "id": "gt-25-08",
@@ -389,11 +430,16 @@
         "title": "Offline break and dinner transition",
         "summary": "Spent time away from the laptop before the evening.",
         "event_ids": [],
-        "context": "No desktop activity was captured.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Take a break and handle ordinary personal activity.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was captured.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-25-09",
@@ -406,11 +452,17 @@
           486,
           487
         ],
-        "context": "This followed a week with several assessment-focused study sessions.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "This followed a week with several assessment-focused study sessions.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-25-10",
@@ -423,11 +475,17 @@
           489,
           490
         ],
-        "context": "The student did not start a new academic topic during the closing review.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Confirm the current review state and close out the day's assessment preparation.",
-        "quality": "brief final review",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The student did not start a new academic topic during the closing review.",
+          "intent": "Confirm the current review state and close out the day's assessment preparation.",
+          "quality": "brief final review"
+        }
       }
     ],
     "unobserved_periods": [
@@ -481,15 +539,10 @@
       "action_type": "start_focus",
       "reason": "The student has already consolidated the main topics; a compact mixed set can reveal any remaining gaps without restarting the review cycle.",
       "suggested_focus_minutes": 40,
-      "target": "Data Structures Internal Assessment"
+      "target": "Data Structures Internal Assessment",
+      "target_stream": "data_structures"
     },
-    "secondary_action": {
-      "title": "Stop adding new material",
-      "action_type": "protect_priority",
-      "reason": "The current work is already centered on consolidation, so new resources should only be introduced in response to a specific missed concept.",
-      "suggested_focus_minutes": null,
-      "target": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not treat the self-test as proof of readiness without seeing the results.",
       "Do not ignore the large offline peer-review period when judging the day's total academic activity.",
@@ -497,6 +550,101 @@
       "Do not characterize the WhatsApp check as a major source of fragmentation based on its duration alone.",
       "Do not treat the project status check as a problem simply because no code was changed.",
       "Do not criticize the evening gaming and social time merely because an assessment was approaching."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Run one mixed graph set",
+        "action_type": "start_focus",
+        "reason": "The student has already consolidated the main topics; a compact mixed set can reveal any remaining gaps without restarting the review cycle.",
+        "suggested_focus_minutes": 40,
+        "target": "Data Structures Internal Assessment"
+      },
+      "secondary_action": {
+        "title": "Stop adding new material",
+        "action_type": "protect_priority",
+        "reason": "The current work is already centered on consolidation, so new resources should only be introduced in response to a specific missed concept.",
+        "suggested_focus_minutes": null,
+        "target": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The student has already consolidated the main topics; a compact mixed set can reveal any remaining gaps without restarting the review cycle.",
+      "priority": "Finish Data Structures Problem Set 4",
+      "type": "start_focus"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering",
+      "theory_of_computation"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 26 shows 140 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 26 shows 59 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 26 went to other work (data_structures, 140 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 26 shows 140 min on this work.",
+      "reason_code": null
+    }
   }
 }

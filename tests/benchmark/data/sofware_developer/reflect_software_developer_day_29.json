@@ -359,11 +359,17 @@
           666,
           667
         ],
-        "context": "The feature had an initial query surface but needed explicit contract decisions before it could be considered stable.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "design_and_implement",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The feature had an initial query surface but needed explicit contract decisions before it could be considered stable.",
+          "intent": "design_and_implement",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-29-02",
@@ -378,11 +384,17 @@
           671,
           672
         ],
-        "context": "The implementation needed to reflect the agreed query semantics consistently across layers.",
+        "context": "Work",
         "area": "admin_audit",
-        "intent": "refine",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The implementation needed to reflect the agreed query semantics consistently across layers.",
+          "intent": "refine",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-29-03",
@@ -397,11 +409,17 @@
           676,
           677
         ],
-        "context": "The audit implementation had reached a coherent vertical slice suitable for focused review.",
+        "context": "Work",
         "area": "engineering_delivery",
-        "intent": "prepare_review",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "admin_audit",
+        "label_notes": {
+          "context": "The audit implementation had reached a coherent vertical slice suitable for focused review.",
+          "intent": "prepare_review",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-29-04",
@@ -413,11 +431,17 @@
           678,
           679
         ],
-        "context": "No new platform incident was indicated by the routine health check.",
+        "context": "Work",
         "area": "platform_operations",
-        "intent": "monitor",
-        "quality": "appropriate",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "platform_ops",
+        "label_notes": {
+          "context": "No new platform incident was indicated by the routine health check.",
+          "intent": "monitor",
+          "quality": "appropriate"
+        }
       }
     ],
     "unobserved_periods": [
@@ -484,20 +508,102 @@
       "action_type": "complete_open_loop",
       "target": "Open PLAT-531 for focused review",
       "reason": "The implementation now has a stable contract and meaningful integration coverage; the next highest-value step is external review rather than more local refinement.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "admin_audit"
     },
-    "secondary_action": {
-      "title": "Audit query performance with representative retained data",
-      "action_type": "experiment",
-      "target": "Audit query performance with representative retained data",
-      "reason": "Long-term query performance is a genuine but not yet urgent uncertainty that can be validated without blocking review.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not continue changing the API contract without reviewer or product evidence.",
       "Do not expand audit coverage to every administrative action before the current vertical slice is reviewed.",
       "Do not prematurely optimize query performance without representative data.",
       "Do not reopen completed account export or older platform workstreams without new evidence."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Open PLAT-531 for focused review",
+        "action_type": "complete_open_loop",
+        "target": "Open PLAT-531 for focused review",
+        "reason": "The implementation now has a stable contract and meaningful integration coverage; the next highest-value step is external review rather than more local refinement.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Audit query performance with representative retained data",
+        "action_type": "experiment",
+        "target": "Audit query performance with representative retained data",
+        "reason": "Long-term query performance is a genuine but not yet urgent uncertainty that can be validated without blocking review.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The implementation now has a stable contract and meaningful integration coverage; the next highest-value step is external review rather than more local refinement.",
+      "priority": "Add an audit trail for admin actions",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance",
+      "webhook_reliability",
+      "account_export"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "admin_audit": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 30 shows 432 min on this work.",
+        "reason_code": null
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 30 went to other work (admin_audit, 432 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 30 shows 57 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 30 shows 432 min on this work.",
+      "reason_code": null
+    }
   }
 }

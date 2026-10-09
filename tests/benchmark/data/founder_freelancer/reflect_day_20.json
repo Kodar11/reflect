@@ -360,14 +360,16 @@
       "action_type": "experiment",
       "reason": "The SaaS has moved beyond basic rollout mechanics, and the current evidence is most useful when converted into one focused activation hypothesis.",
       "suggested_focus_minutes": 75,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Close the client handoff",
       "action_type": "complete_open_loop",
       "reason": "The client change was already verified and reported, so confirming the handoff would remove the remaining small freelance loop.",
       "suggested_focus_minutes": 15,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat a small amount of beta analytics as a reliable product-market or retention signal.",

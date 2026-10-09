@@ -318,11 +318,17 @@
           426,
           427
         ],
-        "context": "The partial-index follow-up is entering production while the previous video is still collecting audience response.",
+        "context": "Work",
         "area": "creator_operations_and_community",
-        "intent": "Handle current communication and reconnect with the active content project.",
-        "quality": "focused start",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The partial-index follow-up is entering production while the previous video is still collecting audience response.",
+          "intent": "Handle current communication and reconnect with the active content project.",
+          "quality": "focused start"
+        }
       },
       {
         "id": "gt-19-02",
@@ -335,11 +341,17 @@
           429,
           430
         ],
-        "context": "The sponsor request remains a separate commercial workstream from the creator's main technical video.",
+        "context": "Work",
         "area": "scripting_and_sponsorship",
-        "intent": "Prepare for recording while keeping the sponsor request moving.",
-        "quality": "productive but split focus",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The sponsor request remains a separate commercial workstream from the creator's main technical video.",
+          "intent": "Prepare for recording while keeping the sponsor request moving.",
+          "quality": "productive but split focus"
+        }
       },
       {
         "id": "gt-19-03",
@@ -348,11 +360,17 @@
         "title": "Offline recording preparation",
         "summary": "Prepared the physical recording setup away from the desktop.",
         "event_ids": [],
-        "context": "The exact setup and preparation steps are not observable.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Set up for the partial-index recording session.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The exact setup and preparation steps are not observable.",
+          "intent": "Set up for the partial-index recording session.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-19-04",
@@ -365,11 +383,17 @@
           432,
           433
         ],
-        "context": "The script reached recording-ready state on Day 18.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Capture the main talking-head and screen material.",
-        "quality": "substantive production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The script reached recording-ready state on Day 18.",
+          "intent": "Capture the main talking-head and screen material.",
+          "quality": "substantive production"
+        }
       },
       {
         "id": "gt-19-05",
@@ -378,11 +402,17 @@
         "title": "Offline recording adjustment",
         "summary": "Made a brief physical adjustment before another take.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Improve or correct the setup for the second take.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "intent": "Improve or correct the setup for the second take.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-19-06",
@@ -394,11 +424,17 @@
           434,
           435
         ],
-        "context": "The second take followed the review of the first capture.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Capture a more usable version of the material.",
-        "quality": "iterative production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The second take followed the review of the first capture.",
+          "intent": "Capture a more usable version of the material.",
+          "quality": "iterative production"
+        }
       },
       {
         "id": "gt-19-07",
@@ -407,11 +443,17 @@
         "title": "Offline lunch and break",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity is available.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Lunch and recovery after the recording session.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity is available.",
+          "intent": "Lunch and recovery after the recording session.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-19-08",
@@ -425,11 +467,17 @@
           438,
           439
         ],
-        "context": "Usable footage is now available from the morning recording.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Build an initial structure from the new footage.",
-        "quality": "substantive production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "Usable footage is now available from the morning recording.",
+          "intent": "Build an initial structure from the new footage.",
+          "quality": "substantive production"
+        }
       },
       {
         "id": "gt-19-09",
@@ -440,11 +488,17 @@
         "event_ids": [
           440
         ],
-        "context": "Exact discussion purpose is not visible.",
+        "context": "Work",
         "area": "community",
-        "intent": "Creator-network or social interaction.",
+        "intent": "Create",
         "quality": "ambiguous communication",
-        "importance": "low"
+        "importance": "low",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "Exact discussion purpose is not visible.",
+          "intent": "Creator-network or social interaction.",
+          "quality": "ambiguous communication"
+        }
       },
       {
         "id": "gt-19-10",
@@ -453,11 +507,17 @@
         "title": "Offline break",
         "summary": "Spent a period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Break between editing and packaging.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "intent": "Break between editing and packaging.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-19-11",
@@ -470,11 +530,17 @@
           442,
           443
         ],
-        "context": "Packaging activity is beginning before the edit is complete.",
+        "context": "Work",
         "area": "editing_and_thumbnail_design",
-        "intent": "Advance the cut while testing a possible visual package.",
-        "quality": "productive but slightly fragmented",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "Packaging activity is beginning before the edit is complete.",
+          "intent": "Advance the cut while testing a possible visual package.",
+          "quality": "productive but slightly fragmented"
+        }
       },
       {
         "id": "gt-19-12",
@@ -483,11 +549,16 @@
         "title": "Offline dinner and personal time",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and normal evening time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-19-13",
@@ -500,11 +571,17 @@
           445,
           446
         ],
-        "context": "The creator is maintaining the feedback loop for the recently published video.",
+        "context": "Work",
         "area": "community_and_analytics",
-        "intent": "Handle audience communication and record current performance.",
-        "quality": "relevant maintenance",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The creator is maintaining the feedback loop for the recently published video.",
+          "intent": "Handle audience communication and record current performance.",
+          "quality": "relevant maintenance"
+        }
       },
       {
         "id": "gt-19-14",
@@ -515,11 +592,17 @@
         "event_ids": [
           447
         ],
-        "context": "This is commercial admin, not part of the personal video pipeline.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Keep the sponsor opportunity moving without expanding its scope.",
-        "quality": "contained business work",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "This is commercial admin, not part of the personal video pipeline.",
+          "intent": "Keep the sponsor opportunity moving without expanding its scope.",
+          "quality": "contained business work"
+        }
       },
       {
         "id": "gt-19-15",
@@ -531,11 +614,17 @@
           448,
           449
         ],
-        "context": "Normal evening leisure.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Normal evening leisure.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-19-16",
@@ -546,11 +635,17 @@
         "event_ids": [
           450
         ],
-        "context": "The project is now in the editing stage.",
+        "context": "Work",
         "area": "scripting_and_project_management",
-        "intent": "Preserve a note for the next edit pass.",
-        "quality": "useful closeout",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "pg_partial_video",
+        "label_notes": {
+          "context": "The project is now in the editing stage.",
+          "intent": "Preserve a note for the next edit pass.",
+          "quality": "useful closeout"
+        }
       }
     ],
     "unobserved_periods": [
@@ -612,15 +707,10 @@
       "action_type": "complete_open_loop",
       "reason": "The project now has footage and an initial edit, so the highest-value next step is to establish a complete narrative cut before spending more time on packaging.",
       "target": "PostgreSQL Partial Indexes follow-up",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "pg_partial_video"
     },
-    "secondary_action": {
-      "title": "Keep sponsor work contained",
-      "action_type": "protect_primary_priority",
-      "reason": "The sponsor thread is legitimate but should remain bounded unless a concrete deadline requires a priority change.",
-      "target": "Database-tool short-form inquiry",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not assume the second recording take is perfect without reviewing it inside the full cut.",
       "Do not over-invest in the thumbnail while the core edit is still incomplete.",
@@ -628,6 +718,113 @@
       "Do not treat analytics checks as strategically valuable without an observable question or decision.",
       "Do not classify creator-chat activity without more context.",
       "Do not infer offline recording details."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Finish the rough cut before polishing",
+        "action_type": "complete_open_loop",
+        "reason": "The project now has footage and an initial edit, so the highest-value next step is to establish a complete narrative cut before spending more time on packaging.",
+        "target": "PostgreSQL Partial Indexes follow-up",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Keep sponsor work contained",
+        "action_type": "protect_primary_priority",
+        "reason": "The sponsor thread is legitimate but should remain bounded unless a concrete deadline requires a priority change.",
+        "target": "Database-tool short-form inquiry",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The project now has footage and an initial edit, so the highest-value next step is to establish a complete narrative cut before spending more time on packaging.",
+      "priority": "Make measurable progress on the next big technical video",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "api_video",
+      "redis_video",
+      "pg_indexes_video"
+    ],
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "redis_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_indexes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_partial_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 20 shows 175 min on this work.",
+        "reason_code": null
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (sponsorship, 242 min).",
+        "reason_code": "different_priority"
+      },
+      "background_jobs_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (sponsorship, 242 min).",
+        "reason_code": "different_priority"
+      },
+      "sponsorship": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 20 shows 242 min on this work.",
+        "reason_code": null
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 35 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 20 shows 29 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 20 went to other work (sponsorship, 242 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 20 shows 175 min on this work.",
+      "reason_code": null
+    }
   }
 }

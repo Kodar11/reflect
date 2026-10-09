@@ -433,14 +433,16 @@
       "action_type": "complete_open_loop",
       "reason": "The client work was pushed forward substantially because of the deadline, and the remaining useful step is to confirm the deliverable is accepted and clearly closed.",
       "suggested_focus_minutes": 20,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Protect a SaaS dashboard block",
       "action_type": "protect_priority",
       "reason": "The founder returned to the SaaS after the deadline work, so preserving that continuity is valuable before more client work arrives.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not criticize Sunday work when it was tied to a concrete client deadline.",

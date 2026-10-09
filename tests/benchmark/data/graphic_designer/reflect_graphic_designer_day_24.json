@@ -263,7 +263,8 @@
         "area": "Social campaign",
         "intent": "Communicate",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-24-02",
@@ -282,7 +283,8 @@
         "area": "New brand inquiry",
         "intent": "Research",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "food_identity"
       },
       {
         "id": "gt-24-03",
@@ -299,7 +301,8 @@
         "area": "New brand inquiry",
         "intent": "Plan",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "food_identity"
       },
       {
         "id": "gt-24-04",
@@ -314,7 +317,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-24-05",
@@ -332,7 +340,8 @@
         "area": "New brand inquiry",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "food_identity"
       },
       {
         "id": "gt-24-06",
@@ -347,7 +356,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-24-07",
@@ -362,7 +376,8 @@
         "area": "Administration",
         "intent": "Plan",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "client_admin"
       }
     ],
     "unobserved_periods": [
@@ -396,14 +411,80 @@
     "possible_next_step": "The new inquiry has reached the proposal stage. Pause deeper concept development until the scope and commercial terms are confirmed; keep any further exploration lightweight and clearly preparatory."
   },
   "expected_coach_outcome": {
-    "primary_action": {
-      "title": "Pause concept work until terms are confirmed",
-      "action_type": "defer_new_commitment",
-      "reason": "The new inquiry has reached the proposal stage. Pause deeper concept development until the scope and commercial terms are confirmed; keep any further exploration lightweight and clearly preparatory.",
-      "suggested_focus_minutes": null,
-      "target": "New brand inquiry"
-    },
+    "primary_action": null,
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "original_actions": {
+      "primary_action": {
+        "title": "Pause concept work until terms are confirmed",
+        "action_type": "defer_new_commitment",
+        "reason": "The new inquiry has reached the proposal stage. Pause deeper concept development until the scope and commercial terms are confirmed; keep any further exploration lightweight and clearly preparatory.",
+        "suggested_focus_minutes": null,
+        "target": "New brand inquiry"
+      },
+      "secondary_action": null
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "The inquiry is at the proposal stage and the key's own move is to pause concept work until scope and terms are confirmed. Pushing anything forward here is exactly what it warns against.",
+      "priority": null,
+      "type": null
+    },
+    "forbidden_streams": [
+      "northstar_identity",
+      "new_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 25 shows 57 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "food_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 25 shows 230 min on this work.",
+        "reason_code": null
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 25 shows 62 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 25 went to other work (food_identity, 230 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 25 shows 46 min on this work.",
+        "reason_code": null
+      }
+    }
   }
 }

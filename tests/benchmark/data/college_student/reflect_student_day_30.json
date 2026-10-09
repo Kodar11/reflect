@@ -304,11 +304,17 @@
           565,
           566
         ],
-        "context": "The TCP client setup from Day 29 needed to be extended into the full lab.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Confirm requirements and prepare to finish the lab.",
-        "quality": "routine preparation",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "networks",
+        "label_notes": {
+          "context": "The TCP client setup from Day 29 needed to be extended into the full lab.",
+          "intent": "Confirm requirements and prepare to finish the lab.",
+          "quality": "routine preparation"
+        }
       },
       {
         "id": "gt-30-02",
@@ -317,11 +323,17 @@
         "title": "Classes and campus activity",
         "summary": "Attended regular college activities away from the laptop.",
         "event_ids": [],
-        "context": "No desktop activity was observed during this period.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Attend scheduled college activities.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "No desktop activity was observed during this period.",
+          "intent": "Attend scheduled college activities.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-03",
@@ -340,11 +352,17 @@
           574,
           575
         ],
-        "context": "This continued directly from the initial TCP implementation started on Day 29 and reached submission today.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Finish, verify, document, and submit the Computer Networks lab.",
-        "quality": "focused implementation, verification, and submission",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "networks",
+        "label_notes": {
+          "context": "This continued directly from the initial TCP implementation started on Day 29 and reached submission today.",
+          "intent": "Finish, verify, document, and submit the Computer Networks lab.",
+          "quality": "focused implementation, verification, and submission"
+        }
       },
       {
         "id": "gt-30-04",
@@ -353,11 +371,16 @@
         "title": "Lunch and offline personal time",
         "summary": "Spent the early afternoon away from the laptop.",
         "event_ids": [],
-        "context": "No desktop events were recorded.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Lunch and ordinary afternoon activity.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop events were recorded.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-05",
@@ -373,11 +396,17 @@
           580,
           581
         ],
-        "context": "Recent response and pagination changes from Days 28–29 were now being checked together at an integration level.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Verify the current project integration state and identify remaining work.",
-        "quality": "substantive verification and coordination",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Recent response and pagination changes from Days 28–29 were now being checked together at an integration level.",
+          "intent": "Verify the current project integration state and identify remaining work.",
+          "quality": "substantive verification and coordination"
+        }
       },
       {
         "id": "gt-30-06",
@@ -386,11 +415,16 @@
         "title": "Offline break and dinner transition",
         "summary": "Spent the late afternoon away from the laptop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Take a break and handle dinner-related personal activity.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-07",
@@ -403,11 +437,17 @@
           583,
           584
         ],
-        "context": "This followed completion of the Networks lab and a substantive project checkpoint.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "This followed completion of the Networks lab and a substantive project checkpoint.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-30-08",
@@ -416,11 +456,17 @@
         "title": "Offline evening time",
         "summary": "Spent the evening away from the laptop.",
         "event_ids": [],
-        "context": "No desktop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Wind down after the day.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was recorded.",
+          "intent": "Wind down after the day.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-09",
@@ -432,11 +478,17 @@
           585,
           586
         ],
-        "context": "No new study session or project implementation followed.",
+        "context": "Work",
         "area": "communication",
-        "intent": "Check for new academic or project updates before ending the day.",
-        "quality": "brief check",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "No new study session or project implementation followed.",
+          "intent": "Check for new academic or project updates before ending the day.",
+          "quality": "brief check"
+        }
       }
     ],
     "unobserved_periods": [
@@ -490,7 +542,8 @@
       "action_type": "complete_open_loop",
       "reason": "The semester-project work has moved from isolated fixes to an integration checkpoint, so the next useful action is to address only the concrete remaining issues from that verification.",
       "target": "semester project integration",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "semester_project"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -500,6 +553,27 @@
       "Do not reopen broad Data Structures preparation without new assessment information.",
       "Do not criticize the evening soundtrack, gaming, or friend chat as inherently unproductive.",
       "Do not infer what happened during classes or offline breaks from the laptop gaps."
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The semester-project work has moved from isolated fixes to an integration checkpoint, so the next useful action is to address only the concrete remaining issues from that verification.",
+      "priority": "Make progress on the semester group project",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "software_engineering",
+      "theory_of_computation",
+      "data_structures"
     ]
-  }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Finish Computer Networks Lab 4"
+    }
+  ]
 }

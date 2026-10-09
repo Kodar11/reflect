@@ -314,11 +314,17 @@
           250,
           251
         ],
-        "context": "Routine Monday review.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Check for presentation-related updates and new academic information.",
-        "quality": "routine",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Routine Monday review.",
+          "intent": "Check for presentation-related updates and new academic information.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-14-02",
@@ -335,11 +341,17 @@
           257,
           258
         ],
-        "context": "The group reviewed the presentation earlier in the day away from the laptop and identified several changes to make.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Apply review feedback and update the presentation materials.",
-        "quality": "focused revision with brief interruption",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "The group reviewed the presentation earlier in the day away from the laptop and identified several changes to make.",
+          "intent": "Apply review feedback and update the presentation materials.",
+          "quality": "focused revision with brief interruption"
+        }
       },
       {
         "id": "gt-14-03",
@@ -354,11 +366,17 @@
           262,
           263
         ],
-        "context": "A new DBMS practical task appeared after the earlier DBMS mini-assignment had been submitted.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Understand the practical requirements and begin solving the SQL portion.",
-        "quality": "substantive start",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "A new DBMS practical task appeared after the earlier DBMS mini-assignment had been submitted.",
+          "intent": "Understand the practical requirements and begin solving the SQL portion.",
+          "quality": "substantive start"
+        }
       },
       {
         "id": "gt-14-04",
@@ -373,11 +391,17 @@
           267,
           268
         ],
-        "context": "A teammate reported an API response mismatch while the project was being integrated.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Fix the reported response mismatch and verify the affected behavior.",
-        "quality": "focused debugging and coordination",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "A teammate reported an API response mismatch while the project was being integrated.",
+          "intent": "Fix the reported response mismatch and verify the affected behavior.",
+          "quality": "focused debugging and coordination"
+        }
       },
       {
         "id": "gt-14-05",
@@ -390,11 +414,17 @@
           270,
           271
         ],
-        "context": "Ordinary evening leisure after coursework and project work.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Ordinary evening leisure after coursework and project work.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-14-06",
@@ -406,11 +436,17 @@
           272,
           273
         ],
-        "context": "The practical assignment was newly started and still open.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review remaining requirements before continuing the assignment.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "The practical assignment was newly started and still open.",
+          "intent": "Review remaining requirements before continuing the assignment.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -458,14 +494,16 @@
       "action_type": "complete_open_loop",
       "reason": "The new practical assignment became the strongest remaining open academic thread and already has a concrete draft and tested SQL work.",
       "suggested_focus_minutes": 45,
-      "target": "DBMS Practical 3"
+      "target": "DBMS Practical 3",
+      "target_stream": "dbms"
     },
     "secondary_action": {
       "title": "Verify the project response fix",
       "action_type": "continue_successful_behavior",
       "reason": "The API response issue was narrowed, changed, and tested today; a short verification pass is appropriate if the teammate reports the mismatch again.",
       "suggested_focus_minutes": 20,
-      "target": "Semester Project response handling"
+      "target": "Semester Project response handling",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not infer the exact content or outcome of the offline presentation review from the subsequent slide edits.",
@@ -473,6 +511,94 @@
       "Do not treat the Hades-related YouTube session as academic work.",
       "Do not assume the API response issue is fully resolved because targeted tests passed.",
       "Do not treat unobserved college, library, and offline periods as wasted time."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The new practical assignment became the strongest remaining open academic thread and already has a concrete draft and tested SQL work.",
+      "priority": "Complete the DBMS assignment due later this week",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "operating_systems",
+      "networks"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 15 shows 197 min on this work.",
+        "reason_code": null
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 15 shows 13 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (dbms, 197 min).",
+        "reason_code": "different_priority"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 15 went to other work (dbms, 197 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 15 shows 89 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 15 shows 25 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 15 shows 197 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Do the DBMS mini-assignment"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Complete DBMS Practical 3"
+    }
+  ]
 }

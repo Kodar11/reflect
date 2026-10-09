@@ -186,11 +186,17 @@
           226,
           227
         ],
-        "context": "The presentation had been developed and rehearsed across Days 10–11 and was approaching a group review.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Polish the shared presentation and make the material easier to deliver.",
-        "quality": "focused finalization",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "The presentation had been developed and rehearsed across Days 10–11 and was approaching a group review.",
+          "intent": "Polish the shared presentation and make the material easier to deliver.",
+          "quality": "focused finalization"
+        }
       },
       {
         "id": "gt-12-02",
@@ -203,11 +209,17 @@
           229,
           230
         ],
-        "context": "The project had recently gone through an integration fix and was being monitored for follow-up changes.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Review the latest teammate change and coordinate whether further action is needed.",
-        "quality": "light maintenance",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The project had recently gone through an integration fix and was being monitored for follow-up changes.",
+          "intent": "Review the latest teammate change and coordinate whether further action is needed.",
+          "quality": "light maintenance"
+        }
       },
       {
         "id": "gt-12-03",
@@ -220,11 +232,17 @@
           232,
           233
         ],
-        "context": "Saturday evening personal time after a relatively light academic day.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation, personal-interest browsing, and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Saturday evening personal time after a relatively light academic day.",
+          "intent": "Recreation, personal-interest browsing, and social interaction.",
+          "quality": "deliberate leisure"
+        }
       }
     ],
     "unobserved_periods": [
@@ -266,7 +284,8 @@
       "action_type": "complete_open_loop",
       "reason": "The presentation received a final laptop cleanup and an offline group rehearsal; the next useful step is to close any specific issues surfaced by that rehearsal.",
       "suggested_focus_minutes": 30,
-      "target": "Software Engineering presentation"
+      "target": "Software Engineering presentation",
+      "target_stream": "software_engineering"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -275,6 +294,83 @@
       "Do not infer that the semester project needs more work simply because today's project activity was brief.",
       "Do not classify the personal-interest YouTube video as academic work.",
       "Do not criticize the Saturday gaming and social time as inherently problematic."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "The only open step depends on what an offline rehearsal surfaced; the laptop day was light. Nothing is missed by saying nothing.",
+      "priority": "Finish the Software Engineering mini-assignment",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 13 shows 113 min on this work.",
+        "reason_code": null
+      },
+      "theory_of_computation": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 13 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 13 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 13 shows 103 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 13 shows 24 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 13 shows 113 min on this work.",
+      "reason_code": null
+    }
   }
 }

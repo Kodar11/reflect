@@ -399,11 +399,17 @@
           284,
           285
         ],
-        "context": "The workspace change had accumulated enough production data to determine whether the original latency regression could be closed.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "The workspace change had accumulated enough production data to determine whether the original latency regression could be closed.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-11-02",
@@ -421,11 +427,17 @@
           292,
           293
         ],
-        "context": "New evidence suggested the reliability problem could involve retry behavior rather than acknowledgement latency alone.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "investigate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "New evidence suggested the reliability problem could involve retry behavior rather than acknowledgement latency alone.",
+          "intent": "investigate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-11-03",
@@ -437,11 +449,17 @@
           294,
           295
         ],
-        "context": "Normal team review responsibility.",
+        "context": "Work",
         "area": "team_maintenance",
-        "intent": "review",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "Normal team review responsibility.",
+          "intent": "review",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-11-04",
@@ -454,11 +472,17 @@
           297,
           298
         ],
-        "context": "Billing remained stable while the workspace performance issue reached a closure decision.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "Billing remained stable while the workspace performance issue reached a closure decision.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       }
     ],
     "unobserved_periods": [
@@ -528,20 +552,105 @@
       "action_type": "complete_open_loop",
       "target": "Workspace database performance regression",
       "reason": "The issue has accumulated a meaningful production observation window and now has enough evidence for a clear closure decision instead of continued open-ended investigation.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "workspace_performance"
     },
     "secondary_action": {
       "title": "Webhook retry behavior",
       "action_type": "clarify_priority",
       "target": "Webhook retry behavior",
       "reason": "The investigation has produced a new leading hypothesis, so explicitly resetting the diagnostic focus can prevent continued work against an outdated acknowledgement-only model.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "webhook_reliability"
     },
     "things_not_to_do": [
       "Do not keep the workspace latency issue open indefinitely after the observed evidence supports closure.",
       "Do not claim the webhook retry path is confirmed as the complete root cause.",
       "Do not infer that the bounded code review reduced progress on the main priorities.",
       "Do not interpret the lunch gap as a productivity problem."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The issue has accumulated a meaningful production observation window and now has enough evidence for a clear closure decision instead of continued open-ended investigation.",
+      "priority": "Fix the workspace API latency regression",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "billing_api"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 12 shows 347 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (webhook_reliability, 347 min).",
+        "reason_code": "different_priority"
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (webhook_reliability, 347 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (webhook_reliability, 347 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 12 shows 65 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 12 shows 63 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "rejected",
+      "execution": "not_applicable",
+      "outcome": "not_applicable",
+      "reason": "Day 12 went to other work (webhook_reliability, 347 min).",
+      "reason_code": "different_priority"
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Fix the workspace API latency regression"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Investigating an intermittent webhook processing issue",
+        "Reviewing a teammate's pull request"
+      ]
+    }
+  ]
 }

@@ -250,11 +250,17 @@
           333,
           334
         ],
-        "context": "The tutorial had received revision across Days 16–17 and was ready for a final check.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Finalize the tutorial and submit the completed answers.",
-        "quality": "completion-focused",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "theory_of_computation",
+        "label_notes": {
+          "context": "The tutorial had received revision across Days 16–17 and was ready for a final check.",
+          "intent": "Finalize the tutorial and submit the completed answers.",
+          "quality": "completion-focused"
+        }
       },
       {
         "id": "gt-18-02",
@@ -263,11 +269,17 @@
         "title": "College classes and offline study",
         "summary": "Attended regular classes and spent some time working through coursework away from the laptop.",
         "event_ids": [],
-        "context": "Laptop activity is absent during this period.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Attend classes and handle coursework offline.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Laptop activity is absent during this period.",
+          "intent": "Attend classes and handle coursework offline.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-18-03",
@@ -286,11 +298,17 @@
           342,
           343
         ],
-        "context": "A new Data Structures problem set became the main fresh academic task after the Theory of Computation tutorial reached completion.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Understand the heap questions and build a working solution for the first part of the problem set.",
-        "quality": "substantive technical work with brief interruption",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "A new Data Structures problem set became the main fresh academic task after the Theory of Computation tutorial reached completion.",
+          "intent": "Understand the heap questions and build a working solution for the first part of the problem set.",
+          "quality": "substantive technical work with brief interruption"
+        }
       },
       {
         "id": "gt-18-04",
@@ -301,11 +319,17 @@
         "event_ids": [
           344
         ],
-        "context": "The project was stable enough that no concrete change was requested today.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Check for any immediate teammate request or project update.",
-        "quality": "brief coordination",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The project was stable enough that no concrete change was requested today.",
+          "intent": "Check for any immediate teammate request or project update.",
+          "quality": "brief coordination"
+        }
       },
       {
         "id": "gt-18-05",
@@ -318,11 +342,17 @@
           346,
           347
         ],
-        "context": "Ordinary Friday evening personal time.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation, personal-interest browsing, and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Ordinary Friday evening personal time.",
+          "intent": "Recreation, personal-interest browsing, and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-18-06",
@@ -333,11 +363,17 @@
         "event_ids": [
           348
         ],
-        "context": "The new problem set had been started earlier that afternoon and remained open.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review the current state and identify the next problem to tackle.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The new problem set had been started earlier that afternoon and remained open.",
+          "intent": "Review the current state and identify the next problem to tackle.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -391,7 +427,8 @@
       "action_type": "continue_successful_behavior",
       "reason": "The new problem set already has a concrete heap implementation and test run, making it the clearest next academic step.",
       "suggested_focus_minutes": 45,
-      "target": "Data Structures Problem Set 4"
+      "target": "Data Structures Problem Set 4",
+      "target_stream": "data_structures"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -400,6 +437,106 @@
       "Do not assume a successful local run proves the entire Data Structures solution is correct.",
       "Do not infer that the project was neglected because only a brief message check appeared.",
       "Do not treat Friday gaming, social chat, or personal-interest YouTube as inherently negative."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The new problem set already has a concrete heap implementation and test run, making it the clearest next academic step.",
+      "priority": "Finish Data Structures Problem Set 4",
+      "type": "continue_successful_behavior"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "deferred",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 19 was a light day (122 min of tracked work) with none of it on this.",
+        "reason_code": null
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 19 shows 96 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 19 shows 26 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "deferred",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 19 was a light day (122 min of tracked work) with none of it on this.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 19 shows 96 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Do the Theory of Computation tutorial"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Complete DBMS Practical 3"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Prepare the Software Engineering presentation"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Finish Data Structures Problem Set 4"
+    }
+  ]
 }

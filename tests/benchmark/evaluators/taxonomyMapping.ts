@@ -133,8 +133,37 @@ export interface ResolvedMapping {
   issues: string[];
 }
 
+/**
+ * The "area" labels of a persona that states its work as streams (`persona_key.json`): each stream is compared
+ * with the stated priorities it serves — the ones Reflect holds on that day. A stream of leisure or personal time
+ * serves none, so no link is the right answer; a stream of work that no stated priority covers cannot be judged.
+ */
+export function streamAreaLabels(streams: Record<string, WorkStreamLabel>): Record<string, LabelMapping> {
+  const labels: Record<string, LabelMapping> = {};
+  for (const [key, stream] of Object.entries(streams)) {
+    labels[key] =
+      stream.priorities.length > 0
+        ? { accept: stream.priorities, kind: 'ambiguous', note: 'Compared with the priority link, not a classification id.' }
+        : stream.kind === 'work'
+          ? { accept: [], kind: 'unmappable', note: 'No stated priority covers this work.' }
+          : { accept: [null], kind: 'ambiguous', note: 'Leisure / personal time: no priority should be linked.' };
+  }
+  labels[NULL_LABEL] = { accept: [null], kind: 'ambiguous', note: 'No work stream: no priority should be linked.' };
+  return labels;
+}
+
+export interface WorkStreamLabel {
+  kind: 'work' | 'leisure' | 'personal';
+  priorities: string[];
+}
+
 /** Resolve the mapping's Reflect names against the live taxonomy of the benchmark database. */
-export function resolveMapping(taxonomy: ReflectTaxonomy, usedLabels: Record<DatasetDimension, (string | null)[]>): ResolvedMapping {
+export function resolveMapping(
+  taxonomy: ReflectTaxonomy,
+  usedLabels: Record<DatasetDimension, (string | null)[]>,
+  streams: Record<string, WorkStreamLabel> = {},
+): ResolvedMapping {
+  const byStream = Object.keys(streams).length > 0;
   const issues: string[] = [];
   const lookup: Record<ReflectTarget, Map<string, string>> = {
     area: new Map(taxonomy.areas.map((x) => [x.name, x.id])),
@@ -147,7 +176,8 @@ export function resolveMapping(taxonomy: ReflectTaxonomy, usedLabels: Record<Dat
   for (const dimension of Object.keys(TAXONOMY_MAPPING) as DatasetDimension[]) {
     const mapping = TAXONOMY_MAPPING[dimension];
     const labels = new Map<string, ResolvedLabel>();
-    for (const [label, entry] of Object.entries(mapping.labels)) {
+    const entries = dimension === 'area' && byStream ? streamAreaLabels(streams) : mapping.labels;
+    for (const [label, entry] of Object.entries(entries)) {
       const acceptIds: (string | null)[] = [];
       const acceptNames: (string | null)[] = [];
       for (const name of entry.accept) {
@@ -157,6 +187,8 @@ export function resolveMapping(taxonomy: ReflectTaxonomy, usedLabels: Record<Dat
           continue;
         }
         const id = lookup[mapping.target].get(name);
+        // A stream lists every wording its priority had over the month; the ones not stated today are simply not there.
+        if (id === undefined && dimension === 'area' && byStream) continue;
         if (id === undefined) {
           issues.push(`${dimension}="${label}" maps to Reflect ${mapping.target} "${name}", which does not exist in the benchmark database`);
           continue;

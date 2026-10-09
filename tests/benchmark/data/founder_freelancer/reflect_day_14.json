@@ -540,14 +540,16 @@
       "action_type": "start_focus",
       "reason": "The dashboard now has sustained implementation momentum and a new launch-preparation thread, making a concrete readiness milestone the most useful continuation.",
       "suggested_focus_minutes": 120,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Keep the client handoff closed",
       "action_type": "complete_open_loop",
       "reason": "The deadline work appears handed off, so a concise confirmation or record of acceptance can prevent the old client thread from resurfacing unnecessarily.",
       "suggested_focus_minutes": 15,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not continue treating the old client scope-change work as an active implementation problem without new evidence.",

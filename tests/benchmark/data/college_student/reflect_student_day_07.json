@@ -270,11 +270,17 @@
           122,
           123
         ],
-        "context": "Normal Monday start before campus classes.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review current academic information and notices.",
-        "quality": "routine",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Normal Monday start before campus classes.",
+          "intent": "Review current academic information and notices.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-07-02",
@@ -292,11 +298,17 @@
           130,
           131
         ],
-        "context": "The Networks lab from the prior days had reached a submission point, leaving this newer coursework task as the main open academic item.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Understand the assignment requirements and produce the required use-case model and explanation.",
-        "quality": "substantive progress with a brief interruption",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "software_engineering",
+        "label_notes": {
+          "context": "The Networks lab from the prior days had reached a submission point, leaving this newer coursework task as the main open academic item.",
+          "intent": "Understand the assignment requirements and produce the required use-case model and explanation.",
+          "quality": "substantive progress with a brief interruption"
+        }
       },
       {
         "id": "gt-07-03",
@@ -307,11 +319,17 @@
         "event_ids": [
           132
         ],
-        "context": "The group had left the project in planning on Sunday and was moving toward implementation.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Coordinate the next implementation step with teammates.",
-        "quality": "useful coordination",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The group had left the project in planning on Sunday and was moving toward implementation.",
+          "intent": "Coordinate the next implementation step with teammates.",
+          "quality": "useful coordination"
+        }
       },
       {
         "id": "gt-07-04",
@@ -325,11 +343,17 @@
           135,
           136
         ],
-        "context": "This was the first concrete implementation work after the planning-focused project session on Sunday.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Implement the next API change and resolve a test/error-handling issue.",
-        "quality": "focused technical progress",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "This was the first concrete implementation work after the planning-focused project session on Sunday.",
+          "intent": "Implement the next API change and resolve a test/error-handling issue.",
+          "quality": "focused technical progress"
+        }
       },
       {
         "id": "gt-07-05",
@@ -341,11 +365,17 @@
           137,
           138
         ],
-        "context": "Ordinary leisure after the afternoon academic and project work.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Ordinary leisure after the afternoon academic and project work.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-07-06",
@@ -358,11 +388,17 @@
           140,
           141
         ],
-        "context": "The mini-assignment draft had progressed substantially but had not clearly reached final submission during the afternoon.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Verify assignment materials and any new course or submission information.",
-        "quality": "brief verification",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "The mini-assignment draft had progressed substantially but had not clearly reached final submission during the afternoon.",
+          "intent": "Verify assignment materials and any new course or submission information.",
+          "quality": "brief verification"
+        }
       }
     ],
     "unobserved_periods": [
@@ -408,14 +444,16 @@
       "action_type": "complete_open_loop",
       "reason": "The assignment received most of the day's academic work but remained visibly open at the evening check.",
       "suggested_focus_minutes": 45,
-      "target": "Software Engineering Mini-Assignment"
+      "target": "Software Engineering Mini-Assignment",
+      "target_stream": "software_engineering"
     },
     "secondary_action": {
       "title": "Continue the semester project API task",
       "action_type": "continue_successful_behavior",
       "reason": "The project moved from planning into implementation and testing today, so a short follow-up block would preserve that momentum after the assignment is closed.",
       "suggested_focus_minutes": 30,
-      "target": "Semester Project"
+      "target": "Semester Project",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not assume the Software Engineering assignment was submitted just because its materials were revisited in the evening.",
@@ -423,6 +461,95 @@
       "Do not classify the two YouTube sessions identically; their contexts indicate different purposes.",
       "Do not criticize the gaming or friend-chat period as inherently harmful.",
       "Do not infer that the project bug was fully solved from the code/test/tutor sequence alone."
-    ]
-  }
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The assignment received most of the day's academic work but remained visibly open at the evening check.",
+      "priority": "Finish the Software Engineering mini-assignment",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 8 shows 55 min on this work.",
+        "reason_code": null
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (dbms, 154 min).",
+        "reason_code": "different_priority"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (dbms, 154 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 8 shows 91 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (dbms, 154 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "Day 8 shows 55 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Prepare for the Operating Systems quiz"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Finish the Software Engineering mini-assignment"
+    }
+  ]
 }

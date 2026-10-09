@@ -204,19 +204,26 @@ describe('validateReflectionOutput — rejection', () => {
     expect(errorsOf(uncited)).toContain('insight 1: number(s) "30" not found in its cited evidence');
   });
 
-  it('rejects an unsupported number in the headline', () => {
+  it('never keeps an unsupported number in the headline: the headline is replaced, the insights stand', () => {
     const raw = { ...good(), headline: 'Your productivity improved by 82 points this week.' };
     const result = validateReflectionOutput(raw, ctx());
-    expect(result.ok === false && result.errors.join(' ')).toMatch(/headline: number\(s\) "82"/);
-    // Still rejected (a retry is asked for) — but if none comes, the day is not lost over it:
-    // what is kept carries the title of its strongest validated insight, never the bad number.
-    const salvaged = result.ok === false ? result.salvaged : null;
-    expect(salvaged).not.toBeNull();
-    expect(salvaged!.headline).toBe(salvaged!.insights[0].title);
-    expect(salvaged!.headline).not.toContain('82');
-    // With no validated insight to fall back on, there is nothing to keep.
+    // The insights behind it are sound, so the report is kept — with the title of its strongest
+    // validated insight where the unsupported sentence was. The problem is reported, located.
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.reflection.headline).toBe(result.reflection.insights[0].title);
+    expect(result.reflection.headline).not.toContain('82');
+    expect(result.repairs).toEqual([
+      { code: 'headline_number', field: 'headline', index: null, values: ['82'], message: 'headline: number(s) "82" not found in the insights\' evidence', resolution: 'repaired' },
+    ]);
+    // With no insight to take a title from, the period's own measured total stands in — never the bad sentence.
     const empty = validateReflectionOutput({ ...good(), headline: 'Your productivity improved by 82 points this week.', insights: [] }, ctx());
-    expect(empty.ok === false && empty.salvaged).toBeNull();
+    expect(empty).toMatchObject({ ok: true, reflection: { headline: 'Total tracked time: 22h 40m.', insights: [] } });
+  });
+
+  it('lets the headline quote the period\'s plain totals without an insight behind them', () => {
+    const raw = { ...good(), headline: 'You tracked 22h 40m this week.', insights: [(good().insights as unknown[])[0]] };
+    expect(validateReflectionOutput(raw, ctx())).toMatchObject({ ok: true, reflection: { headline: 'You tracked 22h 40m this week.' } });
   });
 
   it('rejects causal language', () => {
@@ -277,7 +284,10 @@ describe('validateReflectionOutput — rejection', () => {
   });
 
   it('rejects empty or meaningless content', () => {
-    expect(errorsOf(modelReflection(period, { headline: '  ' })).join(' ')).toMatch(/headline: empty/);
+    // An empty headline is replaced, like any headline that cannot be kept.
+    const blank = validateReflectionOutput(modelReflection(period, { headline: '  ' }), ctx());
+    expect(blank.ok && blank.reflection.headline).toBe('Project X moved forward');
+    expect(blank.ok && blank.repairs?.map((r) => r.code)).toEqual(['headline_empty']);
     const raw = modelReflection(period, { insights: [modelInsight({ observation: 'Yes.', interpretation: '' })] });
     expect(errorsOf(raw)).toEqual(
       expect.arrayContaining([
@@ -405,6 +415,96 @@ describe('validateReflectionOutput — one grounded action', () => {
     const raw = { ...good(), carryForward: { text: 'Keep a morning block for Project X.', sourceMetricKeys: ['thread.project-x.minutes'], sourceActivityRefs: [] } };
     const result = validateReflectionOutput(raw, ctx());
     expect(result.ok && result.reflection.carryForward).toMatchObject({ subjectKey: 'p:p1' });
+  });
+});
+
+describe('validateReflectionOutput — citations completed from what was supplied', () => {
+  // The benchmark's most common rejection: the model cites a COMPARISONS row by the key the row is listed
+  // under and quotes the row's "previous" and "change". The claim is supported; the citation was incomplete.
+  const change = (overrides: Record<string, unknown> = {}) =>
+    modelInsight({
+      type: 'change_over_time',
+      title: 'More tracked time than the previous week',
+      observation: 'Tracked time was 22h 40m, up from 13h 36m the previous week.',
+      interpretation: 'More time was tracked this week than the week before.',
+      metricKeys: ['time.tracked_minutes'],
+      ...overrides,
+    });
+
+  it('accepts a comparison cited by its row key when the text quotes the row', () => {
+    const result = validateReflectionOutput(modelReflection(period, { insights: [change()] }), ctx());
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    // The entry that holds the quoted value is now part of the stored evidence.
+    expect(result.reflection.insights[0].sourceMetricKeys).toEqual(['time.tracked_minutes', 'prev.time.tracked_minutes']);
+    expect(result.reflection.insights[0].evidence.map((e) => e.kind)).toEqual(['metric', 'comparison']);
+    expect(result.repairs).toMatchObject([{ code: 'insight_citation', index: 0, values: ['prev.time.tracked_minutes'], resolution: 'repaired' }]);
+  });
+
+  it('completes nothing for a number the row does not hold', () => {
+    const invented = change({ observation: 'Tracked time was 22h 40m, up from 9h 59m the previous week.' });
+    const result = validateReflectionOutput(modelReflection(period, { insights: [invented] }), ctx());
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.issues.filter((i) => i.resolution === 'removed').map((i) => i.code)).toEqual(['insight_needs_comparison', 'insight_uncited_comparison', 'insight_number']);
+    expect(result.issues.find((i) => i.code === 'insight_number')).toMatchObject({ field: 'insight', index: 0 });
+    expect(result.issues.find((i) => i.code === 'insight_number')!.values).toContain('59');
+    expect(result.salvaged).toBeNull();
+  });
+
+  it('completes nothing for a comparison that quotes no value', () => {
+    const vague = change({ observation: 'Tracked time was higher than last week across the board.', interpretation: 'The week was fuller than the one before.' });
+    expect(errorsOf(modelReflection(period, { insights: [vague] }))).toEqual(
+      expect.arrayContaining(['insight 1: a change_over_time insight must cite a comparison (prev.*, delta.*, baseline.*, weekday.* or change.*)']),
+    );
+  });
+
+  it('accepts a value of the same subject the insight cites (a priority\'s share beside its minutes)', () => {
+    const insight = modelInsight({
+      type: 'priority_alignment',
+      title: 'Your stated priority received most of your time',
+      observation: '63% of your tracked time went toward the priority “Launch Project X”.',
+      interpretation: 'Most of the week went to the priority you stated.',
+      metricKeys: ['priority.p1.minutes'],
+      priorityIds: ['p1'],
+    });
+    const result = validateReflectionOutput(modelReflection(period, { insights: [insight] }), ctx());
+    expect(result.ok && result.reflection.insights[0].sourceMetricKeys).toEqual(['priority.p1.minutes', 'priority.p1.share']);
+    // A value of ANOTHER subject, or of a period-wide group, is not a sibling: it stays unsupported.
+    const other = modelInsight({ observation: 'You switched contexts 30 times while working on Project X.' });
+    expect(errorsOf(modelReflection(period, { insights: [other] }))).toContain('insight 1: number(s) "30" not found in its cited evidence');
+  });
+});
+
+describe('validateReflectionOutput — every problem is located', () => {
+  it('names the field, the insight and the values, and says what became of each', () => {
+    const raw = good();
+    const insights = raw.insights as Record<string, unknown>[];
+    insights[0].observation = 'You spent 99h on Project X.';
+    insights[2].metricKeys = ['daypart.afternoon.switches', 'time.invented_minutes'];
+    const result = validateReflectionOutput({ ...raw, headline: 'A week of 77 things.' }, ctx());
+    expect(result.ok).toBe(false);
+    if (result.ok) return;
+    expect(result.issues.map(({ code, field, index, values, resolution }) => ({ code, field, index, values, resolution }))).toEqual([
+      { code: 'insight_number', field: 'insight', index: 0, values: ['99'], resolution: 'removed' },
+      { code: 'insight_unknown_evidence', field: 'insight', index: 2, values: [], resolution: 'removed' },
+      { code: 'headline_number', field: 'headline', index: null, values: ['77'], resolution: 'repaired' },
+    ]);
+    // `errors` holds what was removed or fatal; a repair is not an error.
+    expect(result.errors).toEqual(['insight 1: number(s) "99" not found in its cited evidence', 'insight 3: metric "time.invented_minutes" does not exist']);
+    expect(result.salvaged!.insights.map((i) => i.type)).toEqual(['priority_alignment', 'change_over_time']);
+  });
+
+  it('keeps the headline and narrative that validated when every insight fell', () => {
+    const raw = modelReflection(period, { headline: 'A full week.', insights: [modelInsight({ metricKeys: ['nope'] })] });
+    const result = validateReflectionOutput(raw, ctx());
+    expect(result.ok === false && result.salvaged).toBeNull();
+    expect(result.ok === false && result.remainder).toEqual({ headline: 'A full week.', narrative: null, insights: [], carryForward: null });
+    // A response for the wrong period leaves nothing to keep at all.
+    const other = periodContaining('week', local(5));
+    const wrong = validateReflectionOutput({ ...good(), periodStart: other.start, periodEnd: other.end }, ctx());
+    expect(wrong.ok === false && wrong.remainder).toBeNull();
+    expect(wrong.ok === false && wrong.issues[0]).toMatchObject({ code: 'period', resolution: 'fatal' });
   });
 });
 

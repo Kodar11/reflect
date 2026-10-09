@@ -5,11 +5,11 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
       "Move the manuscript from exploratory notes toward a coherent full draft",
@@ -265,11 +265,17 @@
           301,
           302
         ],
-        "context": "End-to-end manuscript review planned on Day 12.",
+        "context": "Work",
         "area": "manuscript and methodology",
-        "intent": "review",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "End-to-end manuscript review planned on Day 12.",
+          "intent": "review",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-13-02",
@@ -282,11 +288,17 @@
           304,
           305
         ],
-        "context": "Collaborator feedback arrived while the manuscript was being consolidated.",
+        "context": "Work",
         "area": "collaboration and manuscript",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Collaborator feedback arrived while the manuscript was being consolidated.",
+          "intent": "revision",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-13-03",
@@ -299,11 +311,17 @@
           307,
           308
         ],
-        "context": "Literature was used to resolve wording and interpretation, not to expand the experimental scope.",
+        "context": "Work",
         "area": "literature and manuscript",
-        "intent": "synthesis",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Literature was used to resolve wording and interpretation, not to expand the experimental scope.",
+          "intent": "synthesis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-13-04",
@@ -315,11 +333,17 @@
           309,
           310
         ],
-        "context": "Evening personal browsing.",
+        "context": "Personal",
         "area": "unrelated",
-        "intent": "leisure",
+        "intent": "Consume",
         "quality": "unknown",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Evening personal browsing.",
+          "intent": "leisure",
+          "quality": "unknown"
+        }
       },
       {
         "id": "gt-13-05",
@@ -330,11 +354,17 @@
         "event_ids": [
           311
         ],
-        "context": "Short return to work after personal browsing.",
+        "context": "Work",
         "area": "manuscript",
-        "intent": "planning",
-        "quality": "medium",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Short return to work after personal browsing.",
+          "intent": "planning",
+          "quality": "medium"
+        }
       }
     ],
     "unobserved_periods": [
@@ -377,19 +407,99 @@
       "title": "Finish the manuscript consistency checklist",
       "reason": "A concrete wording mismatch was found during the first end-to-end pass, suggesting that a final cross-check of methods, figures, results, and claims is more valuable than new experimentation.",
       "suggested_focus_minutes": 90,
-      "target": "Full Manuscript Draft"
+      "target": "Full Manuscript Draft",
+      "target_stream": "manuscript"
     },
-    "secondary_action": {
-      "action_type": "schedule_change",
-      "title": "Prepare a collaborator review pass",
-      "reason": "The remaining uncertainty is partly interpretive and can be reduced by targeted external review now that the evidence boundary is clearer.",
-      "suggested_focus_minutes": 30,
-      "target": "Collaboration"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not rerun the generalization experiment because the methods wording was broader than the actual configuration.",
       "Do not expand the literature search beyond references needed to resolve specific manuscript claims.",
       "Do not revive the replication study while its preprocessing dependency remains unresolved."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Finish the manuscript consistency checklist",
+        "reason": "A concrete wording mismatch was found during the first end-to-end pass, suggesting that a final cross-check of methods, figures, results, and claims is more valuable than new experimentation.",
+        "suggested_focus_minutes": 90,
+        "target": "Full Manuscript Draft"
+      },
+      "secondary_action": {
+        "action_type": "schedule_change",
+        "title": "Prepare a collaborator review pass",
+        "reason": "The remaining uncertainty is partly interpretive and can be reduced by targeted external review now that the evidence boundary is clearer.",
+        "suggested_focus_minutes": 30,
+        "target": "Collaboration"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "A concrete wording mismatch was found during the first end-to-end pass, suggesting that a final cross-check of methods, figures, results, and claims is more valuable than new experimentation.",
+      "priority": "Move the manuscript from notes to a coherent results section",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 14 shows 447 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 14 went to other work (manuscript, 447 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 14 went to other work (manuscript, 447 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 14 went to other work (manuscript, 447 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 14 went to other work (manuscript, 447 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 14 shows 447 min on this work.",
+      "reason_code": null
+    }
   }
 }

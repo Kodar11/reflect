@@ -301,7 +301,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-18-02",
@@ -322,7 +323,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-18-03",
@@ -337,7 +339,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-18-04",
@@ -353,7 +360,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "new_identity"
       },
       {
         "id": "gt-18-05",
@@ -368,7 +376,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-18-06",
@@ -383,7 +396,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "new_identity"
       }
     ],
     "unobserved_periods": [
@@ -416,9 +430,78 @@
       "action_type": "clarify_priority",
       "reason": "The designer made substantial progress but received another late revision request, creating a risk of an open-ended refinement loop.",
       "suggested_focus_minutes": null,
-      "target": "New client identity"
+      "target": "New client identity",
+      "target_stream": "new_identity"
     },
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The designer made substantial progress but received another late revision request, creating a risk of an open-ended refinement loop.",
+      "priority": "Develop the brand identity for the new client",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "northstar_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 19 shows 86 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 19 shows 379 min on this work.",
+        "reason_code": null
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 19 went to other work (new_identity, 379 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 19 went to other work (new_identity, 379 min).",
+        "reason_code": "different_priority"
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 19 went to other work (new_identity, 379 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 19 shows 18 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 19 shows 379 min on this work.",
+      "reason_code": null
+    }
   }
 }

@@ -515,14 +515,16 @@
       "action_type": "complete_open_loop",
       "reason": "The current product loop is centered on a real beta issue that has been changed and re-tested but still needs validation from actual tester behavior.",
       "suggested_focus_minutes": 60,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Finish the current freelance change",
       "action_type": "complete_open_loop",
       "reason": "The client settings change has already moved through implementation and staging checks, so closing the remaining delivery loop is more useful than starting unrelated work.",
       "suggested_focus_minutes": 45,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat repeated local or staging checks as proof that every beta user is unblocked.",

@@ -5,17 +5,17 @@
     "role": "PhD student and machine learning researcher",
     "research_domain": "machine learning",
     "current_work": [
-      "Developing a research project on improving uncertainty estimation in neural network classifiers",
-      "Preparing a manuscript based on an earlier set of experiments",
-      "Running a smaller replication study of a calibration method from a recent paper",
+      "Research project on uncertainty estimation in classifiers",
+      "Preparing a manuscript based on earlier experiments",
+      "Replicating a calibration method from a recent paper",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration"
+      "Reading and synthesizing uncertainty calibration literature"
     ],
     "priorities": [
-      "Complete the next round of experiments for the main uncertainty estimation project",
-      "Move the manuscript from exploratory notes toward a coherent results section",
-      "Resolve whether the current experimental setup is measuring calibration fairly",
-      "Complete the replication study before deciding whether it is worth extending"
+      "Complete the next experiments for the uncertainty project",
+      "Move the manuscript from notes to a coherent results section",
+      "Resolve whether the setup measures calibration fairly",
+      "Complete the replication study before deciding to extend it"
     ]
   },
   "day": {
@@ -409,11 +409,17 @@
           181,
           182
         ],
-        "context": "Continuation of the focused distribution-shift experiment.",
+        "context": "Work",
         "area": "main research project",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "main_experiment",
+        "label_notes": {
+          "context": "Continuation of the focused distribution-shift experiment.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-07-02",
@@ -426,11 +432,17 @@
           184,
           185
         ],
-        "context": "Collaborator feedback affects the interpretation of the current experiment.",
+        "context": "Work",
         "area": "collaboration",
-        "intent": "meeting",
-        "quality": "medium",
-        "importance": "high"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "research_admin",
+        "label_notes": {
+          "context": "Collaborator feedback affects the interpretation of the current experiment.",
+          "intent": "meeting",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-07-03",
@@ -444,11 +456,17 @@
           188,
           189
         ],
-        "context": "Follow-up analysis prompted by the morning results and lab discussion.",
+        "context": "Work",
         "area": "main research project",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "main_experiment",
+        "label_notes": {
+          "context": "Follow-up analysis prompted by the morning results and lab discussion.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-07-04",
@@ -463,11 +481,17 @@
           193,
           194
         ],
-        "context": "Transforms new evidence and collaborator feedback into a more controlled next step.",
+        "context": "Work",
         "area": "manuscript and experiment planning",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "manuscript",
+        "label_notes": {
+          "context": "Transforms new evidence and collaborator feedback into a more controlled next step.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-07-05",
@@ -480,11 +504,17 @@
           196,
           197
         ],
-        "context": "Evening activity after the main analysis and planning work.",
+        "context": "Work",
         "area": "learning and documentation",
-        "intent": "documentation",
-        "quality": "medium",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "low",
+        "stream": "learning",
+        "label_notes": {
+          "context": "Evening activity after the main analysis and planning work.",
+          "intent": "documentation",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-07-06",
@@ -497,11 +527,17 @@
           199,
           200
         ],
-        "context": "A short unrelated browsing detour occurs before finalizing the research plan.",
+        "context": "Personal",
         "area": "main research project",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "personal",
+        "label_notes": {
+          "context": "A short unrelated browsing detour occurs before finalizing the research plan.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -552,19 +588,98 @@
       "title": "Run the pre-specified follow-up before expanding scope",
       "reason": "The researcher has converted collaborator feedback and subgroup uncertainty into a bounded experiment. Completing that experiment is more informative than adding more literature searches or variants.",
       "suggested_focus_minutes": 90,
-      "target": "Main Research Project"
+      "target": "Main Research Project",
+      "target_stream": "main_experiment"
     },
-    "secondary_action": {
-      "action_type": "reduce_fragmentation",
-      "title": "Keep unrelated browsing out of the experiment-planning block",
-      "reason": "The standing-desk search was brief and did not derail the day, but returning to the proposal immediately afterward suggests the research task was still active.",
-      "suggested_focus_minutes": 0,
-      "target": "Work sessions"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not interpret subgroup variation as proof that the method fails under distribution shift.",
       "Do not expand the experiment matrix before completing the already specified comparison.",
       "Do not reopen the replication study merely because the main project is temporarily waiting on another run."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "protect_priority",
+        "title": "Run the pre-specified follow-up before expanding scope",
+        "reason": "The researcher has converted collaborator feedback and subgroup uncertainty into a bounded experiment. Completing that experiment is more informative than adding more literature searches or variants.",
+        "suggested_focus_minutes": 90,
+        "target": "Main Research Project"
+      },
+      "secondary_action": {
+        "action_type": "reduce_fragmentation",
+        "title": "Keep unrelated browsing out of the experiment-planning block",
+        "reason": "The standing-desk search was brief and did not derail the day, but returning to the proposal immediately afterward suggests the research task was still active.",
+        "suggested_focus_minutes": 0,
+        "target": "Work sessions"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The researcher has converted collaborator feedback and subgroup uncertainty into a bounded experiment. Completing that experiment is more informative than adding more literature searches or variants.",
+      "priority": "Complete the next experiments for the uncertainty project",
+      "type": "protect_priority"
+    },
+    "forbidden_streams": [
+      "replication"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 8 shows 327 min on this work.",
+        "reason_code": null
+      },
+      "manuscript": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 8 shows 172 min on this work.",
+        "reason_code": null
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (main_experiment, 327 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (main_experiment, 327 min).",
+        "reason_code": "different_priority"
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (main_experiment, 327 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 8 went to other work (main_experiment, 327 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 8 shows 327 min on this work.",
+      "reason_code": null
+    }
   }
 }

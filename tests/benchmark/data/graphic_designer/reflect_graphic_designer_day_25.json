@@ -298,7 +298,8 @@
         "area": "New brand inquiry",
         "intent": "Plan",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "food_identity"
       },
       {
         "id": "gt-25-02",
@@ -313,7 +314,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-25-03",
@@ -329,7 +335,8 @@
         "area": "New brand inquiry",
         "intent": "Research",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "food_identity"
       },
       {
         "id": "gt-25-04",
@@ -347,7 +354,8 @@
         "area": "Social campaign",
         "intent": "Communicate",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "social_campaign"
       },
       {
         "id": "gt-25-05",
@@ -362,7 +370,8 @@
         "area": "New brand inquiry",
         "intent": "Research",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "food_identity"
       },
       {
         "id": "gt-25-06",
@@ -377,7 +386,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-25-07",
@@ -393,7 +407,8 @@
         "area": "New brand inquiry",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "food_identity"
       },
       {
         "id": "gt-25-08",
@@ -410,7 +425,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "portfolio"
       },
       {
         "id": "gt-25-09",
@@ -425,7 +441,12 @@
         "area": "Reference / research",
         "intent": "Consume",
         "quality": "Ambiguous",
-        "importance": "low"
+        "importance": "low",
+        "stream": "reference",
+        "label_notes": {
+          "context": "Uncertain",
+          "quality": "Ambiguous"
+        }
       },
       {
         "id": "gt-25-10",
@@ -440,7 +461,8 @@
         "area": "Personal exploration",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal_practice"
       }
     ],
     "unobserved_periods": [
@@ -475,14 +497,84 @@
     "possible_next_step": "The proposal is now clearer, but the commercial decision is still pending. Keep further identity exploration lightweight until the prospect confirms scope and terms, while using the waiting time for bounded portfolio promotion or other committed work."
   },
   "expected_coach_outcome": {
-    "primary_action": {
-      "title": "Keep exploration lightweight until the prospect confirms",
-      "action_type": "defer_new_commitment",
-      "reason": "The proposal is now clearer, but the commercial decision is still pending. Keep further identity exploration lightweight until the prospect confirms scope and terms, while using the waiting time for bounded portfolio promotion or other committed work.",
-      "suggested_focus_minutes": null,
-      "target": "New brand inquiry"
-    },
+    "primary_action": null,
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "original_actions": {
+      "primary_action": {
+        "title": "Keep exploration lightweight until the prospect confirms",
+        "action_type": "defer_new_commitment",
+        "reason": "The proposal is now clearer, but the commercial decision is still pending. Keep further identity exploration lightweight until the prospect confirms scope and terms, while using the waiting time for bounded portfolio promotion or other committed work.",
+        "suggested_focus_minutes": null,
+        "target": "New brand inquiry"
+      },
+      "secondary_action": null
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "The commercial decision is still pending: hold the identity work. Bounded portfolio progress in the waiting time is the one useful alternative.",
+      "priority": null,
+      "type": null
+    },
+    "acceptable_streams": [
+      "portfolio"
+    ],
+    "forbidden_streams": [
+      "northstar_identity",
+      "new_identity",
+      "food_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 26 shows 33 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 26 shows 53 min on this work.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 26 went to other work (food_identity, 331 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 26 shows 28 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    }
   }
 }

@@ -281,11 +281,17 @@
           161,
           162
         ],
-        "context": "Routine academic review before classes.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review notices and current course material.",
-        "quality": "routine",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Routine academic review before classes.",
+          "intent": "Review notices and current course material.",
+          "quality": "routine"
+        }
       },
       {
         "id": "gt-09-02",
@@ -305,11 +311,17 @@
           171,
           172
         ],
-        "context": "The DBMS mini-assignment introduced on Day 8 was now being worked on through concrete query examples rather than only conceptual notes.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Solve the SQL portions of the assignment and incorporate correct explanations into the submission draft.",
-        "quality": "substantive work with a short interruption",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "The DBMS mini-assignment introduced on Day 8 was now being worked on through concrete query examples rather than only conceptual notes.",
+          "intent": "Solve the SQL portions of the assignment and incorporate correct explanations into the submission draft.",
+          "quality": "substantive work with a short interruption"
+        }
       },
       {
         "id": "gt-09-03",
@@ -323,11 +335,17 @@
           175,
           176
         ],
-        "context": "The project was active but not today's primary academic task.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Review teammate changes and verify that the current API state still passes its tests.",
-        "quality": "useful maintenance",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The project was active but not today's primary academic task.",
+          "intent": "Review teammate changes and verify that the current API state still passes its tests.",
+          "quality": "useful maintenance"
+        }
       },
       {
         "id": "gt-09-04",
@@ -340,11 +358,17 @@
           178,
           179
         ],
-        "context": "Evening leisure after the coursework and project sessions.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Evening leisure after the coursework and project sessions.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-09-05",
@@ -356,11 +380,17 @@
           180,
           181
         ],
-        "context": "The assignment was progressing but was not clearly submitted during the observed session.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Verify remaining requirements before final submission.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "The assignment was progressing but was not clearly submitted during the observed session.",
+          "intent": "Verify remaining requirements before final submission.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -406,14 +436,16 @@
       "action_type": "complete_open_loop",
       "reason": "The assignment has now progressed through research, SQL testing, drafting, and an evening review but still appears unfinished.",
       "suggested_focus_minutes": 45,
-      "target": "DBMS Mini Assignment"
+      "target": "DBMS Mini Assignment",
+      "target_stream": "dbms"
     },
     "secondary_action": {
       "title": "Keep project maintenance lightweight",
       "action_type": "protect_priority",
       "reason": "The project is moving forward, but the DBMS assignment is the clearer near-term open loop.",
       "suggested_focus_minutes": 20,
-      "target": "Semester Project API"
+      "target": "Semester Project API",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not treat every switch between Docs, search, MySQL Workbench, and YouTube as separate unrelated activities.",
@@ -421,6 +453,83 @@
       "Do not treat the college-fest video, gaming, or friend chat as inherently negative.",
       "Do not infer what happened during the long offline college period.",
       "Do not claim that rerunning project tests proves the implementation is fully correct."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The assignment has now progressed through research, SQL testing, drafting, and an evening review but still appears unfinished.",
+      "priority": "Complete the DBMS assignment due later this week",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "operating_systems",
+      "networks",
+      "software_engineering"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 10 shows 70 min on this work.",
+        "reason_code": null
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 10 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 10 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 10 shows 98 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 10 shows 28 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "Day 10 shows 70 min on this work.",
+      "reason_code": null
+    }
   }
 }

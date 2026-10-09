@@ -260,11 +260,17 @@
           527,
           528
         ],
-        "context": "This was the final laptop review before the scheduled assessment.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Confirm the assessment details and review only the final notes.",
-        "quality": "brief final review",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "This was the final laptop review before the scheduled assessment.",
+          "intent": "Confirm the assessment details and review only the final notes.",
+          "quality": "brief final review"
+        }
       },
       {
         "id": "gt-28-02",
@@ -273,11 +279,17 @@
         "title": "Travel and pre-assessment campus time",
         "summary": "Travelled to college and spent time with classmates before the assessment.",
         "event_ids": [],
-        "context": "No laptop activity was observed.",
+        "context": "Personal",
         "area": "coursework_and_personal",
-        "intent": "Reach the assessment location and prepare offline.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No laptop activity was observed.",
+          "intent": "Reach the assessment location and prepare offline.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-28-03",
@@ -286,11 +298,17 @@
         "title": "Data Structures internal assessment",
         "summary": "Completed the scheduled Data Structures internal assessment offline.",
         "event_ids": [],
-        "context": "The assessment itself was paper/classroom activity outside the laptop timeline.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Complete the scheduled internal assessment.",
-        "quality": "completed assessment; details unobserved",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The assessment itself was paper/classroom activity outside the laptop timeline.",
+          "intent": "Complete the scheduled internal assessment.",
+          "quality": "completed assessment; details unobserved"
+        }
       },
       {
         "id": "gt-28-04",
@@ -299,11 +317,17 @@
         "title": "Post-assessment discussion and lunch",
         "summary": "Discussed some questions with classmates and spent lunch away from the laptop.",
         "event_ids": [],
-        "context": "The exact assessment questions and discussion content are not available to Reflect.",
+        "context": "Personal",
         "area": "coursework_and_personal",
-        "intent": "Compare immediate reactions and have lunch.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "personal",
+        "label_notes": {
+          "context": "The exact assessment questions and discussion content are not available to Reflect.",
+          "intent": "Compare immediate reactions and have lunch.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-28-05",
@@ -319,11 +343,17 @@
           533,
           534
         ],
-        "context": "The assessment had ended, so the semester project became the main technical workstream again.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Resolve a concrete API response issue reported by the group.",
-        "quality": "focused implementation and verification",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The assessment had ended, so the semester project became the main technical workstream again.",
+          "intent": "Resolve a concrete API response issue reported by the group.",
+          "quality": "focused implementation and verification"
+        }
       },
       {
         "id": "gt-28-06",
@@ -332,11 +362,16 @@
         "title": "Offline break and personal time",
         "summary": "Spent time away from the laptop after the project fix.",
         "event_ids": [],
-        "context": "No desktop activity was captured.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Take an afternoon break.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was captured.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-28-07",
@@ -351,11 +386,17 @@
           538,
           539
         ],
-        "context": "The second project thread emerged from the group's current API integration work.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Address a newly identified pagination concern in the project API.",
-        "quality": "focused implementation and verification",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The second project thread emerged from the group's current API integration work.",
+          "intent": "Address a newly identified pagination concern in the project API.",
+          "quality": "focused implementation and verification"
+        }
       },
       {
         "id": "gt-28-08",
@@ -364,11 +405,16 @@
         "title": "Dinner and offline personal time",
         "summary": "Spent the early evening away from the laptop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Dinner and ordinary evening activity.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-28-09",
@@ -381,11 +427,17 @@
           541,
           542
         ],
-        "context": "The student had completed the assessment and finished two bounded project work cycles earlier in the day.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "The student had completed the assessment and finished two bounded project work cycles earlier in the day.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-28-10",
@@ -394,11 +446,17 @@
         "title": "Offline personal time",
         "summary": "Spent time away from the laptop before the final email check.",
         "event_ids": [],
-        "context": "No laptop activity was recorded.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Wind down after the day.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No laptop activity was recorded.",
+          "intent": "Wind down after the day.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-28-11",
@@ -409,11 +467,17 @@
         "event_ids": [
           543
         ],
-        "context": "The day had shifted from assessment preparation back toward project coordination.",
+        "context": "Work",
         "area": "communication",
-        "intent": "Check for important new messages.",
-        "quality": "brief check",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "The day had shifted from assessment preparation back toward project coordination.",
+          "intent": "Check for important new messages.",
+          "quality": "brief check"
+        }
       }
     ],
     "unobserved_periods": [
@@ -476,15 +540,10 @@
       "action_type": "continue_successful_behavior",
       "reason": "The two project threads today followed a clear issue-to-test cycle and became the main technical priority after the assessment ended.",
       "target": "semester project API integration",
-      "suggested_focus_minutes": null
-    },
-    "secondary_action": {
-      "title": "Leave assessment review closed",
-      "action_type": "protect_priority",
-      "reason": "The assessment has been completed; reopening broad Data Structures review without results or a new need would add work without evidence that it is necessary.",
       "suggested_focus_minutes": null,
-      "target": null
+      "target_stream": "semester_project"
     },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not infer the assessment score, correctness, or readiness from the final notes or the amount of pre-assessment review.",
       "Do not treat the long offline assessment period as an absence of academic activity.",
@@ -492,6 +551,114 @@
       "Do not interpret the return to project work after the assessment as evidence that the student ignored academics.",
       "Do not criticize the post-assessment gaming and social time as inherently unproductive.",
       "Do not reopen Data Structures preparation merely because the assessment page was checked earlier."
-    ]
-  }
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Continue the project integration loop",
+        "action_type": "continue_successful_behavior",
+        "reason": "The two project threads today followed a clear issue-to-test cycle and became the main technical priority after the assessment ended.",
+        "target": "semester project API integration",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Leave assessment review closed",
+        "action_type": "protect_priority",
+        "reason": "The assessment has been completed; reopening broad Data Structures review without results or a new need would add work without evidence that it is necessary.",
+        "suggested_focus_minutes": null,
+        "target": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The two project threads today followed a clear issue-to-test cycle and became the main technical priority after the assessment ended.",
+      "priority": "Make progress on the semester group project",
+      "type": "continue_successful_behavior"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering",
+      "theory_of_computation",
+      "data_structures"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 29 shows 76 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 29 shows 42 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "Day 29 shows 76 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Prepare for the Data Structures assessment"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Finish Data Structures Problem Set 4"
+    }
+  ]
 }

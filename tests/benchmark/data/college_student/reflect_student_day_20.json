@@ -221,11 +221,17 @@
           368,
           369
         ],
-        "context": "The student had already completed heap and priority-queue work on the same problem set during Days 18–19.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Move to the graph-traversal section of the problem set and verify the implementation.",
-        "quality": "substantive technical work with exploratory research",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The student had already completed heap and priority-queue work on the same problem set during Days 18–19.",
+          "intent": "Move to the graph-traversal section of the problem set and verify the implementation.",
+          "quality": "substantive technical work with exploratory research"
+        }
       },
       {
         "id": "gt-20-02",
@@ -237,11 +243,17 @@
           370,
           371
         ],
-        "context": "A new schedule notice appeared after the morning problem-set session.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review the upcoming assessment dates and related course information.",
-        "quality": "useful administrative check",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "A new schedule notice appeared after the morning problem-set session.",
+          "intent": "Review the upcoming assessment dates and related course information.",
+          "quality": "useful administrative check"
+        }
       },
       {
         "id": "gt-20-03",
@@ -250,11 +262,17 @@
         "title": "Offline Sunday personal and academic time",
         "summary": "Spent the afternoon away from the laptop with lunch, errands, and some personal study/review.",
         "event_ids": [],
-        "context": "The laptop was inactive for most of the afternoon.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Handle ordinary weekend activities and some offline academic review.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "personal",
+        "label_notes": {
+          "context": "The laptop was inactive for most of the afternoon.",
+          "intent": "Handle ordinary weekend activities and some offline academic review.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-20-04",
@@ -266,11 +284,17 @@
           372,
           373
         ],
-        "context": "The project had remained stable while coursework took priority.",
+        "context": "Work",
         "area": "semester_project",
-        "intent": "Check whether teammates need an immediate response.",
-        "quality": "brief coordination",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "The project had remained stable while coursework took priority.",
+          "intent": "Check whether teammates need an immediate response.",
+          "quality": "brief coordination"
+        }
       },
       {
         "id": "gt-20-05",
@@ -282,11 +306,17 @@
           374,
           375
         ],
-        "context": "Evening personal time after a mostly offline Sunday.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Evening personal time after a mostly offline Sunday.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-20-06",
@@ -297,11 +327,17 @@
         "event_ids": [
           376
         ],
-        "context": "The graph problem had been worked on earlier in the morning and remained incomplete.",
+        "context": "Work",
         "area": "coursework",
-        "intent": "Review the current state and identify the next unanswered problem.",
-        "quality": "brief follow-up",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "data_structures",
+        "label_notes": {
+          "context": "The graph problem had been worked on earlier in the morning and remained incomplete.",
+          "intent": "Review the current state and identify the next unanswered problem.",
+          "quality": "brief follow-up"
+        }
       }
     ],
     "unobserved_periods": [
@@ -345,14 +381,16 @@
       "action_type": "continue_successful_behavior",
       "reason": "The student already has a working graph implementation and an identified next problem, so continuing from the current notes is the most direct open-loop step.",
       "suggested_focus_minutes": 45,
-      "target": "Data Structures Problem Set 4"
+      "target": "Data Structures Problem Set 4",
+      "target_stream": "data_structures"
     },
     "secondary_action": {
       "title": "Map the new assessment dates",
       "action_type": "clarify_priority",
       "reason": "The internal assessment schedule is newly visible but its impact on the current workload has not yet been established.",
       "suggested_focus_minutes": 15,
-      "target": "Internal Assessment Schedule"
+      "target": "Internal Assessment Schedule",
+      "target_stream": "coursework_admin"
     },
     "things_not_to_do": [
       "Do not treat the Reddit search as automatically unrelated browsing; it occurred inside the graph-problem workflow.",
@@ -360,6 +398,85 @@
       "Do not infer the student's afternoon activities from the laptop gap.",
       "Do not assume the newly posted assessment schedule makes every subject equally urgent.",
       "Do not treat Sunday leisure or social time as inherently problematic."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The student already has a working graph implementation and an identified next problem, so continuing from the current notes is the most direct open-loop step.",
+      "priority": "Finish Data Structures Problem Set 4",
+      "type": "continue_successful_behavior"
+    },
+    "forbidden_streams": [
+      "dbms",
+      "operating_systems",
+      "networks",
+      "software_engineering",
+      "theory_of_computation"
+    ],
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "operating_systems": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "data_structures": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 21 shows 288 min on this work.",
+        "reason_code": null
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 21 shows 27 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 21 shows 28 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 21 shows 288 min on this work.",
+      "reason_code": null
+    }
   }
 }

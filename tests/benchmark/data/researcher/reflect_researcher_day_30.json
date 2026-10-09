@@ -27,7 +27,7 @@
     "laptop_usage": {
       "first_seen": "09:06",
       "last_seen": "19:14",
-      "approx_active_hours": 7.0,
+      "approx_active_hours": 7,
       "longest_unobserved_gap_minutes": 88
     }
   },
@@ -364,11 +364,17 @@
           609,
           610
         ],
-        "context": "Finalization of the bounded pilot artifact established over the previous several days.",
+        "context": "Work",
         "area": "methods note",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Finalization of the bounded pilot artifact established over the previous several days.",
+          "intent": "writing",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-30-02",
@@ -382,11 +388,17 @@
           613,
           614
         ],
-        "context": "External feedback on the bounded note exposed a framing issue rather than a need for new experiments.",
+        "context": "Work",
         "area": "methods note",
-        "intent": "revision",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Learn",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "External feedback on the bounded note exposed a framing issue rather than a need for new experiments.",
+          "intent": "revision",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-30-03",
@@ -398,11 +410,17 @@
           615,
           616
         ],
-        "context": "Separating a plausible future study from the current bounded deliverable.",
+        "context": "Work",
         "area": "future research",
-        "intent": "exploration",
-        "quality": "medium",
-        "importance": "medium"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Separating a plausible future study from the current bounded deliverable.",
+          "intent": "exploration",
+          "quality": "medium"
+        }
       },
       {
         "id": "gt-30-04",
@@ -413,11 +431,17 @@
         "event_ids": [
           617
         ],
-        "context": "Short personal browsing period.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "leisure",
-        "quality": "neutral",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Short personal browsing period.",
+          "intent": "leisure",
+          "quality": "neutral"
+        }
       },
       {
         "id": "gt-30-05",
@@ -428,11 +452,17 @@
         "event_ids": [
           618
         ],
-        "context": "Closing pass after terminology and scope corrections.",
+        "context": "Work",
         "area": "methods note",
-        "intent": "writing",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Closing pass after terminology and scope corrections.",
+          "intent": "writing",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -470,20 +500,44 @@
       "title": "Close the collaborator revision loop",
       "reason": "The requested changes are concrete and already implemented; the next useful step is a final read-through and return to the collaborator rather than reopening the study.",
       "suggested_focus_minutes": 30,
-      "target": "Noisy Prevalence Calibration Study"
+      "target": "Noisy Prevalence Calibration Study",
+      "target_stream": "prevalence_pilot"
     },
-    "secondary_action": {
-      "action_type": "protect_priority",
-      "title": "Keep the broader study parked",
-      "reason": "The broader multi-dataset idea is plausible but would introduce new assumptions and scope beyond the current bounded note.",
-      "suggested_focus_minutes": 5,
-      "target": "Noisy Prevalence Calibration Study"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not add experiments just because the collaborator questioned terminology.",
       "Do not use 'robustness' as a stronger claim than the pilot supports.",
       "Do not conflate prevalence-estimation noise with actual prevalence shift.",
       "Do not let the future multi-dataset study replace finishing the current note."
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Close the collaborator revision loop",
+        "reason": "The requested changes are concrete and already implemented; the next useful step is a final read-through and return to the collaborator rather than reopening the study.",
+        "suggested_focus_minutes": 30,
+        "target": "Noisy Prevalence Calibration Study"
+      },
+      "secondary_action": {
+        "action_type": "protect_priority",
+        "title": "Keep the broader study parked",
+        "reason": "The broader multi-dataset idea is plausible but would introduce new assumptions and scope beyond the current bounded note.",
+        "suggested_focus_minutes": 5,
+        "target": "Noisy Prevalence Calibration Study"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The requested changes are concrete and already implemented; the next useful step is a final read-through and return to the collaborator rather than reopening the study.",
+      "priority": "Run a small pilot on calibration under noisy prevalence",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication",
+      "manuscript",
+      "next_question"
     ]
   }
 }

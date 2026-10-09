@@ -549,14 +549,16 @@
       "action_type": "complete_open_loop",
       "reason": "The freelance prospect has already received multiple rounds of scope and estimate refinement, so the next useful action is to seek a concrete decision rather than continue open-ended revision.",
       "suggested_focus_minutes": 25,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Restore a protected SaaS block",
       "action_type": "protect_priority",
       "reason": "The SaaS received maintenance but was repeatedly secondary to commercial work today; a defined product block prevents the beta work from becoming purely reactive.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat proposal refinement as evidence of a signed engagement.",

@@ -1,0 +1,61 @@
+{
+  "work_streams": {
+    "Own SaaS": {
+      "title": "The founder's own SaaS product",
+      "kind": "work",
+      "aliases": [
+        "saas",
+        "mvp",
+        "product",
+        "beta",
+        "onboarding",
+        "dashboard",
+        "launch",
+        "billing",
+        "activation",
+        "tester",
+        "landing page",
+        "own app"
+      ],
+      "priorities": [
+        "Ship the SaaS MVP"
+      ]
+    },
+    "Freelance": {
+      "title": "Freelance: the existing client and new leads",
+      "kind": "work",
+      "aliases": [
+        "client",
+        "freelance",
+        "lead",
+        "prospect",
+        "proposal",
+        "outreach",
+        "linkedin",
+        "contract",
+        "invoice",
+        "discovery call",
+        "estimate",
+        "scope",
+        "deliverable",
+        "handoff"
+      ],
+      "priorities": [
+        "Complete existing client work",
+        "Generate new freelance leads"
+      ]
+    },
+    "Plan": {
+      "title": "General planning",
+      "kind": "work",
+      "aliases": [],
+      "priorities": []
+    },
+    "Learning": {
+      "title": "General learning",
+      "kind": "work",
+      "aliases": [],
+      "priorities": []
+    }
+  }
+}

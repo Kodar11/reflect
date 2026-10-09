@@ -527,14 +527,16 @@
       "action_type": "start_focus",
       "reason": "The new engagement has moved beyond negotiation and into setup, so converting the kickoff into one concrete deliverable will prevent setup work from expanding indefinitely.",
       "suggested_focus_minutes": 75,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "secondary_action": {
       "title": "Hold the SaaS beta iteration steady",
       "action_type": "protect_priority",
       "reason": "The latest onboarding change has been tested and deployed, so the next useful product step is to gather more comparable beta evidence before another broad change.",
       "suggested_focus_minutes": 60,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "things_not_to_do": [
       "Do not treat repository setup or kickoff notes as a completed freelance deliverable.",

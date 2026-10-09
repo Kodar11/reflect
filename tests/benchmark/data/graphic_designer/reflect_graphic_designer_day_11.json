@@ -368,7 +368,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-11-02",
@@ -391,7 +392,8 @@
         "area": "New client identity",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "new_identity"
       },
       {
         "id": "gt-11-03",
@@ -409,7 +411,8 @@
         "area": "Portfolio",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "portfolio"
       },
       {
         "id": "gt-11-04",
@@ -425,7 +428,8 @@
         "area": "Personal exploration",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal_practice"
       }
     ],
     "unobserved_periods": [
@@ -460,9 +464,78 @@
       "action_type": "protect_priority",
       "reason": "The active client brief is converging, while the portfolio remains unfinished and can easily be displaced by repeated identity refinement.",
       "suggested_focus_minutes": null,
-      "target": "New client identity"
+      "target": "New client identity",
+      "target_stream": "new_identity"
     },
     "secondary_action": null,
-    "things_not_to_do": []
+    "things_not_to_do": [],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The active client brief is converging, while the portfolio remains unfinished and can easily be displaced by repeated identity refinement.",
+      "priority": "Develop the brand identity for the new client",
+      "type": "protect_priority"
+    },
+    "forbidden_streams": [
+      "northstar_identity"
+    ],
+    "response_by_stream": {
+      "northstar_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "portfolio": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 12 shows 126 min on this work.",
+        "reason_code": null
+      },
+      "new_identity": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 12 shows 386 min on this work.",
+        "reason_code": null
+      },
+      "food_identity": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (new_identity, 386 min).",
+        "reason_code": "different_priority"
+      },
+      "social_campaign": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 12 shows 31 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "client_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 12 went to other work (new_identity, 386 min).",
+        "reason_code": "different_priority"
+      },
+      "reference": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 12 shows 22 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 12 shows 386 min on this work.",
+      "reason_code": null
+    }
   }
 }

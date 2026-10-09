@@ -7,7 +7,7 @@
     "current_work": [
       "Evaluating calibration under changing class prevalence with uncertain target prevalence estimates",
       "Maintaining research code and experiment infrastructure",
-      "Reading and synthesizing recent literature on uncertainty calibration",
+      "Reading and synthesizing uncertainty calibration literature",
       "Preparing a small pilot experiment for the new research direction"
     ],
     "priorities": [
@@ -336,11 +336,17 @@
           480,
           481
         ],
-        "context": "Continuation of the literature task from Day 22.",
+        "context": "Work",
         "area": "literature review and research design",
-        "intent": "research",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Continuation of the literature task from Day 22.",
+          "intent": "research",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-23-02",
@@ -357,11 +363,17 @@
           487,
           488
         ],
-        "context": "First implementation work for the newly justified pilot.",
+        "context": "Work",
         "area": "research engineering",
-        "intent": "implementation",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "First implementation work for the newly justified pilot.",
+          "intent": "implementation",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-23-03",
@@ -375,11 +387,17 @@
           491,
           492
         ],
-        "context": "Preparing a reproducible pilot rather than immediately launching it.",
+        "context": "Work",
         "area": "research engineering and planning",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Preparing a reproducible pilot rather than immediately launching it.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -417,20 +435,126 @@
       "title": "Run the minimal pilot",
       "reason": "The literature question is sufficiently narrowed, the adapter passes its smoke test, and the run checklist is prepared.",
       "suggested_focus_minutes": 120,
-      "target": "Noisy Prevalence Calibration Pilot"
+      "target": "Noisy Prevalence Calibration Pilot",
+      "target_stream": "prevalence_pilot"
     },
-    "secondary_action": {
-      "action_type": "reduce_fragmentation",
-      "title": "Use the fixed run checklist",
-      "reason": "The implementation has just crossed the threshold from exploratory coding to a reproducible pilot, so keeping the first run constrained will make the result easier to interpret.",
-      "suggested_focus_minutes": 15,
-      "target": "Noisy Prevalence Calibration Pilot"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not add new noise models before seeing the predefined pilot results.",
       "Do not interpret the smoke test as evidence for the research hypothesis.",
       "Do not change evaluation-window semantics during the full run without documenting the change.",
       "Do not reopen the paused replication or submitted manuscript."
-    ]
-  }
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "start_focus",
+        "title": "Run the minimal pilot",
+        "reason": "The literature question is sufficiently narrowed, the adapter passes its smoke test, and the run checklist is prepared.",
+        "suggested_focus_minutes": 120,
+        "target": "Noisy Prevalence Calibration Pilot"
+      },
+      "secondary_action": {
+        "action_type": "reduce_fragmentation",
+        "title": "Use the fixed run checklist",
+        "reason": "The implementation has just crossed the threshold from exploratory coding to a reproducible pilot, so keeping the first run constrained will make the result easier to interpret.",
+        "suggested_focus_minutes": 15,
+        "target": "Noisy Prevalence Calibration Pilot"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The literature question is sufficiently narrowed, the adapter passes its smoke test, and the run checklist is prepared.",
+      "priority": "Run a small pilot on calibration under noisy prevalence",
+      "type": "start_focus"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication",
+      "manuscript"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 24 went to other work (prevalence_pilot, 580 min).",
+        "reason_code": "different_priority"
+      },
+      "prevalence_pilot": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 24 shows 580 min on this work.",
+        "reason_code": null
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 24 went to other work (prevalence_pilot, 580 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 24 went to other work (prevalence_pilot, 580 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 24 shows 580 min on this work.",
+      "reason_code": null
+    }
+  },
+  "profile_updates": [
+    {
+      "at": "end",
+      "op": "complete",
+      "priority": "Choose the next research question to pursue"
+    },
+    {
+      "at": "end",
+      "op": "remove",
+      "priority": "Move the manuscript from notes to a coherent results section"
+    },
+    {
+      "at": "end",
+      "op": "add",
+      "priority": "Run a small pilot on calibration under noisy prevalence"
+    },
+    {
+      "at": "end",
+      "op": "set_current_work",
+      "current_work": [
+        "Running a pilot on calibration under noisy prevalence",
+        "Maintaining research code and experiment infrastructure"
+      ]
+    }
+  ]
 }

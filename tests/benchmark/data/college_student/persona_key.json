@@ -1,0 +1,130 @@
+{
+  "work_streams": {
+    "dbms": {
+      "title": "DBMS coursework (assignment, mini-assignment, Practical 3)",
+      "kind": "work",
+      "aliases": [
+        "dbms",
+        "sql",
+        "mysql"
+      ],
+      "priorities": [
+        "Complete the DBMS assignment due later this week",
+        "Do the DBMS mini-assignment",
+        "Complete DBMS Practical 3",
+        "Keep up with coursework"
+      ]
+    },
+    "operating_systems": {
+      "title": "Operating Systems quiz preparation",
+      "kind": "work",
+      "aliases": [
+        "operating systems",
+        "os quiz",
+        "os revision",
+        "os weak"
+      ],
+      "priorities": [
+        "Prepare for the Operating Systems quiz",
+        "Keep up with coursework"
+      ]
+    },
+    "networks": {
+      "title": "Computer Networks labs",
+      "kind": "work",
+      "aliases": [
+        "computer networks",
+        "networks lab",
+        "tcp"
+      ],
+      "priorities": [
+        "Finish the Computer Networks lab",
+        "Finish Computer Networks Lab 4",
+        "Keep up with coursework"
+      ]
+    },
+    "software_engineering": {
+      "title": "Software Engineering mini-assignment and presentation",
+      "kind": "work",
+      "aliases": [
+        "software engineering",
+        "presentation",
+        "slides",
+        "use-case",
+        "rehearsal"
+      ],
+      "priorities": [
+        "Finish the Software Engineering mini-assignment",
+        "Prepare the Software Engineering presentation",
+        "Keep up with coursework"
+      ]
+    },
+    "theory_of_computation": {
+      "title": "Theory of Computation tutorial",
+      "kind": "work",
+      "aliases": [
+        "theory of computation",
+        "toc tutorial",
+        "automata"
+      ],
+      "priorities": [
+        "Do the Theory of Computation tutorial",
+        "Keep up with coursework"
+      ]
+    },
+    "data_structures": {
+      "title": "Data Structures problem set and internal assessment",
+      "kind": "work",
+      "aliases": [
+        "data structures",
+        "problem set",
+        "graph",
+        "assessment",
+        "heap",
+        "spanning tree"
+      ],
+      "priorities": [
+        "Finish Data Structures Problem Set 4",
+        "Prepare for the Data Structures assessment",
+        "Keep up with coursework"
+      ]
+    },
+    "semester_project": {
+      "title": "Semester group project",
+      "kind": "work",
+      "aliases": [
+        "semester project",
+        "group project",
+        "project",
+        "parser",
+        "pagination"
+      ],
+      "priorities": [
+        "Make progress on the semester group project"
+      ]
+    },
+    "coursework_admin": {
+      "title": "Course notices, inbox and schedule checks",
+      "kind": "work",
+      "aliases": [
+        "course notices",
+        "classroom"
+      ],
+      "priorities": [
+        "Keep up with coursework"
+      ]
+    },
+    "leisure": {
+      "title": "Gaming, video and social time",
+      "kind": "leisure",
+      "aliases": [],
+      "priorities": []
+    },
+    "personal": {
+      "title": "Personal and offline time",
+      "kind": "personal",
+      "aliases": [],
+      "priorities": []
+    }
+  }
+}

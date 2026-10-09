@@ -12,12 +12,15 @@ import { fileURLToPath } from 'node:url';
 export const BENCHMARK_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const REPO_ROOT = path.resolve(BENCHMARK_ROOT, '..', '..');
 
-/** Every 30-day persona dataset under `data/` (the Coach scenario set is a different kind of dataset). */
+/** Directories under `data/` that are not a 30-day persona: the Coach scenario set, and the source of the v2 answer-key annotations. */
+const NOT_A_PERSONA = ['coach_scenarios', 'keys'];
+
+/** Every 30-day persona dataset under `data/`. */
 export function personaDatasetDirs(): string[] {
   const root = path.join(BENCHMARK_ROOT, 'data');
   return fs
     .readdirSync(root, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && entry.name !== 'coach_scenarios')
+    .filter((entry) => entry.isDirectory() && !NOT_A_PERSONA.includes(entry.name))
     .map((entry) => path.join(root, entry.name))
     .sort();
 }
@@ -52,6 +55,12 @@ export interface BenchmarkConfig {
 
   /** Keep the benchmark database after the run (it is copied into the results either way when true). */
   keepDb: boolean;
+
+  /**
+   * With `--reevaluate`: score a run that was made before the dataset replayed profile changes, provided its raw
+   * events are the ones on disk. The model output is the old run's; only the answer key and evaluator are today's.
+   */
+  rescoreSameEvents: boolean;
 
   /** IANA zone the simulated user lives in; must agree with the dataset's UTC offset. */
   timezone: string;
@@ -125,6 +134,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): BenchmarkConfi
     expectedDays: numberFrom(env.REFLECT_BENCH_EXPECTED_DAYS, 30, 'REFLECT_BENCH_EXPECTED_DAYS'),
     maxDays,
     keepDb: flag(env.REFLECT_BENCH_KEEP_DB),
+    rescoreSameEvents: flag(env.REFLECT_BENCH_SAME_EVENTS),
     timezone: env.REFLECT_BENCH_TZ?.trim() || 'Asia/Kolkata',
     intelligenceWindow: oneOf(env.REFLECT_BENCH_INTELLIGENCE_WINDOW, ['hour', 'day'] as const, 'hour', 'REFLECT_BENCH_INTELLIGENCE_WINDOW'),
     urlMode: oneOf(env.REFLECT_BENCH_URL_MODE, ['domain', 'raw'] as const, 'domain', 'REFLECT_BENCH_URL_MODE'),

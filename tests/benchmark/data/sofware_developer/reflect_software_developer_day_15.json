@@ -368,11 +368,17 @@
           372,
           373
         ],
-        "context": "The change had completed review and canary validation and was ready for controlled broader production exposure.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "release",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The change had completed review and canary validation and was ready for controlled broader production exposure.",
+          "intent": "release",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-15-02",
@@ -388,11 +394,17 @@
           378,
           379
         ],
-        "context": "Early production behavior was being checked against the pre-release baseline.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "monitor",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "Early production behavior was being checked against the pre-release baseline.",
+          "intent": "monitor",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-15-03",
@@ -404,11 +416,17 @@
           380,
           381
         ],
-        "context": "Normal team responsibility during an active release window.",
+        "context": "Work",
         "area": "team_maintenance",
-        "intent": "review",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "Normal team responsibility during an active release window.",
+          "intent": "review",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-15-04",
@@ -422,11 +440,17 @@
           384,
           385
         ],
-        "context": "The webhook change showed an encouraging early signal but still required a longer observation period before closure.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "validate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The webhook change showed an encouraging early signal but still required a longer observation period before closure.",
+          "intent": "validate",
+          "quality": "strong"
+        }
       }
     ],
     "unobserved_periods": [
@@ -485,25 +509,91 @@
     "possible_next_step": "Continue a bounded production observation window for the webhook change and compare delivery outcomes, retry latency, and error signals against the captured baseline before deciding whether PLAT-497 can be closed."
   },
   "expected_coach_outcome": {
-    "primary_action": {
-      "title": "Webhook production validation",
-      "action_type": "complete_open_loop",
-      "target": "Webhook production validation",
-      "reason": "The implementation is released and the remaining work is evidence gathering; the useful next step is to let the change accumulate enough production data for a closure decision.",
-      "suggested_focus_minutes": null
-    },
-    "secondary_action": {
-      "title": "Workspace performance stability",
-      "action_type": "protect_priority",
-      "target": "Workspace performance stability",
-      "reason": "The workspace issue is stable and should not compete with the active webhook validation unless a new signal appears.",
-      "suggested_focus_minutes": null
-    },
+    "primary_action": null,
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not declare the webhook issue resolved from the first few hours of production data.",
       "Do not make another code change merely because the release is being watched closely.",
       "Do not reopen the workspace performance issue without a new regression signal.",
       "Do not treat routine review and QA coordination as evidence that the main priority was neglected."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Webhook production validation",
+        "action_type": "complete_open_loop",
+        "target": "Webhook production validation",
+        "reason": "The implementation is released and the remaining work is evidence gathering; the useful next step is to let the change accumulate enough production data for a closure decision.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Workspace performance stability",
+        "action_type": "protect_priority",
+        "target": "Workspace performance stability",
+        "reason": "The workspace issue is stable and should not compete with the active webhook validation unless a new signal appears.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "The webhook change is released and what remains is evidence gathering: \"let the change accumulate enough production data for a closure decision\". There is nothing to do before that data exists.",
+      "priority": null,
+      "type": null
+    },
+    "forbidden_streams": [
+      "billing_api",
+      "workspace_performance"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 382 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (webhook_reliability, 382 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (webhook_reliability, 382 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 16 went to other work (webhook_reliability, 382 min).",
+        "reason_code": "different_priority"
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 16 shows 104 min on this work.",
+        "reason_code": null
+      }
+    }
   }
 }

@@ -399,11 +399,17 @@
           237,
           238
         ],
-        "context": "The workspace performance change had reached the point where controlled deployment and comparison were appropriate.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "The workspace performance change had reached the point where controlled deployment and comparison were appropriate.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-09-02",
@@ -419,11 +425,17 @@
           243,
           244
         ],
-        "context": "Infrastructure provided a limited production observation window for the acknowledgement hypothesis.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "investigate",
-        "quality": "useful",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "Infrastructure provided a limited production observation window for the acknowledgement hypothesis.",
+          "intent": "investigate",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-09-03",
@@ -434,11 +446,17 @@
         "event_ids": [
           245
         ],
-        "context": "A separate team pull request required review during the afternoon.",
+        "context": "Work",
         "area": "team_maintenance",
-        "intent": "review",
-        "quality": "useful",
-        "importance": "medium"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "code_review",
+        "label_notes": {
+          "context": "A separate team pull request required review during the afternoon.",
+          "intent": "review",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-09-04",
@@ -454,11 +472,17 @@
           250,
           251
         ],
-        "context": "The focused workspace performance change was deployed for controlled verification; the first post-deploy signal was encouraging but not yet sufficient for a final conclusion.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "verify",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "The focused workspace performance change was deployed for controlled verification; the first post-deploy signal was encouraging but not yet sufficient for a final conclusion.",
+          "intent": "verify",
+          "quality": "strong"
+        }
       }
     ],
     "unobserved_periods": [
@@ -527,20 +551,99 @@
       "action_type": "continue_successful_behavior",
       "target": "Workspace performance verification",
       "reason": "The engineer moved from investigation to a controlled deployment with explicit post-deploy measurement instead of declaring success from local tests.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "workspace_performance"
     },
-    "secondary_action": {
-      "title": "Workspace post-deploy observation",
-      "action_type": "protect_priority",
-      "target": "Workspace post-deploy observation",
-      "reason": "The new production signal is promising but needs time and consistent measurement before another substantial code change is justified.",
-      "suggested_focus_minutes": null
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not declare the workspace latency regression fixed from the first post-deploy observation.",
       "Do not make a larger webhook change solely because acknowledgement latency remains elevated.",
       "Do not treat the teammate code review as unnecessary context switching.",
       "Do not interpret the lunch gap as a productivity problem."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Workspace performance verification",
+        "action_type": "continue_successful_behavior",
+        "target": "Workspace performance verification",
+        "reason": "The engineer moved from investigation to a controlled deployment with explicit post-deploy measurement instead of declaring success from local tests.",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Workspace post-deploy observation",
+        "action_type": "protect_priority",
+        "target": "Workspace post-deploy observation",
+        "reason": "The new production signal is promising but needs time and consistent measurement before another substantial code change is justified.",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "moderate",
+      "reason": "The change is deployed under controlled measurement; the key's own next step is to let the observation window run.",
+      "priority": "Fix the workspace API latency regression",
+      "type": "continue_successful_behavior"
+    },
+    "forbidden_streams": [
+      "billing_api"
+    ],
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 10 shows 128 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 10 shows 311 min on this work.",
+        "reason_code": null
+      },
+      "account_export": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 10 went to other work (workspace_performance, 311 min).",
+        "reason_code": "different_priority"
+      },
+      "admin_audit": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 10 went to other work (workspace_performance, 311 min).",
+        "reason_code": "different_priority"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 10 shows 48 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 10 went to other work (workspace_performance, 311 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 10 shows 311 min on this work.",
+      "reason_code": null
+    }
   }
 }

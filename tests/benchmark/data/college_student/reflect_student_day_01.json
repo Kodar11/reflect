@@ -291,11 +291,15 @@
           1,
           2
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Planning",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "coursework_admin",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-01-02",
@@ -307,11 +311,15 @@
           3,
           4
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "DBMS",
         "intent": "Plan",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-01-03",
@@ -326,11 +334,15 @@
           8,
           9
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "DBMS",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-01-04",
@@ -343,11 +355,15 @@
           11,
           12
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "DBMS",
         "intent": "Learn",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-01-05",
@@ -360,11 +376,15 @@
           14,
           15
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "Semester Project",
         "intent": "Create",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "semester_project",
+        "label_notes": {
+          "context": "Academic"
+        }
       },
       {
         "id": "gt-01-06",
@@ -379,7 +399,8 @@
         "area": null,
         "intent": "Consume",
         "quality": "Break-Idle",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure"
       },
       {
         "id": "gt-01-07",
@@ -394,7 +415,8 @@
         "area": null,
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "low"
+        "importance": "low",
+        "stream": "personal"
       },
       {
         "id": "gt-01-08",
@@ -409,7 +431,8 @@
         "area": null,
         "intent": "Consume",
         "quality": "Break-Idle",
-        "importance": "low"
+        "importance": "low",
+        "stream": "leisure"
       },
       {
         "id": "gt-01-09",
@@ -423,11 +446,15 @@
           21,
           22
         ],
-        "context": "Academic",
+        "context": "Work",
         "area": "DBMS",
         "intent": "Complete",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "dbms",
+        "label_notes": {
+          "context": "Academic"
+        }
       }
     ],
     "unobserved_periods": [
@@ -488,14 +515,16 @@
       "action_type": "complete_open_loop",
       "reason": "The assignment received the largest focused academic block and was still open at the end of the day, making completion the clearest next step.",
       "suggested_focus_minutes": 60,
-      "target": "DBMS"
+      "target": "DBMS",
+      "target_stream": "dbms"
     },
     "secondary_action": {
       "title": "Continue the semester project",
       "action_type": "continue_successful_behavior",
       "reason": "A concrete project thread was started through repository review and README work, so the next useful step is a contained continuation rather than a new project task.",
       "suggested_focus_minutes": 45,
-      "target": "Semester Project"
+      "target": "Semester Project",
+      "target_stream": "semester_project"
     },
     "things_not_to_do": [
       "Do not treat the unobserved morning as lost or unproductive time; classes were outside laptop observation.",
@@ -503,6 +532,78 @@
       "Do not assume the DBMS assignment is correct merely because code and answers were reviewed.",
       "Do not classify all YouTube usage the same way; the normalization tutorial and evening entertainment had different contexts.",
       "Do not assume the student should eliminate leisure after a substantial academic block."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The assignment received the largest focused academic block and was still open at the end of the day, making completion the clearest next step.",
+      "priority": "Complete the DBMS assignment due later this week",
+      "type": "complete_open_loop"
+    },
+    "response_by_stream": {
+      "dbms": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 2 shows 192 min on this work.",
+        "reason_code": null
+      },
+      "operating_systems": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 2 shows 64 min on this work.",
+        "reason_code": null
+      },
+      "networks": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (dbms, 192 min).",
+        "reason_code": "different_priority"
+      },
+      "software_engineering": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (dbms, 192 min).",
+        "reason_code": "different_priority"
+      },
+      "theory_of_computation": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (dbms, 192 min).",
+        "reason_code": "different_priority"
+      },
+      "data_structures": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 2 went to other work (dbms, 192 min).",
+        "reason_code": "different_priority"
+      },
+      "semester_project": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 2 shows 67 min on this work.",
+        "reason_code": null
+      },
+      "coursework_admin": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 2 shows 38 min on this work: a short return to it.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 2 shows 192 min on this work.",
+      "reason_code": null
+    }
   }
 }

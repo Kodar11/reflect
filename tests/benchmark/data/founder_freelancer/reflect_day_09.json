@@ -484,14 +484,16 @@
       "action_type": "protect_priority",
       "reason": "The founder successfully returned to the SaaS after closing a client issue and starting a new project, making continuity important before client work expands.",
       "suggested_focus_minutes": 90,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Send the new client kickoff follow-up",
       "action_type": "complete_open_loop",
       "reason": "The new client project was kicked off and documented, but a concise written follow-up is the natural next step to keep scope and responsibilities explicit.",
       "suggested_focus_minutes": 15,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not treat the new client kickoff as a failure to follow the SaaS priority; it materially advanced the freelance priority.",

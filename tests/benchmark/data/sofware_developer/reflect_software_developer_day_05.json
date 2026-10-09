@@ -404,11 +404,17 @@
           131,
           132
         ],
-        "context": "Billing settings API was nearing release after the previous review cycle.",
+        "context": "Work",
         "area": "billing",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "context": "Billing settings API was nearing release after the previous review cycle.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-05-02",
@@ -420,11 +426,17 @@
           133,
           134
         ],
-        "context": "The implementation had received review changes and needed a final consistency check.",
+        "context": "Work",
         "area": "billing",
-        "intent": "verify",
-        "quality": "useful",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "context": "The implementation had received review changes and needed a final consistency check.",
+          "intent": "verify",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-05-03",
@@ -439,11 +451,17 @@
           138,
           139
         ],
-        "context": "A customer-facing issue appeared while the team was preparing the billing release.",
+        "context": "Work",
         "area": "workspace_api",
-        "intent": "investigate",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "A customer-facing issue appeared while the team was preparing the billing release.",
+          "intent": "investigate",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-05-04",
@@ -457,11 +475,17 @@
           142,
           143
         ],
-        "context": "The previous query change showed improvement but required another verification point after a customer-facing issue touched the same service.",
+        "context": "Work",
         "area": "database_performance",
-        "intent": "verify",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "workspace_performance",
+        "label_notes": {
+          "context": "The previous query change showed improvement but required another verification point after a customer-facing issue touched the same service.",
+          "intent": "verify",
+          "quality": "strong"
+        }
       },
       {
         "id": "gt-05-05",
@@ -477,11 +501,17 @@
           148,
           149
         ],
-        "context": "The webhook issue remained unresolved but infrastructure metrics provided another useful signal.",
+        "context": "Work",
         "area": "webhook_reliability",
-        "intent": "investigate",
-        "quality": "useful",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "context": "The webhook issue remained unresolved but infrastructure metrics provided another useful signal.",
+          "intent": "investigate",
+          "quality": "useful"
+        }
       },
       {
         "id": "gt-05-06",
@@ -495,11 +525,17 @@
           152,
           153
         ],
-        "context": "Billing was close to release but final confirmation still depended on team coordination.",
+        "context": "Work",
         "area": "billing",
-        "intent": "complete",
-        "quality": "strong",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "context": "Billing was close to release but final confirmation still depended on team coordination.",
+          "intent": "complete",
+          "quality": "strong"
+        }
       }
     ],
     "unobserved_periods": [
@@ -567,20 +603,87 @@
       "action_type": "complete_open_loop",
       "target": "Billing settings API",
       "reason": "The work is repeatedly reaching final validation and release coordination; confirming its actual release state would close the oldest active loop.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "billing_api"
     },
     "secondary_action": {
       "title": "Workspace API issue versus database performance regression",
       "action_type": "clarify_priority",
       "target": "Workspace API issue versus database performance regression",
       "reason": "The two threads now touch the same service, and separating their evidence would reduce the risk of combining distinct problems.",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "workspace_performance"
     },
     "things_not_to_do": [
       "Do not assume the billing API was deployed simply because release coordination occurred.",
       "Do not merge the customer-facing workspace issue and database latency regression into one root cause without evidence.",
       "Do not claim the webhook acknowledgement hypothesis is confirmed.",
       "Do not treat the lunch gap as lost productivity."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The work is repeatedly reaching final validation and release coordination; confirming its actual release state would close the oldest active loop.",
+      "priority": "Ship the billing settings API change",
+      "type": "complete_open_loop"
+    },
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 6 shows 63 min on this work.",
+        "reason_code": null
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 6 shows 102 min on this work.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 6 shows 237 min on this work.",
+        "reason_code": null
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 6 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "admin_audit": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 6 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 6 shows 83 min on this work.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 6 shows no time on this work.",
+        "reason_code": "other"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "partly_worked",
+      "reason": "Day 6 shows 63 min on this work.",
+      "reason_code": null
+    }
   }
 }

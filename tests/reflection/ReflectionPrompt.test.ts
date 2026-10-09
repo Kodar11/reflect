@@ -291,7 +291,7 @@ describe('reflection prompt', () => {
     expect(prompt).toContain('USER CONTEXT (provided by the user about themselves)');
     expect(prompt).toContain('{"id":"p1","text":"Launch Project X","statedOn":"Oct 1","possiblyStale":false}');
     expect(prompt).toContain('{"key":"time.tracked_minutes","label":"Total tracked time","value":"13h 36m"}');
-    expect(prompt).toContain('COMPARISONS (cite as prev.<key>, delta.<key>, baseline.<key> or weekday.<key>)');
+    expect(prompt).toContain('COMPARISONS (cite a row by its key — that cites every value in the row; prev.<key>, delta.<key>, baseline.<key> or weekday.<key> cite one of them)');
     // Nothing was measured as a meaningful change: the model is told so, in as many words.
     expect(prompt).toContain('WHAT CHANGED VERSUS HISTORY\nNothing passed the test');
     expect(prompt).toContain('DATA NOTES (limits of what is known)\n- Not enough history yet for a personal baseline.');

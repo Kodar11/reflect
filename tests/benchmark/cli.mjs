@@ -81,7 +81,7 @@ const VALUE_FLAGS = {
   '--scenario': 'REFLECT_COACH_SCENARIO_FILTER',
   '--expected-days': 'REFLECT_BENCH_EXPECTED_DAYS',
 };
-const BOOLEAN_FLAGS = { '--keep-db': 'REFLECT_BENCH_KEEP_DB', '--save-prompts': 'REFLECT_BENCH_SAVE_PROMPTS' };
+const BOOLEAN_FLAGS = { '--keep-db': 'REFLECT_BENCH_KEEP_DB', '--save-prompts': 'REFLECT_BENCH_SAVE_PROMPTS', '--same-events': 'REFLECT_BENCH_SAME_EVENTS' };
 
 const env = { ...process.env };
 let validateOnly = false;

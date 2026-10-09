@@ -537,14 +537,16 @@
       "action_type": "protect_priority",
       "reason": "The product has a concrete experiment in motion, so collecting evidence before adding another major change is more useful than immediately expanding scope.",
       "suggested_focus_minutes": 45,
-      "target": "Own SaaS"
+      "target": "Own SaaS",
+      "target_stream": "Own SaaS"
     },
     "secondary_action": {
       "title": "Follow up the new freelance prospect",
       "action_type": "complete_open_loop",
       "reason": "The inquiry progressed through a proposal and potential-client call, making a concrete follow-up the clearest next step for the new lead.",
       "suggested_focus_minutes": 25,
-      "target": "Freelance"
+      "target": "Freelance",
+      "target_stream": "Freelance"
     },
     "things_not_to_do": [
       "Do not claim the activation experiment succeeded before comparable beta behavior is observed.",

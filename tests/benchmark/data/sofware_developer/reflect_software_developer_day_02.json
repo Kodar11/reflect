@@ -28,7 +28,6 @@
       "Keep important team pull requests moving"
     ]
   },
-
   "day": {
     "day_number": 2,
     "date": "2026-09-02",
@@ -50,7 +49,6 @@
       "longest_unobserved_gap_minutes": 74
     }
   },
-
   "raw_events": [
     {
       "id": 35,
@@ -405,7 +403,6 @@
       "payload": null
     }
   ],
-
   "ground_truth": {
     "activities": [
       {
@@ -419,7 +416,8 @@
         "area": "Code Review",
         "intent": "Review",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "code_review"
       },
       {
         "id": "gt-02-02",
@@ -432,7 +430,8 @@
         "area": "Team Communication",
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "platform_ops"
       },
       {
         "id": "gt-02-03",
@@ -443,9 +442,13 @@
         "event_ids": [37, 38],
         "context": "Work",
         "area": "Billing API",
-        "intent": "Debug",
+        "intent": "Research",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "intent": "Debug"
+        }
       },
       {
         "id": "gt-02-04",
@@ -456,9 +459,13 @@
         "event_ids": [39],
         "context": "Work",
         "area": "Billing API",
-        "intent": "Investigate",
+        "intent": "Research",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "intent": "Investigate"
+        }
       },
       {
         "id": "gt-02-05",
@@ -471,7 +478,8 @@
         "area": "Billing API",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api"
       },
       {
         "id": "gt-02-06",
@@ -482,9 +490,13 @@
         "event_ids": [42],
         "context": "Work",
         "area": "Billing API",
-        "intent": "Test",
+        "intent": "Review",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "intent": "Test"
+        }
       },
       {
         "id": "gt-02-07",
@@ -497,7 +509,8 @@
         "area": "Billing API",
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api"
       },
       {
         "id": "gt-02-08",
@@ -510,7 +523,8 @@
         "area": "Billing API",
         "intent": "Plan",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api"
       },
       {
         "id": "gt-02-09",
@@ -523,7 +537,8 @@
         "area": "Billing API",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api"
       },
       {
         "id": "gt-02-10",
@@ -536,7 +551,8 @@
         "area": "Code Review",
         "intent": "Review",
         "quality": "Focused",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "code_review"
       },
       {
         "id": "gt-02-11",
@@ -547,9 +563,13 @@
         "event_ids": [49, 50],
         "context": "Work",
         "area": "Webhook Reliability",
-        "intent": "Investigate",
+        "intent": "Research",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "intent": "Investigate"
+        }
       },
       {
         "id": "gt-02-12",
@@ -560,9 +580,13 @@
         "event_ids": [51, 52],
         "context": "Work",
         "area": "Webhook Reliability",
-        "intent": "Investigate",
+        "intent": "Research",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "intent": "Investigate"
+        }
       },
       {
         "id": "gt-02-13",
@@ -575,7 +599,8 @@
         "area": "Webhook Reliability",
         "intent": "Learn",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "webhook_reliability"
       },
       {
         "id": "gt-02-14",
@@ -587,8 +612,12 @@
         "context": "Work",
         "area": "Webhook Reliability",
         "intent": "Communicate",
-        "quality": "Blocked",
-        "importance": "high"
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "quality": "Blocked"
+        }
       },
       {
         "id": "gt-02-15",
@@ -599,9 +628,13 @@
         "event_ids": [55, 56],
         "context": "Work",
         "area": "Webhook Reliability",
-        "intent": "Investigate",
+        "intent": "Research",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "intent": "Investigate"
+        }
       },
       {
         "id": "gt-02-16",
@@ -613,8 +646,12 @@
         "context": "Work",
         "area": "Webhook Reliability",
         "intent": "Communicate",
-        "quality": "Blocked",
-        "importance": "high"
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "quality": "Blocked"
+        }
       },
       {
         "id": "gt-02-17",
@@ -627,7 +664,8 @@
         "area": "Code Review",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "code_review"
       },
       {
         "id": "gt-02-18",
@@ -638,9 +676,14 @@
         "event_ids": [59, 60],
         "context": "Work",
         "area": "Webhook Reliability",
-        "intent": "Test",
-        "quality": "Exploratory",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "webhook_reliability",
+        "label_notes": {
+          "intent": "Test",
+          "quality": "Exploratory"
+        }
       },
       {
         "id": "gt-02-19",
@@ -653,7 +696,8 @@
         "area": "Billing API",
         "intent": "Create",
         "quality": "Focused",
-        "importance": "high"
+        "importance": "high",
+        "stream": "billing_api"
       },
       {
         "id": "gt-02-20",
@@ -666,7 +710,8 @@
         "area": "Code Review",
         "intent": "Review",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "code_review"
       },
       {
         "id": "gt-02-21",
@@ -679,7 +724,8 @@
         "area": "Team Communication",
         "intent": "Communicate",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "platform_ops"
       },
       {
         "id": "gt-02-22",
@@ -692,7 +738,8 @@
         "area": "Billing API",
         "intent": "Plan",
         "quality": "Routine",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "billing_api"
       },
       {
         "id": "gt-02-23",
@@ -703,9 +750,14 @@
         "event_ids": [66],
         "context": "Work",
         "area": "Billing API",
-        "intent": "Verify",
-        "quality": "Waiting",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "billing_api",
+        "label_notes": {
+          "intent": "Verify",
+          "quality": "Waiting"
+        }
       }
     ],
     "unobserved_periods": [
@@ -716,7 +768,6 @@
       }
     ]
   },
-
   "expected_reflection": {
     "period": "today",
     "key_observations": [
@@ -749,22 +800,16 @@
     ],
     "possible_next_step": "If the billing CI is clean, finish the remaining billing changes and move the ticket toward review or merge; keep the webhook investigation paused until the requested infrastructure evidence arrives rather than repeatedly exploring the same code path."
   },
-
   "expected_coach_outcome": {
     "primary_action": {
       "title": "Finish the billing ticket",
       "action_type": "complete_open_loop",
       "reason": "The billing work has progressed across two days and is now close enough to completion that another focused block could move it toward review or merge.",
       "suggested_focus_minutes": 60,
-      "target": "Billing API"
+      "target": "Billing API",
+      "target_stream": "billing_api"
     },
-    "secondary_action": {
-      "title": "Pause webhook debugging while blocked",
-      "action_type": "schedule_change",
-      "reason": "The webhook investigation now depends on infrastructure information, so continuing to repeatedly inspect the same code without that evidence is unlikely to be the best use of the next block.",
-      "suggested_focus_minutes": 30,
-      "target": "Webhook Reliability"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not describe the webhook issue as solved.",
       "Do not treat the infrastructure dependency as developer neglect.",
@@ -774,6 +819,87 @@
       "Do not infer stress or frustration from repeated debugging.",
       "Do not treat the lunch gap as unproductive time.",
       "Do not recommend continuing the webhook investigation indefinitely without new evidence."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Finish the billing ticket",
+        "action_type": "complete_open_loop",
+        "reason": "The billing work has progressed across two days and is now close enough to completion that another focused block could move it toward review or merge.",
+        "suggested_focus_minutes": 60,
+        "target": "Billing API"
+      },
+      "secondary_action": {
+        "title": "Pause webhook debugging while blocked",
+        "action_type": "schedule_change",
+        "reason": "The webhook investigation now depends on infrastructure information, so continuing to repeatedly inspect the same code without that evidence is unlikely to be the best use of the next block.",
+        "suggested_focus_minutes": 30,
+        "target": "Webhook Reliability"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The billing work has progressed across two days and is now close enough to completion that another focused block could move it toward review or merge.",
+      "priority": "Ship the billing settings API change",
+      "type": "complete_open_loop"
+    },
+    "response_by_stream": {
+      "billing_api": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 3 shows 140 min on this work.",
+        "reason_code": null
+      },
+      "webhook_reliability": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 3 shows 41 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "workspace_performance": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 3 shows 222 min on this work.",
+        "reason_code": null
+      },
+      "account_export": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 3 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "admin_audit": {
+        "user_decision": "accepted",
+        "execution": "not_done",
+        "outcome": "not_applicable",
+        "reason": "Day 3 shows no time on this work.",
+        "reason_code": "other"
+      },
+      "code_review": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 3 shows 34 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "platform_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 3 shows 48 min on this work.",
+        "reason_code": null
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 3 shows 140 min on this work.",
+      "reason_code": null
+    }
   }
 }

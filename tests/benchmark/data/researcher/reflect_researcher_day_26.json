@@ -337,11 +337,17 @@
           535,
           536
         ],
-        "context": "Follow-up to the Day 25 observation that the class-level effect might not be method-specific.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "experiment",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Follow-up to the Day 25 observation that the class-level effect might not be method-specific.",
+          "intent": "experiment",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-26-02",
@@ -356,11 +362,17 @@
           540,
           541
         ],
-        "context": "A comparability issue was found before drawing conclusions from the method comparison.",
+        "context": "Work",
         "area": "research engineering and analysis",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "A comparability issue was found before drawing conclusions from the method comparison.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-26-03",
@@ -373,11 +385,17 @@
           543,
           544
         ],
-        "context": "Interpretation changed after comparable baseline behavior was observed.",
+        "context": "Work",
         "area": "research design",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Interpretation changed after comparable baseline behavior was observed.",
+          "intent": "planning",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-26-04",
@@ -389,11 +407,17 @@
           545,
           546
         ],
-        "context": "Minor unrelated browsing during the end of the workday.",
+        "context": "Personal",
         "area": "mixed",
-        "intent": "learning",
-        "quality": "medium",
-        "importance": "low"
+        "intent": "Learn",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "Minor unrelated browsing during the end of the workday.",
+          "intent": "learning",
+          "quality": "medium"
+        }
       }
     ],
     "unobserved_periods": [
@@ -431,20 +455,102 @@
       "title": "Formalize the method-sensitivity question",
       "reason": "The pilot has moved from a method-specific anomaly toward a comparative robustness question, but the exact claim and comparison scope still need to be fixed.",
       "suggested_focus_minutes": 60,
-      "target": "Noisy Prevalence Calibration Study"
+      "target": "Noisy Prevalence Calibration Study",
+      "target_stream": "prevalence_pilot"
     },
-    "secondary_action": {
-      "action_type": "reduce_fragmentation",
-      "title": "Keep the comparison matrix small",
-      "reason": "The current evidence supports a controlled method-by-noise comparison, not a broad benchmark.",
-      "suggested_focus_minutes": 10,
-      "target": "Noisy Prevalence Calibration Study"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not compare additional methods until the current comparison is summarized consistently.",
       "Do not interpret the low-frequency-class effect as a universal property of calibration.",
       "Do not add another dataset simply to make the pilot look more general.",
       "Do not let unrelated programming cleanup become the next research priority."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "clarify_priority",
+        "title": "Formalize the method-sensitivity question",
+        "reason": "The pilot has moved from a method-specific anomaly toward a comparative robustness question, but the exact claim and comparison scope still need to be fixed.",
+        "suggested_focus_minutes": 60,
+        "target": "Noisy Prevalence Calibration Study"
+      },
+      "secondary_action": {
+        "action_type": "reduce_fragmentation",
+        "title": "Keep the comparison matrix small",
+        "reason": "The current evidence supports a controlled method-by-noise comparison, not a broad benchmark.",
+        "suggested_focus_minutes": 10,
+        "target": "Noisy Prevalence Calibration Study"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The pilot has moved from a method-specific anomaly toward a comparative robustness question, but the exact claim and comparison scope still need to be fixed.",
+      "priority": "Run a small pilot on calibration under noisy prevalence",
+      "type": "clarify_priority"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication",
+      "manuscript",
+      "next_question"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "prevalence_pilot": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 27 shows 508 min on this work.",
+        "reason_code": null
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 27 went to other work (prevalence_pilot, 508 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 27 went to other work (prevalence_pilot, 508 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 27 shows 508 min on this work.",
+      "reason_code": null
+    }
   }
 }

@@ -335,11 +335,17 @@
           495,
           496
         ],
-        "context": "First substantive run of the pilot designed and smoke-tested on Day 23.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "experiment",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "First substantive run of the pilot designed and smoke-tested on Day 23.",
+          "intent": "experiment",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-24-02",
@@ -356,11 +362,17 @@
           502,
           503
         ],
-        "context": "Unexpected result from the first substantive pilot run.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Unexpected result from the first substantive pilot run.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-24-03",
@@ -373,11 +385,17 @@
           505,
           506
         ],
-        "context": "Follow-up to the validated non-monotonic aggregate result.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "analysis",
-        "quality": "high",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Follow-up to the validated non-monotonic aggregate result.",
+          "intent": "analysis",
+          "quality": "high"
+        }
       },
       {
         "id": "gt-24-04",
@@ -391,11 +409,17 @@
           509,
           510
         ],
-        "context": "Turning an unexpected pilot result into one targeted diagnostic rather than expanding the experiment matrix.",
+        "context": "Work",
         "area": "new calibration pilot",
-        "intent": "planning",
-        "quality": "high",
-        "importance": "medium"
+        "intent": "Plan",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "prevalence_pilot",
+        "label_notes": {
+          "context": "Turning an unexpected pilot result into one targeted diagnostic rather than expanding the experiment matrix.",
+          "intent": "planning",
+          "quality": "high"
+        }
       }
     ],
     "unobserved_periods": [
@@ -433,20 +457,102 @@
       "title": "Run the class-level diagnostic",
       "reason": "The pilot produced a surprising but internally consistent aggregate result, and one targeted diagnostic can distinguish aggregate cancellation from a more general class-conditional effect.",
       "suggested_focus_minutes": 90,
-      "target": "Noisy Prevalence Calibration Pilot"
+      "target": "Noisy Prevalence Calibration Pilot",
+      "target_stream": "prevalence_pilot"
     },
-    "secondary_action": {
-      "action_type": "reduce_fragmentation",
-      "title": "Keep the follow-up bounded",
-      "reason": "The current evidence supports one diagnostic, not a larger experiment matrix.",
-      "suggested_focus_minutes": 10,
-      "target": "Noisy Prevalence Calibration Pilot"
-    },
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not add multiple datasets or noise models before interpreting the first pilot.",
       "Do not assume the non-monotonic result is a bug after the direct recomputation checks passed.",
       "Do not treat the class-level explanation as established from one run.",
       "Do not optimize the aggregate metric at the expense of inspecting class-conditional behavior."
-    ]
+    ],
+    "original_actions": {
+      "primary_action": {
+        "action_type": "complete_open_loop",
+        "title": "Run the class-level diagnostic",
+        "reason": "The pilot produced a surprising but internally consistent aggregate result, and one targeted diagnostic can distinguish aggregate cancellation from a more general class-conditional effect.",
+        "suggested_focus_minutes": 90,
+        "target": "Noisy Prevalence Calibration Pilot"
+      },
+      "secondary_action": {
+        "action_type": "reduce_fragmentation",
+        "title": "Keep the follow-up bounded",
+        "reason": "The current evidence supports one diagnostic, not a larger experiment matrix.",
+        "suggested_focus_minutes": 10,
+        "target": "Noisy Prevalence Calibration Pilot"
+      }
+    },
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The pilot produced a surprising but internally consistent aggregate result, and one targeted diagnostic can distinguish aggregate cancellation from a more general class-conditional effect.",
+      "priority": "Run a small pilot on calibration under noisy prevalence",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "main_experiment",
+      "replication",
+      "manuscript",
+      "next_question"
+    ],
+    "response_by_stream": {
+      "main_experiment": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "manuscript": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "replication": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "next_question": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "prevalence_pilot": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 25 shows 546 min on this work.",
+        "reason_code": null
+      },
+      "research_admin": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 25 went to other work (prevalence_pilot, 546 min).",
+        "reason_code": "different_priority"
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 25 went to other work (prevalence_pilot, 546 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 25 shows 546 min on this work.",
+      "reason_code": null
+    }
   }
 }

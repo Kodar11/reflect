@@ -408,11 +408,17 @@
           730,
           731
         ],
-        "context": "The creator is using the current release as feedback context while finishing the next project.",
+        "context": "Work",
         "area": "creator_operations_and_community",
-        "intent": "Handle current communication and inspect the existing release feedback loop.",
-        "quality": "focused post-publish review",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Focused",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The creator is using the current release as feedback context while finishing the next project.",
+          "intent": "Handle current communication and inspect the existing release feedback loop.",
+          "quality": "focused post-publish review"
+        }
       },
       {
         "id": "gt-30-02",
@@ -425,11 +431,17 @@
           733,
           734
         ],
-        "context": "The project had an initial edit and one flagged retake note from Day 29.",
+        "context": "Work",
         "area": "analytics_and_editing",
-        "intent": "Confirm what remains to be fixed before finalizing the video.",
-        "quality": "high-value quality control",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The project had an initial edit and one flagged retake note from Day 29.",
+          "intent": "Confirm what remains to be fixed before finalizing the video.",
+          "quality": "high-value quality control"
+        }
       },
       {
         "id": "gt-30-03",
@@ -440,11 +452,17 @@
         "event_ids": [
           735
         ],
-        "context": "This validates the complete narrative outside the editor.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Check pacing and whether the flagged section actually requires another take.",
-        "quality": "focused review",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "background_jobs_video",
+        "label_notes": {
+          "context": "This validates the complete narrative outside the editor.",
+          "intent": "Check pacing and whether the flagged section actually requires another take.",
+          "quality": "focused review"
+        }
       },
       {
         "id": "gt-30-04",
@@ -453,11 +471,16 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Brief break before the targeted correction.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-05",
@@ -470,11 +493,17 @@
           737,
           738
         ],
-        "context": "The full-cut review supported one specific correction rather than a new recording session.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Capture a cleaner version of the flagged section.",
-        "quality": "efficient corrective production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "background_jobs_video",
+        "label_notes": {
+          "context": "The full-cut review supported one specific correction rather than a new recording session.",
+          "intent": "Capture a cleaner version of the flagged section.",
+          "quality": "efficient corrective production"
+        }
       },
       {
         "id": "gt-30-06",
@@ -483,11 +512,17 @@
         "title": "Offline break",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Brief break before integrating the retake.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Brief break before integrating the retake.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-07",
@@ -501,11 +536,17 @@
           741,
           742
         ],
-        "context": "The targeted retake is now integrated into the same narrative.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Close the remaining structural and presentation issues.",
-        "quality": "substantive production",
-        "importance": "high"
+        "intent": "Complete",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "background_jobs_video",
+        "label_notes": {
+          "context": "The targeted retake is now integrated into the same narrative.",
+          "intent": "Close the remaining structural and presentation issues.",
+          "quality": "substantive production"
+        }
       },
       {
         "id": "gt-30-08",
@@ -514,11 +555,17 @@
         "title": "Offline lunch and break",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Lunch and recovery between edit blocks.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "intent": "Lunch and recovery between edit blocks.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-09",
@@ -530,11 +577,17 @@
           743,
           744
         ],
-        "context": "The replacement section has already been integrated.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Verify that the video is ready for packaging and upload.",
-        "quality": "high-value final review",
-        "importance": "high"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "high",
+        "stream": "background_jobs_video",
+        "label_notes": {
+          "context": "The replacement section has already been integrated.",
+          "intent": "Verify that the video is ready for packaging and upload.",
+          "quality": "high-value final review"
+        }
       },
       {
         "id": "gt-30-10",
@@ -543,11 +596,16 @@
         "title": "Offline transition",
         "summary": "Spent a short period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Brief transition before packaging.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-11",
@@ -561,11 +619,17 @@
           747,
           748
         ],
-        "context": "Packaging is now grounded in a final cut rather than an early idea.",
+        "context": "Work",
         "area": "thumbnail_design_and_creator_operations",
-        "intent": "Prepare the primary visual asset and confirm available files before upload.",
-        "quality": "productive packaging",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "background_jobs_video",
+        "label_notes": {
+          "context": "Packaging is now grounded in a final cut rather than an early idea.",
+          "intent": "Prepare the primary visual asset and confirm available files before upload.",
+          "quality": "productive packaging"
+        }
       },
       {
         "id": "gt-30-12",
@@ -574,11 +638,17 @@
         "title": "Offline dinner transition",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Dinner and transition into publishing.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Complete",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "intent": "Dinner and transition into publishing.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-13",
@@ -592,11 +662,17 @@
           751,
           752
         ],
-        "context": "This completes the month-long background-jobs production arc from idea validation through recording, editing, and publication setup.",
+        "context": "Work",
         "area": "publishing",
-        "intent": "Move the finished video into a scheduled release state.",
-        "quality": "successful completion",
-        "importance": "high"
+        "intent": "Plan",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "background_jobs_video",
+        "label_notes": {
+          "context": "This completes the month-long background-jobs production arc from idea validation through recording, editing, and publication setup.",
+          "intent": "Move the finished video into a scheduled release state.",
+          "quality": "successful completion"
+        }
       },
       {
         "id": "gt-30-14",
@@ -608,11 +684,17 @@
           753,
           754
         ],
-        "context": "The platform supports both creator communication and ordinary browsing.",
+        "context": "Work",
         "area": "community_and_social",
-        "intent": "Handle audience communication and browse current content.",
+        "intent": "Communicate",
         "quality": "mixed-intent activity",
-        "importance": "medium"
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The platform supports both creator communication and ordinary browsing.",
+          "intent": "Handle audience communication and browse current content.",
+          "quality": "mixed-intent activity"
+        }
       },
       {
         "id": "gt-30-15",
@@ -624,11 +706,17 @@
           755,
           756
         ],
-        "context": "The new background-jobs video is already scheduled, so this is existing-channel maintenance rather than active production.",
+        "context": "Work",
         "area": "analytics_and_ideation",
-        "intent": "Maintain awareness of current performance and future options.",
-        "quality": "light maintenance",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The new background-jobs video is already scheduled, so this is existing-channel maintenance rather than active production.",
+          "intent": "Maintain awareness of current performance and future options.",
+          "quality": "light maintenance"
+        }
       },
       {
         "id": "gt-30-16",
@@ -637,11 +725,17 @@
         "title": "Offline personal time",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity was observed.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Dinner cleanup or general personal time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity was observed.",
+          "intent": "Dinner cleanup or general personal time.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-30-17",
@@ -653,11 +747,17 @@
           757,
           758
         ],
-        "context": "The sponsor workstream is mostly complete and is now routine administration.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Confirm whether any commercial follow-up remains and keep records current.",
-        "quality": "contained business maintenance",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "The sponsor workstream is mostly complete and is now routine administration.",
+          "intent": "Confirm whether any commercial follow-up remains and keep records current.",
+          "quality": "contained business maintenance"
+        }
       },
       {
         "id": "gt-30-18",
@@ -669,11 +769,17 @@
           759,
           760
         ],
-        "context": "Normal evening leisure after a production milestone.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Normal evening leisure after a production milestone.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-30-19",
@@ -684,11 +790,17 @@
         "event_ids": [
           761
         ],
-        "context": "The creator has completed the background-jobs production loop but still has future backlog choices.",
+        "context": "Work",
         "area": "project_management_and_reflection",
-        "intent": "Record what worked, what remains open, and what should be decided next.",
-        "quality": "useful closeout",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "background_jobs_video",
+        "label_notes": {
+          "context": "The creator has completed the background-jobs production loop but still has future backlog choices.",
+          "intent": "Record what worked, what remains open, and what should be decided next.",
+          "quality": "useful closeout"
+        }
       }
     ],
     "unobserved_periods": [
@@ -750,20 +862,8 @@
     "possible_next_step": "Let the scheduled background-jobs video release and use its audience response to choose between continuing the reliability series, returning to PostgreSQL topics, or selecting another backlog idea."
   },
   "expected_coach_outcome": {
-    "primary_action": {
-      "title": "Close the month without forcing a new project",
-      "action_type": "defer_next_project_until_feedback",
-      "reason": "The creator has just completed and scheduled another multi-day video; the next useful input is audience response rather than immediate additional production.",
-      "target": "Background Jobs / Idempotency video",
-      "suggested_focus_minutes": null
-    },
-    "secondary_action": {
-      "title": "Preserve the month-end notes",
-      "action_type": "retain_longitudinal_context",
-      "reason": "The creator has accumulated a clear chain from indexing content to audience-driven reliability topics, so the next decision benefits from that history.",
-      "target": "Creator Month Notes",
-      "suggested_focus_minutes": null
-    },
+    "primary_action": null,
+    "secondary_action": null,
     "things_not_to_do": [
       "Do not assume the scheduled video will perform well before release.",
       "Do not start another full production cycle merely to maintain momentum.",
@@ -772,6 +872,36 @@
       "Do not classify Instagram Explore as work or distraction without stronger evidence.",
       "Do not infer sponsor outcome from administrative activity alone.",
       "Do not infer offline activity."
+    ],
+    "original_actions": {
+      "primary_action": {
+        "title": "Close the month without forcing a new project",
+        "action_type": "defer_next_project_until_feedback",
+        "reason": "The creator has just completed and scheduled another multi-day video; the next useful input is audience response rather than immediate additional production.",
+        "target": "Background Jobs / Idempotency video",
+        "suggested_focus_minutes": null
+      },
+      "secondary_action": {
+        "title": "Preserve the month-end notes",
+        "action_type": "retain_longitudinal_context",
+        "reason": "The creator has accumulated a clear chain from indexing content to audience-driven reliability topics, so the next decision benefits from that history.",
+        "target": "Creator Month Notes",
+        "suggested_focus_minutes": null
+      }
+    },
+    "action_opportunity": {
+      "should_exist": false,
+      "strength": "none",
+      "reason": "Another multi-day video was completed and scheduled; the key's own move is to wait for audience response rather than start a new production to keep momentum.",
+      "priority": null,
+      "type": null
+    },
+    "forbidden_streams": [
+      "api_video",
+      "redis_video",
+      "pg_indexes_video",
+      "pg_partial_video",
+      "indexing_mistakes_video"
     ]
   }
 }

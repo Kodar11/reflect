@@ -239,6 +239,39 @@ describe('daily intelligence — invalid output never corrupts anything', () => 
     expect(h.coachRepo.memories).toEqual([]);
   });
 
+  it('a day on which no observation holds up still gets its report and its coaching (the benchmark\'s four lost days)', async () => {
+    // What happened on founder day 5, student days 22 and 24 and designer day 6 of the first six-persona run:
+    // every insight of all three attempts was refused (a comparison cited by its row key with a value the row
+    // does not hold, a pattern said twice already), so nothing was written — and the day's valid action went with it.
+    const h = harness();
+    const refused = () =>
+      modelDay(
+        day12,
+        { actions: [modelAction()] },
+        {
+          headline: 'You spent 9h 59m on Project X, 77m more than usual.',
+          insights: [
+            modelInsight({ type: 'change_over_time', title: 'Longer blocks than before', observation: 'Your average block was 77m longer than the previous day.', interpretation: 'Blocks ran longer than the day before.' }),
+          ],
+        },
+      );
+    h.gemini.push(refused(), refused(), refused());
+
+    const result = await h.service.generate(day12, { trigger: 'scheduled' });
+    expect(result).toMatchObject({ status: 'succeeded', attempts: 3, insightCount: 0 });
+    const report = h.repo.getCurrentReport('day', day12.key)!;
+    // Measured totals only; the refused claims and the headline built on them are gone.
+    expect(report.headline).toMatch(/^Total tracked time: .+\. No further observation passed Reflect’s evidence checks\.$/);
+    expect(JSON.stringify([report.headline, report.narrative, report.insights])).not.toContain('77');
+    expect(report.insights).toEqual([]);
+    // The narrative sentences that validated are kept; the coaching that validated in the first attempt is kept.
+    expect(report.narrative).toBe('You started with a long stretch on Project X. After lunch the day broke into shorter pieces across Project Y, research and video.');
+    expect(h.coachRepo.actions.map((a) => a.title)).toEqual(['Run one 45-minute Focus session on Project X before switching threads']);
+    // Each retry named the problem and the correction; the accepted coaching was not re-opened.
+    expect(h.gemini.requests[1].prompt).toContain('insight 1: a change_over_time insight must cite a comparison');
+    expect(h.gemini.requests[1].prompt).toContain('The coach part was ACCEPTED. Return it exactly as before.');
+  });
+
   it('a missing or mangled coach block cannot sink a good reflection', async () => {
     for (const coach of [undefined, 'advice: work harder', { actions: 'lots' }]) {
       const h = harness();

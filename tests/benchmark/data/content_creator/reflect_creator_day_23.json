@@ -363,11 +363,17 @@
           532,
           533
         ],
-        "context": "The release-feedback loop is still informing the choice of the next content project.",
+        "context": "Work",
         "area": "community_and_analytics",
-        "intent": "Inspect current audience response before committing to the next idea.",
-        "quality": "relevant post-publish review",
-        "importance": "high"
+        "intent": "Research",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The release-feedback loop is still informing the choice of the next content project.",
+          "intent": "Inspect current audience response before committing to the next idea.",
+          "quality": "relevant post-publish review"
+        }
       },
       {
         "id": "gt-23-02",
@@ -379,11 +385,17 @@
           534,
           535
         ],
-        "context": "The candidate had been researched and outlined over Days 22–23.",
+        "context": "Work",
         "area": "ideation_and_scripting",
-        "intent": "Make a deliberate go/no-go decision and start production preparation.",
-        "quality": "focused prioritization",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "The candidate had been researched and outlined over Days 22–23.",
+          "intent": "Make a deliberate go/no-go decision and start production preparation.",
+          "quality": "focused prioritization"
+        }
       },
       {
         "id": "gt-23-03",
@@ -396,11 +408,17 @@
           537,
           538
         ],
-        "context": "The search is directly tied to a planned example in the new video.",
+        "context": "Work",
         "area": "research_and_scripting",
-        "intent": "Strengthen the script with one concrete production mistake.",
-        "quality": "targeted research",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "The search is directly tied to a planned example in the new video.",
+          "intent": "Strengthen the script with one concrete production mistake.",
+          "quality": "targeted research"
+        }
       },
       {
         "id": "gt-23-04",
@@ -409,11 +427,16 @@
         "title": "Offline break and lunch",
         "summary": "Spent the period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity is available.",
+        "context": "Personal",
         "area": "personal",
         "intent": "Lunch and personal time.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity is available.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-23-05",
@@ -426,11 +449,17 @@
           540,
           541
         ],
-        "context": "The creator is moving from research into a recordable version of the chosen idea.",
+        "context": "Work",
         "area": "scripting",
-        "intent": "Prepare a clear, recordable flow.",
-        "quality": "substantive pre-production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "The creator is moving from research into a recordable version of the chosen idea.",
+          "intent": "Prepare a clear, recordable flow.",
+          "quality": "substantive pre-production"
+        }
       },
       {
         "id": "gt-23-06",
@@ -441,11 +470,17 @@
         "event_ids": [
           542
         ],
-        "context": "The exact purpose of the discussion is not visible.",
+        "context": "Work",
         "area": "community",
-        "intent": "Peer or social interaction.",
+        "intent": "Consume",
         "quality": "ambiguous communication",
-        "importance": "low"
+        "importance": "low",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The exact purpose of the discussion is not visible.",
+          "intent": "Peer or social interaction.",
+          "quality": "ambiguous communication"
+        }
       },
       {
         "id": "gt-23-07",
@@ -454,11 +489,17 @@
         "title": "Offline recording setup",
         "summary": "Prepared the physical recording setup away from the desktop.",
         "event_ids": [],
-        "context": "The physical setup cannot be observed.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Prepare to capture the indexing-mistakes video.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "The physical setup cannot be observed.",
+          "intent": "Prepare to capture the indexing-mistakes video.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-23-08",
@@ -471,11 +512,17 @@
           544,
           545
         ],
-        "context": "The new project has now moved from scripting into recording.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Capture the main video material and assess the first take.",
-        "quality": "substantive production with quality check",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "The new project has now moved from scripting into recording.",
+          "intent": "Capture the main video material and assess the first take.",
+          "quality": "substantive production with quality check"
+        }
       },
       {
         "id": "gt-23-09",
@@ -484,11 +531,17 @@
         "title": "Offline recording adjustment",
         "summary": "Made a brief physical adjustment before the second take.",
         "event_ids": [],
-        "context": "No desktop evidence is available.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Correct or improve the setup for another take.",
-        "quality": "unobserved offline activity",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "medium",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "No desktop evidence is available.",
+          "intent": "Correct or improve the setup for another take.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-23-10",
@@ -500,11 +553,17 @@
           546,
           547
         ],
-        "context": "The second take follows review of the first, indicating iterative recording.",
+        "context": "Work",
         "area": "recording",
-        "intent": "Capture a cleaner usable take.",
-        "quality": "iterative production",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "The second take follows review of the first, indicating iterative recording.",
+          "intent": "Capture a cleaner usable take.",
+          "quality": "iterative production"
+        }
       },
       {
         "id": "gt-23-11",
@@ -516,11 +575,17 @@
           548,
           549
         ],
-        "context": "These activities are part of the creator's audience-work loop and are separate from recording.",
+        "context": "Work",
         "area": "community",
-        "intent": "Handle current audience communication.",
-        "quality": "relevant community work",
-        "importance": "medium"
+        "intent": "Communicate",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "These activities are part of the creator's audience-work loop and are separate from recording.",
+          "intent": "Handle current audience communication.",
+          "quality": "relevant community work"
+        }
       },
       {
         "id": "gt-23-12",
@@ -529,11 +594,17 @@
         "title": "Offline break and dinner transition",
         "summary": "Spent a period away from the desktop.",
         "event_ids": [],
-        "context": "No desktop activity is available.",
+        "context": "Personal",
         "area": "personal",
-        "intent": "Break and transition into evening editing.",
-        "quality": "unobserved offline activity",
-        "importance": "low"
+        "intent": "Create",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "personal",
+        "label_notes": {
+          "context": "No desktop activity is available.",
+          "intent": "Break and transition into evening editing.",
+          "quality": "unobserved offline activity"
+        }
       },
       {
         "id": "gt-23-13",
@@ -547,11 +618,17 @@
           552,
           553
         ],
-        "context": "The second recording take is now available for editing.",
+        "context": "Work",
         "area": "editing",
-        "intent": "Build an initial cut and improve the opening presentation.",
-        "quality": "substantive production with brief reference lookup",
-        "importance": "high"
+        "intent": "Create",
+        "quality": "Focused",
+        "importance": "high",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "The second recording take is now available for editing.",
+          "intent": "Build an initial cut and improve the opening presentation.",
+          "quality": "substantive production with brief reference lookup"
+        }
       },
       {
         "id": "gt-23-14",
@@ -562,11 +639,17 @@
         "event_ids": [
           554
         ],
-        "context": "The metrics update does not reveal a major resulting decision.",
+        "context": "Work",
         "area": "analytics",
-        "intent": "Maintain channel records.",
-        "quality": "light maintenance",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "channel_ops",
+        "label_notes": {
+          "context": "The metrics update does not reveal a major resulting decision.",
+          "intent": "Maintain channel records.",
+          "quality": "light maintenance"
+        }
       },
       {
         "id": "gt-23-15",
@@ -577,11 +660,17 @@
         "event_ids": [
           555
         ],
-        "context": "This is follow-up to the completed sponsor workstream from Days 18–22.",
+        "context": "Work",
         "area": "sponsorship",
-        "intent": "Check whether any follow-up is required.",
-        "quality": "brief business maintenance",
-        "importance": "low"
+        "intent": "Review",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "sponsorship",
+        "label_notes": {
+          "context": "This is follow-up to the completed sponsor workstream from Days 18–22.",
+          "intent": "Check whether any follow-up is required.",
+          "quality": "brief business maintenance"
+        }
       },
       {
         "id": "gt-23-16",
@@ -592,11 +681,17 @@
         "event_ids": [
           556
         ],
-        "context": "No separate project was started.",
+        "context": "Work",
         "area": "ideation",
-        "intent": "Maintain awareness of future options.",
-        "quality": "light maintenance",
-        "importance": "low"
+        "intent": "Manage",
+        "quality": "Routine",
+        "importance": "low",
+        "stream": "next_video_planning",
+        "label_notes": {
+          "context": "No separate project was started.",
+          "intent": "Maintain awareness of future options.",
+          "quality": "light maintenance"
+        }
       },
       {
         "id": "gt-23-17",
@@ -608,11 +703,17 @@
           557,
           558
         ],
-        "context": "Normal evening leisure.",
+        "context": "Leisure",
         "area": "leisure",
-        "intent": "Recreation and social interaction.",
-        "quality": "deliberate leisure",
-        "importance": "low"
+        "intent": "Consume",
+        "quality": "Break-Idle",
+        "importance": "low",
+        "stream": "leisure",
+        "label_notes": {
+          "context": "Normal evening leisure.",
+          "intent": "Recreation and social interaction.",
+          "quality": "deliberate leisure"
+        }
       },
       {
         "id": "gt-23-18",
@@ -623,11 +724,17 @@
         "event_ids": [
           559
         ],
-        "context": "The project has both recorded footage and a first rough cut.",
+        "context": "Work",
         "area": "scripting_and_project_management",
-        "intent": "Capture the next correction or edit note.",
-        "quality": "useful closeout",
-        "importance": "medium"
+        "intent": "Create",
+        "quality": "Routine",
+        "importance": "medium",
+        "stream": "indexing_mistakes_video",
+        "label_notes": {
+          "context": "The project has both recorded footage and a first rough cut.",
+          "intent": "Capture the next correction or edit note.",
+          "quality": "useful closeout"
+        }
       }
     ],
     "unobserved_periods": [
@@ -684,7 +791,8 @@
       "action_type": "complete_open_loop",
       "reason": "The project already has two reviewed takes and a first edit, so the next highest-value step is to establish the complete narrative before polishing or packaging.",
       "target": "PostgreSQL Indexing Mistakes video",
-      "suggested_focus_minutes": null
+      "suggested_focus_minutes": null,
+      "target_stream": "indexing_mistakes_video"
     },
     "secondary_action": null,
     "things_not_to_do": [
@@ -694,6 +802,98 @@
       "Do not infer sponsor urgency from a brief inbox check.",
       "Do not treat audience comments as the same activity as recording or editing.",
       "Do not infer offline activity."
-    ]
+    ],
+    "action_opportunity": {
+      "should_exist": true,
+      "strength": "strong",
+      "reason": "The project already has two reviewed takes and a first edit, so the next highest-value step is to establish the complete narrative before polishing or packaging.",
+      "priority": "Make measurable progress on the next big technical video",
+      "type": "complete_open_loop"
+    },
+    "forbidden_streams": [
+      "api_video",
+      "redis_video",
+      "pg_indexes_video",
+      "pg_partial_video"
+    ],
+    "response_by_stream": {
+      "api_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "redis_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_indexes_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "pg_partial_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "That work is already finished or parked.",
+        "reason_code": "not_relevant"
+      },
+      "indexing_mistakes_video": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 24 shows 381 min on this work.",
+        "reason_code": null
+      },
+      "background_jobs_video": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 24 went to other work (indexing_mistakes_video, 381 min).",
+        "reason_code": "different_priority"
+      },
+      "sponsorship": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "partly_worked",
+        "reason": "Day 24 shows 57 min on this work.",
+        "reason_code": null
+      },
+      "next_video_planning": {
+        "user_decision": "accepted",
+        "execution": "partial",
+        "outcome": "partly_worked",
+        "reason": "Day 24 shows 24 min on this work: a short return to it.",
+        "reason_code": null
+      },
+      "channel_ops": {
+        "user_decision": "accepted",
+        "execution": "done",
+        "outcome": "worked",
+        "reason": "Day 24 shows 122 min on this work.",
+        "reason_code": null
+      },
+      "learning": {
+        "user_decision": "rejected",
+        "execution": "not_applicable",
+        "outcome": "not_applicable",
+        "reason": "Day 24 went to other work (indexing_mistakes_video, 381 min).",
+        "reason_code": "different_priority"
+      }
+    },
+    "execution_scenario": {
+      "user_decision": "accepted",
+      "execution": "done",
+      "outcome": "worked",
+      "reason": "Day 24 shows 381 min on this work.",
+      "reason_code": null
+    }
   }
 }
