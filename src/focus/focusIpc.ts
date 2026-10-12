@@ -2,6 +2,7 @@ import type { WebContents } from 'electron';
 import { ipcWebContentsSend } from '../electron/util.js';
 import type {
   ActiveFocusSessionDto,
+  BlockingCleanupState,
   ConfirmEndRequest,
   EndFocusChallenge,
   FocusPreferences,
@@ -320,6 +321,7 @@ export function registerFocusIpc(
   ipcMainHandle('focus:getPreferences', (): FocusPreferences => service.getPreferences());
   ipcMainHandle('focus:savePreferences', (p?: unknown): FocusPreferences => service.setPreferences(p));
   ipcMainHandle('focus:getBlockingResidue', (): boolean => service.hasBlockingResidue());
+  ipcMainHandle('focus:getBlockingCleanup', (): BlockingCleanupState => service.getBlockingCleanup());
   ipcMainHandle('focus:clearBlockingResidue', async (): Promise<boolean> => {
     await service.clearBlockingResidue();
     return service.hasBlockingResidue();
@@ -327,6 +329,11 @@ export function registerFocusIpc(
 
   service.on('activeSessionChanged', (dto) => {
     push('focus:activeSessionChanged', dto ? toActiveDto(dto) : null);
+  });
+
+  // Pushed, not polled: the renderer cannot know when a release has finished.
+  service.on('blockingCleanupChanged', (state) => {
+    push('focus:blockingCleanupChanged', state);
   });
 
   service.on('summary', async (session) => {

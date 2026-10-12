@@ -8,6 +8,7 @@ import {
   normalizeFocusPreferences,
   type ActiveFocusSessionDto,
   type BlockedAttempt,
+  type BlockingCleanupState,
   type ConfirmEndRequest,
   type EffectiveBlockingConfig,
   type EndFocusChallenge,
@@ -21,7 +22,7 @@ import {
   type StartFocusRequest,
 } from './FocusModels.js';
 import type { IFocusRepository } from '../database/FocusRepository.js';
-import type { BlockedAttemptEvent, BlockingLeaseId, IBlockingManager } from './BlockingManager.js';
+import { BlockingError, type BlockedAttemptEvent, type BlockingLeaseId, type IBlockingManager } from './BlockingManager.js';
 import { compileBlockingConfig, countBlockRules, isDomainBlocked } from './BlockingConfig.js';
 
 /**
@@ -45,6 +46,9 @@ import { compileBlockingConfig, countBlockRules, isDomainBlocked } from './Block
  *   - Ending early needs a challenge issued by `requestEnd` and answered
  *     through `confirmEnd`. There is no other exit.
  *   - Pausing — manual or idle — never releases blocking.
+ *   - A session that becomes terminal releases its own lease, and only its
+ *     own. Whether anything was left behind is reported after that release
+ *     has finished, never while it is still in flight.
  *   - Every mutating operation runs on one queue, so start/pause/resume/
  *     end/expiry can never interleave.
  */
@@ -65,6 +69,8 @@ export type FocusServiceEvents = {
   /** Once per timer tick while a session exists; for the tray clock. */
   tick: (dto: ActiveFocusSessionDto) => void;
   notice: (notice: FocusNotice) => void;
+  /** Leftover blocking appeared, or was removed. */
+  blockingCleanupChanged: (state: BlockingCleanupState) => void;
 };
 
 export type FocusErrorCode =
@@ -100,6 +106,14 @@ export interface FocusServiceOptions {
   /** A gap between ticks longer than this is treated as sleep, not work. */
   sleepGapMs?: number;
   endChallengeTtlMs?: number;
+  /**
+   * After a release that left blocking behind, how often to look again. The
+   * enforcement side drops an un-heartbeated lease by itself, so leftovers
+   * usually disappear without anyone doing anything.
+   */
+  residueRecheckMs?: number;
+  /** How many times to look again before leaving it to the user. */
+  residueRechecks?: number;
   log?: (message: string) => void;
 }
 
@@ -120,6 +134,7 @@ export interface IFocusService {
   getPreferences(): FocusPreferences;
   setPreferences(preferences: unknown): FocusPreferences;
   hasBlockingResidue(): boolean;
+  getBlockingCleanup(): BlockingCleanupState;
   clearBlockingResidue(): Promise<void>;
   observeDomain(domain: string | null | undefined): void;
   handleSystemResume(): void;
@@ -146,6 +161,16 @@ interface InternalState {
   recentAttempts: Map<string, number>;
 }
 
+/** A release that did not succeed; kept so it can be retried and explained. */
+interface CleanupFailure {
+  sessionId: string;
+  leaseId: BlockingLeaseId | null;
+  message: string;
+  /** True while the enforcement side is reachable and one more try is free. */
+  retryable: boolean;
+  at: number;
+}
+
 interface PendingChallenge extends EndFocusChallenge {
   expiresAtMs: number;
 }
@@ -161,12 +186,18 @@ export class FocusService implements IFocusService {
   private active: InternalState | null = null;
   private queue: Promise<unknown> = Promise.resolve();
   private challenge: PendingChallenge | null = null;
+  /** True while a finished session's lease is being released. */
+  private releasing = false;
+  private cleanupFailure: CleanupFailure | null = null;
+  private residueTimer: ReturnType<typeof setTimeout> | null = null;
+  private lastCleanup: BlockingCleanupState = { residue: false, message: null };
   private preferences: FocusPreferences;
   private readonly listeners: ListenerSets = {
     activeSessionChanged: new Set(),
     summary: new Set(),
     tick: new Set(),
     notice: new Set(),
+    blockingCleanupChanged: new Set(),
   };
 
   private readonly now: () => number;
@@ -177,6 +208,8 @@ export class FocusService implements IFocusService {
   private readonly resumeWindowMs: number;
   private readonly sleepGapMs: number;
   private readonly endChallengeTtlMs: number;
+  private readonly residueRecheckMs: number;
+  private readonly residueRechecks: number;
   private readonly log: (message: string) => void;
 
   constructor(
@@ -192,6 +225,8 @@ export class FocusService implements IFocusService {
     this.resumeWindowMs = options.resumeWindowMs ?? 2 * 60_000;
     this.sleepGapMs = options.sleepGapMs ?? 15_000;
     this.endChallengeTtlMs = options.endChallengeTtlMs ?? 2 * 60_000;
+    this.residueRecheckMs = options.residueRecheckMs ?? 20_000;
+    this.residueRechecks = options.residueRechecks ?? 3;
     this.log = options.log ?? (() => {});
     try {
       this.preferences = this.repo.getPreferences();
@@ -307,6 +342,8 @@ export class FocusService implements IFocusService {
         updatedAt: createdAt,
       };
       this.repo.insertSession(session);
+      // From here on this session may come to own the blocking state.
+      this.stopResidueWatch();
 
       let leaseId: BlockingLeaseId | null = null;
       let blockingStatus: FocusBlockingStatus = 'off';
@@ -320,6 +357,7 @@ export class FocusService implements IFocusService {
           } catch (err) {
             // Never a session that claims blocking it does not have.
             this.repo.deleteSession(session.id);
+            this.settleResidue();
             const detail = (err as Error)?.message ?? 'Blocking could not be turned on.';
             throw new FocusError('blocking-failed', `${detail} Focus was not started.`);
           }
@@ -335,7 +373,7 @@ export class FocusService implements IFocusService {
       try {
         this.repo.updateSession(session);
       } catch (err) {
-        if (leaseId) await this.blockingManager.stop(leaseId, session.id).catch(() => {});
+        await this.releaseBlocking(session.id, leaseId);
         try {
           this.repo.deleteSession(session.id);
         } catch {
@@ -348,6 +386,7 @@ export class FocusService implements IFocusService {
       state.leaseId = leaseId;
       state.blockingStatus = blockingStatus;
       state.blockingMessage = blockingStatus === 'unavailable' ? 'Blocking is not available on this system.' : null;
+      this.announceCleanup();
 
       const dto = this.buildDto(state);
       this.emit('activeSessionChanged', dto);
@@ -530,23 +569,43 @@ export class FocusService implements IFocusService {
     const now = this.now();
     this.closeSession(session, state, endReason, endedAtMs, note, now);
     this.repo.updateSession(session);
+    // Set before anyone hears the session is over: its blocking is still
+    // owned until the release below has finished.
+    this.releasing = true;
     this.active = null;
 
     const ended = { ...session };
     this.emit('activeSessionChanged', null);
     this.emit('summary', ended, profile);
 
-    if (leaseId) {
-      try {
-        await this.blockingManager.stop(leaseId, session.id);
-      } catch (err) {
-        // The session is over either way. Leftover blocking is surfaced to
-        // the user through `hasBlockingResidue`, and the enforcement side
-        // releases an un-heartbeated lease by itself.
-        this.log(`failed to release blocking for session ${session.id}: ${(err as Error)?.message ?? err}`);
-      }
-    }
+    // The session is over either way; what is left of its blocking is
+    // reported once this has finished.
+    await this.releaseBlocking(session.id, leaseId);
     return ended;
+  }
+
+  /**
+   * Release the lease a session held — that lease and nothing else — and then
+   * report whether anything was left behind. Must run on the queue, so the
+   * next session cannot start until this one's blocking is settled.
+   */
+  private async releaseBlocking(sessionId: string, leaseId: BlockingLeaseId | null, retry = true): Promise<void> {
+    this.releasing = true;
+    let failure: CleanupFailure | null = null;
+    try {
+      if (leaseId) await this.blockingManager.stop(leaseId, sessionId);
+    } catch (err) {
+      const message = (err as Error)?.message ?? String(err);
+      const code = err instanceof BlockingError ? err.code : 'unknown';
+      // Only a blocker that answered (or is still connected) can be asked
+      // again without another elevation prompt.
+      failure = { sessionId, leaseId, message, retryable: retry && (code === 'rejected' || code === 'timeout'), at: this.now() };
+      this.log(`failed to release blocking for session ${sessionId} (lease ${leaseId}, ${code}): ${message}`);
+    } finally {
+      this.releasing = false;
+    }
+    this.cleanupFailure = failure;
+    this.settleResidue();
   }
 
   private closeSession(
@@ -705,8 +764,15 @@ export class FocusService implements IFocusService {
     });
   }
 
+  // ── Leftover blocking ────────────────────────────────────────────────────
+
+  /**
+   * True when blocking is in place with no session to own it. Never true for
+   * a session that is running or whose lease is still being released — that
+   * blocking has an owner.
+   */
   hasBlockingResidue(): boolean {
-    if (this.active) return false;
+    if (this.active || this.releasing) return false;
     try {
       return this.blockingManager.hasResidue();
     } catch {
@@ -714,12 +780,74 @@ export class FocusService implements IFocusService {
     }
   }
 
+  getBlockingCleanup(): BlockingCleanupState {
+    const residue = this.hasBlockingResidue();
+    return { residue, message: residue ? this.cleanupFailure?.message ?? null : null };
+  }
+
+  /** User-initiated removal of leftover blocking. Safe to repeat. */
   clearBlockingResidue(): Promise<void> {
     return this.enqueue(async () => {
       // Never while a session owns the blocking state.
       if (this.active) return;
-      await this.blockingManager.clearResidue();
+      this.stopResidueWatch();
+      try {
+        await this.blockingManager.clearResidue();
+        this.cleanupFailure = null;
+      } catch (err) {
+        const message = (err as Error)?.message ?? String(err);
+        this.cleanupFailure = { sessionId: this.cleanupFailure?.sessionId ?? '', leaseId: null, message, retryable: false, at: this.now() };
+        this.log(`failed to remove leftover blocking: ${message}`);
+        throw err;
+      } finally {
+        this.announceCleanup();
+      }
     });
+  }
+
+  /** Tell listeners whether anything is left behind, when that has changed. */
+  private announceCleanup(): void {
+    const state = this.getBlockingCleanup();
+    if (!state.residue) this.cleanupFailure = null;
+    if (state.residue === this.lastCleanup.residue && state.message === this.lastCleanup.message) return;
+    this.lastCleanup = state;
+    this.emit('blockingCleanupChanged', state);
+  }
+
+  /**
+   * Report what is left behind now, and keep an eye on it for a bounded
+   * time: an enforcement side that lost us lets go by itself when its lease
+   * runs out. One free retry is made; after that it is the user's call.
+   */
+  private settleResidue(): void {
+    this.stopResidueWatch();
+    this.announceCleanup();
+    let left = this.residueRechecks;
+    const check = (): void => {
+      this.residueTimer = null;
+      if (this.active || this.releasing) return;
+      this.announceCleanup();
+      if (!this.hasBlockingResidue()) return;
+      const failure = this.cleanupFailure;
+      if (failure?.retryable) {
+        void this.enqueue(() => this.retryRelease(failure));
+        return;
+      }
+      left -= 1;
+      if (left > 0) this.residueTimer = setTimeout(check, this.residueRecheckMs);
+    };
+    if (left > 0 && this.hasBlockingResidue()) this.residueTimer = setTimeout(check, this.residueRecheckMs);
+  }
+
+  private async retryRelease(failure: CleanupFailure): Promise<void> {
+    // A session started meanwhile owns the blocking state; leave it alone.
+    if (this.active || this.cleanupFailure !== failure) return;
+    await this.releaseBlocking(failure.sessionId, failure.leaseId, false);
+  }
+
+  private stopResidueWatch(): void {
+    if (this.residueTimer) clearTimeout(this.residueTimer);
+    this.residueTimer = null;
   }
 
   // ── Blocked attempts ─────────────────────────────────────────────────────
@@ -780,72 +908,82 @@ export class FocusService implements IFocusService {
    */
   reconcileActiveSession(): Promise<void> {
     return this.enqueue(async () => {
-      if (this.active) return;
-      const now = this.now();
-
-      let candidate: FocusSession | null = null;
-      for (const session of this.repo.getOpenSessions()) {
-        if (session.state === 'planned' || !session.startedAt) {
-          this.repo.deleteSession(session.id);
-        } else if (!candidate) {
-          candidate = session;
-        } else {
-          // There can only be one live session; older strays are closed.
-          this.closeStale(session, 'cancelled', 'abandoned', new Date(session.updatedAt).getTime(), now);
-        }
+      try {
+        await this.restoreOpenSession();
+      } finally {
+        // A previous run's blocker may still hold its lease; it lets go when
+        // the lease runs out. Report leftovers and watch them meanwhile.
+        if (!this.active) this.settleResidue();
       }
-      if (!candidate) return;
-
-      const lastSeen = Math.min(now, new Date(candidate.updatedAt).getTime());
-      const found = this.repo.getProfileById(candidate.profileId);
-      if (!found) {
-        this.closeStale(candidate, 'cancelled', 'abandoned', lastSeen, now);
-        return;
-      }
-      const profile = structuredClone(found);
-
-      // A countdown is worth resuming for as long as it had left when last
-      // seen; after that the user has clearly moved on.
-      const remainingAtLastSeen = this.remainingMs(candidate, lastSeen);
-      if (remainingAtLastSeen !== null) {
-        const deadline = lastSeen + remainingAtLastSeen;
-        if (now >= deadline) {
-          if (candidate.state === 'active' && remainingAtLastSeen <= this.resumeWindowMs) {
-            this.closeStale(candidate, 'completed', 'completed', deadline, now);
-          } else {
-            this.closeStale(candidate, 'cancelled', 'abandoned', lastSeen, now);
-          }
-          return;
-        }
-      } else if (now - lastSeen > this.resumeWindowMs) {
-        this.closeStale(candidate, 'cancelled', 'abandoned', lastSeen, now);
-        return;
-      }
-
-      const config = candidate.blockingConfig ?? compileBlockingConfig(profile);
-      candidate.blockingConfig = config;
-      candidate.blockingLeaseId = null;
-      const a = this.activate(candidate, profile, config, now);
-      if (candidate.state === 'paused') {
-        a.pauseKind = this.lastPauseKind(candidate.id);
-      } else if (now - lastSeen > this.sleepGapMs) {
-        this.accountForGap(a, lastSeen, now, 'app-closed');
-      }
-      candidate.updatedAt = new Date(now).toISOString();
-
-      if (!config.enabled) {
-        a.blockingStatus = 'off';
-      } else if (this.blockingManager.enforcement === 'none') {
-        a.blockingStatus = 'unavailable';
-        a.blockingMessage = 'Blocking is not available on this system.';
-      } else {
-        a.blockingStatus = 'recovering';
-        a.blockingMessage = 'Restoring blocking…';
-      }
-      this.persist(a, now);
-      this.emit('activeSessionChanged', this.buildDto(a));
-      if (a.blockingStatus === 'recovering') await this.reacquire(a);
     });
+  }
+
+  private async restoreOpenSession(): Promise<void> {
+    if (this.active) return;
+    const now = this.now();
+
+    let candidate: FocusSession | null = null;
+    for (const session of this.repo.getOpenSessions()) {
+      if (session.state === 'planned' || !session.startedAt) {
+        this.repo.deleteSession(session.id);
+      } else if (!candidate) {
+        candidate = session;
+      } else {
+        // There can only be one live session; older strays are closed.
+        this.closeStale(session, 'cancelled', 'abandoned', new Date(session.updatedAt).getTime(), now);
+      }
+    }
+    if (!candidate) return;
+
+    const lastSeen = Math.min(now, new Date(candidate.updatedAt).getTime());
+    const found = this.repo.getProfileById(candidate.profileId);
+    if (!found) {
+      this.closeStale(candidate, 'cancelled', 'abandoned', lastSeen, now);
+      return;
+    }
+    const profile = structuredClone(found);
+
+    // A countdown is worth resuming for as long as it had left when last
+    // seen; after that the user has clearly moved on.
+    const remainingAtLastSeen = this.remainingMs(candidate, lastSeen);
+    if (remainingAtLastSeen !== null) {
+      const deadline = lastSeen + remainingAtLastSeen;
+      if (now >= deadline) {
+        if (candidate.state === 'active' && remainingAtLastSeen <= this.resumeWindowMs) {
+          this.closeStale(candidate, 'completed', 'completed', deadline, now);
+        } else {
+          this.closeStale(candidate, 'cancelled', 'abandoned', lastSeen, now);
+        }
+        return;
+      }
+    } else if (now - lastSeen > this.resumeWindowMs) {
+      this.closeStale(candidate, 'cancelled', 'abandoned', lastSeen, now);
+      return;
+    }
+
+    const config = candidate.blockingConfig ?? compileBlockingConfig(profile);
+    candidate.blockingConfig = config;
+    candidate.blockingLeaseId = null;
+    const a = this.activate(candidate, profile, config, now);
+    if (candidate.state === 'paused') {
+      a.pauseKind = this.lastPauseKind(candidate.id);
+    } else if (now - lastSeen > this.sleepGapMs) {
+      this.accountForGap(a, lastSeen, now, 'app-closed');
+    }
+    candidate.updatedAt = new Date(now).toISOString();
+
+    if (!config.enabled) {
+      a.blockingStatus = 'off';
+    } else if (this.blockingManager.enforcement === 'none') {
+      a.blockingStatus = 'unavailable';
+      a.blockingMessage = 'Blocking is not available on this system.';
+    } else {
+      a.blockingStatus = 'recovering';
+      a.blockingMessage = 'Restoring blocking…';
+    }
+    this.persist(a, now);
+    this.emit('activeSessionChanged', this.buildDto(a));
+    if (a.blockingStatus === 'recovering') await this.reacquire(a);
   }
 
   private closeStale(
@@ -880,6 +1018,7 @@ export class FocusService implements IFocusService {
   shutdown(): Promise<void> {
     return this.enqueue(async () => {
       this.blockingManager.offBlockedAttempt(this.handleBlockedAttempt);
+      this.stopResidueWatch();
       const a = this.active;
       if (a) {
         clearInterval(a.timer);

@@ -107,6 +107,11 @@ describe('blocking editor model', () => {
 
   it('works before suggestions have loaded', () => {
     const bare = blockingEditorModel(deepWork, RULES, null);
+    // The same site stored twice (older data) is one row — the one that is switched on.
+    const twin = rule('website', 'www.youtube.com', 'youtube.com');
+    const once = blockingEditorModel(deepWork, [twin, ...RULES], null).websites.filter((w) => w.rule.label === 'youtube.com');
+    expect(once).toHaveLength(1);
+    expect(once[0]).toMatchObject({ on: true, rule: { id: youtube.id } });
     expect(bare.suggestedSites).toEqual([]);
     expect(bare.categories.map((c) => c.label)).toEqual(['Social media']);
   });

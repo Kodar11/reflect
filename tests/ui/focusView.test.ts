@@ -1,10 +1,16 @@
 import { describe, it, expect } from 'vitest';
 import {
+  behaviorSummary,
   blockingDetail,
+  blockingSetupView,
   blockingSummary,
   blockingView,
   cleanIpcError,
+  customDurationProblem,
   endDialogCopy,
+  idleThresholdOptions,
+  parseCustomMinutes,
+  presetBlockingLine,
   formatClock,
   formatDurationLabel,
   formatMinutes,
@@ -119,6 +125,52 @@ describe('state and blocking labels', () => {
     expect(blockingDetail(profile({ blocking: { enabled: false, ruleCount: 0, siteCount: 0, appCount: 0 } }))).toBe('');
     expect(profileSummary(profile())).toBe('1 hr · Blocking: 5 rules');
     expect(profileSummary(profile({ mode: 'stopwatch', defaultDurationMinutes: null }))).toBe('No time limit · Blocking: 5 rules');
+  });
+});
+
+describe('setup: preset, blocking and behavior lines', () => {
+  const off = profile({ blocking: { enabled: false, ruleCount: 0, siteCount: 0, appCount: 0 } });
+
+  it('describes a preset by what it blocks', () => {
+    expect(presetBlockingLine(profile({ blocking: { enabled: true, ruleCount: 5, siteCount: 84, appCount: 3 } }))).toBe('Blocking enabled · 84 sites · 3 apps');
+    expect(presetBlockingLine(profile({ blocking: { enabled: true, ruleCount: 1, siteCount: 0, appCount: 1 } }))).toBe('Blocking enabled · 1 app');
+    expect(presetBlockingLine(off)).toBe('No blocking');
+  });
+
+  it('states what the next session will enforce', () => {
+    expect(blockingSetupView(profile({ blocking: { enabled: true, ruleCount: 5, siteCount: 84, appCount: 3 } }), true)).toEqual({
+      title: 'Blocking enabled',
+      detail: '5 rules · 84 websites · 3 applications',
+      tone: 'ok',
+      canToggle: true,
+    });
+    expect(blockingSetupView(profile({ blocking: { enabled: true, ruleCount: 1, siteCount: 1, appCount: 1 } }), true).detail).toBe('1 rule · 1 website · 1 application');
+    // Switched off for one session: never claims to be enabled, still shows what the preset holds.
+    expect(blockingSetupView(profile(), false)).toMatchObject({ title: 'Blocking off for this session', tone: 'muted', canToggle: true });
+    expect(blockingSetupView(off, true)).toEqual({ title: 'Nothing is blocked', detail: '', tone: 'muted', canToggle: false });
+  });
+
+  it('reads a custom duration strictly: whole minutes or nothing', () => {
+    expect(parseCustomMinutes('50')).toBe(50);
+    expect(parseCustomMinutes(' 90 ')).toBe(90);
+    for (const bad of ['', ' ', '12.5', '-5', '1e3', 'abc', '5m', '0x10']) expect(parseCustomMinutes(bad)).toBeNaN();
+  });
+
+  it('explains an unusable custom duration, but not an empty field', () => {
+    expect(customDurationProblem('')).toBeNull();
+    expect(customDurationProblem('1')).toBeNull();
+    expect(customDurationProblem('720')).toBeNull();
+    for (const bad of ['0', '721', '99999', '12.5', '-5', 'abc']) expect(customDurationProblem(bad)).toMatch(/between 1 and 720/);
+  });
+
+  it('summarizes the behavior settings in one line', () => {
+    const prefs = { defaultProfileId: null, idleAutoPause: true, idleThresholdSeconds: 300, idleAutoResume: true, notifyStart: true, notifyIdle: true, notifyComplete: true, notifyBlocked: true };
+    expect(behaviorSummary(prefs)).toBe('Pauses after 5 minutes away · 4 of 4 notifications on');
+    expect(behaviorSummary({ ...prefs, idleAutoPause: false, notifyStart: false, notifyIdle: false, notifyComplete: false, notifyBlocked: false })).toBe(
+      'Keeps running while you are away · notifications off',
+    );
+    expect(behaviorSummary({ ...prefs, idleThresholdSeconds: 45 })).toContain('45 seconds');
+    expect(idleThresholdOptions(120).map((t) => t.seconds)).toEqual([60, 120, 180, 300, 600, 900]);
   });
 });
 

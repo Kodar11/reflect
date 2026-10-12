@@ -8,6 +8,7 @@ import {
 import {
   DEFAULT_FOCUS_PREFERENCES,
   type BlockedAttempt,
+  type BlockingCleanupState,
   type EffectiveBlockingConfig,
   type FocusInterruption,
   type FocusPreferences,
@@ -112,6 +113,10 @@ export class FakeBlockingManager implements IBlockingManager {
   /** Make `heartbeat` reject (the helper is gone / lease lost). */
   heartbeatFails = false;
   failStop = false;
+  /** Make the next `stop` calls reject with these errors, one per call. */
+  failStopWith: Error[] = [];
+  /** Every `stop` the service asked for, successful or not. */
+  stops: Array<{ leaseId: string; sessionId: string }> = [];
   /** When set, `start` waits until `releaseStart()` is called. */
   holdStart = false;
   private pendingStarts: Array<() => void> = [];
@@ -143,13 +148,17 @@ export class FakeBlockingManager implements IBlockingManager {
     this.heartbeats.push(leaseId);
   }
 
-  async stop(leaseId: string) {
-    if (this.failStop) {
+  async stop(leaseId: string, sessionId = '') {
+    this.stops.push({ leaseId, sessionId });
+    const failure = this.failStopWith.shift();
+    if (failure || this.failStop) {
       this.residue = true;
-      throw new BlockingError('disconnected', 'The blocker stopped responding.');
+      throw failure ?? new BlockingError('disconnected', 'The blocker stopped responding.');
     }
     const lease = this.leases.find((l) => l.leaseId === leaseId);
     if (lease) lease.stopped = true;
+    // A successful release removes everything that lease put in place.
+    this.residue = false;
   }
 
   hasResidue() { return this.residue; }
@@ -225,6 +234,8 @@ export interface Harness {
   notices: FocusNotice[];
   summaries: FocusSession[];
   changes: Array<string | null>;
+  /** Every leftover-blocking report the service pushed. */
+  cleanups: BlockingCleanupState[];
   /** Move the clock forward one second at a time, running timers as it goes. */
   advance(ms: number): Promise<void>;
   /** Jump the clock (machine asleep) and then let one tick observe it. */
@@ -249,6 +260,8 @@ export function setup(options: FocusServiceOptions = {}, prepare?: (repo: FakeRe
   service.on('notice', (n) => notices.push(n));
   service.on('summary', (s) => summaries.push(s));
   service.on('activeSessionChanged', (dto) => changes.push(dto ? dto.session.state : null));
+  const cleanups: BlockingCleanupState[] = [];
+  service.on('blockingCleanupChanged', (state) => cleanups.push(state));
 
   const advance = async (ms: number) => {
     let left = ms;
@@ -263,5 +276,5 @@ export function setup(options: FocusServiceOptions = {}, prepare?: (repo: FakeRe
     clock.now += ms + 1000;
     await vi.advanceTimersByTimeAsync(1000);
   };
-  return { repo, blocking, service, clock, idle, notices, summaries, changes, advance, sleep };
+  return { repo, blocking, service, clock, idle, notices, summaries, changes, cleanups, advance, sleep };
 }

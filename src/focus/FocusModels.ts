@@ -32,6 +32,17 @@ export type FocusEndReason = 'completed' | 'finished' | 'ended-early' | 'abandon
  */
 export type FocusBlockingStatus = 'active' | 'off' | 'recovering' | 'degraded' | 'unavailable';
 
+/**
+ * Whether blocking outlived the session that owned it. Only ever true after a
+ * release that failed or a crash — never while a release is still in flight.
+ */
+export interface BlockingCleanupState {
+  /** Reflect's entries are still in place with no session to own them. */
+  residue: boolean;
+  /** Why the automatic release failed, when it did. */
+  message: string | null;
+}
+
 /** A global blocking/allowing rule that can be referenced by any profile. */
 export interface FocusRule {
   id: string;

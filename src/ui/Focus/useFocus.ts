@@ -73,6 +73,8 @@ export interface UseFocusResult {
   clearError: () => void;
   /** Blocking left behind by an earlier session is still in place. */
   blockingResidue: boolean;
+  /** Why it could not be removed automatically, when the service knows. */
+  blockingResidueDetail: string | null;
   clearBlockingResidue: () => Promise<void>;
   /** A request from the tray to open a specific flow; `nonce` makes repeats distinct. */
   intent: { kind: IntentDto; nonce: number } | null;
@@ -113,7 +115,9 @@ export function useFocus(): UseFocusResult {
   const [summary, setSummary] = useState<SummaryDto | null>(null);
   const [busy, setBusy] = useState<FocusBusy | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [blockingResidue, setBlockingResidue] = useState(false);
+  const [cleanup, setCleanup] = useState<FocusBlockingCleanupDto>({ residue: false, message: null });
+  const blockingResidue = cleanup.residue;
+  const blockingResidueDetail = cleanup.message;
   const [intent, setIntent] = useState<{ kind: IntentDto; nonce: number } | null>(null);
   const [blockingOptions, setBlockingOptions] = useState<FocusBlockingOptionsDto | null>(null);
   // Guards against double-clicks; the service enforces the same thing.
@@ -121,18 +125,18 @@ export function useFocus(): UseFocusResult {
 
   const refresh = useCallback(async () => {
     try {
-      const [profileList, ruleList, active, prefs, residue] = await Promise.all([
+      const [profileList, ruleList, active, prefs, cleanupState] = await Promise.all([
         window.focusMode.listProfiles(),
         window.focusMode.listRules(),
         window.focusMode.getActiveSession(),
         window.focusMode.getPreferences(),
-        window.focusMode.getBlockingResidue(),
+        window.focusMode.getBlockingCleanup(),
       ]);
       setProfiles(profileList);
       setRules(ruleList);
       setActiveSession(active);
       setPreferences(prefs);
-      setBlockingResidue(residue);
+      setCleanup(cleanupState);
     } catch (e) {
       setError(cleanIpcError(e));
     } finally {
@@ -142,18 +146,19 @@ export function useFocus(): UseFocusResult {
 
   useEffect(() => {
     refresh();
-    const onChange = (dto: ActiveDto | null) => {
-      setActiveSession(dto);
-      // A session just ended: check whether its blocking was fully released.
-      if (!dto) window.focusMode.getBlockingResidue().then(setBlockingResidue).catch(() => {});
-    };
+    const onChange = (dto: ActiveDto | null) => setActiveSession(dto);
+    // The service says when a finished session's blocking is settled; asking
+    // the moment a session ends would catch the release still in flight.
+    const onCleanup = (state: FocusBlockingCleanupDto) => setCleanup(state);
     const onSummary = (dto: SummaryDto) => setSummary(dto);
     const onIntent = (kind: IntentDto) => setIntent({ kind, nonce: Date.now() });
     window.focusMode.onActiveSessionChanged(onChange);
+    window.focusMode.onBlockingCleanupChanged(onCleanup);
     window.focusMode.onSummary(onSummary);
     window.focusMode.onIntent(onIntent);
     return () => {
       window.focusMode.offActiveSessionChanged(onChange);
+      window.focusMode.offBlockingCleanupChanged(onCleanup);
       window.focusMode.offSummary(onSummary);
       window.focusMode.offIntent(onIntent);
     };
@@ -238,18 +243,24 @@ export function useFocus(): UseFocusResult {
   const clearBlockingResidue = useCallback(async () => {
     try {
       setError(null);
-      setBlockingResidue(await window.focusMode.clearBlockingResidue());
+      const residue = await window.focusMode.clearBlockingResidue();
+      setCleanup((prev) => ({ residue, message: residue ? prev.message : null }));
     } catch (e) {
-      setError(cleanIpcError(e));
+      const message = cleanIpcError(e);
+      setError(message);
+      setCleanup({ residue: true, message });
     }
   }, []);
 
   const savePreferences = useCallback(async (next: PreferencesDto) => {
+    // Shown at once; replaced by what was actually stored.
     setPreferences(next);
     try {
       setPreferences(await window.focusMode.savePreferences(next));
     } catch (e) {
       setError(cleanIpcError(e));
+      // Never leave a switch showing a value that was not saved.
+      window.focusMode.getPreferences().then(setPreferences).catch(() => {});
     }
   }, []);
 
@@ -338,6 +349,7 @@ export function useFocus(): UseFocusResult {
       error,
       clearError,
       blockingResidue,
+      blockingResidueDetail,
       clearBlockingResidue,
       intent,
       consumeIntent,
@@ -365,7 +377,7 @@ export function useFocus(): UseFocusResult {
     }),
     [
       ready, profiles, rules, preferences, activeSession, summary, dismissSummary, showSummaryFor, busy, error,
-      clearError, blockingResidue, clearBlockingResidue, intent, consumeIntent, requestIntent, refresh, start, pause, resume,
+      clearError, blockingResidue, blockingResidueDetail, clearBlockingResidue, intent, consumeIntent, requestIntent, refresh, start, pause, resume,
       requestEnd, confirmEnd, restoreBlocking, savePreferences, blockingOptions, loadBlockingOptions, addBlock, setProfileBlock, saveProfile, deleteProfile, saveRule, deleteRule,
       getSessionsByRange, getSessionsForDay, getHistory, getSessionSummary,
     ],

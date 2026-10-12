@@ -192,6 +192,28 @@ describe('Focus IPC — profiles and rules', () => {
     expect(await invoke('focus:getPreferences')).toEqual(saved);
   });
 
+  it('pushes leftover blocking to the renderer only once the release has settled', async () => {
+    const { invoke, blocking, pushed, advance } = ipc();
+    const cleanups = () => pushed.filter((p) => p.channel === 'focus:blockingCleanupChanged').map((p) => p.payload);
+
+    // A normal end: nothing is pushed, and asking says nothing is left.
+    await invoke('focus:start', request());
+    await advance(25 * MIN);
+    expect(cleanups()).toEqual([]);
+    expect(await invoke('focus:getBlockingCleanup')).toEqual({ residue: false, message: null });
+
+    // A release that fails is pushed with its reason, and cleared through the same channel.
+    await invoke('focus:start', request({ mode: 'stopwatch' }));
+    blocking.failStop = true;
+    const challenge = await invoke('focus:requestEnd');
+    await invoke('focus:confirmEnd', { token: challenge.token });
+    expect(cleanups()).toEqual([{ residue: true, message: 'The blocker stopped responding.' }]);
+    expect(await invoke('focus:getBlockingResidue')).toBe(true);
+
+    expect(await invoke('focus:clearBlockingResidue')).toBe(false);
+    expect(cleanups().at(-1)).toEqual({ residue: false, message: null });
+  });
+
   it('routes tray intents to the renderer', () => {
     const { api, pushed } = ipc();
     api.sendIntent('end');

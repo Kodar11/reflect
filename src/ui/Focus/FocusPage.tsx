@@ -1,11 +1,7 @@
-import { useEffect, useState } from 'react';
 import { Target } from 'lucide-react';
 import type { UseFocusResult } from './useFocus';
 import { FocusActive } from './FocusActive';
 import { FocusStart, type FocusPrefill } from './FocusStart';
-import { FocusPreferences } from './FocusPreferences';
-
-export type FocusPageTab = 'focus' | 'preferences';
 
 interface FocusPageProps {
   focus: UseFocusResult;
@@ -15,18 +11,13 @@ interface FocusPageProps {
 }
 
 /**
- * One page that changes state: start → active. While a session runs the
- * page shows only that session — the Preferences tab (profiles, rules,
- * notifications) is not reachable until Focus has ended.
+ * One page, two states. Setup holds everything that configures a session —
+ * task, duration, preset, blocking and the quieter preferences. Once a
+ * session runs the page shows only that session; setup comes back when it
+ * ends. The two are never on screen together.
  */
 export function FocusPage({ focus, prefill, onPrefillConsumed }: FocusPageProps) {
-  const [tab, setTab] = useState<FocusPageTab>('focus');
   const active = focus.activeSession;
-
-  // A tray action or a new session always brings the Focus view forward.
-  useEffect(() => {
-    if (active || focus.intent || prefill) setTab('focus');
-  }, [active, focus.intent, prefill]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -38,15 +29,6 @@ export function FocusPage({ focus, prefill, onPrefillConsumed }: FocusPageProps)
           <Target size={20} style={{ color: 'var(--accent)' }} />
           <h1 className="text-[20px] font-extrabold tracking-tight">Focus</h1>
         </div>
-        {focus.ready && !active && (
-          <div className="focus-tabs" role="tablist">
-            {(['focus', 'preferences'] as FocusPageTab[]).map((t) => (
-              <button key={t} type="button" role="tab" aria-selected={tab === t} onClick={() => setTab(t)} className="capitalize">
-                {t}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
 
       <div className="flex-1 min-h-0 overflow-y-auto">
@@ -55,8 +37,6 @@ export function FocusPage({ focus, prefill, onPrefillConsumed }: FocusPageProps)
           <div className="focus-stage" aria-busy="true" />
         ) : active ? (
           <FocusActive focus={focus} session={active} />
-        ) : tab === 'preferences' ? (
-          <FocusPreferences focus={focus} onUsePreset={() => setTab('focus')} />
         ) : (
           <FocusStart focus={focus} prefill={prefill} onPrefillConsumed={onPrefillConsumed} />
         )}

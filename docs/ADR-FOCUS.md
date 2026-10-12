@@ -1,4 +1,4 @@
-# Focus Mode V2 — Architectural Decisions
+# Focus Mode — Architectural Decisions
 
 Code comments explain *what* each module does; this file records *why* Focus
 is built the way it is.
@@ -56,6 +56,24 @@ does not count), so an app that crashed can never leave the machine blocked.
 If the helper loses the app it keeps enforcing until the TTL runs out, then
 restores the hosts file and exits. Every exit path of the helper restores
 first.
+
+**A terminal session releases its own lease, and leftovers are reported only
+after that has finished.** `FocusService.finish` marks the session terminal,
+then stops the lease it held — that lease id and nothing else. Whether
+anything was left behind (`hasBlockingResidue`) is false for as long as a
+session runs *or its release is still in flight*, and the answer is pushed to
+the renderer (`focus:blockingCleanupChanged`) once the release has settled.
+(An earlier version let the renderer ask the moment the session ended; it
+caught the hosts entries a few milliseconds before they were removed and
+showed "remove leftover blocking" after perfectly normal sessions.)
+
+When a release does fail, the failure is logged with the session, lease and
+error code, the reason is shown next to the warning, and the service looks
+again a bounded number of times (3 × 20 s — longer than the lease TTL, so a
+helper that lost the app has let go by then). A blocker that answered but
+could not write the hosts file is asked once more; a blocker that is gone is
+not, because that would mean an unprompted elevation dialog. After that it is
+the user's "Remove it". A retry never runs once another session has started.
 
 `FocusService` heartbeats every 5 s — **also while paused**. When a heartbeat
 fails it makes one automatic attempt to re-acquire; if that fails the session
@@ -187,3 +205,34 @@ Apps are offered from the windows that are open right now
 (`active-win.getOpenWindows`) and sites from the last day of tracked visits,
 so nobody has to know an executable name. Rules carry a display label
 (`Discord`, `Social media`) computed in the main process.
+
+## 12. One page: setup or the running session, never both
+
+There is no Preferences tab. Setup holds everything that configures a
+session, in order of how often it is needed: task → duration → preset →
+blocking → Start, then the optional note, then "Focus behavior" (idle,
+notifications, shortcuts) collapsed to one line. Once a session runs the page
+shows only that session.
+
+Three kinds of state stay distinct on that one screen:
+
+| Where it lives        | Changed by                                         | Reaches                    |
+|-----------------------|----------------------------------------------------|----------------------------|
+| the session draft     | task, duration, picking a preset, "Block this session" | the session being started |
+| the preset            | the inline blocking editor, "Edit preset"          | every later session from it |
+| global preferences    | "Set as default", Focus behavior                   | every later session        |
+
+Picking a preset only fills the draft; it becomes the default only through
+"Set as default". "Block this session" maps to the existing
+`withoutBlocking` start flag and never edits the preset. None of the three
+reaches a running session, which enforces its snapshot (§5).
+
+A preset is edited on the page too, in one panel (name, default duration,
+what it blocks): beside the setup column when the window has room for both,
+as a third row of the preset group when it does not. It is never a drawer or
+dialog over the page — the earlier full-height drawer covered the screen it
+was configuring and clipped in a small window.
+
+The panel is part of the setup column, so the setup form owns its fields by
+`form=` id instead of by nesting — the editor has forms of its own, and a
+form inside a form submits the wrong one.

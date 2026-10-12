@@ -446,6 +446,12 @@ interface FocusPreferencesDto {
   notifyBlocked: boolean;
 }
 
+/** Whether blocking outlived the session that owned it, and why. */
+interface FocusBlockingCleanupDto {
+  residue: boolean;
+  message: string | null;
+}
+
 type FocusIntentDto = 'open' | 'pause' | 'end';
 
 interface StartFocusRequestDto {
@@ -1068,6 +1074,9 @@ interface Window {
     getBlockingResidue: () => Promise<boolean>;
     /** Resolves to whether leftover blocking is still present afterwards. */
     clearBlockingResidue: () => Promise<boolean>;
+    getBlockingCleanup: () => Promise<FocusBlockingCleanupDto>;
+    onBlockingCleanupChanged: (callback: (state: FocusBlockingCleanupDto) => void) => void;
+    offBlockingCleanupChanged: (callback: (state: FocusBlockingCleanupDto) => void) => void;
     onIntent: (callback: (intent: FocusIntentDto) => void) => void;
     offIntent: (callback: (intent: FocusIntentDto) => void) => void;
     onActiveSessionChanged: (callback: (dto: ActiveFocusSessionDto | null) => void) => void;

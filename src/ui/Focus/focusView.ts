@@ -130,6 +130,81 @@ export function blockingCounts(profile: FocusProfileDto): string {
   return `${n} rule${n === 1 ? '' : 's'}${detail ? ` · ${detail}` : ''}`;
 }
 
+/** "Blocking enabled · 84 sites · 3 apps" / "No blocking" — a preset at a glance. */
+export function presetBlockingLine(profile: FocusProfileDto): string {
+  if (!profile.blocking.enabled) return 'No blocking';
+  const detail = blockingDetail(profile);
+  return `Blocking enabled${detail ? ` · ${detail}` : ''}`;
+}
+
+export interface BlockingSetupView {
+  /** "Blocking enabled", "Blocking off for this session", "Nothing is blocked". */
+  title: string;
+  /** "5 rules · 84 websites · 3 applications"; empty when the preset blocks nothing. */
+  detail: string;
+  tone: 'ok' | 'muted';
+  /** False when the preset has nothing to switch on or off. */
+  canToggle: boolean;
+}
+
+/**
+ * The blocking line of the setup screen: what the next session will enforce.
+ * `sessionBlocking` is the per-session switch — it never changes the preset.
+ */
+export function blockingSetupView(profile: FocusProfileDto, sessionBlocking: boolean): BlockingSetupView {
+  if (!profile.blocking.enabled) return { title: 'Nothing is blocked', detail: '', tone: 'muted', canToggle: false };
+  const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+  const { ruleCount, siteCount, appCount } = profile.blocking;
+  const parts = [plural(ruleCount, 'rule', 'rules')];
+  if (siteCount > 0) parts.push(plural(siteCount, 'website', 'websites'));
+  if (appCount > 0) parts.push(plural(appCount, 'application', 'applications'));
+  return {
+    title: sessionBlocking ? 'Blocking enabled' : 'Blocking off for this session',
+    detail: parts.join(' · '),
+    tone: sessionBlocking ? 'ok' : 'muted',
+    canToggle: true,
+  };
+}
+
+/** What was typed into the custom-duration field, as whole minutes; NaN when it is not one. */
+export function parseCustomMinutes(text: string): number {
+  const trimmed = text.trim();
+  return /^\d{1,5}$/.test(trimmed) ? Number(trimmed) : NaN;
+}
+
+/** Why a typed custom duration is not usable; null while empty (nothing to complain about yet) or valid. */
+export function customDurationProblem(text: string): string | null {
+  if (!text.trim()) return null;
+  const minutes = parseCustomMinutes(text);
+  if (Number.isInteger(minutes) && minutes >= 1 && minutes <= MAX_DURATION_MINUTES) return null;
+  return `Enter a whole number of minutes between 1 and ${MAX_DURATION_MINUTES}.`;
+}
+
+export const IDLE_THRESHOLDS = [
+  { seconds: 60, label: '1 minute' },
+  { seconds: 120, label: '2 minutes' },
+  { seconds: 180, label: '3 minutes' },
+  { seconds: 300, label: '5 minutes' },
+  { seconds: 600, label: '10 minutes' },
+  { seconds: 900, label: '15 minutes' },
+] as const;
+
+/** The idle choices, plus the stored value when it is not one of them. */
+export function idleThresholdOptions(seconds: number): Array<{ seconds: number; label: string }> {
+  if (IDLE_THRESHOLDS.some((t) => t.seconds === seconds)) return [...IDLE_THRESHOLDS];
+  return [...IDLE_THRESHOLDS, { seconds, label: `${seconds} seconds` }];
+}
+
+/** One line for the collapsed "Focus behavior" section. */
+export function behaviorSummary(preferences: FocusPreferencesDto): string {
+  const idle = preferences.idleAutoPause
+    ? `Pauses after ${idleThresholdOptions(preferences.idleThresholdSeconds).find((t) => t.seconds === preferences.idleThresholdSeconds)?.label ?? ''} away`
+    : 'Keeps running while you are away';
+  const on = [preferences.notifyStart, preferences.notifyIdle, preferences.notifyComplete, preferences.notifyBlocked].filter(Boolean).length;
+  const notifications = on === 0 ? 'notifications off' : `${on} of 4 notifications on`;
+  return `${idle} · ${notifications}`;
+}
+
 /** True when a failed start was caused by blocking (and can be retried without it). */
 export function isBlockingStartFailure(message: string | null): boolean {
   return !!message && /Focus was not started\.$/.test(message.trim());
@@ -157,8 +232,19 @@ export function blockingEditorModel(
   const attached = new Set(profile.ruleIds);
   const isOn = (r: FocusRuleDto) => r.enabled && attached.has(r.id);
   const byLabel = (a: { rule: FocusRuleDto }, b: { rule: FocusRuleDto }) => a.rule.label.localeCompare(b.rule.label);
-  const rows = (type: FocusRuleDto['type'], action: FocusRuleDto['action']) =>
-    rules.filter((r) => r.type === type && r.action === action).map((rule) => ({ rule, on: isOn(rule) })).sort(byLabel);
+  const rows = (type: FocusRuleDto['type'], action: FocusRuleDto['action']) => {
+    // One row per name: older data can hold the same block twice, and two
+    // identical rows read as a glitch. The one that is switched on wins.
+    const byName = new Map<string, { rule: FocusRuleDto; on: boolean }>();
+    for (const rule of rules) {
+      if (rule.type !== type || rule.action !== action) continue;
+      const row = { rule, on: isOn(rule) };
+      const key = rule.label.toLowerCase();
+      const seen = byName.get(key);
+      if (!seen || (row.on && !seen.on)) byName.set(key, row);
+    }
+    return [...byName.values()].sort(byLabel);
+  };
 
   const categoryRules = rules.filter((r) => r.type === 'category' && r.action === 'block');
   const categories = (options?.categories ?? []).map((c) => {

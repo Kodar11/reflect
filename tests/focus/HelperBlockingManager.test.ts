@@ -37,6 +37,8 @@ let killed: number[];
 let helpers: Array<{ session: HelperSession; exitCode: number | null }>;
 let managers: HelperBlockingManager[];
 let launches: number;
+/** Makes the helper slow to touch the hosts file (a busy disk, an antivirus scan). */
+let applyDelayMs: number;
 
 function inProcessLauncher(tickMs = 40): HelperLauncher {
   return async ({ pipePath, token }) => {
@@ -49,7 +51,10 @@ function inProcessLauncher(tickMs = 40): HelperLauncher {
         entry.exitCode = code;
       },
       deps: {
-        applyHosts: (hosts) => setBlockedHosts(hostsPath, hosts),
+        applyHosts: async (hosts) => {
+          if (applyDelayMs > 0) await wait(applyDelayMs);
+          return setBlockedHosts(hostsPath, hosts);
+        },
         flushDns: async () => {},
         listProcesses: async () => processes,
         killProcess: async (pid) => {
@@ -91,6 +96,7 @@ beforeEach(() => {
   helpers = [];
   managers = [];
   launches = 0;
+  applyDelayMs = 0;
 });
 
 afterEach(async () => {
@@ -250,6 +256,25 @@ suite('HelperBlockingManager ↔ helper over a named pipe', () => {
     await until(() => helpers[0].exitCode !== null);
     expect(fs.readFileSync(hostsPath, 'utf8')).toBe(ORIGINAL);
     await expect(manager.start(CONFIG, 'session-2')).rejects.toBeInstanceOf(BlockingError);
+  });
+
+  it('a start whose answer came too late does not leave the block in place', async () => {
+    const manager = makeManager(inProcessLauncher(), { requestTimeoutMs: 120 });
+    applyDelayMs = 300;
+    await expect(manager.start(CONFIG, 'session-1')).rejects.toMatchObject({ code: 'timeout' });
+    applyDelayMs = 0;
+    // The helper did apply it — and then gave it back, without waiting for the TTL.
+    await until(() => helpers[0].session.core.hasLease === false && blocked().length === 0);
+    expect(fs.readFileSync(hostsPath, 'utf8')).toBe(ORIGINAL);
+  });
+
+  it('giving back a timed-out start never releases a lease that is really held', async () => {
+    const manager = makeManager(inProcessLauncher(), { requestTimeoutMs: 400 });
+    const held = await manager.start(CONFIG, 'session-1');
+    // An unrelated stop for a lease the helper does not hold is refused.
+    await expect(manager.stop('some-other-lease')).resolves.toBeUndefined();
+    expect(blocked()).toEqual(['www.youtube.com', 'youtube.com']);
+    await expect(manager.heartbeat(held)).resolves.toBeUndefined();
   });
 
   it('passes a helper rejection through without holding a lease', async () => {

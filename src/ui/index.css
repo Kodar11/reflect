@@ -1068,7 +1068,7 @@ dd .onb-tag { padding-right: 11px; animation: none; }
 
 /* ---------- Focus ----------
    One task, one timer, one commitment. A single centred column that changes
-   state (start → active → summary); no cards, charts or history. */
+   state (setup → active → summary); no cards, charts or history. */
 
 .focus-stage {
   min-height: 100%;
@@ -1094,6 +1094,18 @@ dd .onb-tag { padding-right: 11px; animation: none; }
   gap: 18px;
 }
 .focus-column[data-align='center'] { align-items: center; text-align: center; }
+
+/* Setup: starts near the top so opening a section never moves what is above it. */
+.focus-stage[data-layout='setup'] {
+  container-type: inline-size;
+  justify-content: flex-start;
+  padding-top: clamp(20px, 5vh, 48px);
+  padding-bottom: 28px;
+}
+.focus-column[data-wide='true'] { max-width: 580px; gap: 20px; }
+/* All eight duration choices on one line at the full column width. */
+.focus-column[data-wide='true'] > div > .focus-chips { gap: 6px; }
+.focus-column[data-wide='true'] > div > .focus-chips > .focus-chip { padding: 0 12px; }
 
 .focus-eyebrow {
   display: inline-flex;
@@ -1204,6 +1216,9 @@ textarea.focus-input {
 }
 select.focus-input { font-size: 14px; height: 38px; padding: 0 10px; }
 .focus-input[data-size='sm'] { height: 34px; font-size: 14px; padding: 0 10px; }
+.focus-input[data-size='lg'] { height: 50px; font-size: 17px; padding: 0 16px; }
+.focus-input[aria-invalid='true'] { border-color: var(--danger); }
+.focus-input:disabled { opacity: 0.6; }
 
 .focus-chips {
   display: flex;
@@ -1224,6 +1239,7 @@ select.focus-input { font-size: 14px; height: 38px; padding: 0 10px; }
   transition: background-color 80ms ease, border-color 80ms ease, color 80ms ease;
 }
 .focus-chip:hover { background: var(--bg-hover); }
+.focus-chip:disabled { opacity: 0.5; cursor: default; }
 .focus-chip[aria-pressed='true'] {
   background: var(--accent-soft);
   border-color: var(--accent);
@@ -1238,6 +1254,7 @@ select.focus-input { font-size: 14px; height: 38px; padding: 0 10px; }
   text-overflow: ellipsis;
 }
 .focus-chip:focus-visible,
+.focus-disclosure:focus-visible,
 .focus-btn:focus-visible,
 .focus-preset:focus-visible,
 .focus-preset-option:focus-visible,
@@ -1298,6 +1315,7 @@ select.focus-input { font-size: 14px; height: 38px; padding: 0 10px; }
 }
 .focus-link:hover { color: var(--text); }
 .focus-link[data-tone='accent'] { color: var(--accent); }
+.focus-link:disabled { opacity: 0.5; cursor: default; }
 
 .focus-hint {
   font-size: 12px;
@@ -1335,13 +1353,18 @@ button.focus-preset:hover { background: var(--bg-hover); }
   white-space: nowrap;
 }
 .focus-preset-list {
-  margin-top: 6px;
-  max-height: 216px;
+  position: absolute;
+  z-index: 30;
+  top: calc(100% - 6px);
+  left: 6px;
+  right: 6px;
+  max-height: 264px;
   overflow-y: auto;
   padding: 4px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
-  background: var(--bg-secondary);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-md);
 }
 .focus-preset-option {
   width: 100%;
@@ -1353,6 +1376,123 @@ button.focus-preset:hover { background: var(--bg-hover); }
 }
 .focus-preset-option:hover { background: var(--bg-hover); }
 .focus-preset-option[aria-selected='true'] { background: var(--accent-soft); }
+.focus-preset-option[data-action='true'] {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Preset and blocking read as one group: two rows, one outline. */
+.focus-group {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+}
+.focus-group-row { padding: 12px 14px; min-width: 0; }
+.focus-group-row + .focus-group-row { border-top: 1px solid var(--border); }
+.focus-group .focus-preset {
+  width: calc(100% + 16px);
+  margin: 0 -8px -4px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: var(--radius-md);
+}
+.focus-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.focus-label-row .focus-label { margin-bottom: 0; }
+.focus-label-actions { display: inline-flex; flex: none; gap: 14px; }
+.focus-chevron { flex: none; color: var(--text-muted); transition: transform 120ms ease; }
+[aria-expanded='true'] > .focus-chevron { transform: rotate(180deg); }
+
+.focus-blocking-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.focus-blocking-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.focus-inline-toggle {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.focus-inline-toggle input { width: 15px; height: 15px; accent-color: var(--accent); }
+
+/* The preset editor. Narrow: a third row of the group, scrolling inside
+   itself. Wide: a panel beside the column (see the container query below). */
+.focus-column { position: relative; }
+.focus-preset-panel-slot {
+  border-top: 1px solid var(--border);
+  max-height: 380px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.focus-preset-panel { display: flex; flex-direction: column; gap: 14px; padding: 14px; min-width: 0; }
+.focus-preset-panel-head { display: flex; align-items: center; gap: 8px; }
+.focus-preset-panel-head .focus-input { flex: 1; font-weight: 600; }
+.focus-preset-panel-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+}
+.focus-panel-heading { margin-bottom: 10px; font-size: 13px; font-weight: 700; }
+.focus-preset-panel .focus-blocking { gap: 14px; }
+.focus-preset-panel .focus-blocking-summary { display: none; }
+.focus-preset-panel .focus-prefs-row .focus-input { width: 150px; }
+.focus-preset-panel .focus-custom-duration .focus-input[type='text'] { width: 64px; }
+.focus-link[data-tone='danger'] { color: var(--danger); }
+
+.focus-custom-duration { display: inline-flex; align-items: center; gap: 8px; }
+.focus-custom-duration .focus-input { width: 68px; height: 32px; text-align: center; }
+
+/* The former Preferences tab, folded into setup as one quiet disclosure. */
+.focus-behavior { margin-top: 4px; border-top: 1px solid var(--border); }
+.focus-disclosure {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0 4px;
+  text-align: left;
+  border-radius: var(--radius-sm);
+}
+.focus-disclosure-title { display: block; font-size: 13px; font-weight: 600; }
+.focus-disclosure-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.focus-disclosure:hover .focus-disclosure-title { color: var(--accent); }
+.focus-behavior-panel { display: flex; flex-direction: column; gap: 18px; padding: 10px 0 4px; }
+.focus-behavior-group { display: flex; flex-direction: column; min-width: 0; }
+.focus-behavior-group .focus-label { margin-bottom: 4px; }
+.focus-behavior-group .focus-hint { margin-top: 4px; }
 
 .focus-note {
   width: 100%;
@@ -1440,59 +1580,17 @@ button.focus-preset:hover { background: var(--bg-hover); }
   white-space: nowrap;
 }
 
-.focus-tabs {
-  display: inline-flex;
-  padding: 2px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  background: var(--bg);
-}
-.focus-tabs button {
-  padding: 4px 12px;
-  border-radius: var(--radius-md);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-.focus-tabs button[aria-selected='true'] {
-  background: var(--bg-secondary);
-  color: var(--text);
-  box-shadow: var(--shadow-sm);
-}
-
-.focus-prefs {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 28px 24px 56px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-.focus-prefs-section { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.focus-prefs-title { font-size: 15px; font-weight: 700; }
 .focus-prefs-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   min-height: 34px;
-  font-size: 14px;
+  font-size: 13.5px;
 }
 .focus-prefs-row > :first-child { min-width: 0; }
-.focus-prefs-row .focus-input { width: 190px; flex: none; }
+.focus-prefs-row .focus-input { width: 160px; height: 32px; flex: none; }
 .focus-prefs-row[aria-disabled='true'] { opacity: 0.5; }
-.focus-prefs-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-width: 0;
-  padding: 8px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  font-size: 13px;
-}
-.focus-prefs-item > :first-child { min-width: 0; }
 .focus-tag {
   flex: none;
   padding: 1px 6px;
@@ -1623,18 +1721,6 @@ button.focus-preset:hover { background: var(--bg-hover); }
 .focus-field-problem { margin-top: 6px; font-size: 12.5px; color: var(--danger); }
 
 .focus-title-input { height: 40px; font-size: 18px; font-weight: 700; }
-.focus-preset-cards { display: flex; flex-direction: column; gap: 8px; }
-.focus-preset-card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-width: 0;
-  padding: 12px 14px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-}
-
 @keyframes focusFade {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -1642,6 +1728,31 @@ button.focus-preset:hover { background: var(--bg-hover); }
 
 @media (prefers-reduced-motion: reduce) {
   .focus-overlay { animation: none; }
+  .focus-chevron { transition: none; }
+}
+
+/* Room to spare: the preset editor sits beside the column instead of inside
+   it, so Start stays where it was and nothing covers the page. */
+@container (min-width: 1040px) {
+  .focus-column[data-editing='true'] { margin-right: 404px; }
+  .focus-preset-panel-slot {
+    position: absolute;
+    top: 0;
+    left: calc(100% + 24px);
+    width: 380px;
+    max-height: 100%;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--bg-secondary);
+  }
+}
+
+/* A narrow window: stack what sat side by side; nothing scrolls sideways. */
+@container (max-width: 460px) {
+  .focus-blocking-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .focus-label-row { flex-wrap: wrap; }
+  .focus-prefs-row .focus-input { width: 132px; }
+  .focus-disclosure-sub { white-space: normal; }
 }
 
 /* ---------- Background & tracking controls (Settings, onboarding) ---------- */

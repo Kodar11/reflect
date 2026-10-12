@@ -79,7 +79,18 @@ export class HelperBlockingManager implements IBlockingManager {
   async start(config: EffectiveBlockingConfig, sessionId: string): Promise<BlockingLeaseId> {
     const leaseId = randomUUID();
     await this.ensureHelper();
-    await this.request({ cmd: 'start', leaseId, sessionId, domains: config.domains, apps: config.apps, ttlMs: this.leaseTtlMs });
+    try {
+      await this.request({ cmd: 'start', leaseId, sessionId, domains: config.domains, apps: config.apps, ttlMs: this.leaseTtlMs });
+    } catch (err) {
+      // The helper may have applied the block and only its answer was late.
+      // Nobody will heartbeat that lease, so hand it back now instead of
+      // leaving it in place for a whole TTL. A helper holding a different
+      // lease refuses this and keeps what it has.
+      if (err instanceof BlockingError && err.code === 'timeout' && this.connected) {
+        void this.request({ cmd: 'stop', leaseId }).catch(() => {});
+      }
+      throw err;
+    }
     return leaseId;
   }
 

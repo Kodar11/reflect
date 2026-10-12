@@ -160,6 +160,8 @@ const APP_USER_MODEL_ID = 'com.tanmaychavan.productivitycoach';
 const RELEASE_HIDDEN_WINDOW_AFTER_MS = 10 * 60 * 1000;
 /** Silence longer than this (sleep, a frozen process) is not tracked time. */
 const TRACKING_MAX_GAP_MS = 30_000;
+/** Longer than the blocker's lease TTL (45 s): by then an orphaned lease has released itself. */
+const ORPHAN_LEASE_GRACE_MS = 60_000;
 /** After wake-up, give the network a moment before catching up on missed work. */
 const WAKE_CATCH_UP_DELAY_MS = 30_000;
 
@@ -543,12 +545,17 @@ if (primaryInstance) app.whenReady().then(async () => {
       // no session to own them. Say so instead of leaving sites mysteriously
       // blocked; removing them needs the user's approval (elevation).
       if (!focusService?.hasBlockingResidue()) return;
-      notifier.show({
-        title: 'Focus blocking is still on',
-        body: 'Blocking from an earlier Focus session was not removed. Open Focus to remove it.',
-        critical: true,
-        onClick: () => openFocus('open'),
-      });
+      // A blocker that outlived the previous run still holds its lease and
+      // lets go by itself when it runs out — only report what is left then.
+      setTimeout(() => {
+        if (!focusService?.hasBlockingResidue()) return;
+        notifier.show({
+          title: 'Focus blocking is still on',
+          body: 'Blocking from an earlier Focus session was not removed. Open Focus to remove it.',
+          critical: true,
+          onClick: () => openFocus('open'),
+        });
+      }, ORPHAN_LEASE_GRACE_MS).unref();
     });
   logger.info('[APP] Focus service ready.');
 
