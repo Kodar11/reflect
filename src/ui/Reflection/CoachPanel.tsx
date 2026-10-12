@@ -465,7 +465,7 @@ export function CoachConversation({ coach, onViewTimeline }: Pick<SectionProps, 
         </button>
       </form>
       {!state.configured && (
-        <p className="text-[12.5px] text-faint mt-2">Add a Gemini API key to talk to the coach. Your commitments are still tracked without it.</p>
+        <p className="text-[12.5px] text-faint mt-2">Add a Gemini API key in Settings to talk to the coach. Your commitments are still tracked without it.</p>
       )}
     </section>
   );

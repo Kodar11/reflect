@@ -168,7 +168,7 @@ describe('Reflection tab — feedback and labels', () => {
   it('explains a blocked refresh only when that helps', () => {
     const cooldown = makeView({ canRefresh: false, refreshBlockedReason: 'cooldown', refreshAvailableAt: local(20, 16, 15).toISOString() });
     expect(refreshHint(cooldown)).toBe('You can refresh again at 4:15 PM.');
-    expect(refreshHint(makeView({ canRefresh: false, refreshBlockedReason: 'not_configured' }))).toMatch(/Gemini API key/);
+    expect(refreshHint(makeView({ canRefresh: false, refreshBlockedReason: 'not_configured' }))).toMatch(/Gemini API key in Settings/);
     expect(refreshHint(makeView({ canRefresh: false, refreshBlockedReason: 'up_to_date' }))).toBeNull();
     expect(refreshHint(makeView())).toBeNull();
   });
@@ -179,6 +179,14 @@ describe('Reflection tab — feedback and labels', () => {
     expect(
       generateResultNotice({ status: 'failed', category: 'network', error: 'x', reportId: null, period: week42, attempts: 3 }),
     ).toBe('Reflect could not reach Gemini, so nothing was changed.');
+
+    // Each way Gemini can fail is named for what it is.
+    const failed = (category: string) => generateResultNotice({ status: 'failed', category, error: 'x', reportId: null, period: week42, attempts: 1 })!;
+    expect(failed('missing_api_key')).toMatch(/not configured.*Add an API key in Settings/);
+    expect(failed('invalid_api_key')).toMatch(/did not accept the API key.*Settings/);
+    expect(failed('model_unavailable')).toMatch(/model is not available/);
+    expect(failed('quota')).toMatch(/quota/);
+    for (const outage of ['network', 'api', 'quota', 'model_unavailable']) expect(failed(outage)).not.toMatch(/not configured|did not accept/);
     expect(
       generateResultNotice({ status: 'failed', category: 'validation', error: 'x', reportId: 'r', period: week42, attempts: 3 }),
     ).toMatch(/evidence checks/);

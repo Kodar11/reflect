@@ -16,6 +16,7 @@ import { PersonalContextCard } from './Onboarding/PersonalContextCard';
 import { LearnedPatternToast } from './components/LearnedPatternToast';
 import { ReflectionPage } from './Reflection/ReflectionPage';
 import { BackgroundControls } from './Settings/BackgroundControls';
+import { GeminiSettings } from './Settings/GeminiSettings';
 import type { TimelineTarget } from './Reflection/reflectionView';
 import type { FocusPrefill } from './Focus/FocusStart';
 import { shouldShowOnboarding, type UserProfile } from '../profile/UserProfile';
@@ -208,6 +209,7 @@ function App() {
             ) : route === 'reflection' ? (
               <ReflectionPage
                 target={reflectionTarget}
+                onOpenSettings={() => handleNavigate('settings')}
                 onViewTimeline={(target) => {
                   setTimelineTarget({ ...target, nonce: Date.now() });
                   setRoute('timeline');
@@ -305,6 +307,17 @@ function SettingsPage(props: { theme: string; setTheme: (theme: any) => void }) 
           </p>
         </div>
         <BackgroundControls variant="settings" />
+      </section>
+
+      {/* AI Section */}
+      <section className="space-y-4">
+        <div className="border-b border-default pb-2">
+          <h2 className="text-[18px] font-bold">AI (Gemini)</h2>
+          <p className="text-[13px] text-muted mt-1">
+            Reflections, the Coach and the AI timeline are written with Google Gemini, using your own API key. Tracking and the measured numbers work without it.
+          </p>
+        </div>
+        <GeminiSettings />
       </section>
 
       {/* Appearance Section */}

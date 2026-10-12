@@ -613,6 +613,8 @@ export type ReflectionTrigger = 'scheduled' | 'manual';
 
 export type ReflectionErrorCategory =
   | 'missing_api_key'
+  | 'invalid_api_key'
+  | 'model_unavailable'
   | 'network'
   | 'api'
   | 'quota'

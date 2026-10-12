@@ -71,7 +71,7 @@ const BACKLOG_LOOKBACK_MS = 48 * HOUR_MS;
 const MAX_REJECTED_RUNS_PER_WINDOW = 3;
 const REJECTION_CATEGORIES: IntelligenceErrorCategory[] = ['malformed_output', 'validation'];
 /** Failures that will hit every other window too — stop the cycle. */
-const CYCLE_STOPPING_CATEGORIES: IntelligenceErrorCategory[] = ['missing_api_key', 'quota', 'network', 'api'];
+const CYCLE_STOPPING_CATEGORIES: IntelligenceErrorCategory[] = ['missing_api_key', 'invalid_api_key', 'model_unavailable', 'quota', 'network', 'api'];
 
 /** Lookback evidence is context, not the subject: it is cut to the most recent items. */
 const MAX_CONTEXT_EVIDENCE_ITEMS = 120;

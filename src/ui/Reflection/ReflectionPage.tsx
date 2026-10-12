@@ -24,6 +24,8 @@ export interface ReflectionPageProps {
   onStartFocus: (action: CoachActionDto) => void;
   /** Open on this day's report (an instant inside it); `nonce` makes repeats distinct. */
   target?: { anchor: string | null; nonce: number } | null;
+  /** Open Settings, where Gemini is configured. */
+  onOpenSettings?: () => void;
 }
 
 /**
@@ -37,7 +39,7 @@ export interface ReflectionPageProps {
  * is the only place Gemini is ever called. Opening the tab never triggers a
  * generation.
  */
-export function ReflectionPage({ onViewTimeline, onStartFocus, target }: ReflectionPageProps) {
+export function ReflectionPage({ onViewTimeline, onStartFocus, target, onOpenSettings }: ReflectionPageProps) {
   const [type, setType] = useState<ReflectionPeriodTypeDto>('day');
   /** `null` = the current period; otherwise an instant inside the period being browsed. */
   const [anchor, setAnchor] = useState<string | null>(null);
@@ -424,6 +426,7 @@ export function ReflectionPage({ onViewTimeline, onStartFocus, target }: Reflect
             onRetryLoad={() => void load(true)}
             onFeedback={submitFeedback}
             onViewTimeline={viewTimeline}
+            onOpenSettings={onOpenSettings}
             correction={correction}
             onSetPriorityStatus={setPriorityStatus}
             coach={coach}

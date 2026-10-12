@@ -416,6 +416,19 @@ describe('CoachService — conversation', () => {
     expect(noKey.gemini.requests).toEqual([]);
     expect(noKey.coach.getState().configured).toBe(false);
 
+    // A key Gemini refuses, or a model it does not have, is named as that — and not asked twice.
+    const refused = harness();
+    refused.gemini.push(new GeminiError('invalid_api_key', 'Gemini did not accept the API key (400)', false, 400));
+    const refusedResult = await refused.coach.chat('What should I focus on tomorrow?');
+    expect(refusedResult).toMatchObject({ ok: false, category: 'invalid_api_key' });
+    expect((refusedResult as { message: string }).message).toMatch(/did not accept the API key.*Settings/);
+    expect(refused.gemini.requests).toHaveLength(1);
+    expect(refused.coach.getState().configured).toBe(true);
+
+    const noModel = harness();
+    noModel.gemini.push(new GeminiError('model_unavailable', 'Gemini model unavailable (404)', false, 404));
+    expect(await noModel.coach.chat('What should I focus on tomorrow?')).toMatchObject({ ok: false, category: 'model_unavailable' });
+
     expect(await harness().coach.chat('   ')).toMatchObject({ ok: false, category: 'empty' });
   });
 

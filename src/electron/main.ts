@@ -16,6 +16,7 @@ import {
   Notification,
   nativeImage,
   powerMonitor,
+  safeStorage,
   screen,
   type MenuItemConstructorOptions,
   type WebContents,
@@ -31,6 +32,8 @@ import { HeartbeatEngine } from '../tracker/HeartbeatEngine.js';
 import { WindowWatcher } from '../tracker/watcher/WindowWatcher.js';
 import { TrackingService } from '../tracker/TrackingService.js';
 import { registerTrackerIpc } from '../tracker/trackerIpc.js';
+import { UsageService } from '../usage/UsageService.js';
+import { registerUsageIpc } from '../usage/usageIpc.js';
 import { SessionService } from '../session/SessionService.js';
 import { registerSessionIpc } from '../session/sessionIpc.js';
 import { EditRepository } from '../database/EditRepository.js';
@@ -56,6 +59,8 @@ import { UserProfileRepository } from '../database/UserProfileRepository.js';
 import { registerUserProfileIpc } from '../profile/userProfileIpc.js';
 import { IntelligenceRepository } from '../database/IntelligenceRepository.js';
 import { GeminiClient } from '../intelligence/GeminiClient.js';
+import { GeminiKeyStore } from '../intelligence/GeminiKeyStore.js';
+import { registerGeminiIpc } from '../intelligence/geminiIpc.js';
 import { UserProfileContextProvider } from '../intelligence/IntelligenceContext.js';
 import { IntelligenceService } from '../intelligence/IntelligenceService.js';
 import { IntelligenceScheduler } from '../intelligence/IntelligenceScheduler.js';
@@ -186,9 +191,11 @@ const primaryInstance =
   });
 if (primaryInstance && app.isPackaged) app.setAppUserModelId(APP_USER_MODEL_ID);
 
-// Prototype secret loading: in development, read GEMINI_API_KEY (and friends)
-// from a git-ignored `.env` in the project root. The key stays in the main
-// process — it is never sent over IPC or exposed through preload.
+// Development convenience: read GEMINI_API_KEY (and GEMINI_MODEL) from a
+// git-ignored `.env` in the project root. The installed app has no `.env`;
+// there the key is the one saved in Settings (see GeminiKeyStore). Either way
+// the key stays in the main process — it is never sent over IPC or exposed
+// through preload.
 if (isDev() && !blockerHelperMode) {
   try {
     process.loadEnvFile();
@@ -592,6 +599,7 @@ if (primaryInstance) app.whenReady().then(async () => {
   });
 
   registerTrackerIpc(repo, ipcMainHandle, mainRendererContents);
+  registerUsageIpc(new UsageService(repo), ipcMainHandle);
 
   // Reflections are written from the verified timeline and the user profile.
   // Handlers registered through this wrapper tell the reflection layer (built
@@ -659,7 +667,22 @@ if (primaryInstance) app.whenReady().then(async () => {
   registerUserProfileIpc(userProfileRepo, ipcHandleTracked);
   logger.info('[APP] User profile ready.');
 
-  const geminiClient = new GeminiClient();
+  // The key: GEMINI_API_KEY from the environment when set, otherwise the one
+  // saved in Settings, encrypted by the OS for this account. Read per request,
+  // so a key added while Reflect runs is used without a restart.
+  const geminiKeys = new GeminiKeyStore({
+    filePath: path.join(userData, 'gemini-api-key.bin'),
+    cipher: {
+      // On Linux without a keyring Electron falls back to a fixed password: not secure storage.
+      isEncryptionAvailable: () =>
+        safeStorage.isEncryptionAvailable() && (process.platform !== 'linux' || safeStorage.getSelectedStorageBackend() !== 'basic_text'),
+      encryptString: (text) => safeStorage.encryptString(text),
+      decryptString: (encrypted) => safeStorage.decryptString(encrypted),
+    },
+    log: (m) => logger.warn(m),
+  });
+  const geminiClient = new GeminiClient({ getApiKey: () => geminiKeys.getApiKey() });
+  registerGeminiIpc({ store: geminiKeys, gemini: geminiClient, logger: intelligenceLogger }, ipcMainHandle);
   const userContextProvider = new UserProfileContextProvider(userProfileRepo);
 
   // --- Construct the learning layer (learned patterns) ---
@@ -864,9 +887,24 @@ if (primaryInstance) app.whenReady().then(async () => {
       void reflectionScheduler?.runCycle().then(() => coachService.observe());
     },
   });
+  const geminiSource = geminiKeys.source();
   logger.info(
-    `[APP] Intelligence service ready (Gemini ${intelligenceService.isConfigured() ? 'configured' : 'not configured — GEMINI_API_KEY missing'}).`,
+    `[APP] Intelligence service ready (Gemini ${
+      geminiSource === 'environment'
+        ? 'configured — key from GEMINI_API_KEY'
+        : geminiSource === 'stored'
+          ? 'configured — key saved in Settings'
+          : 'not configured — add an API key in Settings, or set GEMINI_API_KEY'
+    }).`,
   );
+  // The saved key was added, replaced or removed: every surface that says
+  // whether Gemini is available re-reads it, and what was waiting for a key —
+  // the analysis backlog, then the reflections still missing — is caught up now.
+  geminiKeys.onChanged(() => {
+    reflectionIpc.notifyReflectionChanged();
+    notifyCoachChanged();
+    if (geminiKeys.getApiKey()) void intelligenceScheduler?.runCycle();
+  });
 
   // --- Construct the event visibility layer (hide / restore / delete) ---
   // The user decides what stays captured. `repo` is handed over here in its

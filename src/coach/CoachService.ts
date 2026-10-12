@@ -141,7 +141,7 @@ export type CoachActionResult =
   | { ok: true; action: CoachActionView; noteDropped?: boolean }
   | { ok: false; error: string };
 
-export type CoachChatFailure = 'empty' | 'not_configured' | 'network' | 'api' | 'quota' | 'validation' | 'internal';
+export type CoachChatFailure = 'empty' | 'not_configured' | 'invalid_api_key' | 'model_unavailable' | 'network' | 'api' | 'quota' | 'validation' | 'internal';
 
 export type CoachChatResult =
   | { ok: true; messages: CoachMessage[] }
@@ -149,7 +149,9 @@ export type CoachChatResult =
 
 const CHAT_FAILURE_MESSAGES: Record<CoachChatFailure, string> = {
   empty: 'Write a question first.',
-  not_configured: 'Gemini is not configured, so the Coach cannot answer yet.',
+  not_configured: 'Gemini is not configured, so the Coach cannot answer yet. Add an API key in Settings.',
+  invalid_api_key: 'Gemini did not accept the API key, so the Coach cannot answer. Check the key in Settings.',
+  model_unavailable: 'The configured Gemini model is not available for this API key, so the Coach cannot answer.',
   network: 'Reflect could not reach Gemini. Nothing was changed — try again in a moment.',
   api: 'Gemini returned an error. Nothing was changed.',
   quota: 'The Gemini quota is exhausted for now. Nothing was changed.',

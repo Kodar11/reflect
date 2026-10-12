@@ -20,6 +20,7 @@
     "../electron/util.ts",
     "../electron/pathResolver.ts",
     "../tracker/**/*.ts",
+    "../usage/**/*.ts",
     "../database/**/*.ts",
     "../models/**/*.ts",
     "../session/**/*.ts",

@@ -19,7 +19,7 @@ import type { ReflectionService } from './ReflectionService.js';
  */
 
 /** Failures that will hit every other report too — stop the cycle. */
-const CYCLE_STOPPING_CATEGORIES: ReflectionErrorCategory[] = ['missing_api_key', 'quota', 'network', 'api'];
+const CYCLE_STOPPING_CATEGORIES: ReflectionErrorCategory[] = ['missing_api_key', 'invalid_api_key', 'model_unavailable', 'quota', 'network', 'api'];
 
 /** Wake a little after the reflection time, so "now >= due" holds. */
 const AFTER_DUE_DELAY_MS = 30_000;

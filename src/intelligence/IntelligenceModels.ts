@@ -190,6 +190,8 @@ export type IntelligenceRunStatus = 'running' | 'succeeded' | 'failed' | 'supers
 
 export type IntelligenceErrorCategory =
   | 'missing_api_key'
+  | 'invalid_api_key'
+  | 'model_unavailable'
   | 'network'
   | 'api'
   | 'quota'

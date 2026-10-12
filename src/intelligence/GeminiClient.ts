@@ -18,7 +18,17 @@ export const GEMINI_MODEL = 'gemini-3.5-flash-lite';
 
 const REQUEST_TIMEOUT_MS = 90_000;
 
-export type GeminiErrorCategory = 'missing_api_key' | 'network' | 'api' | 'quota' | 'malformed_output';
+export type GeminiErrorCategory =
+  /** No key is configured. No request was made. */
+  | 'missing_api_key'
+  /** A key is configured and Gemini refused it (invalid, revoked, restricted). */
+  | 'invalid_api_key'
+  /** The configured model does not exist for this key. */
+  | 'model_unavailable'
+  | 'network'
+  | 'api'
+  | 'quota'
+  | 'malformed_output';
 
 export class GeminiError extends Error {
   constructor(
@@ -60,10 +70,12 @@ export interface GeminiTransport {
     contents: string;
     config: Record<string, unknown>;
   }): Promise<{ text?: string; modelVersion?: string }>;
+  /** Looks the model up — a free request that proves the key and the model. */
+  getModel?(model: string): Promise<unknown>;
 }
 
 export interface GeminiClientOptions {
-  /** Defaults to `process.env.GEMINI_API_KEY`, read at call time. */
+  /** Defaults to `process.env.GEMINI_API_KEY`, read at call time. The app passes its `GeminiKeyStore`. */
   getApiKey?: () => string | undefined;
   /** Defaults to the real `@google/genai` SDK. */
   createTransport?: (apiKey: string) => GeminiTransport;
@@ -122,6 +134,23 @@ export class GeminiClient implements IGeminiClient {
     return { text, modelVersion: response.modelVersion ?? this.model };
   }
 
+  /**
+   * Ask Gemini whether `apiKey` (not necessarily the configured one) can use
+   * the configured model. Generates nothing and costs nothing. Resolves when
+   * it can; rejects with a `GeminiError` saying why not.
+   */
+  async verifyKey(apiKey: string): Promise<void> {
+    const key = apiKey.trim();
+    if (!key) throw new GeminiError('missing_api_key', 'GEMINI_API_KEY is not set', false);
+    const transport = this.createTransport(key);
+    if (!transport.getModel) return;
+    try {
+      await transport.getModel(this.model);
+    } catch (err) {
+      throw toGeminiError(err, key);
+    }
+  }
+
   private readKey(): string | null {
     const key = this.getApiKey()?.trim();
     return key ? key : null;
@@ -140,6 +169,7 @@ function defaultTransport(apiKey: string): GeminiTransport {
   const ai = new GoogleGenAI({ apiKey, httpOptions: { timeout: REQUEST_TIMEOUT_MS } });
   return {
     generateContent: (params) => ai.models.generateContent(params),
+    getModel: (model) => ai.models.get({ model }),
   };
 }
 
@@ -152,11 +182,15 @@ function toGeminiError(err: unknown, apiKey: string): GeminiError {
     // The model itself is gone for this key: say so plainly, with the way out.
     if (status === 404 && /model/i.test(message)) {
       return new GeminiError(
-        'api',
+        'model_unavailable',
         `Gemini model unavailable (404) — set GEMINI_MODEL to a model this key can use: ${message}`,
         false,
         status,
       );
+    }
+    // The key itself was refused. Not the same thing as no key, and not an outage.
+    if (status === 401 || status === 403 || (status === 400 && /api[ _]key/i.test(message))) {
+      return new GeminiError('invalid_api_key', `Gemini did not accept the API key (${status}): ${message}`, false, status);
     }
     if (status === 429) return new GeminiError('quota', `Gemini quota/rate limit (429): ${message}`, true, status);
     if (status === 408 || status >= 500) return new GeminiError('api', `Gemini API error (${status}): ${message}`, true, status);

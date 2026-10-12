@@ -1,5 +1,6 @@
 import type { Database } from './Database.js';
 import type { Event, StoredEvent, WatcherName } from '../models/Event.js';
+import type { UsageAggregateRow, UsageTitleRow } from '../usage/UsageModels.js';
 
 /**
  * The storage seam the heartbeat engine + watchers depend on. Watchers NEVER
@@ -69,6 +70,30 @@ interface EventRow {
 
 /** The one condition that makes a query user-facing. */
 const VISIBLE = 'hidden_at IS NULL';
+
+/**
+ * The window watcher's visible events that overlap [@from, @to), each with
+ * the time it contributes: clipped to the range, and to the start of the
+ * next event so two overlapping rows never count the same instant twice.
+ * Whole milliseconds per event, so totals are exact sums. `prev_*` is what
+ * was in front just before, for counting switches.
+ */
+const USAGE_SPANS = `
+  WITH ordered AS (
+    SELECT app, url, title, started_at,
+           MAX(started_at, @from) AS span_start,
+           MIN(ended_at, @to, COALESCE(LEAD(started_at) OVER w, @to)) AS span_end,
+           LAG(app) OVER w AS prev_app,
+           LAG(url) OVER w AS prev_url,
+           ROW_NUMBER() OVER w = 1 AS first_in_range
+    FROM events
+    WHERE ${VISIBLE} AND watcher = 'window' AND started_at < @to AND ended_at > @from
+    WINDOW w AS (ORDER BY started_at, id)
+  ),
+  spans AS (
+    SELECT *, MAX(0, CAST(ROUND((julianday(span_end) - julianday(span_start)) * 86400000.0) AS INTEGER)) AS ms
+    FROM ordered
+  )`;
 
 /**
  * `EventRepository` owns all SQL knowledge. Column↔field mapping happens only
@@ -165,6 +190,40 @@ export class EventRepository implements IEventRepository, IEventVisibilityStore 
       )
       .get({ from, to }) as { ms: number | null };
     return Math.max(0, Math.round(row.ms ?? 0));
+  }
+
+  /**
+   * Tracked time inside [from, to) per (application, website) pair, in ms,
+   * with how often each came to the foreground. Aggregated in SQL: a year is
+   * one indexed scan, and no raw event leaves the database.
+   */
+  aggregateUsage(from: string, to: string): UsageAggregateRow[] {
+    return this.db
+      .prepare(
+        `${USAGE_SPANS}
+         SELECT app, url,
+                SUM(ms) AS ms,
+                SUM(first_in_range OR app IS NOT prev_app) AS appOpens,
+                SUM(url IS NOT NULL AND (first_in_range OR url IS NOT prev_url)) AS urlOpens,
+                MAX(started_at) AS lastStartedAt
+         FROM spans
+         GROUP BY app, url`,
+      )
+      .all({ from, to }) as UsageAggregateRow[];
+  }
+
+  /** Tracked time inside [from, to) per window title of one application or website. */
+  usageTitles(from: string, to: string, kind: 'app' | 'website', key: string): UsageTitleRow[] {
+    const match = kind === 'website' ? `url = @key` : `COALESCE(TRIM(app), '') = @key`;
+    return this.db
+      .prepare(
+        `${USAGE_SPANS}
+         SELECT title, SUM(ms) AS ms, MAX(started_at) AS lastStartedAt
+         FROM spans
+         WHERE ${match}
+         GROUP BY title`,
+      )
+      .all({ from, to, key }) as UsageTitleRow[];
   }
 
   /** The most recently updated event, or null with no events. */

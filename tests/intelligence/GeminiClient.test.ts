@@ -60,7 +60,7 @@ describe('GeminiClient', () => {
     const retired = Object.assign(new Error('This model models/gemini-2.5-flash-lite is no longer available to new users.'), { status: 404 });
     const client = new GeminiClient({ getApiKey: () => 'test-key', createTransport: () => ({ generateContent: vi.fn(async () => Promise.reject(retired)) }) });
     await expect(client.generateJson(request)).rejects.toMatchObject({
-      category: 'api',
+      category: 'model_unavailable',
       retryable: false,
       status: 404,
       message: expect.stringContaining('Gemini model unavailable (404) — set GEMINI_MODEL'),
@@ -99,8 +99,53 @@ describe('GeminiClient', () => {
     expect(await errorOf(failing(http(429, 'RESOURCE_EXHAUSTED')))).toMatchObject({ category: 'quota', retryable: true, status: 429 });
     expect(await errorOf(failing(http(503, 'UNAVAILABLE')))).toMatchObject({ category: 'api', retryable: true });
     expect(await errorOf(failing(http(400, 'INVALID_ARGUMENT')))).toMatchObject({ category: 'api', retryable: false });
-    expect(await errorOf(failing(http(403, 'PERMISSION_DENIED')))).toMatchObject({ category: 'api', retryable: false });
     expect(await errorOf(failing(new TypeError('fetch failed')))).toMatchObject({ category: 'network', retryable: true });
+  });
+
+  it('a key Gemini refuses is an invalid key — not a missing one, not an outage — and is not retried', async () => {
+    const failing = (err: unknown) => clientWith(async () => { throw err; }).client.generateJson(request);
+    const http = (status: number, message: string) => Object.assign(new Error(message), { status });
+
+    for (const refused of [
+      http(400, '{"error":{"code":400,"message":"API key not valid. Please pass a valid API key.","status":"INVALID_ARGUMENT","details":[{"reason":"API_KEY_INVALID"}]}}'),
+      http(400, 'API key expired. Please renew the API key.'),
+      http(401, 'UNAUTHENTICATED'),
+      http(403, 'PERMISSION_DENIED'),
+    ]) {
+      const err = await errorOf(failing(refused));
+      expect(err).toMatchObject({ category: 'invalid_api_key', retryable: false });
+      expect(err.message).toContain('did not accept the API key');
+    }
+    // A bad request that has nothing to do with the key stays an API error.
+    expect(await errorOf(failing(http(400, 'User location is not supported for the API use.')))).toMatchObject({ category: 'api', retryable: false });
+  });
+
+  it('verifies a key without generating anything', async () => {
+    const generateContent = vi.fn();
+    const getModel = vi.fn(async (_model: string) => ({}));
+    const createTransport = vi.fn((_apiKey: string) => ({ generateContent, getModel }));
+    const client = new GeminiClient({ getApiKey: () => undefined, createTransport, getModel: () => undefined });
+
+    // The key being checked need not be the configured one (there is none here).
+    await expect(client.verifyKey(` ${KEY} `)).resolves.toBeUndefined();
+    expect(createTransport).toHaveBeenCalledWith(KEY);
+    expect(getModel).toHaveBeenCalledWith(GEMINI_MODEL);
+    expect(generateContent).not.toHaveBeenCalled();
+    expect(client.isConfigured()).toBe(false);
+
+    await expect(client.verifyKey('  ')).rejects.toMatchObject({ category: 'missing_api_key' });
+  });
+
+  it('a failed verification says whether it was the key, the model or the network — and never echoes the key', async () => {
+    const verifying = (err: unknown) =>
+      new GeminiClient({ getApiKey: () => undefined, createTransport: () => ({ generateContent: vi.fn(), getModel: async () => Promise.reject(err) }) }).verifyKey(KEY);
+    const http = (status: number, message: string) => Object.assign(new Error(message), { status });
+
+    expect(await errorOf(verifying(http(400, `API key not valid: ${KEY}`)))).toMatchObject({ category: 'invalid_api_key' });
+    expect(await errorOf(verifying(http(404, 'models/gemini-x is not found')))).toMatchObject({ category: 'model_unavailable' });
+    expect(await errorOf(verifying(http(429, 'RESOURCE_EXHAUSTED')))).toMatchObject({ category: 'quota' });
+    expect(await errorOf(verifying(new TypeError('fetch failed')))).toMatchObject({ category: 'network' });
+    expect((await errorOf(verifying(http(400, `API key not valid: ${KEY}`)))).message).not.toContain(KEY);
   });
 
   it('an empty response is malformed output', async () => {

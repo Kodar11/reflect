@@ -15,17 +15,6 @@ export interface TrackerEventDto {
   createdAt?: string | null;
 }
 
-export interface UsageRow {
-  key: string;
-  name: string;
-  type: 'App' | 'Website';
-  totalTime: number;
-  sessionCount: number;
-  lastUsed: Date;
-  latestActivity: string;
-  intervals: { startedAt: Date; endedAt: Date }[];
-}
-
 export interface ActivityDto {
   id: string;
   name: string;

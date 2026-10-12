@@ -128,7 +128,7 @@ export function ActivityPage({
         />
       )}
 
-      {activeTab === 'usage' && <UsageTab events={events} />}
+      {activeTab === 'usage' && <UsageTab />}
 
       {activeTab === 'rules' && (
         <RulesTab

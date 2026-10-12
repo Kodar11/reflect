@@ -46,6 +46,87 @@ interface TrackerEventDto {
   createdAt: string | null;
 }
 
+// ── Usage (Activity → Usage). Mirrors src/usage/UsageModels.ts, which
+// defines every term. All figures are computed in the main process. ────────
+
+type UsagePeriodTypeDto = 'day' | 'week' | 'month' | 'year' | 'custom';
+
+/** Local calendar dates, `YYYY-MM-DD`, both inclusive. */
+type UsageRequestDto =
+  | { type: 'day' | 'week' | 'month' | 'year' }
+  | { type: 'custom'; startDate: string; endDate: string };
+
+/** `[start, end)` as ISO instants. */
+interface UsageRangeDto {
+  start: string;
+  end: string;
+}
+
+interface UsageWindowDto {
+  type: UsagePeriodTypeDto;
+  period: UsageRangeDto;
+  /** What was measured: the period up to now. */
+  current: UsageRangeDto;
+  /** The equivalent stretch of the period before. */
+  previous: UsageRangeDto;
+  inProgress: boolean;
+}
+
+interface UsageChangeDto {
+  currentMs: number;
+  previousMs: number;
+  deltaMs: number;
+  /** Null when the previous value was zero. */
+  percent: number | null;
+}
+
+type UsageKindDto = 'app' | 'website';
+
+interface UsageItemDto {
+  kind: UsageKindDto;
+  key: string;
+  name: string;
+  ms: number;
+  /** Part of tracked time, 0–1. */
+  share: number;
+  /** Times it came to the foreground from something else. */
+  opens: number;
+  lastActiveAt: string | null;
+  negligible: boolean;
+  /** Null when there is nothing earlier to compare with. */
+  change: UsageChangeDto | null;
+}
+
+interface UsageReportDto {
+  window: UsageWindowDto;
+  generatedAt: string;
+  trackedMs: number;
+  history: 'full' | 'partial' | 'none';
+  trackingSince: string | null;
+  totals: {
+    tracked: UsageChangeDto | null;
+    websites: UsageChangeDto | null;
+    outsideWebsites: UsageChangeDto | null;
+  };
+  websiteMs: number;
+  apps: UsageItemDto[];
+  websites: UsageItemDto[];
+  topApps: UsageItemDto[];
+  topWebsites: UsageItemDto[];
+  mostOpened: UsageItemDto | null;
+  movers: UsageItemDto[];
+  negligibleBelowMs: number;
+}
+
+interface UsageItemDetailDto {
+  kind: UsageKindDto;
+  key: string;
+  titles: { title: string; ms: number }[];
+  titleCount: number;
+  latestTitle: string | null;
+  lastActiveAt: string | null;
+}
+
 /** An event the user has hidden, as listed for restoring or deleting it. */
 interface HiddenEventDto extends TrackerEventDto {
   hiddenAt: string | null;
@@ -555,6 +636,26 @@ interface ReflectionPriorityDto {
   possiblyStale: boolean;
 }
 
+/** The Gemini configuration as Settings sees it. Never contains the key. */
+interface GeminiConfigStatusDto {
+  configured: boolean;
+  /** Where the key in use comes from: the GEMINI_API_KEY environment variable, or the one saved in Settings. */
+  source: 'environment' | 'stored' | null;
+  hasStoredKey: boolean;
+  /** A saved key exists but cannot be decrypted on this account. */
+  storedKeyUnreadable: boolean;
+  /** False when the operating system offers no encryption: a key cannot be saved here. */
+  canStore: boolean;
+  model: string;
+}
+
+/** What asking Gemini about a key found. */
+type GeminiKeyCheckDto = 'ok' | 'unchecked' | 'invalid_api_key' | 'model_unavailable' | 'network' | 'api' | 'quota';
+
+type GeminiSaveKeyResultDto =
+  | { ok: true; status: GeminiConfigStatusDto; check: GeminiKeyCheckDto }
+  | { ok: false; status: GeminiConfigStatusDto; reason: 'invalid_input' | 'invalid_api_key' | 'storage_unavailable' | 'storage_failed' };
+
 type ReflectionRefreshBlockedDto =
   | 'not_configured'
   | 'generating'
@@ -834,6 +935,15 @@ interface Window {
     onOpenRequested: (callback: () => void) => void;
     offOpenRequested: (callback: () => void) => void;
   };
+  /** Gemini configuration. The key is write-only from here: it can be saved or removed, never read. */
+  gemini: {
+    getStatus: () => Promise<GeminiConfigStatusDto>;
+    /** Gemini is asked about the key first; a key it refuses is not saved. */
+    saveKey: (key: string) => Promise<GeminiSaveKeyResultDto>;
+    clearKey: () => Promise<GeminiConfigStatusDto>;
+    /** Ask Gemini about the key in use. Generates nothing. */
+    test: () => Promise<{ status: GeminiConfigStatusDto; check: GeminiKeyCheckDto }>;
+  };
   /** The Coach: tracked recommendations, their outcomes, memory and conversation. */
   coach: {
     /** Never triggers a Gemini call. `reportId` also returns that report's actions. */
@@ -868,6 +978,11 @@ interface Window {
     deleteEvents: (eventIds: number[]) => Promise<EventVisibilityResultDto>;
     /** Hidden events only — for the list where they are restored or deleted. */
     listHiddenEvents: (limit?: number) => Promise<HiddenEventDto[]>;
+  };
+  usage: {
+    /** Usage in a period, compared with the equivalent stretch of the period before. */
+    getReport: (request: UsageRequestDto) => Promise<UsageReportDto>;
+    getItemDetail: (request: UsageRequestDto, kind: UsageKindDto, key: string) => Promise<UsageItemDetailDto>;
   };
   session: {
     getToday: () => Promise<SessionDto[]>;

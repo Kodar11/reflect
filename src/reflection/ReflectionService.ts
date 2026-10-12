@@ -91,7 +91,9 @@ const TYPE_ORDER: Record<ReflectionPeriodType, number> = { day: 0, week: 1, mont
 const LARGER_PERIOD: Partial<Record<ReflectionPeriodType, ReflectionPeriodType>> = { day: 'week', week: 'month', month: 'year' };
 
 const FAILURE_MESSAGES: Record<ReflectionErrorCategory, string> = {
-  missing_api_key: 'Gemini is not configured, so reflections cannot be written yet.',
+  missing_api_key: 'Gemini is not configured, so reflections cannot be written yet. Add an API key in Settings.',
+  invalid_api_key: 'Gemini did not accept the API key. Check the key in Settings. Nothing was changed.',
+  model_unavailable: 'The configured Gemini model is not available for this API key. Nothing was changed.',
   network: 'Reflect could not reach Gemini. Nothing was changed.',
   api: 'Gemini returned an error. Nothing was changed.',
   quota: 'The Gemini quota is exhausted for now. Nothing was changed.',

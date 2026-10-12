@@ -345,7 +345,7 @@ describe('the conversation', () => {
     expect(busy).toMatch(/<input[^>]*disabled/);
 
     const offline = renderToStaticMarkup(<CoachConversation coach={controller({ state: coachState({ configured: false }) })} onViewTimeline={vi.fn()} />);
-    expect(text(offline)).toContain('Add a Gemini API key to talk to the coach. Your commitments are still tracked without it.');
+    expect(text(offline)).toContain('Add a Gemini API key in Settings to talk to the coach. Your commitments are still tracked without it.');
     expect(text(offline)).not.toContain('What should I focus on tomorrow?');
   });
 });

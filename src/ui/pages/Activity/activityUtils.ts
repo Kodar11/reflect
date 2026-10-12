@@ -1,4 +1,4 @@
-import type { TrackerEventDto, UsageRow } from './activityTypes';
+import type { TrackerEventDto } from './activityTypes';
 
 export const CURATED_COLORS = [
   { name: 'blue', hex: '#3b82f6' },
@@ -33,45 +33,6 @@ export function getEventNameAndType(e: TrackerEventDto): { name: string; type: '
     if (domain) return { name: domain, type: 'Website' };
   }
   return { name: e.app || 'Unknown App', type: 'App' };
-}
-
-export function buildUsageData(events: TrackerEventDto[]): UsageRow[] {
-  const map = new Map<string, UsageRow>();
-  for (const e of events) {
-    const started = new Date(e.startedAt);
-    const ended = new Date(e.endedAt);
-    const duration = Math.max(0, ended.getTime() - started.getTime());
-    const { name, type } = getEventNameAndType(e);
-
-    const key = `${name}|${type}`;
-    let row = map.get(key);
-    if (!row) {
-      row = {
-        key,
-        name,
-        type,
-        totalTime: 0,
-        sessionCount: 0,
-        lastUsed: started,
-        latestActivity: e.title || '',
-        intervals: [],
-      };
-      map.set(key, row);
-    }
-
-    row.totalTime += duration;
-    row.sessionCount += 1;
-    if (started.getTime() > row.lastUsed.getTime()) {
-      row.lastUsed = started;
-      row.latestActivity = e.title || '';
-    }
-    row.intervals.push({ startedAt: started, endedAt: ended });
-  }
-
-  for (const row of map.values()) {
-    row.intervals.sort((a, b) => a.startedAt.getTime() - b.startedAt.getTime());
-  }
-  return Array.from(map.values());
 }
 
 export function fmtTime(d: Date): string {

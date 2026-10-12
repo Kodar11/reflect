@@ -76,6 +76,14 @@ electron.contextBridge.exposeInMainWorld('tracker', {
     electron.ipcRenderer.invoke('tracker:listHidden', { limit }),
 } satisfies Window['tracker']);
 
+// Usage IPC surface: the renderer names a period and gets finished figures.
+electron.contextBridge.exposeInMainWorld('usage', {
+  getReport: (request: UsageRequestDto): Promise<UsageReportDto> =>
+    electron.ipcRenderer.invoke('usage:getReport', { request }),
+  getItemDetail: (request: UsageRequestDto, kind: UsageKindDto, key: string): Promise<UsageItemDetailDto> =>
+    electron.ipcRenderer.invoke('usage:getItemDetail', { request, kind, key }),
+} satisfies Window['usage']);
+
 // Session IPC surface (derived sessions — in-memory, never persisted).
 // The renderer sees only DTOs; the engine / repository stay in main.
 electron.contextBridge.exposeInMainWorld('session', {
@@ -218,6 +226,15 @@ electron.contextBridge.exposeInMainWorld('coach', {
     coachListeners.delete(callback);
   },
 } satisfies Window['coach']);
+
+// Gemini configuration (Settings). A key goes in; only where the key in use
+// comes from ever comes back — never the key.
+electron.contextBridge.exposeInMainWorld('gemini', {
+  getStatus: () => electron.ipcRenderer.invoke('gemini:getStatus'),
+  saveKey: (key: string) => electron.ipcRenderer.invoke('gemini:saveKey', { key }),
+  clearKey: () => electron.ipcRenderer.invoke('gemini:clearKey'),
+  test: () => electron.ipcRenderer.invoke('gemini:test'),
+} satisfies Window['gemini']);
 
 electron.contextBridge.exposeInMainWorld('settings', {
   exportTimeline: (format: 'csv' | 'json') =>

@@ -45,6 +45,22 @@ npm install
 | `npm run transpile:electron` | Compile Electron main process |
 | `npm run dist:win` | Package Windows installer |
 
+### Gemini API key
+
+Reflections, the Coach and the AI timeline are written with Google Gemini, using your own API key
+(create one at <https://aistudio.google.com/apikey>). Tracking and the measured numbers work without it.
+
+The key is resolved in the Electron main process, in this order:
+
+1. **`GEMINI_API_KEY` environment variable.** In development (`npm run dev`) it is also read from a
+   git-ignored `.env` in the project root — copy `.env.example` to `.env`. The installed app does not read `.env`.
+2. **The key saved in Settings → AI (Gemini).** It is checked with Gemini, then stored in the profile directory
+   (`%APPDATA%\productivity-coach\gemini-api-key.bin`) encrypted by Windows for your account (Electron `safeStorage` / DPAPI).
+   This is how the installed app is configured. A saved key takes effect immediately, without a restart.
+
+The key is never written to the database, the logs or the renderer. `GEMINI_MODEL` (environment / `.env`)
+optionally overrides the default model.
+
 ### Architecture
 
 ```text

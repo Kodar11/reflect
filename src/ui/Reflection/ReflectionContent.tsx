@@ -37,6 +37,8 @@ export interface ReflectionContentProps {
   onFeedback: (insightId: string, feedback: ReflectionFeedbackDto | null) => void;
   onViewTimeline: (target: TimelineTarget) => void;
   onSetPriorityStatus: (id: string, status: ReflectionPriorityDto['status']) => void;
+  /** Open Settings, where Gemini is configured. */
+  onOpenSettings?: () => void;
   /** The Coach. Present on the day view; a day is then read as a briefing. */
   coach?: CoachController | null;
   /** Correcting what a disputed insight rests on. */
@@ -119,7 +121,7 @@ export function ReflectionContent(props: ReflectionContentProps) {
           <ReportBody {...props} view={view} report={view.report} refreshButton={refreshButton(false)} generating={generating} />
         )
       ) : (
-        <EmptyState screen={screen} view={view} refreshButton={refreshButton(true)} hint={hint} />
+        <EmptyState screen={screen} view={view} refreshButton={refreshButton(true)} hint={hint} onOpenSettings={props.onOpenSettings} />
       )}
 
       {coach && (
@@ -472,17 +474,21 @@ function EmptyState({
   view,
   refreshButton,
   hint,
+  onOpenSettings,
 }: {
   screen: ReturnType<typeof deriveScreen>;
   view: ReflectionViewDto;
   refreshButton: JSX.Element;
   hint: string | null;
+  onOpenSettings?: () => void;
 }) {
   const closedNumbers = !view.period.isCurrent && view.live && view.live.metrics.length > 0;
 
   let title: string;
   let detail: string | null = null;
   let action = false;
+  // The way out of this state is in Settings: no key, or a key Gemini refused.
+  let settings = false;
   switch (screen) {
     case 'generating':
       title = 'Writing this reflection…';
@@ -496,10 +502,14 @@ function EmptyState({
       title = 'This reflection could not be written.';
       detail = view.generation.message;
       action = true;
+      settings = !view.configured || view.generation.errorCategory === 'invalid_api_key' || view.generation.errorCategory === 'missing_api_key';
       break;
     case 'unconfigured':
       title = 'Reflections are written with Gemini.';
-      detail = 'Gemini is not configured, so only the measured numbers are available for this period.';
+      detail =
+        'Gemini is not configured, so only the measured numbers are available for this period. ' +
+        'Add your Gemini API key in Settings and Reflect will write this reflection.';
+      settings = true;
       break;
     default:
       if (view.period.isCurrent && view.period.type === 'day') {
@@ -524,10 +534,15 @@ function EmptyState({
           <MetricRow metrics={view.live!.metrics} />
         </div>
       )}
-      {action && (
+      {(action || (settings && onOpenSettings)) && (
         <div className="mt-5 flex items-center gap-3">
-          {refreshButton}
-          {hint && <span className="text-[12.5px] text-faint">{hint}</span>}
+          {action && refreshButton}
+          {settings && onOpenSettings && (
+            <button type="button" className={action ? 'btn btn-ghost' : 'btn btn-primary'} onClick={onOpenSettings}>
+              Open Settings
+            </button>
+          )}
+          {action && hint && <span className="text-[12.5px] text-faint">{hint}</span>}
         </div>
       )}
     </section>

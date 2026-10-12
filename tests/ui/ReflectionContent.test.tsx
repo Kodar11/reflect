@@ -284,7 +284,51 @@ describe('Reflection page — states', () => {
     });
     const read = text(html({ view }));
     expect(read).toContain('Gemini is not configured, so only the measured numbers are available for this period.');
+    expect(read).toContain('Add your Gemini API key in Settings');
     expect(read).toContain('Tracked 22h 40m');
+    // Without somewhere to send the user, no dead button is drawn.
+    expect(read).not.toContain('Open Settings');
+  });
+
+  it('without Gemini: says where to configure it, and takes the user there', () => {
+    const view = makeView({ report: null, configured: false, canRefresh: false, refreshBlockedReason: 'not_configured' });
+    const onOpenSettings = vi.fn();
+    const element = <ReflectionContent {...props({ view, onOpenSettings })} />;
+    const buttons = findAll(element, (el) => el.type === 'button' && buttonLabel(el) === 'Open Settings');
+    expect(buttons).toHaveLength(1);
+    (buttons[0].props as { onClick: () => void }).onClick();
+    expect(onOpenSettings).toHaveBeenCalledTimes(1);
+    // There is nothing to refresh until a key exists.
+    expect(text(renderToStaticMarkup(element))).not.toContain('Generate reflection');
+  });
+
+  it('a key Gemini refused is not called "not configured", and points at Settings', () => {
+    const failed = (errorCategory: string, message: string) =>
+      text(
+        html({
+          onOpenSettings: vi.fn(),
+          view: makeView({
+            report: null,
+            configured: true,
+            generation: { state: 'failed', errorCategory, message, at: week42.end },
+            canRefresh: true,
+            refreshBlockedReason: null,
+          }),
+        }),
+      );
+
+    const refused = failed('invalid_api_key', 'Gemini did not accept the API key. Check the key in Settings. Nothing was changed.');
+    expect(refused).toContain('This reflection could not be written.');
+    expect(refused).toContain('Gemini did not accept the API key.');
+    expect(refused).not.toContain('Gemini is not configured');
+    expect(refused).toContain('Open Settings');
+    expect(refused).toContain('Generate reflection');
+
+    // An outage is not something Settings can fix.
+    const outage = failed('network', 'Reflect could not reach Gemini. Nothing was changed.');
+    expect(outage).toContain('Reflect could not reach Gemini.');
+    expect(outage).not.toContain('Open Settings');
+    expect(outage).not.toMatch(/not configured|API key/);
   });
 
   it('"nothing unusual": a headline and no invented insights', () => {

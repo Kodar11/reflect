@@ -237,7 +237,7 @@ export function refreshHint(view: ReflectionViewDto): string | null {
         ? `You can refresh again at ${formatClockMinutes(new Date(view.refreshAvailableAt).getHours() * 60 + new Date(view.refreshAvailableAt).getMinutes())}.`
         : 'You can refresh again shortly.';
     case 'not_configured':
-      return 'Add a Gemini API key to have Reflect write reflections.';
+      return 'Add a Gemini API key in Settings to have Reflect write reflections.';
     default:
       return null;
   }
@@ -260,11 +260,17 @@ export function generateResultNotice(result: ReflectionGenerateResultDto): strin
   }
   switch (result.category) {
     case 'missing_api_key':
-      return 'Gemini is not configured, so a reflection could not be written.';
+      return 'Gemini is not configured, so a reflection could not be written. Add an API key in Settings.';
+    case 'invalid_api_key':
+      return 'Gemini did not accept the API key, so nothing was changed. Check the key in Settings.';
+    case 'model_unavailable':
+      return 'The configured Gemini model is not available for this API key, so nothing was changed.';
     case 'network':
-    case 'api':
-    case 'quota':
       return 'Reflect could not reach Gemini, so nothing was changed.';
+    case 'quota':
+      return 'The Gemini quota is exhausted for now, so nothing was changed.';
+    case 'api':
+      return 'Gemini returned an error, so nothing was changed.';
     case 'validation':
     case 'malformed_output':
       return 'The generated reflection did not pass Reflect’s evidence checks, so it was discarded.';
