@@ -3,7 +3,6 @@ import { useThemeStore } from './store/themeStore';
 import { useResolvedTheme } from './hooks/useResolvedTheme';
 import { Sidebar, type Route } from './components/Sidebar';
 import { Header } from './components/Header';
-import { ThemeToggle } from './components/ThemeToggle';
 import { ActivityPage } from './pages/Activity/ActivityPage';
 import { SessionsPage } from './pages/SessionsPage';
 import { TimelinePage } from './Timeline/TimelinePage';
@@ -12,11 +11,9 @@ import { FocusPage } from './Focus/FocusPage';
 import { FocusWidget } from './Focus/FocusWidget';
 import { FocusSummaryModal } from './Focus/FocusSummaryModal';
 import { OnboardingFlow } from './Onboarding/OnboardingFlow';
-import { PersonalContextCard } from './Onboarding/PersonalContextCard';
 import { LearnedPatternToast } from './components/LearnedPatternToast';
 import { ReflectionPage } from './Reflection/ReflectionPage';
-import { BackgroundControls } from './Settings/BackgroundControls';
-import { GeminiSettings } from './Settings/GeminiSettings';
+import { SettingsPage } from './Settings/SettingsPage';
 import type { TimelineTarget } from './Reflection/reflectionView';
 import type { FocusPrefill } from './Focus/FocusStart';
 import { shouldShowOnboarding, type UserProfile } from '../profile/UserProfile';
@@ -28,7 +25,6 @@ type OnboardingGate =
 
 function App() {
   const theme = useThemeStore((s) => s.theme);
-  const setTheme = useThemeStore((s) => s.setTheme);
   useResolvedTheme(theme);
   const focus = useFocus();
 
@@ -229,8 +225,10 @@ function App() {
                 }}
               />
             ) : route === 'settings' ? (
-              <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
-                <SettingsPage theme={theme} setTheme={setTheme} />
+              <div className="h-full overflow-y-auto settings-scroll">
+                <div className="max-w-3xl mx-auto px-6 sm:px-8 pt-10 pb-16">
+                  <SettingsPage />
+                </div>
               </div>
             ) : (
               <div className="max-w-5xl mx-auto px-6 sm:px-8 pt-10 pb-16 h-full overflow-y-auto">
@@ -253,207 +251,6 @@ function App() {
           onClose={focus.dismissSummary}
         />
       )}
-    </div>
-  );
-}
-
-function SettingsPage(props: { theme: string; setTheme: (theme: any) => void }) {
-  const [status, setStatus] = useState<{ type: 'idle' | 'loading' | 'success' | 'error'; message: string }>({ type: 'idle', message: '' });
-
-  const runExport = async (name: string, fn: () => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>) => {
-    setStatus({ type: 'loading', message: `Exporting ${name}...` });
-    try {
-      const res = await fn();
-      if (res.success && res.filePath) {
-        const parts = res.filePath.split(/[\\/]/);
-        const filename = parts[parts.length - 1];
-        setStatus({ type: 'success', message: `Successfully exported to ${filename}` });
-      } else if (res.cancelled) {
-        setStatus({ type: 'idle', message: '' });
-      } else {
-        setStatus({ type: 'error', message: `Export failed: ${res.error ?? 'Unknown error'}` });
-      }
-    } catch (e) {
-      setStatus({ type: 'error', message: `Export failed: ${(e as Error)?.message ?? String(e)}` });
-    }
-  };
-
-  const isBtnDisabled = status.type === 'loading';
-  const [editingContext, setEditingContext] = useState<UserProfile | null>(null);
-
-  if (editingContext) {
-    return (
-      <OnboardingFlow
-        mode="edit"
-        initialProfile={editingContext}
-        onExit={() => setEditingContext(null)}
-      />
-    );
-  }
-
-  return (
-    <div className="space-y-8" style={{ animation: 'fadeIn 180ms var(--ease-out)' }}>
-      <div>
-        <h1 className="text-[28px] font-extrabold tracking-tight">Settings</h1>
-        <p className="text-[14px] text-muted mt-1">Configure how Reflect runs, appearance preferences and export your tracking databases.</p>
-      </div>
-
-      {/* Background & Tracking Section */}
-      <section className="space-y-4">
-        <div className="border-b border-default pb-2">
-          <h2 className="text-[18px] font-bold">Background &amp; Tracking</h2>
-          <p className="text-[13px] text-muted mt-1">
-            Reflect works in the background. You do not need to keep this window open — closing it leaves Reflect running in the system tray.
-          </p>
-        </div>
-        <BackgroundControls variant="settings" />
-      </section>
-
-      {/* AI Section */}
-      <section className="space-y-4">
-        <div className="border-b border-default pb-2">
-          <h2 className="text-[18px] font-bold">AI (Gemini)</h2>
-          <p className="text-[13px] text-muted mt-1">
-            Reflections, the Coach and the AI timeline are written with Google Gemini, using your own API key. Tracking and the measured numbers work without it.
-          </p>
-        </div>
-        <GeminiSettings />
-      </section>
-
-      {/* Appearance Section */}
-      <section className="space-y-4">
-        <h2 className="text-[18px] font-bold border-b border-default pb-2">Appearance</h2>
-        <div className="card">
-          <div className="card-section space-y-3">
-            <div>
-              <div className="text-[15px] font-semibold">Theme</div>
-              <p className="text-[13px] text-muted mt-1">Switch between dark mode, light mode, or system default colors.</p>
-            </div>
-            <ThemeToggle />
-          </div>
-        </div>
-      </section>
-
-      {/* Personal Context Section */}
-      <section className="space-y-4">
-        <h2 className="text-[18px] font-bold border-b border-default pb-2">Personalization</h2>
-        <PersonalContextCard onEdit={setEditingContext} />
-      </section>
-
-      {/* Data Section */}
-      <section className="space-y-4">
-        <h2 className="text-[18px] font-bold border-b border-default pb-2">Data</h2>
-
-        {status.type !== 'idle' && (
-          <div
-            style={{
-              padding: '12px 16px',
-              borderRadius: 8,
-              fontSize: '13px',
-              fontWeight: 500,
-              background:
-                status.type === 'loading'
-                  ? 'var(--bg-secondary)'
-                  : status.type === 'success'
-                    ? 'rgba(35, 130, 226, 0.08)'
-                    : 'rgba(239, 68, 68, 0.08)',
-              border: `1px solid ${
-                status.type === 'loading'
-                  ? 'var(--border)'
-                  : status.type === 'success'
-                    ? 'var(--accent)'
-                    : 'var(--danger)'
-              }`,
-              color:
-                status.type === 'loading'
-                  ? 'var(--text-muted)'
-                  : status.type === 'success'
-                    ? 'var(--accent)'
-                    : 'var(--danger)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 8,
-            }}
-          >
-            {status.type === 'loading' && <span style={{ animation: 'spin 1s linear infinite' }}>◌</span>}
-            <span>{status.message}</span>
-          </div>
-        )}
-
-        <div className="space-y-3">
-          {/* Timeline Export Card */}
-          <div className="card flex items-center justify-between p-5">
-            <div>
-              <div className="text-[15px] font-semibold">Export Timeline</div>
-              <p className="text-[13px] text-muted mt-0.5">Contains sessions, offline records, custom titles, notes, and resolved edits.</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                className="btn btn-secondary py-1.5 px-4"
-                disabled={isBtnDisabled}
-                onClick={() => runExport('Timeline', () => window.settings.exportTimeline('csv'))}
-              >
-                CSV
-              </button>
-              <button
-                className="btn btn-secondary py-1.5 px-4"
-                disabled={isBtnDisabled}
-                onClick={() => runExport('Timeline', () => window.settings.exportTimeline('json'))}
-              >
-                JSON
-              </button>
-            </div>
-          </div>
-
-          {/* Activity Export Card */}
-          <div className="card flex items-center justify-between p-5">
-            <div>
-              <div className="text-[15px] font-semibold">Export Activity</div>
-              <p className="text-[13px] text-muted mt-0.5">Contains raw captured device events including timestamps, application names, and window titles.</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                className="btn btn-secondary py-1.5 px-4"
-                disabled={isBtnDisabled}
-                onClick={() => runExport('Activity', () => window.settings.exportActivity('csv'))}
-              >
-                CSV
-              </button>
-              <button
-                className="btn btn-secondary py-1.5 px-4"
-                disabled={isBtnDisabled}
-                onClick={() => runExport('Activity', () => window.settings.exportActivity('json'))}
-              >
-                JSON
-              </button>
-            </div>
-          </div>
-
-          {/* Sessions Export Card */}
-          <div className="card flex items-center justify-between p-5">
-            <div>
-              <div className="text-[15px] font-semibold">Export Sessions</div>
-              <p className="text-[13px] text-muted mt-0.5">Contains auto-generated focus session spans before applying custom timeline user edits.</p>
-            </div>
-            <div className="flex gap-2">
-              <button
-                className="btn btn-secondary py-1.5 px-4"
-                disabled={isBtnDisabled}
-                onClick={() => runExport('Sessions', () => window.settings.exportSessions('csv'))}
-              >
-                CSV
-              </button>
-              <button
-                className="btn btn-secondary py-1.5 px-4"
-                disabled={isBtnDisabled}
-                onClick={() => runExport('Sessions', () => window.settings.exportSessions('json'))}
-              >
-                JSON
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

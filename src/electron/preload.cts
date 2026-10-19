@@ -234,16 +234,16 @@ electron.contextBridge.exposeInMainWorld('gemini', {
   saveKey: (key: string) => electron.ipcRenderer.invoke('gemini:saveKey', { key }),
   clearKey: () => electron.ipcRenderer.invoke('gemini:clearKey'),
   test: () => electron.ipcRenderer.invoke('gemini:test'),
+  openKeyPage: () => electron.ipcRenderer.invoke('gemini:openKeyPage'),
 } satisfies Window['gemini']);
 
-electron.contextBridge.exposeInMainWorld('settings', {
-  exportTimeline: (format: 'csv' | 'json') =>
-    electron.ipcRenderer.invoke('export:timeline', { format }),
-  exportActivity: (format: 'csv' | 'json') =>
-    electron.ipcRenderer.invoke('export:activity', { format }),
-  exportSessions: (format: 'csv' | 'json') =>
-    electron.ipcRenderer.invoke('export:sessions', { format }),
-} satisfies Window['settings']);
+// Data export. The renderer says WHAT to export; the main process asks the
+// user WHERE in the native save dialog. No path ever crosses this bridge.
+electron.contextBridge.exposeInMainWorld('dataExport', {
+  preview: (request: ExportRequestDto) => electron.ipcRenderer.invoke('export:preview', { request }),
+  run: (request: ExportRequestDto) => electron.ipcRenderer.invoke('export:run', { request }),
+  revealLast: () => electron.ipcRenderer.invoke('export:reveal'),
+} satisfies Window['dataExport']);
 
 // User profile IPC surface (personal context collected by onboarding).
 electron.contextBridge.exposeInMainWorld('userProfile', {

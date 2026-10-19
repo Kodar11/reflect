@@ -56,7 +56,17 @@ function setup(initial: Parameters<typeof fakeStore>[0] = {}, mode: { fail?: () 
 
 describe('gemini IPC — surface', () => {
   it('registers a small, fixed set of channels', () => {
-    expect([...setup().handlers.keys()].sort()).toEqual(['gemini:clearKey', 'gemini:getStatus', 'gemini:saveKey', 'gemini:test']);
+    expect([...setup().handlers.keys()].sort()).toEqual(['gemini:clearKey', 'gemini:getStatus', 'gemini:openKeyPage', 'gemini:saveKey', 'gemini:test']);
+  });
+
+  it('opens the key page through the main process; the renderer cannot name an address', async () => {
+    const opened: number[] = [];
+    const handlers = new Map<string, (payload?: any) => any>();
+    registerGeminiIpc({ store: fakeStore(), gemini: { model: 'm', verifyKey: async () => undefined }, openKeyPage: () => opened.push(1) }, (key, handler) =>
+      handlers.set(key, handler),
+    );
+    expect(await handlers.get('gemini:openKeyPage')!({ url: 'https://evil.test' })).toBeUndefined();
+    expect(opened).toEqual([1]);
   });
 
   it('reports a missing key as not configured — and how a key can be added', async () => {

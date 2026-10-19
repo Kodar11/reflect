@@ -11,6 +11,14 @@ export interface GeminiNotice {
   text: string;
 }
 
+/** The short label next to the key: where the key in use comes from. */
+export function describeGeminiBadge(status: GeminiConfigStatusDto): { label: string; tone: 'ok' | 'warn' | 'off' } {
+  if (status.source === 'environment') return { label: 'Environment variable', tone: 'ok' };
+  if (status.source === 'stored') return { label: 'Saved in Reflect', tone: 'ok' };
+  if (status.storedKeyUnreadable) return { label: 'Needs attention', tone: 'warn' };
+  return { label: 'Not set up', tone: 'off' };
+}
+
 /** The one-line state of the configuration. */
 export function describeGeminiStatus(status: GeminiConfigStatusDto): string {
   if (status.source === 'environment') {

@@ -163,6 +163,18 @@ export class CategorizationRepository {
     return (stmt.all(...eventIds) as EventClassificationRow[]).map(rowToEventClassification);
   }
 
+  /** Every manual per-event classification of a visible event, by event id. For exports. */
+  listEventClassifications(): EventClassification[] {
+    const rows = this.db
+      .prepare(
+        `SELECT c.* FROM event_classifications c
+         JOIN events e ON e.id = c.event_id AND e.hidden_at IS NULL
+         ORDER BY c.event_id ASC`,
+      )
+      .all() as EventClassificationRow[];
+    return rows.map(rowToEventClassification);
+  }
+
   saveEventClassification(classification: EventClassification): void {
     this.saveEventClassificationStmt.run({
       event_id: classification.eventId,

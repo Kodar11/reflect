@@ -36,6 +36,8 @@ export interface GeminiIpcDeps {
   store: Pick<GeminiKeyStore, 'getApiKey' | 'source' | 'hasStoredKey' | 'storedKeyUnreadable' | 'canStore' | 'save' | 'clear'>;
   gemini: { readonly model: string; verifyKey(apiKey: string): Promise<void> };
   logger?: { info(message: string): void; warn(message: string): void };
+  /** Opens Google's API-key page in the user's browser. The address is fixed in the main process. */
+  openKeyPage?: () => void;
 }
 
 export function geminiConfigStatus(deps: Pick<GeminiIpcDeps, 'store' | 'gemini'>): GeminiConfigStatus {
@@ -64,6 +66,10 @@ export function registerGeminiIpc(deps: GeminiIpcDeps, ipcMainHandle: (key: stri
   const status = () => geminiConfigStatus(deps);
 
   ipcMainHandle('gemini:getStatus', () => status());
+
+  ipcMainHandle('gemini:openKeyPage', () => {
+    deps.openKeyPage?.();
+  });
 
   /**
    * Save a key entered in Settings. Gemini is asked about it first: a key it

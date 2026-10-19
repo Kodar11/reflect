@@ -700,6 +700,28 @@ export class ReflectionRepository implements IReflectionRepository {
     return rows.map((row) => this.toReport(row));
   }
 
+  /** Current reports whose period overlaps [from, to), oldest period first. For exports. */
+  listCurrentReportsOverlapping(from: string, to: string): ReflectionReport[] {
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM reflection_reports
+         WHERE status IN ('fresh', 'stale') AND period_start < @to AND period_end > @from
+         ORDER BY period_start ASC, period_type ASC, rowid ASC`,
+      )
+      .all({ from, to }) as ReportRow[];
+    return rows.map((row) => this.toReport(row));
+  }
+
+  countCurrentReportsOverlapping(from: string, to: string): number {
+    const row = this.db
+      .prepare(
+        `SELECT COUNT(*) AS count FROM reflection_reports
+         WHERE status IN ('fresh', 'stale') AND period_start < @to AND period_end > @from`,
+      )
+      .get({ from, to }) as { count: number };
+    return row.count;
+  }
+
   listReportedPeriods(): ReflectionPeriod[] {
     const rows = this.reportedPeriodsStmt.all() as Pick<
       ReportRow,

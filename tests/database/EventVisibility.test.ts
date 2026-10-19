@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach, vi } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -31,6 +31,10 @@ import { periodContaining } from '../../src/reflection/ReflectionPeriods';
 import { ReflectionService } from '../../src/reflection/ReflectionService';
 import { EventVisibilityService } from '../../src/service/EventVisibilityService';
 import { ExportService } from '../../src/service/ExportService';
+import { CoachRepository } from '../../src/database/CoachRepository';
+import { BackgroundRepository } from '../../src/database/BackgroundRepository';
+import { EXPORT_CATEGORIES } from '../../src/export/ExportModels';
+import { unzip } from '../export/helpers';
 import { SessionService } from '../../src/session/SessionService';
 import { TimelineService } from '../../src/timeline/TimelineService';
 import { ScriptedGemini, modelActivity, modelOutput } from '../intelligence/helpers';
@@ -61,12 +65,6 @@ const nativeOk = (() => {
 })();
 
 const suite = nativeOk ? describe : describe.skip;
-
-// The export writes wherever the save dialog says.
-const exportTarget = vi.hoisted(() => ({ path: '' }));
-vi.mock('electron', () => ({
-  dialog: { showSaveDialog: async () => ({ canceled: false, filePath: exportTarget.path }) },
-}));
 
 const local = (day: number, hhmm = '00:00') => {
   const [h, m] = hhmm.split(':').map(Number);
@@ -184,7 +182,19 @@ function wire(dbPath: string, gemini: ScriptedGemini, clock: { now: Date }) {
   return {
     db, events, sessions, timeline, intelligence, intelligenceRepo, categorization, categorizationRepo, reflectionRepo, reflection, metrics,
     visibility, coachCalls, rebuilt, logs, runRebuild,
-    exports: new ExportService(timeline, events, sessions),
+    exports: new ExportService({
+      events,
+      timeline,
+      activities: activityRules,
+      categorization: categorizationRepo,
+      focus,
+      reflection: reflectionRepo,
+      coach: new CoachRepository(db),
+      profile: profiles,
+      appSettings: new BackgroundRepository(db),
+      appVersion: 'test',
+      now: () => clock.now,
+    }),
   };
 }
 
@@ -644,22 +654,20 @@ suite('Event visibility (SQLite, end to end)', () => {
     const { A, B, C, D } = await seedMorning(app, gemini);
     app.visibility.hide([B]);
 
-    const read = async (run: () => Promise<{ success: boolean }>, name: string) => {
-      exportTarget.path = path.join(dir, name);
-      expect((await run()).success).toBe(true);
-      return fs.readFileSync(exportTarget.path, 'utf8');
+    const write = async (format: 'json' | 'csv', categories = [...EXPORT_CATEGORIES]) => {
+      const target = path.join(dir, `export-${format}-${categories.length}.zip`);
+      await app.exports.write({ categories, range: { preset: 'all' }, format }, target);
+      return target;
     };
 
-    const activityJson = await read(() => app.exports.exportActivity('json'), 'activity.json');
-    expect(idsOf(JSON.parse(activityJson))).toEqual([A, C, D]);
-    const files = [
-      activityJson,
-      await read(() => app.exports.exportActivity('csv'), 'activity.csv'),
-      await read(() => app.exports.exportSessions('json'), 'sessions.json'),
-      await read(() => app.exports.exportSessions('csv'), 'sessions.csv'),
-      await read(() => app.exports.exportTimeline('json'), 'timeline.json'),
-      await read(() => app.exports.exportTimeline('csv'), 'timeline.csv'),
-    ];
+    const eventsOnly = path.join(dir, 'events.json');
+    await app.exports.write({ categories: ['events'], range: { preset: 'all' }, format: 'json' }, eventsOnly);
+    const activityJson = fs.readFileSync(eventsOnly, 'utf8');
+    expect(idsOf(JSON.parse(activityJson).records)).toEqual([A, C, D]);
+    const files = [activityJson];
+    for (const format of ['json', 'csv'] as const) {
+      for (const content of unzip(fs.readFileSync(await write(format))).values()) files.push(content.toString('utf8'));
+    }
     for (const content of files) {
       expect(content).not.toContain(SECRET_TITLE);
       expect(content).not.toContain(SECRET_URL);

@@ -643,6 +643,10 @@ interface ReflectionPriorityDto {
 }
 
 /** The Gemini configuration as Settings sees it. Never contains the key. */
+type ExportRequestDto = import('./src/export/ExportModels.js').ExportRequest;
+type ExportPreviewDto = import('./src/export/ExportModels.js').ExportPreview;
+type ExportRunResultDto = import('./src/export/ExportModels.js').ExportRunResult;
+
 interface GeminiConfigStatusDto {
   configured: boolean;
   /** Where the key in use comes from: the GEMINI_API_KEY environment variable, or the one saved in Settings. */
@@ -949,6 +953,8 @@ interface Window {
     clearKey: () => Promise<GeminiConfigStatusDto>;
     /** Ask Gemini about the key in use. Generates nothing. */
     test: () => Promise<{ status: GeminiConfigStatusDto; check: GeminiKeyCheckDto }>;
+    /** Open Google's API-key page in the browser. */
+    openKeyPage: () => Promise<void>;
   };
   /** The Coach: tracked recommendations, their outcomes, memory and conversation. */
   coach: {
@@ -1034,10 +1040,14 @@ interface Window {
     dismissCandidate: (candidateId: string) => Promise<{ ok: boolean }>;
     reactivateCandidate: (candidateId: string) => Promise<{ ok: boolean }>;
   };
-  settings: {
-    exportTimeline: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
-    exportActivity: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
-    exportSessions: (format: 'csv' | 'json') => Promise<{ success: boolean; cancelled?: boolean; filePath?: string; error?: string }>;
+  /** The data export. What to export goes in; the destination is chosen in the native save dialog. */
+  dataExport: {
+    /** Resolved range, suggested file name and record counts. Writes nothing. */
+    preview: (request: ExportRequestDto) => Promise<ExportPreviewDto>;
+    /** Ask for a destination and write the export there. */
+    run: (request: ExportRequestDto) => Promise<ExportRunResultDto>;
+    /** Show the last saved export in its folder. */
+    revealLast: () => Promise<{ ok: boolean }>;
   };
   userProfile: {
     get: () => Promise<UserProfileDto>;

@@ -18,6 +18,8 @@ import {
   powerMonitor,
   safeStorage,
   screen,
+  dialog,
+  shell,
   type MenuItemConstructorOptions,
   type WebContents,
 } from 'electron';
@@ -119,6 +121,9 @@ import {
 } from '../tracker/browserUrl.js';
 
 let mainWindow: BrowserWindow | null = null;
+
+/** Google's page for creating a Gemini API key (opened from Settings). */
+const GEMINI_KEY_PAGE = 'https://aistudio.google.com/apikey';
 let tray: Tray | null = null;
 let database: Database | null = null;
 let trackingService: TrackingService | null = null;
@@ -689,7 +694,15 @@ if (primaryInstance) app.whenReady().then(async () => {
     log: (m) => logger.warn(m),
   });
   const geminiClient = new GeminiClient({ getApiKey: () => geminiKeys.getApiKey() });
-  registerGeminiIpc({ store: geminiKeys, gemini: geminiClient, logger: intelligenceLogger }, ipcMainHandle);
+  registerGeminiIpc(
+    {
+      store: geminiKeys,
+      gemini: geminiClient,
+      logger: intelligenceLogger,
+      openKeyPage: () => void shell.openExternal(GEMINI_KEY_PAGE),
+    },
+    ipcMainHandle,
+  );
   const userContextProvider = new UserProfileContextProvider(userProfileRepo);
 
   // --- Construct the learning layer (learned patterns) ---
@@ -958,8 +971,37 @@ if (primaryInstance) app.whenReady().then(async () => {
   // --- Construct the export layer (Stage 3.8) ---
   // Exports go through the same visible-only reads as the UI: a hidden event
   // is never written to a file.
-  const exportService = new ExportService(timelineService, repo, sessionService);
-  registerExportIpc(exportService, ipcMainHandle);
+  const exportService = new ExportService({
+    events: repo,
+    timeline: timelineService,
+    activities: activityRuleRepo,
+    categorization: categorizationRepo,
+    focus: focusRepo,
+    reflection: reflectionRepo,
+    coach: coachRepo,
+    profile: userProfileRepo,
+    appSettings: backgroundRepo,
+    appVersion: app.getVersion(),
+  });
+  registerExportIpc(
+    {
+      service: exportService,
+      chooseDestination: async ({ defaultName, extension }) => {
+        const options = {
+          title: 'Export your Reflect data',
+          defaultPath: path.join(app.getPath('documents'), defaultName),
+          filters: [{ name: extension === 'zip' ? 'ZIP archive' : extension === 'csv' ? 'CSV file' : 'JSON file', extensions: [extension] }],
+        };
+        const result = mainWindow && !mainWindow.isDestroyed()
+          ? await dialog.showSaveDialog(mainWindow, options)
+          : await dialog.showSaveDialog(options);
+        return result.canceled || !result.filePath ? null : result.filePath;
+      },
+      revealFile: (filePath) => shell.showItemInFolder(filePath),
+      logger,
+    },
+    ipcMainHandle,
+  );
   logger.info('[APP] Export service ready.');
 
   // --- Wire focus IPC (Stage 3.10) ---

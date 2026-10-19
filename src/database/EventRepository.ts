@@ -232,6 +232,32 @@ export class EventRepository implements IEventRepository, IEventVisibilityStore 
     return row ? rowToEvent(row) : null;
   }
 
+  /**
+   * One page of the visible events starting inside [from, to), oldest first,
+   * continuing after `after` (keyset paging, so a page never skips or repeats
+   * a row however large the history is). For exports.
+   */
+  getPageAscending(from: string, to: string, after: { startedAt: string; id: number } | null, limit: number): Event[] {
+    const rows = this.db
+      .prepare(
+        `SELECT * FROM events
+         WHERE ${VISIBLE} AND started_at >= @from AND started_at < @to
+           AND (@after_started IS NULL OR started_at > @after_started OR (started_at = @after_started AND id > @after_id))
+         ORDER BY started_at ASC, id ASC
+         LIMIT @limit`,
+      )
+      .all({ from, to, after_started: after?.startedAt ?? null, after_id: after?.id ?? 0, limit }) as unknown[] as EventRow[];
+    return rows.map(rowToEvent);
+  }
+
+  /** How many visible events start inside [from, to). */
+  countStartedInRange(from: string, to: string): number {
+    const row = this.db
+      .prepare(`SELECT COUNT(*) AS count FROM events WHERE ${VISIBLE} AND started_at >= @from AND started_at < @to`)
+      .get({ from, to }) as { count: number };
+    return row.count;
+  }
+
   /** When tracking began: the earliest event start, or null with no events. */
   getFirstEventStart(): string | null {
     const row = this.db.prepare(`SELECT MIN(started_at) AS first FROM events WHERE ${VISIBLE}`).get() as { first: string | null };
